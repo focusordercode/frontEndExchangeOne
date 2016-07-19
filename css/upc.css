@@ -1,0 +1,6 @@
+.upc-content {
+	margin-top: 50px;
+}
+.upc-content .upc-table tr:first-child {
+	background-color: #FCF8E3;
+}

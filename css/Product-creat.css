@@ -1,0 +1,9 @@
+.product-info {
+	margin-top: 50px;
+}
+.product-info > hr {
+	border-top: 2px solid #14714F; 
+}
+.product-text .table th,.product-text .table td {
+	vertical-align: middle;
+}

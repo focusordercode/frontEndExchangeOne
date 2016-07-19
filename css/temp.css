@@ -1,0 +1,83 @@
+.temp-list {
+	margin-top: 20px;
+}
+.temp-list .date {
+	padding-left: 5px;
+	vertical-align: middle;
+}
+.temp-list .temp {
+	/*height: 220px;*/
+}
+.temp-list .temp .well {
+	height: 280px;
+	transition: all 0.2s ease;
+	box-shadow: none;
+}
+.temp-list .temp .well:hover {
+	box-shadow: 0 0 6px rgba(0,0,0,0.1); 
+}
+.temp-list .temp-add {
+	color: #ccc;
+	height: 280px;
+	border: 1px solid #ddd;
+	background-color: rgba(216,210,210,0.2);
+	text-align: center;
+	line-height: 220px;
+	box-shadow: none;
+	cursor: pointer;
+	transition: all .3s linear;
+}
+.temp-list .temp-add:hover {
+	color: #676A5D;
+	background-color: rgba(216,210,210,0.4);
+	box-shadow: 0 0 6px rgba(0,0,0,0.1); 
+}
+.temp-list .temp-add .fa {
+	line-height: 280px;
+}
+.text-break {
+    word-break: break-all;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+/*.checkboxFive {
+	width: 25px;
+	display: inline-block;
+	position: relative;
+}
+.checkboxFive label {
+	cursor: pointer;
+	position: absolute;
+	width: 25px;
+	height: 25px;
+	top: 0;
+  	left: 0;
+	background: #eee;
+	border:1px solid #ddd;
+}
+.checkboxFive label:after {
+	opacity: 0.2;
+	content: '';
+	position: absolute;
+	width: 9px;
+	height: 5px;
+	background: transparent;
+	top: 6px;
+	left: 7px;
+	border: 3px solid #333;
+	border-top: none;
+	border-right: none;
+ 
+	-webkit-transform: rotate(-45deg);
+	-moz-transform: rotate(-45deg);
+	-o-transform: rotate(-45deg);
+	-ms-transform: rotate(-45deg);
+	transform: rotate(-45deg);
+}
+.checkboxFive label:hover::after {
+	opacity: 0.5;
+}
+.checkboxFive input[type=checkbox]:checked + label:after {
+	opacity: 1;
+}*/

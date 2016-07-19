@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>UPC上传</title>
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!--你自己的样式文件 -->
+    <link href="css/index.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/upc.css">
+    <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">        
+    <!-- 以下两个插件用于在IE8以及以下版本浏览器支持HTML5元素和媒体查询，如果不需要用可以移除 -->
+    <!--[if lt IE 9]>
+    <script src="http://apps.bdimg.com/libs/html5shiv/3.7/html5shiv.js"></script>
+    <script src="http://apps.bdimg.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+    <body>
+        <!-- 顶部区域 -->
+        <div class="container-fluid header-fluid-top">
+            <div class="row">
+                <div class="container header-top">
+                    <div class="row">
+                        <div class="col-lg-3 col-md-3 col-sm-12">
+                            <a href="#">
+                                <img src="images/logo.png" alt="">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 导航 -->
+        <div class="navbar navbar-inverse nav-fluid-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand hidden-sm" href="#" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'navbar-首页'])">福克斯德</a>
+                </div>
+                <div class="navbar-collapse collapse" role="navigation">
+                    <ul class="nav navbar-nav">
+                        <li class="hidden-sm hidden-md"><a href="#" target="_blank" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'v2doc'])">分类管理</a></li>
+                        <li><a href="#" target="_blank" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'v3doc'])">上传</a></li>
+                        <li><a href="#" target="_blank" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'v4doc'])">UPC</a></li>
+                        <li><a href="#" target="_blank" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'less'])">回收站</a></li>
+                        <li>
+                            <a href="#" target="_blank" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'jquery'])">日志</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 主内容区域 -->
+        <div class="container upc-content upc-upload">
+            <div class="row">
+                <div class="well">
+                    <table class="table table-bordered upc-table">
+                        <tr>
+                            <th>UPC</th>
+                            <th>上传时间</th>
+                            <th>使用时间</th>
+                            <th>锁定状态</th>
+                            <th>操作人</th>
+                        </tr>
+                        <tr>
+                            <td>15554548416</td>
+                            <td>15554548416</td>
+                            <td>15554548416</td>
+                            <td>15554548416</td>
+                            <td>15554548416</td>
+                        </tr>
+                    </table>
+                    <hr>
+                    <div class="row upcCtr">
+                        <div class="form-horizontal">
+                            <div class="col-md-2 oPager">
+                                <button v-on:click="pre" class="btn btn-default disabled">上一页</button>
+                                <button v-on:click="next" class="btn btn-default">下一页</button>
+                            </div>
+                            <div class="col-md-1">
+                                <div class="form-group">
+                                    <input type="number" placeholder="输入页码" class="form-control pageNum">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <button class="btn btn-success btn-jump">跳转</button>
+                                当前页数
+                                <label class="upcCount text-warning">1</label>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <!-- <form action="http://192.168.1.40/PicSystem/canton/post/upc" method="post" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label class="text-warning">UPC上传</label>
+                            <input type="file" name="upc_file">
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-info">提交</button>
+                        </div>
+                    </form> -->
+                    <div id="uploadForm">
+                        <div class="form-group">
+                            <label class="text-warning">UPC上传</label>
+                            <input type="file" id="file" name="upc_file">
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" id="upload" class="btn btn-info">提交</button>
+                        </div>
+                    </div>
+                </div>
+                <pre>{{$data|json}}</pre>
+            </div>
+        </div>
+
+        <!-- 页脚 -->
+        <div class="container-fluid footer-fluid">
+            <div class="contaier">
+                <div class="row">
+                    <div class="col-lg-12">
+                        © All rights reserved 深圳福克斯德信息咨询有限公司
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 如果要使用Bootstrap的js插件，必须先调入jQuery -->
+        <script src="js/jquery.js"></script>
+        <script src="js/vue.js"></script>
+        <!-- 包括所有bootstrap的js插件或者可以根据需要使用的js插件调用　-->
+        <script src="js/bootstrap.min.js"></script>
+        <script src='js/layer.js'></script>
+        <script src='js/upc.js'></script>
+        <script>
+            $('#upload').on('click',function(){
+                var formData = new FormData();
+                formData.append('file', $('#file')[0].files[0]);
+                $.ajax({
+                    url: 'http://192.168.1.40/PicSystem/canton/post/upc',
+                    type: 'POST',
+                    cache: false,
+                    data: formData,
+                    processData: false,
+                    contentType: false
+                }).done(function(res) {
+                    alert(res.status);
+                }).fail(function(res) {
+                    alert(2222);
+                });
+            });
+        </script>
+    </body>
+</html>

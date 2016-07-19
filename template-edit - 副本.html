@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>编辑模板</title>
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!--你自己的样式文件 -->
+    <link href="css/index.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/template-edit.css">
+    <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">        
+    <!-- 以下两个插件用于在IE8以及以下版本浏览器支持HTML5元素和媒体查询，如果不需要用可以移除 -->
+    <!--[if lt IE 9]>
+    <script src="http://apps.bdimg.com/libs/html5shiv/3.7/html5shiv.js"></script>
+    <script src="http://apps.bdimg.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+    <body>
+        <!-- 顶部区域 -->
+        <div class="container-fluid header-fluid-top">
+            <div class="row">
+                <div class="container header-top">
+                    <div class="row">
+                        <div class="col-lg-3 col-md-3 col-sm-12">
+                            <a href="#">
+                                <img src="images/logo.png" alt="">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 导航 -->
+        <div class="navbar navbar-inverse nav-fluid-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand hidden-sm" href="#" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'navbar-首页'])">福克斯德</a>
+                </div>
+                <div class="navbar-collapse collapse" role="navigation">
+                    <ul class="nav navbar-nav">
+                        <li class="hidden-sm hidden-md"><a href="#" target="_blank" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'v2doc'])">分类管理</a></li>
+                        <li><a href="#" target="_blank" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'v3doc'])">上传</a></li>
+                        <li><a href="#" target="_blank" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'v4doc'])">UPC</a></li>
+                        <li><a href="#" target="_blank" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'less'])">回收站</a></li>
+                        <li><a href="#" target="_blank" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'jquery'])">日志</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 主内容区域 -->
+
+        <!-- 模板信息区域 -->
+        <div class="container temp-info">
+            <div class="row">
+                <div class="col-lg-6 col-md-6">
+                    <div class="well">
+                        <!-- 修改模板信息 -->
+                        <h3 class="text-success">添加模板信息</h3>
+                        <form class="temp-info-xg">
+                            <div class="form-group">
+                                <label class="text-warning">模板名称</label>
+                                <input type="text" class="form-control cn-name" placeholder="输入模板中文名称">
+                                <input type="text" class="form-control en-name" placeholder="输入模板英文名称">
+                            </div>
+                            <div class="form-group">
+                                <label class="text-warning">所属分类</label>
+                                <input type="text" placeholder="不填写则为全局模板" class="form-control temp-belong">
+                            </div>
+                            <div class="form-group">
+                                <label class="text-warning">模板说明</label>
+                                <textarea class="form-control remark" rows="2"></textarea>
+                            </div>
+                            <button class="btn btn-success btn-xg" onclick="return false">保存</button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="col-lg-6 col-md-6">
+                    <div class="well">
+                        <!-- 模板的信息 -->
+                        <h3 class="text-success">模板信息</h3>
+                        <div class="temp-info-save clearfix">
+                            <hr>
+                            <h4 class="text-warning temp-info-name"></h4>
+                            <p>
+                                <span class="label label-success">模板类型</span>
+                                <span class="text-muted temp-cate"></span>
+                                <span class="text-muted temp-cate"></span>
+                            </p>
+                            <p>
+                                <span class="label label-success">模板说明</span>
+                                <p class="text-muted temp-info-remark"></p>
+                            </p>
+                            <p>
+                                <span class="label label-success">修改日期</span>
+                                <span class="text-muted date"></span>
+                            </p>
+                            <p><input type="hidden" name="category_id" value="" class="temp-info-id" ></p>
+                            <!-- <button class="btn btn-info btn-save">修改</button> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr>
+        </div>
+
+        <!-- 生成模板区域 -->
+        <div class="container temp-edit">
+            <div class="row">
+                <div class="col-lg-6 col-md-6">
+                    <p class="text-danger">请添加条目</p>
+                        <table class="table table-bordered text-warning"></table>
+                        <div class="form-inline">
+                            <button class="btn btn-success btn-submit">提交保存</button>
+                            <input type="number" placeholder="请输入序号" class="form-control delete-num">
+                            <button class="btn btn-warning btn-d">删除</button>
+                            <button class="btn btn-danger btn-all">清除全部</button>
+                        </div>
+                </div>
+                <!-- 自定义操作区 -->
+                <div class="col-lg-6 col-md-6 temp-edit-ctr">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12">
+                            <div class="panel panel-success">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">操作</h3>
+                                </div>
+                                <div class="panel-body">
+                                    <!-- 大部分自定义类型 -->
+                                    <div class="form-horizontal common-type clearfix">
+                                        <div class="col-lg-3 col-md-3">
+                                            <div class="form-group">
+                                                <input type="text" value="" placeholder="中文名" class="form-control cn-name">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-3">
+                                            <div class="form-group">
+                                                <input type="text" value="" placeholder="英文名" class="form-control en-name">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-3">
+                                            <div class="form-group">
+                                                <select class="form-control input-type">
+                                                    <option value="int">整数</option>
+                                                    <option value="dc">小数</option>
+                                                    <option value="bl">是否判断</option>
+                                                    <option value="pic">图片</option>
+                                                    <option value="dt">日期</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-3">
+                                            <button class="btn btn-default btn-common">添加</button>
+                                        </div>
+                                    </div>
+                                    <!-- 文本输入类型 -->
+                                    <div class="form-horizontal char-type clearfix">
+                                        <div class="col-lg-3 col-md-3">
+                                            <div class="form-group">
+                                                <input type="text" value="" placeholder="中文名" class="form-control cn-name">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-3">
+                                            <div class="form-group">
+                                                <input type="text" value="" placeholder="英文名" class="form-control en-name">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-3">
+                                            <div class="form-group">
+                                                <input type="number" value="" placeholder="输入字符数" class="form-control input-num">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-3">
+                                            <button class="btn btn-default btn-s">添加文本</button>
+                                        </div>
+                                    </div>
+                                </div> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 页脚 -->
+        <div class="container-fluid footer-fluid">
+            <div class="contaier">
+                <div class="row">
+                    <div class="col-lg-12">
+                        © All rights reserved 深圳福克斯德信息咨询有限公司
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 如果要使用Bootstrap的js插件，必须先调入jQuery -->
+        <script src="js/jquery.js"></script>
+        <!-- 包括所有bootstrap的js插件或者可以根据需要使用的js插件调用　-->
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/vue.js"></script>
+        <script src='js/layer.js'></script>
+        <script src='js/template-edit.js'></script>
+        <script>
+            $('.temp-edit .btn-submit').on('click',function(){
+                var oList = new Array();
+                var cnNameArr = new Array();
+                var enNameArr = new Array();
+                var bzmcw = new Array();
+                $oTableLength = $('.temp-edit .table tr').length;
+                $i = 0;
+                for($i;$i<$oTableLength;$i++){
+                    oList[$i] = $('.temp-edit .table tr').eq($i).find('.temp-index').index()+1;
+                    cnNameArr[$i] = $('.temp-edit .table tr').eq($i).find('.cn-name > input').val();
+                    enNameArr[$i] = $('.temp-edit .table tr').eq($i).find('.en-name > input').val();
+                    bzmcw[$i] = $('.temp-edit .table tr').eq($i).find('.input-type > input').val();
+                }
+                alert(oList[1]);
+                alert(cnNameArr[0]);
+                alert(enNameArr[0]);
+                alert(bzmcw[0]);
+            });
+        </script>
+    </body>
+</html>

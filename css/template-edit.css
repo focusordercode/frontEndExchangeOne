@@ -1,0 +1,59 @@
+.temp-info {
+	margin-top: 20px;
+}
+.temp-info > hr {
+	border-top: 2px solid #14714F; 
+} 
+.temp-info input {
+	margin-bottom: 5px;
+}
+.temp-edit .delete {
+	text-align: center;
+}
+.temp-edit .delete > i {
+	cursor: pointer;
+}
+.temp-edit-ctr .form-horizontal .form-group {
+	margin-left: -12px;
+	margin-right: -12px;
+}
+.temp-edit .table {
+	background-color: #fff;
+}
+.temp-edit .table th,.temp-edit .table td {
+	vertical-align: middle!important;
+}
+.text-middle {
+	vertical-align: middle!important;
+}
+input.form-control,select.form-control {
+	border-radius: 0;
+}
+.temp-info .tempCate {
+	position: relative;
+}
+.temp-info .cateList {
+	position: absolute;
+	top: 59px;
+	left: 0;
+	z-index: 666;
+	width: 100%;
+	list-style: none;
+	padding-left: 0;
+	border: 1px solid #ccc;
+	border-top: transparent;
+	background-color: #fff;
+}
+.temp-info .cateList li {
+	line-height: 32px;
+	text-indent: 12px;
+	border-bottom: 1px solid #ddd;
+	color: #8a6d3b;
+	cursor: pointer;
+}
+.temp-info .cateList li >span {
+	visibility: hidden;
+}
+.temp-info .cateList li:hover {
+	background-color: #ECF0F1;
+}
