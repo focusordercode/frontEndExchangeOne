@@ -154,7 +154,8 @@ var tempInfo = new Vue({
             dataType: "json",
             timeout:5000,
             data:{
-                id:Request.id
+                id:Request.id,
+                type_code:Request.type_code
             },
             success: function(data){
                 if(data.status==100){

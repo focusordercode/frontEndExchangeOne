@@ -3,7 +3,11 @@ var upcInfo = new Vue({
     el:'body',
     data:{
         upcInfo:'',
-        count:''
+        count:'',//总页数
+        Allupc:'',//全部UPC
+        usedUpc:'',//已使用UPC
+        lockedUpc:'',//已锁定的UPC
+        upc:''//未使用的UPC
     },
     methods:{
         //上一页
@@ -68,8 +72,8 @@ var upcInfo = new Vue({
     ready:function(){
         $.ajax({
             type: "POST",
-            // url: "http://192.168.1.42/canton/index.php/get/upc", //添加请求地址的参数
-            url: "http://192.168.1.40/PicSystem/canton/get/upc", //添加请求地址的参数
+            url: "http://192.168.1.42/canton/index.php/get/upc", //添加请求地址的参数
+            // url: "http://192.168.1.40/PicSystem/canton/get/upc", //添加请求地址的参数
             dataType: "json",
             data:{
                 pageNum:pageNum
@@ -78,6 +82,10 @@ var upcInfo = new Vue({
                 if(data.status==100){
                     upcInfo.upcInfo = data.value;
                     upcInfo.count = data.count;
+                    upcInfo.Allupc = data.allupc;
+                    upcInfo.usedUpc = data.usedupc;
+                    upcInfo.lockedUpc = data.lockedupc;
+                    upcInfo.upc = data.upc;
                 }else if(data.status==101){
                     layer.msg('获取UPC失败');
                 }else if(data.status==102){
@@ -90,6 +98,21 @@ var upcInfo = new Vue({
         })
     }
 })
+//Vue过滤器
+Vue.filter('UseTime',function(value){
+    if(value==null){
+        value = '未使用'
+    }
+    return value
+})
+Vue.filter('lockStatus',function(value){
+    switch(value){
+        case '0': value='未锁定';break;
+        case '1': value='已锁定';break;
+    }
+    return value
+})
+
 
 //跳转
 $('.upcCtr .btn-jump').on('click',function(){
@@ -125,4 +148,32 @@ $('.upcCtr .btn-jump').on('click',function(){
             }
         })
     }
+});
+
+//UPC上传
+$('#upload').on('click',function(){
+    var formData = new FormData();
+    formData.append('file', $('#file')[0].files[0]);
+    $.ajax({
+        url: 'http://192.168.1.42/canton/index.php/post/upc',
+        type: 'POST',
+        cache: false,
+        data: formData,
+        processData: false,
+        contentType: false
+    }).done(function(res) {
+        if(res.status==100){
+            layer.alert('上传成功!'+'文件中已存在的UPC:'+res.value.same_upc+'&nbsp;添加成功的UPC:'+res.value.inserted+'');
+        }else if(res.status==102){
+            layer.msg('没有文档上传');
+        }else if(res.status==103){
+            layer.msg('文件类型不符合要求');
+        }else if(res.status==104){
+            layer.msg('上传文件大小超过1M');
+        }else if(res.status==105){
+            layer.msg('文档upc格式不符合要求');
+        }
+    }).fail(function(res) {
+        layer.msg('上传失败');
+    });
 });

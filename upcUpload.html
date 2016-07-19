@@ -46,13 +46,25 @@
                 </div>
                 <div class="navbar-collapse collapse" role="navigation">
                     <ul class="nav navbar-nav">
-                        <li class="hidden-sm hidden-md"><a href="#" target="_blank" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'v2doc'])">分类管理</a></li>
-                        <li><a href="#" target="_blank" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'v3doc'])">上传</a></li>
-                        <li><a href="#" target="_blank" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'v4doc'])">UPC</a></li>
-                        <li><a href="#" target="_blank" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'less'])">回收站</a></li>
-                        <li>
-                            <a href="#" target="_blank" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'jquery'])">日志</a>
+                        <li class="dropdown">
+                            <a href="##" data-toggle="dropdown" class="dropdown-toggle">产品资料<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="template.html">产品资料表模板</a></li>
+                                <li><a href="##">产品资料表</a></li>
+                            </ul>
                         </li>
+                        <li class="dropdown">
+                            <a href="##" data-toggle="dropdown" class="dropdown-toggle">批量表<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="template-batch-list.html">批量表模板</a></li>
+                                <li><a href="##">批量表</a></li>
+                            </ul>
+                        </li>
+                        <li class="hidden-sm hidden-md"><a href="admin-category.html" target="_blank" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'v2doc'])">分类管理</a></li>
+                        <li><a href="#" target="_blank" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'v3doc'])">上传</a></li>
+                        <li><a href="upcUpload.html" target="_blank" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'v4doc'])">UPC</a></li>
+                        <li><a href="#" target="_blank" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'less'])">回收站</a></li>
+                        <li><a href="#" target="_blank" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'jquery'])">日志</a></li>
                     </ul>
                 </div>
             </div>
@@ -60,6 +72,23 @@
         
         <!-- 主内容区域 -->
         <div class="container upc-content upc-upload">
+            <!-- UPC统计信息 -->
+            <div class="row">
+                <div class="panel panel-info">
+                    <div class="panel-heading">UPC统计</div>
+                    <div class="panel-body">
+                        <label class="label label-info">总数:</label>
+                        <span>{{Allupc}}</span>
+                        <label class="label label-info">未使用:</label>
+                        <span>{{upc}}</span>
+                        <label class="label label-info">已使用:</label>
+                        <span>{{usedUpc}}</span>
+                        <label class="label label-info">锁定中:</label>
+                        <span>{{lockedUpc}}</span>
+                    </div>
+                </div>
+            </div>
+            <!-- UPC表格 -->
             <div class="row">
                 <div class="well">
                     <table class="table table-bordered upc-table">
@@ -70,13 +99,15 @@
                             <th>锁定状态</th>
                             <th>操作人</th>
                         </tr>
-                        <tr>
-                            <td>15554548416</td>
-                            <td>15554548416</td>
-                            <td>15554548416</td>
-                            <td>15554548416</td>
-                            <td>15554548416</td>
-                        </tr>
+                        <template v-for="table in upcInfo">
+                            <tr>
+                                <td>{{table.upc_code}}</td>
+                                <td>{{table.operation_time}}</td>
+                                <td>{{table.used_time|UseTime}}</td>
+                                <td>{{table.locked|lockStatus}}</td>
+                                <td>admin</td>
+                            </tr>
+                        </template>
                     </table>
                     <hr>
                     <div class="row upcCtr">
@@ -91,7 +122,7 @@
                                 </div>
                             </div>
                             <div class="col-md-2">
-                                <button class="btn btn-success btn-jump">跳转</button>
+                                <button class="btn btn-info btn-jump">跳转</button>
                                 当前页数
                                 <label class="upcCount text-warning">1</label>
                             </div>
@@ -117,7 +148,7 @@
                         </div>
                     </div>
                 </div>
-                <pre>{{$data|json}}</pre>
+                <!-- <pre>{{$data|json}}</pre> -->
             </div>
         </div>
 
@@ -138,23 +169,5 @@
         <script src="js/bootstrap.min.js"></script>
         <script src='js/layer.js'></script>
         <script src='js/upc.js'></script>
-        <script>
-            $('#upload').on('click',function(){
-                var formData = new FormData();
-                formData.append('file', $('#file')[0].files[0]);
-                $.ajax({
-                    url: 'http://192.168.1.40/PicSystem/canton/post/upc',
-                    type: 'POST',
-                    cache: false,
-                    data: formData,
-                    processData: false,
-                    contentType: false
-                }).done(function(res) {
-                    alert(res.status);
-                }).fail(function(res) {
-                    alert(2222);
-                });
-            });
-        </script>
     </body>
 </html>

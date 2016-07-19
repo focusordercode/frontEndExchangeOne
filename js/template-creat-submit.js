@@ -29,6 +29,7 @@ $('.temp-edit .btn-submit').on('click',function(){
     			en_name:enNameArr,
     			data_type_code:dataType,
     			length:charLength,
+                type_code:Request.type_code,
                 form_type_code:'text'
     		},
     		success: function(data){

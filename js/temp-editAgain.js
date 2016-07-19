@@ -67,13 +67,6 @@ $(document).on('click','.temp-info .cateList li',function(){
 var tempEditAgain = new Vue({
     el:'.temp-info',
     data:{
-        // category_id:'',
-        // cn_name:'',
-        // en_name:'',
-        // category_name:'',
-        // remark:'',
-        // created_time:'',
-        // modified_time:''
         value:''
     },
     ready:function(){
@@ -83,17 +76,11 @@ var tempEditAgain = new Vue({
             dataType: "json",
             timeout:5000,
             data:{
-                id:Request.id
+                id:Request.id,
+                type_code:Request.type_code
             },
             success: function(data){
                 if(data.status==100){
-                    // tempEditAgain.id = data.value[0].category_id;
-                    // tempEditAgain.cn_name = data.value[0].cn_name;
-                    // tempEditAgain.en_name = data.value[0].en_name;
-                    // tempEditAgain.category_name = data.value[0].category_name;
-                    // tempEditAgain.remark = data.value[0].remark;
-                    // tempEditAgain.created_time = data.value[0].created_time;
-                    // tempEditAgain.modified_time = data.value[0].modified_time;
                     tempEditAgain.value = data.value;
                 }
             },
@@ -115,7 +102,7 @@ $('.temp-info .btn-xg').on('click',function(){
         dataType: "json",
         data:{
             id:Request.id,
-            category_id:oCateID, //暂时没有分类，先写固定的
+            category_id:oCateID,
             cn_name:$cnName,
             en_name:$enName,
             remark:$remark,
@@ -127,6 +114,10 @@ $('.temp-info .btn-xg').on('click',function(){
                 setInterval(windowFresh,1000);
             }else if(data.status==102){
                 layer.msg('参数错误');
+            }else if(data.status==103){
+                layer.msg('请勿重复操作');
+            }else if(data.status==104){
+                layer.msg('启用状态不可操作');
             }
         },
         error: function(jqXHR){     
@@ -148,7 +139,8 @@ var tempEdit = new Vue({
             dataType: "json",
             timeout:5000,
             data:{
-                template_id:Request.id
+                template_id:Request.id,
+                type_code:Request.type_code
             },
             success: function(data){
                 if(data.status==100){
@@ -167,7 +159,10 @@ var tempEdit = new Vue({
                 url: "http://192.168.1.42/canton/index.php/update/templateitem", //添加请求地址的参数
                 dataType: "json",
                 timeout:5000,
-                data:{tempData:this.table},
+                data:{
+                    tempData:this.table,
+                    type_code:Request.type_code
+                },
                 success: function(data){
                     if(data.status==100){
                         layer.msg('修改成功');
@@ -175,7 +170,7 @@ var tempEdit = new Vue({
                     }
                 },
                 error: function(jqXHR){     
-                    layer.msg('从服务器获取模板信息失败');
+                    layer.msg('提交修改失败');
                 }
             })
         }
@@ -207,7 +202,8 @@ $(document).on("click",".temp-edit .delete i",function(){
                   dataType: "json",
                   timeout:5000,
                   data:{
-                      id:$id
+                      id:$id,
+                      type_code:Request.type_code
                   },
                   success: function(data){
                       if(data.status==100){
@@ -225,5 +221,5 @@ $(document).on("click",".temp-edit .delete i",function(){
 if(Request.id==null){
     $('.temp-edit .btn-add').attr({'href':'#','target':''});
 }else{
-    $('.temp-edit .btn-add').attr('href','template-edit.html?id='+Request.id+'');
+    $('.temp-edit .btn-add').attr('href','template-edit.html?id='+Request.id+'&type_code='+Request.type_code+'');
 };

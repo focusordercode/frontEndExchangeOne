@@ -72,7 +72,8 @@ $(document).on('click','.temp-list .temp .btn-start',function(){
             url: "http://192.168.1.42/canton/index.php/use/template", //添加请求地址的参数
             dataType: "json",
             data:{
-                id:$tempId
+                id:$tempId,
+                type_code:tempList.temp[0].type_code
             },
             success: function(data){
                 if(data.status==100){
@@ -106,7 +107,8 @@ $(document).on('click','.temp-list .btn-delete',function(){
           url: "http://192.168.1.42/canton/index.php/delete/template", //添加请求地址的参数
           dataType: "json",
           data:{
-              id:$tempId
+              id:$tempId,
+              type_code:tempList.temp[0].type_code
           },
           success: function(data){
               if(data.status==100){
