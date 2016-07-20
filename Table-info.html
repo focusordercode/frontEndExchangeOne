@@ -4,12 +4,12 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>UPC</title>
+    <title>产品资料表</title>
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/Table-info.css">
     <!--你自己的样式文件 -->
-    <link href="css/index.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/upc.css">
     <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">        
     <!-- 以下两个插件用于在IE8以及以下版本浏览器支持HTML5元素和媒体查询，如果不需要用可以移除 -->
     <!--[if lt IE 9]>
@@ -71,87 +71,69 @@
         </div>
         
         <!-- 主内容区域 -->
-        <div class="container upc-content upc-upload">
-            <!-- UPC统计信息 -->
+        
+        <div class="container tableInfo marginTop">
+        <!-- 操作区域 -->
             <div class="row">
-                <div class="panel panel-info">
-                    <div class="panel-heading">UPC统计</div>
-                    <div class="panel-body">
-                        <label class="label label-info">总数:</label>
-                        <span>{{Allupc}}</span>
-                        <label class="label label-info">未使用:</label>
-                        <span>{{upc}}</span>
-                        <label class="label label-info">已使用:</label>
-                        <span>{{usedUpc}}</span>
-                        <label class="label label-info">锁定中:</label>
-                        <span>{{lockedUpc}}</span>
-                    </div>
-                </div>
-            </div>
-            <!-- UPC表格 -->
-            <div class="row">
-                <div class="well">
-                    <table class="table table-bordered upc-table">
-                        <tr>
-                            <th>UPC</th>
-                            <th>上传时间</th>
-                            <th>使用时间</th>
-                            <th>锁定状态</th>
-                            <th>操作人</th>
-                        </tr>
-                        <template v-for="table in upcInfo">
-                            <tr>
-                                <td>{{table.upc_code}}</td>
-                                <td>{{table.operation_time}}</td>
-                                <td>{{table.used_time|UseTime}}</td>
-                                <td>{{table.locked|lockStatus}}</td>
-                                <td>admin</td>
-                            </tr>
-                        </template>
-                    </table>
-                    <hr>
-                    <div class="row upcCtr">
-                        <div class="form-horizontal">
-                            <div class="col-md-2 oPager">
-                                <button v-on:click="pre" class="btn btn-default disabled">上一页</button>
-                                <button v-on:click="next" class="btn btn-default">下一页</button>
-                            </div>
-                            <div class="col-md-1">
+                <div class="col-md-12">
+                    <div class="panel panel-success">
+                        <div class="panel-heading"><b>筛选</b></div>
+                        <div class="panel-body">
+                            <div class="form-inline">
                                 <div class="form-group">
-                                    <input type="number" placeholder="输入页码" class="form-control pageNum">
+                                    <label class="text-success">根据类目搜索</label>
+                                    <input type="text" class="form-control">
                                 </div>
+                                <button class="btn btn-default">搜索</button>
+                                <div class="form-group">
+                                    <label class="text-success">根据模板搜索</label>
+                                    <input type="text" class="form-control">
+                                </div>
+                                <button class="btn btn-default">搜索</button>
                             </div>
-                            <div class="col-md-2">
-                                <button class="btn btn-info btn-jump">跳转</button>
-                                当前页数
-                                <label class="upcCount text-warning">1</label>
-                            </div>
-                        </div>
-                    </div>
-                    <hr>
-                    <!-- <form action="http://192.168.1.40/PicSystem/canton/post/upc" method="post" enctype="multipart/form-data">
-                        <div class="form-group">
-                            <label class="text-warning">UPC上传</label>
-                            <input type="file" name="upc_file">
-                        </div>
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-info">提交</button>
-                        </div>
-                    </form> -->
-                    <div id="uploadForm">
-                        <div class="form-group">
-                            <label class="text-warning">UPC上传</label>
-                            <input type="file" id="file" name="upc_file">
-                        </div>
-                        <div class="form-group">
-                            <button type="submit" id="upload" class="btn btn-info">提交</button>
                         </div>
                     </div>
                 </div>
-                <!-- <pre>{{$data|json}}</pre> -->
             </div>
+            <!-- 表格列表 -->
+            <div class="row">
+                <template v-for="item in tableInfo">
+                    <div class="col-sm-4 col-md-4 item">
+                        <div class="well">
+                            <h2 class="text-warning">{{item.title}}</h2>
+                            <p>
+                                <span class="label label-success">所属类目</span>
+                                <span>{{item.name}}</span>
+                            </p>
+                            <p>
+                                <span class="label label-success">客户</span>
+                                <span>{{item.client_name}}</span>
+                            </p>       
+                            <p>
+                                <span class="label label-success">创建时间</span>
+                                <span>{{item.created_time}}</span>
+                            </p>
+                            <p>
+                                <span class="label label-success">修改时间</span>
+                                <span>{{item.modified_time}}</span>
+                            </p>
+                            <p>
+                                <span class="label label-success">状态</span>
+                                <span>{{item.status_code|statusCode}}状态</span>
+                            </p>
+                            <hr>
+                            <p>
+                                <a class="btn btn-success btn-xs" href="#">查看</a>
+                                <button v-on:click="start(item)" class="btn btn-info btn-xs">启用</button>
+                                <button v-on:click="delete(item)" class="btn btn-danger btn-xs">删除</button>
+                            </p>
+                        </div>
+                    </div>
+                </template>
+            </div>
+            <!-- <pre>{{$data|json}}</pre> -->
         </div>
-
+        
         <!-- 页脚 -->
         <div class="container-fluid footer-fluid">
             <div class="contaier">
@@ -168,6 +150,6 @@
         <!-- 包括所有bootstrap的js插件或者可以根据需要使用的js插件调用　-->
         <script src="js/bootstrap.min.js"></script>
         <script src='js/layer.js'></script>
-        <script src='js/upc.js'></script>
+        <script src='js/Table-info.js'></script>
     </body>
 </html>

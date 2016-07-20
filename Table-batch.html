@@ -4,10 +4,11 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Table-box</title>
+    <title>批量表</title>
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/Table-info.css">
     <!--你自己的样式文件 -->
     <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">        
     <!-- 以下两个插件用于在IE8以及以下版本浏览器支持HTML5元素和媒体查询，如果不需要用可以移除 -->
@@ -49,14 +50,14 @@
                             <a href="##" data-toggle="dropdown" class="dropdown-toggle">产品资料<span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li><a href="template.html">产品资料表模板</a></li>
-                                <li><a href="##">产品资料表</a></li>
+                                <li><a href="Table-info.html">产品资料表</a></li>
                             </ul>
                         </li>
                         <li class="dropdown">
                             <a href="##" data-toggle="dropdown" class="dropdown-toggle">批量表<span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li><a href="template-batch-list.html">批量表模板</a></li>
-                                <li><a href="##">批量表</a></li>
+                                <li><a href="Table-batch.html">批量表</a></li>
                             </ul>
                         </li>
                         <li class="hidden-sm hidden-md"><a href="admin-category.html" target="_blank" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'v2doc'])">分类管理</a></li>
@@ -71,28 +72,66 @@
         
         <!-- 主内容区域 -->
         
-        <div class="container" style="padding-top:50px;">
+        <div class="container tableInfo marginTop">
+        <!-- 操作区域 -->
             <div class="row">
-                <div class="col-sm-4 col-md-4">
-                    <div class="well">
-                        <h2 class="text-warning">表格名称</h2>
-                        <p>
-                            <span class="label label-success">所属类目</span>
-                        </p>
-                        <p>
-                            <span class="label label-success">缩略</span>
-                        </p>
-                        <ul>
-                            <li>20 users</li>
-                            <li>Unlimited access with no limits</li>
-                            <li>5TB of space</li>
-                        </ul>          
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper porta.</p>
-                        <hr>
-                        <p><a class="btn btn-success btn-md" href="#">查看</a></p>
+                <div class="col-md-12">
+                    <div class="panel panel-success">
+                        <div class="panel-heading"><b>筛选</b></div>
+                        <div class="panel-body">
+                            <div class="form-inline">
+                                <div class="form-group">
+                                    <label class="text-success">根据类目搜索</label>
+                                    <input type="text" class="form-control">
+                                </div>
+                                <button class="btn btn-default">搜索</button>
+                                <div class="form-group">
+                                    <label class="text-success">根据模板搜索</label>
+                                    <input type="text" class="form-control">
+                                </div>
+                                <button class="btn btn-default">搜索</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+            <!-- 表格列表 -->
+            <div class="row">
+                <template v-for="item in tableInfo">
+                    <div class="col-sm-4 col-md-4 item">
+                        <div class="well">
+                            <h2 class="text-warning">{{item.title}}</h2>
+                            <p>
+                                <span class="label label-success">所属类目</span>
+                                <span>{{item.name}}</span>
+                            </p>
+                            <p>
+                                <span class="label label-success">客户</span>
+                                <span>{{item.client_name}}</span>
+                            </p>       
+                            <p>
+                                <span class="label label-success">创建时间</span>
+                                <span>{{item.created_time}}</span>
+                            </p>
+                            <p>
+                                <span class="label label-success">修改时间</span>
+                                <span>{{item.modified_time}}</span>
+                            </p>
+                            <p>
+                                <span class="label label-success">状态</span>
+                                <span>{{item.status_code|statusCode}}状态</span>
+                            </p>
+                            <hr>
+                            <p>
+                                <a class="btn btn-success btn-xs" href="#">查看</a>
+                                <button v-on:click="start(item)" class="btn btn-info btn-xs">启用</button>
+                                <button v-on:click="delete(item)" class="btn btn-danger btn-xs">删除</button>
+                            </p>
+                        </div>
+                    </div>
+                </template>
+            </div>
+            <!-- <pre>{{$data|json}}</pre> -->
         </div>
         
         <!-- 页脚 -->
@@ -111,5 +150,6 @@
         <!-- 包括所有bootstrap的js插件或者可以根据需要使用的js插件调用　-->
         <script src="js/bootstrap.min.js"></script>
         <script src='js/layer.js'></script>
+        <script src='js/Table-batch.js'></script>
     </body>
 </html>

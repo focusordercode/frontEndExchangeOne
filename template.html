@@ -50,14 +50,14 @@
                             <a href="##" data-toggle="dropdown" class="dropdown-toggle">产品资料<span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li><a href="template.html">产品资料表模板</a></li>
-                                <li><a href="##">产品资料表</a></li>
+                                <li><a href="Table-info.html">产品资料表</a></li>
                             </ul>
                         </li>
                         <li class="dropdown">
                             <a href="##" data-toggle="dropdown" class="dropdown-toggle">批量表<span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li><a href="template-batch-list.html">批量表模板</a></li>
-                                <li><a href="##">批量表</a></li>
+                                <li><a href="Table-batch.html">批量表</a></li>
                             </ul>
                         </li>
                         <li class="hidden-sm hidden-md"><a href="admin-category.html" target="_blank" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'v2doc'])">分类管理</a></li>
@@ -105,10 +105,14 @@
                             <a href="template-editAgain.html?id={{todo.id}}&#38;type_code={{todo.type_code}}" target="_blank" class="text-muted">
                                 {{todo.status_code|statusEdit}}
                             </a>
-                            <a href="Product-creat.html?id={{todo.id}}&#38;category_id={{todo.category_id}}" target="_blank" class="text-muted temp-select">
+                            <!-- 旧版逻辑：跳转到录入表格条目 -->
+                            <!-- <a href="Product-creat.html?id={{todo.id}}&#38;category_id={{todo.category_id}}" target="_blank" class="text-muted temp-select">
+                                {{todo.status_code|statusSelect}}
+                            </a> -->
+                            <a href="Table-Creat.html?template_id={{todo.id}}&#38;category_id={{todo.category_id}}&#38;type_code={{todo.type_code}}" target="_blank" class="text-muted temp-select">
                                 {{todo.status_code|statusSelect}}
                             </a>
-                            <input v-model="todo.id" type="hidden" class="temp-id" >
+                            <input v-model="todo.id" type="hidden" class="temp-id">
                             <span class="text-warning">{{todo.status_code|statusCode}}状态</span>
                         </p>
                     </div>

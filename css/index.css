@@ -363,3 +363,8 @@ body,html {
 .easy-tree .easy-tree-toolbar .remove {
 	display: none;
 }
+
+/*公用样式*/
+.marginTop {
+	margin-top: 50px;
+}

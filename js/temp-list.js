@@ -23,7 +23,7 @@ var tempList = new Vue({
         })
     }
 })
-//下面是三个Vue过滤器
+//Vue过滤器
 Vue.filter('statusCode', function (value) {
     var str;
     switch(value){

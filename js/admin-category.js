@@ -43,7 +43,7 @@
                              
                     },
                     error: function(jqXHR){     
-                        layer.msg('服务器请求错误');
+                        layer.msg('向服务器请求失败');
                     },
                 })
             };
@@ -79,7 +79,7 @@
                         }
                     },
                     error: function(jqXHR){     
-                       layer.msg('服务器请求错误');
+                       layer.msg('向服务器请求错误');
                     },     
                 })
                 //点击选中类目

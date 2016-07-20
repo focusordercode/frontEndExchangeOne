@@ -1,0 +1,13 @@
+.tableInfo .item .well {
+	height: 328px;
+	transition: all 0.2s ease;
+	box-shadow: none;
+}
+.tableInfo .item .well:hover {
+	box-shadow: 0 6px 10px rgba(0,0,0,0.1);
+}
+.tableInfo .item .label+span {
+	vertical-align: middle;
+	padding-left: 5px;
+	color: #777;
+}

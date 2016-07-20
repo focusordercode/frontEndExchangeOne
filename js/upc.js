@@ -3,11 +3,11 @@ var upcInfo = new Vue({
     el:'body',
     data:{
         upcInfo:'',
-        count:'',//总页数
-        Allupc:'',//全部UPC
-        usedUpc:'',//已使用UPC
-        lockedUpc:'',//已锁定的UPC
-        upc:''//未使用的UPC
+        count:'',       //总页数
+        Allupc:'',      //全部UPC
+        usedUpc:'',     //已使用UPC
+        lockedUpc:'',   //已锁定的UPC
+        upc:''          //未使用的UPC
     },
     methods:{
         //上一页
@@ -117,7 +117,7 @@ Vue.filter('lockStatus',function(value){
 //跳转
 $('.upcCtr .btn-jump').on('click',function(){
     $oPageNum = $('.upcCtr .pageNum').val();
-    if($oPageNum<=1){
+    if($oPageNum<1){
         layer.msg('输入的页码错误');
         $('.upcCtr .pageNum').val('');
     }else if($oPageNum>upcInfo.count) {
