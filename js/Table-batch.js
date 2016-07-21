@@ -104,9 +104,9 @@ Vue.filter('statusCode', function (value) {
     var str;
     switch(value){
         case "creating": str = "创建";break;
-        case "editing": str = "定义";break;
-        case "enabled": str = "启用";break;
-        case "disabled": str = "停用";break;
+        case "editing": str = "编辑";break;
+        case "enabled": str = "有效";break;
+        case "disabled": str = "完成";break;
     }
     return str;
 })

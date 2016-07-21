@@ -176,7 +176,7 @@ var tempEdit = new Vue({
         }
     }
 })
-
+//Vue过滤器
 Vue.filter('dataType', function (value) {
     var str;
     switch(value){

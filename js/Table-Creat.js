@@ -73,42 +73,42 @@ $(document).ready(function(){
 	});
 
 	//模糊搜索
-	// var oCateID;
-	// $oCateInput = $('.temp-info .temp-belong');
-	// $oCateInput.keyup(function(){
-	//     $oCateText = $.trim($('.temp-info .temp-belong').val());
-	//     if($oCateText==''){
-	//         oCateID=0;
-	//     }
-	//     $.ajax({
-	//         type: "POST",    
-	//         url: "http://192.168.1.42/canton/index.php/vague/name", //添加请求地址的参数
-	//         dataType: "json",
-	//         data: {
-	//             text:$oCateText
-	//         },
-	//         success: function(data){
-	//             if (data.status==100) {
-	//                 $cateList = data.value;
-	//                 $('.temp-info .cateList li').remove();
-	//                 for($i=0;$i<$cateList.length;$i++){
-	//                     $str = '<li name="'+$cateList[$i].id+'">'+$cateList[$i].cn_name+$cateList[$i].en_name+'</li>';
-	//                     $('.temp-info .cateList').append($str);
-	//                 }
-	//             }else{
-	//                 $('.temp-info .cateList li').remove();
-	//             }
-	//         },
-	//         error: function(jqXHR){     
-	//             layer.msg("获取分类失败");
-	//         }
-	//     })
-	// });
+	var oCateID;
+	$oCateInput = $('.temp-info .temp-belong');
+	$oCateInput.keyup(function(){
+	    $oCateText = $.trim($('.temp-info .temp-belong').val());
+	    if($oCateText==''){
+	        oCateID=0;
+	    }
+	    $.ajax({
+	        type: "POST",    
+	        url: "http://192.168.1.42/canton/index.php/vague/name", //添加请求地址的参数
+	        dataType: "json",
+	        data: {
+	            text:$oCateText
+	        },
+	        success: function(data){
+	            if (data.status==100) {
+	                $cateList = data.value;
+	                $('.temp-info .cateList li').remove();
+	                for($i=0;$i<$cateList.length;$i++){
+	                    $str = '<li name="'+$cateList[$i].id+'">'+$cateList[$i].cn_name+$cateList[$i].en_name+'</li>';
+	                    $('.temp-info .cateList').append($str);
+	                }
+	            }else{
+	                $('.temp-info .cateList li').remove();
+	            }
+	        },
+	        error: function(jqXHR){     
+	            layer.msg("获取分类失败");
+	        }
+	    })
+	});
 
-	// $(document).on('click','.temp-info .cateList li',function(){
-	//     oCateID = $(this).attr('name');
-	//     $oCateInput = $('.temp-info .temp-belong');
-	//     $oCateInput.val($(this).text());
-	//     $('.temp-info .cateList li').remove();
-	// });
+	$(document).on('click','.temp-info .cateList li',function(){
+	    oCateID = $(this).attr('name');
+	    $oCateInput = $('.temp-info .temp-belong');
+	    $oCateInput.val($(this).text());
+	    $('.temp-info .cateList li').remove();
+	});
 });

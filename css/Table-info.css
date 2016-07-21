@@ -1,5 +1,5 @@
 .tableInfo .item .well {
-	height: 328px;
+	height: 348px;
 	transition: all 0.2s ease;
 	box-shadow: none;
 }
@@ -10,4 +10,69 @@
 	vertical-align: middle;
 	padding-left: 5px;
 	color: #777;
+}
+.modified {
+
+}
+.modified .layui-layer-title {
+	color: #3c763d;
+	font-weight: 800;
+	background-color: #dff0d8;
+}
+.modified .layui-layer-content {
+	padding: 10px 40px;
+	background-color: #f5f5f5;
+}
+.modified .layui-layer-content .form-control {
+	border-radius: 0;
+}
+.modified .cate {
+	position: relative;
+}
+.modified .cate ul {
+	top: 59px;
+	left: 0;
+	position: absolute;
+	width: 100%;
+	list-style: none;
+	padding-left: 0;
+	border: 1px solid #ccc;
+    border-top: transparent;
+	background-color: #fff;
+}
+.modified .cate ul li {
+	line-height: 32px;
+	text-indent: 12px;
+	border-bottom: 1px solid #ddd;
+	color: #8a6d3b;
+	font-size: 12px;
+}
+.modified .cate ul li:hover {
+	background-color: #ECF0F1;
+	cursor: pointer;
+}
+.pro {
+	position: relative;
+}
+.pro ul {
+	position: absolute;
+	top: 34px;
+	right: 0;
+	z-index: 666;
+	list-style: none;
+	padding-left: 0;
+	border: 1px solid #ccc;
+    border-top: transparent;
+	background-color: #fff;
+}
+.pro ul li {
+	line-height: 32px;
+	text-indent: 12px;
+	border-bottom: 1px solid #ddd;
+	color: #8a6d3b;
+	font-size: 12px;
+}
+.pro ul li:hover {
+	background-color: #ECF0F1;
+	cursor: pointer;
 }

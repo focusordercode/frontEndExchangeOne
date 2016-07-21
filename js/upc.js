@@ -87,7 +87,7 @@ var upcInfo = new Vue({
                     upcInfo.lockedUpc = data.lockedupc;
                     upcInfo.upc = data.upc;
                 }else if(data.status==101){
-                    layer.msg('获取UPC失败');
+                    layer.msg('获取UPC失败或者UPC为空');
                 }else if(data.status==102){
                     layer.msg('参数错误');
                 }
