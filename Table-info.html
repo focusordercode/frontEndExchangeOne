@@ -80,19 +80,19 @@
                         <div class="panel-heading"><h4><b>产品资料表</b></h4></div>
                         <div class="panel-body">
                             <div class="form-inline">
-                                <div class="form-group pro">
+                                <div class="form-group pro proCate">
                                     <label class="text-success">根据类目搜索</label>
                                     <input type="text" class="form-control search-cate">
                                     <ul></ul>
                                 </div>
                                 <button class="btn btn-default search-cate-btn">搜索</button>
-                                <div class="form-group pro">
-                                    <label class="text-success">根据模板搜索</label>
+                                <div class="form-group pro proTemp">
+                                    <label class="text-success">根据模板名称搜索</label>
                                     <input type="text" class="form-control search-temp">
                                     <ul></ul>
                                 </div>
                                 <button class="btn btn-default search-temp-btn">搜索</button>
-                                <div class="form-group pro">
+                                <div class="form-group pro proName">
                                     <label class="text-success">根据名称搜索</label>
                                     <input type="text" class="form-control search-name">
                                     <ul></ul>
@@ -103,6 +103,15 @@
                     </div>
                 </div>
             </div>
+            
+            <!-- <div class="well well-sm">
+                <strong>选择显示</strong>
+                <div class="btn-group">
+                    <button class="btn btn-default"><i class="fa fa-th"></i>默认</button>
+                    <button class="btn btn-default"><i class="fa fa-table"></i>默认</button>
+                    <button class="btn btn-default"><i class="fa fa-th-large"></i>默认</button>
+                </div>
+            </div> -->
 
             <!-- 表格列表 -->
             <div class="row">
@@ -134,7 +143,7 @@
                                             <td class="text-center">{{item.modified_time}}</td>
                                             <td class="text-center">{{item.status_code|statusCode}}</td>
                                             <td class="text-center">
-                                                <a class="btn btn-success btn-xs" href="#">打开</a>
+                                                <a class="btn btn-success btn-xs" href="Table-detail-input.html?">打开</a>
                                                 <button v-on:click="modified(item)" class="btn btn-info btn-xs">
                                                     修改
                                                 </button>
@@ -156,7 +165,7 @@
                                             <td class="text-center">{{item.modified_time}}</td>
                                             <td class="text-center">{{item.status_code|statusCode}}</td>
                                             <td class="text-center">
-                                                <a class="btn btn-success btn-xs" href="#">打开</a>
+                                                <a class="btn btn-success btn-xs" target="_blank" href="Table-detail-input.html?id={{item.id}}&#38;template_id={{item.template_id}}&#38;type_code={{item.type_code}}">打开</a>
                                                 <button v-on:click="modified(item)" class="btn btn-info btn-xs">
                                                     修改
                                                 </button>
@@ -174,7 +183,7 @@
                     </div>
                 </div>
             </div>
-            <!-- <pre>{{$data|json}}</pre> -->
+            <pre>{{$data|json}}</pre>
 
         <!-- 页脚 -->
         <div class="container-fluid footer-fluid">

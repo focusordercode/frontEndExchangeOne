@@ -291,20 +291,22 @@ $('.pro .search-cate').on('keyup',function(){
 	})
 });
 
-$(document).on('click','.pro ul li',function(){
+$(document).on('click','.proCate ul li',function(){
 	var liName = $(this).attr('name');
     $oCateInput = $('.pro .search-cate');
     $oCateInput.val($(this).text());
     $oCateInput.attr('name',liName);
-    $('.pro ul li').remove();
+    $('.proCate ul li').remove();
 });
 
 //发起搜索请求,并更新数据
 $('.search-cate-btn').on('click',function(){
 	var oCateID = $('.search-cate').attr('name');
-	if(!oCateID){
+	var searchCate = $('.pro .search-cate').val();
+	if(!oCateID||!searchCate){
 		layer.msg('请先输入数据');
 		$('.search-cate').attr('name','');
+		$('.pro .search-cate').val('');
 	}else{
 		$.ajax({
 			type:'POST',
@@ -316,10 +318,12 @@ $('.search-cate-btn').on('click',function(){
 			},
 			success:function(data){
 				if(data.status==100){
+					layer.msg('获取成功');
 					oTableInfo.tableInfo = data.value;
 					$('.search-cate').val('');
 				}else if(data.status==101){
-					layer.msg('操作失败');
+					layer.msg('没有查询到数据');
+					$('.search-cate').val('');
 				}
 			},
 			error:function(jqXHR){
@@ -337,7 +341,7 @@ $('.pro .search-temp').on('keyup',function(){
 		url:'http://192.168.1.42/canton/index.php/vague/templatename',
 		datatype:'json',
 		data:{
-			text:searchTemp,
+			name:searchTemp,
 			type_code:oTableInfo.tableInfo[0].type_code
 		},
 		success:function(data){
@@ -356,35 +360,71 @@ $('.pro .search-temp').on('keyup',function(){
 	})
 });
 
-$(document).on('click','.pro ul li',function(){
+$(document).on('click','.proTemp ul li',function(){
 	var liName = $(this).attr('name');
-    $oCateInput = $('.pro .search-cate');
+    $oCateInput = $('.pro .search-temp');
     $oCateInput.val($(this).text());
     $oCateInput.attr('name',liName);
-    $('.pro ul li').remove();
+    $('.proTemp ul li').remove();
 });
 
 //发起搜索请求,并更新数据
-$('.search-cate-btn').on('click',function(){
-	var oCateID = $('.search-cate').attr('name');
-	if(!oCateID){
+$('.search-temp-btn').on('click',function(){
+	var oCateID = $('.search-temp').attr('name');
+	var searchTemp = $('.pro .search-temp').val();
+	if(!oCateID||!searchTemp){
 		layer.msg('请先输入数据');
-		$('.search-cate').attr('name','');
+		$('.search-temp').attr('name','');
+		$('.pro .search-temp').val('');
 	}else{
 		$.ajax({
 			type:'POST',
-			url:'http://192.168.1.42/canton/index.php/get/infoform',
+			url:'http://192.168.1.42/canton/index.php/get/tempinfoform',
 			datatype:'json',
 			data:{
 				type_code:oTableInfo.tableInfo[0].type_code,
-				category_id:oCateID
+				template_id:oCateID
 			},
 			success:function(data){
 				if(data.status==100){
+					layer.msg('获取成功');
 					oTableInfo.tableInfo = data.value;
-					$('.search-cate').val('');
+					$('.search-temp').val('');
 				}else if(data.status==101){
-					layer.msg('操作失败');
+					layer.msg('没有查询到数据');
+					$('.pro .search-temp').val('');
+				}
+			},
+			error:function(jqXHR){
+				layer.msg('向服务器获取请求失败,搜索失败');
+			}
+		})
+	}
+});
+
+/////////////////////根据表格名称搜索//////////////////////////////
+$('.search-name-btn').on('click',function(){
+	var searchName = $('.pro .search-name').val();
+	if(!searchName){
+		layer.msg('请先输入数据');
+		$('.pro .search-name').val('');
+	}else{
+		$.ajax({
+			type:'POST',
+			url:'http://192.168.1.42/canton/index.php/vague/formtitle',
+			datatype:'json',
+			data:{
+				type_code:oTableInfo.tableInfo[0].type_code,
+				title:searchName
+			},
+			success:function(data){
+				if(data.status==100){
+					layer.msg('获取成功');
+					oTableInfo.tableInfo = data.value;
+					$('.search-name').val('');
+				}else if(data.status==101){
+					layer.msg('没有查询到数据');
+					$('.pro .search-name').val('');
 				}
 			},
 			error:function(jqXHR){
