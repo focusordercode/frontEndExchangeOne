@@ -109,20 +109,52 @@
                             <table class="table table-bordered">
                                 <thead>
                                     <tr>
+                                        <th>
+                                            操作
+                                        </th>
                                         <th v-for="key in columns">
                                             {{key | capitalize}}
                                         </th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="
-                                        entry in data
-                                        | filterBy filterKey
-                                        | orderBy sortKey sortOrders[sortKey]">
+                                    <!-- <tr v-for="
+                                        entry in data" track-by="product_id">
+                                        <td>
+                                            <button v-on:click="addline(entry,$index)" class="btn btn-success">主体</button>
+                                            <button v-on:click="addchange(entry,$index)" class="btn btn-info">变体</button>
+                                            <button v-on:click="remove(entry,$index)" class="btn btn-danger">删除</button>
+                                        </td>
                                         <td v-for="key in columns">
                                             <input type="text" v-model="entry[key]" class="form-control">
                                         </td>
-                                    </tr>
+                                    </tr> -->
+                                    <template v-for="entry in data" track-by="product_id">
+                                        <template v-if="entry.parent_id==0">
+                                            <tr>
+                                                <td>
+                                                    <button v-on:click="addline(entry,$index)" v-show="entry.parent_id==0" class="btn btn-success">主体</button>
+                                                    <button v-on:click="addchange(entry,$index)" v-show="entry.parent_id==0" class="btn btn-info">变体</button>
+                                                    <button v-on:click="remove(entry,$index)" class="btn btn-danger">删除</button>
+                                                </td>
+                                                <td v-for="key in columns">
+                                                    <input type="text" v-model="entry[key]" class="form-control">
+                                                </td>
+                                            </tr>
+                                        </template> 
+                                        <template v-else>
+                                            <tr class="warning">
+                                                <td>
+                                                    <button v-on:click="addline(entry,$index)" v-show="entry.parent_id==0" class="btn btn-success">主体</button>
+                                                    <button v-on:click="addchange(entry,$index)" v-show="entry.parent_id==0" class="btn btn-info">变体</button>
+                                                    <button v-on:click="remove(entry,$index)" class="btn btn-danger">删除</button>
+                                                </td>
+                                                <td v-for="key in columns">
+                                                    <input type="text" v-model="entry[key]" class="form-control">
+                                                </td>
+                                            </tr>
+                                        </template> 
+                                    </template>
                                 </tbody>
                             </table>
                         </div>
@@ -135,8 +167,7 @@
         <div id="table">
             <demo-grid
             :data="gridData"
-            :columns="gridColumns"
-            :filter-key="searchQuery">
+            :columns="gridColumns">
             </demo-grid>
         </div>
         <button v-on:click="sendMsg" class="btn btn-default">提交</button>
@@ -159,122 +190,6 @@
         <!-- 包括所有bootstrap的js插件或者可以根据需要使用的js插件调用　-->
         <script src="js/bootstrap.min.js"></script>
         <script src='js/layer.js'></script>
-        <script>
-            //获取ID
-            function UrlSearch() {
-                var name,value; 
-                var str=location.href; 
-                var num=str.indexOf("?");
-                str=str.substr(num+1);
-                
-                var arr=str.split("&"); 
-                for(var i=0;i < arr.length;i++){ 
-                    num=arr[i].indexOf("="); 
-                    if(num>0){ 
-                        name=arr[i].substring(0,num);
-                        value=arr[i].substr(num+1);
-                        this[name]=value;
-                    } 
-                } 
-            } 
-            var Request=new UrlSearch();
-
-            // register the grid component
-            Vue.component('demo-grid', {
-              template: '#grid-template',
-              props: {
-                data: Array,
-                columns: Array,
-                filterKey: String
-              },
-              data: function () {
-                var sortOrders = {}
-                this.columns.forEach(function (key) {
-                  sortOrders[key] = 1
-                })
-                return {
-                  sortKey: '',
-                  sortOrders: sortOrders
-                }
-              }
-            })
-
-            var oTableIn = new Vue({
-                el:'body',
-                data:{
-                    info:'',
-                    searchQuery: '',
-                    gridColumns: [],
-                    gridData: [],
-                    newData:''
-                },
-                ready:function(){
-                    //获取表格信息
-                    $.ajax({
-                        type:'POST',
-                        url:'http://192.168.1.42/canton/index.php/get/oneform',
-                        datatype:'json',
-                        data:{
-                            id:Request.id,
-                            type_code:Request.type_code
-                        },
-                        success:function(data){
-                            if(data.status==100){
-                                oTableIn.info = data.value[0];
-                            }else if(data.status==101){
-                                layer.msg('操作失败');
-                            }else if(data.status==102){
-                                layer.msg('表格的id为空');
-                            }
-                        },
-                        error:function(jqXHR){
-                            layer.msg('向服务器获取表格信息失败');
-                        }
-                    })
-
-                    //获取表头
-                    $.ajax({
-                        type:'POST',
-                        url:'http://192.168.1.42/canton/index.php/get/bootstrap',
-                        datatype:'json',
-                        data:{
-                            template_id:Request.template_id,
-                            type_code:Request.type_code
-                        },
-                        success:function(data){
-                            if(data.status==100){
-                                oTableIn.gridColumns = data.value;
-                                oTableIn.gridData = data.data;
-                            }
-                        },
-                        error:function(jqXHR){
-                            layer.msg('向服务器请求表头信息失败');
-                        }
-                    })
-                },
-                methods:{
-                    sendMsg:function(){
-                        $.ajax({
-                            type:'POST',
-                            url:'http://192.168.1.42/canton/index.php/post/info',
-                            datatype:'json',
-                            data:{
-                                gridColumns:oTableIn.gridColumns,
-                                gridData:oTableIn.gridData
-                            },
-                            success:function(data){
-                                if (data.status==100) {
-                                    layer.msg('成功');
-                                    oTableIn.newData = data.value;
-                                }
-                            },
-                            error:function(jqXHR){
-                                layer.msg('提交失败');
-                            }
-                        })
-                    }
-                }
-            })
-        </script>
+        <script src="js/Table-detail-input.js"></script>
     </body>
 </html>
