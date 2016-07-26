@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>产品资料表录入</title>
+    <title>产品资料查询修改</title>
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <!--你自己的样式文件 -->
@@ -75,7 +75,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="well">
-                        <h3 class="text-success">产品资料表录入</h3>
+                        <h3 class="text-success">产品资料表编辑</h3>
                         <hr>
                         <div class="row">
                             <div class="col-md-2">
@@ -118,41 +118,30 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <!-- <tr v-for="
-                                        entry in data" track-by="product_id">
-                                        <td>
-                                            <button v-on:click="addline(entry,$index)" class="btn btn-success">主体</button>
-                                            <button v-on:click="addchange(entry,$index)" class="btn btn-info">变体</button>
-                                            <button v-on:click="remove(entry,$index)" class="btn btn-danger">删除</button>
-                                        </td>
-                                        <td v-for="key in columns">
-                                            <input type="text" v-model="entry[key]" class="form-control">
-                                        </td>
-                                    </tr> -->
-                                    <template v-for="entry in data" track-by="product_id">
+                                    <template v-for="entry in data">
                                         <!-- 主体展示方式 -->
                                         <template v-if="entry.parent_id==0">
-                                            <tr class="info">
+                                            <tr class="info" track-by="product_id">
                                                 <td>
-                                                    <button v-on:click="addline(entry,$index)" v-show="entry.parent_id==0" class="btn btn-success">主体</button>
-                                                    <button v-on:click="addchange(entry,$index)" v-show="entry.parent_id==0" class="btn btn-info">变体</button>
-                                                    <button v-on:click="remove(entry,$index)" class="btn btn-danger">删除</button>
+                                                    <button v-on:click="remove(entry)" class="btn btn-danger">删除</button>
+                                                    <button v-on:click="change(entry)" class="btn btn-info">修改</button>
                                                 </td>
                                                 <td v-for="key in columns">
-                                                    <input type="text" v-model="entry[key]" class="form-control">
+                                                    {{entry[key]}}
+                                                    <div class="form-grop">
+                                                        <input type="text" v-model="entry[key]" class="form-control td-input">
+                                                    </div>
                                                 </td>
                                             </tr>
                                         </template>
                                          <!-- 变体展示方式 -->
                                         <template v-else>
-                                            <tr class="warning">
+                                            <tr class="warning" track-by="product_id">
                                                 <td>
-                                                    <button v-on:click="addline(entry,$index)" v-show="entry.parent_id==0" class="btn btn-success">主体</button>
-                                                    <button v-on:click="addchange(entry,$index)" v-show="entry.parent_id==0" class="btn btn-info">变体</button>
-                                                    <button v-on:click="remove(entry,$index)" class="btn btn-danger">删除</button>
+                                                    <button v-on:click="remove(entry)" class="btn btn-danger">删除</button>
                                                 </td>
                                                 <td v-for="key in columns">
-                                                    <input type="text" v-model="entry[key]" class="form-control">
+                                                    {{entry[key]}}
                                                 </td>
                                             </tr>
                                         </template> 
@@ -176,7 +165,8 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
-                    <button v-on:click="sendMsg" class="btn btn-default">提交</button>
+                    <button v-on:click="status = 2" class="btn btn-info">修改</button>
+                    <button v-on:click="status = 2" class="btn btn-success">保存</button>
                 </div>
             </div>
         </div>
@@ -199,6 +189,6 @@
         <!-- 包括所有bootstrap的js插件或者可以根据需要使用的js插件调用　-->
         <script src="js/bootstrap.min.js"></script>
         <script src='js/layer.js'></script>
-        <script src="js/Table-detail-input.js"></script>
+        <script src="js/Table-detail-xg.js"></script>
     </body>
 </html>

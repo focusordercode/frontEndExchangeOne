@@ -25,70 +25,38 @@ Vue.component('demo-grid', {
     columns: Array,
     filterKey: String
   },
-  methods:{
-    remove:function(entry,$index){
-        if($index==0){
-            layer.msg('模板数据不可以删除');
-        }else{
-            this.data.$remove(entry);  
+    methods:{
+        remove:function(entry){
+            var product_id = entry.product_id;
+            var form_id = entry.form_id;
+            var BigData = this.data;
+            $.ajax({
+                type:'POST',
+                url:'http://192.168.1.42/canton/index.php/del/info',
+                datatype:'json',
+                data:{
+                    product_id:product_id,
+                    form_id:form_id
+                },
+                success:function(data){
+                    if(data.status==100){
+                        BigData.$remove(entry);
+                        layer.msg('删除成功');
+                    }else if(data.status==101){
+                        layer.msg('操作失败');
+                    }else if(data.status==102){
+                        layer.msg('ID为空');
+                    }
+                },
+                error:function(jqXHR){
+                    layer.msg('向服务器请求删除失败');
+                }
+            })
+        },
+        change:function(entry){
+            entry.UPC= 'Bravo!';
+            return entry
         }
-    },
-    //添加主体
-    addline:function(entry,$index){
-        var BigData = this.data; 
-        var newData = BigData.slice();//复制整个数组
-        //添加条目获取ID
-        $.ajax({
-            type:'POST',
-            url:'http://192.168.1.42/canton/index.php/get/sysId',
-            datatype:'json',
-            data:{
-                app_code:'product_information',
-                num:1
-            },
-            success:function(data){
-                if(data.status==100){
-                    newObj = $.extend(true, {}, newData[$index]);//复制json对象,此方法只能复制json对象
-                    newObj.product_id = data.value[0];//添加ID，好区别开来
-                    BigData.push(newObj);//把新的对象push进去
-                }else if(data.status==101){
-                    layer.msg('操作失败');
-                }
-            },
-            error:function(jqXHR){
-                layer.msg('向服务器请求增加失败');
-            }
-        })
-    },
-    //添加变体
-    addchange:function(entry,$index){
-        var BigData = this.data; 
-        var newData = BigData.slice();//复制整个数组
-        var parent_id = entry.product_id;
-        //添加条目获取ID
-        $.ajax({
-            type:'POST',
-            url:'http://192.168.1.42/canton/index.php/get/sysId',
-            datatype:'json',
-            data:{
-                app_code:'product_information',
-                num:1
-            },
-            success:function(data){
-                if(data.status==100){
-                    newObj = $.extend(true, {}, newData[$index]);//复制json对象,此方法只能复制json对象
-                    newObj.product_id = data.value[0];//添加ID，好区别开来
-                    newObj.parent_id = parent_id;
-                    BigData.splice($index+1,0,newObj);//把新的对象push进去
-                }else if(data.status==101){
-                    layer.msg('操作失败');
-                }
-            },
-            error:function(jqXHR){
-                layer.msg('向服务器请求增加失败');
-            }
-        })
-    }
   }
 })
 
@@ -97,8 +65,7 @@ var oTableIn = new Vue({
     data:{
         info:'',
         gridColumns: [],
-        gridData: [],
-        newData:''
+        gridData: []
     },
     ready:function(){
         //获取表格信息
@@ -136,23 +103,45 @@ var oTableIn = new Vue({
             success:function(data){
                 if(data.status==100){
                     oTableIn.gridColumns = data.value;
-                    oTableIn.gridData = data.data;
+                }else if(data.status==101){
+                    layer.msg('表格头数据为空');
                 }
             },
             error:function(jqXHR){
                 layer.msg('向服务器请求表头信息失败');
             }
         })
+
+        //获取表格的详细信息
+        $.ajax({
+            type:'POST',
+            url:'http://192.168.1.42/canton/index.php/get/info',
+            datatype:'json',
+            data:{
+                form_id:Request.id
+            },
+            success:function(data){
+                if(data.status==100){
+                    oTableIn.gridData = data.value;
+                }else if(data.status==101){
+                    layer.msg('数据为空');
+                }else if(data.status==102){
+                    layer.msg('ID为空');
+                }else if(data.status==111){
+                    layer.msg('表格没有数据');
+                }
+            },
+            error:function(jqXHR){
+                layer.msg('向服务器请求表格信息失败');
+            }
+        })
     },
     methods:{
         sendMsg:function(){
-            // alert(oTableIn.gridData.length);
-            // var h = oTableIn.gridData.length
-            // alert(oTableIn.gridData[h-1].product_id);
-            var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层 
+            var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
             $.ajax({
                 type:'POST',
-                url:'http://192.168.1.42/canton/index.php/testget',
+                url:'http://192.168.1.42/canton/index.php/post/info',
                 datatype:'json',
                 data:{
                     category_id:oTableIn.info.category_id,
@@ -163,10 +152,7 @@ var oTableIn = new Vue({
                 },
                 success:function(data){
                     if (data.status==100) {
-                        alert(data.value.length);
                         layer.msg('成功');
-                        oTableIn.newData = data.value;
-                        // alert(oTableIn.newData.length);
                         layer.close(LoadIndex); //关闭遮罩层
                     }else if(data.status==101){
                         layer.msg('操作失败');
