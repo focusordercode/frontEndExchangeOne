@@ -7,11 +7,37 @@
     vertical-align: middle;
     position: relative;
 }
-.show-table {
-	display: table-row;;
+.table tr th:first-child {
+	min-width: 50px!important;
+}
+.table tr td:first-child {
+	min-width: 50px!important;
+}
+.table>tbody>tr.change>td {
+    background-color: #ECF0F1;
+}
+.clickTochange {
+	text-decoration: none;
+	border-bottom: dashed 1px #0088cc;
 }
 .td-input {
 	position: absolute;
-	top: -30px;
+	top: -42px;
 	left: 0;
+	margin-bottom: 0;
+	background-color: #fff;
+	display: none;
+}
+.td-input > .input-group {
+	margin: 6px 10px;
+}
+.td-input button {
+	color: #fff;
+	margin-right: 10px;
+}
+.td-input > i {
+	position: absolute;
+	bottom: -9px;
+	left: 42%;
+	color: #fff;
 }

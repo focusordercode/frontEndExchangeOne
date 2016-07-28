@@ -47,6 +47,12 @@
                 <div class="navbar-collapse collapse" role="navigation">
                     <ul class="nav navbar-nav">
                         <li class="dropdown">
+                            <a href="##" data-toggle="dropdown" class="dropdown-toggle">图片库<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="admin-category-pic.html">图片库分类</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
                             <a href="##" data-toggle="dropdown" class="dropdown-toggle">产品资料<span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li><a href="template.html">产品资料表模板</a></li>
@@ -109,6 +115,7 @@
                             <table class="table table-bordered">
                                 <thead>
                                     <tr>
+                                        <th>序号</th>
                                         <th>
                                             操作
                                         </th>
@@ -118,21 +125,11 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <!-- <tr v-for="
-                                        entry in data" track-by="product_id">
-                                        <td>
-                                            <button v-on:click="addline(entry,$index)" class="btn btn-success">主体</button>
-                                            <button v-on:click="addchange(entry,$index)" class="btn btn-info">变体</button>
-                                            <button v-on:click="remove(entry,$index)" class="btn btn-danger">删除</button>
-                                        </td>
-                                        <td v-for="key in columns">
-                                            <input type="text" v-model="entry[key]" class="form-control">
-                                        </td>
-                                    </tr> -->
                                     <template v-for="entry in data" track-by="product_id">
                                         <!-- 主体展示方式 -->
                                         <template v-if="entry.parent_id==0">
                                             <tr class="info">
+                                                <td>{{$index+1}}</td>
                                                 <td>
                                                     <button v-on:click="addline(entry,$index)" v-show="entry.parent_id==0" class="btn btn-success">主体</button>
                                                     <button v-on:click="addchange(entry,$index)" v-show="entry.parent_id==0" class="btn btn-info">变体</button>
@@ -146,6 +143,7 @@
                                          <!-- 变体展示方式 -->
                                         <template v-else>
                                             <tr class="warning">
+                                                <td>{{$index+1}}</td>
                                                 <td>
                                                     <button v-on:click="addline(entry,$index)" v-show="entry.parent_id==0" class="btn btn-success">主体</button>
                                                     <button v-on:click="addchange(entry,$index)" v-show="entry.parent_id==0" class="btn btn-info">变体</button>

@@ -26,36 +26,54 @@ Vue.component('demo-grid', {
     filterKey: String
   },
     methods:{
+        //删除
         remove:function(entry){
+            var entry = entry;
             var product_id = entry.product_id;
-            var form_id = entry.form_id;
+            var form_id = oTableIn.info.id;
+            var parent_id = entry.parent_id;
             var BigData = this.data;
-            $.ajax({
-                type:'POST',
-                url:'http://192.168.1.42/canton/index.php/del/info',
-                datatype:'json',
-                data:{
-                    product_id:product_id,
-                    form_id:form_id
-                },
-                success:function(data){
-                    if(data.status==100){
-                        BigData.$remove(entry);
-                        layer.msg('删除成功');
-                    }else if(data.status==101){
-                        layer.msg('操作失败');
-                    }else if(data.status==102){
-                        layer.msg('ID为空');
+            layer.confirm('如果删除的是主条目，其变体也将一并删除,是否确认删除?',{
+                btn:['确定','取消']
+            },function(){
+                $.ajax({
+                    type:'POST',
+                    url:'http://192.168.1.42/canton/index.php/del/info',
+                    datatype:'json',
+                    data:{
+                        product_id:product_id,
+                        form_id:form_id
+                    },
+                    success:function(data){
+                        if(data.status==100){
+                            if(parent_id==0){    //如果是主体进入删除变体循环   
+                                var oDelete = new Array();
+                                for(var i=0;i<BigData.length;i++){
+                                    if(BigData[i].parent_id==product_id) {
+                                        oDelete.unshift(i);//倒叙存
+                                    }
+                                }
+                                for(var h=0;h<oDelete.length;h++){
+                                    var i = oDelete[h];//获取oDelete数组中的下标，上面一个for循环存的
+                                    BigData.splice(i,1);
+                                }
+                                BigData.$remove(entry);
+                                layer.msg('删除成功');
+                            }else { //如果是变体
+                                BigData.$remove(entry);
+                                layer.msg('删除变体成功');
+                            }
+                        }else if(data.status==101){
+                            layer.msg('操作失败');
+                        }else if(data.status==102){
+                            layer.msg('ID为空');
+                        }
+                    },
+                    error:function(jqXHR){
+                        layer.msg('向服务器请求删除失败');
                     }
-                },
-                error:function(jqXHR){
-                    layer.msg('向服务器请求删除失败');
-                }
-            })
-        },
-        change:function(entry){
-            entry.UPC= 'Bravo!';
-            return entry
+                })
+            });
         }
   }
 })
@@ -65,9 +83,11 @@ var oTableIn = new Vue({
     data:{
         info:'',
         gridColumns: [],
-        gridData: []
+        gridData: [],
+        newData:''
     },
     ready:function(){
+        var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
         //获取表格信息
         $.ajax({
             type:'POST',
@@ -87,6 +107,7 @@ var oTableIn = new Vue({
                 }
             },
             error:function(jqXHR){
+                layer.close(LoadIndex); //关闭遮罩层
                 layer.msg('向服务器获取表格信息失败');
             }
         })
@@ -121,64 +142,74 @@ var oTableIn = new Vue({
                 form_id:Request.id
             },
             success:function(data){
+                layer.close(LoadIndex); //关闭遮罩层
                 if(data.status==100){
                     oTableIn.gridData = data.value;
                 }else if(data.status==101){
                     layer.msg('数据为空');
                 }else if(data.status==102){
-                    layer.msg('ID为空');
+                    layer.msg('获取表格的ID为空');
                 }else if(data.status==111){
                     layer.msg('表格没有数据');
                 }
             },
             error:function(jqXHR){
+                layer.close(LoadIndex); //关闭遮罩层
                 layer.msg('向服务器请求表格信息失败');
             }
         })
     },
     methods:{
-        sendMsg:function(){
-            var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
+        saveAll:function(){
+            var max = oTableIn.gridData.length;
+            var LoadIndex = layer.load(2, {shade:[0.3, '#000']}); //开启遮罩层 
             $.ajax({
                 type:'POST',
-                url:'http://192.168.1.42/canton/index.php/post/info',
+                url:'http://192.168.1.42/canton/index.php/update/info',
                 datatype:'json',
                 data:{
                     category_id:oTableIn.info.category_id,
                     template_id:oTableIn.info.template_id,
                     form_id:oTableIn.info.id,
                     gridColumns:oTableIn.gridColumns,
+                    max:max,
                     gridData:oTableIn.gridData
                 },
                 success:function(data){
-                    if (data.status==100) {
-                        layer.msg('成功');
-                        layer.close(LoadIndex); //关闭遮罩层
+                    layer.close(LoadIndex); //关闭遮罩层
+                    if(data.status==100){
+                        // oTableIn.newData = data.t;
+                        layer.msg('保存成功');
                     }else if(data.status==101){
                         layer.msg('操作失败');
-                        layer.close(LoadIndex); //关闭遮罩层
                     }else if(data.status==102){
                         layer.msg('产品ID为空');
-                        layer.close(LoadIndex); //关闭遮罩层
                     }else if(data.status==103){
                         layer.msg('整数类型错误');
-                        layer.close(LoadIndex); //关闭遮罩层
                     }else if(data.status==104){
                         layer.msg('小数类型错误');
-                        layer.close(LoadIndex); //关闭遮罩层
                     }else if(data.status==105){
                         layer.msg('日期格式错误');
-                        layer.close(LoadIndex); //关闭遮罩层
                     }else if(data.status==106){
                         layer.msg('数据长度错误');
-                        layer.close(LoadIndex); //关闭遮罩层
                     }
                 },
                 error:function(jqXHR){
-                    layer.msg('提交失败');
                     layer.close(LoadIndex); //关闭遮罩层
+                    layer.msg('向服务器请求保存数据失败');
                 }
             })
         }
     }
 })
+
+//点击变成可修改
+$(document).on('click','.clickTochange',function(){
+    $('.td-input').hide();
+    $(this).next('.td-input').show();
+});
+
+//点击确定修改内容
+$(document).on('click','.clickTosave',function(){
+    $('.td-input').hide();
+});

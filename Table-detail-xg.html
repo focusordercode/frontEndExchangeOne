@@ -47,6 +47,12 @@
                 <div class="navbar-collapse collapse" role="navigation">
                     <ul class="nav navbar-nav">
                         <li class="dropdown">
+                            <a href="##" data-toggle="dropdown" class="dropdown-toggle">图片库<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="admin-category-pic.html">图片库分类</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
                             <a href="##" data-toggle="dropdown" class="dropdown-toggle">产品资料<span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li><a href="template.html">产品资料表模板</a></li>
@@ -109,10 +115,11 @@
                             <table class="table table-bordered">
                                 <thead>
                                     <tr>
-                                        <th>
+                                        <th class="text-center">序号</th>
+                                        <th class="text-center">
                                             操作
                                         </th>
-                                        <th v-for="key in columns">
+                                        <th class="text-center" v-for="key in columns">
                                             {{key | capitalize}}
                                         </th>
                                     </tr>
@@ -122,26 +129,44 @@
                                         <!-- 主体展示方式 -->
                                         <template v-if="entry.parent_id==0">
                                             <tr class="info" track-by="product_id">
-                                                <td>
+                                                <td class="text-center">{{$index+1}}</td>
+                                                <td class="text-center">
                                                     <button v-on:click="remove(entry)" class="btn btn-danger">删除</button>
-                                                    <button v-on:click="change(entry)" class="btn btn-info">修改</button>
                                                 </td>
-                                                <td v-for="key in columns">
-                                                    {{entry[key]}}
-                                                    <div class="form-grop">
-                                                        <input type="text" v-model="entry[key]" class="form-control td-input">
+                                                <td v-for="key in columns" class="text-center">
+                                                    <a href="javascript:" class="clickTochange">{{entry[key]}}</a>
+                                                    <!-- 修改框 -->
+                                                    <div class="form-group form-inline td-input">
+                                                        <div class="input-group">
+                                                            <input type="text" v-model="entry[key]" class="form-control">
+                                                        </div>
+                                                        <button class="btn btn-sm btn-info clickTosave">
+                                                            <i class="fa fa-check"></i>
+                                                        </button>
+                                                        <i class="fa fa-caret-down"></i>
                                                     </div>
                                                 </td>
                                             </tr>
                                         </template>
                                          <!-- 变体展示方式 -->
                                         <template v-else>
-                                            <tr class="warning" track-by="product_id">
-                                                <td>
+                                            <tr class="change" track-by="product_id">
+                                                <td class="text-center">{{$index+1}}</td>
+                                                <td class="text-center">
                                                     <button v-on:click="remove(entry)" class="btn btn-danger">删除</button>
                                                 </td>
-                                                <td v-for="key in columns">
-                                                    {{entry[key]}}
+                                                <td v-for="key in columns" class="text-center">
+                                                    <a href="javascript:" class="clickTochange">{{entry[key]}}</a>
+                                                    <!-- 修改框 -->
+                                                    <div class="form-group form-inline td-input">
+                                                        <div class="input-group">
+                                                            <input type="text" v-model="entry[key]" class="form-control">
+                                                        </div>
+                                                        <button class="btn btn-sm btn-info clickTosave">
+                                                            <i class="fa fa-check"></i>
+                                                        </button>
+                                                        <i class="fa fa-caret-down"></i>
+                                                    </div>
                                                 </td>
                                             </tr>
                                         </template> 
@@ -165,8 +190,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
-                    <button v-on:click="status = 2" class="btn btn-info">修改</button>
-                    <button v-on:click="status = 2" class="btn btn-success">保存</button>
+                    <button v-on:click="saveAll" class="btn btn-success">保存</button>
                 </div>
             </div>
         </div>
@@ -186,6 +210,7 @@
         <!-- 如果要使用Bootstrap的js插件，必须先调入jQuery -->
         <script src="js/jquery.js"></script>
         <script src="js/vue.js"></script>
+        <script src="js/vue-animated-list.js"></script>
         <!-- 包括所有bootstrap的js插件或者可以根据需要使用的js插件调用　-->
         <script src="js/bootstrap.min.js"></script>
         <script src='js/layer.js'></script>

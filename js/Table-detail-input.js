@@ -17,6 +17,9 @@ function UrlSearch() {
 } 
 var Request=new UrlSearch();
 
+//未提交保存内容提示
+$(window).bind('beforeunload',function(){return "您修改的内容尚未保存，确定离开此页面吗？";});
+
 // register the grid component
 Vue.component('demo-grid', {
   template: '#grid-template',
@@ -27,10 +30,27 @@ Vue.component('demo-grid', {
   },
   methods:{
     remove:function(entry,$index){
+        var entry = entry;
+        var product_id = entry.product_id;
+        var form_id = oTableIn.info.id;
+        var parent_id = entry.parent_id;
+        var BigData = this.data;
         if($index==0){
             layer.msg('模板数据不可以删除');
-        }else{
-            this.data.$remove(entry);  
+        }else if(parent_id==0){ //如果是主条目,进入循环删除变体
+            var oDelete = new Array();
+            for(var i=0;i<BigData.length;i++){
+                if(BigData[i].parent_id==product_id) {
+                    oDelete.unshift(i);//倒叙存
+                }
+            }
+            for(var h=0;h<oDelete.length;h++){
+                var i = oDelete[h];//获取oDelete数组中的下标，上面一个for循环存的
+                BigData.splice(i,1);
+            }
+            BigData.$remove(entry);
+        }else if(parent_id!=0){ //如果是变体
+            BigData.$remove(entry);
         }
     },
     //添加主体
@@ -146,51 +166,44 @@ var oTableIn = new Vue({
     },
     methods:{
         sendMsg:function(){
-            // alert(oTableIn.gridData.length);
-            // var h = oTableIn.gridData.length
-            // alert(oTableIn.gridData[h-1].product_id);
+            var max = oTableIn.gridData.length;
             var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层 
             $.ajax({
                 type:'POST',
-                url:'http://192.168.1.42/canton/index.php/testget',
+                url:'http://192.168.1.42/canton/index.php/post/info',
                 datatype:'json',
                 data:{
                     category_id:oTableIn.info.category_id,
                     template_id:oTableIn.info.template_id,
                     form_id:oTableIn.info.id,
                     gridColumns:oTableIn.gridColumns,
+                    max:max,
                     gridData:oTableIn.gridData
                 },
                 success:function(data){
+                    layer.close(LoadIndex); //关闭遮罩层
                     if (data.status==100) {
-                        alert(data.value.length);
                         layer.msg('成功');
-                        oTableIn.newData = data.value;
-                        // alert(oTableIn.newData.length);
-                        layer.close(LoadIndex); //关闭遮罩层
+                        //解除未提交内容提示
+                        oTableIn.newData = data.t;
+                        $(window).unbind('beforeunload');
                     }else if(data.status==101){
                         layer.msg('操作失败');
-                        layer.close(LoadIndex); //关闭遮罩层
                     }else if(data.status==102){
                         layer.msg('产品ID为空');
-                        layer.close(LoadIndex); //关闭遮罩层
                     }else if(data.status==103){
                         layer.msg('整数类型错误');
-                        layer.close(LoadIndex); //关闭遮罩层
                     }else if(data.status==104){
                         layer.msg('小数类型错误');
-                        layer.close(LoadIndex); //关闭遮罩层
                     }else if(data.status==105){
                         layer.msg('日期格式错误');
-                        layer.close(LoadIndex); //关闭遮罩层
                     }else if(data.status==106){
                         layer.msg('数据长度错误');
-                        layer.close(LoadIndex); //关闭遮罩层
                     }
                 },
                 error:function(jqXHR){
-                    layer.msg('提交失败');
                     layer.close(LoadIndex); //关闭遮罩层
+                    layer.msg('提交失败');
                 }
             })
         }

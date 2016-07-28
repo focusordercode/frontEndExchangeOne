@@ -1,3 +1,8 @@
+//刷新函数
+function windowFresh(){
+    location.reload(true);
+}
+
 var pageNum = 1; //页码全局变量
 var upcInfo = new Vue({
     el:'body',
@@ -90,7 +95,7 @@ var upcInfo = new Vue({
                     layer.msg('获取UPC失败');
                 }else if(data.status==102){
                     layer.msg('参数错误');
-                }else if(data.status==119){
+                }else if(data.status==110){
                     layer.msg('没有UPC');
                 }
             },
@@ -165,7 +170,11 @@ $('#upload').on('click',function(){
         contentType: false
     }).done(function(res) {
         if(res.status==100){
-            layer.alert('上传成功!'+'文件中已存在的UPC:'+res.value.same_upc+'&nbsp;添加成功的UPC:'+res.value.inserted+'');
+            // layer.alert('上传成功!'+'文件中已存在的UPC:'+res.value.same_upc+'&nbsp;添加成功的UPC:'+res.value.inserted+'');
+
+            layer.alert('上传成功!'+'文件中已存在的UPC:'+res.value.same_upc+'&nbsp;添加成功的UPC:'+res.value.inserted+'', function(yes){
+                windowFresh();
+            }); 
         }else if(res.status==102){
             layer.msg('没有文档上传');
         }else if(res.status==103){
