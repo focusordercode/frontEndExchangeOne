@@ -1,0 +1,26 @@
+.picUpload .pro {
+	position: relative;
+}
+.picUpload .proCate ul {
+	position: absolute;
+	top: 34px;
+	right: 0;
+	z-index: 666;
+	width: 100%;
+	list-style: none;
+	padding-left: 0;
+	border: 1px solid #ccc;
+    border-top: transparent;
+	background-color: #fff;
+}
+.picUpload .proCate ul li {
+	line-height: 32px;
+	text-indent: 12px;
+	border-bottom: 1px solid #ddd;
+	color: #8a6d3b;
+	font-size: 12px;
+}
+.picUpload .proCate ul li:hover {
+	background-color: #ECF0F1;
+	cursor: pointer;
+}
