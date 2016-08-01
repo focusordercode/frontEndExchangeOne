@@ -81,9 +81,9 @@
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12">
                     <ol class="breadcrumb set-breadcrumb">
-                        <li><a href="category.html">首页</a></li>
-                        <li><a href="category.html">玩具分类</a></li>
-                        <li class="active">玩具相册1</li>
+                        <!-- <li><a href="category.html">首页</a></li> -->
+                        <li><a href="category.html">分类</a></li>
+                        <li class="active">测试分类</li>
                     </ol>
                 </div>
             </div>
@@ -154,133 +154,34 @@
             <!-- 图片内容区域 -->
             <div class="row pic-content">
                 <ul class="clearfix">
-                    <li class="col-lg-3 col-md-4 col-sm-4">
+                    <li v-for="item in picData" class="col-lg-3 col-md-4 col-sm-4">
                         <div class="thumbnail">
-                            <img src="images/pic (8).jpg" layer-src="images/pic (8).jpg" alt="">
+                            <img v-bind:src="item.path | imgUrl" alt="">
                             <div class="caption">
-                                <h4>truck1.jpg</h4>
+                                <h4 class="text-warning">{{item.title}}</h4>
+                                <h4 class="text-muted">{{item.file_name}}</h4>
                                 <p>
                                     <button class="btn btn-default btn-name"><i class="fa fa-edit"></i></button>
                                     <button class="btn btn-default btn-msg"><i class="fa fa-info"></i></button>
-                                    <button class="btn btn-default btn-delete"><i class="fa fa-trash"></i></button>
+                                    <button @click="remove(item)" class="btn btn-default btn-delete"><i class="fa fa-trash"></i></button>
                                     <input type="checkbox" class="select-pic" value="" >
                                 </p>
                                 <p>
                                     <i class="fa fa-tags"></i>标签
-                                    <span class="label label-info">玩具</span>
-                                    <span class="label label-info">玩具</span>
-                                    <span class="label label-info">玩具</span>
-                                </p>
-                            </div>
-                        </div>
-                    </li> 
-                    <li class="col-lg-3 col-md-4 col-sm-4">
-                        <div class="thumbnail">
-                            <img src="images/pic (9).jpg" layer-src="images/pic (9).jpg" alt="">
-                            <div class="caption">
-                                <h4>truck2.jpg</h4>
-                                <p>
-                                    <button class="btn btn-default btn-name"><i class="fa fa-edit"></i></button>
-                                    <button class="btn btn-default btn-msg"><i class="fa fa-info"></i></button>
-                                    <button class="btn btn-default btn-delete"><i class="fa fa-trash"></i></button>
-                                    <input type="checkbox" class="select-pic" value="" >
-                                </p>
-                                <p>
-                                    <i class="fa fa-tags"></i>标签
+                                    <span class="label label-info">衣服</span>
+                                    <span class="label label-info">衣服</span>
+                                    <span class="label label-info">衣服</span>
                                 </p>
                             </div>
                         </div>
                     </li>
-                    <li class="col-lg-3 col-md-4 col-sm-4">
-                        <div class="thumbnail">
-                            <img src="images/pic (10).jpg" layer-src="images/pic (10).jpg" alt="">
-                            <div class="caption">
-                                <h4>truck.jpg</h4>
-                                <p>
-                                    <button class="btn btn-default btn-name"><i class="fa fa-edit"></i></button>
-                                    <button class="btn btn-default btn-msg"><i class="fa fa-info"></i></button>
-                                    <button class="btn btn-default btn-delete"><i class="fa fa-trash"></i></button>
-                                    <input type="checkbox" class="select-pic" value="" >
-                                </p>
-                                <p>
-                                    <i class="fa fa-tags"></i>标签
-                                </p>
-                            </div>
-                        </div>
-                    </li> 
-                    <li class="col-lg-3 col-md-4 col-sm-4">
-                        <div class="thumbnail">
-                            <img src="images/pic (11).jpg" layer-src="images/pic (11).jpg" alt="">
-                            <div class="caption">
-                                <h4>truck.jpg</h4>
-                                <p>
-                                    <button class="btn btn-default btn-name"><i class="fa fa-edit"></i></button>
-                                    <button class="btn btn-default btn-msg"><i class="fa fa-info"></i></button>
-                                    <button class="btn btn-default btn-delete"><i class="fa fa-trash"></i></button>
-                                    <input type="checkbox" class="select-pic" value="" >
-                                </p>
-                                <p>
-                                    <i class="fa fa-tags"></i>标签
-                                </p>
-                            </div>
-                        </div>
-                    </li> 
-                    <li class="col-lg-3 col-md-4 col-sm-4">
-                        <div class="thumbnail">
-                            <img src="images/pic (12).jpg" layer-src="images/pic (12).jpg" alt="">
-                            <div class="caption">
-                                <h4>truck.jpg</h4>
-                                <p>
-                                    <button class="btn btn-default btn-name"><i class="fa fa-edit"></i></button>
-                                    <button class="btn btn-default btn-msg"><i class="fa fa-info"></i></button>
-                                    <button class="btn btn-default btn-delete"><i class="fa fa-trash"></i></button>
-                                    <input type="checkbox" class="select-pic" value="" >
-                                </p>
-                                <p>
-                                    <i class="fa fa-tags"></i>标签
-                                </p>
-                            </div>
-                        </div>
-                    </li> 
-                    <li class="col-lg-3 col-md-4 col-sm-4">
-                        <div class="thumbnail">
-                            <img src="images/pic (13).jpg" layer-src="images/pic (13).jpg" alt="">
-                            <div class="caption">
-                                <h4>truck.jpg</h4>
-                                <p>
-                                    <button class="btn btn-default btn-name"><i class="fa fa-edit"></i></button>
-                                    <button class="btn btn-default btn-msg"><i class="fa fa-info"></i></button>
-                                    <button class="btn btn-default btn-delete"><i class="fa fa-trash"></i></button>
-                                    <input type="checkbox" class="select-pic" value="" >
-                                </p>
-                                <p>
-                                    <i class="fa fa-tags"></i>标签
-                                </p>
-                            </div>
-                        </div>
-                    </li> 
-                    <li class="col-lg-3 col-md-4 col-sm-4">
-                        <div class="thumbnail">
-                            <img src="images/pic (14).jpg" layer-src="images/pic (14).jpg" alt="">
-                            <div class="caption">
-                                <h4>truck.jpg</h4>
-                                <p>
-                                    <button class="btn btn-default btn-name"><i class="fa fa-edit"></i></button>
-                                    <button class="btn btn-default btn-msg"><i class="fa fa-info"></i></button>
-                                    <button class="btn btn-default btn-delete"><i class="fa fa-trash"></i></button>
-                                    <input type="checkbox" class="select-pic" value="" >
-                                </p>
-                                <p>
-                                    <i class="fa fa-tags"></i>标签
-                                </p>
-                            </div>
-                        </div>
-                    </li>  
                 </ul>
             </div>
+            
+            <!-- <pre>{{$data|json}}</pre> -->
 
             <!-- 分页 -->
-            <div class="row">
+            <!-- <div class="row">
                 <div class="col-lg-offset-4 col-lg-4">
                     <nav>
                         <ul class="pagination">
@@ -302,7 +203,7 @@
                         </ul>
                     </nav>
                 </div>
-            </div>
+            </div> -->
         </div>
 
         <!-- 页脚 -->
@@ -317,102 +218,104 @@
         </div>
         <!-- 如果要使用Bootstrap的js插件，必须先调入jQuery -->
         <script src="js/jquery.js"></script>
+        <script src="js/vue.js"></script>
         <!-- 包括所有bootstrap的js插件或者可以根据需要使用的js插件调用　-->
         <script src="js/bootstrap.min.js"></script>
         <script src='js/layer.js'></script>
         <script>
-            //全选操作，并且全选后操作按钮可用
-            $(function(){
-                $('.select-all .checkboxFour').click(function(){
-                    $('.checkboxFour label').toggleClass("checked");
-                    var hasClass = $('.select-all .checkboxFour label').hasClass("checked");
-                    if (hasClass) {
-                        $('.pic-content .select-pic').prop("checked",true);
-                        $('.control-pic .control-button-1 .btn').attr("disabled",false);
-                    }else {
-                       $('.pic-content .select-pic').prop("checked",false);
-                       $('.control-pic .control-button-1 .btn').attr("disabled",true); 
-                    }
-                }); 
-            });
-        </script> 
-        <script>
-            $('.pic-content .select-pic').on('click',function(){
-                var hasChecked = $('.pic-content .select-pic').is(':checked');
-                checkedALL();
-                if(hasChecked){
-                    //选中的时候的操作
-                    $('.control-pic .control-button-1 .btn').attr("disabled",false);    
-                }else{
-                    //未选中的时候的操作
-                    $('.control-pic .control-button-1 .btn').attr("disabled",true);
-                    $('.checkboxFour label').removeClass("checked");
-                }
-            });
-            //检测列表下面选中所有的函数
-            function checkedALL(){
-                var checkedNum = 0;
-                var len = $('.pic-content input[type="checkbox"]').length;
-                for($i=0;$i<len;$i++){
-                    if($('.pic-content input[type="checkbox"]:eq('+$i+')').prop("checked")==true){
-                        checkedNum += 1;
-                    }
-                }
-                if(checkedNum<len){
-                    $('.select-all .checkboxFour label').removeClass("checked");
-                }else{
-                    $('.select-all .checkboxFour label').addClass("checked");
-                }
-            }
-        </script>
+            //获取ID
+            function UrlSearch() {
+                var name,value; 
+                var str=location.href; 
+                var num=str.indexOf("?");
+                str=str.substr(num+1);
+                
+                var arr=str.split("&"); 
+                for(var i=0;i < arr.length;i++){ 
+                    num=arr[i].indexOf("="); 
+                    if(num>0){ 
+                        name=arr[i].substring(0,num);
+                        value=arr[i].substr(num+1);
+                        this[name]=value;
+                    } 
+                } 
+            } 
+            var Request=new UrlSearch();
 
-        <!-- 弹层交互操作 -->
-        <script>
-            //单个图片询问是否删除
-            $('.pic-content .btn-delete').on('click',function(){
-                layer.confirm('确定删除图片？', {
-                  btn: ['删除','取消'] //按钮
-                },function(){
-                    layer.msg('删除成功');    
+            var oUrl = 'http://192.168.1.40/PicSystem/canton';//图片服务器地址
+
+            var picList = new Vue({
+                el:'body',
+                data:{
+                    picData:''
+                },
+                ready:function(){
+                    //显示加载按钮
+                    var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
+                    //加载页面获取图片数据
+                    $.ajax({
+                        type:'POST',
+                        url:'http://192.168.1.40/PicSystem/canton/get/image',
+                        datatype:'json',
+                        data:{
+                            gallery_id:Request.id
+                        },
+                        success:function(data){
+                            layer.close(LoadIndex); //关闭遮罩层
+                            if(data.status==100){
+                                picList.picData = data.value;
+                            }else if(data.status==101){
+                                layer.msg('没有获取到图片');
+                            }else if(data.status==102){
+                                layer.msg('参数错误');
+                            }
+                        },
+                        error:function(jqXHR){
+                            layer.close(LoadIndex); //关闭遮罩层
+                            layer.msg('向服务器请求图片失败');
+                        }
+                    })
+                },
+                methods:{
+                    remove:function(item){
+                        var item = item;
+                        var picId = item.id;
+                        layer.confirm('确定删除图片吗?',{
+                            btn:['删除','取消']
+                        },function(){
+                            $.ajax({
+                                type:'POST',
+                                url:'http://192.168.1.40/PicSystem/canton/delete/image',
+                                datatype:'json',
+                                data:{
+                                    id:picId
+                                },
+                                success:function(data){
+                                    if(data.status==100){
+                                        picList.picData.$remove(item);
+                                        layer.msg('删除成功');
+                                    }else if(data.status==101){
+                                        layer.msg('操作失败');
+                                    }else if(data.status==102){
+                                        layer.msg('参数错误');
+                                    }
+                                },
+                                error:function(jqXHR){
+                                    layer.msg('向服务器请求删除图片失败');
+                                }
+                            })
+                        })
+                    }
                 }
-            )
-            });
-            //图片信息
-            $('.pic-content .btn-msg').on('click',function(){
-                layer.open({
-                  title:'XXX图片信息',  
-                  type: 1,
-                  skin: 'css/index.css', //样式类名
-                  closeBtn: 0, //不显示关闭按钮
-                  shift: 2,
-                  shadeClose: true, //开启遮罩关闭
-                  content: '图片信息'
-                });
-            });
-            //修改文件名
-            $('.pic-content .btn-name').on('click',function(){
-                $this = $(this);
-                var fileName1 = $(this).parent("p").prev("h4").text();//获取文件名
-                $extension = (fileName1.split("."))[0];//分割字符串去除文件后缀字符串
-                layer.prompt({
-                    title:'输入修改的文件名',
-                    value:$extension,
-                    formType: 0,
-                    maxlength: 20,
-                    shadeClose: true
-                },function(val){
-                    var values = val+"."+(fileName1.split("."))[1];//把文件后缀加回去
-                    layer.msg('修改成功'+values);
-                    $this.parent("p").prev("h4").text(values);
-                });   
-            });
-        </script>
-        <script>
-            layer.ready(function(){
-                layer.photos({
-                photos: '.pic-content'
-              });
-            }); 
+            })
+            //Vue过滤器
+            Vue.filter('imgUrl',function(value){
+                var str = value;
+                var strLen = str.length;
+                var strNew = str.substr(1,strLen-1);
+                strNew = oUrl + strNew;
+                return strNew
+            })
         </script>
     </body>
 </html>

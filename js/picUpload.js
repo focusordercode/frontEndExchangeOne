@@ -1,3 +1,23 @@
+//获取ID
+function UrlSearch() {
+    var name,value; 
+    var str=location.href; 
+    var num=str.indexOf("?");
+    str=str.substr(num+1);
+    
+    var arr=str.split("&"); 
+    for(var i=0;i < arr.length;i++){ 
+        num=arr[i].indexOf("="); 
+        if(num>0){ 
+            name=arr[i].substring(0,num);
+            value=arr[i].substr(num+1);
+            this[name]=value;
+        } 
+    } 
+} 
+var Request=new UrlSearch();
+
+
 var inputWidth = $('.picUpload .proCate .search-cate').innerWidth();
 $('.picUpload .proCate ul').width(inputWidth);
 var oUrl;
@@ -47,7 +67,7 @@ var uploader = new plupload.Uploader({
     runtimes : 'html5,flash,silverlight,html4',
     browse_button : 'pickfiles', 
     container: document.getElementById('container'), 
-    url : 'http://192.168.1.40/PicSystem/canton/Picture/upload/gallery_id/'+oGallery_id,
+    url : 'http://192.168.1.40/PicSystem/canton/Picture/upload/gallery_id/'+Request.id,
     flash_swf_url : 'js/Moxie.swf',
     silverlight_xap_url : 'js/Moxie.xap',
     
