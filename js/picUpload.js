@@ -17,52 +17,37 @@ function UrlSearch() {
 } 
 var Request=new UrlSearch();
 
+//拉取类目
+var picUpload = new Vue({
+    el:'body',
+    data:{
+        picCate:''
+    },
+    ready:function(){
+        $.ajax({
+            type:'POST',
+            url:'http://192.168.1.40/PicSystem/canton/get/imagegallery',
+            datatype:'json',
+            data:{
+                id:Request.id
+            },
+            success:function(data){
+                if(data.status==100){
+                    picUpload.picCate = data.value[0];
+                }
+            },
+            error:function(jqXHR){
+                layer.msg('向服务器请求相册信息失败');
+            }
+        })
+    }
+})
 
-var inputWidth = $('.picUpload .proCate .search-cate').innerWidth();
-$('.picUpload .proCate ul').width(inputWidth);
-var oUrl;
-var oGallery_id;
+
+
 $(window).bind('beforeunload',function(){return "您修改的内容尚未保存，确定离开此页面吗？";});
 
-//模糊搜索获取类目
-$(document).on('keyup','.picUpload .proCate .search-cate',function(){
-    var oText = $('.picUpload .proCate .search-cate').val();
-    $.ajax({
-        type:'POST',
-        url:'http://192.168.1.40/PicSystem/canton/vague/imagename',
-        datatype:'json',
-        data:{
-            keyword:oText
-        },
-        success:function(data){
-            if(data.status==100){
-                var $cateList = data.value;
-                $('.picUpload .proCate ul li').remove();
-                for($i=0;$i<$cateList.length;$i++){
-                    $str = '<li name="'+$cateList[$i].id+'">'+$cateList[$i].cn_name+$cateList[$i].en_name+'</li>';
-                    $('.picUpload .proCate ul').append($str);
-                }
-            }
-        },
-        error:function(jqXHR){
-            layer.msg('向服务器请求搜索失败');
-        }
-    })
-});
-
-//点击选中
-$(document).on('click','.picUpload .proCate ul li',function(){
-    var oCateID = $(this).attr('name');
-    var oGallery = $('.picUpload .proCate .search-cate');
-    $('.picUpload .proCate .search-cate').attr('name',oCateID);
-    $('.picUpload .proCate .search-cate').val($(this).text());
-    $('.picUpload .proCate ul li').remove();
-    var oGallery_id = oGallery.attr('name');
-    //var oUrl = 'http://192.168.1.40/PicSystem/canton/Picture/upload/gallery_id/'+oGallery_id;
-    debugger
-});
-
-
+//上传功能
 var uploader = new plupload.Uploader({
     runtimes : 'html5,flash,silverlight,html4',
     browse_button : 'pickfiles', 
@@ -83,7 +68,12 @@ var uploader = new plupload.Uploader({
         PostInit: function() {
             $('.panel-body .alert').hide();
             document.getElementById('uploadfiles').onclick = function() {
-                uploader.start();
+                if(!(Request.id)){
+                    layer.msg('上传没有找到分类，请先选择分类');
+                }else{
+                    uploader.start();
+                }
+                
                 //return false;
             };
         },

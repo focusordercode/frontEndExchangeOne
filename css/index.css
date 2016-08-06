@@ -44,7 +44,7 @@ body,html {
 .set-breadcrumb>.active {
     color: #000;
 } 
-.pic-layout .thumbnail > img {
+.pic-content .thumbnail > img {
 	/*width: 220px;*/
 	height: 150px;
 	padding: 4px;
@@ -52,7 +52,7 @@ body,html {
 	border: 1px solid #ddd;
 	cursor: pointer;
 }
-.pic-layout .caption .label {
+.pic-content .caption .label {
 	display: inline-block;
 	line-height: 16px;
 	margin: 5px 0 0 5px;
@@ -367,4 +367,14 @@ body,html {
 /*公用样式*/
 .marginTop {
 	margin-top: 50px;
+}
+.breadcrumb {
+	background-color: #337ab7;
+}
+.breadcrumb>li {
+    color: #000;
+    cursor: pointer;
+}
+.breadcrumb>.active {
+	color: #fff;
 }

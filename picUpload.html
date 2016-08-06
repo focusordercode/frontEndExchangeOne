@@ -49,7 +49,9 @@
                         <li class="dropdown">
                             <a href="##" data-toggle="dropdown" class="dropdown-toggle">图片库<span class="caret"></span></a>
                             <ul class="dropdown-menu">
-                                <li><a href="admin-category-pic.html">图片库分类</a></li>
+                                <li><a href="admin-category-pic.html">相册管理</a></li>
+                                <li><a href="pic-category.html">相册</a></li>
+                                <li><a href="picUpload-cate.html">图片上传</a></li>
                             </ul>
                         </li>
                         <li class="dropdown">
@@ -82,15 +84,7 @@
                 <div class="panel panel-success">
                     <div class="panel-heading"><h4>图片上传</h4></div>
                     <div class="panel-body">
-                        <!-- 模糊搜索 -->
-                        <div class="form-inline">
-                            <div class="form-group pro proCate">
-                                <label class="text-success">类目搜索</label>
-                                <input type="text" class="form-control search-cate">
-                                <ul></ul>
-                            </div> 
-                        </div>
-                        <p></p>
+                        <p>上传到  <b class="text-warning">{{picCate.cn_name}}{{picCate.en_name}}</b>  相册</p>
                         <!-- 上传区域 -->
                         <div class="alert alert-warning" role="alert">您的浏览器版本不支持上传</div>
 
@@ -100,7 +94,7 @@
                         <hr>
                         <button id="pickfiles" class="btn btn-default">选择</button>
                         <p></p>
-                        <button id="uploadfiles" class="btn btn-success">提交</button>
+                        <button id="uploadfiles" class="btn btn-success">上传</button>
                     </div>
                 </div>
             </div>

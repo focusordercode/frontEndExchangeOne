@@ -17,7 +17,7 @@
 </head>
     <body>
         <ul>
-            <li v-for="item in list">{{item.text}}</li>
+            <li v-for="item in list">{{item[key]}}</li>
         </ul>
         <button v-on:click="update" class="btn btn-default">更新</button>
         <hr>
@@ -63,3 +63,5 @@
         </script>
     </body>
 </html>
+
+                            

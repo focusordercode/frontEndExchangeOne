@@ -1,7 +1,7 @@
-.picUpload .pro {
+.modal .pro {
 	position: relative;
 }
-.picUpload .proCate ul {
+.modal .proCate ul {
 	position: absolute;
 	top: 34px;
 	right: 0;
@@ -12,15 +12,16 @@
 	border: 1px solid #ccc;
     border-top: transparent;
 	background-color: #fff;
+	display: none;
 }
-.picUpload .proCate ul li {
+.modal .proCate ul li {
 	line-height: 32px;
 	text-indent: 12px;
 	border-bottom: 1px solid #ddd;
 	color: #8a6d3b;
 	font-size: 12px;
 }
-.picUpload .proCate ul li:hover {
+.modal .proCate ul li:hover {
 	background-color: #ECF0F1;
 	cursor: pointer;
 }

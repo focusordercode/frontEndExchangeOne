@@ -8,6 +8,7 @@
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <!--你自己的样式文件 -->
+    <link href="css/index.css" rel="stylesheet">
     <link href="css/picUpload.css" rel="stylesheet">
     <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">        
     <!-- 以下两个插件用于在IE8以及以下版本浏览器支持HTML5元素和媒体查询，如果不需要用可以移除 -->
@@ -16,31 +17,34 @@
     <script src="http://apps.bdimg.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 </head>
-    <body style="background:rgba(255,255,255,.5)">
-        <div class="container-fluid picCateSelect">
-            <div class="row">
-                <div class="col-md-3 col-md-offset-4">
-                    <div class="panel panel-primary">
-                        <div class="panel-heading">选择分类</div>
-                        <div class="panel-body">
-                            <div class="form-inline">
-                                <div class="form-group pro proCate">
-                                    <label class="text-primary">类目搜索</label>
-                                    <input type="text" class="form-control search-cate">
-                                    <ul></ul>
-                                </div> 
-                            </div>
+    <body>
+        <div class="modal fade" data-backdrop="static" >
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">请先选择上传的相册</h4>
+                    </div>
+                    <div class="modal-body">
+                        <!-- 模糊搜索 -->
+                        <div class="form-inline">
+                            <div class="form-group pro proCate">
+                                <label class="text-success">相册搜索</label>
+                                <input type="text" class="form-control search-cate">
+                                <ul></ul>
+                            </div> 
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-        
+              <div class="modal-footer">
+                    <button class="btn btn-primary">确定</button>
+              </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
         <!-- 如果要使用Bootstrap的js插件，必须先调入jQuery -->
         <script src="js/jquery.js"></script>
-        <script src="js/vue.js"></script>
         <!-- 包括所有bootstrap的js插件或者可以根据需要使用的js插件调用　-->
         <script src="js/bootstrap.min.js"></script>
         <script src='js/layer.js'></script>
+        <script src="js/picUpload-cate.js"></script>
     </body>
 </html>
