@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>分类目录</title>
+    <title>相册</title>
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <!--你自己的样式文件 -->
@@ -51,7 +51,7 @@
                             <ul class="dropdown-menu">
                                 <li><a href="admin-category-pic.html">相册管理</a></li>
                                 <li><a href="pic-category.html">相册</a></li>
-                                <li><a href="picUpload-cate.html">图片上传</a></li>
+                                <li><a href="pic-trash.html">回收站</a></li>
                             </ul>
                         </li>
                         <li class="dropdown">
@@ -145,6 +145,12 @@
                         </div>
                         <button class="btn btn-default" onclick="return false">提交</button>
                     </form> -->
+                    <div class="col-lg-2 col-md-3 col-sm-6 select-all control-button-1">
+                        <div class="checkboxFour">
+                            <label @click="selectAll" v-bind:class="checkedBtn"></label>
+                        </div>
+                        <p>全选</p>
+                    </div>
                 </div>
 
                 <!-- 搜索 -->
@@ -200,7 +206,7 @@
                                     <button class="btn btn-default btn-name"><i class="fa fa-edit"></i></button>
                                     <button @click="picinfo(pic)" class="btn btn-default btn-msg"><i class="fa fa-info"></i></button>
                                     <button @click="deletePic(pic)" class="btn btn-default btn-delete"><i class="fa fa-trash"></i></button>
-                                    <input type="checkbox" class="select-pic" value="" >
+                                    <input type="checkbox" class="select-pic" v-model="pic.checked" >
                                 </p>
                                 <p>
                                     <i class="fa fa-tags"></i>标签
@@ -214,9 +220,9 @@
             <!-- 分页 -->
             <div class="row">
                 <div v-show="countPage>1" class="col-md-12 text-center">
-                    <button @click="preP" v-bind:disabled="disabledp" class="btn btn-default">下一页</button>
-                    <button @click="nextP" v-bind:disabled="disabledn" class="btn btn-default">上一页</button>
-                    <label class="text-warning">当前页数:</label>
+                    <button @click="preP" v-bind:disabled="disabledp" class="btn btn-default">上一页</button>
+                    <button @click="nextP" v-bind:disabled="disabledn" class="btn btn-default">下一页</button>
+                    <label class="text-warning">当前页数:{{pageNow}}</label>
                     <label class="text-warning">总共页数:{{countPage}}</label>
                 </div>
             </div>

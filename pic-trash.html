@@ -4,12 +4,11 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>UPC</title>
+    <title>相册回收站</title>
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <!--你自己的样式文件 -->
     <link href="css/index.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/upc.css">
     <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">        
     <!-- 以下两个插件用于在IE8以及以下版本浏览器支持HTML5元素和媒体查询，如果不需要用可以移除 -->
     <!--[if lt IE 9]>
@@ -32,6 +31,7 @@
                 </div>
             </div>
         </div>
+
         <!-- 导航 -->
         <div class="navbar navbar-inverse nav-fluid-top">
             <div class="container">
@@ -78,87 +78,107 @@
             </div>
         </div>
         
-        <!-- 主内容区域 -->
-        <div class="container upc-content upc-upload">
-            <!-- UPC统计信息 -->
+
+        <!-- 图片内容区域 -->
+        <div class="container marginTop">
             <div class="row">
-                <div class="panel panel-info">
-                    <div class="panel-heading">UPC统计</div>
-                    <div class="panel-body">
-                        <label class="label label-info">总数:</label>
-                        <span>{{Allupc}}</span>
-                        <label class="label label-info">未使用:</label>
-                        <span>{{upc}}</span>
-                        <label class="label label-info">已使用:</label>
-                        <span>{{usedUpc}}</span>
-                        <label class="label label-info">锁定中:</label>
-                        <span>{{lockedUpc}}</span>
+                <div class="col-md-12">
+                    <div class="alert alert-success" role="alert" >
+                        <h3> 图片回收站 </h3>
+                        <hr>
+                        回收站图片数:<b class="text-warning">{{countImage}}</b>
                     </div>
                 </div>
             </div>
-            <!-- UPC表格 -->
-            <div class="row">
-                <div class="well">
-                    <table class="table table-bordered upc-table">
-                        <tr>
-                            <th>UPC</th>
-                            <th>上传时间</th>
-                            <th>使用时间</th>
-                            <th>锁定状态</th>
-                            <th>操作人</th>
-                        </tr>
-                        <template v-for="table in upcInfo">
-                            <tr>
-                                <td>{{table.upc_code}}</td>
-                                <td>{{table.operation_time}}</td>
-                                <td>{{table.used_time|UseTime}}</td>
-                                <td>{{table.locked|lockStatus}}</td>
-                                <td>admin</td>
-                            </tr>
-                        </template>
-                    </table>
-                    <hr>
-                    <div class="row upcCtr">
-                        <div class="form-horizontal">
-                            <div class="col-md-2 oPager">
-                                <button v-on:click="pre" class="btn btn-default disabled">上一页</button>
-                                <button v-on:click="next" class="btn btn-default">下一页</button>
+            <div class="row pic-content">
+                <ul class="clearfix">
+                    <li v-for="pic in picData" class="col-lg-3 col-md-4 col-sm-4">
+                        <div class="thumbnail">
+                            <img v-bind:src="pic | imgUrl" alt="">
+                            <div class="caption">
+                                <h4 class="text-warning">{{pic.title}}</h4>
+                                <h4 class="text-muted">{{pic.file_name}}</h4>
+                                <p>
+                                    <button class="btn btn-default btn-name"><i class="fa fa-edit"></i></button>
+                                    <button @click="picinfo(pic)" class="btn btn-default btn-msg"><i class="fa fa-info"></i></button>
+                                    <button @click="deletePic(pic)" class="btn btn-default btn-delete"><i class="fa fa-trash"></i></button>
+                                    <input type="checkbox" class="select-pic" value="" >
+                                </p>
+                                <p>
+                                    <i class="fa fa-tags"></i>标签
+                                    <span v-for="label in pic.tags" class="label label-info">{{label}}</span>
+                                </p>
                             </div>
-                            <div class="col-md-1">
-                                <div class="form-group">
-                                    <input type="number" placeholder="输入页码" min="1" class="form-control pageNum">
+                        </div>
+                    </li>
+                </ul>  
+            </div>
+            <!-- 分页 -->
+            <div class="row">
+                <div v-show="countPage>1" class="col-md-12 text-center">
+                    <button @click="preP" v-bind:disabled="disabledp" class="btn btn-default">上一页</button>
+                    <button @click="nextP" v-bind:disabled="disabledn" class="btn btn-default">下一页</button>
+                    <label class="text-warning">当前页数:{{pageNow}}</label>
+                    <label class="text-warning">总共页数:{{countPage}}</label>
+                </div>
+            </div>
+
+        </div>
+
+        <script type="text/x-template" id="picinfo">
+            <div class="modal fade">
+                <div class="modal-dialog modal-sm">
+                    <div class="modal-content">
+                        <div class="modal-header bg-primary">
+                            <h4 class="modal-title">图片信息</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <ul class="list-group">
+                                            <li class="list-group-item list-group-item-success">
+                                                文件名:{{data.file_name}}
+                                            </li>
+                                            <li class="list-group-item list-group-item-success">
+                                                文件标题:{{data.title}}
+                                            </li>
+                                            <li class="list-group-item list-group-item-success">
+                                                图片类型:{{data.file_type}}
+                                            </li>
+                                            <li class="list-group-item list-group-item-success">
+                                                创建时间:{{data.create_time}}
+                                            </li>
+                                            <li class="list-group-item list-group-item-success">
+                                                修改时间:{{data.modified_time}}
+                                            </li>
+                                            <li class="list-group-item list-group-item-success">
+                                                图片大小:{{data.file_size | sizeCounter}}
+                                            </li>
+                                            <li class="list-group-item list-group-item-success">
+                                                图片尺寸(宽X高):{{data.width}}X{{data.height}}
+                                            </li>
+                                            <li class="list-group-item list-group-item-success">
+                                                创建人:{{data.creator_id}}
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-md-2">
-                                <button class="btn btn-info btn-jump">跳转</button>
-                                当前页数
-                                <label class="upcCount text-warning">1</label>
-                            </div>
-                        </div>
-                    </div>
-                    <hr>
-                    <!-- <form action="http://192.168.1.40/PicSystem/canton/post/upc" method="post" enctype="multipart/form-data">
-                        <div class="form-group">
-                            <label class="text-warning">UPC上传</label>
-                            <input type="file" name="upc_file">
-                        </div>
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-info">提交</button>
-                        </div>
-                    </form> -->
-                    <div id="uploadForm">
-                        <div class="form-group">
-                            <label class="text-warning">UPC上传</label>
-                            <input type="file" id="file" name="upc_file">
-                        </div>
-                        <div class="form-group">
-                            <button type="submit" id="upload" class="btn btn-info">提交</button>
                         </div>
                     </div>
                 </div>
-                <!-- <pre>{{$data|json}}</pre> -->
             </div>
+        </script>
+        
+        <my-component :data="onepic" ></my-component>
+            
+        <hr>    
+        <div class="container">
+            <!-- <pre>{{$data|json}}</pre> -->
         </div>
+
+        
 
         <!-- 页脚 -->
         <div class="container-fluid footer-fluid">
@@ -173,9 +193,10 @@
         <!-- 如果要使用Bootstrap的js插件，必须先调入jQuery -->
         <script src="js/jquery.js"></script>
         <script src="js/vue.js"></script>
+        <!-- <script src="http://apps.bdimg.com/libs/vue/1.0.8/vue.js"></script> -->
         <!-- 包括所有bootstrap的js插件或者可以根据需要使用的js插件调用　-->
         <script src="js/bootstrap.min.js"></script>
-        <script src='js/layer.js'></script>
-        <script src='js/upc.js'></script>
+        <script src="js/layer.js"></script>
+        <script src="js/pic-trash.js"></script>
     </body>
 </html>
