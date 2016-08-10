@@ -15,6 +15,14 @@
     <script src="http://apps.bdimg.com/libs/html5shiv/3.7/html5shiv.js"></script>
     <script src="http://apps.bdimg.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <style>
+        .pors .list-group {
+            position: absolute;
+            right: 0;
+            top: 34px;
+            z-index: 666;
+        }
+    </style>
 </head>
     <body>
         <!-- 顶部区域 -->
@@ -83,10 +91,39 @@
         <div class="container marginTop">
             <div class="row">
                 <div class="col-md-12">
-                    <div class="alert alert-success" role="alert" >
+                    <div class="alert alert-info" role="alert" >
                         <h3> 图片回收站 </h3>
                         <hr>
-                        回收站图片数:<b class="text-warning">{{countImage}}</b>
+                        回收站图片数:<b class="text-warning">{{countImage}}</b> {{picDataChecked}}
+                    </div>
+                </div>
+                
+                <div class="col-md-12">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">操作</div>
+                        <div class="panel-body">
+                             <div class="col-lg-2 col-md-3 col-sm-6 select-all">
+                                 <div class="checkboxFour">
+                                     <label @click="selectAll" v-bind:class="checkedBtn"></label>
+                                 </div>
+                                 <p>全选</p>
+                             </div>
+                             <div class="col-md-2">
+                                 <button @click="deleteSelet" :disabled="delete" class="btn btn-danger">删除</button>
+                             </div>
+                            <div class="col-md-3">
+                                <div class="form-inline">
+                                    <div class="form-group pors">
+                                        <label>选择分类</label>
+                                        <input type="text" v-model="keyword" class="form-control">
+                                        <div class="list-group">
+                                            <a href="javascript:" @click="selectList(list)" v-for="list in recoverList" class="list-group-item list-group-item-warning">{{list.cn_name}}</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button @click="recover" class="btn btn-info">恢复</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -102,7 +139,7 @@
                                     <button class="btn btn-default btn-name"><i class="fa fa-edit"></i></button>
                                     <button @click="picinfo(pic)" class="btn btn-default btn-msg"><i class="fa fa-info"></i></button>
                                     <button @click="deletePic(pic)" class="btn btn-default btn-delete"><i class="fa fa-trash"></i></button>
-                                    <input type="checkbox" class="select-pic" value="" >
+                                    <input type="checkbox" v-model="pic.checked" class="select-pic" >
                                 </p>
                                 <p>
                                     <i class="fa fa-tags"></i>标签

@@ -1,4 +1,7 @@
-var num = 1; //全选的开关
+//刷新函数
+function windowFresh(){
+    location.reload(true);
+}
 
 //查看信息组件
 Vue.component('my-component', {
@@ -31,7 +34,8 @@ var picGallery = new Vue({
         disabledn:false,
         checkedBtn:{
             checked:false
-        }
+        },
+        delete:''
     },
     ready:function(){
         //获取初始相册
@@ -209,9 +213,8 @@ var picGallery = new Vue({
                         var picDataLength = picData.length;
                         var i = 0;
                         for(i;i<picDataLength;i++){
-                            picData[i].checked = false;
+                            Vue.set(picGallery.picData[i], 'checked', false)
                         }
-                        picGallery.picData = picData;
                     }else if(data.status==101){
                         // layer.msg('没有获取到图片');  //没有图片不提示了
                         picGallery.picData = '';
@@ -303,6 +306,13 @@ var picGallery = new Vue({
                         picGallery.countPage = data.countPage;
                         picGallery.countImage = data.countImage;
                         picGallery.pageNow = data.pageNow;
+                        //给图片数据每个条目加上个checkbox属性
+                        var picData = picGallery.picData;
+                        var picDataLength = picData.length;
+                        var i = 0;
+                        for(i;i<picDataLength;i++){
+                            Vue.set(picGallery.picData[i], 'checked', false)
+                        }
                     }else if(data.status==101){
                         // layer.msg('没有获取到图片');
                         picGallery.picData = '';
@@ -372,6 +382,13 @@ var picGallery = new Vue({
                             picGallery.countPage = data.countPage;
                             picGallery.countImage = data.countImage;
                             picGallery.pageNow = data.pageNow;
+                            //给图片数据每个条目加上个checkbox属性
+                            var picData = picGallery.picData;
+                            var picDataLength = picData.length;
+                            var i = 0;
+                            for(i;i<picDataLength;i++){
+                                Vue.set(picGallery.picData[i], 'checked', false)
+                            }
                         }else if(data.status==101){
                             // layer.msg('没有获取到图片');  //没有图片不提示了
                             picGallery.picData = '';
@@ -415,6 +432,13 @@ var picGallery = new Vue({
                             picGallery.countPage = data.countPage;
                             picGallery.countImage = data.countImage;
                             picGallery.pageNow = data.pageNow;
+                            //给图片数据每个条目加上个checkbox属性
+                            var picData = picGallery.picData;
+                            var picDataLength = picData.length;
+                            var i = 0;
+                            for(i;i<picDataLength;i++){
+                                Vue.set(picGallery.picData[i], 'checked', false)
+                            }
                         }else if(data.status==101){
                             // layer.msg('没有获取到图片');  //没有图片不提示了
                         }else if(data.status==102){
@@ -457,6 +481,13 @@ var picGallery = new Vue({
                             picGallery.countPage = data.countPage;
                             picGallery.countImage = data.countImage;
                             picGallery.pageNow = data.pageNow;
+                            //给图片数据每个条目加上个checkbox属性
+                            var picData = picGallery.picData;
+                            var picDataLength = picData.length;
+                            var i = 0;
+                            for(i;i<picDataLength;i++){
+                                Vue.set(picGallery.picData[i], 'checked', false)
+                            }
                         }else if(data.status==101){
                             // layer.msg('没有获取到图片');  //没有图片不提示了
                         }else if(data.status==102){
@@ -472,15 +503,96 @@ var picGallery = new Vue({
         },
         //全选按钮
         selectAll:function(){
-            //全选开关,num是全局变量
-            if(num==1){
+            var selectBtn = this.checkedBtn.checked;
+            if(selectBtn==false){
                 this.checkedBtn.checked = true;
-                num = 2;
+                var picDataLength = picGallery.picData.length;
+                for(var i = 0;i<picDataLength;i++){
+                    picGallery.picData[i].checked = true;
+                }
             }else{
                 this.checkedBtn.checked = false;
-                num = 1;
+                var picDataLength = picGallery.picData.length;
+                for(var i = 0;i<picDataLength;i++){
+                    picGallery.picData[i].checked = false;
+                }
             }
-            //
+        },
+        //删除选中
+        deleteSelet:function(){
+            var picDataLength = this.picData.length;
+            var checked = new Array();
+            for(var i = 0;i<picDataLength;i++){
+                if(this.picData[i].checked){
+                   checked.push(this.picData[i].id);
+                }
+            }
+            layer.confirm('确定删除选中的图片吗?',{
+                btn:['确定','取消']
+            },function(){
+                $.ajax({
+                    type:'POST',
+                    url:'http://192.168.1.40/PicSystem/canton/delete/image',
+                    datatype:'json',
+                    data:{
+                        id:checked
+                    },
+                    success:function(data){
+                        if(data.status==100){
+                            layer.msg('删除成功');
+                            update();
+                        }else if(data.status==101){
+                            layer.msg('操作失败');
+                        }else if(data.status==102){
+                            layer.msg('参数错误');
+                        }
+                    },
+                    error:function(jqXHR){
+                        layer.msg('向服务器请求删除图片失败');
+                    }
+                })
+            })
+
+            //更新图片函数
+            function update(){
+                var gallery_id = picGallery.active.id;
+                //显示加载按钮
+                var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
+                //获取图片数据
+                $.ajax({
+                    type:'POST',
+                    url:'http://192.168.1.40/PicSystem/canton/get/image',
+                    datatype:'json',
+                    data:{
+                        gallery_id:gallery_id
+                    },
+                    success:function(data){
+                        layer.close(LoadIndex); //关闭遮罩层
+                        if(data.status==100){
+                            picGallery.picData = data.value;
+                            picGallery.countPage = data.countPage;
+                            picGallery.countImage = data.countImage;
+                            picGallery.pageNow = data.pageNow;
+                            //给图片数据每个条目加上个checkbox属性
+                            var picData = picGallery.picData;
+                            var picDataLength = picData.length;
+                            var i = 0;
+                            for(i;i<picDataLength;i++){
+                                Vue.set(picGallery.picData[i], 'checked', false)
+                            }
+                        }else if(data.status==101){
+                            // layer.msg('没有获取到图片');  //没有图片不提示了
+                            picGallery.picData = '';
+                        }else if(data.status==102){
+                            layer.msg('参数错误');
+                        }
+                    },
+                    error:function(jqXHR){
+                        layer.close(LoadIndex); //关闭遮罩层
+                        layer.msg('向服务器请求图片失败');
+                    }
+                })
+            }
         }
     }
 })
@@ -509,7 +621,6 @@ Vue.filter('imgUrl',function(value){
 Vue.filter('sizeCounter',function(value){
     var str = value;
     str = Math.round(str/1024) + 'kb';
-
     return str
 })
 
@@ -521,4 +632,28 @@ picGallery.$watch('pageNow', function (val) {
     }else{
         this.disabledp = false;
     }
+})
+
+//监听picData数组的变化，改变全选按钮状态,deep监听对象内部值的变化
+picGallery.$watch('picData', function (data) {
+    var picDataLength = data.length;
+    var checked = new Array();
+    for(var i = 0;i<picDataLength;i++){
+        if(data[i].checked){
+           checked.push(data[i].id);
+        }
+    }
+    if(checked.length==picDataLength){
+        picGallery.checkedBtn.checked = true;
+    }else if(checked.length<picDataLength){
+        picGallery.checkedBtn.checked = false;
+    }
+    //控制删除按钮
+    if(checked.length<=0){
+        picGallery.delete = true;
+    }else{
+        picGallery.delete = false;//点亮按钮
+    }
+},{
+    deep: true
 })

@@ -1,3 +1,7 @@
+//刷新函数
+function windowFresh(){
+    location.reload(true);
+}
 
 //查看信息组件
 Vue.component('my-component', {
@@ -16,7 +20,14 @@ var picGallery = new Vue({
         pageNow:'',
         onepic:{},
         disabledp:'',
-        disabledn:''
+        disabledn:'',
+        checkedBtn:{
+            checked:false
+        },
+        keyword:'',
+        recoverList:'',
+        recoverId:'',
+        delete:''
     },
     ready:function(){
         //显示加载按钮
@@ -36,6 +47,13 @@ var picGallery = new Vue({
                     picGallery.countPage = data.countPage;
                     picGallery.countImage = data.countImage;
                     picGallery.pageNow = data.pageNow;
+                    //给图片数据每个条目加上个checkbox属性
+                    var picData = picGallery.picData;
+                    var picDataLength = picData.length;
+                    var i = 0;
+                    for(i;i<picDataLength;i++){
+                        Vue.set(picGallery.picData[i], 'checked', false)
+                    }
                 }else if(data.status==101){
                     layer.msg('没有获取到图片');  //没有图片不提示了
                 }else if(data.status==102){
@@ -103,6 +121,13 @@ var picGallery = new Vue({
                             picGallery.countPage = data.countPage;
                             picGallery.countImage = data.countImage;
                             picGallery.pageNow = data.pageNow;
+                            //给图片数据每个条目加上个checkbox属性
+                            var picData = picGallery.picData;
+                            var picDataLength = picData.length;
+                            var i = 0;
+                            for(i;i<picDataLength;i++){
+                                Vue.set(picGallery.picData[i], 'checked', false)
+                            }
                         }else if(data.status==101){
                             // layer.msg('没有获取到图片');  //没有图片不提示了
                         }else if(data.status==102){
@@ -144,6 +169,13 @@ var picGallery = new Vue({
                             picGallery.countPage = data.countPage;
                             picGallery.countImage = data.countImage;
                             picGallery.pageNow = data.pageNow;
+                            //给图片数据每个条目加上个checkbox属性
+                            var picData = picGallery.picData;
+                            var picDataLength = picData.length;
+                            var i = 0;
+                            for(i;i<picDataLength;i++){
+                                Vue.set(picGallery.picData[i], 'checked', false)
+                            }
                         }else if(data.status==101){
                             // layer.msg('没有获取到图片');  //没有图片不提示了
                         }else if(data.status==102){
@@ -186,6 +218,13 @@ var picGallery = new Vue({
                             picGallery.countPage = data.countPage;
                             picGallery.countImage = data.countImage;
                             picGallery.pageNow = data.pageNow;
+                            //给图片数据每个条目加上个checkbox属性
+                            var picData = picGallery.picData;
+                            var picDataLength = picData.length;
+                            var i = 0;
+                            for(i;i<picDataLength;i++){
+                                Vue.set(picGallery.picData[i], 'checked', false)
+                            }
                         }else if(data.status==101){
                             // layer.msg('没有获取到图片');  //没有图片不提示了
                         }else if(data.status==102){
@@ -198,10 +237,130 @@ var picGallery = new Vue({
                     }
                 })   
             }
+        },
+        //搜索分类选中分类
+        selectList:function(list){
+            picGallery.recoverId = list.id;
+            picGallery.keyword = list.cn_name;
+            picGallery.recoverList = '';
+        },
+        //恢复图片到指定类目
+        recover:function(){
+            var gallery_id = picGallery.recoverId;
+            var picArray = new Array();//恢复分类的id数组
+            var picDataLength = picGallery.picData.length;
+            for(var i = 0;i<picDataLength;i++){
+                if(picGallery.picData[i].checked){
+                   picArray.push(picGallery.picData[i].id);
+                }
+            }
+            if(!gallery_id){
+                layer.msg('请先选择分类');
+            }else if(picArray.length==0){
+                layer.msg('请先选择要恢复的图片');
+            }else{
+                //恢复图片到分类
+                $.ajax({
+                    type:'POST',
+                    url:'http://192.168.1.40/PicSystem/canton/recover/image',
+                    datatype:'json',
+                    data:{
+                        id:picArray,
+                        gallery_id:gallery_id
+                    },
+                    success:function(data){
+                        if(data.status==100){
+                            layer.msg('恢复成功');
+                            setInterval(windowFresh,1000);
+                        }else if(data.status==101){
+                            // layer.msg('没有获取到图片');  //没有图片不提示了
+                        }else if(data.status==102){
+                            layer.msg('参数错误');
+                        }
+                    },
+                    error:function(jqXHR){
+                        layer.msg('向服务器请求图片失败');
+                    }
+                })
+            }
+        },
+        //全选按钮
+        selectAll:function(){
+            var selectBtn = this.checkedBtn.checked;
+            if(selectBtn==false){
+                this.checkedBtn.checked = true;
+                var picDataLength = picGallery.picData.length;
+                for(var i = 0;i<picDataLength;i++){
+                    picGallery.picData[i].checked = true;
+                }
+            }else{
+                this.checkedBtn.checked = false;
+                var picDataLength = picGallery.picData.length;
+                for(var i = 0;i<picDataLength;i++){
+                    picGallery.picData[i].checked = false;
+                }
+            }
+        },
+        //删除选中
+        deleteSelet:function(){
+            var picDataLength = this.picData.length;
+            var checked = new Array();
+            for(var i = 0;i<picDataLength;i++){
+                if(this.picData[i].checked){
+                   checked.push(this.picData[i].id);
+                }
+            }
+            layer.confirm('确定删除选中的图片吗?',{
+                btn:['确定','取消']
+            },function(){
+                $.ajax({
+                    type:'POST',
+                    url:'http://192.168.1.40/PicSystem/canton/delete/image',
+                    datatype:'json',
+                    data:{
+                        id:checked,
+                        delete_type:2  //传1以外的参数删除图片
+                    },
+                    success:function(data){
+                        if(data.status==100){
+                            layer.msg('删除成功');
+                            setInterval(windowFresh,1000);
+                        }else if(data.status==101){
+                            layer.msg('操作失败');
+                        }else if(data.status==102){
+                            layer.msg('参数错误');
+                        }
+                    },
+                    error:function(jqXHR){
+                        layer.msg('向服务器请求删除图片失败');
+                    }
+                })
+            })
         }
     }
 })
 
+
+$(document).on('keyup','.pors .form-control',function(){
+    var inputWidth = $('.pors .form-control').innerWidth();
+    $('.pors .list-group').css('width',inputWidth);
+    $.ajax({
+        type:'POST',
+        url:'http://192.168.1.40/PicSystem/canton/vague/gallery',
+        datatype:'json',
+        data:{
+            keyword:picGallery.keyword
+        },
+        success:function(data){
+            if(data.status){
+                picGallery.recoverList = data.value;
+            }
+        },
+        error:function(jqXHR){
+            layer.msg('向服务器请求模糊搜索相册类目失败');
+        }
+    })
+});
 
 var oUrl = 'http://192.168.1.40/PicSystem/canton';//图片服务器地址
 //Vue过滤器
@@ -226,9 +385,10 @@ Vue.filter('imgUrl',function(value){
 Vue.filter('sizeCounter',function(value){
     var str = value;
     str = Math.round(str/1024) + 'kb';
-
     return str
 })
+
+
 
 //观察当前页的数据变化，控制前后页是否可用
 picGallery.$watch('pageNow', function (val) {
@@ -238,4 +398,35 @@ picGallery.$watch('pageNow', function (val) {
     }else{
         this.disabledp = false;
     }
+})
+
+//观察搜索框的变化，控制是否有分类
+picGallery.$watch('keyword', function (val) {
+    if(!val){
+       picGallery.recoverId = ''; 
+    }
+})
+
+//监听picData数组的变化，改变全选按钮状态,deep监听对象内部值的变化
+picGallery.$watch('picData', function (data) {
+    var picDataLength = data.length;
+    var checked = new Array();
+    for(var i = 0;i<picDataLength;i++){
+        if(data[i].checked){
+           checked.push(data[i].id);
+        }
+    }
+    if(checked.length==picDataLength){
+        picGallery.checkedBtn.checked = true;
+    }else if(checked.length<picDataLength){
+        picGallery.checkedBtn.checked = false;
+    }
+    //控制删除按钮
+    if(checked.length<=0){
+        picGallery.delete = true;
+    }else{
+        picGallery.delete = false;//点亮按钮
+    }
+},{
+    deep: true
 })

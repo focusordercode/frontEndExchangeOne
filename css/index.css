@@ -2,6 +2,9 @@ body,html {
 	background-color: #ecf0f5;
 	font-family: 'microsoft yahei', 'Helvetica', simhei, simsun, sans-serif;
 }
+.pors {
+	position: relative;
+}
 .header-fluid-top {
 	height: 150px;
 	background-color: #3498DB;

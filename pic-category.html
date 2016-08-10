@@ -145,11 +145,14 @@
                         </div>
                         <button class="btn btn-default" onclick="return false">提交</button>
                     </form> -->
-                    <div class="col-lg-2 col-md-3 col-sm-6 select-all control-button-1">
+                    <div v-show="picData" class="col-lg-2 col-md-3 col-sm-6 select-all">
                         <div class="checkboxFour">
                             <label @click="selectAll" v-bind:class="checkedBtn"></label>
                         </div>
                         <p>全选</p>
+                    </div>
+                    <div v-show="picData" class="col-md-2">
+                        <button @click="deleteSelet" :disabled="delete" class="btn btn-danger">删除</button>
                     </div>
                 </div>
 
@@ -280,7 +283,7 @@
             
         <hr>    
         <div class="container">
-            <pre>{{$data|json}}</pre>
+            <!-- <pre>{{$data|json}}</pre> -->
         </div>
 
         
