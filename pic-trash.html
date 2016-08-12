@@ -102,7 +102,7 @@
                     <div class="panel panel-info">
                         <div class="panel-heading">操作</div>
                         <div class="panel-body">
-                             <div class="col-lg-2 col-md-3 col-sm-6 select-all">
+                             <div v-show="picData" class="col-lg-2 col-md-3 col-sm-6 select-all">
                                  <div class="checkboxFour">
                                      <label @click="selectAll" v-bind:class="checkedBtn"></label>
                                  </div>

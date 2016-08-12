@@ -55,7 +55,7 @@ var picGallery = new Vue({
                         Vue.set(picGallery.picData[i], 'checked', false)
                     }
                 }else if(data.status==101){
-                    layer.msg('没有获取到图片');  //没有图片不提示了
+                    layer.msg('没有获取到图片,回收站没有图片');  //没有图片不提示了
                 }else if(data.status==102){
                     layer.msg('参数错误');
                 }

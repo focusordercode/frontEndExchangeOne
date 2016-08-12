@@ -15,6 +15,32 @@
     <script src="http://apps.bdimg.com/libs/html5shiv/3.7/html5shiv.js"></script>
     <script src="http://apps.bdimg.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <style type="text/css">
+        .item {
+            margin-bottom: 5px;
+            cursor: pointer;
+        }
+        .item .label {
+            padding: .4em .6em .4em;
+            line-height: 24px;
+        }
+        #tree ul {
+            margin-top: 5px;
+        }
+        .tree2 ul {
+            margin-top: 5px;
+        }
+        .bg-well {
+            background-color: #f5f5f5;
+            margin-left: 0;
+            margin-right: 0;
+            margin-bottom: 20px;
+            padding-top: 10px;
+        }
+        .text-white {
+            color: #fff;
+        }
+    </style>
 </head>
     <body>
         <!-- 顶部区域 -->
@@ -79,19 +105,19 @@
         </div>
         
         <!-- 主内容区域 -->
-        <div class="container category-content">
+        <div class="container-fluid category-content">
             <div class="row">
             	<!-- 分类栏目头 -->
-                <div class="col-lg-12 col-md-12 col-sm-12">
+                <!-- <div class="col-lg-12 col-md-12 col-sm-12">
                     <ol class="breadcrumb">
                         <li v-on:click="loadThis(list)" v-for="list in breadcrumb">
                             <span>{{list.cn_name}}</span>
                         </li>
                         <li class="active">{{active.cn_name}}</li>
                     </ol>
-                </div>
+                </div> -->
                 <!-- 列表项 -->
-                <ul class="category-pic clearfix">
+                <!-- <ul class="category-pic clearfix">
                     <li v-for="item in picList" class="col-lg-3 col-md-4 col-sm-4">
                         <div class="thumbnail">
                             <img v-on:click="loadCate(item)" src="images/xiangce.png" alt="">
@@ -99,18 +125,51 @@
                                 <h4>{{item.cn_name}}
                                     <small>{{item.en_name}}</small>
                                 </h4>
-                                <p>
+                                <p> -->
                                     <!-- <button class="btn btn-default btn-name"><i class="fa fa-edit"></i></button>
                                     <button class="btn btn-default btn-msg"><i class="fa fa-info"></i></button> -->
-                                    <button v-on:click="remove(item)" class="btn btn-default btn-delete"><i class="fa fa-trash"></i></button>
+                                    <!-- <button v-on:click="remove(item)" class="btn btn-default btn-delete"><i class="fa fa-trash"></i></button>
                                     <input type="checkbox" class="select-pic category-select-pic" value="" >
                                 </p>
                             </div>
                         </div>
                     </li>
-                </ul>
+                </ul> -->
             </div>
 
+            <div class="row bg-well">
+                <div class="col-md-5 col-md-offset-1" id="tree">
+                    <h4><b class="text-success">产品分类</b></h4>
+                    <!-- the productTree root element -->
+                    <ul id="demo">
+                        <item
+                          class="item"
+                          :model="treeData">
+                        </item>
+                    </ul>
+                </div>
+                <!-- 图片目录 -->
+                <div class="col-md-4 tree2">
+                    <h4><b class="text-success">图片目录</b></h4>
+                    <ul>
+                        <tree
+                            class="item"
+                            :pictree="pictree">
+                        </tree>
+                    </ul>
+                </div>
+                <!-- 树形菜单右边 -->
+                <div class="col-md-2">
+                    <h4><b class="text-success">图片目录操作</b></h4>
+                    <button class="btn btn-success" @click="addItem" v-show="active.id" >增加</button>
+                    <button class="btn btn-info" @click="changeItem" v-show="active.id" >修改</button>
+                    <button class="btn btn-danger" @click="deleteItem" v-show="active.id" >删除</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 图片内容区域 -->
+        <div class="container">
             <div class="row control-pic">
                 <div class="col-lg-12 pic-heading">
                     操作
@@ -181,17 +240,15 @@
                     <button class="btn btn-info" disabled="disabled">移动</button>
                 </div> -->
             </div>
-        </div>
-        
-        <!-- 图片内容区域 -->
-        <div class="container">
+
+            <!-- 图片内容 -->
             <div class="row">
                 <div class="col-md-12">
                     <div class="alert alert-success" role="alert">
-                        当前相册:<b class="text-warning">{{active.cn_name}}</b> 
+                        当前相册:<b class="text-warning">{{pictreeActive.cn_name}}</b> 
                         该相册图片数:<b class="text-warning">{{countImage}}</b>
                         <hr>
-                        <a v-show="active.id>1" v-bind:href="active.id | upLink" class="btn btn-success btn-sm">上传</a>
+                        <a v-show="pictreeActive.id" v-bind:href="pictreeActive.id | upLink" class="btn btn-success btn-sm">上传</a>
                     </div>
                     <div v-show="!picData" class="alert alert-warning" role="alert">该相册没有图片</div>
                 </div>
@@ -222,18 +279,29 @@
             </div>
             <!-- 分页 -->
             <div class="row">
-                <div v-show="countPage>1" class="col-md-12 text-center">
-                    <button @click="preP" v-bind:disabled="disabledp" class="btn btn-default">上一页</button>
-                    <button @click="nextP" v-bind:disabled="disabledn" class="btn btn-default">下一页</button>
-                    <label class="text-warning">当前页数:{{pageNow}}</label>
-                    <label class="text-warning">总共页数:{{countPage}}</label>
+                <div v-show="countPage>1" class="col-md-12 form-horizontal text-center">
+                    <div class="col-md-2 col-md-offset-4">
+                        <button @click="preP" v-bind:disabled="disabledp" class="btn btn-default">上一页</button>
+                        <button @click="nextP" v-bind:disabled="disabledn" class="btn btn-default">下一页</button>
+                    </div>
+                    <div class="col-md-1">
+                        <div class="form-group">
+                            <input type="number" v-model="jumpPage" placeholder="页码" min="1" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-md-3 text-left">
+                        <button @click="jumpTo" class="btn btn-info">跳转</button>
+                        <label class="text-warning">当前页数:{{pageNow}}</label>
+                        <label class="text-warning">总共页数:{{countPage}}</label>
+                    </div>
                 </div>
             </div>
 
         </div>
-
+        
+        <!-- 查看图片详情 -->
         <script type="text/x-template" id="picinfo">
-            <div class="modal fade">
+            <div class="modal picino fade">
                 <div class="modal-dialog modal-sm">
                     <div class="modal-content">
                         <div class="modal-header bg-primary">
@@ -278,8 +346,112 @@
             </div>
         </script>
         
+        <!-- 增加图片目录 -->
+        <script type="text/x-template" id="addItem">
+            <div class="modal addItem fade">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header bg-primary">
+                            <h4 class="modal-title">增加图片目录</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>中文名</label>
+                                            <input type="text" v-model="cn_name" class="form-control">
+                                            <label>英文名</label>
+                                            <input type="text" v-model="en_name" class="form-control">
+                                        </div>
+                                        <button @click="addpicItem" class="btn btn-default">提交</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </script>
+
+        <!-- 修改图片目录 -->
+        <script type="text/x-template" id="changeItem">
+            <div class="modal changeItem fade">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header bg-primary">
+                            <h4 class="modal-title">修改图片目录</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>中文名</label>
+                                            <input type="text" v-model="active.name" class="form-control">
+                                            <label>英文名</label>
+                                            <input type="text" v-model="active.cn_name" class="form-control">
+                                        </div>
+                                        <button class="btn btn-default">保存</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </script>
+        
+        <!-- 产品树形目录 template -->
+        <script type="text/x-template" id="item-template">
+            <li>
+                <div
+                    class="label label-primary"
+                    :class="{bold: isFolder}"
+                    @click="toggle(model)">
+                    <span class="glyphicon glyphicon-folder-close" v-show="isFolder"></span>
+                    <span class="glyphicon glyphicon-file" v-show="!isFolder"></span>
+                    {{model.cn_name}}
+                    {{model.en_name}}
+                    <span class="text-white" v-if="isFolder">[{{open ? '-' : '+'}}]</span>
+                </div>
+                <ul v-show="open" v-if="isFolder">
+                    <item
+                        class="item"
+                        v-for="model in model.children"
+                        :model="model">
+                    </item>
+                </ul>
+            </li>
+        </script>
+
+        <!-- 图片树形目录template -->
+        <script type="text/x-template" id="pic-template">
+            <li>
+                <div
+                    class="label label-primary"
+                    :class="{bold: isFolderP}"
+                    @click="toggle(pictree)">
+                    <span class="glyphicon glyphicon-folder-close" v-show="isFolderP"></span>
+                    <span class="glyphicon glyphicon-file" v-show="!isFolderP"></span>
+                    {{pictree.cn_name}}
+                    {{pictree.en_name}}
+                    {{pictree.warning}}
+                    <span class="text-white" v-if="isFolderP">[{{open ? '-' : '+'}}]</span>
+                </div>
+                <ul v-show="open" v-if="isFolderP">
+                    <tree
+                        class="item"
+                        v-for="pictree in pictree.children"
+                        :pictree="pictree">
+                    </tree>
+                </ul>
+            </li>
+        </script>
+
         <my-component :data="onepic" ></my-component>
-        <!-- <my-xg :data="picData"></my-xg> -->
+        <my-additem :active="active" ></my-additem>
+        <my-changeitem :active="active"></my-changeitem>
             
         <hr>    
         <div class="container">
