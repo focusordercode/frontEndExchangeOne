@@ -18,11 +18,11 @@
     <style type="text/css">
         .item {
             margin-bottom: 5px;
-            cursor: pointer;
         }
         .item .label {
             padding: .4em .6em .4em;
             line-height: 24px;
+            cursor: pointer;
         }
         #tree ul {
             margin-top: 5px;
@@ -39,6 +39,16 @@
         }
         .text-white {
             color: #fff;
+        }
+        .bordered {
+            border-right: 1px solid #14714f;
+        }
+        .res {
+            min-height: .01%;
+            overflow-x: auto;
+        }
+        .close-positon {
+            margin-top: -30px!important;
         }
     </style>
 </head>
@@ -75,8 +85,8 @@
                         <li class="dropdown">
                             <a href="##" data-toggle="dropdown" class="dropdown-toggle">图片库<span class="caret"></span></a>
                             <ul class="dropdown-menu">
-                                <li><a href="admin-category-pic.html">相册管理</a></li>
-                                <li><a href="pic-category.html">相册</a></li>
+                                <li><a href="pic-category.html">图片库</a></li>
+                                <li><a href="admin-category-pic.html">图片目录管理</a></li>
                                 <li><a href="pic-trash.html">回收站</a></li>
                             </ul>
                         </li>
@@ -98,14 +108,14 @@
                         <li><a href="#" target="_blank" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'v3doc'])">上传</a></li>
                         <li><a href="upcUpload.html" target="_blank" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'v4doc'])">UPC</a></li>
                         <li><a href="#" target="_blank" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'less'])">回收站</a></li>
-                        <li><a href="#" target="_blank" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'jquery'])">日志</a></li>
+                        <li><a href="http://192.168.1.40/PicSystem/canton/Log/log" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'jquery'])">日志</a></li>
                     </ul>
                 </div>
             </div>
         </div>
         
         <!-- 主内容区域 -->
-        <div class="container-fluid category-content">
+        <div class="container category-content">
             <div class="row">
             	<!-- 分类栏目头 -->
                 <!-- <div class="col-lg-12 col-md-12 col-sm-12">
@@ -138,8 +148,8 @@
             </div>
 
             <div class="row bg-well">
-                <div class="col-md-5 col-md-offset-1" id="tree">
-                    <h4><b class="text-success">产品分类</b></h4>
+                <div class="col-md-5 res bordered" id="tree">
+                    <h4><b class="text-success">产品类目</b></h4>
                     <!-- the productTree root element -->
                     <ul id="demo">
                         <item
@@ -159,11 +169,11 @@
                     </ul>
                 </div>
                 <!-- 树形菜单右边 -->
-                <div class="col-md-2">
+                <div class="col-md-3">
                     <h4><b class="text-success">图片目录操作</b></h4>
                     <button class="btn btn-success" @click="addItem" v-show="active.id" >增加</button>
-                    <button class="btn btn-info" @click="changeItem" v-show="active.id" >修改</button>
-                    <button class="btn btn-danger" @click="deleteItem" v-show="active.id" >删除</button>
+                    <button class="btn btn-info" @click="changeItem" v-show="pictreeActive.id" >修改</button>
+                    <button class="btn btn-danger" @click="deleteItem" v-show="pictreeActive.id" >删除</button>
                 </div>
             </div>
         </div>
@@ -263,7 +273,7 @@
                                 <h4 class="text-warning">{{pic.title}}</h4>
                                 <h4 class="text-muted">{{pic.file_name}}</h4>
                                 <p>
-                                    <button class="btn btn-default btn-name"><i class="fa fa-edit"></i></button>
+                                    <!-- <button class="btn btn-default btn-name"><i class="fa fa-edit"></i></button> -->
                                     <button @click="picinfo(pic)" class="btn btn-default btn-msg"><i class="fa fa-info"></i></button>
                                     <button @click="deletePic(pic)" class="btn btn-default btn-delete"><i class="fa fa-trash"></i></button>
                                     <input type="checkbox" class="select-pic" v-model="pic.checked" >
@@ -306,6 +316,7 @@
                     <div class="modal-content">
                         <div class="modal-header bg-primary">
                             <h4 class="modal-title">图片信息</h4>
+                            <button type="button" class="close close-positon" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i class="fa fa-close"></i></span></button>
                         </div>
                         <div class="modal-body">
                             <div class="container-fluid">
@@ -348,11 +359,12 @@
         
         <!-- 增加图片目录 -->
         <script type="text/x-template" id="addItem">
-            <div class="modal addItem fade">
+            <div class="modal addItem fade" data-backdrop="static">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header bg-primary">
                             <h4 class="modal-title">增加图片目录</h4>
+                            <button type="button" class="close close-positon" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i class="fa fa-close"></i></span></button>
                         </div>
                         <div class="modal-body">
                             <div class="container-fluid">
@@ -375,12 +387,12 @@
         </script>
 
         <!-- 修改图片目录 -->
-        <script type="text/x-template" id="changeItem">
-            <div class="modal changeItem fade">
+            <div class="modal changeItem fade" data-backdrop="static">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header bg-primary">
                             <h4 class="modal-title">修改图片目录</h4>
+                            <button type="button" class="close close-positon" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i class="fa fa-close"></i></span></button>
                         </div>
                         <div class="modal-body">
                             <div class="container-fluid">
@@ -388,11 +400,11 @@
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label>中文名</label>
-                                            <input type="text" v-model="active.name" class="form-control">
+                                            <input type="text" v-model="pictreeActive.cn_name" class="form-control">
                                             <label>英文名</label>
-                                            <input type="text" v-model="active.cn_name" class="form-control">
+                                            <input type="text" v-model="pictreeActive.en_name" class="form-control">
                                         </div>
-                                        <button class="btn btn-default">保存</button>
+                                        <button @click="changeItemAction" class="btn btn-default">保存</button>
                                     </div>
                                 </div>
                             </div>
@@ -400,7 +412,6 @@
                     </div>
                 </div>
             </div>
-        </script>
         
         <!-- 产品树形目录 template -->
         <script type="text/x-template" id="item-template">
@@ -451,7 +462,6 @@
 
         <my-component :data="onepic" ></my-component>
         <my-additem :active="active" ></my-additem>
-        <my-changeitem :active="active"></my-changeitem>
             
         <hr>    
         <div class="container">

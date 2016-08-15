@@ -27,8 +27,8 @@ Vue.component('my-additem', {
             var item2 = picGallery.pictreeActive;
             var cn_name = this.cn_name;
             var en_name = this.en_name;
-            var rule = /^[A-Za-z0-9]+$/;  //英文正则，包含数字
-            if(rule.test(en_name)){
+            var rule = new RegExp("^[A-Za-z0-9]+$");  //英文正则，包含数字
+            if(!rule.test(en_name)){
                 layer.msg('请输入正确的英文名');
             }else if(!cn_name){
                 layer.msg('中文名不能为空');
@@ -46,6 +46,12 @@ Vue.component('my-additem', {
                     success:function(data){
                         if(data.status==100){
                             layer.msg('添加成功');
+                            setInterval(updatePictree(item1),1000);
+                            $('.addItem').modal('hide');
+                        }else if(data.status==105){
+                            layer.msg('英文名不符合要求');
+                        }else if(data.status==106){
+                            layer.msg('存在英文名相同的目录');
                         }
                     },
                     error:function(jqXHR){
@@ -53,15 +59,34 @@ Vue.component('my-additem', {
                     }
                 })
             }
-        }
-    }
-})
+            //重新获取图片目录
+            function updatePictree(item1){
+                var cateId = item1.id;
+                $.ajax({
+                    type:'POST',
+                    url:'http://192.168.1.40/PicSystem/canton/get/treeGallery',
+                    datatype:'json',
+                    data:{
+                        category_id:cateId
+                    },
+                    success:function(data){
+                        if(data.status==100){
+                            picGallery.pictree = data.value[0];
+                        }else if(data.status==101){
+                            picGallery.pictree = data.value;
+                            picGallery.pictreeActive.id = '';
+                            picGallery.pictreeActive.cn_name = '';
+                            picGallery.pictreeActive.en_name = '';
+                            picGallery.pictreeActive.category_id = '';
+                        }
+                    },
+                    error:function(jqXHR){
+                        layer.msg('向服务器请求图片目录失败');
+                    }
+                })
+            }
 
-//修改图片目录组件
-Vue.component('my-changeitem', {
-    template: '#changeItem',
-    props:{
-        active:Object
+        }
     }
 })
 
@@ -91,10 +116,24 @@ Vue.component('item', {
     }
   },
   methods: {
+    //点击产品树形分类
     toggle: function (model) {
         if (this.isFolder) {
             this.open = !this.open
         }
+
+        //每次点击清空图片目录的选中的数据
+        function clear(){
+            picGallery.pictreeActive.id = '';
+            picGallery.pictreeActive.cn_name = '';
+            picGallery.pictreeActive.en_name = '';
+            picGallery.pictreeActive.category_id = '';
+        }
+
+        clear();
+        //每次点击清空图片目录的选中
+        $('.tree2 .item .label').removeClass('label-success').addClass('label-primary');
+
         picGallery.active = model;
 
         //获取图片目录
@@ -111,10 +150,7 @@ Vue.component('item', {
                     picGallery.pictree = data.value[0];
                 }else if(data.status==101){
                     picGallery.pictree = data.value;
-                    picGallery.pictreeActive.id = '';
-                    picGallery.pictreeActive.cn_name = '';
-                    picGallery.pictreeActive.en_name = '';
-                    picGallery.pictreeActive.category_id = '';
+                    clear();
                 }
             },
             error:function(jqXHR){
@@ -144,13 +180,13 @@ Vue.component('tree', {
     }
   },
   methods: {
+    //点击图片目录
     toggle: function (pictree) {
       if (this.isFolderP) {
         this.open = !this.open
       }
-      // alert(pictree.id);
-      // alert(pictree.cn_name);
-      // alert(pictree.en_name);
+
+      //把当前的图片目录数据赋值到pictreeActive
       picGallery.pictreeActive.id = pictree.id;
       picGallery.pictreeActive.cn_name = pictree.cn_name;
       picGallery.pictreeActive.en_name = pictree.en_name;
@@ -196,7 +232,7 @@ Vue.component('tree', {
   }
 })
 
-// 树形菜单的Vue实例
+// 产品树形菜单的Vue实例
 var tree = new Vue({
     el: '#tree',
     data: {
@@ -222,7 +258,7 @@ var tree = new Vue({
 var picGallery = new Vue({
     el:'body',
     data:{
-        active:{},
+        active:{},//当前的产品类目
         picData:'',
         countPage:'',
         countImage:'',
@@ -238,7 +274,7 @@ var picGallery = new Vue({
         pictree:{
             warning: '没有图片目录'
         },
-        pictreeActive:{
+        pictreeActive:{ //当前的图片类目
             id:'',
             cn_name:'',
             en_name:'',
@@ -246,38 +282,6 @@ var picGallery = new Vue({
         }
     },
     methods:{
-        //删除相册
-        remove:function(item){
-            var item = item;
-            picList = this.picList;
-            layer.confirm('确认删除该相册?如果有子相册将不能删除',{
-                btn:['确定','取消']
-            },function(yes){
-                $.ajax({
-                    type:'POST',
-                    url:'http://192.168.1.40/PicSystem/canton/delete/imagesub',
-                    datatype:'json',
-                    data:{
-                        id:item.id
-                    },
-                    success:function(data){
-                        if(data.status==100){
-                            layer.msg('删除成功');
-                            picList.$remove(item);
-                        }else if(data.status==101){
-                            layer.msg('操作失败');
-                        }else if(data.status==113){
-                            layer.msg('该相册下还有子相册，请先删除子相册');
-                        }else if(data.status==114){
-                            layer.msg('删除图片移动到回收站失败');
-                        }
-                    },
-                    error:function(jqXHR){
-                        layer.msg('向服务器请求删除失败');
-                    }
-                })
-            })
-        },
         //图片信息
         picinfo:function(pic){
             $('.picino').modal('show');
@@ -599,19 +603,138 @@ var picGallery = new Vue({
             $('.addItem').modal('show');
             $('.addItem').css('margin-top','200px');
         },
-        //修改图片目录
+        //修改图片目录弹出框
         changeItem:function(){
-            var item = this.active;
             $('.changeItem').modal('show');
-            $('.changeItem').css('margin-top','200px');
+            $('.changeItem').css('margin-top','200px'); 
+        },
+        //修改图片目录
+        changeItemAction:function(){
+            var item = this.pictreeActive;
+
+            //重新获取图片目录
+            function updatePictree(item){
+                var cateId = item.category_id;
+                $.ajax({
+                    type:'POST',
+                    url:'http://192.168.1.40/PicSystem/canton/get/treeGallery',
+                    datatype:'json',
+                    data:{
+                        category_id:cateId
+                    },
+                    success:function(data){
+                        if(data.status==100){
+                            picGallery.pictree = data.value[0];
+                        }else if(data.status==101){
+                            picGallery.pictree = data.value;
+                            picGallery.pictreeActive.id = '';
+                            picGallery.pictreeActive.cn_name = '';
+                            picGallery.pictreeActive.en_name = '';
+                            picGallery.pictreeActive.category_id = '';
+                        }
+                    },
+                    error:function(jqXHR){
+                        layer.msg('向服务器请求图片目录失败');
+                    }
+                })
+            }
+
+            //修改图片目录
+            var rule = new RegExp("^[A-Za-z0-9]+$");  //英文正则，包含数字
+            if(!rule.test(item.en_name)){
+                layer.msg('英文名只能是字母和数字');
+            }else if(!item.cn_name){
+                layer.msg('中文名不能为空');
+            }else{
+                $.ajax({
+                    type:'POST',
+                    url:'http://192.168.1.40/PicSystem/canton/update/imagesub',
+                    datatype:'json',
+                    data:{
+                        id:item.id,
+                        cn_name:item.cn_name,
+                        en_name:item.en_name
+                    },
+                    success:function(data){
+                        if(data.status==100){
+                            layer.msg('修改成功',{time:1000});
+                            setInterval(updatePictree(item),1000);
+                            $('.changeItem').modal('hide');
+                        }else if(data.status==105){
+                            layer.msg('英文名不符合要求');
+                        }else if(data.status==106){
+                            layer.msg('目录英文名有重复');
+                        }
+                    },
+                    error:function(jqXHR){
+                        layer.msg('向服务器请求修改图片目录失败');
+                    }
+                })
+            }
         },
         //删除图片目录
         deleteItem:function(){
-            var item = this.active;
-            if(item.id==1){
-                layer.msg('顶级图片目录不可以删除');
-            }else{
-                // layer.msg('改造中...');
+            var item = this.pictreeActive;
+            layer.confirm('确认删除该目录?如果有子目录将不能删除',{
+                btn:['确定','取消']
+            },function(yes){
+                $.ajax({
+                    type:'POST',
+                    url:'http://192.168.1.40/PicSystem/canton/delete/imagesub',
+                    datatype:'json',
+                    data:{
+                        id:item.id
+                    },
+                    success:function(data){
+                        if(data.status==100){
+                            layer.msg('删除成功');
+                            setInterval(updatePictree(item),1000);
+                            //清空数据选中的数据
+                            picGallery.pictreeActive.id = '';
+                            picGallery.pictreeActive.cn_name = '';
+                            picGallery.pictreeActive.en_name = '';
+                            picGallery.pictreeActive.category_id = '';
+                            //取消选中
+                            $('.tree2 .item .label').removeClass('label-success').addClass('label-primary');
+                        }else if(data.status==101){
+                            layer.msg('操作失败');
+                        }else if(data.status==113){
+                            layer.msg('该相册下还有子目录，请先删除子目录');
+                        }else if(data.status==114){
+                            layer.msg('删除图片移动到回收站失败');
+                        }
+                    },
+                    error:function(jqXHR){
+                        layer.msg('向服务器请求删除失败');
+                    }
+                })
+            })
+
+            //重新获取图片目录
+            function updatePictree(item){
+                var cateId = item.category_id;
+                $.ajax({
+                    type:'POST',
+                    url:'http://192.168.1.40/PicSystem/canton/get/treeGallery',
+                    datatype:'json',
+                    data:{
+                        category_id:cateId
+                    },
+                    success:function(data){
+                        if(data.status==100){
+                            picGallery.pictree = data.value[0];
+                        }else if(data.status==101){
+                            picGallery.pictree = data.value;
+                            picGallery.pictreeActive.id = '';
+                            picGallery.pictreeActive.cn_name = '';
+                            picGallery.pictreeActive.en_name = '';
+                            picGallery.pictreeActive.category_id = '';
+                        }
+                    },
+                    error:function(jqXHR){
+                        layer.msg('向服务器请求图片目录失败');
+                    }
+                })
             }
         }
     }

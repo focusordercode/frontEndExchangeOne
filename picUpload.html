@@ -49,8 +49,8 @@
                         <li class="dropdown">
                             <a href="##" data-toggle="dropdown" class="dropdown-toggle">图片库<span class="caret"></span></a>
                             <ul class="dropdown-menu">
-                                <li><a href="admin-category-pic.html">相册管理</a></li>
-                                <li><a href="pic-category.html">相册</a></li>
+                                <li><a href="pic-category.html">图片库</a></li>
+                                <li><a href="admin-category-pic.html">图片目录管理</a></li>
                                 <li><a href="pic-trash.html">回收站</a></li>
                             </ul>
                         </li>
@@ -72,7 +72,7 @@
                         <li><a href="#" target="_blank" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'v3doc'])">上传</a></li>
                         <li><a href="upcUpload.html" target="_blank" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'v4doc'])">UPC</a></li>
                         <li><a href="#" target="_blank" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'less'])">回收站</a></li>
-                        <li><a href="#" target="_blank" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'jquery'])">日志</a></li>
+                        <li><a href="http://192.168.1.40/PicSystem/canton/Log/log" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'jquery'])">日志</a></li>
                     </ul>
                 </div>
             </div>
@@ -87,6 +87,10 @@
                         <p>上传到  <b class="text-warning">{{picCate.cn_name}}{{picCate.en_name}}</b>  相册</p>
                         <!-- 上传区域 -->
                         <div class="alert alert-warning" role="alert">您的浏览器版本不支持上传</div>
+                        <p class="text-success">
+                            <b>单张图片最大5M,最多能上传50张，支持的格式有jpg,jpeg,gif,png</b>
+                        </p>
+                        <p id="seletedLen" class="text-muted"><b></b></p>
 
                         <ul id="filelist" class="list-group"></ul>
 

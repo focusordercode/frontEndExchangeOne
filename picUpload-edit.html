@@ -4,11 +4,12 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>图片目录</title>
+    <title>图片信息编辑</title>
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <!--你自己的样式文件 -->
     <link href="css/index.css" rel="stylesheet">
+    <link href="css/picUpload.css" rel="stylesheet">
     <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">        
     <!-- 以下两个插件用于在IE8以及以下版本浏览器支持HTML5元素和媒体查询，如果不需要用可以移除 -->
     <!--[if lt IE 9]>
@@ -31,7 +32,6 @@
                 </div>
             </div>
         </div>
-
         <!-- 导航 -->
         <div class="navbar navbar-inverse nav-fluid-top">
             <div class="container">
@@ -49,8 +49,8 @@
                         <li class="dropdown">
                             <a href="##" data-toggle="dropdown" class="dropdown-toggle">图片库<span class="caret"></span></a>
                             <ul class="dropdown-menu">
-                                <li><a href="admin-category-pic.html">相册管理</a></li>
-                                <li><a href="pic-category.html">相册</a></li>
+                                <li><a href="pic-category.html">图片库</a></li>
+                                <li><a href="admin-category-pic.html">图片目录管理</a></li>
                                 <li><a href="pic-trash.html">回收站</a></li>
                             </ul>
                         </li>
@@ -72,30 +72,66 @@
                         <li><a href="#" target="_blank" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'v3doc'])">上传</a></li>
                         <li><a href="upcUpload.html" target="_blank" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'v4doc'])">UPC</a></li>
                         <li><a href="#" target="_blank" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'less'])">回收站</a></li>
-                        <li><a href="#" target="_blank" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'jquery'])">日志</a></li>
+                        <li><a href="http://192.168.1.40/PicSystem/canton/Log/log" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'jquery'])">日志</a></li>
                     </ul>
                 </div>
             </div>
         </div>
         
-        <div class="container marginTop">
+        <!-- 主内容区域 -->
+        <div id="container" class="container marginTop">
             <div class="row">
-                <div class="col-md-6">
-                    <div class="easy-tree">
-                        <ul>
-                            <li class="parent_li">
-                                <span title="收起分支">
-                                    <span class="glyphicon glyphicon-folder-open"></span>
-                                    <a href="javascript: void(0);" title="选择">Example 3</a>
-                                </span>
-                            </li>
-                        </ul>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <button @click="saveInfo" class="btn btn-success">保存</button>
+                        <a :href="picUpload" class="btn btn-info">返回上传</a>
+                        <a href="pic-category.html" class="btn btn-default">返回图库</a>
+                    </div>
+                    <div class="alert alert-success" role="alert">标签用英文"<b>||</b>"隔开</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h4>图片信息编辑</h4>
+                        </div>
+                        <div class="panel-body">
+                            <div v-for="list in picInfo" class="media">
+                                <div class="media-left">
+                                    <img class="media-object" width="80" height="80" v-bind:src="list | imgUrl"  alt="">
+                                </div>
+                                <div class="media-body">
+                                    <div class="form-horizontal">
+                                        <div class="form-group">
+                                            <label class="col-sm-1 control-label text-right">标题</label>
+                                            <div class="col-sm-6">
+                                                <input type="text" v-model="list.title" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-horizontal">
+                                        <div class="form-group">
+                                          <label class="col-sm-1 control-label text-right">标签</label>
+                                          <div class="col-sm-6">
+                                              <input type="text" v-model="list.tags" class="form-control" placeholder="多个标签用半角符号 || 隔开">
+                                          </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        
 
+        <div class="container">
+            <div class="row">
+                <!-- <pre>{{$data|json}}</pre> -->
+            </div>
+        </div>
+        
         <!-- 页脚 -->
         <div class="container-fluid footer-fluid">
             <div class="contaier">
@@ -109,9 +145,9 @@
         <!-- 如果要使用Bootstrap的js插件，必须先调入jQuery -->
         <script src="js/jquery.js"></script>
         <script src="js/vue.js"></script>
-        <!-- <script src="http://apps.bdimg.com/libs/vue/1.0.8/vue.js"></script> -->
         <!-- 包括所有bootstrap的js插件或者可以根据需要使用的js插件调用　-->
         <script src="js/bootstrap.min.js"></script>
-        <script src="js/layer.js"></script>
+        <script src='js/layer.js'></script>
+        <script src='js/picUpload-edit.js'></script>
     </body>
 </html>
