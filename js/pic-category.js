@@ -27,9 +27,9 @@ Vue.component('my-additem', {
             var item2 = picGallery.pictreeActive;
             var cn_name = this.cn_name;
             var en_name = this.en_name;
-            var rule = new RegExp("^[A-Za-z0-9]+$");  //英文正则，包含数字
+            var rule = /^[a-zA-Z_0-9\s\'-]+$/;  //英文正则，包含数字
             if(!rule.test(en_name)){
-                layer.msg('请输入正确的英文名');
+                layer.msg('英文名只能是字母,数字，空格,横杠和单引号');
             }else if(!cn_name){
                 layer.msg('中文名不能为空');
             }else{
@@ -90,14 +90,6 @@ Vue.component('my-additem', {
     }
 })
 
-//修改信息组件
-// Vue.component('my-xg', {
-//     template: '#picxg',
-//     props:{
-//         data:Array
-//     }
-// })
-
 // 产品分类树形菜单的组件
 Vue.component('item', {
   template: '#item-template',
@@ -124,6 +116,8 @@ Vue.component('item', {
 
         //每次点击清空图片目录的选中的数据
         function clear(){
+            picGallery.picData = '';
+            picGallery.countImage = '';
             picGallery.pictreeActive.id = '';
             picGallery.pictreeActive.cn_name = '';
             picGallery.pictreeActive.en_name = '';
@@ -254,7 +248,10 @@ var tree = new Vue({
   }
 })
 
+//暂存修改的数据
+var cacheTitle;
 
+//图片库示例
 var picGallery = new Vue({
     el:'body',
     data:{
@@ -264,6 +261,8 @@ var picGallery = new Vue({
         countImage:'',
         pageNow:'',
         onepic:{},//查看信息
+        changepic:{},//修改图片信息
+        newTags:'',//添加新的标签
         disabledp:'',
         disabledn:false,
         checkedBtn:{
@@ -287,6 +286,61 @@ var picGallery = new Vue({
             $('.picino').modal('show');
             $('.picino').css('margin-top','200px');
             picGallery.onepic = pic;
+        },
+        //图片信息修改
+        picchange:function(pic){
+            $('.picchange').modal('show');
+            $('.picchange').css('margin-top','200px');
+            picGallery.changepic = pic;
+            //把数据暂存
+            cacheTitle = pic.title;
+        },
+        //回车添加标签
+        addTags:function(){
+            var text = this.newTags.trim();
+            if (text) {
+                this.changepic.tags.push(text)
+                this.newTags = ''
+              }
+        },
+        //删除标签
+        removeTags:function(index){
+            this.changepic.tags.splice(index, 1);
+        },
+        //保存图片修改
+        saveChangePic:function(){
+            var title = this.changepic.title;
+            var changepic = this.changepic;
+            if(!title){
+                layer.msg('标题不能为空');
+            }else{
+                $.ajax({
+                    type:'POST',
+                    url:'http://192.168.1.40/PicSystem/canton/update/image',
+                    datatype:'json',
+                    data:{
+                        data:changepic
+                    },
+                    success:function(data){
+                        if(data.status==100){
+                            layer.msg('修改成功');
+                            $('.picchange').modal('hide');
+                        }else if(data.status==101){
+                            layer.msg('未作出任何修改，修改失败');
+                        }else if(data.status==102){
+                            layer.msg('参数错误');
+                        }
+                    },
+                    error:function(jqXHR){
+                        layer.msg('向服务器请求保存修改失败');
+                    }
+                })
+            }
+        },
+        //关闭修改框，还原原来的值
+        closeChange:function(){
+            Vue.set(picGallery.changepic,'title',cacheTitle);
+            $('.picchange').modal('hide');
         },
         //删除图片
         deletePic:function(pic){
@@ -640,9 +694,9 @@ var picGallery = new Vue({
             }
 
             //修改图片目录
-            var rule = new RegExp("^[A-Za-z0-9]+$");  //英文正则，包含数字
+            var rule = /^[a-zA-Z_0-9\s\'-]+$/;  //英文正则，包含数字
             if(!rule.test(item.en_name)){
-                layer.msg('英文名只能是字母和数字');
+                layer.msg('英文名只能是字母,数字，空格,横杠和单引号');
             }else if(!item.cn_name){
                 layer.msg('中文名不能为空');
             }else{
@@ -811,4 +865,24 @@ $(document).on('click','#tree .item .label',function(){
 $(document).on('click','.tree2 .item .label',function(){
     $('.tree2 .item .label').removeClass('label-success').addClass('label-primary');
     $(this).removeClass('label-primary').addClass('label-success');
+});
+
+var showData = {
+    "title": "", //相册标题
+    "id": 123, //相册id
+    "start": 0, //初始显示的图片序号，默认0
+    "data": [   //相册包含的图片，数组格式
+      {
+        "alt": "图片名",
+        "pid": 1, //图片id
+        "src": "http://192.168.1.40/PicSystem/canton/Pictures/testadd1/147099400392584.png", //原图地址
+        "thumb": "http://192.168.1.40/PicSystem/canton/Pictures/testadd1/147099400392584.png" //缩略图地址
+      }
+    ]
+};
+
+
+
+layer.photos({
+    photos: '.pic-content .thumbnail'
 });

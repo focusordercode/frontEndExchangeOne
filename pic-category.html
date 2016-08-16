@@ -50,6 +50,17 @@
         .close-positon {
             margin-top: -30px!important;
         }
+        .picchange ul {
+            padding-left: 0;
+            list-style: none;
+            margin-top: 10px;
+        }
+        .picchange ul li {
+            margin-bottom: 5px;
+        }
+        .picchange ul li span+i {
+            cursor: pointer;
+        }
     </style>
 </head>
     <body>
@@ -159,7 +170,7 @@
                     </ul>
                 </div>
                 <!-- 图片目录 -->
-                <div class="col-md-4 tree2">
+                <div class="col-md-4 res tree2">
                     <h4><b class="text-success">图片目录</b></h4>
                     <ul>
                         <tree
@@ -268,12 +279,12 @@
                 <ul class="clearfix">
                     <li v-for="pic in picData" class="col-lg-3 col-md-4 col-sm-4">
                         <div class="thumbnail">
-                            <img v-bind:src="pic | imgUrl" alt="">
+                            <img v-bind:src="pic | imgUrl"  alt="">
                             <div class="caption">
                                 <h4 class="text-warning">{{pic.title}}</h4>
                                 <h4 class="text-muted">{{pic.file_name}}</h4>
                                 <p>
-                                    <!-- <button class="btn btn-default btn-name"><i class="fa fa-edit"></i></button> -->
+                                    <button @click="picchange(pic)"" class="btn btn-default btn-name"><i class="fa fa-edit"></i></button>
                                     <button @click="picinfo(pic)" class="btn btn-default btn-msg"><i class="fa fa-info"></i></button>
                                     <button @click="deletePic(pic)" class="btn btn-default btn-delete"><i class="fa fa-trash"></i></button>
                                     <input type="checkbox" class="select-pic" v-model="pic.checked" >
@@ -356,6 +367,43 @@
                 </div>
             </div>
         </script>
+
+        <!-- 修改图片详情 -->
+        <div class="modal picchange fade" data-backdrop="static">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header bg-primary">
+                        <h4 class="modal-title">图片信息修改</h4>
+                        <button @click="closeChange" type="button" class="close close-positon">
+                            <span><i class="fa fa-close"></i></span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>标题</label>
+                                            <input type="text" v-model="changepic.title" class="form-control">
+                                            <label>标签 <span class="text-success">按回车确定添加</span></label>
+                                            <input type="text" v-model="newTags" v-on:keyup.enter="addTags" class="form-control">
+                                            <ul>
+                                                <li v-for="label in changepic.tags">
+                                                    <span class="label label-info">{{label}}</span>
+                                                    <i class="fa fa-close" @click="removeTags($index)"></i>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <button class="btn btn-default" @click="saveChangePic">保存</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         
         <!-- 增加图片目录 -->
         <script type="text/x-template" id="addItem">
@@ -442,14 +490,17 @@
                 <div
                     class="label label-primary"
                     :class="{bold: isFolderP}"
+                    v-show="pictree.id"
                     @click="toggle(pictree)">
                     <span class="glyphicon glyphicon-folder-close" v-show="isFolderP"></span>
                     <span class="glyphicon glyphicon-file" v-show="!isFolderP"></span>
                     {{pictree.cn_name}}
                     {{pictree.en_name}}
+                    <b v-show="pictree.id">图片数量:{{pictree.picture_count}}</b>
                     {{pictree.warning}}
                     <span class="text-white" v-if="isFolderP">[{{open ? '-' : '+'}}]</span>
                 </div>
+                <p v-show="!pictree.id">没有图片目录</p>
                 <ul v-show="open" v-if="isFolderP">
                     <tree
                         class="item"

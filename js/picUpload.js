@@ -40,6 +40,11 @@ var picUpload = new Vue({
                 layer.msg('向服务器请求相册信息失败');
             }
         })
+    },
+    methods:{
+        unbind:function(){
+            $(window).unbind('beforeunload');
+        }
     }
 })
 
@@ -86,8 +91,8 @@ var uploader = new plupload.Uploader({
             });
             //更新已经选择图片的函数
             function updateLen() {
-                var countLen = files.length;
-                document.getElementById('seletedLen').getElementsByTagName('b')[0].innerHTML = '已经选择'+countLen+'张图片';
+                var countLen = len - files.length;
+                document.getElementById('seletedLen').getElementsByTagName('b')[0].innerHTML = '还可以选择'+countLen+'张图片';
             }
             updateLen();
 

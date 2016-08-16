@@ -21,7 +21,8 @@ var picEdit = new Vue({
 	el:'body',
 	data:{
 		picInfo:'',
-		picUpload:''
+		picUpload:'',
+		tag:''
 	},
 	ready:function(){
 		$.ajax({
@@ -49,6 +50,7 @@ var picEdit = new Vue({
 		}
 	},
 	methods:{
+		//发送请求保存
 		saveInfo:function(){
 			$.ajax({
 				type:'POST',
@@ -68,6 +70,34 @@ var picEdit = new Vue({
 					layer.msg('向服务器请求保存数据失败');
 				}
 			})
+		},
+		//添加标签
+		addTags:function(index){
+			var text = this.tag.trim();
+			if (text) {
+			    this.picInfo[index].tags.push(text);
+			    this.tag = '';
+			  }
+		},
+		//删除标签
+		removeTags:function(index,list){
+			list.tags.splice(index, 1);
+		},
+		//复制标题
+		copyTitle:function(){
+			var title = this.picInfo[0].title;
+			var picLen = this.picInfo.length;
+			for(var i = 0;i<picLen;i++){
+				Vue.set(picEdit.picInfo[i],'title',title);
+			}
+		},
+		//复制标签
+		copyTags:function(){
+			var tags = this.picInfo[0].tags;
+			var picLen = this.picInfo.length;
+			for(var i = 0;i<picLen;i++){
+				Vue.set(picEdit.picInfo[i],'tags',tags);
+			}
 		}
 	}
 })

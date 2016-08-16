@@ -16,6 +16,20 @@
     <script src="http://apps.bdimg.com/libs/html5shiv/3.7/html5shiv.js"></script>
     <script src="http://apps.bdimg.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <style>
+        .picUpload-edit .media ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        .picUpload-edit .media ul li {
+            float: left;
+            margin-right: 5px;
+            margin-bottom: 5px;
+        }
+        .picUpload-edit .media ul li .label+i {
+            cursor: pointer;
+        }
+    </style>
 </head>
     <body>
         <!-- 顶部区域 -->
@@ -79,7 +93,7 @@
         </div>
         
         <!-- 主内容区域 -->
-        <div id="container" class="container marginTop">
+        <div id="container" class="container picUpload-edit marginTop">
             <div class="row">
                 <div class="col-md-12">
                     <div class="form-group">
@@ -87,7 +101,7 @@
                         <a :href="picUpload" class="btn btn-info">返回上传</a>
                         <a href="pic-category.html" class="btn btn-default">返回图库</a>
                     </div>
-                    <div class="alert alert-success" role="alert">标签用英文"<b>||</b>"隔开</div>
+                    <div class="alert alert-success" role="alert">标签<b>按回车</b>添加</div>
                 </div>
             </div>
             <div class="row">
@@ -97,25 +111,58 @@
                             <h4>图片信息编辑</h4>
                         </div>
                         <div class="panel-body">
-                            <div v-for="list in picInfo" class="media">
-                                <div class="media-left">
-                                    <img class="media-object" width="80" height="80" v-bind:src="list | imgUrl"  alt="">
-                                </div>
-                                <div class="media-body">
-                                    <div class="form-horizontal">
-                                        <div class="form-group">
-                                            <label class="col-sm-1 control-label text-right">标题</label>
-                                            <div class="col-sm-6">
-                                                <input type="text" v-model="list.title" class="form-control">
+                            <div class="col-md-8">
+                                <div v-for="list in picInfo" class="media">
+                                    <div class="media-left">
+                                        <img class="media-object" width="120" height="120" v-bind:src="list | imgUrl"  alt="">
+                                    </div>
+                                    <div class="media-body">
+                                        <div class="form-horizontal">
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label text-right">标题</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" v-model="list.title" class="form-control">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-horizontal">
+                                            <div class="form-group">
+                                              <label class="col-sm-2 control-label text-right">添加标签</label>
+                                              <div class="col-sm-8">
+                                                  <input type="text" v-model="tag" v-on:keyup.enter="addTags($index)" class="form-control">
+                                              </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-horizontal">
+                                            <div class="form-group">
+                                              <label class="col-sm-2 control-label text-right">标签</label>
+                                              <div class="col-sm-8">
+                                                  <ul>
+                                                      <li v-for="label in list.tags">
+                                                          <span class="label label-info">{{label}}</span>
+                                                          <i class="fa fa-close" @click="removeTags($index,list)"></i>
+                                                      </li>
+                                                  </ul>
+                                              </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="form-horizontal">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-horizontal">
+                                    <label class="col-sm-6 control-label">标题</label>
+                                    <div class="col-sm-6">
                                         <div class="form-group">
-                                          <label class="col-sm-1 control-label text-right">标签</label>
-                                          <div class="col-sm-6">
-                                              <input type="text" v-model="list.tags" class="form-control" placeholder="多个标签用半角符号 || 隔开">
-                                          </div>
+                                            <button @click="copyTitle" class="btn btn-default">复制</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-horizontal">
+                                    <label class="col-sm-6 control-label">标签</label>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <button @click="copyTags" class="btn btn-default">复制</button>
                                         </div>
                                     </div>
                                 </div>
@@ -128,7 +175,7 @@
 
         <div class="container">
             <div class="row">
-                <!-- <pre>{{$data|json}}</pre> -->
+                <pre>{{$data|json}}</pre>
             </div>
         </div>
         
