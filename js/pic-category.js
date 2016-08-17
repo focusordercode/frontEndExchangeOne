@@ -250,6 +250,7 @@ var tree = new Vue({
 
 //暂存修改的数据
 var cacheTitle;
+var cacheTags;
 
 //图片库示例
 var picGallery = new Vue({
@@ -294,14 +295,27 @@ var picGallery = new Vue({
             picGallery.changepic = pic;
             //把数据暂存
             cacheTitle = pic.title;
+            cacheTags = pic.tags.slice();
         },
         //回车添加标签
         addTags:function(){
-            var text = this.newTags.trim();
-            if (text) {
-                this.changepic.tags.push(text)
-                this.newTags = ''
+              var text = this.newTags.trim();
+              var changepic = this.changepic;
+              //检测标签是否有重复
+              var listLen = changepic.tags.length;
+              var sameArr = new Array();
+              for(var h = 0;h<listLen;h++){
+                if(text==changepic.tags[h]){
+                    sameArr.push(changepic.tags[h]);
+                }
               }
+              
+              if (sameArr.length>0){
+                  layer.msg('标签重复');
+               }else if(text){
+                    this.changepic.tags.push(text)
+                    this.newTags = ''
+               }
         },
         //删除标签
         removeTags:function(index){
@@ -328,7 +342,7 @@ var picGallery = new Vue({
                         }else if(data.status==101){
                             layer.msg('未作出任何修改，修改失败');
                         }else if(data.status==102){
-                            layer.msg('参数错误');
+                            layer.msg('参数错误,标题和标签不能为空');
                         }
                     },
                     error:function(jqXHR){
@@ -340,6 +354,7 @@ var picGallery = new Vue({
         //关闭修改框，还原原来的值
         closeChange:function(){
             Vue.set(picGallery.changepic,'title',cacheTitle);
+            Vue.set(picGallery.changepic,'tags',cacheTags);
             $('.picchange').modal('hide');
         },
         //删除图片
@@ -866,6 +881,7 @@ $(document).on('click','.tree2 .item .label',function(){
     $('.tree2 .item .label').removeClass('label-success').addClass('label-primary');
     $(this).removeClass('label-primary').addClass('label-success');
 });
+
 
 var showData = {
     "title": "", //相册标题

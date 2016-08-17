@@ -35,6 +35,10 @@ var picEdit = new Vue({
 			success:function(data){
 				if(data.status==100){
 					picEdit.picInfo = data.value;
+					var picInfoLen = picEdit.picInfo.length;
+					for(var i = 0;i<picInfoLen;i++){
+						Vue.set(picEdit.picInfo[i],'tag','');
+					}
 				}
 			},
 			error:function(jqXHR){
@@ -72,12 +76,23 @@ var picEdit = new Vue({
 			})
 		},
 		//添加标签
-		addTags:function(index){
-			var text = this.tag.trim();
-			if (text) {
-			    this.picInfo[index].tags.push(text);
-			    this.tag = '';
-			  }
+		addTags:function(index,list){
+			var text = list.tag.trim();
+			//检测标签是否有重复
+			var listLen = list.tags.length;
+			var sameArr = new Array();
+			for(var h = 0;h<listLen;h++){
+				if(text==list.tags[h]){
+					sameArr.push(list.tags[h]);
+				}
+			}
+			
+			if (sameArr.length>0){
+			    layer.msg('标签重复');
+			 }else if(text){
+			 	this.picInfo[index].tags.push(text);
+			    list.tag = '';
+			 }
 		},
 		//删除标签
 		removeTags:function(index,list){
@@ -93,10 +108,9 @@ var picEdit = new Vue({
 		},
 		//复制标签
 		copyTags:function(){
-			var tags = this.picInfo[0].tags;
 			var picLen = this.picInfo.length;
 			for(var i = 0;i<picLen;i++){
-				Vue.set(picEdit.picInfo[i],'tags',tags);
+				picEdit.picInfo[i].tags = picEdit.picInfo[0].tags.slice();
 			}
 		}
 	}

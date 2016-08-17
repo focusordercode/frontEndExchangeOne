@@ -83,10 +83,8 @@
                             </ul>
                         </li>
                         <li class="hidden-sm hidden-md"><a href="admin-category.html" target="_blank" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'v2doc'])">分类管理</a></li>
-                        <li><a href="#" target="_blank" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'v3doc'])">上传</a></li>
                         <li><a href="upcUpload.html" target="_blank" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'v4doc'])">UPC</a></li>
-                        <li><a href="#" target="_blank" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'less'])">回收站</a></li>
-                        <li><a href="http://192.168.1.40/PicSystem/canton/Log/log" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'jquery'])">日志</a></li>
+                        <li><a href="http://192.168.1.40/PicSystem/canton/Log/log" target="_blank" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'jquery'])">日志</a></li>
                     </ul>
                 </div>
             </div>
@@ -101,7 +99,7 @@
                         <a :href="picUpload" class="btn btn-info">返回上传</a>
                         <a href="pic-category.html" class="btn btn-default">返回图库</a>
                     </div>
-                    <div class="alert alert-success" role="alert">标签<b>按回车</b>添加</div>
+                    <div class="alert alert-success" role="alert">标签在<b>输入框按回车</b>添加</div>
                 </div>
             </div>
             <div class="row">
@@ -129,7 +127,7 @@
                                             <div class="form-group">
                                               <label class="col-sm-2 control-label text-right">添加标签</label>
                                               <div class="col-sm-8">
-                                                  <input type="text" v-model="tag" v-on:keyup.enter="addTags($index)" class="form-control">
+                                                  <input type="text" v-model="list.tag" v-on:keyup.enter="addTags($index,list)" placeholder="输入后回车" class="form-control">
                                               </div>
                                             </div>
                                         </div>
@@ -175,7 +173,7 @@
 
         <div class="container">
             <div class="row">
-                <pre>{{$data|json}}</pre>
+                <!-- <pre>{{$data|json}}</pre> -->
             </div>
         </div>
         

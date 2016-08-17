@@ -107,24 +107,27 @@ var uploader = new plupload.Uploader({
         UploadProgress: function(up, file) {
             document.getElementById(file.id).getElementsByTagName('b')[0].innerHTML = '<span>' + file.percent + "%</span>";
         },
-
         Error: function(up, err) {
             document.getElementById('console').appendChild(document.createTextNode("\nError #" + err.code + ": " + err.message));
         },
         UploadComplete: function (uploader,files){
-            //解绑页面离开提示
-            $(window).unbind('beforeunload');
+            if(files.length<=0){
+                layer.msg('没有上传任何图片');
+            }else{
+                //解绑页面离开提示
+                $(window).unbind('beforeunload');
 
-            var str = "上传成功 "+files.length+" 张图片。";
-            layer.confirm(str+'去编辑上传成功图片信息',{
-                btn:['确定','取消']
-            },function(yes){
-                var url = 'picUpload-edit.html?id='+files.length+'&cate='+Request.id;
-                window.open(url);
-                location.reload(true);
-            },function(cancel){
-                location.reload(true);
-            })
+                var str = "上传成功 "+files.length+" 张图片。";
+                layer.confirm(str+'去编辑上传成功图片信息',{
+                    btn:['确定','取消']
+                },function(yes){
+                    var url = 'picUpload-edit.html?id='+files.length+'&cate='+Request.id;
+                    window.open(url);
+                    location.reload(true);
+                },function(cancel){
+                    location.reload(true);
+                })
+            }
         }
     }
 });

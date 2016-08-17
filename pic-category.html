@@ -116,10 +116,8 @@
                             </ul>
                         </li>
                         <li class="hidden-sm hidden-md"><a href="admin-category.html" target="_blank" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'v2doc'])">分类管理</a></li>
-                        <li><a href="#" target="_blank" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'v3doc'])">上传</a></li>
                         <li><a href="upcUpload.html" target="_blank" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'v4doc'])">UPC</a></li>
-                        <li><a href="#" target="_blank" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'less'])">回收站</a></li>
-                        <li><a href="http://192.168.1.40/PicSystem/canton/Log/log" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'jquery'])">日志</a></li>
+                        <li><a href="http://192.168.1.40/PicSystem/canton/Log/log" target="_blank" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'jquery'])">日志</a></li>
                     </ul>
                 </div>
             </div>
@@ -386,7 +384,7 @@
                                         <div class="form-group">
                                             <label>标题</label>
                                             <input type="text" v-model="changepic.title" class="form-control">
-                                            <label>标签 <span class="text-success">按回车确定添加</span></label>
+                                            <label>标签 <span class="text-success">按回车添加标签</span></label>
                                             <input type="text" v-model="newTags" v-on:keyup.enter="addTags" class="form-control">
                                             <ul>
                                                 <li v-for="label in changepic.tags">
