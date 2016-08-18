@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>客户管理</title>
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!--你自己的样式文件 -->
+    <link href="css/index.css" rel="stylesheet">
+    <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">        
+    <!-- 以下两个插件用于在IE8以及以下版本浏览器支持HTML5元素和媒体查询，如果不需要用可以移除 -->
+    <!--[if lt IE 9]>
+    <script src="http://apps.bdimg.com/libs/html5shiv/3.7/html5shiv.js"></script>
+    <script src="http://apps.bdimg.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        .table th,.table td {
+            text-align: center;
+            vertical-align: middle!important;
+        }
+        .table td .btn {
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+    <body>
+        <!-- 顶部区域 -->
+        <div class="container-fluid header-fluid-top">
+            <div class="row">
+                <div class="container header-top">
+                    <div class="row">
+                        <div class="col-lg-3 col-md-3 col-sm-12">
+                            <a href="#">
+                                <img src="images/logo.png" alt="">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 导航 -->
+        <div class="navbar navbar-inverse nav-fluid-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand hidden-sm" href="#" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'navbar-首页'])">福克斯德</a>
+                </div>
+                <div class="navbar-collapse collapse" role="navigation">
+                    <ul class="nav navbar-nav">
+                        <li class="dropdown">
+                            <a href="##" data-toggle="dropdown" class="dropdown-toggle">图片库<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="pic-category.html">图片库</a></li>
+                                <li><a href="admin-category-pic.html">图片目录管理</a></li>
+                                <li><a href="pic-trash.html">回收站</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="##" data-toggle="dropdown" class="dropdown-toggle">产品资料<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="template.html">产品资料表模板</a></li>
+                                <li><a href="Table-info.html">产品资料表</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="##" data-toggle="dropdown" class="dropdown-toggle">批量表<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="template-batch-list.html">批量表模板</a></li>
+                                <li><a href="Table-batch.html">批量表</a></li>
+                            </ul>
+                        </li>
+                        <li class="hidden-sm hidden-md"><a href="admin-category.html" target="_blank" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'v2doc'])">分类管理</a></li>
+                        <li><a href="upcUpload.html" target="_blank" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'v4doc'])">UPC</a></li>
+                        <li><a href="http://192.168.1.40/PicSystem/canton/Log/log" target="_blank" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'jquery'])">日志</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container marginTop">
+            <div class="row">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h4><b>客户管理</b></h4>
+                    </div>
+                    <div class="panel-body">
+                        <div class="col-md-4">
+                            <button @click="addTable" class="btn btn-info btn-sm">增加客户</button>
+                            <button class="btn btn-danger btn-sm" @click="removeSelect" :disabled="deleteAll">删除</button>
+                        </div>
+                        <table class="table table-bordered marginTop">
+                            <tr class="info">
+                                <th>序号</th>
+                                <th>选择</th>
+                                <th>客户名</th>
+                                <th>英文名</th>
+                                <th>公司</th>
+                                <th>电话</th>
+                                <th>邮箱</th>
+                                <th>地址</th>
+                                <th>客户编号</th>
+                                <th>操作</th>
+                            </tr>
+                            <template v-for="table in cusData">
+                                <tr v-if="$index%2==0" class="warning">
+                                    <td>{{$index+1}}</td>
+                                    <td>
+                                        <input type="checkbox" v-model="table.checked" class="form-control">
+                                    </td>
+                                    <td>{{table.custom_name}}</td>
+                                    <td>{{table.en_name}}</td>
+                                    <td>{{table.company}}</td>
+                                    <td>{{table.mobile}}</td>
+                                    <td>{{table.email}}</td>
+                                    <td>{{table.address}}</td>
+                                    <td>{{table.custom_number}}</td>
+                                    <td>
+                                        <button class="btn btn-info btn-xs" @click="edit(table,$index)" >编辑</button>
+                                        <button class="btn btn-danger btn-xs" @click="removeThis(table)">删除</button>
+                                    </td>
+                                </tr>
+                                <tr v-else>
+                                    <td>{{$index+1}}</td>
+                                    <td>
+                                        <input type="checkbox" v-model="table.checked" class="form-control">
+                                    </td>
+                                    <td>{{table.custom_name}}</td>
+                                    <td>{{table.en_name}}</td>
+                                    <td>{{table.company}}</td>
+                                    <td>{{table.mobile}}</td>
+                                    <td>{{table.email}}</td>
+                                    <td>{{table.address}}</td>
+                                    <td>{{table.custom_number}}</td>
+                                    <td>
+                                        <button class="btn btn-info btn-xs" @click="edit(table,$index)" >编辑</button>
+                                        <button class="btn btn-danger btn-xs" @click="removeThis(table)">删除</button>
+                                    </td>
+                                </tr>
+                            </template>
+                        </table>
+                        <!-- <div class="col-md-2 col-md-offset-4">
+                            <button class="btn btn-default" disabled>上一页</button>
+                            <button class="btn btn-default">下一页</button>
+                        </div>
+                        <div class="col-md-1">
+                            <input type="num" min="1" class="form-control">
+                        </div>
+                        <div class="col-md-1">
+                            <div class="form-group">
+                                <button class="btn btn-info">跳转</button>
+                            </div>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="container">
+            <div class="row">
+                <pre>{{$data|json}}</pre>  
+            </div>
+        </div>
+        
+        <!-- 添加客户 -->
+        <div class="modal addTable fade" data-backdrop="static">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header bg-primary">
+                        <h4 class="modal-title text-center">添加客户</h4>
+                        <button type="button" class="close close-positon" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i class="fa fa-close"></i></span></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-md-4 col-md-offset-4">
+                                    <div class="form-group">
+                                        <label>客户名</label>
+                                        <input type="text" v-model="addNew.custom_name" placeholder="客户名" class="form-control">
+                                        <label>英文名</label>
+                                        <input type="text" v-model="addNew.en_name" placeholder="英文名" class="form-control">
+                                        <label>公司</label>
+                                        <input type="text" v-model="addNew.company" placeholder="公司名称" class="form-control">
+                                        <label>电话</label>
+                                        <input type="num" min="1" v-model="addNew.mobile"  placeholder="电话或手机号" class="form-control">
+                                        <label>邮箱</label>
+                                        <input type="text" v-model="addNew.email" placeholder="邮箱地址" class="form-control">
+                                        <label>地址</label>
+                                        <input type="text" v-model="addNew.address" placeholder="地址" class="form-control">
+                                    </div>
+                                    <button @click="subTable" class="btn btn-default">提交</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 编辑客户 -->
+        <div class="modal editTable fade" data-backdrop="static">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header bg-primary">
+                        <h4 class="modal-title text-center">编辑客户</h4>
+                        <button type="button" @click="cancel" class="close close-positon"><span aria-hidden="true"><i class="fa fa-close"></i></span></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-md-4 col-md-offset-4">
+                                    <div class="form-group">
+                                        <label>客户名</label>
+                                        <input type="text" v-model="editOne.custom_name" placeholder="客户名" class="form-control">
+                                        <label>英文名</label>
+                                        <input type="text" v-model="editOne.en_name" placeholder="英文名" class="form-control">
+                                        <label>公司</label>
+                                        <input type="text" v-model="editOne.company" placeholder="公司名称" class="form-control">
+                                        <label>电话</label>
+                                        <input type="num" min="1" v-model="editOne.mobile"  placeholder="电话或手机号" class="form-control">
+                                        <label>邮箱</label>
+                                        <input type="text" v-model="editOne.email" placeholder="邮箱地址" class="form-control">
+                                        <label>地址</label>
+                                        <input type="text" v-model="editOne.address" placeholder="地址" class="form-control">
+                                    </div>
+                                    <button @click="subEdit" class="btn btn-default">提交</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 页脚 -->
+        <div class="container-fluid footer-fluid">
+            <div class="contaier">
+                <div class="row">
+                    <div class="col-lg-12">
+                        © All rights reserved 深圳福克斯德信息咨询有限公司
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 如果要使用Bootstrap的js插件，必须先调入jQuery -->
+        <script src="js/jquery.js"></script>
+        <script src="js/vue.js"></script>
+        <!-- 包括所有bootstrap的js插件或者可以根据需要使用的js插件调用　-->
+        <script src="js/bootstrap.min.js"></script>
+        <script src='js/layer.js'></script>
+        <script src='js/customer.js'></script>
+    </body>
+</html>

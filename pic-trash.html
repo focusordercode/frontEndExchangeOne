@@ -112,8 +112,8 @@
                             <div class="col-md-3">
                                 <div class="form-inline">
                                     <div class="form-group pors">
-                                        <label>选择分类</label>
-                                        <input type="text" v-model="keyword" class="form-control">
+                                        <label>选择目录</label>
+                                        <input type="text" v-model="keyword" placeholder="输入文字搜索" class="form-control">
                                         <div class="list-group">
                                             <a href="javascript:" @click="selectList(list)" v-for="list in recoverList" class="list-group-item list-group-item-warning">{{list.cn_name}}</a>
                                         </div>
@@ -129,12 +129,12 @@
                 <ul class="clearfix">
                     <li v-for="pic in picData" class="col-lg-3 col-md-4 col-sm-4">
                         <div class="thumbnail">
-                            <img v-bind:src="pic | imgUrl" alt="">
+                            <img v-bind:src="pic | imgUrl" @click="showPic(pic)" alt="">
                             <div class="caption">
                                 <h4 class="text-warning">{{pic.title}}</h4>
                                 <h4 class="text-muted">{{pic.file_name}}</h4>
                                 <p>
-                                    <button class="btn btn-default btn-name"><i class="fa fa-edit"></i></button>
+                                    <!-- <button class="btn btn-default btn-name"><i class="fa fa-edit"></i></button> -->
                                     <button @click="picinfo(pic)" class="btn btn-default btn-msg"><i class="fa fa-info"></i></button>
                                     <button @click="deletePic(pic)" class="btn btn-default btn-delete"><i class="fa fa-trash"></i></button>
                                     <input type="checkbox" v-model="pic.checked" class="select-pic" >
@@ -150,9 +150,17 @@
             </div>
             <!-- 分页 -->
             <div class="row">
-                <div v-show="countPage>1" class="col-md-12 text-center">
+                <div v-show="countPage>1" class="col-md-2 col-md-offset-4">
                     <button @click="preP" v-bind:disabled="disabledp" class="btn btn-default">上一页</button>
                     <button @click="nextP" v-bind:disabled="disabledn" class="btn btn-default">下一页</button>
+                </div>
+                <div class="col-md-1">
+                    <div class="form-group">
+                        <input type="number" v-model="jumpPage" min="1" class="form-control">
+                    </div>
+                </div>
+                <div class="col-md-3 text-left">
+                    <button @click="jumpTo" class="btn btn-info">跳转</button>
                     <label class="text-warning">当前页数:{{pageNow}}</label>
                     <label class="text-warning">总共页数:{{countPage}}</label>
                 </div>
@@ -161,7 +169,7 @@
         </div>
 
         <script type="text/x-template" id="picinfo">
-            <div class="modal fade">
+            <div class="modal show-info fade">
                 <div class="modal-dialog modal-sm">
                     <div class="modal-content">
                         <div class="modal-header bg-primary">
@@ -207,6 +215,18 @@
         </script>
         
         <my-component :data="onepic" ></my-component>
+
+        <!-- 查看图片大图 -->
+        <div class="modal show-pic fade" id="16" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <div class="modal-body">
+                        <img v-bind:src="onepic | imgUrl" >
+                    </div>
+                </div>
+            </div>
+        </div>
             
         <hr>    
         <div class="container">

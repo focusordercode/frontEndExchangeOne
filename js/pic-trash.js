@@ -18,6 +18,7 @@ var picGallery = new Vue({
         countPage:'',
         countImage:'',
         pageNow:'',
+        jumpPage:'',
         onepic:{},
         disabledp:'',
         disabledn:'',
@@ -69,8 +70,13 @@ var picGallery = new Vue({
     methods:{
         //图片信息
         picinfo:function(pic){
-            $('.modal').modal('show');
-            $('.modal').css('margin-top','200px');
+            $('.show-info').modal('show');
+            $('.show-info').css('margin-top','200px');
+            picGallery.onepic = pic;
+        },
+        //查看图片大图
+        showPic:function(pic){
+            $('.show-pic').modal('show');
             picGallery.onepic = pic;
         },
         //删除图片
@@ -195,7 +201,6 @@ var picGallery = new Vue({
             var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
             var page = this.pageNow;//当前的页码
             var allPage = this.countPage;
-            debugger
             page++;
             if(page>allPage||!page){
                 layer.close(LoadIndex); //关闭遮罩层
@@ -238,6 +243,55 @@ var picGallery = new Vue({
                 })   
             }
         },
+        //跳转
+        jumpTo:function(){
+            var jumpPage = this.jumpPage;
+            var allPage = this.countPage;
+            if(jumpPage>allPage){
+                layer.msg('输入页数大于总页数',{time:1000});
+                this.jumpPage = '';
+            }else if(!jumpPage){
+                layer.msg('请先输入要跳转的页码');
+            }else{
+                //显示加载按钮
+                var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
+                //获取图片数据
+                $.ajax({
+                    type:'POST',
+                    url:'http://192.168.1.40/PicSystem/canton/get/image',
+                    datatype:'json',
+                    data:{
+                        rubbish:1,
+                        pageNum:jumpPage
+                    },
+                    success:function(data){
+                        layer.close(LoadIndex); //关闭遮罩层
+                        if(data.status==100){
+                            picGallery.jumpPage = '';
+                            picGallery.picData = data.value;
+                            picGallery.countPage = data.countPage;
+                            picGallery.countImage = data.countImage;
+                            picGallery.pageNow = data.pageNow;
+                            //给图片数据每个条目加上个checkbox属性
+                            var picData = picGallery.picData;
+                            var picDataLength = picData.length;
+                            var i = 0;
+                            for(i;i<picDataLength;i++){
+                                Vue.set(picGallery.picData[i], 'checked', false)
+                            }
+                        }else if(data.status==101){
+                            // layer.msg('没有获取到图片');  //没有图片不提示了
+                        }else if(data.status==102){
+                            layer.msg('参数错误');
+                        }
+                    },
+                    error:function(jqXHR){
+                        layer.close(LoadIndex); //关闭遮罩层
+                        layer.msg('向服务器请求图片失败');
+                    }
+                }) 
+            }
+        },
         //搜索分类选中分类
         selectList:function(list){
             picGallery.recoverId = list.id;
@@ -255,7 +309,7 @@ var picGallery = new Vue({
                 }
             }
             if(!gallery_id){
-                layer.msg('请先选择分类');
+                layer.msg('请先选择要恢复的目录');
             }else if(picArray.length==0){
                 layer.msg('请先选择要恢复的图片');
             }else{

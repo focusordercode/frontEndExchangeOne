@@ -288,6 +288,11 @@ var picGallery = new Vue({
             $('.picino').css('margin-top','200px');
             picGallery.onepic = pic;
         },
+        //查看图片大图
+        showPic:function(pic){
+            $('.show-pic').modal('show');
+            picGallery.onepic = pic;
+        },
         //图片信息修改
         picchange:function(pic){
             $('.picchange').modal('show');
@@ -880,25 +885,4 @@ $(document).on('click','#tree .item .label',function(){
 $(document).on('click','.tree2 .item .label',function(){
     $('.tree2 .item .label').removeClass('label-success').addClass('label-primary');
     $(this).removeClass('label-primary').addClass('label-success');
-});
-
-
-var showData = {
-    "title": "", //相册标题
-    "id": 123, //相册id
-    "start": 0, //初始显示的图片序号，默认0
-    "data": [   //相册包含的图片，数组格式
-      {
-        "alt": "图片名",
-        "pid": 1, //图片id
-        "src": "http://192.168.1.40/PicSystem/canton/Pictures/testadd1/147099400392584.png", //原图地址
-        "thumb": "http://192.168.1.40/PicSystem/canton/Pictures/testadd1/147099400392584.png" //缩略图地址
-      }
-    ]
-};
-
-
-
-layer.photos({
-    photos: '.pic-content .thumbnail'
 });

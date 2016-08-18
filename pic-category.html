@@ -125,37 +125,6 @@
         
         <!-- 主内容区域 -->
         <div class="container category-content">
-            <div class="row">
-            	<!-- 分类栏目头 -->
-                <!-- <div class="col-lg-12 col-md-12 col-sm-12">
-                    <ol class="breadcrumb">
-                        <li v-on:click="loadThis(list)" v-for="list in breadcrumb">
-                            <span>{{list.cn_name}}</span>
-                        </li>
-                        <li class="active">{{active.cn_name}}</li>
-                    </ol>
-                </div> -->
-                <!-- 列表项 -->
-                <!-- <ul class="category-pic clearfix">
-                    <li v-for="item in picList" class="col-lg-3 col-md-4 col-sm-4">
-                        <div class="thumbnail">
-                            <img v-on:click="loadCate(item)" src="images/xiangce.png" alt="">
-                            <div class="caption">
-                                <h4>{{item.cn_name}}
-                                    <small>{{item.en_name}}</small>
-                                </h4>
-                                <p> -->
-                                    <!-- <button class="btn btn-default btn-name"><i class="fa fa-edit"></i></button>
-                                    <button class="btn btn-default btn-msg"><i class="fa fa-info"></i></button> -->
-                                    <!-- <button v-on:click="remove(item)" class="btn btn-default btn-delete"><i class="fa fa-trash"></i></button>
-                                    <input type="checkbox" class="select-pic category-select-pic" value="" >
-                                </p>
-                            </div>
-                        </div>
-                    </li>
-                </ul> -->
-            </div>
-
             <div class="row bg-well">
                 <div class="col-md-5 res bordered" id="tree">
                     <h4><b class="text-success">产品类目</b></h4>
@@ -277,7 +246,7 @@
                 <ul class="clearfix">
                     <li v-for="pic in picData" class="col-lg-3 col-md-4 col-sm-4">
                         <div class="thumbnail">
-                            <img v-bind:src="pic | imgUrl"  alt="">
+                            <img v-bind:src="pic | imgUrl" @click="showPic(pic)"  alt="">
                             <div class="caption">
                                 <h4 class="text-warning">{{pic.title}}</h4>
                                 <h4 class="text-muted">{{pic.file_name}}</h4>
@@ -365,6 +334,18 @@
                 </div>
             </div>
         </script>
+        
+        <!-- 查看图片大图 -->
+        <div class="modal show-pic fade" id="16" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <div class="modal-body">
+                        <img v-bind:src="onepic | imgUrl" >
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!-- 修改图片详情 -->
         <div class="modal picchange fade" data-backdrop="static">
@@ -385,7 +366,7 @@
                                             <label>标题</label>
                                             <input type="text" v-model="changepic.title" class="form-control">
                                             <label>标签 <span class="text-success">按回车添加标签</span></label>
-                                            <input type="text" v-model="newTags" v-on:keyup.enter="addTags" class="form-control">
+                                            <input type="text" placeholder="按回车添加标签" v-model="newTags" v-on:keyup.enter="addTags" class="form-control">
                                             <ul>
                                                 <li v-for="label in changepic.tags">
                                                     <span class="label label-info">{{label}}</span>
