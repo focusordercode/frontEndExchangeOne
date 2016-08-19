@@ -390,6 +390,29 @@ var picGallery = new Vue({
                     }
                 })
             })
+        },
+        //清空回收站
+        clearAll:function(){
+            layer.confirm('确定清空回收站?此操作不可恢复',{
+                btn:['确定','取消']
+            },function(){
+                $.ajax({
+                    type:'POST',
+                    url:'http://192.168.1.40/PicSystem/canton/clear/image',
+                    datatype:'json',
+                    success:function(data){
+                        if(data.status==100){
+                            layer.msg('操作成功');
+                            setInterval(windowFresh,1000);
+                        }else if(data.status==101){
+                            layer.msg('操作失败');
+                        }else if(data.status==102){
+                            layer.msg('权限不足');
+                        }
+                    },
+                    error:function(jqXHR){}
+                })
+            })
         }
     }
 })

@@ -118,6 +118,7 @@ Vue.component('item', {
         function clear(){
             picGallery.picData = '';
             picGallery.countImage = '';
+            picGallery.countPage = '';
             picGallery.pictreeActive.id = '';
             picGallery.pictreeActive.cn_name = '';
             picGallery.pictreeActive.en_name = '';

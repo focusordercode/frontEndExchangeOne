@@ -244,6 +244,31 @@ var oTableInfo = new Vue({
 				}
 				
 			});
+		},
+		//新建表格
+		creatTable:function(){
+			$.ajax({
+				type:'POST',
+				url:'http://192.168.1.42/canton/index.php/get/sysId',
+				datatype:'json',
+				data:{
+					app_code:'product_form'
+				},
+				success:function(data){
+					if(data.status==100){
+						var id = data.value[0];
+						var url = 'TableWorkflow-creat.html';
+						if(id){
+							window.open(url+'?tableID='+id);
+						}
+					}else if(data.status==101){
+						layer.msg('请求失败，请重试');
+					}
+				},
+				error:function(jqXHR){
+					layer.msg('向服务器请求创建表格失败');
+				}
+			})
 		}
 	}
 })

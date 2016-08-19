@@ -17,7 +17,11 @@ var customer = new Vue({
 		pageNow:'',
 		countPage:'',
 		cusData:'',
-		deleteAll:true,
+		deleteAll:'',
+		prePage:'',
+		nextPage:'',
+		jumpPage:'',
+		jumpBtn:'',
 		addNew:{
 			custom_name:'',
 			en_name:'',
@@ -44,10 +48,10 @@ var customer = new Vue({
 			datatype:'json',
 			success:function(data){
 				if(data.status==100){
-					customer.cus_count= data.cus_count;
-					customer.pageNow= data.pageNow;
-					customer.countPage= data.countPage;
-					customer.cusData= data.value;
+					customer.cus_count = data.cus_count;
+					customer.pageNow = data.pageNow;
+					customer.countPage = data.countPage;
+					customer.cusData = data.value;
 					var cusLen = customer.cusData.length;
 					for(var i = 0;i<cusLen;i++){
 						Vue.set(customer.cusData[i],'checked',false);
@@ -60,6 +64,38 @@ var customer = new Vue({
 				layer.msg('向服务器请求客户信息失败');
 			}
 		})
+	},
+	computed:{
+		//上一页的可用状态
+		prePage:function(){
+			var pageNow = this.pageNow;
+			if(pageNow<=1){
+				return true
+			}else {
+				return false
+			}
+		},
+		//下一页的可用状态
+		nextPage:function(){
+			var countPage = this.countPage;
+			var pageNow = this.pageNow;
+			if(countPage<=1){
+				return true
+			}else if(pageNow==countPage) {
+				return true
+			}else{
+				return false
+			}
+		},
+		//跳转按钮可用状态
+		jumpBtn:function(){
+			var jumpPage = this.jumpPage;
+			if(!jumpPage){
+				return true
+			}else{
+				return false
+			}
+		}
 	},
 	methods:{
 		//删除选中按钮
@@ -137,7 +173,7 @@ var customer = new Vue({
 			var addNew = this.addNew;
 			var tel = /^1[34578]{1}[0-9]{9}$/;
 			var EN = /^[A-z\s]+$/;
-			var Email = /^([0-9A-Za-z\\-_\\.]+)@([0-9a-z]+\\.[a-z]{2,3}(\\.[a-z]{2})?)$/i;
+			var Email = /^(?:[a-zA-Z0-9]+[_\-\+\.]?)*[a-zA-Z0-9]+@(?:([a-zA-Z0-9]+[_\-]?)*[a-zA-Z0-9]+\.)+([a-zA-Z]{2,})+$/;
 
 			if(!addNew.custom_name){
 				layer.msg('客户名称为空');
@@ -145,7 +181,7 @@ var customer = new Vue({
 				layer.msg('英文名不能为空,英文只能是大小写字母和空格');
 			}else if(!addNew.mobile||!tel.test(addNew.mobile)){
 				layer.msg('电话不能为空，手机号格式要填写正确');
-			}else if(!addNew.email){
+			}else if(!addNew.email||!Email.test(addNew.email)){
 				layer.msg('邮箱不能为空，邮箱格式要填写正确');
 			}else{
 				$.ajax({
@@ -189,7 +225,7 @@ var customer = new Vue({
 			var addNew = this.editOne;
 			var tel = /^1[34578]{1}[0-9]{9}$/;
 			var EN = /^[A-z\s]+$/;
-			var Email = /^([0-9A-Za-z\\-_\\.]+)@([0-9a-z]+\\.[a-z]{2,3}(\\.[a-z]{2})?)$/i;
+			var Email = /^(?:[a-zA-Z0-9]+[_\-\+\.]?)*[a-zA-Z0-9]+@(?:([a-zA-Z0-9]+[_\-]?)*[a-zA-Z0-9]+\.)+([a-zA-Z]{2,})+$/;
 
 			if(!addNew.custom_name){
 				layer.msg('客户名称为空');
@@ -197,7 +233,7 @@ var customer = new Vue({
 				layer.msg('英文名不能为空,英文只能是大小写字母和空格');
 			}else if(!addNew.mobile||!tel.test(addNew.mobile)){
 				layer.msg('电话不能为空，手机号格式要填写正确');
-			}else if(!addNew.email){
+			}else if(!addNew.email||!Email.test(addNew.email)){
 				layer.msg('邮箱不能为空，邮箱格式要填写正确');
 			}else{
 				$.ajax({
@@ -212,7 +248,7 @@ var customer = new Vue({
 							layer.msg('修改成功');
 							$('.editTable').modal('hide');
 						}else if(data.status==101){
-							layer.msg('操作失败');
+							layer.msg('操作失败,未作出任何修改');
 						}else if(data.status==102){
 							layer.msg('参数错误');
 						}
@@ -233,6 +269,123 @@ var customer = new Vue({
 			Vue.set(customer.editOne,'mobile',Cmobile);
 			Vue.set(customer.editOne,'email',Cemail);
 			Vue.set(customer.editOne,'address',Caddress);
+		},
+		//上一页
+		preP:function(){
+			var pageNow = this.pageNow;
+			pageNow--;
+			//获取所有客户信息
+
+			//显示加载按钮
+			var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
+			$.ajax({
+				type:'POST',
+				url:'http://192.168.1.40/PicSystem/canton/get/custom',
+				datatype:'json',
+				data:{
+					pageNow:pageNow
+				},
+				success:function(data){
+					layer.close(LoadIndex); //关闭遮罩层
+					if(data.status==100){
+						customer.cus_count= data.cus_count;
+						customer.pageNow= data.pageNow;
+						customer.countPage= data.countPage;
+						customer.cusData= data.value;
+						var cusLen = customer.cusData.length;
+						for(var i = 0;i<cusLen;i++){
+							Vue.set(customer.cusData[i],'checked',false);
+						}
+					}else if(data.status==101){
+						layer.msg('获取失败，客户信息为空');
+					}
+				},
+				error:function(jqXHR){
+					layer.close(LoadIndex); //关闭遮罩层
+					layer.msg('向服务器请求客户信息失败');
+				}
+			})
+		},
+		//下一页
+		nextP:function(){
+			var pageNow = this.pageNow;
+			pageNow++;
+
+			//获取客户信息
+
+			//显示加载按钮
+			var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
+			$.ajax({
+				type:'POST',
+				url:'http://192.168.1.40/PicSystem/canton/get/custom',
+				datatype:'json',
+				data:{
+					pageNow:pageNow
+				},
+				success:function(data){
+					layer.close(LoadIndex); //关闭遮罩层
+					if(data.status==100){
+						customer.cus_count= data.cus_count;
+						customer.pageNow= data.pageNow;
+						customer.countPage= data.countPage;
+						customer.cusData= data.value;
+						var cusLen = customer.cusData.length;
+						for(var i = 0;i<cusLen;i++){
+							Vue.set(customer.cusData[i],'checked',false);
+						}
+					}else if(data.status==101){
+						layer.msg('获取失败');
+					}
+				},
+				error:function(jqXHR){
+					layer.close(LoadIndex); //关闭遮罩层
+					layer.msg('向服务器请求客户信息失败');
+				}
+			})
+		},
+		//跳转
+		jumpP:function(){
+			var jumpPage = this.jumpPage;
+			var countPage = this.countPage;
+
+			//获取客户信息
+			if(jumpPage<1){
+				layer.msg('输入页数不符合要求');
+			}else if(jumpPage>countPage){
+				layer.msg('输入页码大于总页数');
+				this.jumpPage = '';
+			}else{
+				//显示加载按钮
+				var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
+				$.ajax({
+					type:'POST',
+					url:'http://192.168.1.40/PicSystem/canton/get/custom',
+					datatype:'json',
+					data:{
+						pageNow:jumpPage
+					},
+					success:function(data){
+						layer.close(LoadIndex); //关闭遮罩层
+						if(data.status==100){
+							customer.cus_count= data.cus_count;
+							customer.pageNow= data.pageNow;
+							customer.countPage= data.countPage;
+							customer.cusData= data.value;
+							customer.jumpPage= '';
+							var cusLen = customer.cusData.length;
+							for(var i = 0;i<cusLen;i++){
+								Vue.set(customer.cusData[i],'checked',false);
+							}
+						}else if(data.status==101){
+							layer.msg('获取失败，客户信息为空');
+						}
+					},
+					error:function(jqXHR){
+						layer.close(LoadIndex); //关闭遮罩层
+						layer.msg('向服务器请求客户信息失败');
+					}
+				})
+			}
 		}
 	}
 })
@@ -254,4 +407,16 @@ customer.$watch('cusData', function (data) {
 	}
 },{
 	deep:true
+})
+
+//Vue过滤器
+Vue.filter('ListNum',function(value){
+    var str = value;
+    var pageNow = customer.pageNow;
+    if(pageNow==1){
+    	str = str + 1;
+    }else if(pageNow>1){
+    	str = (pageNow-1)*10+str+1;
+    }
+    return str
 })
