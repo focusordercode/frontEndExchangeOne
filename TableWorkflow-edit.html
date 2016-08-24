@@ -88,7 +88,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand hidden-sm" href="#" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'navbar-首页'])">福克斯德</a>
+                    <a class="navbar-brand hidden-sm" href="Table-info.html" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'navbar-首页'])">资料表首页</a>
                 </div>
                 <div class="navbar-collapse collapse" role="navigation">
                     <ul class="nav navbar-nav">
@@ -100,14 +100,74 @@
 
         <!-- 主内容区域 -->
         <!-- 步骤 -->
-        <div class="container marginTop">
+
+        <!-- <div class="container marginTop">
             <div class="row">
                 <div class="container">
                     <div class="row form-group">
                         <div class="col-md-12 col-xs-12">
                             <ul class="nav nav-pills nav-justified thumbnail setup-panel">
                                 <li>
-                                    <a href="TableWorkflow-creat.html">
+                                    <a :href="TableCreat">
+                                        <h3 class="list-group-item-heading">第一步</h3>
+                                        <p class="list-group-item-text">
+                                            <h4>创建表格</h4>
+                                            <i class="fa fa-table fa-3x"></i>
+                                        </p>
+                                    </a>
+                                </li>
+                                <li class="active">
+                                    <a href="#step-2">
+                                        <h3 class="list-group-item-heading">第二步</h3>
+                                        <p class="list-group-item-text">
+                                            <h4>编辑产品</h4>
+                                            <i class="fa fa-edit fa-3x"></i>
+                                        </p>
+                                    </a>
+                                </li>
+                                <li class="disabled">
+                                    <a href="#step-3">
+                                        <h3 class="list-group-item-heading">第三步</h3>
+                                        <p class="list-group-item-text">
+                                            <h4>选择图片</h4>
+                                            <i class="fa fa-file-image-o fa-3x"></i>
+                                        </p>
+                                    </a>
+                                </li>
+                                <li class="disabled">
+                                    <a href="#step-3">
+                                        <h3 class="list-group-item-heading">第四步</h3>
+                                        <p class="list-group-item-text">
+                                            <h4>上传图片</h4>
+                                        </p>
+                                        <i class="fa fa-cloud-upload fa-3x"></i>
+                                    </a>
+                                </li>
+                                <li class="disabled">
+                                    <a href="#step-3">
+                                        <h3 class="list-group-item-heading">第五步</h3>
+                                        <p class="list-group-item-text">
+                                            <h4>完成生效</h4>
+                                        </p>
+                                        <i class="fa fa-check fa-3x"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+        
+        <!-- 步骤 -->
+        <div class="container marginTop">
+            <div class="row">
+                <div class="container">
+                    <div class="row form-group">
+                        <div class="col-md-12 col-xs-12">
+                            <ul class="nav nav-pills nav-justified thumbnail setup-panel">
+                                <li class="disabled">
+                                    <a href="#step-1">
                                         <h3 class="list-group-item-heading">第一步</h3>
                                         <p class="list-group-item-text">
                                             <h4>创建表格</h4>
@@ -157,33 +217,34 @@
                 </div>
             </div>
         </div>
+
         <!-- 资料表信息 -->
-        <div class="container tableDetail">
+        <div class="container-fluid tableDetail marginTop">
             <div class="row">
                 <div class="col-md-12">
                     <div class="well">
-                        <h3 class="text-primary">产品资料表录入</h3>
+                        <h3 class="text-success">产品资料表录入</h3>
                         <hr>
                         <div class="row">
                             <div class="col-md-2">
-                                <label class="label label-primary">表格名称</label>
-                                <span class="text-muted">表格1</span>
+                                <label class="label label-success">表格编号</label>
+                                <span class="text-muted">{{info.form_no}}</span>
                             </div>
                             <div class="col-md-2">
-                                <label class="label label-primary">表格编号</label>
-                                <span class="text-muted">448464135</span>
+                                <label class="label label-success">表格名称</label>
+                                <span class="text-muted">{{info.title}}</span>
                             </div>
                             <div class="col-md-2">
-                                <label class="label label-primary">所属类目</label>
-                                <span class="text-muted">服装</span>
+                                <label class="label label-success">所属类目</label>
+                                <span class="text-muted">{{info.name}}</span>
                             </div>
                             <div class="col-md-2">
-                                <label class="label label-primary">使用的模板</label>
-                                <span class="text-muted">通用模板</span>
+                                <label class="label label-success">使用的模板</label>
+                                <span class="text-muted">{{info.tempname}}</span>
                             </div>
                             <div class="col-md-2">
-                                <label class="label label-primary">所属客户</label>
-                                <span class="text-muted">XXX</span>
+                                <label class="label label-success">所属客户</label>
+                                <span class="text-muted">{{info.client_name}}</span>
                             </div>
                         </div>
                     </div>
@@ -191,404 +252,76 @@
             </div>
         </div>
         
-        <!-- 表格 -->
-        <div id="table">
+        <!-- component template -->
+        <script type="text/x-template" id="grid-template">
             <div class="container-fluid">
                 <div class="row">
                     <div class="well well-sm">
                         <div class="table-responsive">
                             <table class="table table-bordered">
                                 <thead>
-                        <tr>
-                            <th>序号</th>
-                            <th>
-                                操作
-                            </th>
-                            <th>
-                                SKU
-                            </th><th>
-                                UPC
-                            </th><th>
-                                Manufacturer
-                            </th><th>
-                                Brand
-                            </th><th>
-                                Product Title
-                            </th><th>
-                                Description
-                            </th><th>
-                                Quantity on hand
-                            </th><th>
-                                Size
-                            </th><th>
-                                Color
-                            </th><th>
-                                Price (USD)
-                            </th><th>
-                                Price (GBP)
-                            </th><th>
-                                Bullet point 1
-                            </th><th>
-                                Bullet point 2
-                            </th><th>
-                                Bullet point 3
-                            </th><th>
-                                Bullet point 4
-                            </th><th>
-                                Bullet point 5
-                            </th><th>
-                                Search Term 1
-                            </th><th>
-                                Search Term 2
-                            </th><th>
-                                Search Term 3
-                            </th><th>
-                                Search Term 4
-                            </th><th>
-                                Search Term 5
-                            </th><th>
-                                Image URL
-                            </th>
-                        </tr>
+                                    <tr>
+                                        <th>序号</th>
+                                        <th>
+                                            操作
+                                        </th>
+                                        <th v-for="key in columns">
+                                            {{key | capitalize}}
+                                        </th>
+                                    </tr>
                                 </thead>
                                 <tbody>
-                                    <tr class="info">
-                                    <td>1</td>
-                                    <td>
-                                        <button class="btn btn-success">主体</button>
-                                        <button class="btn btn-info">变体</button>
-                                        <button class="btn btn-danger">删除</button>
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td>
-                                    </tr>
-                             <!-- 变体展示方式 -->
-                            <tr class="warning">
-                                    <td>2</td>
-                                    <td>
-                                        <button class="btn btn-success" style="display: none;">主体</button>
-                                        <button class="btn btn-info" style="display: none;">变体</button>
-                                        <button class="btn btn-danger">删除</button>
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td>
-                                </tr>
-                             <!-- 变体展示方式 -->
-                            <tr class="warning">
-                                    <td>3</td>
-                                    <td>
-                                        <button class="btn btn-success" style="display: none;">主体</button>
-                                        <button class="btn btn-info" style="display: none;">变体</button>
-                                        <button class="btn btn-danger">删除</button>
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td>
-                                </tr>
-                             <!-- 变体展示方式 -->
-                            <tr class="info">
-                                    <td>4</td>
-                                    <td>
-                                        <button class="btn btn-success">主体</button>
-                                        <button class="btn btn-info">变体</button>
-                                        <button class="btn btn-danger">删除</button>
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td>
-                                </tr>
-                             <!-- 变体展示方式 -->
-                            <tr class="info">
-                                    <td>5</td>
-                                    <td>
-                                        <button class="btn btn-success">主体</button>
-                                        <button class="btn btn-info">变体</button>
-                                        <button class="btn btn-danger">删除</button>
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td>
-                                </tr>
-                             <!-- 变体展示方式 -->
-                            <tr class="warning">
-                                    <td>6</td>
-                                    <td>
-                                        <button class="btn btn-success" style="display: none;">主体</button>
-                                        <button class="btn btn-info" style="display: none;">变体</button>
-                                        <button class="btn btn-danger">删除</button>
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td><td>
-                                        <input type="text" class="form-control">
-                                    </td>
-                                </tr>
-                             <!-- 变体展示方式 -->
-                                        
+                                    <template v-for="entry in data" track-by="product_id">
+                                        <!-- 主体展示方式 -->
+                                        <template v-if="entry.parent_id==0">
+                                            <tr class="info">
+                                                <td>{{$index+1}}</td>
+                                                <td>
+                                                    <button v-on:click="addline(entry,$index)" v-show="entry.parent_id==0" class="btn btn-success">主体</button>
+                                                    <button v-on:click="addchange(entry,$index)" v-show="entry.parent_id==0" class="btn btn-info">变体</button>
+                                                    <button v-on:click="remove(entry,$index)" class="btn btn-danger">删除</button>
+                                                </td>
+                                                <td v-for="key in columns">
+                                                    <input type="text" v-model="entry[key]" class="form-control">
+                                                </td>
+                                            </tr>
+                                        </template>
+                                         <!-- 变体展示方式 -->
+                                        <template v-else>
+                                            <tr class="warning">
+                                                <td>{{$index+1}}</td>
+                                                <td>
+                                                    <button v-on:click="addline(entry,$index)" v-show="entry.parent_id==0" class="btn btn-success">主体</button>
+                                                    <button v-on:click="addchange(entry,$index)" v-show="entry.parent_id==0" class="btn btn-info">变体</button>
+                                                    <button v-on:click="remove(entry,$index)" class="btn btn-danger">删除</button>
+                                                </td>
+                                                <td v-for="key in columns">
+                                                    <input type="text" v-model="entry[key]" class="form-control">
+                                                </td>
+                                            </tr>
+                                        </template> 
+                                    </template>
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
             </div>
+        </script>
+
+        <!-- demo root element -->
+        <div id="table">
+            <demo-grid
+            :data="gridData"
+            :columns="gridColumns">
+            </demo-grid>
         </div>
 
         <div class="container">
             <div class="row">
                 <div class="col-md-12 text-center">
-                    <a class="btn btn-primary" href="TableWorkflow-selectPic.html" >提交</a>
+                    <!-- <a class="btn btn-primary" href="TableWorkflow-selectPic.html" >提交</a> -->
+                    <button @click="sendMsg" class="btn btn-primary">提交</button>
                 </div>
             </div>
         </div>
@@ -610,5 +343,6 @@
         <!-- 包括所有bootstrap的js插件或者可以根据需要使用的js插件调用　-->
         <script src="js/bootstrap.min.js"></script>
         <script src='js/layer.js'></script>
+        <script src='js/TableWorkflow-edit.js'></script>
     </body>
 </html>

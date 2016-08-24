@@ -150,7 +150,7 @@ var tempInfo = new Vue({
     ready:function(){
         $.ajax({
             type: "POST",
-            url: "http://192.168.1.42/canton/index.php/get/template", //添加请求地址的参数
+            url: "http://192.168.1.40/PicSystem/canton/get/template", //添加请求地址的参数
             dataType: "json",
             timeout:5000,
             data:{

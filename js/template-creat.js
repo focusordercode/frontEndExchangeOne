@@ -32,7 +32,7 @@ $oCateInput.keyup(function(){
     }
     $.ajax({
         type: "POST",    
-        url: "http://192.168.1.42/canton/index.php/vague/name", //添加请求地址的参数
+        url: "http://192.168.1.40/PicSystem/canton/index.php/vague/name", //添加请求地址的参数
         dataType: "json",
         data: {
             text:$oCateText
@@ -78,7 +78,7 @@ $('.temp-info-xg .btn-xg').click(function(){
     }else{
     	$.ajax({
     	    type: "POST",    
-    	    url: "http://192.168.1.42/canton/index.php/add/template", //添加请求地址的参数
+    	    url: "http://192.168.1.40/PicSystem/canton/add/template", //添加请求地址的参数
     	    dataType: "json",
     	    data: {
     	        cn_name:$InfoCnName,

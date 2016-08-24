@@ -11,7 +11,7 @@ var oTableInfo = new Vue({
 	ready:function(){
 		$.ajax({
 		    type: "POST",
-		    url: "http://192.168.1.42/canton/index.php/get/infoform", //添加请求地址的参数
+		    url: "http://192.168.1.40/PicSystem/canton/index.php/get/infoform", //添加请求地址的参数
 		    dataType: "json",
 		    timeout:5000,
 		    data:{
@@ -39,12 +39,12 @@ var oTableInfo = new Vue({
 			},function(){
 				$.ajax({
 				    type: "POST",
-				    url: "http://192.168.1.42/canton/index.php/del/infoform", //添加请求地址的参数
+				    url: "http://192.168.1.40/PicSystem/canton/index.php/del/infoform", //添加请求地址的参数
 				    dataType: "json",
 				    timeout:5000,
 				    data:{
 				        id:Id,
-				        type_code:type_code,
+				        type_code:type_code
 				    },
 				    success: function(data){
 				        if(data.status==100){
@@ -74,7 +74,7 @@ var oTableInfo = new Vue({
 			},function(){
 				$.ajax({
 				    type: "POST",
-				    url: "http://192.168.1.42/canton/index.php/use/infoform", //添加请求地址的参数
+				    url: "http://192.168.1.40/PicSystem/canton/index.php/use/infoform", //添加请求地址的参数
 				    dataType: "json",
 				    timeout:5000,
 				    data:{
@@ -209,7 +209,7 @@ var oTableInfo = new Vue({
 				}else{
 					$.ajax({
 						type:'POST',
-						url:'http://192.168.1.42/canton/index.php/update/infoform',
+						url:'http://192.168.1.40/PicSystem/canton/update/infoform',
 						datatype:'json',
 						data:{
 							type_code:item.type_code,
@@ -247,19 +247,20 @@ var oTableInfo = new Vue({
 		},
 		//新建表格
 		creatTable:function(){
+			var w = window.open();
 			$.ajax({
 				type:'POST',
-				url:'http://192.168.1.42/canton/index.php/get/sysId',
+				url:'http://192.168.1.40/PicSystem/canton/get/formNumber',
 				datatype:'json',
 				data:{
 					app_code:'product_form'
 				},
 				success:function(data){
 					if(data.status==100){
-						var id = data.value[0];
-						var url = 'TableWorkflow-creat.html';
+						var id = data.value;
+						var url = 'TableWorkflow-creat.html?tableID='+id;
 						if(id){
-							window.open(url+'?tableID='+id);
+							w.location = url;
 						}
 					}else if(data.status==101){
 						layer.msg('请求失败，请重试');

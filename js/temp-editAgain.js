@@ -32,7 +32,7 @@ $oCateInput.keyup(function(){
     }
     $.ajax({
         type: "POST",    
-        url: "http://192.168.1.42/canton/index.php/vague/name", //添加请求地址的参数
+        url: "http://192.168.1.40/PicSystem/canton/vague/name", //添加请求地址的参数
         dataType: "json",
         data: {
             text:$oCateText
@@ -72,7 +72,7 @@ var tempEditAgain = new Vue({
     ready:function(){
         $.ajax({
             type: "POST",
-            url: "http://192.168.1.42/canton/index.php/get/template", //添加请求地址的参数
+            url: "http://192.168.1.40/PicSystem/canton/get/template", //添加请求地址的参数
             dataType: "json",
             timeout:5000,
             data:{
@@ -98,7 +98,7 @@ $('.temp-info .btn-xg').on('click',function(){
     $remark = $('.temp-info-xg .remark').val();
     $.ajax({
         type: "POST",
-        url: "http://192.168.1.42/canton/index.php/update/template", //添加请求地址的参数
+        url: "http://192.168.1.40/PicSystem/canton/update/template", //添加请求地址的参数
         dataType: "json",
         data:{
             id:Request.id,
@@ -135,7 +135,7 @@ var tempEdit = new Vue({
     ready:function(){
         $.ajax({
             type: "POST",
-            url: "http://192.168.1.42/canton/index.php/get/templateitem", //添加请求地址的参数
+            url: "http://192.168.1.40/PicSystem/canton/get/templateitem", //添加请求地址的参数
             dataType: "json",
             timeout:5000,
             data:{
@@ -156,7 +156,7 @@ var tempEdit = new Vue({
         send:function(){
             $.ajax({
                 type: "POST",
-                url: "http://192.168.1.42/canton/index.php/update/templateitem", //添加请求地址的参数
+                url: "http://192.168.1.40/PicSystem/canton/update/templateitem", //添加请求地址的参数
                 dataType: "json",
                 timeout:5000,
                 data:{
@@ -198,7 +198,7 @@ $(document).on("click",".temp-edit .delete i",function(){
             },function(){
               $.ajax({
                   type: "POST",
-                  url: "http://192.168.1.42/canton/index.php/delete/templateitem", //添加请求地址的参数
+                  url: "http://192.168.1.40/PicSystem/canton/delete/templateitem", //添加请求地址的参数
                   dataType: "json",
                   timeout:5000,
                   data:{

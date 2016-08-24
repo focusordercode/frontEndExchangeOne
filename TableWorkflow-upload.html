@@ -24,6 +24,9 @@
             text-align: center;
             vertical-align: middle!important;
         }
+        .start {
+            display: none;
+        }
     </style>
 </head>
     <body>
@@ -52,7 +55,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand hidden-sm" href="#" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'navbar-首页'])">福克斯德</a>
+                    <a class="navbar-brand hidden-sm" href="Table-info.html" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'navbar-首页'])">资料表首页</a>
                 </div>
                 <div class="navbar-collapse collapse" role="navigation">
                     <ul class="nav navbar-nav">
@@ -63,8 +66,9 @@
         </div>
 
         <!-- 主内容区域 -->
+
         <!-- 步骤 -->
-        <div class="container marginTop">
+        <!-- <div class="container marginTop">
             <div class="row">
                 <div class="container">
                     <div class="row form-group">
@@ -120,6 +124,65 @@
                     </div>
                 </div>
             </div>
+        </div> -->
+
+        <!-- 步骤 -->
+        <div class="container marginTop">
+            <div class="row">
+                <div class="container">
+                    <div class="row form-group">
+                        <div class="col-md-12 col-xs-12">
+                            <ul class="nav nav-pills nav-justified thumbnail setup-panel">
+                                <li class="disabled">
+                                    <a href="#step-1">
+                                        <h3 class="list-group-item-heading">第一步</h3>
+                                        <p class="list-group-item-text">
+                                            <h4>创建表格</h4>
+                                            <i class="fa fa-table fa-3x"></i>
+                                        </p>
+                                    </a>
+                                </li>
+                                <li class="disabled">
+                                    <a href="#step-2">
+                                        <h3 class="list-group-item-heading">第二步</h3>
+                                        <p class="list-group-item-text">
+                                            <h4>编辑产品</h4>
+                                            <i class="fa fa-edit fa-3x"></i>
+                                        </p>
+                                    </a>
+                                </li>
+                                <li class="disabled">
+                                    <a href="#step-3">
+                                        <h3 class="list-group-item-heading">第三步</h3>
+                                        <p class="list-group-item-text">
+                                            <h4>选择图片</h4>
+                                            <i class="fa fa-file-image-o fa-3x"></i>
+                                        </p>
+                                    </a>
+                                </li>
+                                <li class="active">
+                                    <a href="#step-3">
+                                        <h3 class="list-group-item-heading">第四步</h3>
+                                        <p class="list-group-item-text">
+                                            <h4>上传图片</h4>
+                                        </p>
+                                        <i class="fa fa-cloud-upload fa-3x"></i>
+                                    </a>
+                                </li>
+                                <li class="disabled">
+                                    <a href="#step-3">
+                                        <h3 class="list-group-item-heading">第五步</h3>
+                                        <p class="list-group-item-text">
+                                            <h4>完成生效</h4>
+                                        </p>
+                                        <i class="fa fa-check fa-3x"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="container">
@@ -136,46 +199,37 @@
                                     <th>图片名称</th>
                                     <th>图片URL</th>
                                     <th>图片大小</th>
-                                    <th>图片尺寸</th>
+                                    <th>图片尺寸(宽X高)</th>
                                     <th>上传状态</th>
+                                    <th>操作</th>
                                 </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td>4</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
+                                <template v-for="list in picData">
+                                    <tr>
+                                        <td>{{$index+1}}</td>
+                                        <td>{{list.file_name}}</td>
+                                        <td>{{list.image_url}}</td>
+                                        <td>{{list.file_size | sizeCounter}}</td>
+                                        <td>{{list.width}}X{{list.height}}</td>
+                                        <td>
+                                            <i v-show="!list.image_url" class="fa fa-2x fa-frown-o"></i>
+
+                                            <span class="text-success">
+                                                <i v-show="list.image_url" class="text-succuss fa fa-2x fa-smile-o"></i>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <button v-show="!list.image_url" @click="removeLsit(list)" class="btn btn-danger">
+                                                删除
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </template>
                             </table>
                             <div class="row">
-                                <div class="col-md-4 col-md-offset-4">
-                                    <button class="btn btn-default">开始上传</button>
-                                    <button class="btn btn-default">返回</button>
+                                <div class="col-md-4 col-md-offset-5">
+                                    <button @click="getReady" class="btn ready btn-default">准备</button>
+                                    <button @click="startUpload" class="btn start btn-info">开始上传</button>
+                                    <!-- <button class="btn btn-default">返回</button> -->
                                 </div>
                             </div>
                         </div>
@@ -187,27 +241,33 @@
                         <div class="col-md-10 col-md-offset-1">
                             <div class="col-md-2">
                                 <label class="label label-primary">计划上传:</label>
-                                <span class="text-muted">80</span>
+                                <span class="text-muted">{{picData.length}}</span>
                             </div>
                             <div class="col-md-2">
                                 <label class="label label-primary">成功上传:</label>
-                                <span class="text-muted">80</span>
+                                <span class="text-muted">{{success}}</span>
                             </div>
                             <div class="col-md-2">
                                 <label class="label label-primary">失败上传:</label>
-                                <span class="text-muted">0</span>
+                                <span class="text-muted">{{error}}</span>
                             </div>
                         </div>
                         <hr>
                         <hr>
                         <div class="col-md-4 col-md-offset-5">
                             <div class="form-group">
-                                <!-- <button class="btn btn-primary">完成生效</button> -->
-                                <a class="btn btn-primary" href="#">完成生效</a>
+                                <button @click="uploadDone" class="btn btn-primary" :disabled="uploadDoneStatus" >完成生效</button>
+                                <!-- <a class="btn btn-primary" href="#">完成生效</a> -->
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <!-- <pre>{{$data|json}}</pre> -->
             </div>
         </div>
 
@@ -228,5 +288,6 @@
         <!-- 包括所有bootstrap的js插件或者可以根据需要使用的js插件调用　-->
         <script src="js/bootstrap.min.js"></script>
         <script src='js/layer.js'></script>
+        <script src='js/TableWorkflow-upload.js'></script>
     </body>
 </html>

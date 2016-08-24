@@ -427,9 +427,9 @@ body,html {
     opacity: 1;
 }
 @media (min-width: 768px) {
-	.modal-dialog {
+	.modalPic > .modal-dialog {
     	width: 55%;
-    	margin: 50 auto;
+    	margin: 50px auto;
 	}
 }
 @media (max-width: 768px) {

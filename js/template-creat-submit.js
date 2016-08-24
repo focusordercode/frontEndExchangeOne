@@ -20,7 +20,7 @@ $('.temp-edit .btn-submit').on('click',function(){
     }else{
     	$.ajax({
     	    type: "POST",
-    		url: "http://192.168.1.42/canton/index.php/add/templateitem", //添加请求地址的参数
+    		url: "http://192.168.1.40/PicSystem/canton/add/templateitem", //添加请求地址的参数
     		dataType: "json",
     		data:{
     			template_id:$template_id,

@@ -63,7 +63,7 @@
         }
     </style>
 </head>
-    <body>
+    <body class="modalPic">
         <!-- 顶部区域 -->
         <div class="container-fluid header-fluid-top">
             <div class="row">
@@ -287,6 +287,18 @@
             </div>
 
         </div>
+
+        <!-- 查看图片大图 -->
+        <div class="modal modalPic show-pic fade" id="16" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <div class="modal-body">
+                        <img v-bind:src="onepic | imgUrl" >
+                    </div>
+                </div>
+            </div>
+        </div>
         
         <!-- 查看图片详情 -->
         <script type="text/x-template" id="picinfo">
@@ -335,18 +347,6 @@
                 </div>
             </div>
         </script>
-        
-        <!-- 查看图片大图 -->
-        <div class="modal show-pic fade" id="16" tabindex="-1" role="dialog">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                    <div class="modal-body">
-                        <img v-bind:src="onepic | imgUrl" >
-                    </div>
-                </div>
-            </div>
-        </div>
 
         <!-- 修改图片详情 -->
         <div class="modal picchange fade" data-backdrop="static">
