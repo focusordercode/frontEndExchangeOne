@@ -68,7 +68,7 @@ var selectPic = new Vue({
         getPic:'',   //控制筛选图片按钮的可用状态
         picData:'',  //筛选到的图片数据
         num_now:'',
-        not_enough:'',
+        not_enough:0,
         count:'',
         rand_id:''
     },
@@ -100,11 +100,21 @@ var selectPic = new Vue({
         TableCreat:function(){
             return 'TableWorkflow-creat.html'+'?tableID='+Request.tableID;
         },
+        //控制筛选图片按钮
         getPic:function(){
             if(!this.tableNum||!this.selectedPicId){
                 return true
             }else{
                 return false
+            }
+        },
+        //控制进入下一步骤按钮
+        NextStepStatus:function(){
+            var picDataLen = this.picData.length;
+            if(picDataLen>0){
+                return false
+            }else{
+                return true
             }
         }
     },
@@ -174,6 +184,7 @@ var selectPic = new Vue({
                     },
                     success:function(data){
                         if(data.status==100){
+                            layer.msg('筛选成功');
                             selectPic.picData = data.value;
                             selectPic.num_now = data.num_now;
                             selectPic.not_enough = data.not_enough;

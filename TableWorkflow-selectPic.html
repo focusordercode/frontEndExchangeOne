@@ -234,11 +234,11 @@
                                         <label class="col-sm-2 textLeft control-label text-primary">图片、产品重用比:</label>
                                         <div class="col-sm-1">
                                             <select v-model="pic_rate" class="form-control">
-                                                <option >1</option>
+                                                <option selected>1</option>
                                                 <option >2</option>
                                                 <option >3</option>
                                                 <option >4</option>
-                                                <option selected>5</option>
+                                                <option >5</option>
                                                 <option >6</option>
                                                 <option >7</option>
                                                 <option >8</option>
@@ -249,10 +249,10 @@
                                         <div class="col-sm-1">
                                             <select v-model="pro_rate" class="form-control">
                                                 <option selected>1</option>
-                                                <option >2</option>
+                                                <!-- <option >2</option>
                                                 <option >3</option>
                                                 <option >4</option>
-                                                <option >5</option>
+                                                <option >5</option> -->
                                             </select>
                                         </div>
                                     </div>
@@ -308,7 +308,7 @@
                 <div class="col-md-12">
                     <div class="well well-sm clearfix">
                         <p>
-                            <b class="text-primary">自动图片结果</b>
+                            <b class="text-primary">自动选图结果</b>
                         </p>
                         <div class="col-md-10 col-md-offset-1">
                             <div class="col-md-2">
@@ -323,6 +323,12 @@
                                 <label class="label label-warning">图片不足数:</label>
                                 <span class="text-warning">{{not_enough}}</span>
                             </div>
+                        </div>
+                    </div>
+                    <div v-show="not_enough>0" class="well sell-sm clearfix">
+                        <div class="col-md-12">
+                            <a class="btn btn-primary" href="pic-category.html" target="_blank" >        前往图片库
+                            </a>
                         </div>
                     </div>
                     <div class="panel panel-default">
@@ -356,12 +362,17 @@
                                         </td> -->
                                     </tr>
                                 </template>
+                                <tr v-show="picData.length>10">
+                                    <td colspan="6"><b>......</b></td>
+                                </tr>
                             </table>
                             <div class="row">
                                 <div class="col-md-4 col-md-offset-5">
                                     <!-- <a class="btn btn-info" target="_blank" href="TableWorkflow-selectPic-seeMore.html" >查看更多</a> -->
                                     <!-- <a class="btn btn-success" href="TableWorkflow-upload.html" >上传图片</a> -->
-                                    <button @click="NextStep" class="btn btn-default">去上传图片</button>
+                                    <button @click="NextStep" class="btn btn-default" :disabled="NextStepStatus">
+                                        去上传图片
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -420,7 +431,7 @@
 
         <div class="container">
             <div class="row">
-                <pre>{{$data|json}}</pre>
+                <!-- <pre>{{$data|json}}</pre> -->
             </div>
         </div>
 

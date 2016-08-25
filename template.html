@@ -86,6 +86,26 @@
                     </div>
                 </div>    
             </div>
+            
+            <!-- 筛选 -->
+            <div class="row">
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        <b>筛选</b>
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">根据模板名称</label>
+                                <div class="col-md-2">
+                                    <input type="text" v-model="name" placeholder="输入关键词" class="form-control">
+                                </div>
+                                <button @click="KeywordSearch" class="btn btn-default">搜索</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <div class="row">
                 <!-- 模板item -->

@@ -120,24 +120,10 @@ var oTableIn = new Vue({
     methods:{
         //下载表格
         downloadTable:function(){
-            $.ajax({
-                type:'POST',
-                url:'http://192.168.1.40/PicSystem/canton/export',
-                datatype:'json',
-                data:{
-                    form_id:Request.tableID
-                },
-                success:function(data){
-                    if(data.status==100){
-                        layer.msg('请求成功');
-                    }else if(data.status==102){
-                        layer.msg('参数错误');
-                    }
-                },
-                error:function(jqXHR){
-                    layer.msg('向服务器请求下载表格失败');
-                }
-            })
+            var form_id = Request.tableID;
+            if(form_id){
+                window.location.href = 'http://192.168.1.40/PicSystem/canton/export?form_id='+form_id;
+            }
         }
     }
 })

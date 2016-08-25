@@ -189,6 +189,10 @@ var oTableIn = new Vue({
                 success:function(data){
                     layer.close(LoadIndex); //关闭遮罩层
                     if (data.status==100) {
+                        // --------调试用
+                        // oTableIn.newData = data.t;
+                        // --------调试用
+                        
                         layer.msg('提交成功');
                         //解除未提交内容提示
                         $(window).unbind('beforeunload');

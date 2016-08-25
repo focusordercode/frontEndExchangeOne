@@ -15,7 +15,7 @@
             function loadPage(){
                 $.ajax({
                     type: "GET",    
-                    url: "http://192.168.1.42/canton/index.php/get/ancestors", //添加请求地址的参数
+                    url: "http://192.168.1.40/PicSystem/canton/get/ancestors", //添加请求地址的参数
                     dataType: "json",
                     success: function(data){
                         if(data.status == 100){
@@ -54,7 +54,7 @@
             function open_again(ids,app_codes){
                 $.ajax({ 
                     type: "POST",   
-                    url: "http://192.168.1.42/canton/index.php/get/sub", //添加请求地址的参数
+                    url: "http://192.168.1.40/PicSystem/canton/get/sub", //添加请求地址的参数
                     dataType: "json",
                     data:{
                         id:ids,
@@ -107,7 +107,7 @@
                     $oEn_name2 = (val.split("//"))[1];
                     $.ajax({
                         type: "POST",    
-                        url: "http://192.168.1.42/canton/index.php/update/name", //添加请求地址的参数
+                        url: "http://192.168.1.40/PicSystem/canton/update/name", //添加请求地址的参数
                         dataType: "json",
                         data:{
                             id:$oLiName,
@@ -143,7 +143,7 @@
                     },function(yes){
                         $.ajax({
                             type: "POST",    
-                            url: "http://192.168.1.42/canton/index.php/delete/sub", //添加请求地址的参数
+                            url: "http://192.168.1.40/PicSystem/canton/delete/sub", //添加请求地址的参数
                             dataType: "json",
                             data:{
                                 id:$oLiName,
@@ -193,7 +193,7 @@
                 }else{
                     $.ajax({
                         type: "POST",    
-                        url: "http://192.168.1.42/canton/index.php/post/sub", //添加请求地址的参数
+                        url: "http://192.168.1.40/PicSystem/canton/post/sub", //添加请求地址的参数
                         dataType: "json",
                         data:{
                             id:$oLiName,
@@ -227,7 +227,7 @@
                 $('.easy-tree-toolbar .addtop .input-group').addClass('creat-show');
                 $.ajax({
                     type: "GET",    
-                    url: "http://192.168.1.42/canton/index.php/get/appcode", //添加请求地址的参数
+                    url: "http://192.168.1.40/PicSystem/canton/get/appcode", //添加请求地址的参数
                     dataType: "json",
                     success: function(data){
                         if (data.status==100) {
@@ -262,7 +262,7 @@
                 }else{
                     $.ajax({
                         type: "POST",    
-                        url: "http://192.168.1.42/canton/index.php/post/ancestors", //添加请求地址的参数
+                        url: "http://192.168.1.40/PicSystem/canton/post/ancestors", //添加请求地址的参数
                         dataType: "json",
                         data: {
                             app_code:$oApp_code,

@@ -148,7 +148,7 @@ var oTableInfo = new Vue({
 				var oText = $('.modified .layui-layer-content .form-control1').val();
 				$.ajax({
 					type:'POST',
-					url:'http://192.168.1.42/canton/index.php/vague/name',
+					url:'http://192.168.1.40/PicSystem/canton/vague/name',
 					datatype:'json',
 					data:{
 						text:oText
@@ -177,7 +177,7 @@ var oTableInfo = new Vue({
 			    //获取该类目下的所有模板
 			    $.ajax({
 			    	type:'POST',
-			    	url:'http://192.168.1.42/canton/index.php/get/linkage',
+			    	url:'http://192.168.1.40/PicSystem/canton/get/linkage',
 			    	datatype:'json',
 			    	data:{
 			    		type_code:item.type_code,
@@ -281,11 +281,20 @@ Vue.filter('statusCode', function (value) {
         case "creating": str = "创建";break;
         case "editing": str = "编辑";break;
         case "enabled": str = "有效";break;
-        case "disabled": str = "完成";break;
+        case "finished": str = "完成";break;
+        case "halt": str = "终止";break;
     }
     return str;
 })
 
+
+//筛选功能
+
+
+
+
+
+/////////////////////////////////////////旧筛选功能，已废弃///////////////////////////////////////
 
 //筛选功能
 var oInputWidth = $('.pro .form-control').innerWidth();
@@ -296,7 +305,7 @@ $('.pro .search-cate').on('keyup',function(){
 	var searchCate = $('.pro .search-cate').val();
 	$.ajax({
 		type:'POST',
-		url:'http://192.168.1.42/canton/index.php/vague/name',
+		url:'http://192.168.1.40/PicSystem/canton/vague/name',
 		datatype:'json',
 		data:{
 			text:searchCate
@@ -336,7 +345,7 @@ $('.search-cate-btn').on('click',function(){
 	}else{
 		$.ajax({
 			type:'POST',
-			url:'http://192.168.1.42/canton/index.php/get/infoform',
+			url:'http://192.168.1.40/PicSystem/canton/get/infoform',
 			datatype:'json',
 			data:{
 				type_code:oTableInfo.tableInfo[0].type_code,
@@ -364,7 +373,7 @@ $('.pro .search-temp').on('keyup',function(){
 	var searchTemp = $('.pro .search-temp').val();
 	$.ajax({
 		type:'POST',
-		url:'http://192.168.1.42/canton/index.php/vague/templatename',
+		url:'http://192.168.1.40/PicSystem/canton/vague/templatename',
 		datatype:'json',
 		data:{
 			name:searchTemp,
@@ -405,7 +414,7 @@ $('.search-temp-btn').on('click',function(){
 	}else{
 		$.ajax({
 			type:'POST',
-			url:'http://192.168.1.42/canton/index.php/get/tempinfoform',
+			url:'http://192.168.1.40/PicSystem/canton/get/tempinfoform',
 			datatype:'json',
 			data:{
 				type_code:oTableInfo.tableInfo[0].type_code,
@@ -437,7 +446,7 @@ $('.search-name-btn').on('click',function(){
 	}else{
 		$.ajax({
 			type:'POST',
-			url:'http://192.168.1.42/canton/index.php/vague/formtitle',
+			url:'http://192.168.1.40/PicSystem/canton/vague/formtitle',
 			datatype:'json',
 			data:{
 				type_code:oTableInfo.tableInfo[0].type_code,

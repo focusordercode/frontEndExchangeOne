@@ -112,22 +112,22 @@
                         <h3 class="text-success">模板信息</h3>
                         <div class="temp-info-save clearfix">
                             <hr>
-                            <h4 class="text-warning temp-info-name">{{value[0].cn_name}} <small>{{value[0].en_name}}</small></h4>
+                            <h4 class="text-warning temp-info-name">{{value.cn_name}} <small>{{value.en_name}}</small></h4>
                             <p>
                                 <span class="label label-success">模板类目</span>
-                                <span class="text-muted temp-cate">{{value[0].category_name}}</span>
+                                <span class="text-muted temp-cate">{{value.category_name}}</span>
                             </p>
                             <p>
                                 <span class="label label-success">模板说明</span>
-                                <p class="text-muted temp-info-remark">{{value[0].remark}}</p>
+                                <p class="text-muted temp-info-remark">{{value.remark}}</p>
                             </p>
                             <p>
                                 <span class="label label-success">创建日期</span>
-                                <span class="text-muted date">{{value[0].created_time}}</span>
+                                <span class="text-muted date">{{value.created_time}}</span>
                             </p>
                             <p>
                                 <span class="label label-success">修改日期</span>
-                                <span class="text-muted date">{{value[0].modified_time}}</span>
+                                <span class="text-muted date">{{value.modified_time}}</span>
                             </p>
                             <p>
                                 <input type="hidden" name="category_id" value="" class="temp-info-id" >
@@ -146,7 +146,7 @@
                 <div class="col-lg-8 col-md-8">
                         <table class="table table-bordered text-warning">
                             <tr>
-                                <th>排序</th>
+                                <th style="width:70px;">排序</th>
                                 <th>中文名</th>
                                 <th>英文名</th>
                                 <th>类型</th>
@@ -157,16 +157,16 @@
                             </tr>
                             <tr v-for="todo in table">
                                 <th class="temp-index text-middle">
-                                    <input type="number" v-model="todo.no" class="editTemp-id">
+                                    <input type="number" min="1" v-model="todo.no" class="form-control text-center editTemp-id" style="width:70px;">
                                 </th>
                                 <td class="cn-name">
-                                    <input type="text" name="cn_name" v-model="todo.cn_name" >
+                                    <input type="text" class="form-control" name="cn_name" v-model="todo.cn_name" >
                                 </td>
                                 <td class="en-name">
-                                    <input type="text" name="en_name" v-model="todo.en_name">
+                                    <input type="text" class="form-control" name="en_name" v-model="todo.en_name">
                                 </td>
                                 <td>
-                                    {{todo.data_type_code|dataType}}
+                                    <span style="color:#555;">{{todo.data_type_code|dataType}}</span>
                                 </td>
                                 <td class="delete">
                                     <i class="fa fa-2x fa-trash-o text-danger"></i>
@@ -178,8 +178,9 @@
                             <button v-on:click="send" class="btn btn-success btn-submit">提交保存</button>
                         </div>
                 </div>
-                <div class="col-md-2">
-                    <a type="button" class="btn btn-success btn-add" target="_blank" >添加</a>
+                <div class="col-md-4">
+                    <button v-show="!table" @click="creatMB" class="btn btn-success">生成默认模板</button>
+                    <a type="button" class="btn btn-success btn-add" target="_blank" >去添加</a>
                 </div>
             </div>
             <hr>

@@ -38,7 +38,7 @@ Vue.component('demo-grid', {
             },function(){
                 $.ajax({
                     type:'POST',
-                    url:'http://192.168.1.42/canton/index.php/del/info',
+                    url:'http://192.168.1.40/PicSystem/canton/del/info',
                     datatype:'json',
                     data:{
                         product_id:product_id,
@@ -91,7 +91,7 @@ var oTableIn = new Vue({
         //获取表格信息
         $.ajax({
             type:'POST',
-            url:'http://192.168.1.42/canton/index.php/get/oneform',
+            url:'http://192.168.1.40/PicSystem/canton/get/oneform',
             datatype:'json',
             data:{
                 id:Request.id,
@@ -115,7 +115,7 @@ var oTableIn = new Vue({
         //获取表头
         $.ajax({
             type:'POST',
-            url:'http://192.168.1.42/canton/index.php/get/bootstrap',
+            url:'http://192.168.1.40/PicSystem/canton/get/bootstrap',
             datatype:'json',
             data:{
                 template_id:Request.template_id,
@@ -136,7 +136,7 @@ var oTableIn = new Vue({
         //获取表格的详细信息
         $.ajax({
             type:'POST',
-            url:'http://192.168.1.42/canton/index.php/get/info',
+            url:'http://192.168.1.40/PicSystem/canton/get/info',
             datatype:'json',
             data:{
                 form_id:Request.id
@@ -165,7 +165,7 @@ var oTableIn = new Vue({
             var LoadIndex = layer.load(2, {shade:[0.3, '#000']}); //开启遮罩层 
             $.ajax({
                 type:'POST',
-                url:'http://192.168.1.42/canton/index.php/update/info',
+                url:'http://192.168.1.40/PicSystem/canton/update/info',
                 datatype:'json',
                 data:{
                     category_id:oTableIn.info.category_id,

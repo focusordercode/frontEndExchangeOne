@@ -16,6 +16,11 @@
     <script src="http://apps.bdimg.com/libs/html5shiv/3.7/html5shiv.js"></script>
     <script src="http://apps.bdimg.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <style>
+        .control-panel .form-control {
+            border-radius: 0;
+        }
+    </style>
 </head>
     <body>
         <!-- 顶部区域 -->
@@ -84,10 +89,10 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="panel panel-success">
-                        <div class="panel-heading"><h4><b>产品资料表</b></h4></div>
+                        <div class="panel-heading"><h4><b>操作</b></h4></div>
                         <div class="panel-body">
-                            <div class="form-inline">
-                                <div class="form-group pro proCate">
+                            <div class="form-horizontal control-panel">
+                                <!-- <div class="form-group pro proCate">
                                     <label class="text-success">根据类目搜索</label>
                                     <input type="text" class="form-control search-cate">
                                     <ul></ul>
@@ -103,11 +108,35 @@
                                     <label class="text-success">根据名称搜索</label>
                                     <input type="text" class="form-control search-name">
                                     <ul></ul>
+                                </div> -->
+                                <div class="form-group">
+                                    <label class="col-md-1 control-label">选择搜索条件</label>
+                                    <div class="col-md-1">
+                                        <select class="form-control">
+                                            <option value="">模板名称</option>
+                                            <option value="">产品资料表</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <select class="form-control">
+                                            <option value="">表格状态</option>
+                                            <option value="">创建</option>
+                                            <option value="">编辑</option>
+                                            <option value="">有效</option>
+                                            <option value="">完成</option>
+                                            <option value="">终止</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <input type="text" placeholder="输入关键词" class="form-control">
+                                    </div>
+                                    <div class="col-md-1">
+                                        <button class="btn btn-default">搜索</button>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <button @click="creatTable" class="btn btn-success btn-sm pull-right">创建表格</button>
+                                    </div>
                                 </div>
-                                <button class="btn btn-default search-name-btn">搜索</button>
-
-                                <button @click="creatTable" class="btn btn-success btn-md pull-right">      创建表格
-                                </button>
                             </div>
                         </div>
                     </div>
@@ -126,71 +155,76 @@
             <!-- 表格列表 -->
             <div class="row">
                 <div class="col-md-12">
-                    <div class="well">
-                        <div class="table-responsive">
-                            <table class="table table-bordered">
-                                <tr class="success text-success">
-                                    <th class="text-center">名称</th>
-                                    <th class="text-center">所属类目</th>
-                                    <th class="text-center">所属模板</th>
-                                    <th class="text-center">所属客户</th>
-                                    <th class="text-center">创建时间</th>
-                                    <th class="text-center">修改时间</th>
-                                    <th class="text-center">状态</th>
-                                    <th class="text-center">操作</th>
-                                </tr>
-                                <!-- template渲染 -->
-                                <template v-for="item in tableInfo">
+                    <div class="panel panel-success">
+                        <div class="panel-heading">
+                            <h4><b>产品资料表</b></h4>
+                        </div>
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <tr class="success text-success">
+                                        <th class="text-center">名称</th>
+                                        <th class="text-center">所属类目</th>
+                                        <th class="text-center">所属模板</th>
+                                        <th class="text-center">所属客户</th>
+                                        <th class="text-center">创建时间</th>
+                                        <th class="text-center">修改时间</th>
+                                        <th class="text-center">状态</th>
+                                        <th class="text-center">操作</th>
+                                    </tr>
+                                    <!-- template渲染 -->
+                                    <template v-for="item in tableInfo">
 
-                                    <!-- 条件渲染 -->
-                                    <template v-if="$index%2==1">
-                                        <tr class="warning">
-                                            <td class="text-center">{{item.title}}</td>
-                                            <td class="text-center">{{item.name}}</td>
-                                            <td class="text-center">{{item.tempname}}</td>
-                                            <td class="text-center">{{item.client_name}}</td>
-                                            <td class="text-center">{{item.created_time}}</td>
-                                            <td class="text-center">{{item.modified_time}}</td>
-                                            <td class="text-center">{{item.status_code|statusCode}}</td>
-                                            <td class="text-center">
-                                                <button v-on:click="modified(item)" class="btn btn-info btn-xs">
-                                                    修改
-                                                </button>
-                                                <button v-on:click="remove(item)" class="btn btn-danger btn-xs">    删除
-                                                </button>
-                                                <button v-on:click="start(item)" class="btn btn-info btn-xs">
-                                                    启用
-                                                </button>
-                                                <a class="btn btn-success btn-xs" target="_blank" href="Table-detail-input.html?id={{item.id}}&#38;template_id={{item.template_id}}&#38;type_code={{item.type_code}}">录入</a>
-                                                <a class="btn btn-success btn-xs" target="_blank" href="Table-detail-xg.html?id={{item.id}}&#38;template_id={{item.template_id}}&#38;type_code={{item.type_code}}">编辑</a>
-                                            </td>
-                                        </tr>
+                                        <!-- 条件渲染 -->
+                                        <template v-if="$index%2==1">
+                                            <tr class="warning">
+                                                <td class="text-center">{{item.title}}</td>
+                                                <td class="text-center">{{item.name}}</td>
+                                                <td class="text-center">{{item.tempname}}</td>
+                                                <td class="text-center">{{item.client_name}}</td>
+                                                <td class="text-center">{{item.created_time}}</td>
+                                                <td class="text-center">{{item.modified_time}}</td>
+                                                <td class="text-center">{{item.status_code|statusCode}}</td>
+                                                <td class="text-center">
+                                                    <button v-on:click="modified(item)" class="btn btn-info btn-xs">
+                                                        修改
+                                                    </button>
+                                                    <button v-on:click="remove(item)" class="btn btn-danger btn-xs">    删除
+                                                    </button>
+                                                    <button v-on:click="start(item)" class="btn btn-info btn-xs">
+                                                        启用
+                                                    </button>
+                                                    <a class="btn btn-success btn-xs" target="_blank" href="Table-detail-input.html?id={{item.id}}&#38;template_id={{item.template_id}}&#38;type_code={{item.type_code}}">录入</a>
+                                                    <a class="btn btn-success btn-xs" target="_blank" href="Table-detail-xg.html?id={{item.id}}&#38;template_id={{item.template_id}}&#38;type_code={{item.type_code}}">编辑</a>
+                                                </td>
+                                            </tr>
+                                        </template>
+                                        <template v-else>
+                                            <tr>
+                                                <td class="text-center">{{item.title}}</td>
+                                                <td class="text-center">{{item.name}}</td>
+                                                <td class="text-center">{{item.tempname}}</td>
+                                                <td class="text-center">{{item.client_name}}</td>
+                                                <td class="text-center">{{item.created_time}}</td>
+                                                <td class="text-center">{{item.modified_time}}</td>
+                                                <td class="text-center">{{item.status_code|statusCode}}</td>
+                                                <td class="text-center">
+                                                    <button v-on:click="modified(item)" class="btn btn-info btn-xs">
+                                                        修改
+                                                    </button>
+                                                    <button v-on:click="remove(item)" class="btn btn-danger btn-xs">    删除
+                                                    </button>
+                                                    <button v-on:click="start(item)" class="btn btn-info btn-xs">
+                                                        启用
+                                                    </button>
+                                                    <a class="btn btn-success btn-xs" target="_blank" href="Table-detail-input.html?id={{item.id}}&#38;template_id={{item.template_id}}&#38;type_code={{item.type_code}}">录入</a>
+                                                    <a class="btn btn-success btn-xs" target="_blank" href="Table-detail-xg.html?id={{item.id}}&#38;template_id={{item.template_id}}&#38;type_code={{item.type_code}}">编辑</a>
+                                                </td>
+                                            </tr>
+                                        </template>
                                     </template>
-                                    <template v-else>
-                                        <tr>
-                                            <td class="text-center">{{item.title}}</td>
-                                            <td class="text-center">{{item.name}}</td>
-                                            <td class="text-center">{{item.tempname}}</td>
-                                            <td class="text-center">{{item.client_name}}</td>
-                                            <td class="text-center">{{item.created_time}}</td>
-                                            <td class="text-center">{{item.modified_time}}</td>
-                                            <td class="text-center">{{item.status_code|statusCode}}</td>
-                                            <td class="text-center">
-                                                <button v-on:click="modified(item)" class="btn btn-info btn-xs">
-                                                    修改
-                                                </button>
-                                                <button v-on:click="remove(item)" class="btn btn-danger btn-xs">    删除
-                                                </button>
-                                                <button v-on:click="start(item)" class="btn btn-info btn-xs">
-                                                    启用
-                                                </button>
-                                                <a class="btn btn-success btn-xs" target="_blank" href="Table-detail-input.html?id={{item.id}}&#38;template_id={{item.template_id}}&#38;type_code={{item.type_code}}">录入</a>
-                                                <a class="btn btn-success btn-xs" target="_blank" href="Table-detail-xg.html?id={{item.id}}&#38;template_id={{item.template_id}}&#38;type_code={{item.type_code}}">编辑</a>
-                                            </td>
-                                        </tr>
-                                    </template>
-                                </template>
-                            </table>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>

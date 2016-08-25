@@ -81,7 +81,7 @@ var tempEditAgain = new Vue({
             },
             success: function(data){
                 if(data.status==100){
-                    tempEditAgain.value = data.value;
+                    tempEditAgain.value = data.value[0];
                 }
             },
             error: function(jqXHR){     
@@ -153,6 +153,32 @@ var tempEdit = new Vue({
         })
     },
     methods:{
+        //生成默认模板
+        creatMB:function(){
+            $.ajax({
+                type: "POST",
+                url: "http://192.168.1.40/PicSystem/canton/post/default", 
+                dataType: "json",
+                timeout:5000,
+                data:{
+                    template_id:Request.id
+                },
+                success: function(data){
+                    if(data.status==100){
+                        layer.msg('生成成功');
+                        setInterval(windowFresh,1000);
+                    }else if(data.status==101){
+                        layer.msg('生成失败');
+                    }else if(data.status==102){
+                        layer.msg('已经有模板数据不能生成');
+                    }
+                },
+                error: function(jqXHR){     
+                    layer.msg('向服务器请求生成默认模板失败');
+                }
+            })
+        },
+        //提交保存
         send:function(){
             $.ajax({
                 type: "POST",

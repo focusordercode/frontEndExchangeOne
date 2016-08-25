@@ -88,24 +88,24 @@
                         <h3 class="text-success">模板信息</h3>
                         <div class="temp-info-save clearfix">
                             <hr>
-                            <h4 class="text-warning temp-info-name">{{value[0].cn_name}} <small>{{value[0].en_name}}</small></h4>
+                            <h4 class="text-warning temp-info-name">{{value.cn_name}} <small>{{value.en_name}}</small></h4>
                             <p>
                                 <span class="label label-success">模板类目</span>
-                                <span class="text-muted temp-cate">{{value[0].category_name}}</span>
+                                <span class="text-muted temp-cate">{{value.category_name}}</span>
                             </p>
                             <p>
                                 <span class="label label-success">模板说明</span>
-                                <p class="text-muted temp-info-remark">{{value[0].remark}}</p>
+                                <p class="text-muted temp-info-remark">{{value.remark}}</p>
                             </p>
                             <p>
                                 <span class="label label-success">创建日期</span>
-                                <span class="text-muted date">{{value[0].created_time}}</span>
+                                <span class="text-muted date">{{value.created_time}}</span>
                             </p>
                             <p>
                                 <span class="label label-success">修改日期</span>
-                                <span class="text-muted date">{{value[0].modified_time}}</span>
+                                <span class="text-muted date">{{value.modified_time}}</span>
                             </p>
-                            <input type="hidden" value="{{value[0].id}}" class="cate-id" >
+                            <input type="hidden" value="{{value.id}}" class="cate-id" >
                         </div>
                     </div>
                     <!-- <pre>{{$data|json}}</pre> -->

@@ -159,7 +159,7 @@ var tempInfo = new Vue({
             },
             success: function(data){
                 if(data.status==100){
-                    tempInfo.value = data.value;
+                    tempInfo.value = data.value[0];
                 }
             },
             error: function(jqXHR){     

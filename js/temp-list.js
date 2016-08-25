@@ -1,7 +1,8 @@
 var tempList = new Vue({
     el:'.temp-list',
     data:{
-        temp:[]
+        temp:[],
+        name:''
     },
     ready:function(){
         $.ajax({
@@ -21,6 +22,37 @@ var tempList = new Vue({
                 layer.msg('从服务器获取模板列表信息失败');
             }
         })
+    },
+    methods:{
+        //根据模板名称搜索
+        KeywordSearch:function(){
+            var name = this.name;
+            var type_code = 'info';
+            if(!name){
+                layer.msg('请先输入关键词');
+            }else{
+                $.ajax({
+                    type:'POST',
+                    url:'http://192.168.1.40/PicSystem/canton/vague/templatename',
+                    dataType:'json',
+                    data:{
+                        type_code:type_code,
+                        name:name
+                    },
+                    success:function(data){
+                        if(data.status==100){
+                            tempList.temp = data.value;
+                            tempList.name = '';
+                        }else if(data.status==101){
+                            layer.msg('没有查询到数据');
+                        }
+                    },  
+                    error:function(jqXHR){
+                        layer.msg('向服务器请求搜索失败');
+                    }
+                })
+            }
+        }
     }
 })
 //Vue过滤器
@@ -115,7 +147,7 @@ $(document).on('click','.temp-list .btn-delete',function(){
                     layer.msg('操作成功');
                     location.reload(true);
                 }else if(data.status==101){
-                    layer.msg('操作失败失败');
+                    layer.msg('操作失败');
                 }else if(data.status==102){
                     layer.msg('参数错误');
                 }else if(data.status==103){
