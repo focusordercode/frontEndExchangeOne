@@ -174,6 +174,7 @@ var selectPic = new Vue({
                     url:'http://192.168.1.40/PicSystem/canton/marry/image',
                     datatype:'json',
                     data:{
+                        tableID:Request.tableID,
                         num:num,
                         category_id:category_id,
                         gallery_id:gallery_id,

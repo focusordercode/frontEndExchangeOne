@@ -92,46 +92,28 @@
                         <div class="panel-heading"><h4><b>操作</b></h4></div>
                         <div class="panel-body">
                             <div class="form-horizontal control-panel">
-                                <!-- <div class="form-group pro proCate">
-                                    <label class="text-success">根据类目搜索</label>
-                                    <input type="text" class="form-control search-cate">
-                                    <ul></ul>
-                                </div>
-                                <button class="btn btn-default search-cate-btn">搜索</button>
-                                <div class="form-group pro proTemp">
-                                    <label class="text-success">根据模板名称搜索</label>
-                                    <input type="text" class="form-control search-temp">
-                                    <ul></ul>
-                                </div>
-                                <button class="btn btn-default search-temp-btn">搜索</button>
-                                <div class="form-group pro proName">
-                                    <label class="text-success">根据名称搜索</label>
-                                    <input type="text" class="form-control search-name">
-                                    <ul></ul>
-                                </div> -->
                                 <div class="form-group">
                                     <label class="col-md-1 control-label">选择搜索条件</label>
                                     <div class="col-md-1">
-                                        <select class="form-control">
-                                            <option value="">模板名称</option>
-                                            <option value="">产品资料表</option>
+                                        <select class="form-control" v-model="type_code" readonly>
+                                            <option value="info" selected>产品资料表</option>
                                         </select>
                                     </div>
                                     <div class="col-md-1">
-                                        <select class="form-control">
-                                            <option value="">表格状态</option>
-                                            <option value="">创建</option>
-                                            <option value="">编辑</option>
-                                            <option value="">有效</option>
-                                            <option value="">完成</option>
-                                            <option value="">终止</option>
+                                        <select v-model="status_code" class="form-control">
+                                            <option value="" selected>表格状态</option>
+                                            <option value="creating">创建</option>
+                                            <option value="editing">编辑</option>
+                                            <option value="enabled">有效</option>
+                                            <option value="finished">完成</option>
+                                            <option value="halt">终止</option>
                                         </select>
                                     </div>
-                                    <div class="col-md-1">
-                                        <input type="text" placeholder="输入关键词" class="form-control">
+                                    <div class="col-md-2">
+                                        <input type="text" v-model="keyword" placeholder="输入表格名" class="form-control">
                                     </div>
                                     <div class="col-md-1">
-                                        <button class="btn btn-default">搜索</button>
+                                        <button @click="searchTable" class="btn btn-default">搜索</button>
                                     </div>
                                     <div class="col-md-1">
                                         <button @click="creatTable" class="btn btn-success btn-sm pull-right">创建表格</button>
@@ -143,13 +125,19 @@
                 </div>
             </div>
             
-            <div class="well well-sm tableSelect">
+            <!-- <div class="well well-sm tableSelect">
                 <strong>选择显示</strong>
                 <div class="btn-group">
                     <button class="btn btn-default"><i class="fa fa-th"></i>默认</button>
                     <button class="btn btn-default"><i class="fa fa-table"></i>默认</button>
                     <button class="btn btn-default"><i class="fa fa-th-large"></i>默认</button>
                 </div>
+            </div> -->
+            
+            <div class="alert alert-success">
+                表格数:<strong>{{count}}</strong>　
+                总页数:<strong>{{countPage}}</strong>　
+                当前页:<strong>{{pageNow}}</strong>
             </div>
 
             <!-- 表格列表 -->
@@ -163,6 +151,7 @@
                             <div class="table-responsive">
                                 <table class="table table-bordered">
                                     <tr class="success text-success">
+                                        <th class="text-center">序号</th>
                                         <th class="text-center">名称</th>
                                         <th class="text-center">所属类目</th>
                                         <th class="text-center">所属模板</th>
@@ -178,6 +167,7 @@
                                         <!-- 条件渲染 -->
                                         <template v-if="$index%2==1">
                                             <tr class="warning">
+                                                <td class="text-center">{{$index+1}}</td>
                                                 <td class="text-center">{{item.title}}</td>
                                                 <td class="text-center">{{item.name}}</td>
                                                 <td class="text-center">{{item.tempname}}</td>
@@ -191,16 +181,13 @@
                                                     </button>
                                                     <button v-on:click="remove(item)" class="btn btn-danger btn-xs">    删除
                                                     </button>
-                                                    <button v-on:click="start(item)" class="btn btn-info btn-xs">
-                                                        启用
-                                                    </button>
-                                                    <a class="btn btn-success btn-xs" target="_blank" href="Table-detail-input.html?id={{item.id}}&#38;template_id={{item.template_id}}&#38;type_code={{item.type_code}}">录入</a>
-                                                    <a class="btn btn-success btn-xs" target="_blank" href="Table-detail-xg.html?id={{item.id}}&#38;template_id={{item.template_id}}&#38;type_code={{item.type_code}}">编辑</a>
+                                                    <a class="btn btn-success btn-xs" target="_blank" :href="item | statusLink" >编辑</a>
                                                 </td>
                                             </tr>
                                         </template>
                                         <template v-else>
                                             <tr>
+                                                <td class="text-center">{{$index+1}}</td>
                                                 <td class="text-center">{{item.title}}</td>
                                                 <td class="text-center">{{item.name}}</td>
                                                 <td class="text-center">{{item.tempname}}</td>
@@ -214,11 +201,7 @@
                                                     </button>
                                                     <button v-on:click="remove(item)" class="btn btn-danger btn-xs">    删除
                                                     </button>
-                                                    <button v-on:click="start(item)" class="btn btn-info btn-xs">
-                                                        启用
-                                                    </button>
-                                                    <a class="btn btn-success btn-xs" target="_blank" href="Table-detail-input.html?id={{item.id}}&#38;template_id={{item.template_id}}&#38;type_code={{item.type_code}}">录入</a>
-                                                    <a class="btn btn-success btn-xs" target="_blank" href="Table-detail-xg.html?id={{item.id}}&#38;template_id={{item.template_id}}&#38;type_code={{item.type_code}}">编辑</a>
+                                                    <a class="btn btn-success btn-xs" target="_blank" :href="item | statusLink" >编辑</a>
                                                 </td>
                                             </tr>
                                         </template>
@@ -229,8 +212,29 @@
                     </div>
                 </div>
             </div>
-            <!-- <pre>{{$data|json}}</pre> -->
+            </div>
+            
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-4 col-md-offset-4 text-center">
+                        <div class="form-inline">
+                            <button @click="goPrePage" :disabled="prePageBtn" class="btn btn-default">上一页</button>
+                            <button @click="goNextPage" :disabled="nextPageBtn" class="btn btn-default">下一页</button>
+                            <input type="number" v-model="jump" placeholder="页码" min="1" class="form-control" style="width:80px;">
+                            <button class="btn btn-info" @click="goJump" :disabled="jumpBtn">跳转</button>
+                            总页数:<strong class="text-warning">{{countPage}}</strong>　
+                            当前页:<strong class="text-warning">{{pageNow}}</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
+            <div class="container">
+                <div class="row">
+                    <hr>
+                    <!-- <pre>{{$data|json}}</pre> -->
+                </div>
+            </div>
         <!-- 页脚 -->
         <div class="container-fluid footer-fluid">
             <div class="contaier">

@@ -20,6 +20,11 @@ var Request=new UrlSearch();
 //未提交保存内容提示
 $(window).bind('beforeunload',function(){return "您修改的内容尚未保存，确定离开此页面吗？";});
 
+//popover初始化
+$(function () {
+  $('[data-toggle="popover"]').popover()
+})
+
 // register the grid component
 Vue.component('demo-grid', {
   template: '#grid-template',
@@ -167,7 +172,7 @@ var oTableIn = new Vue({
     },
     computed:{
         TableCreat:function(){
-            return 'TableWorkflow-creat.html'+'?tableID='+Request.tableID;
+            return 'TableWorkflow-creat.html'+'?tableID='+Request.form_no;
         }
     },
     methods:{

@@ -6,12 +6,25 @@ function windowFresh(){
 var oTableInfo = new Vue({
 	el:'body',
 	data:{
-		tableInfo:''
+		tableInfo:'',
+		type_code:'',
+		status_code:'',
+		keyword:'',
+		count:'',
+		countPage:'',
+		pageNow:'',
+		prePage:'',
+		nextPage:'',
+		prePageBtn:'',
+		nextPageBtn:'',
+		jump:'',
+		jumpBtn:''
 	},
 	ready:function(){
+		var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层 
 		$.ajax({
 		    type: "POST",
-		    url: "http://192.168.1.40/PicSystem/canton/index.php/get/infoform", //添加请求地址的参数
+		    url: "http://192.168.1.40/PicSystem/canton/get/infoform", //添加请求地址的参数
 		    dataType: "json",
 		    timeout:5000,
 		    data:{
@@ -19,14 +32,47 @@ var oTableInfo = new Vue({
 		        type_code:'info',
 		    },
 		    success: function(data){
+		    	layer.close(LoadIndex); //关闭遮罩层
 		        if(data.status==100){
 		        	oTableInfo.tableInfo = data.value;
+		        	oTableInfo.count = data.count;
+		        	oTableInfo.countPage = data.countPage;
+		        	oTableInfo.pageNow = data.pageNow;
 		        }
 		    },
-		    error: function(jqXHR){     
+		    error: function(jqXHR){
+		    	layer.close(LoadIndex); //关闭遮罩层     
 		        layer.msg('向服务器获取信息失败');
 		    }
 		})
+	},
+	computed:{
+		//三个按钮状态
+		jumpBtn:function(){
+			var jump = this.jump;
+			if(!jump){
+				return true
+			}else{
+				return false
+			}
+		},
+		prePageBtn:function(){
+			var pageNow = this.pageNow;
+			if(pageNow<=1){
+				return true
+			}else{
+				return false
+			}
+		},
+		nextPageBtn:function(){
+			var pageNow = this.pageNow;
+			var countPage = this.countPage;
+			if(pageNow==countPage){
+				return true
+			}else{
+				return false
+			}
+		}
 	},
 	methods:{
 		//删除
@@ -56,41 +102,6 @@ var oTableInfo = new Vue({
 				        	layer.msg('id为空');
 				        }else if(data.status==108){
 				        	layer.msg('已经启用的无法删除');
-				        }
-				    },
-				    error: function(jqXHR){     
-				        layer.msg('向服务器请求失败');
-				    }
-				})
-			})
-		},
-		//启用
-		start:function(item){
-			var Id = item.id;
-			var type_code = item.type_code;
-
-			layer.confirm('一经启用，不可以编辑和删除，是否启用?', {
-			  btn: ['确定','关闭'] //按钮
-			},function(){
-				$.ajax({
-				    type: "POST",
-				    url: "http://192.168.1.40/PicSystem/canton/index.php/use/infoform", //添加请求地址的参数
-				    dataType: "json",
-				    timeout:5000,
-				    data:{
-				        id:Id,
-				        type_code:type_code,
-				    },
-				    success: function(data){
-				        if(data.status==100){
-				        	item.status_code = 'enabled';
-				        	layer.msg('启用成功');
-				        }else if(data.status==101){
-				        	layer.msg('操作失败');
-				        }else if(data.status==102){
-				        	layer.msg('id为空');
-				        }else if(data.status==109){
-				        	layer.msg('已经启用了，不需要再次启用');
 				        }
 				    },
 				    error: function(jqXHR){     
@@ -270,6 +281,153 @@ var oTableInfo = new Vue({
 					layer.msg('向服务器请求创建表格失败');
 				}
 			})
+		},
+		//搜索
+		searchTable:function(){
+			var type_code = this.type_code;
+			var keyword = this.keyword;
+			var status_code = this.status_code;
+			if(!type_code){
+				layer.msg('表格类型为空');
+			}else{
+				var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层 
+				$.ajax({
+					type:'POST',
+					url:'http://192.168.1.40/PicSystem/canton/search/form',
+					datatype:'json',
+					data:{
+						type_code:type_code,
+						status_code:status_code,
+						keyword:keyword
+					},
+					success:function(data){
+						layer.close(LoadIndex); //关闭遮罩层
+						if(data.status==100){
+							oTableInfo.tableInfo = data.value;
+							oTableInfo.keyword = '';
+						}else{
+							layer.msg(data.msg);
+						}
+					},
+					error:function(jqXHR){
+						layer.close(LoadIndex); //关闭遮罩层
+						layer.msg('向服务器请求搜索失败');
+					}
+				})
+			}
+		},
+		//上一页
+		goPrePage:function(){
+			var pageNow = this.pageNow;
+			var type_code = this.tableInfo[0].type_code;
+			if(pageNow<=1){
+				layer.msg('没有上一页啦');
+			}else{
+				pageNow--
+				var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
+				$.ajax({
+					type:'POST',
+					url:'http://192.168.1.40/PicSystem/canton/get/infoform',
+					datatype:'json',
+					data:{
+						next:pageNow,
+						type_code:type_code
+					},
+					success:function(data){
+						layer.close(LoadIndex); //关闭遮罩层
+						if(data.status==100){
+							oTableInfo.tableInfo = data.value;
+							oTableInfo.count = data.count;
+							oTableInfo.countPage = data.countPage;
+							oTableInfo.pageNow = data.pageNow;
+						}else if(data.status==101){
+							layer.msg('操作失败');
+						}else if(data.status==102){
+							layer.msg('参数错误');
+						}
+					},
+					error:function(jqXHR){
+						layer.close(LoadIndex); //关闭遮罩层
+						layer.msg('向服务器请求失败');
+					}
+				})
+			}
+		},
+		//下一页
+		goNextPage:function(){
+			var pageNow = this.pageNow;
+			var countPage = this.countPage;
+			var type_code = this.tableInfo[0].type_code;
+			if(pageNow==countPage){
+				layer.msg('没有下一页啦');
+			}else{
+				pageNow++
+				var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
+				$.ajax({
+					type:'POST',
+					url:'http://192.168.1.40/PicSystem/canton/get/infoform',
+					datatype:'json',
+					data:{
+						next:pageNow,
+						type_code:type_code
+					},
+					success:function(data){
+						layer.close(LoadIndex); //关闭遮罩层
+						if(data.status==100){
+							oTableInfo.tableInfo = data.value;
+							oTableInfo.count = data.count;
+							oTableInfo.countPage = data.countPage;
+							oTableInfo.pageNow = data.pageNow;
+						}else if(data.status==101){
+							layer.msg('操作失败');
+						}else if(data.status==102){
+							layer.msg('参数错误');
+						}
+					},
+					error:function(jqXHR){
+						layer.close(LoadIndex); //关闭遮罩层
+						layer.msg('向服务器请求失败');
+					}
+				})
+			}
+		},
+		//页面跳转
+		goJump:function(){
+			var jump = this.jump;
+			var countPage = this.countPage;
+			var type_code = this.tableInfo[0].type_code;
+			if(jump>countPage){
+				layer.msg('大于总页数啦');
+				oTableInfo.jump = '';
+			}else{
+				var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
+				$.ajax({
+					type:'POST',
+					url:'http://192.168.1.40/PicSystem/canton/get/infoform',
+					datatype:'json',
+					data:{
+						next:jump,
+						type_code:type_code
+					},
+					success:function(data){
+						layer.close(LoadIndex); //关闭遮罩层
+						if(data.status==100){
+							oTableInfo.tableInfo = data.value;
+							oTableInfo.count = data.count;
+							oTableInfo.countPage = data.countPage;
+							oTableInfo.pageNow = data.pageNow;
+						}else if(data.status==101){
+							layer.msg('操作失败');
+						}else if(data.status==102){
+							layer.msg('参数错误');
+						}
+					},
+					error:function(jqXHR){
+						layer.close(LoadIndex); //关闭遮罩层
+						layer.msg('向服务器请求失败');
+					}
+				})
+			}
 		}
 	}
 })
@@ -280,6 +438,8 @@ Vue.filter('statusCode', function (value) {
     switch(value){
         case "creating": str = "创建";break;
         case "editing": str = "编辑";break;
+        case "editing4info": str = "编辑-筛选图片";break;
+        case "editing4picture": str = "编辑-上传图片";break;
         case "enabled": str = "有效";break;
         case "finished": str = "完成";break;
         case "halt": str = "终止";break;
@@ -287,6 +447,33 @@ Vue.filter('statusCode', function (value) {
     return str;
 })
 
+Vue.filter('statusLink',function(value){
+	var item = value;
+	var status = value.status_code;
+	var tableID = item.id;
+	var form_no = item.form_no;
+	var template_id = item.template_id;
+	var type_code = item.type_code;
+	var edit = 'TableWorkflow-edit.html';
+	var selectPic = 'TableWorkflow-selectPic.html';
+	var donePage = 'TableWorkflow-done.html';
+	if(status=='creating'){
+		//进入第二步
+		var str = edit + '?form_no='+form_no+'&id='+tableID+'&template_id='+template_id+'&type_code='+type_code;
+		return str
+	}else if(status=='editing4info'){
+		//进入第三步
+		var str = selectPic + '?tableID='+tableID;
+		return str
+	}else if(status=='enabled'||'finished'){
+		//进入第五步
+		var str = donePage+'?tableID='+tableID+'&template_id='+template_id+'&type_code='+type_code;
+		return str
+	}else{
+		var str = 'javascript:'
+		return str
+	}
+})
 
 //筛选功能
 

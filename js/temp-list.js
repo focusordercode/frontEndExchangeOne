@@ -2,7 +2,8 @@ var tempList = new Vue({
     el:'.temp-list',
     data:{
         temp:[],
-        name:''
+        name:'',
+        searchStatus:''
     },
     ready:function(){
         $.ajax({
@@ -22,6 +23,17 @@ var tempList = new Vue({
                 layer.msg('从服务器获取模板列表信息失败');
             }
         })
+    },
+    computed:{
+        //搜索按钮状态控制
+        searchStatus:function(){
+            var name = this.name;
+            if(!name){
+                return true
+            }else{
+                return false
+            }
+        }
     },
     methods:{
         //根据模板名称搜索
@@ -91,6 +103,14 @@ Vue.filter('statusEdit', function (value) {
 $('.temp-list .temp-add').click(function(){
     window.open('template-creat.html?type_code=info');
 });
+$('.temp-list .creatMB').click(function(){
+    window.open('template-creat.html?type_code=info');
+});
+
+//popover初始化
+$(function () {
+  $('[data-toggle="popover"]').popover()
+})
 
 
 //启用禁用状态
@@ -101,7 +121,7 @@ $(document).on('click','.temp-list .temp .btn-start',function(){
     },function(){
         $.ajax({
             type: "POST",
-            url: "http://192.168.1.42/canton/index.php/use/template", //添加请求地址的参数
+            url: "http://192.168.1.40/PicSystem/canton/use/template", //添加请求地址的参数
             dataType: "json",
             data:{
                 id:$tempId,
@@ -136,7 +156,7 @@ $(document).on('click','.temp-list .btn-delete',function(){
     },function(){
         $.ajax({
             type: "POST",
-            url: "http://192.168.1.42/canton/index.php/delete/template", //添加请求地址的参数
+            url: "http://192.168.1.40/PicSystem/canton/delete/template", //添加请求地址的参数
             dataType: "json",
             data:{
               id:$tempId,

@@ -172,7 +172,7 @@ var TableCreat = new Vue({
 						if(data.status==100){
 							var Id = data.id;
 							var url = 'TableWorkflow-edit.html';
-							window.location.href = url+'?tableID='+tableID+'&id='+Id+'&template_id='+template_id+'&type_code=info';
+							window.location.href = url+'?form_no='+tableID+'&id='+Id+'&template_id='+template_id+'&type_code=info';
 						}else if(data.status==101){
 							layer.msg('操作失败');
 						}else if(data.status==103){

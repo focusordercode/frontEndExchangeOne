@@ -139,9 +139,10 @@ var uploadPic = new Vue({
                     // url:'http://www.sayshun.cc/ImagesUpload/index.php/Home/Index/php_upload',
                     datatype:'json',
                     data:{
+                        picCount:picArr.length,
+                        information_id:Request.tableID,
                         version_id:version_id,
-                        picArr:picArr,
-                        information_id:Request.tableID
+                        picArr:picArr
                     },
                     success:function(data){
                         layer.close(LoadIndex); //关闭遮罩层
@@ -178,6 +179,7 @@ var uploadPic = new Vue({
                         form_id:Request.tableID,
                         prorate:prorate,
                         picrate:picrate,
+                        picCount:uploadPic.picData.length,
                         picArr:uploadPic.picData
                     },
                     success:function(data){
