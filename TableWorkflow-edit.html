@@ -274,7 +274,7 @@
                                     <template v-for="entry in data">
                                         <!-- 主体展示方式 -->
                                         <template v-if="entry.parent_id==0" track-by="product_id">
-                                            <tr class="info">
+                                            <tr class="info" :title="$index+1" >
                                                 <td>{{$index+1}}</td>
                                                 <td>
                                                     <button v-on:click="addline(entry,$index)" v-show="entry.parent_id==0" class="btn btn-success">主体</button>
@@ -288,7 +288,7 @@
                                         </template>
                                          <!-- 变体展示方式 -->
                                         <template v-else track-by="product_id">
-                                            <tr class="warning">
+                                            <tr class="warning" :title="$index+1">
                                                 <td>{{$index+1}}</td>
                                                 <td>
                                                     <button v-on:click="addline(entry,$index)" v-show="entry.parent_id==0" class="btn btn-success">主体</button>

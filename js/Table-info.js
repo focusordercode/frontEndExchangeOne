@@ -112,6 +112,7 @@ var oTableInfo = new Vue({
 		},
 		//修改
 		modified:function(item){
+			var item = item;
 			//定义弹出层里面的HTML内容
 			$str = '';
 			$str+='<div class="form">';
@@ -130,10 +131,10 @@ var oTableInfo = new Vue({
 			$str+=		       '<option value="'+item.template_id+'"></option>';
 			$str+=        '</select>';
 			$str+=    '</div>';
-			$str+=    '<div class="form-group">';
-			$str+=        '<label>客户</label>';
-			$str+=        '<input type="text" value="'+item.client_name+'" class="form-control form-control3">';
-			$str+=    '</div>';
+			// $str+=    '<div class="form-group">';
+			// $str+=        '<label>客户</label>';
+			// $str+=        '<input type="text" value="'+item.client_name+'" class="form-control form-control3">';
+			// $str+=    '</div>';
 			$str+=    '<div class="form-group">';
             $str+=        '<button class="btn btn-success">提交</button>';
             $str+=	  '</div>'; 
@@ -304,6 +305,9 @@ var oTableInfo = new Vue({
 						layer.close(LoadIndex); //关闭遮罩层
 						if(data.status==100){
 							oTableInfo.tableInfo = data.value;
+							oTableInfo.count = data.count;
+							oTableInfo.countPage = data.countPage;
+							oTableInfo.pageNow = data.pageNow;
 							oTableInfo.keyword = '';
 						}else{
 							layer.msg(data.msg);
@@ -447,6 +451,8 @@ Vue.filter('statusCode', function (value) {
     return str;
 })
 
+
+//Vue过滤器
 Vue.filter('statusLink',function(value){
 	var item = value;
 	var status = value.status_code;
@@ -473,6 +479,17 @@ Vue.filter('statusLink',function(value){
 		var str = 'javascript:'
 		return str
 	}
+})
+
+Vue.filter('ListNum',function(value){
+    var str = value;
+    var pageNow = oTableInfo.pageNow;
+    if(pageNow==1){
+    	str = str + 1;
+    }else if(pageNow>1){
+    	str = (pageNow-1)*10+str+1;
+    }
+    return str
 })
 
 //筛选功能

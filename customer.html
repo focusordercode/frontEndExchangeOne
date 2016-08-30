@@ -87,86 +87,88 @@
             </div>
         </div>
 
-        <div class="container marginTop">
+        <div class="container-fluid marginTop">
             <div class="row">
-                <div class="panel panel-primary">
-                    <div class="panel-heading">
-                        <h4><b>客户管理</b></h4>
-                    </div>
-                    <div class="panel-body">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <button @click="addTable" class="btn btn-info btn-sm">增加客户</button>
-                                <button class="btn btn-danger btn-sm" @click="removeSelect" :disabled="deleteAll">删除</button>
+                <div class="col-md-12">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h4><b>客户管理</b></h4>
+                        </div>
+                        <div class="panel-body">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <button @click="addTable" class="btn btn-info btn-sm">增加客户</button>
+                                    <button class="btn btn-danger btn-sm" @click="removeSelect" :disabled="deleteAll">删除</button>
+                                </div>
+                                <p class="text-warning"><b>总客户数:{{cus_count}}</b></p>
                             </div>
-                            <p class="text-warning"><b>总客户数:{{cus_count}}</b></p>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="table-responsive">
-                                <table class="table table-bordered">
-                                    <tr class="info">
-                                        <th>序号</th>
-                                        <th>选择</th>
-                                        <th>客户名</th>
-                                        <th>英文名</th>
-                                        <th>公司</th>
-                                        <th>电话</th>
-                                        <th>邮箱</th>
-                                        <th>地址</th>
-                                        <th>客户编号</th>
-                                        <th>操作</th>
-                                    </tr>
-                                    <template v-for="table in cusData">
-                                        <tr v-if="$index%2==0" class="warning">
-                                            <td>{{$index | ListNum}}</td>
-                                            <td>
-                                                <input type="checkbox" v-model="table.checked" class="form-control">
-                                            </td>
-                                            <td>{{table.custom_name}}</td>
-                                            <td>{{table.en_name}}</td>
-                                            <td>{{table.company}}</td>
-                                            <td>{{table.mobile}}</td>
-                                            <td>{{table.email}}</td>
-                                            <td>{{table.address}}</td>
-                                            <td>{{table.custom_number}}</td>
-                                            <td>
-                                                <button class="btn btn-info btn-xs" @click="edit(table,$index)" >编辑</button>
-                                                <button class="btn btn-danger btn-xs" @click="removeThis(table)">删除</button>
-                                            </td>
+                            <div class="col-md-12">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <tr class="info">
+                                            <th>序号</th>
+                                            <th>选择</th>
+                                            <th>客户名</th>
+                                            <th>英文名</th>
+                                            <th>公司</th>
+                                            <th>电话</th>
+                                            <th>邮箱</th>
+                                            <th>地址</th>
+                                            <th>客户编号</th>
+                                            <th>操作</th>
                                         </tr>
-                                        <tr v-else>
-                                            <td>{{$index | ListNum}}</td>
-                                            <td>
-                                                <input type="checkbox" v-model="table.checked" class="form-control">
-                                            </td>
-                                            <td>{{table.custom_name}}</td>
-                                            <td>{{table.en_name}}</td>
-                                            <td>{{table.company}}</td>
-                                            <td>{{table.mobile}}</td>
-                                            <td>{{table.email}}</td>
-                                            <td>{{table.address}}</td>
-                                            <td>{{table.custom_number}}</td>
-                                            <td>
-                                                <button class="btn btn-info btn-xs" @click="edit(table,$index)" >编辑</button>
-                                                <button class="btn btn-danger btn-xs" @click="removeThis(table)">删除</button>
-                                            </td>
-                                        </tr>
-                                    </template>
-                                </table>
+                                        <template v-for="table in cusData">
+                                            <tr v-if="$index%2==0" class="warning">
+                                                <td>{{$index | ListNum}}</td>
+                                                <td>
+                                                    <input type="checkbox" v-model="table.checked" class="form-control">
+                                                </td>
+                                                <td>{{table.custom_name}}</td>
+                                                <td>{{table.en_name}}</td>
+                                                <td>{{table.company}}</td>
+                                                <td>{{table.mobile}}</td>
+                                                <td>{{table.email}}</td>
+                                                <td>{{table.address}}</td>
+                                                <td>{{table.custom_number}}</td>
+                                                <td>
+                                                    <button class="btn btn-info btn-xs" @click="edit(table,$index)" >编辑</button>
+                                                    <button class="btn btn-danger btn-xs" @click="removeThis(table)">删除</button>
+                                                </td>
+                                            </tr>
+                                            <tr v-else>
+                                                <td>{{$index | ListNum}}</td>
+                                                <td>
+                                                    <input type="checkbox" v-model="table.checked" class="form-control">
+                                                </td>
+                                                <td>{{table.custom_name}}</td>
+                                                <td>{{table.en_name}}</td>
+                                                <td>{{table.company}}</td>
+                                                <td>{{table.mobile}}</td>
+                                                <td>{{table.email}}</td>
+                                                <td>{{table.address}}</td>
+                                                <td>{{table.custom_number}}</td>
+                                                <td>
+                                                    <button class="btn btn-info btn-xs" @click="edit(table,$index)" >编辑</button>
+                                                    <button class="btn btn-danger btn-xs" @click="removeThis(table)">删除</button>
+                                                </td>
+                                            </tr>
+                                        </template>
+                                    </table>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-2 col-md-offset-4">
-                            <button class="btn btn-default" @click="preP" :disabled="prePage">上一页</button>
-                            <button class="btn btn-default" @click="nextP" :disabled="nextPage">下一页</button>
-                        </div>
-                        <div class="col-md-1">
-                            <input type="number" min="1" v-model="jumpPage" class="form-control">
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <button @click="jumpP" class="btn btn-info" :disabled="jumpBtn" >跳转</button>
-                                <label class="text-warning">当前页数:{{pageNow}}</label>
-                                <label class="text-warning">总页数:{{countPage}}</label>
+                            <div class="col-md-2 col-md-offset-4 text-right">
+                                <button class="btn btn-default" @click="preP" :disabled="prePage">上一页</button>
+                                <button class="btn btn-default" @click="nextP" :disabled="nextPage">下一页</button>
+                            </div>
+                            <div class="col-md-1">
+                                <input type="number" min="1" v-model="jumpPage" class="form-control">
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <button @click="jumpP" class="btn btn-info" :disabled="jumpBtn" >跳转</button>
+                                    <label class="text-warning">当前页数:{{pageNow}}</label>　
+                                    <label class="text-warning">总页数:{{countPage}}</label>
+                                </div>
                             </div>
                         </div>
                     </div>

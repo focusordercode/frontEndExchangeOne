@@ -135,9 +135,9 @@
             </div> -->
             
             <div class="alert alert-success">
-                表格数:<strong>{{count}}</strong>　
-                总页数:<strong>{{countPage}}</strong>　
-                当前页:<strong>{{pageNow}}</strong>
+                表格数:<strong class="text-warning">{{count}}</strong>　
+                当前页:<strong class="text-warning">{{pageNow}}</strong>　
+                总页数:<strong class="text-warning">{{countPage}}</strong>　
             </div>
 
             <!-- 表格列表 -->
@@ -167,7 +167,7 @@
                                         <!-- 条件渲染 -->
                                         <template v-if="$index%2==1">
                                             <tr class="warning">
-                                                <td class="text-center">{{$index+1}}</td>
+                                                <td class="text-center">{{$index | ListNum}}</td>
                                                 <td class="text-center">{{item.title}}</td>
                                                 <td class="text-center">{{item.name}}</td>
                                                 <td class="text-center">{{item.tempname}}</td>
@@ -187,7 +187,7 @@
                                         </template>
                                         <template v-else>
                                             <tr>
-                                                <td class="text-center">{{$index+1}}</td>
+                                                <td class="text-center">{{$index | ListNum}}</td>
                                                 <td class="text-center">{{item.title}}</td>
                                                 <td class="text-center">{{item.name}}</td>
                                                 <td class="text-center">{{item.tempname}}</td>

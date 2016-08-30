@@ -141,13 +141,6 @@
                             <a href="template-editAgain.html?id={{todo.id}}&#38;type_code={{todo.type_code}}" target="_blank" class="text-muted">
                                 {{todo.status_code|statusEdit}}
                             </a>
-                            <!-- 旧版逻辑：跳转到录入表格条目 -->
-                            <!-- <a href="Product-creat.html?id={{todo.id}}&#38;category_id={{todo.category_id}}" target="_blank" class="text-muted temp-select">
-                                {{todo.status_code|statusSelect}}
-                            </a> -->
-                            <a href="Table-Creat.html?template_id={{todo.id}}&#38;category_id={{todo.category_id}}&#38;type_code={{todo.type_code}}" target="_blank" class="text-muted temp-select">
-                                {{todo.status_code|statusSelect}}
-                            </a>
                             <input v-model="todo.id" type="hidden" class="temp-id">
                             <span class="text-warning">{{todo.status_code|statusCode}}状态</span>
                         </p>
@@ -157,9 +150,30 @@
                     <i class="fa fa-plus fa-5x"></i>
                 </div>
             </div>
-            <!-- <hr><pre>{{$data|json}}</pre> -->
         </div>
         
+        <div class="container-fluid marginTop">
+            <div class="row">
+                <div class="col-md-4 col-md-offset-4 text-center">
+                    <div class="form-inline">
+                        <button @click="goPrePage" :disabled="prePageBtn" class="btn btn-default">上一页</button>
+                        <button @click="goNextPage" :disabled="nextPageBtn" class="btn btn-default">下一页</button>
+                        <input type="number" v-model="jump" placeholder="页码" min="1" class="form-control" style="width:80px;">
+                        <button class="btn btn-info" @click="goJump" :disabled="jumpBtn">跳转</button>
+                        总页数:<strong class="text-warning">{{countPage}}</strong>　
+                        当前页:<strong class="text-warning">{{pageNow}}</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <hr>
+        <div class="container">
+            <div class="row">
+                <!-- <pre>{{$data|json}}</pre> -->
+            </div>
+        </div>
+
         <!-- 页脚 -->
         <div class="container-fluid footer-fluid">
             <div class="contaier">
