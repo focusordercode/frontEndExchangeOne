@@ -235,16 +235,6 @@ Vue.filter('statusCode', function (value) {
     }
     return str;
 })
-Vue.filter('statusSelect', function (value) {
-    var str;
-    switch(value){
-        case "creating": str = "";break;
-        case "editing": str = "";break;
-        case "enabled": str = "选用";break;
-        case "disabled": str = "";break;
-    }
-    return str;
-})
 Vue.filter('statusEdit', function (value) {
     var str;
     switch(value){

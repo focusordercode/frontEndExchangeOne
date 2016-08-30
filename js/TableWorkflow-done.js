@@ -86,7 +86,9 @@ var oTableIn = new Vue({
             url:'http://192.168.1.40/PicSystem/canton/get/info',
             datatype:'json',
             data:{
-                form_id:Request.tableID
+                form_id:Request.tableID,
+                template_id:Request.template_id,
+                type_code:Request.type_code
             },
             success:function(data){
                 layer.close(LoadIndex); //关闭遮罩层
@@ -127,3 +129,11 @@ var oTableIn = new Vue({
         }
     }
 })
+
+
+$(document).ready(function(){
+    //回到顶部
+    $('.scrollToTop').click(function(){
+        $("html,body").animate({scrollTop:0},300);
+    });
+});

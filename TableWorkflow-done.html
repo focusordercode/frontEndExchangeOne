@@ -135,7 +135,7 @@
                                 <div class="well well-sm">
                                     <p></p>
                                     <div class="row">
-                                        <div class="col-md-3">
+                                        <div class="col-md-2">
                                             <label class="label label-primary">表格编号</label>
                                             <span class="text-muted">{{info.form_no}}</span>
                                         </div>
@@ -159,6 +159,10 @@
                                             <button class="btn btn-xs btn-info" @click="downloadTable" :disabled="downloadBtn">
                                                 <i class="fa fa-download" aria-hidden="true"></i>下载表格
                                             </button>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <a href="Table-info.html" class="btn btn-xs btn-info" >      <i class="fa fa-table" aria-hidden="true"></i>表格首页
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
@@ -233,10 +237,15 @@
             </div>
         </div>
         
+        <!-- 回到顶部 -->
+        <div class="scrollToTop">
+            <i class="fa fa-3x fa-angle-up" aria-hidden="true"></i>
+        </div>
+
         <hr>
         <div class="container">
             <div class="row">
-                <!-- <pre>{{$data|json}}</pre> -->
+                <pre>{{$data|json}}</pre>
             </div>
         </div>
 

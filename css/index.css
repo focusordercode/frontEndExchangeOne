@@ -472,3 +472,24 @@ body,html {
 .tableMargin {
     margin-top: 120px;
 }
+
+.scrollToTop {
+    position: fixed;
+    bottom: 50px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    background-color: rgba(221, 221, 221, .8);
+    text-align: center;
+    line-height: 50px;
+    color: #fff;
+    cursor: pointer;
+    -webkit-transition: all .3s ease;
+        -moz-transition: all .3s ease;
+        -ms-transition: all .3s ease;
+        -o-transition: all .3s ease;
+        transition: all .3s ease;
+}
+.scrollToTop:hover {
+    background-color: #f15a23;
+}

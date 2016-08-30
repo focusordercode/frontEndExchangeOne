@@ -34,6 +34,7 @@ Vue.component('demo-grid', {
     filterKey: String
   },
   methods:{
+    //删除数据
     remove:function(entry,$index){
         var entry = entry;
         var product_id = entry.product_id;
@@ -75,6 +76,7 @@ Vue.component('demo-grid', {
                 if(data.status==100){
                     newObj = $.extend(true, {}, newData[$index]);//复制json对象,此方法只能复制json对象
                     newObj.product_id = data.value[0];//添加ID，好区别开来
+                    newObj.types      = 'yes';   //标记是新增，后台需要
                     BigData.push(newObj);//把新的对象push进去
                 }else if(data.status==101){
                     layer.msg('操作失败');
@@ -104,6 +106,7 @@ Vue.component('demo-grid', {
                     newObj = $.extend(true, {}, newData[$index]);//复制json对象,此方法只能复制json对象
                     newObj.product_id = data.value[0];//添加ID，好区别开来
                     newObj.parent_id = parent_id;
+                    newObj.types = 'yes'; //标记是新增，后台需要
                     BigData.splice($index+1,0,newObj);//把新的对象push进去
                 }else if(data.status==101){
                     layer.msg('操作失败');
@@ -127,6 +130,7 @@ var oTableIn = new Vue({
         newData:''
     },
     ready:function(){
+        var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
         //获取表格信息
         $.ajax({
             type:'POST',
@@ -162,13 +166,42 @@ var oTableIn = new Vue({
             success:function(data){
                 if(data.status==100){
                     oTableIn.gridColumns = data.value;
-                    oTableIn.gridData = data.data;
+                    // oTableIn.gridData = data.data;
                 }
             },
             error:function(jqXHR){
                 layer.msg('向服务器请求表头信息失败');
             }
         })
+
+        //获取缓存数据
+        $.ajax({
+            type:'POST',
+            url:'http://192.168.1.40/PicSystem/canton/get/info',
+            datatype:'json',
+            data:{
+                form_id:Request.id,
+                template_id:Request.template_id,
+                type_code:Request.type_code
+            },
+            success:function(data){
+                layer.close(LoadIndex); //关闭遮罩层
+                if(data.status==100){
+                    oTableIn.gridData = data.value;
+                }else if(data.status==101){
+                    // layer.msg('数据为空');
+                }else if(data.status==102){
+                    layer.msg('获取表格的ID为空');
+                }else if(data.status==111){
+                    layer.msg('表格没有数据');
+                }
+            },
+            error:function(jqXHR){
+                layer.close(LoadIndex); //关闭遮罩层
+                layer.msg('向服务器请求表格信息失败');
+            }
+        })   
+
     },
     computed:{
         TableCreat:function(){
@@ -224,6 +257,71 @@ var oTableIn = new Vue({
                     layer.msg('提交失败');
                 }
             })
+        },
+        saveMsg:function(){
+            var max = oTableIn.gridData.length;
+            var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层 
+            $.ajax({
+                type:'POST',
+                url:'http://192.168.1.40/PicSystem/canton/post/info',
+                datatype:'json',
+                data:{
+                    category_id:oTableIn.info.category_id,
+                    template_id:oTableIn.info.template_id,
+                    form_id:oTableIn.info.id,
+                    gridColumns:oTableIn.gridColumns,
+                    max:max,
+                    gridData:oTableIn.gridData
+                },
+                success:function(data){
+                    layer.close(LoadIndex); //关闭遮罩层
+                    if (data.status==100) {
+                        // --------调试用
+                        // oTableIn.newData = data.t;
+                        // --------调试用
+                        
+                        layer.msg('暂存成功');
+                        //解除未提交内容提示
+                        $(window).unbind('beforeunload');
+                        oTableIn.newData = data.value;
+                    }else if(data.status==101){
+                        layer.msg('操作失败');
+                    }else if(data.status==102){
+                        layer.msg('产品ID为空');
+                    }else if(data.status==103){
+                        layer.msg('整数类型错误');
+                    }else if(data.status==104){
+                        layer.msg('小数类型错误');
+                    }else if(data.status==105){
+                        layer.msg('日期格式错误');
+                    }else if(data.status==106){
+                        layer.msg('数据长度错误');
+                    }
+                },
+                error:function(jqXHR){
+                    layer.close(LoadIndex); //关闭遮罩层
+                    layer.msg('提交失败');
+                }
+            })
         }
     }
 })
+
+
+$(document).ready(function(){
+    //检测滚动条位置，显示隐藏页面头部
+    $(window).scroll(function(){
+       if($(window).scrollTop() > 50){
+           $('.fixed-top').slideUp();
+           $('#table').css('padding-top','200px');
+       }else{
+           $('.fixed-top').slideDown();
+           $('#table').css('padding-top','570px');
+       } 
+    });
+
+    //回到顶部
+    $('.scrollToTop').click(function(){
+        $("html,body").animate({scrollTop:55},300);
+    });
+});
