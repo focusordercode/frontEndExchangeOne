@@ -143,12 +143,13 @@
         <!-- 生成模板区域 -->
         <div class="container temp-edit">
             <div class="row">
-                <div class="col-lg-8 col-md-8">
+                <div class="col-lg-10 col-md-10">
                         <table class="table table-bordered text-warning">
                             <tr>
                                 <th style="width:70px;">排序</th>
                                 <th>中文名</th>
                                 <th>英文名</th>
+                                <th>默认值</th>
                                 <th>类型</th>
                                 <th>操作</th>
                             </tr>
@@ -166,6 +167,9 @@
                                     <input type="text" class="form-control" name="en_name" v-model="todo.en_name">
                                 </td>
                                 <td>
+                                    <input type="text" class="form-control" v-model="todo.default_value">
+                                </td>
+                                <td>
                                     <span style="color:#555;">{{todo.data_type_code|dataType}}</span>
                                 </td>
                                 <td class="delete">
@@ -178,13 +182,13 @@
                             <button v-on:click="send" class="btn btn-success btn-submit">提交保存</button>
                         </div>
                 </div>
-                <div class="col-md-4">
-                    <button v-show="!table" @click="creatMB" class="btn btn-success">生成默认模板</button>
-                    <a type="button" class="btn btn-success btn-add" target="_blank" >去添加</a>
+                <div class="col-md-2">
+                    <button v-show="!table" @click="creatMB" class="btn btn-sm btn-success">生成默认模板</button>
+                    <a type="button" class="btn btn-sm btn-success btn-add" target="_blank" >去添加</a>
                 </div>
             </div>
             <hr>
-            <!-- <pre>{{$data|json}}</pre> -->
+            <pre>{{$data|json}}</pre>
         </div>
         
         <!-- 页脚 -->

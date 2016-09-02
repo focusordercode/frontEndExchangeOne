@@ -98,13 +98,22 @@
                             <div class="form-group">
                                 <label class="col-md-2 control-label">根据模板名称</label>
                                 <div class="col-md-2">
+                                    <select v-model="searchStatus" class="form-control">
+                                        <option value="">选择状态</option>
+                                        <option value="creating">创建状态</option>
+                                        <option value="editing">编辑状态</option>
+                                        <option value="enabled">启用状态</option>
+                                        <option value="disabled">停用状态</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-2">
                                     <input type="text" v-model="name" placeholder="输入关键词" class="form-control">
                                 </div>
                                 <div class="col-md-1">
-                                    <button @click="KeywordSearch" type="submit" class="btn btn-default" :disabled="searchStatus">   搜索
+                                    <button @click="KeywordSearch" type="submit" class="btn btn-default">   搜索
                                     </button>
                                 </div>
-                                <div class="col-md-1">
+                                <div class="col-md-1 col-md-offset-3">
                                     <button class="btn btn-success creatMB">创建模板</button>
                                 </div>
                                 <div class="col-md-2">
@@ -114,6 +123,12 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            
+            <div class="alert alert-success">
+                模板总数:<strong class="text-warning">{{countPage}}</strong>　
+                当前页:<strong class="text-warning">{{pageNow}}</strong>　
+                总页数:<strong class="text-warning">{{count}}</strong>　
             </div>
 
             <div class="row">
@@ -136,8 +151,9 @@
                             <span class="text-muted date">{{todo.modified_time}}</span>
                         </p>
                         <p>
-                            <button class="btn btn-xs btn-info btn-start">启用</button>
-                            <button class="btn btn-xs btn-danger btn-delete">删除</button>
+                            <button v-show="todo.status_code | startBtn" class="btn btn-xs btn-info btn-start">启用</button>
+                            <button v-show="todo.status_code | stopBtn" @click="stopTemp(todo)" class="btn btn-xs btn-danger">停用</button>
+                            <button v-show="todo.status_code | editBtn" class="btn btn-xs btn-danger btn-delete">删除</button>
                             <a href="template-editAgain.html?id={{todo.id}}&#38;type_code={{todo.type_code}}" target="_blank" class="text-muted">
                                 {{todo.status_code|statusEdit}}
                             </a>
@@ -152,7 +168,7 @@
             </div>
         </div>
         
-        <div class="container-fluid marginTop">
+        <div v-show="countPage>1" class="container-fluid marginTop">
             <div class="row">
                 <div class="col-md-4 col-md-offset-4 text-center">
                     <div class="form-inline">
@@ -161,7 +177,7 @@
                         <input type="number" v-model="jump" placeholder="页码" min="1" class="form-control" style="width:80px;">
                         <button class="btn btn-info" @click="goJump" :disabled="jumpBtn">跳转</button>
                         总页数:<strong class="text-warning">{{countPage}}</strong>　
-                        当前页:<strong class="text-warning">{{pageNow}}</strong>
+                        当前页:<strong class="text-warning">{{pageNow}}</strong>　
                     </div>
                 </div>
             </div>

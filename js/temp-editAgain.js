@@ -193,6 +193,8 @@ var tempEdit = new Vue({
                     if(data.status==100){
                         layer.msg('修改成功');
                         setInterval(windowFresh,1000);
+                    }else {
+                        layer.msg(data.msg);
                     }
                 },
                 error: function(jqXHR){     

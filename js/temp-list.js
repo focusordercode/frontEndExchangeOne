@@ -2,8 +2,8 @@ var tempList = new Vue({
     el:'body',
     data:{
         temp:[],
-        name:'',
         searchStatus:'',
+        name:'',
         prePageBtn:'',
         nextPageBtn:'',
         count:'',
@@ -38,15 +38,6 @@ var tempList = new Vue({
         })
     },
     computed:{
-        //搜索按钮状态控制
-        searchStatus:function(){
-            var name = this.name;
-            if(!name){
-                return true
-            }else{
-                return false
-            }
-        },
         //上一页按钮
         prePageBtn:function(){
             var pageNow = this.pageNow;
@@ -79,10 +70,11 @@ var tempList = new Vue({
     methods:{
         //根据模板名称搜索
         KeywordSearch:function(){
-            var name = this.name;
+            var name = this.name.trim();
+            var status = this.searchStatus;
             var type_code = 'info';
-            if(!name){
-                layer.msg('请先输入关键词');
+            if(!name&&!status){
+                layer.msg('必须输入关键词或者选择模板状态');
             }else{
                 var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
                 $.ajax({
@@ -91,12 +83,16 @@ var tempList = new Vue({
                     dataType:'json',
                     data:{
                         type_code:type_code,
-                        name:name
+                        name:name,
+                        status_code:status
                     },
                     success:function(data){
                         layer.close(LoadIndex); //关闭遮罩层
                         if(data.status==100){
                             tempList.temp = data.value;
+                            tempList.count = data.count;
+                            tempList.countPage = data.countPage;
+                            tempList.pageNow = data.pageNow;
                             tempList.name = '';
                         }else if(data.status==101){
                             layer.msg('没有查询到数据');
@@ -221,6 +217,42 @@ var tempList = new Vue({
                     }
                 })
             }
+        },
+        //停用模板
+        stopTemp:function(todo){
+
+            var todo = todo,
+                id = todo.id,
+                type_code = todo.type_code;
+
+                layer.confirm('是否确认停用模板?',{
+                    btn:['确定','取消']
+                },function(index){
+                    layer.close(index);
+
+                    $.ajax({
+                        type:'POST',
+                        url:'http://192.168.1.40/PicSystem/canton/stop/template',
+                        datatype:'json',
+                        data:{
+                            id:id,
+                            type_code:type_code
+                        },
+                        success:function(data){
+                            if(data.status==100){
+                                layer.msg('停用成功');
+                                todo.status_code = 'disabled';
+                            }else if(data.status==101){
+                                layer.msg('停用失败');
+                            }else if(data.status==102){
+                                layer.msg('参数错误');
+                            }
+                        },
+                        error:function(jqXHR){
+                            layer.msg('向服务器请求停用模板失败');
+                        }
+                    })
+                })     
         }
     }
 })
@@ -230,8 +262,8 @@ Vue.filter('statusCode', function (value) {
     switch(value){
         case "creating": str = "创建";break;
         case "editing": str = "编辑";break;
-        case "enabled": str = "有效";break;
-        case "disabled": str = "完成";break;
+        case "enabled": str = "启用";break;
+        case "disabled": str = "停用";break;
     }
     return str;
 })
@@ -245,6 +277,40 @@ Vue.filter('statusEdit', function (value) {
     }
     return str;
 })
+Vue.filter('startBtn',function(value){
+    var value = value;
+    str1 = ''; //隐藏
+    str2 = 'yes'; //显示
+    if(value=='creating'||value=='editing'||value=='disabled'){
+        return str2
+    }else if(value=='enabled'){
+        return str1
+    }
+})
+
+Vue.filter('editBtn',function(value){
+    var value = value;
+    str1 = ''; //隐藏
+    str2 = 'yes'; //显示
+    if(value=='creating'||value=='editing'){
+        return str2
+    }else if(value=='enabled'||value=='disabled'){
+        return str1
+    }
+})
+
+Vue.filter('stopBtn',function(value){
+    var value = value;
+    str1 = ''; //隐藏
+    str2 = 'yes'; //显示
+    if(value=='creating'||value=='editing'||value=='disabled'){
+        return str1
+    }else if(value=='enabled'){
+        return str2
+    }
+})
+
+
 
 //打开创建的新的模板
 $('.temp-list .temp-add').click(function(){
@@ -260,12 +326,13 @@ $(function () {
 })
 
 
-//启用禁用状态
+//启用模板
 $(document).on('click','.temp-list .temp .btn-start',function(){
     $tempId = $(this).nextAll('.temp-id').val();
     layer.confirm('一经启用，模板不可以编辑和删除，是否启用?', {
       btn: ['确定','关闭'] //按钮
-    },function(){
+    },function(index){
+        layer.close(index);
         $.ajax({
             type: "POST",
             url: "http://192.168.1.40/PicSystem/canton/use/template", //添加请求地址的参数
@@ -312,6 +379,7 @@ $(document).on('click','.temp-list .btn-delete',function(){
             success: function(data){
                 if(data.status==100){
                     layer.msg('操作成功');
+                    
                     location.reload(true);
                 }else if(data.status==101){
                     layer.msg('操作失败');

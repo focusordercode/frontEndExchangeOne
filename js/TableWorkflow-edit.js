@@ -209,6 +209,7 @@ var oTableIn = new Vue({
         }
     },
     methods:{
+        //提交
         sendMsg:function(){
             var max = oTableIn.gridData.length;
             var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层 
@@ -217,6 +218,7 @@ var oTableIn = new Vue({
                 url:'http://192.168.1.40/PicSystem/canton/post/info',
                 datatype:'json',
                 data:{
+                    save_type:'submit',
                     category_id:oTableIn.info.category_id,
                     template_id:oTableIn.info.template_id,
                     form_id:oTableIn.info.id,
@@ -237,7 +239,7 @@ var oTableIn = new Vue({
                         //跳转到下一步
                         var url = 'TableWorkflow-selectPic.html';
                         var tableID = oTableIn.info.id;
-                        window.location.href = url+'?tableID='+tableID+'&tableNum='+max;
+                        window.location.href = url+'?tableID='+tableID;
                     }else if(data.status==101){
                         layer.msg('操作失败');
                     }else if(data.status==102){
@@ -254,10 +256,11 @@ var oTableIn = new Vue({
                 },
                 error:function(jqXHR){
                     layer.close(LoadIndex); //关闭遮罩层
-                    layer.msg('提交失败');
+                    layer.msg('提交失败1');
                 }
             })
         },
+        //暂存
         saveMsg:function(){
             var max = oTableIn.gridData.length;
             var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层 
@@ -300,7 +303,7 @@ var oTableIn = new Vue({
                 },
                 error:function(jqXHR){
                     layer.close(LoadIndex); //关闭遮罩层
-                    layer.msg('提交失败');
+                    layer.msg('提交失败1');
                 }
             })
         }
@@ -316,7 +319,7 @@ $(document).ready(function(){
            $('#table').css('padding-top','200px');
        }else{
            $('.fixed-top').slideDown();
-           $('#table').css('padding-top','570px');
+           $('#table').css('padding-top','600px');
        } 
     });
 

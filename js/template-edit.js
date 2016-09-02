@@ -143,7 +143,7 @@ function closeWindow(){
 
 //拉取模板的信息
 var tempInfo = new Vue({
-    el:'.temp-info',
+    el:'body',
     data:{
         value:''
     },

@@ -20,6 +20,13 @@
         .control-panel .form-control {
             border-radius: 0;
         }
+        .changTable .modal-content {
+            border-radius: 0;
+            border: 0;
+        }
+        .changTable .form-control {
+            border-radius: 0;
+        }
     </style>
 </head>
     <body>
@@ -176,10 +183,10 @@
                                                 <td class="text-center">{{item.modified_time}}</td>
                                                 <td class="text-center">{{item.status_code|statusCode}}</td>
                                                 <td class="text-center">
-                                                    <button v-on:click="modified(item)" class="btn btn-info btn-xs">
+                                                    <button v-show="item.status_code | deleteBtn" v-on:click="modified(item)" class="btn btn-info btn-xs">
                                                         修改
                                                     </button>
-                                                    <button v-on:click="remove(item)" class="btn btn-danger btn-xs">    删除
+                                                    <button v-show="item.status_code | deleteBtn" v-on:click="remove(item)" class="btn btn-danger btn-xs">    删除
                                                     </button>
                                                     <a class="btn btn-success btn-xs" target="_blank" :href="item | statusLink" >编辑</a>
                                                 </td>
@@ -196,12 +203,12 @@
                                                 <td class="text-center">{{item.modified_time}}</td>
                                                 <td class="text-center">{{item.status_code|statusCode}}</td>
                                                 <td class="text-center">
-                                                    <button v-on:click="modified(item)" class="btn btn-info btn-xs">
+                                                    <button v-show="item.status_code | deleteBtn" v-on:click="modified(item)" class="btn btn-info btn-xs">
                                                         修改
                                                     </button>
-                                                    <button v-on:click="remove(item)" class="btn btn-danger btn-xs">    删除
+                                                    <button v-show="item.status_code | deleteBtn" v-on:click="remove(item)" class="btn btn-danger btn-xs">    删除
                                                     </button>
-                                                    <a class="btn btn-success btn-xs" target="_blank" :href="item | statusLink" >编辑</a>
+                                                    <a  class="btn btn-success btn-xs" target="_blank" :href="item | statusLink" >编辑</a>
                                                 </td>
                                             </tr>
                                         </template>
@@ -214,7 +221,8 @@
             </div>
             </div>
             
-            <div class="container-fluid">
+            <!-- 分页 -->
+            <div v-show="countPage>1" class="container-fluid">
                 <div class="row">
                     <div class="col-md-4 col-md-offset-4 text-center">
                         <div class="form-inline">
@@ -224,6 +232,27 @@
                             <button class="btn btn-info" @click="goJump" :disabled="jumpBtn">跳转</button>
                             总页数:<strong class="text-warning">{{countPage}}</strong>　
                             当前页:<strong class="text-warning">{{pageNow}}</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 修改表格信息 -->
+            <div class="modal changTable fade">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header bg-primary">
+                            <h4 class="modal-title text-center">表格信息修改</h4>
+                            <button type="button" class="close close-positon"><span aria-hidden="true"><i class="fa fa-close"></i></span></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-md-10 col-md-offset-1">
+                                        
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

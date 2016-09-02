@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>编辑模板</title>
+    <title>编辑自定义模板</title>
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <!--你自己的样式文件 -->
@@ -47,24 +47,31 @@
                 <div class="navbar-collapse collapse" role="navigation">
                     <ul class="nav navbar-nav">
                         <li class="dropdown">
+                            <a href="##" data-toggle="dropdown" class="dropdown-toggle">图片库<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="pic-category.html">图片库</a></li>
+                                <li><a href="admin-category-pic.html">图片目录管理</a></li>
+                                <li><a href="pic-trash.html">回收站</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
                             <a href="##" data-toggle="dropdown" class="dropdown-toggle">产品资料<span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li><a href="template.html">产品资料表模板</a></li>
-                                <li><a href="##">产品资料表</a></li>
+                                <li><a href="Table-info.html">产品资料表</a></li>
                             </ul>
                         </li>
                         <li class="dropdown">
                             <a href="##" data-toggle="dropdown" class="dropdown-toggle">批量表<span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li><a href="template-batch-list.html">批量表模板</a></li>
-                                <li><a href="##">批量表</a></li>
+                                <li><a href="Table-batch.html">批量表</a></li>
                             </ul>
                         </li>
                         <li class="hidden-sm hidden-md"><a href="admin-category.html" target="_blank" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'v2doc'])">分类管理</a></li>
-                        <li><a href="#" target="_blank" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'v3doc'])">上传</a></li>
+                        <li class="hidden-sm hidden-md"><a href="customer.html" target="_blank" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'v3doc'])">客户管理</a></li>
                         <li><a href="upcUpload.html" target="_blank" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'v4doc'])">UPC</a></li>
-                        <li><a href="#" target="_blank" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'less'])">回收站</a></li>
-                        <li><a href="#" target="_blank" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'jquery'])">日志</a></li>
+                        <li><a href="http://192.168.1.40/PicSystem/canton/Log/log" target="_blank" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'jquery'])">日志</a></li>
                     </ul>
                 </div>
             </div>
@@ -75,53 +82,33 @@
         <!-- 模板信息区域 -->
         <div class="container temp-info">
             <div class="row">
-                <div class="col-lg-6 col-md-6">
-                    <div class="well">
-                        <!-- 修改模板信息 -->
-                        <h3 class="text-success">添加模板信息</h3>
-                        <form class="temp-info-xg">
-                            <div class="form-group">
-                                <label class="text-warning">模板名称</label>
-                                <input type="text" class="form-control cn-name" placeholder="输入模板中文名称">
-                                <input type="text" class="form-control en-name" placeholder="输入模板英文名称">
-                            </div>
-                            <div class="form-group">
-                                <label class="text-warning">所属分类</label>
-                                <input type="text" placeholder="不填写则为全局模板" class="form-control temp-belong">
-                            </div>
-                            <div class="form-group">
-                                <label class="text-warning">模板说明</label>
-                                <textarea class="form-control remark" rows="2"></textarea>
-                            </div>
-                            <button class="btn btn-success btn-xg" onclick="return false">保存</button>
-                        </form>
-                    </div>
-                </div>
-
-                <div class="col-lg-6 col-md-6">
+                <div class="col-lg-12 col-md-12">
                     <div class="well">
                         <!-- 模板的信息 -->
                         <h3 class="text-success">模板信息</h3>
                         <div class="temp-info-save clearfix">
                             <hr>
-                            <h4 class="text-warning temp-info-name"></h4>
+                            <h4 class="text-warning temp-info-name">{{value.cn_name}} <small>{{value.en_name}}</small></h4>
                             <p>
-                                <span class="label label-success">模板类型</span>
-                                <span class="text-muted temp-cate"></span>
-                                <span class="text-muted temp-cate"></span>
+                                <span class="label label-success">模板类目</span>
+                                <span class="text-muted temp-cate">{{value.category_name}}</span>
                             </p>
                             <p>
                                 <span class="label label-success">模板说明</span>
-                                <p class="text-muted temp-info-remark"></p>
+                                <p class="text-muted temp-info-remark">{{value.remark}}</p>
+                            </p>
+                            <p>
+                                <span class="label label-success">创建日期</span>
+                                <span class="text-muted date">{{value.created_time}}</span>
                             </p>
                             <p>
                                 <span class="label label-success">修改日期</span>
-                                <span class="text-muted date"></span>
+                                <span class="text-muted date">{{value.modified_time}}</span>
                             </p>
-                            <p><input type="hidden" name="category_id" value="" class="temp-info-id" ></p>
-                            <!-- <button class="btn btn-info btn-save">修改</button> -->
+                            <input type="hidden" value="{{value.id}}" class="cate-id" >
                         </div>
                     </div>
+                    <!-- <pre>{{$data|json}}</pre> -->
                 </div>
             </div>
             <hr>
@@ -131,11 +118,11 @@
         <div class="container temp-edit">
             <div class="row">
                 <div class="col-lg-6 col-md-6">
-                    <p class="text-danger">请添加条目</p>
+                    <p class="text-danger">请添加条目!</p>
                         <table class="table table-bordered text-warning"></table>
                         <div class="form-inline">
                             <button class="btn btn-success btn-submit">提交保存</button>
-                            <input type="number" placeholder="请输入序号" class="form-control delete-num">
+                            <input type="number" placeholder="请输入序号" min="1" class="form-control delete-num">
                             <button class="btn btn-warning btn-d">删除</button>
                             <button class="btn btn-danger btn-all">清除全部</button>
                         </div>
@@ -190,7 +177,7 @@
                                         </div>
                                         <div class="col-lg-3 col-md-3">
                                             <div class="form-group">
-                                                <input type="number" value="" placeholder="输入字符数" class="form-control input-num">
+                                                <input type="number" value="100" placeholder="输入字符数" class="form-control input-num">
                                             </div>
                                         </div>
                                         <div class="col-lg-3 col-md-3">
@@ -222,25 +209,6 @@
         <script src="js/vue.js"></script>
         <script src='js/layer.js'></script>
         <script src='js/template-edit.js'></script>
-        <script>
-            $('.temp-edit .btn-submit').on('click',function(){
-                var oList = new Array();
-                var cnNameArr = new Array();
-                var enNameArr = new Array();
-                var bzmcw = new Array();
-                $oTableLength = $('.temp-edit .table tr').length;
-                $i = 0;
-                for($i;$i<$oTableLength;$i++){
-                    oList[$i] = $('.temp-edit .table tr').eq($i).find('.temp-index').index()+1;
-                    cnNameArr[$i] = $('.temp-edit .table tr').eq($i).find('.cn-name > input').val();
-                    enNameArr[$i] = $('.temp-edit .table tr').eq($i).find('.en-name > input').val();
-                    bzmcw[$i] = $('.temp-edit .table tr').eq($i).find('.input-type > input').val();
-                }
-                alert(oList[1]);
-                alert(cnNameArr[0]);
-                alert(enNameArr[0]);
-                alert(bzmcw[0]);
-            });
-        </script>
+        <script src='js/template-creat-submit.js'></script>
     </body>
 </html>

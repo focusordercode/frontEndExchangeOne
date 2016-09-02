@@ -57,7 +57,6 @@ var selectPic = new Vue({
         TableCreat:'',
         TableEdit:'',
         tableInfo:'',
-        tableNum:Request.tableNum,
         pictree:{},
         selectedPic:'',
         selectedPicId:'',
@@ -102,7 +101,7 @@ var selectPic = new Vue({
         },
         //控制筛选图片按钮
         getPic:function(){
-            if(!this.tableNum||!this.selectedPicId){
+            if(!this.selectedPicId){
                 return true
             }else{
                 return false
@@ -158,7 +157,7 @@ var selectPic = new Vue({
         },
         //请求并获取筛选的图片
         searchPic:function(){
-            var num = selectPic.tableNum;
+            var num = selectPic.tableInfo.productCount;//表格行数，即图片数量
             var category_id = selectPic.tableInfo.category_id;
             var gallery_id = selectPic.selectedPicId;
             var pic_rate = selectPic.pic_rate;
