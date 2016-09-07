@@ -144,7 +144,9 @@ var tree = new Vue({
   							tree.addOne.cn_name = '';
   							tree.addOne.en_name = '';
   							setInterval(windowFresh,1000);
-  						}
+  						}else{
+                            layer.msg(data.msg);
+                        }
   					},
   					error:function(jqXHR){
   						layer.msg('向服务器请求添加分类失败');
@@ -194,11 +196,9 @@ var tree = new Vue({
   							layer.msg('修改成功');
   							$('.changeCate').modal('hide');
   							setInterval(windowFresh,1000);
-  						}else if(data.status==101){
-  							layer.msg('操作失败');
-  						}else if(data.status==102){
-  							layer.msg('ID为空');
-  						}
+  						}else{
+                            layer.msg(data.msg);
+                        }
   					},
   					error:function(jqXHR){
   						layer.msg('向服务器请求添加分类失败');
@@ -228,13 +228,9 @@ var tree = new Vue({
   				        if(data.status==100){
   				        	layer.msg('删除成功');
   				        	setInterval(windowFresh,1000);
-  				        }else if(data.status==101){
-  				        	layer.msg('操作失败');
-  				        }else if(data.status==103){
-  				        	layer.msg('类目里面存在图片类目不能删除');
-  				        }else if(data.status==112){
-  				        	layer.msg('顶级类目无法删除');
-  				        }
+  				        }else{
+                            layer.msg(data.msg);
+                        }
   				    },
   				    error:function(jqXHR){
   				        layer.msg('向服务器请求删除失败');

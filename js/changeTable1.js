@@ -22,7 +22,7 @@ var TableCreat = new Vue({
 	el:'body',
 	data:{
 		tableID:Request.tableID,
-		TableCreat:'',
+		tableInfo:'',
 		proList:'',
 		proSelected:'',
 		proSelectedId:'',
@@ -35,10 +35,26 @@ var TableCreat = new Vue({
 		CusSelectId:'',
 		tableName:''
 	},
-	computed:{
-		TableCreat:function(){
-			return 'TableWorkflow-creat.html'+'?tableID='+this.tableID
-		}
+	ready:function(){
+		$.ajax({
+			type:'POST',
+			url:'http://192.168.1.40/PicSystem/canton/get/oneform',
+			datatype:'json',
+			data:{
+				type_code:'info',
+				id:Request.tableID
+			},
+			success:function(data){
+				if(data.status==100){
+					TableCreat.tableInfo = data.value[0];
+				}else if(data.status==101){
+					layer.msg('操作失败，该表格不存在');
+				}
+			},
+			error:function(jqXHR){
+				layer.msg('向服务器请求表格信息失败');
+			}
+		})
 	},
 	methods:{
 		//从搜索结果中选中一个类目
@@ -81,7 +97,7 @@ var TableCreat = new Vue({
 				})
 			}
 		},
-		//根据关键词搜索模板
+		//根据类目展示模板
 		searchMB:function(){
 			var MBkeyword = TableCreat.MBkeyword;
 			if(!MBkeyword){
@@ -159,11 +175,11 @@ var TableCreat = new Vue({
 			}else{
 				$.ajax({
 					type:'POST',
-					url:'http://192.168.1.40/PicSystem/canton/add/infoform',
+					url:'http://192.168.1.40/PicSystem/canton/update/infoform',
 					datatype:'json',
 					data:{
 						type_code:'info',
-						form_no:tableID,
+						id:tableID,
 						category_id:category_id,
 						template_id:template_id,
 						client_id:client_id,
@@ -172,9 +188,12 @@ var TableCreat = new Vue({
 					},
 					success:function(data){
 						if(data.status==100){
-							var Id = data.id;
-							var url = 'TableWorkflow-edit.html';
-							window.location.href = url+'?form_no='+tableID+'&id='+Id+'&template_id='+template_id+'&type_code=info';
+							layer.msg('保存成功');
+							function back() {
+								var url = 'Table-info.html';
+								window.location.href = url;
+							}
+							setInterval(back,1000);
 						}else{
 							layer.msg(data.msg);
 						}
@@ -249,6 +268,21 @@ $('.searchCate').on('keyup',function(){
 	})
 });
 
+
+//Vue过滤器
+Vue.filter('statusCode', function (value) {
+    var str;
+    switch(value){
+        case "creating": str = "创建";break;
+        case "editing": str = "编辑";break;
+        case "editing4info": str = "编辑-筛选图片";break;
+        case "editing4picture": str = "编辑-上传图片";break;
+        case "enabled": str = "有效";break;
+        case "finished": str = "完成";break;
+        case "halt": str = "终止";break;
+    }
+    return str;
+})
 
 //观察搜索框的变化，控制是否有客户
 TableCreat.$watch('CusSelect', function (val) {

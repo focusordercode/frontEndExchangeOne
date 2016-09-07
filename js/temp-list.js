@@ -29,6 +29,8 @@ var tempList = new Vue({
                     tempList.count = data.count;
                     tempList.countPage = data.countPage;
                     tempList.pageNow = data.pageNow;
+                }else{
+                    layer.msg(data.msg);
                 }
             },
             error: function(jqXHR){
@@ -257,6 +259,8 @@ var tempList = new Vue({
     }
 })
 //Vue过滤器
+
+//状态码过滤器
 Vue.filter('statusCode', function (value) {
     var str;
     switch(value){
@@ -267,6 +271,7 @@ Vue.filter('statusCode', function (value) {
     }
     return str;
 })
+//编辑按钮
 Vue.filter('statusEdit', function (value) {
     var str;
     switch(value){
@@ -277,6 +282,7 @@ Vue.filter('statusEdit', function (value) {
     }
     return str;
 })
+//启用按钮显示
 Vue.filter('startBtn',function(value){
     var value = value;
     str1 = ''; //隐藏
@@ -287,7 +293,7 @@ Vue.filter('startBtn',function(value){
         return str1
     }
 })
-
+//编辑按钮显示隐藏
 Vue.filter('editBtn',function(value){
     var value = value;
     str1 = ''; //隐藏
@@ -298,7 +304,7 @@ Vue.filter('editBtn',function(value){
         return str1
     }
 })
-
+//停用按钮显示隐藏
 Vue.filter('stopBtn',function(value){
     var value = value;
     str1 = ''; //隐藏
@@ -345,14 +351,8 @@ $(document).on('click','.temp-list .temp .btn-start',function(){
                 if(data.status==100){
                     layer.msg('请求成功');
                     location.reload(true);
-                }else if(data.status==101){
-                    layer.msg('启用失败');
-                }else if(data.status==102){
-                    layer.msg('参数错误');
-                }else if(data.status==103){
-                    layer.msg('重复添加数据!');
-                }else if(data.status==104){
-                    layer.msg('启用状态下不可操作');
+                }else{
+                    layer.msg(data.msg);
                 }
             },
             error: function(jqXHR){     
@@ -381,15 +381,9 @@ $(document).on('click','.temp-list .btn-delete',function(){
                     layer.msg('操作成功');
                     
                     location.reload(true);
-                }else if(data.status==101){
-                    layer.msg('操作失败');
-                }else if(data.status==102){
-                    layer.msg('参数错误');
-                }else if(data.status==103){
-                    layer.msg('重复操作!');
-                }else if(data.status==104){
-                    layer.msg('启用状态下不可操作');
-              }
+                }else{
+                    layer.msg(data.msg);
+                }
           },
             error: function(jqXHR){     
               layer.msg('向服务器请求失败');

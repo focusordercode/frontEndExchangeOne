@@ -190,22 +190,8 @@ var selectPic = new Vue({
                             selectPic.not_enough = data.not_enough;
                             selectPic.count = data.count;
                             selectPic.rand_id = data.rand_id;
-                        }else if(data.status==101){
-                            layer.msg('操作失败,该相册没有此类型图片');
-                            selectPic.picData= '';
-                            selectPic.num_now = '';
-                            selectPic.not_enough = '';
-                            selectPic.count = '';
-                            selectPic.rand_id = '';
-                        }else if(data.status==102){
-                            layer.msg('参数错误');
-                            selectPic.picData= '';
-                            selectPic.num_now = '';
-                            selectPic.not_enough = '';
-                            selectPic.count = '';
-                            selectPic.rand_id = '';
-                        }else if(data.status==104){
-                            layer.msg('当前产品类目里没有图片类目');
+                        }else{
+                            layer.msg(data.msg);
                             selectPic.picData= '';
                             selectPic.num_now = '';
                             selectPic.not_enough = '';

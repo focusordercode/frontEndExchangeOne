@@ -38,6 +38,8 @@ var oTableInfo = new Vue({
 		        	oTableInfo.count = data.count;
 		        	oTableInfo.countPage = data.countPage;
 		        	oTableInfo.pageNow = data.pageNow;
+		        }else{
+		        	layer.msg(data.msg);
 		        }
 		    },
 		    error: function(jqXHR){
@@ -96,12 +98,8 @@ var oTableInfo = new Vue({
 				        if(data.status==100){
 				        	oTableInfo.tableInfo.$remove(item);
 				        	layer.msg('删除成功');
-				        }else if(data.status==101){
-				        	layer.msg('操作失败');
-				        }else if(data.status==102){
-				        	layer.msg('id为空');
-				        }else if(data.status==108){
-				        	layer.msg('已经启用的无法删除');
+				        }else{
+				        	layer.msg(data.msg);
 				        }
 				    },
 				    error: function(jqXHR){     
@@ -109,153 +107,6 @@ var oTableInfo = new Vue({
 				    }
 				})
 			})
-		},
-		//修改
-		modified:function(item){
-			var item = item;
-			//定义弹出层里面的HTML内容
-			$str = '';
-			$str+='<div class="form">';
-			$str+=    '<div class="form-group">';
-			$str+=        '<label>表格名</label>';
-			$str+=        '<input type="text" value="'+item.title+'" class="form-control form-control0">';
-			$str+=    '</div>';
-			$str+=    '<div class="form-group cate">';
-			$str+=        '<label>类目</label>';
-			$str+=        '<input type="text" value="'+item.name+'" class="form-control form-control1">';
-			$str+=        '<ul></ul>';
-			$str+=    '</div>';
-			$str+=    '<div class="form-group">';
-			$str+=        '<label>模板</label>';
-			$str+=        '<select class="form-control form-control2">';
-			$str+=		       '<option value="'+item.template_id+'"></option>';
-			$str+=        '</select>';
-			$str+=    '</div>';
-			// $str+=    '<div class="form-group">';
-			// $str+=        '<label>客户</label>';
-			// $str+=        '<input type="text" value="'+item.client_name+'" class="form-control form-control3">';
-			// $str+=    '</div>';
-			$str+=    '<div class="form-group">';
-            $str+=        '<button class="btn btn-success">提交</button>';
-            $str+=	  '</div>'; 
-			$str+='</div>';
-			//打开修改的弹层
-			if(item.status_code=='enabled'||item.status_code=='disabled'){
-				layer.msg('当前状态无法修改');
-			}else{
-				layer.open({  //这里也要获取弹出层的index，后面关闭会使用
-				    type: 1,
-				    title:'修改表格信息',
-				    skin: 'modified col-md-4', //样式类名
-				    closeBtn: 1,  //关闭按钮
-				    shift: 0,
-				    shadeClose: true, //开启遮罩关闭
-				    content: $str
-				});
-			}
-			$('.modified .layui-layer-content .form-control1').eq(0).attr('name',item.category_id);
-			$('.modified .layui-layer-content .form-control2 option').eq(0).text(item.tempname);
-			//模糊搜索获取类目
-			$(document).on('keyup','.modified .layui-layer-content .form-control1',function(){
-				var oText = $('.modified .layui-layer-content .form-control1').val();
-				$.ajax({
-					type:'POST',
-					url:'http://192.168.1.40/PicSystem/canton/vague/name',
-					datatype:'json',
-					data:{
-						text:oText
-					},
-					success:function(data){
-						if(data.status==100){
-							var $cateList = data.value;
-							$('.modified .cate ul li').remove();
-							for($i=0;$i<$cateList.length;$i++){
-							    $str = '<li name="'+$cateList[$i].id+'">'+$cateList[$i].cn_name+$cateList[$i].en_name+'</li>';
-							    $('.modified .cate ul').append($str);
-							} 
-						}
-					},
-					error:function(jqXHR){
-						layer.msg('请求服务器失败');
-					}
-				})
-			});
-			//选中类目
-			$(document).on('click','.modified .cate ul li',function(){
-			     var oCateID = $(this).attr('name');
-			    $('.modified .layui-layer-content .form-control1').attr('name',oCateID);
-			    $('.modified .layui-layer-content .form-control1').val($(this).text());
-			    $('.modified .cate ul li').remove();
-			    //获取该类目下的所有模板
-			    $.ajax({
-			    	type:'POST',
-			    	url:'http://192.168.1.40/PicSystem/canton/get/linkage',
-			    	datatype:'json',
-			    	data:{
-			    		type_code:item.type_code,
-			    		category_id:oCateID
-			    	},
-			    	success:function(data){
-			    		if(data.status==100){
-			    			//获取模板后更新dom
-			    			var oTemp = data.value;
-			    			$('.modified .layui-layer-content .form-control2 option').remove();
-			    			for($r=0;$r<oTemp.length;$r++){
-			    			    $str = '<option value="'+oTemp[$r].id+'">'+oTemp[$r].cn_name+'</option>';
-			    			    $('.modified .layui-layer-content .form-control2').append($str);
-			    			}
-			    		}
-			    	},
-			    	error:function(jqXHR){
-			    		layer.msg('请求模板信息失败');
-			    	}
-			    })
-			});
-			//提交修改
-			$(document).on('click','.modified .layui-layer-content .btn',function(){
-				var oTitle = $('.modified .layui-layer-content .form-control0').val();
-				var oTempID = $('.modified .layui-layer-content .form-control2').val();
-				var oCateID = $('.modified .layui-layer-content .form-control1').attr('name');
-				if(!oTitle||!oTempID){
-					layer.msg('请输入完整的数据');
-				}else{
-					$.ajax({
-						type:'POST',
-						url:'http://192.168.1.40/PicSystem/canton/update/infoform',
-						datatype:'json',
-						data:{
-							type_code:item.type_code,
-							id:item.id,
-							category_id:oCateID,
-							template_id:oTempID,
-							client_id:item.client_id,
-							title:oTitle
-						},
-						success:function(data){
-							if(data.status==100){
-								layer.msg('修改成功');
-
-								setInterval(windowFresh,1000);
-
-							}else if(data.status==101){
-								layer.msg('操作失败');
-							}else if(data.status==103){
-								layer.msg('类目错误');
-							}else if(data.status==104){
-								layer.msg('模板错误');
-							}else if(data.status==105){
-								layer.msg('表格名称为空');
-							}else if(data.status==108){
-								layer.msg('当前状态无法修改');
-							}
-						},
-						error:function(jqXHR){
-							layer.msg('提交修改，向服务器请求失败');
-						}
-					})
-				}
-				
-			});
 		},
 		//新建表格
 		creatTable:function(){
@@ -441,7 +292,6 @@ Vue.filter('statusCode', function (value) {
     var str;
     switch(value){
         case "creating": str = "创建";break;
-        case "editing": str = "编辑";break;
         case "editing4info": str = "编辑-筛选图片";break;
         case "editing4picture": str = "编辑-上传图片";break;
         case "enabled": str = "有效";break;
@@ -471,7 +321,7 @@ Vue.filter('statusLink',function(value){
 		//进入第三步
 		var str = selectPic + '?tableID='+tableID;
 		return str
-	}else if(status=='enabled'||'finished'){
+	}else if(status=='enabled'||status=='finished'){
 		//进入第五步
 		var str = donePage+'?tableID='+tableID+'&template_id='+template_id+'&type_code='+type_code;
 		return str
@@ -481,6 +331,7 @@ Vue.filter('statusLink',function(value){
 	}
 })
 
+//序号过滤器
 Vue.filter('ListNum',function(value){
     var str = value;
     var pageNow = oTableInfo.pageNow;
@@ -492,6 +343,7 @@ Vue.filter('ListNum',function(value){
     return str
 })
 
+//修改表格休息按钮
 Vue.filter('deleteBtn',function(value){
     var value = value;
     str1 = ''; //隐藏
@@ -500,5 +352,20 @@ Vue.filter('deleteBtn',function(value){
         return str1
     }else {
         return str2
+    }
+})
+
+//删除按钮
+Vue.filter('xgBtn',function(value){
+    var str;
+    var value = value;
+    var tableID = value.id,
+    	status_code = value.status_code,
+    	url1 = 'changeTable1.html';
+    	url2 = 'changeTable2.html';
+    if(status_code=='creating'){
+    	return str = url1 +'?tableID='+ tableID;
+    }else{
+    	return str = url2 +'?tableID='+ tableID;
     }
 })

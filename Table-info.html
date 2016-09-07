@@ -44,6 +44,7 @@
                 </div>
             </div>
         </div>
+        
         <!-- 导航 -->
         <div class="navbar navbar-inverse nav-fluid-top">
             <div class="container">
@@ -83,6 +84,7 @@
                         <li class="hidden-sm hidden-md"><a href="admin-category.html" target="_blank" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'v2doc'])">分类管理</a></li>
                         <li class="hidden-sm hidden-md"><a href="customer.html" target="_blank" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'v3doc'])">客户管理</a></li>
                         <li><a href="upcUpload.html" target="_blank" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'v4doc'])">UPC</a></li>
+                        <li><a href="partition.html" target="_blank" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'jquery'])">数据库分区</a></li>
                         <li><a href="http://192.168.1.40/PicSystem/canton/Log/log" target="_blank" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'jquery'])">日志</a></li>
                     </ul>
                 </div>
@@ -110,7 +112,8 @@
                                         <select v-model="status_code" class="form-control">
                                             <option value="" selected>表格状态</option>
                                             <option value="creating">创建</option>
-                                            <option value="editing">编辑</option>
+                                            <option value="editing4info">编辑-筛选图片</option>
+                                            <option value="editing4picture">编辑-产品图片</option>
                                             <option value="enabled">有效</option>
                                             <option value="finished">完成</option>
                                             <option value="halt">终止</option>
@@ -183,12 +186,12 @@
                                                 <td class="text-center">{{item.modified_time}}</td>
                                                 <td class="text-center">{{item.status_code|statusCode}}</td>
                                                 <td class="text-center">
-                                                    <button v-show="item.status_code | deleteBtn" v-on:click="modified(item)" class="btn btn-info btn-xs">
+                                                    <a :href="item | xgBtn" target="_blank" class="btn btn-info btn-xs">
                                                         修改
-                                                    </button>
+                                                    </a>
+                                                    <a class="btn btn-success btn-xs" target="_blank" :href="item | statusLink" >编辑</a>
                                                     <button v-show="item.status_code | deleteBtn" v-on:click="remove(item)" class="btn btn-danger btn-xs">    删除
                                                     </button>
-                                                    <a class="btn btn-success btn-xs" target="_blank" :href="item | statusLink" >编辑</a>
                                                 </td>
                                             </tr>
                                         </template>
@@ -203,12 +206,12 @@
                                                 <td class="text-center">{{item.modified_time}}</td>
                                                 <td class="text-center">{{item.status_code|statusCode}}</td>
                                                 <td class="text-center">
-                                                    <button v-show="item.status_code | deleteBtn" v-on:click="modified(item)" class="btn btn-info btn-xs">
+                                                    <a :href="item | xgBtn" target="_blank" class="btn btn-info btn-xs">
                                                         修改
-                                                    </button>
+                                                    </a>
+                                                    <a  class="btn btn-success btn-xs" target="_blank" :href="item | statusLink" >编辑</a>
                                                     <button v-show="item.status_code | deleteBtn" v-on:click="remove(item)" class="btn btn-danger btn-xs">    删除
                                                     </button>
-                                                    <a  class="btn btn-success btn-xs" target="_blank" :href="item | statusLink" >编辑</a>
                                                 </td>
                                             </tr>
                                         </template>
@@ -237,31 +240,11 @@
                 </div>
             </div>
             
-            <!-- 修改表格信息 -->
-            <div class="modal changTable fade">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header bg-primary">
-                            <h4 class="modal-title text-center">表格信息修改</h4>
-                            <button type="button" class="close close-positon"><span aria-hidden="true"><i class="fa fa-close"></i></span></button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="container-fluid">
-                                <div class="row">
-                                    <div class="col-md-10 col-md-offset-1">
-                                        
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
             <div class="container">
                 <div class="row">
                     <hr>
-                    <!-- <pre>{{$data|json}}</pre> -->
+                    <!-- <pre>{{$data|json 4}}</pre> -->
                 </div>
             </div>
         <!-- 页脚 -->

@@ -91,14 +91,8 @@ $('.temp-info-xg .btn-xg').click(function(){
     	        if (data.status==100) {
     	            layer.msg("提交成功");
                     setInterval(closeWindow,2000);
-    	        }else if(data.status==101){
-                    layer.msg('错误失败');
-                }else if(data.status==102){
-                    layer.msg('参数错误');
-                }else if(data.status==103){
-                    layer.msg('重复操作!');
-                }else if(data.status==104){
-                    layer.msg('启用状态下不可操作');
+    	        }else{
+                    layer.msg(data.msg);
                 }
     	    },
     	    error: function(jqXHR){     

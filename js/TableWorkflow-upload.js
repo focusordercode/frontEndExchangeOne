@@ -45,12 +45,8 @@ var uploadPic = new Vue({
                 if(data.status==100){
                     uploadPic.picData = data.value;
                     uploadPic.count = data.count;
-                }else if(data.status==101){
-                    layer.msg('还没匹配图片');
-                    uploadPic.picData = '';
-                    uploadPic.count = '';
-                }else if(data.status==102){
-                    layer.msg('权限不足');
+                }else{
+                    layer.msg(data.msg);
                     uploadPic.picData = '';
                     uploadPic.count = '';
                 }
@@ -72,10 +68,8 @@ var uploadPic = new Vue({
             success:function(data){
                 if(data.status==100){
                     uploadPic.info = data.value[0];
-                }else if(data.status==101){
-                    layer.msg('操作失败');
-                }else if(data.status==102){
-                    layer.msg('表格的id为空');
+                }else{
+                    layer.msg(data.msg);
                 }
             },
             error:function(jqXHR){
@@ -192,10 +186,8 @@ var uploadPic = new Vue({
                             var template_id = uploadPic.info.template_id;
                             var type_code = 'info';
                             window.location.href = url+'?tableID='+tableID+'&template_id='+template_id+'&type_code='+type_code;
-                        }else if(data.status==101){
-                            layer.msg('操作失败');
-                        }else if(data.status==102){
-                            layer.msg('参数错误');
+                        }else{
+                            layer.msg(data.msg);
                         }
                     },
                     error:function(jqXHR){

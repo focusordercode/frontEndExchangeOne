@@ -95,7 +95,7 @@
             background-color: #2C3E50;
         }
         #table {
-            padding-top: 600px;
+            padding-top: 645px;
             padding-left: 20px;
             padding-right: 20px;
         }
@@ -182,6 +182,23 @@
                     </div>
                 </div>
             </div>
+            <!-- 选择显示个数 -->
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="well well-sm tableSelect">
+                            <strong class="text-primary">选择显示产品资料个数</strong>　
+                            <div class="btn-group">
+                                <button @click="selectNum1" class="btn btn-default"><i class="fa fa-th-large"></i>10</button>
+                                <button @click="selectNum2" class="btn btn-default"><i class="fa fa-table"></i>15</button>
+                                <button @click="selectNum3" class="btn btn-default"><i class="fa fa-th"></i>20</button>
+                            </div>　
+                            <span class="text-primary">当前展示个数:{{pageSize}}</span>
+                        </div>      
+                    </div>
+                </div>
+            </div>
+
             <!-- 资料表信息 -->
             <div class="container-fluid tableDetail">
                 <div class="row">
@@ -287,6 +304,28 @@
 
         <div class="container" style="margin-bottom:680px;">
             <div class="row">
+                <div class="alert alert-danger text-center" role="alert">
+                    如果对表格做出了修改请一定要【暂存】后再进行翻页
+                </div>
+                <div class="col-md-12 text-center">　　
+                    <span class="text-warning">总产品资料数:<b class="text-muted">{{countNum}}</b></span>　　
+                    <span class="text-warning">每页展示主体个数:<b class="text-muted">{{pageSize}}</b></span>　　
+                    <span class="text-warning">总页数:<b class="text-muted">{{countPage}}</b></span>　　
+                    <span class="text-warning">当前页:<b class="text-muted">{{pageNow}}</b></span>　　
+                </div>
+                <hr>
+                <hr>
+                <div class="col-md-12 text-center">
+                    <button :disabled="preBtn" @click="goPre" class="btn btn-default">上一页</button>
+                    <button :disabled="nextBtn" @click="goNext" class="btn btn-default">下一页</button>
+                    <div class="form-group" style="display:inline-block;">
+                        <input type="number" v-model="jump" min="1" class="form-control" style="width:80px;">
+                    </div>
+                    <button :disabled="jumpBtn" @click="goJump" class="btn btn-info" style="vertical-align: middle;">跳转</button>
+                </div>
+                <hr>
+                <hr>
+                <hr>
                 <div class="col-md-12 text-center">
                     <button @click="sendMsg" class="btn btn-primary">提交</button>
                     <button @click="saveMsg" class="btn btn-info">暂存</button>

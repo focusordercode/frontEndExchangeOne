@@ -82,6 +82,8 @@ var tempEditAgain = new Vue({
             success: function(data){
                 if(data.status==100){
                     tempEditAgain.value = data.value[0];
+                }else{
+                    layer.msg(data.msg);
                 }
             },
             error: function(jqXHR){     
@@ -112,16 +114,12 @@ $('.temp-info .btn-xg').on('click',function(){
             if(data.status==100){
                 layer.msg('修改成功');
                 setInterval(windowFresh,1000);
-            }else if(data.status==102){
-                layer.msg('参数错误');
-            }else if(data.status==103){
-                layer.msg('请勿重复操作');
-            }else if(data.status==104){
-                layer.msg('启用状态不可操作');
+            }else{
+                layer.msg(data.msg);
             }
         },
         error: function(jqXHR){     
-            alert("error");
+            layer.msg('向服务器请求提交失败');
         }
     })
 });
@@ -145,6 +143,8 @@ var tempEdit = new Vue({
             success: function(data){
                 if(data.status==100){
                     tempEdit.table = data.value;
+                }else{
+                    layer.msg(data.msg);
                 }
             },
             error: function(jqXHR){     

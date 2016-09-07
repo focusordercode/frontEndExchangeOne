@@ -50,10 +50,8 @@ var oTableIn = new Vue({
             success:function(data){
                 if(data.status==100){
                     oTableIn.info = data.value[0];
-                }else if(data.status==101){
-                    layer.msg('操作失败');
-                }else if(data.status==102){
-                    layer.msg('表格的id为空');
+                }else{
+                    layer.msg(data.msg);
                 }
             },
             error:function(jqXHR){
@@ -73,6 +71,8 @@ var oTableIn = new Vue({
             success:function(data){
                 if(data.status==100){
                     oTableIn.gridColumns = data.value;
+                }else{
+                    layer.msg(data.msg);
                 }
             },
             error:function(jqXHR){
@@ -94,12 +94,8 @@ var oTableIn = new Vue({
                 layer.close(LoadIndex); //关闭遮罩层
                 if(data.status==100){
                     oTableIn.gridData = data.value;
-                }else if(data.status==101){
-                    layer.msg('数据为空');
-                }else if(data.status==102){
-                    layer.msg('获取表格的ID为空');
-                }else if(data.status==111){
-                    layer.msg('表格没有数据');
+                }else{
+                    layer.msg(data.msg);
                 }
             },
             error:function(jqXHR){

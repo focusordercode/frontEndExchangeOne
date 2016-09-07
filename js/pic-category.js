@@ -71,10 +71,8 @@ Vue.component('my-additem', {
                             layer.msg('添加成功');
                             setInterval(updatePictree(item1),1000);
                             $('.addItem').modal('hide');
-                        }else if(data.status==105){
-                            layer.msg('英文名不符合要求');
-                        }else if(data.status==106){
-                            layer.msg('存在英文名相同的目录');
+                        }else{
+                            layer.msg(data.msg);
                         }
                     },
                     error:function(jqXHR){
@@ -368,10 +366,8 @@ var picGallery = new Vue({
                         if(data.status==100){
                             layer.msg('修改成功');
                             $('.picchange').modal('hide');
-                        }else if(data.status==101){
-                            layer.msg('未作出任何修改，修改失败');
-                        }else if(data.status==102){
-                            layer.msg('参数错误,标题和标签不能为空');
+                        }else{
+                            layer.msg(data.msg);
                         }
                     },
                     error:function(jqXHR){
@@ -840,6 +836,7 @@ var picGallery = new Vue({
 
 
 var oUrl = 'http://192.168.1.40/PicSystem/canton';//图片服务器地址
+
 //Vue过滤器
 Vue.filter('upLink',function(value){
     var str = value;

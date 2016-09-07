@@ -281,20 +281,14 @@ var tempInfo = new Vue({
                             $(window).unbind('beforeunload');
                             layer.msg('提交保存成功');
                             setInterval(closeWindow,2000);
-                        }else if(data.status==101){
-                            layer.msg('操作失败');
-                        }else if(data.status==102){
-                            layer.msg('参数错误');
                         }else if(data.status==103){
                             layer.msg('提交保存成功,存在重复操作的数据，未重复的已保存');
                             $(window).unbind('beforeunload');
                             layer.msg('提交保存成功');
                             setInterval(closeWindow,2000);
-                        }else if(data.status==104){
-                            layer.msg('该模板是启用状态，不可操作');
-                        }else if(data.status==119){
-                            layer.msg('系统错误，编码119');
-                        } 
+                        }else{
+                            layer.msg(data.msg);
+                        }
                     },
                     error:function(jqXHR){
                         layer.msg('向服务器请求提交保存失败');

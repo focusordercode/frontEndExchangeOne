@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>修改资料表信息</title>
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!--你自己的样式文件 -->
+    <link href="css/index.css" rel="stylesheet">
+    <link href="css/picUpload.css" rel="stylesheet">
+    <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">        
+    <!-- 以下两个插件用于在IE8以及以下版本浏览器支持HTML5元素和媒体查询，如果不需要用可以移除 -->
+    <!--[if lt IE 9]>
+    <script src="http://apps.bdimg.com/libs/html5shiv/3.7/html5shiv.js"></script>
+    <script src="http://apps.bdimg.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        .tableInfo {
+            margin-bottom: 20px;
+        }
+        .tableInfo .label+span {
+            vertical-align: middle;
+        }
+        .funkyradio div {
+          clear: both;
+          overflow: hidden;
+        }
+        .funkyradio label {
+          width: 100%;
+          border-radius: 3px;
+          border: 1px solid #D1D3D4;
+          font-weight: normal;
+        }
+
+        .funkyradio input[type="radio"]:empty,
+        .funkyradio input[type="checkbox"]:empty {
+          display: none;
+        }
+
+        .funkyradio input[type="radio"]:empty ~ label,
+        .funkyradio input[type="checkbox"]:empty ~ label {
+          position: relative;
+          line-height: 2.5em;
+          text-indent: 3.25em;
+          margin-top: 0.5em;
+          cursor: pointer;
+          -webkit-user-select: none;
+             -moz-user-select: none;
+              -ms-user-select: none;
+                  user-select: none;
+        }
+
+        .funkyradio input[type="radio"]:empty ~ label:before,
+        .funkyradio input[type="checkbox"]:empty ~ label:before {
+          position: absolute;
+          display: block;
+          top: 0;
+          bottom: 0;
+          left: 0;
+          content: '';
+          width: 2.5em;
+          background: #D1D3D4;
+          border-radius: 3px 0 0 3px;
+        }
+
+        .funkyradio input[type="radio"]:hover:not(:checked) ~ label,
+        .funkyradio input[type="checkbox"]:hover:not(:checked) ~ label {
+          color: #888;
+        }
+
+        .funkyradio input[type="radio"]:hover:not(:checked) ~ label:before,
+        .funkyradio input[type="checkbox"]:hover:not(:checked) ~ label:before {
+          content: '\2714';
+          text-indent: .9em;
+          color: #C2C2C2;
+        }
+
+        .funkyradio input[type="radio"]:checked ~ label,
+        .funkyradio input[type="checkbox"]:checked ~ label {
+          color: #777;
+        }
+
+        .funkyradio input[type="radio"]:checked ~ label:before,
+        .funkyradio input[type="checkbox"]:checked ~ label:before {
+          content: '\2714';
+          text-indent: .9em;
+          color: #333;
+          background-color: #ccc;
+        }
+
+        .funkyradio input[type="radio"]:focus ~ label:before,
+        .funkyradio input[type="checkbox"]:focus ~ label:before {
+          box-shadow: 0 0 0 3px #999;
+        }
+
+        .funkyradio-default input[type="radio"]:checked ~ label:before,
+        .funkyradio-default input[type="checkbox"]:checked ~ label:before {
+          color: #333;
+          background-color: #ccc;
+        }
+
+        .funkyradio-primary input[type="radio"]:checked ~ label:before,
+        .funkyradio-primary input[type="checkbox"]:checked ~ label:before {
+          color: #fff;
+          background-color: #337ab7;
+        }
+
+        .funkyradio-success input[type="radio"]:checked ~ label:before,
+        .funkyradio-success input[type="checkbox"]:checked ~ label:before {
+          color: #fff;
+          background-color: #5cb85c;
+        }
+
+        .funkyradio-danger input[type="radio"]:checked ~ label:before,
+        .funkyradio-danger input[type="checkbox"]:checked ~ label:before {
+          color: #fff;
+          background-color: #d9534f;
+        }
+
+        .funkyradio-warning input[type="radio"]:checked ~ label:before,
+        .funkyradio-warning input[type="checkbox"]:checked ~ label:before {
+          color: #fff;
+          background-color: #f0ad4e;
+        }
+
+        .funkyradio-info input[type="radio"]:checked ~ label:before,
+        .funkyradio-info input[type="checkbox"]:checked ~ label:before {
+          color: #fff;
+          background-color: #5bc0de;
+        }
+        .pors .input-list,.pors .cate-list {
+            top: 34px;
+            left: 15px;
+            position: absolute;
+            z-index: 666;
+            list-style: none;
+            padding-left: 0;
+            border: 1px solid #ccc;
+            border-top: transparent;
+            background-color: #fff;
+        }
+        .pors .input-list li,.pors .cate-list li {
+            line-height: 32px;
+            text-indent: 12px;
+            border-bottom: 1px solid #ddd;
+            color: #8a6d3b;
+            font-size: 12px;
+        }
+        .pors .input-list li:hover,.pors .cate-list li:hover {
+            background-color: #ECF0F1;
+            cursor: pointer;
+        }
+    </style>
+</head>
+    <body>
+        <!-- 顶部区域 -->
+        <div class="container-fluid header-fluid-top">
+            <div class="row">
+                <div class="container header-top">
+                    <div class="row">
+                        <div class="col-lg-3 col-md-3 col-sm-12">
+                            <a href="#">
+                                <img src="images/logo.png" alt="">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 导航 -->
+        <div class="navbar navbar-inverse nav-fluid-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand hidden-sm" href="Table-info.html" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'navbar-首页'])">资料表首页</a>
+                </div>
+                <div class="navbar-collapse collapse" role="navigation">
+                    <ul class="nav navbar-nav">
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 主内容区域 -->
+
+        <div class="container marginTop">
+            <div class="row">
+                <div class="col-lg-12 col-md-12">
+                    <div class="well">
+                        <h3 class="text-primary col-sm-11 col-sm-offset-1 text-left">产品资料表信息</h3>
+                        <div class="col-md-11 col-md-offset-1 tableInfo">
+                            <p>
+                                <label class="label label-default">表格编号</label>
+                                <span class="text-muted">{{tableInfo.form_no}}</span>
+                            </p>
+                            <p>
+                                <label class="label label-default">表格名称</label>
+                                <span class="text-muted">{{tableInfo.title}}</span>
+                            </p>
+                            <p>
+                                <label class="label label-default">表格所属类目</label>
+                                <span class="text-muted">{{tableInfo.name}}</span>
+                            </p>
+                            <p>
+                                <label class="label label-default">表格所属模板</label>
+                                <span class="text-muted">{{tableInfo.tempname}}</span>
+                            </p>
+                            <p>
+                                <label class="label label-default">表格所属客户</label>
+                                <span class="text-muted">{{tableInfo.client_name}}</span>
+                            </p>
+                        </div>
+
+                        <h3 class="text-primary col-sm-11 col-sm-offset-1 text-left">产品资料表信息修改</h3>
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label text-muted">表格编号</label>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control" v-model="tableInfo.form_no" readonly>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label text-muted">选择类目</label>
+                                <div class="col-sm-4 pors">
+                                    <input type="text" v-model="tableInfo.name" class="form-control searchCate" readonly>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="temp-info-xg form-horizontal">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label text-muted">选择模板</label>
+                                <div class="col-sm-4">
+                                    <input type="text"  v-model="tableInfo.tempname" class="form-control" placeholder="选择模板" readonly>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-horizontal">
+                            <div class="form-group pors">
+                                <label class="col-sm-2 control-label text-muted">客户名称</label>
+                                <div class="col-sm-4">
+                                    <input type="text" v-model="CusSelect" class="form-control searchCus" placeholder="输入关键字搜索客户">
+                                    <ul class="input-list">
+                                        <li @click="selectCus(cus)" v-for="cus in CusList">
+                                            {{cus.custom_name}} {{cus.en_name}}
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label text-muted">表格名称</label>
+                                <div class="col-sm-4">
+                                    <input type="text" v-model="tableName" class="form-control table-title" placeholder="表格名称">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label text-muted">状态</label>
+                                <div class="col-sm-4">
+                                    <select class="form-control" readonly>
+                                        <option selected>{{tableInfo.status_code | statusCode}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <div class="col-sm-2 col-sm-offset-2">
+                                    <button @click="saveTable" class="btn btn-primary">保存</button>
+                                    <!-- 如果不是初次创建取消按钮将隐藏 -->
+                                    <button @click="cancel" class="btn btn-default" >取消</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <!-- <pre>{{$data|json}}</pre> -->
+            </div>
+        </div>
+
+        <!-- 页脚 -->
+        <div class="container-fluid footer-fluid">
+            <div class="contaier">
+                <div class="row">
+                    <div class="col-lg-12">
+                        © All rights reserved 深圳福克斯德信息咨询有限公司
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 如果要使用Bootstrap的js插件，必须先调入jQuery -->
+        <script src="js/jquery.js"></script>
+        <script src="js/vue.js"></script>
+        <!-- 包括所有bootstrap的js插件或者可以根据需要使用的js插件调用　-->
+        <script src="js/bootstrap.min.js"></script>
+        <script src='js/layer.js'></script>
+        <script src='js/changeTable2.js'></script>
+    </body>
+</html>

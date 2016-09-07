@@ -98,8 +98,8 @@ var picGallery = new Vue({
                         if(data.status==100){
                             layer.msg('删除成功');
                             update(pic);
-                        }else if(data.status==101){
-                            layer.msg('删除图片操作失败');
+                        }else{
+                            layer.msg(data.msg);
                         }
                     },
                     error:function(jqXHR){
@@ -404,10 +404,8 @@ var picGallery = new Vue({
                         if(data.status==100){
                             layer.msg('操作成功');
                             setInterval(windowFresh,1000);
-                        }else if(data.status==101){
-                            layer.msg('操作失败');
-                        }else if(data.status==102){
-                            layer.msg('权限不足');
+                        }else{
+                            layer.msg(data.msg);
                         }
                     },
                     error:function(jqXHR){}
