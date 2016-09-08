@@ -456,7 +456,9 @@ body,html {
 .close-positon {
     margin-top: -30px!important;
 }
-
+.vertical {
+    vertical-align: middle;
+}
 
 
 .tableContent {
