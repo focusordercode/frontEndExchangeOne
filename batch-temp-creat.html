@@ -56,6 +56,28 @@
             line-height: 1.428571429;
             border-radius: 15px;
         }
+        .pors .input-list,.pors .cate-list {
+            top: 59px;
+            left: 1px;
+            position: absolute;
+            z-index: 666;
+            list-style: none;
+            padding-left: 0;
+            border: 1px solid #ccc;
+            border-top: transparent;
+            background-color: #fff;
+        }
+        .pors .input-list li,.pors .cate-list li {
+            line-height: 32px;
+            text-indent: 12px;
+            border-bottom: 1px solid #ddd;
+            color: #8a6d3b;
+            font-size: 12px;
+        }
+        .pors .input-list li:hover,.pors .cate-list li:hover {
+            background-color: #ECF0F1;
+            cursor: pointer;
+        }
     </style>
 </head>
     <body>
@@ -140,23 +162,26 @@
                             <div class="col-md-6 col-md-offset-3">
                                 <div class="form-group">
                                     <label class="text-warning">模板名称</label>
-                                    <input type="text" class="form-control" placeholder="输入模板中文名称">
+                                    <input type="text" v-model="cn_name" class="form-control" placeholder="输入模板中文名称">
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="输入模板英文名称">
+                                    <input type="text" v-model="en_name" class="form-control" placeholder="输入模板英文名称">
                                 </div>
-                                <div class="form-group tempCate">
+                                <div class="form-group pors">
                                     <label class="text-warning">所属分类</label>
-                                    <input type="text" placeholder="不填写则为全局模板" class="form-control temp-belong">
-                                    <ul class="cateList"></ul>
+                                    <input type="text" v-model="proName" placeholder="不填写则为全局模板" class="form-control searchCate">
+                                    <ul class="cate-list">
+                                        <li v-for="pro in proList" @click="selectCate(pro)">
+                                            {{pro.cn_name}}　{{pro.en_name}}
+                                        </li>
+                                    </ul>
                                 </div>
                                 <div class="form-group">
                                     <label class="text-warning">模板说明</label>
-                                    <textarea class="form-control remark" placeholder="必填" rows="2"></textarea>
+                                    <textarea class="form-control remark" v-model="remark" placeholder="必填" rows="2"></textarea>
                                 </div>
-                                <!-- <button class="btn btn-primary btn-xg">保存</button> -->
-                                <a href="batch-temp-define.html" class="btn btn-primary">保存</a>
-                                <button class="btn btn-default">取消</button>
+                                <button @click="tempSub" class="btn btn-primary btn-xg">保存</button>
+                                <button @click="cancel" class="btn btn-default">取消</button>
                             </div>
                         </div>
                     </div>
@@ -167,7 +192,7 @@
         <hr>
         <div class="container">
             <div class="row">
-                <!-- <pre>{{$data|json}}</pre> -->
+                <pre>{{$data|json}}</pre>
             </div>
         </div>
 
@@ -187,5 +212,6 @@
         <!-- 包括所有bootstrap的js插件或者可以根据需要使用的js插件调用　-->
         <script src="js/bootstrap.min.js"></script>
         <script src='js/layer.js'></script>
+        <script src='js/batch-temp-creat.js'></script>
     </body>
 </html>

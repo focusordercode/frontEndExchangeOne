@@ -88,6 +88,47 @@
                     </div>
                 </div>    
             </div>
+            
+            <!-- 筛选 -->
+            <div class="row">
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        <b>功能</b>
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">根据模板名称</label>
+                                <div class="col-md-2">
+                                    <select v-model="searchStatus" class="form-control">
+                                        <option value="">选择状态</option>
+                                        <option value="creating">创建状态</option>
+                                        <option value="editing">编辑状态</option>
+                                        <option value="enabled">启用状态</option>
+                                        <option value="disabled">停用状态</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-2">
+                                    <input type="text" v-model="name" placeholder="输入关键词" class="form-control">
+                                </div>
+                                <div class="col-md-1">
+                                    <button @click="KeywordSearch" type="submit" class="btn btn-default">   搜索
+                                    </button>
+                                </div>
+                                <div class="col-md-1 col-md-offset-3">
+                                    <button class="btn btn-success creatMB">创建模板</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="alert alert-success">
+                模板总数:<strong class="text-warning">{{countPage}}</strong>　
+                当前页:<strong class="text-warning">{{pageNow}}</strong>　
+                总页数:<strong class="text-warning">{{count}}</strong>　
+            </div>
 
             <div class="row">
                 <!-- 模板item -->
@@ -109,19 +150,13 @@
                             <span class="text-muted date">{{todo.modified_time}}</span>
                         </p>
                         <p>
-                            <button class="btn btn-xs btn-info btn-start">启用</button>
-                            <button class="btn btn-xs btn-danger btn-delete">删除</button>
+                            <button v-show="todo.status_code | startBtn" class="btn btn-xs btn-info btn-start">启用</button>
+                            <button v-show="todo.status_code | stopBtn" @click="stopTemp(todo)" class="btn btn-xs btn-danger">停用</button>
+                            <button v-show="todo.status_code | editBtn" class="btn btn-xs btn-danger btn-delete">删除</button>
                             <a href="template-editAgain.html?id={{todo.id}}&#38;type_code={{todo.type_code}}" target="_blank" class="text-muted">
                                 {{todo.status_code|statusEdit}}
                             </a>
-                            <!-- 旧版逻辑：跳转到录入表格条目 -->
-                            <!-- <a href="batch-creat.html?id={{todo.id}}&#38;category_id={{todo.category_id}}" target="_blank" class="text-muted temp-select">
-                                {{todo.status_code|statusSelect}}
-                            </a> -->
-                            <a href="Table-Creat.html?template_id={{todo.id}}&#38;category_id={{todo.category_id}}&#38;type_code={{todo.type_code}}" target="_blank" class="text-muted temp-select">
-                                {{todo.status_code|statusSelect}}
-                            </a>
-                            <input v-model="todo.id" type="hidden" class="temp-id" >
+                            <input v-model="todo.id" type="hidden" class="temp-id">
                             <span class="text-warning">{{todo.status_code|statusCode}}状态</span>
                         </p>
                     </div>
@@ -130,9 +165,30 @@
                     <i class="fa fa-plus fa-5x"></i>
                 </div>
             </div>
-            <!-- <hr><pre>{{$data|json}}</pre> -->
         </div>
         
+        <div v-show="countPage>1" class="container-fluid marginTop">
+            <div class="row">
+                <div class="col-md-4 col-md-offset-4 text-center">
+                    <div class="form-inline">
+                        <button @click="goPrePage" :disabled="prePageBtn" class="btn btn-default">上一页</button>
+                        <button @click="goNextPage" :disabled="nextPageBtn" class="btn btn-default">下一页</button>
+                        <input type="number" v-model="jump" placeholder="页码" min="1" class="form-control" style="width:80px;">
+                        <button class="btn btn-info" @click="goJump" :disabled="jumpBtn">跳转</button>
+                        总页数:<strong class="text-warning">{{countPage}}</strong>　
+                        当前页:<strong class="text-warning">{{pageNow}}</strong>　
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <hr>
+        <div class="container">
+            <div class="row">
+                <pre>{{$data|json}}</pre>
+            </div>
+        </div>
+
         <!-- 页脚 -->
         <div class="container-fluid footer-fluid">
             <div class="contaier">
@@ -149,6 +205,6 @@
         <!-- 包括所有bootstrap的js插件或者可以根据需要使用的js插件调用　-->
         <script src="js/bootstrap.min.js"></script>
         <script src='js/layer.js'></script>
-        <script src='js/temp-batch-list.js'></script>
+        <script src="js/temp-batch-list.js"></script>
     </body>
 </html>

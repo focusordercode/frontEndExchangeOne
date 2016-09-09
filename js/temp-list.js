@@ -1,3 +1,5 @@
+var type_code = 'info'; //模板类型
+
 var tempList = new Vue({
     el:'body',
     data:{
@@ -16,10 +18,10 @@ var tempList = new Vue({
         var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层 
         $.ajax({
             type: "POST",
-            url: "http://192.168.1.40/PicSystem/canton/get/template", //添加请求地址的参数
+            url: "http://192.168.1.40/PicSystem/canton/get/template", //添加请求地址
             dataType: "json",
             data:{
-                type_code:'info',
+                type_code:type_code,
                 get_all_data:'all'
             },
             success: function(data){
@@ -74,7 +76,7 @@ var tempList = new Vue({
         KeywordSearch:function(){
             var name = this.name.trim();
             var status = this.searchStatus;
-            var type_code = 'info';
+            var type_code = type_code;
             if(!name&&!status){
                 layer.msg('必须输入关键词或者选择模板状态');
             }else{
@@ -120,7 +122,7 @@ var tempList = new Vue({
                     url:'http://192.168.1.40/PicSystem/canton/get/template',
                     datatype:'json',
                     data:{
-                        type_code:'info',
+                        type_code:type_code,
                         get_all_data:'all',
                         next:pageNow
                     },
@@ -158,7 +160,7 @@ var tempList = new Vue({
                     url:'http://192.168.1.40/PicSystem/canton/get/template',
                     datatype:'json',
                     data:{
-                        type_code:'info',
+                        type_code:type_code,
                         get_all_data:'all',
                         next:pageNow
                     },
@@ -196,7 +198,7 @@ var tempList = new Vue({
                     url:'http://192.168.1.40/PicSystem/canton/get/template',
                     datatype:'json',
                     data:{
-                        type_code:'info',
+                        type_code:type_code,
                         get_all_data:'all',
                         next:jump
                     },
@@ -320,10 +322,10 @@ Vue.filter('stopBtn',function(value){
 
 //打开创建的新的模板
 $('.temp-list .temp-add').click(function(){
-    window.open('template-creat.html?type_code=info');
+    window.open('template-creat.html?type_code='+type_code);
 });
 $('.temp-list .creatMB').click(function(){
-    window.open('template-creat.html?type_code=info');
+    window.open('template-creat.html?type_code='+type_code);
 });
 
 //popover初始化

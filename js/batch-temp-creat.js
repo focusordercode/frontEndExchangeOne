@@ -1,0 +1,128 @@
+//获取ID
+function UrlSearch() {
+    var name,value; 
+    var str=location.href; 
+    var num=str.indexOf("?");
+    str=str.substr(num+1);
+    
+    var arr=str.split("&"); 
+    for(var i=0;i < arr.length;i++){ 
+        num=arr[i].indexOf("="); 
+        if(num>0){ 
+            name=arr[i].substring(0,num);
+            value=arr[i].substr(num+1);
+            this[name]=value;
+        } 
+    } 
+} 
+var Request=new UrlSearch();
+
+
+var type_code = Request.type_code; //模板类型
+
+var creatTemp = new Vue({
+    el:'body',
+    data:{
+        cn_name:'',
+        en_name:'',
+        remark:'',
+        proList:'',
+        proName:'',
+        proId:''
+    },
+    methods:{
+        //从搜索结果中选中一个类目
+        selectCate:function(pro){
+            creatTemp.proName = pro.cn_name;
+            creatTemp.proId = pro.id;
+            creatTemp.proList = '';
+        },
+        //提交请求
+        tempSub:function(){
+
+            //英文正则,英文数字和空格
+            var Entext = /^[a-zA-Z_()\s]+[0-9]*$/;
+
+            if(!this.cn_name||!this.remark){
+                layer.msg('中文名和介绍不能为空');
+            }else if(!Entext.test(this.en_name)||!this.en_name){
+                layer.msg('英文名不能为空，且英文名只能是英文数字和空格');
+            }else{
+                $.ajax({
+                    type:'POST',
+                    url:'http://192.168.1.40/PicSystem/canton/add/template',
+                    datatype:'json',
+                    data:{
+                        cn_name:creatTemp.cn_name,
+                        en_name:creatTemp.en_name,
+                        remark:creatTemp.remark,
+                        type_code:type_code,
+                        category_id:creatTemp.proId
+                    },
+                    success:function(data){
+                        if(data.status==100){
+                            var template_id = data.value;
+                            layer.msg('添加成功');
+
+                            //跳转函数
+                            function goNext() {
+                                var url = 'batch-temp-define.html';
+                                window.location.href = url+'?id='+template_id;
+                            }
+
+                            setInterval(goNext,1000);
+                        }else{
+                            layer.msg(data.msg);
+                        }
+                    },
+                    error:function(jqXHR){
+                        layer.msg('向服务器请求失败');
+                    }
+                })
+            }
+        },
+        //取消创建模板
+        cancel:function(){
+            layer.confirm('确定取消创建模板?数据将不保存',{
+                btn:['确定','取消']
+            },function(index){
+                layer.close(index);
+                var url = 'template-batch-list.html';
+                window.location.href = url;
+            })
+        }
+    }
+})
+
+//模糊搜索类目
+$('.searchCate').on('keyup',function(){
+    var getWidth = $('.pors .cate-list').prev('.form-control').innerWidth();
+    $('.pors .cate-list').css('width',getWidth);
+    var searchCusVal = $('.searchCate').val();
+
+    $.ajax({
+        type:'POST',
+        url:'http://192.168.1.40/PicSystem/canton/index.php/vague/name',
+        datatype:'json',
+        data:{
+            text:searchCusVal
+        },
+        success:function(data){
+            if(data.status==100){
+                creatTemp.proList = data.value;
+            }else{
+                creatTemp.proList= '';
+            }
+        },
+        error:function(jqXHR){
+            layer.msg('向服务器请求客户信息失败');
+        }
+    })
+});
+
+//观察搜索框的变化，控制是否有类目
+creatTemp.$watch('proName', function (val) {
+    if(!val){
+       creatTemp.proId = '';
+    }
+})

@@ -245,176 +245,194 @@
                         </div>
                         <div class="panel-body">
                             <div class="col-md-12">
+                                <!-- 模板复制 -->
                                 <div class="row">
                                     <div class="col-md-6 col-md-offset-2">
                                         <div class="form-inline">
                                             <div class="form-group">
                                                 <label>模板快速复制：</label>
-                                                <input type="text" value="选择模板" class="form-control" readonly>
-                                                <button class="btn btn-default" data-toggle="modal" data-target="#selectMB">选择模板</button>
-                                                <button class="btn btn-default" disabled>复制</button>
+                                                <input type="text" v-model="MBselected" class="form-control" readonly>
+                                                <button class="btn btn-default" @click="openList">选择模板</button>
+                                                <button class="btn btn-default" @click="copyMB" :disabled="copyBtn">复制</button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <hr>
+                                <!-- 添加模板功能区 -->
                                 <div class="row">
                                     <div class="col-md-12">
                                         <table class="table table-bordered">
-                                        <tbody><tr class="warning">
-                                            <th class="text-center">类型</th>
-                                            <th class="text-center">中文名</th>
-                                            <th class="text-center">英文名(表头)</th>
-                                            <th class="text-center">长度</th>
-                                            <th class="text-center">默认值</th>
-                                            <th class="text-center">操作</th>
-                                        </tr>
-                                        <!-- 文本类型 -->
-                                        <tr>
-                                            <td class="text-warning text-center">文本类型</td>
-                                            <td>
-                                                <input type="text" placeholder="中文名" class="form-control">
-                                            </td>
-                                            <td>
-                                                <input type="text" placeholder="英文名(表头)" class="form-control">
-                                            </td>
-                                            <td>
-                                                <select class="form-control">
-                                                    <option value="50">50</option>
-                                                    <option value="100" selected="">100</option>
-                                                    <option value="500">500</option>
-                                                    <option value="2000">2000</option>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <input type="text" placeholder="默认文本示例" class="form-control">
-                                            </td>
-                                            <td>
-                                                <button class="btn btn-default">添加</button>
-                                            </td>
-                                        </tr>
-                                        <!-- 数字类型 -->
-                                        <tr>
-                                            <td class="text-warning text-center">整数</td>
-                                            <td>
-                                                <input type="text" placeholder="中文名" class="form-control">
-                                            </td>
-                                            <td>
-                                                <input type="text" placeholder="英文名(表头)" class="form-control">
-                                            </td>
-                                            <td>
-                                                <select class="form-control">
-                                                    <option value="18" selected="">18</option>
-                                                    <option value="50">50</option>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <input type="number" placeholder="默认整数示例" class="form-control">
-                                            </td>
-                                            <td>
-                                                <button class="btn btn-default">添加</button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="text-warning text-center">小数</td>
-                                            <td>
-                                                <input type="text" placeholder="中文名" class="form-control">
-                                            </td>
-                                            <td>
-                                                <input type="text" placeholder="英文名(表头)" class="form-control">
-                                            </td>
-                                            <td>
-                                                <select class="form-control">
-                                                    <option value="18" selected="">18</option>
-                                                    <option value="50">50</option>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <input type="number" placeholder="默认小数示例" class="form-control">
-                                            </td>
-                                            <td>
-                                                <button class="btn btn-default">添加</button>
-                                            </td>
-                                        </tr>
-                                        <!-- 图片 -->
-                                        <tr>
-                                            <td class="text-warning text-center">图片</td>
-                                            <td>
-                                                <input type="text" placeholder="中文名" class="form-control">
-                                            </td>
-                                            <td>
-                                                <input type="text" placeholder="英文名(表头)" class="form-control">
-                                            </td>
-                                            <td>
-                                                <select class="form-control">
-                                                    <option value="50" selected="">50</option>
-                                                    <option value="100">100</option>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <input type="text" placeholder="默认图片URL示例" class="form-control">
-                                            </td>
-                                            <td>
-                                                <button class="btn btn-default">添加</button>
-                                            </td>
-                                        </tr>
-                                        <!-- 日期 -->
-                                        <tr>
-                                            <td class="text-warning text-center">日期</td>
-                                            <td>
-                                                <input type="text" placeholder="中文名" class="form-control">
-                                            </td>
-                                            <td>
-                                                <input type="text" placeholder="英文名(表头)" class="form-control">
-                                            </td>
-                                            <td>
-                                                <select class="form-control">
-                                                    <option value="50" selected="">50</option>
-                                                    <option value="100">100</option>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <input type="text" placeholder="默认日期示例" class="form-control">
-                                            </td>
-                                            <td>
-                                                <button class="btn btn-default">添加</button>
-                                            </td>
-                                        </tr>
-                                    </tbody></table>
+                                            <tr class="warning">
+                                                <th class="text-center">类型</th>
+                                                <th class="text-center">中文名</th>
+                                                <th class="text-center">英文名(表头)</th>
+                                                <th class="text-center">长度</th>
+                                                <th class="text-center">默认值</th>
+                                                <th class="text-center">操作</th>
+                                            </tr>
+                                            <!-- 文本类型 -->
+                                            <tr>
+                                                <td class="text-warning text-center">文本类型</td>
+                                                <td>
+                                                    <input type="text" v-model="oText.cn_name" placeholder="中文名" class="form-control">
+                                                </td>
+                                                <td>
+                                                    <input type="text" v-model="oText.en_name" placeholder="英文名(表头)" class="form-control">
+                                                </td>
+                                                <td>
+                                                    <select v-model="oText.length" class="form-control">
+                                                        <option value="50">50</option>
+                                                        <option value="100" selected>100</option>
+                                                        <option value="500">500</option>
+                                                        <option value="2000">2000</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <input type="text" v-model="oText.default_value" placeholder="默认文本示例" class="form-control">
+                                                </td>
+                                                <td>
+                                                    <button @click="addText" class="btn btn-default">添加</button>
+                                                </td>
+                                            </tr>
+                                            <!-- 数字类型 -->
+                                            <tr>
+                                                <td class="text-warning text-center">整数</td>
+                                                <td>
+                                                    <input v-model="oNum.cn_name" type="text" placeholder="中文名" class="form-control">
+                                                </td>
+                                                <td>
+                                                    <input v-model="oNum.en_name" type="text" placeholder="英文名(表头)" class="form-control">
+                                                </td>
+                                                <td>
+                                                    <select v-model="oNum.length" class="form-control">
+                                                        <option value="18" selected>18</option>
+                                                        <option value="50">50</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <input v-model="oNum.default_value" type="number" placeholder="默认整数示例" class="form-control" readonly>
+                                                </td>
+                                                <td>
+                                                    <button @click="addNum" class="btn btn-default">添加</button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-warning text-center">小数</td>
+                                                <td>
+                                                    <input v-model="oFloat.cn_name" type="text" placeholder="中文名" class="form-control">
+                                                </td>
+                                                <td>
+                                                    <input v-model="oFloat.en_name" type="text" placeholder="英文名(表头)" class="form-control">
+                                                </td>
+                                                <td>
+                                                    <select v-model="oFloat.length" class="form-control">
+                                                        <option value="2" selected>2</option>
+                                                        <option value="1">1</option>
+                                                        <option value="3">3</option>
+                                                        <option value="4">4</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <input v-model="oFloat.default_value" type="number" placeholder="默认小数示例" class="form-control" readonly>
+                                                </td>
+                                                <td>
+                                                    <button @click="addFloat" class="btn btn-default">添加</button>
+                                                </td>
+                                            </tr>
+                                            <!-- 图片 -->
+                                            <tr>
+                                                <td class="text-warning text-center">图片</td>
+                                                <td>
+                                                    <input v-model="oPic.cn_name" type="text" placeholder="中文名" class="form-control">
+                                                </td>
+                                                <td>
+                                                    <input v-model="oPic.en_name" type="text" placeholder="英文名(表头)" class="form-control">
+                                                </td>
+                                                <td>
+                                                    <select v-model="oPic.length" class="form-control" readonly>
+                                                        <option value="150" selected>150</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <input v-model="oPic.default_value" type="text" placeholder="默认图片URL示例" class="form-control" readonly>
+                                                </td>
+                                                <td>
+                                                    <button @click="addPic" class="btn btn-default">添加</button>
+                                                </td>
+                                            </tr>
+                                            <!-- 日期 -->
+                                            <tr>
+                                                <td class="text-warning text-center">日期</td>
+                                                <td>
+                                                    <input v-model="oDate.cn_name" type="text" placeholder="中文名" class="form-control">
+                                                </td>
+                                                <td>
+                                                    <input v-model="oDate.en_name" type="text" placeholder="英文名(表头)" class="form-control">
+                                                </td>
+                                                <td>
+                                                    <select v-model="oDate.length" class="form-control" readonly>
+                                                        <option value="50" selected>50</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <input v-model="oDate.default_value" type="text" placeholder="默认日期示例" class="form-control" readonly>
+                                                </td>
+                                                <td>
+                                                    <button @click="addDate" class="btn btn-default">添加</button>
+                                                </td>
+                                            </tr>
+                                        </table>
                                     </div>
                                 </div>
                                 <hr>
+                                <!-- 模板条目 -->
                                 <div class="row">
                                     <div class="col-md-12">
                                         <table class="table table-bordered text-warning">
-                                            <tbody>
-                                                <tr>
-                                                    <th class="text-center">序号</th>
-                                                    <th class="text-center">类型</th>
-                                                    <th class="text-center">中文名</th>
-                                                    <th class="text-center">英文名(表头)</th>
-                                                    <th class="text-center">长度</th>
-                                                    <th class="text-center">默认值</th>
-                                                    <th class="text-center">操作</th>
-                                                </tr>
-                                                <tr class="text-center">
-                                                    <td>1</td>
-                                                    <td>字符文本</td>
-                                                    <td>测试</td>
-                                                    <td>test</td>
-                                                    <td>100</td>
-                                                    <td>测试文本</td>
-                                                    <td>
-                                                        <button class="btn btn-danger">删除</button>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
+                                            <tr class="info">
+                                                <th class="text-center">序号</th>
+                                                <th class="text-center">类型</th>
+                                                <th class="text-center">中文名</th>
+                                                <th class="text-center">英文名(表头)</th>
+                                                <th class="text-center">长度</th>
+                                                <th class="text-center">默认值</th>
+                                                <th class="text-center">操作</th>
+                                            </tr>
+                                            <template v-for="table in tempData">
+                                                <template v-if="$index%2==1" track-by="id">
+                                                    <tr class="text-center warning">
+                                                        <td>{{$index+1}}</td>
+                                                        <td>{{table.data_type_code | dataType}}</td>
+                                                        <td>{{table.cn_name}}</td>
+                                                        <td>{{table.en_name}}</td>
+                                                        <td>{{table.length}}</td>
+                                                        <td>{{table.default_value}}</td>
+                                                        <td>
+                                                            <button @click="deleteData(table)" class="btn btn-danger">删除</button>
+                                                        </td>
+                                                    </tr>
+                                                </template>
+                                                <template track-by="id" v-else>
+                                                    <tr class="text-center">
+                                                        <td>{{$index+1}}</td>
+                                                        <td>{{table.data_type_code | dataType}}</td>
+                                                        <td>{{table.cn_name}}</td>
+                                                        <td>{{table.en_name}}</td>
+                                                        <td>{{table.length}}</td>
+                                                        <td>{{table.default_value}}</td>
+                                                        <td>
+                                                            <button @click="deleteData(table)" class="btn btn-danger">删除</button>
+                                                        </td>
+                                                    </tr>
+                                                </template>
+                                            </template>
                                         </table>
                                     </div>
                                 </div>
                                 <div class="col-md-4 col-md-offset-4 text-center">
-                                    <!-- <button class="btn btn-primary">保存</button> -->
-                                    <a href="batch-temp-relate.html" class="btn btn-primary">保存</a>
+                                    <button @click="sendData" class="btn btn-primary">保存</button>
+                                    <!-- <a href="batch-temp-relate.html" class="btn btn-primary">保存</a> -->
                                 </div>
                             </div>
                         </div>
@@ -424,7 +442,7 @@
         </div>
         
         <!-- 选择模板 -->
-        <div class="modal selectMB fade" id="selectMB" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal selectMB fade">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header bg-primary">
@@ -435,35 +453,19 @@
                         <div class="container-fluid">
                             <div class="row">
                                 <div class="col-md-10 col-md-offset-1">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <input type="text" v-model="MBkeyword" placeholder="输入关键字搜索模板" class="form-control">
-                                        </div>
-                                    </div>
-                                    <button class="btn btn-primary">搜索</button>
                                     
                                     <div class="funkyradio">
                                         <div class="funkyradio">
-                                            <div class="funkyradio-primary">
-                                                <input type="radio" name="radio" id="radio0">
-                                                <label for="radio0">
-                                                    家具用品 Furniture products <b class="text-warning">所属类目:</b>家居用品
-                                                </label>
-                                            </div><div class="funkyradio-primary">
-                                                <input type="radio" name="radio" id="radio1">
-                                                <label for="radio1">
-                                                    家具用品 Furniture products <b class="text-warning">所属类目:</b>家居用品
-                                                </label>
-                                            </div><div class="funkyradio-primary">
-                                                <input type="radio" name="radio" id="radio2">
-                                                <label for="radio2">
-                                                    通用模板 default_model <b class="text-warning">所属类目:</b>产品类目
+                                            <div v-for="MB in MBlist" class="funkyradio-primary">
+                                                <input type="radio" v-model="MB.checked" name="radio" id="radio{{$index}}"/>
+                                                <label for="radio{{$index}}">
+                                                    {{MB.cn_name}} {{MB.en_name}} <b class="text-warning">所属类目:</b>{{MB.category_name}}
                                                 </label>
                                             </div>
                                         </div>
                                     </div>
                                     <hr>
-                                    <button class="btn btn-primary">确定</button>
+                                    <button @click="selectedMB" v-show="MBlist.length>0" class="btn btn-primary">确定</button>
                                 </div>
                             </div>
                         </div>
@@ -475,7 +477,7 @@
         <hr>
         <div class="container">
             <div class="row">
-                <!-- <pre>{{$data|json}}</pre> -->
+                <pre>{{$data|json}}</pre>
             </div>
         </div>
 
@@ -495,5 +497,6 @@
         <!-- 包括所有bootstrap的js插件或者可以根据需要使用的js插件调用　-->
         <script src="js/bootstrap.min.js"></script>
         <script src='js/layer.js'></script>
+        <script src='js/batch-temp-define.js'></script>
     </body>
 </html>
