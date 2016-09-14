@@ -191,6 +191,9 @@ var tempDefine = new Vue({
                 },function(index){
                     layer.close(index);
 
+                    //解除未提交内容提示
+                    $(window).unbind('beforeunload');
+
                     $.ajax({
                         type:'POST',
                         url:'http://192.168.1.40/PicSystem/canton/copy/batchItemTemplate',
@@ -341,6 +344,23 @@ var tempDefine = new Vue({
                 clear(item);
             }
         },
+        //复制条目
+        // copyItem:function(table,index){
+        //     var table = table;
+        //     var newItem = {},
+        //         tempData = this.tempData;
+
+        //         //筛选要复制的数据
+        //         newItem.data_type_code = table.data_type_code;
+        //         newItem.cn_name = table.cn_name;
+        //         newItem.en_name = table.en_name;
+        //         newItem.length = table.length;
+        //         newItem.default_value = table.default_value;
+
+        //         //把数据放进去
+        //         tempData.splice(index+1,0,newItem);
+
+        // },
         //删除模板条目
         deleteData:function(table){
             var table = table;
@@ -396,12 +416,20 @@ var tempDefine = new Vue({
                             //解除未提交内容提示
                             $(window).unbind('beforeunload');
                             layer.msg('提交保存成功');
-                            setInterval(closeWindow,2000);
+                            
+                            //跳转函数
+                            function goNext() {
+                                var url = 'batch-temp-relate.html';
+                                window.location.href = url+'?id='+template_id;
+                            }
+
+                            setInterval(goNext,1000);
+                            
                         }else if(data.status==103){
                             layer.msg('提交保存成功,存在重复操作的数据，未重复的已保存');
                             $(window).unbind('beforeunload');
                             layer.msg('提交保存成功');
-                            // setInterval(closeWindow,2000);
+                            
                         }else{
                             layer.msg(data.msg);
                         }

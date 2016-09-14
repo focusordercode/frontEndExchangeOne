@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>批量表模板创建</title>
+    <title>批量表模板启用</title>
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <!--你自己的样式文件 -->
@@ -90,18 +90,6 @@
             vertical-align: middle;
             position: relative;
         }
-        .table tr th:first-child {
-            min-width: 50px!important;
-        }
-        .table tr td:first-child {
-            min-width: 50px!important;
-        }
-        .table tr th:last-child {
-            min-width: 50px!important;
-        }
-        .table tr td:last-child {
-            min-width: 50px!important;
-        }
         #table {
             padding-left: 20px;
             padding-right: 20px;
@@ -169,81 +157,11 @@
             <div class="container-fluid">
                 <div class="row">
                     <div>
-                        <div class="">
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr class="info">
-                                        <th>序号</th>
-                                        <th>
-                                            操作
-                                        </th>
-                                        <th>
-                                            SKU
-                                        </th><th>
-                                            UPC or EAN
-                                        </th><th>
-                                            Manufacturer
-                                        </th><th>
-                                            Brand
-                                        </th><th>
-                                            Product Title
-                                        </th><th>
-                                            Description
-                                        </th><th>
-                                            Quantity on hand
-                                        </th><th>
-                                            Size
-                                        </th><th>
-                                            Color
-                                        </th><th>
-                                            Price (USD)
-                                        </th><th>
-                                            Price (GBP)
-                                        </th><th>
-                                            Bullet point 1
-                                        </th><th>
-                                            Bullet point 2
-                                        </th><th>
-                                            Bullet point 3
-                                        </th><th>
-                                            Bullet point 4
-                                        </th><th>
-                                            Bullet point 5
-                                        </th><th>
-                                            Search Term 1
-                                        </th><th>
-                                            Search Term 2
-                                        </th><th>
-                                            Search Term 3
-                                        </th><th>
-                                            Search Term 4
-                                        </th><th>
-                                            Search Term 5
-                                        </th><th>
-                                            Image URL
-                                        </th><th>
-                                            Image URL1
-                                        </th><th>
-                                            Image URL2
-                                        </th><th>
-                                            Image URL3
-                                        </th><th>
-                                            Image URL4
-                                        </th><th>
-                                            Image URL5
-                                        </th><th>
-                                            Image URL6
-                                        </th><th>
-                                            Image URL7
-                                        </th>
-                                        <th>序号</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    
-                                </tbody>
-                            </table>
-                        </div>
+                        <table class="table table-bordered">
+                            <tr class="info">
+                                <th v-for="table in tempData" class="text-center">{{table.en_name}}</th>
+                            </tr>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -251,9 +169,9 @@
         
         <div class="container" style="margin-top:100px;">
             <div class="row">
-                <div class="col-md-12 text-center">
-                    <button class="btn btn-default">重复检查</button>
-                    <button class="btn btn-success">确认启用</button>
+                <div v-show="!preType" class="col-md-12 text-center">
+                    <!-- <button  :disabled="doneBtn" class="btn btn-default">重复检查</button> -->
+                    <button @click="getStart" :disabled="doneBtn" class="btn btn-success">确认启用</button>
                 </div>
             </div>
         </div>
@@ -271,5 +189,6 @@
         <!-- 包括所有bootstrap的js插件或者可以根据需要使用的js插件调用　-->
         <script src="js/bootstrap.min.js"></script>
         <script src='js/layer.js'></script>
+        <script src='js/batch-temp-start.js'></script>
     </body>
 </html>

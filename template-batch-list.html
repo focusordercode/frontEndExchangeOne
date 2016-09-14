@@ -73,7 +73,7 @@
                         <li class="hidden-sm hidden-md"><a href="customer.html" target="_blank" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'v3doc'])">客户管理</a></li>
                         <li><a href="upcUpload.html" target="_blank" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'v4doc'])">UPC</a></li>
                         <li><a href="partition.html" target="_blank" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'jquery'])">数据库分区</a></li>
-                        <li><a href="http://192.168.1.40/PicSystem/canton/Log/log" target="_blank" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'jquery'])">日志</a></li>
+                        <li><a href="Searchlog.html" target="_blank" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'jquery'])">日志</a></li>
                     </ul>
                 </div>
             </div>
@@ -103,7 +103,9 @@
                                     <select v-model="searchStatus" class="form-control">
                                         <option value="">选择状态</option>
                                         <option value="creating">创建状态</option>
-                                        <option value="editing">编辑状态</option>
+                                        <option value="defining">定义格式</option>
+                                        <option value="connecting">关联模板</option>
+                                        <option value="values">定义常用值</option>
                                         <option value="enabled">启用状态</option>
                                         <option value="disabled">停用状态</option>
                                     </select>
@@ -150,12 +152,10 @@
                             <span class="text-muted date">{{todo.modified_time}}</span>
                         </p>
                         <p>
-                            <button v-show="todo.status_code | startBtn" class="btn btn-xs btn-info btn-start">启用</button>
+                            <a class="btn btn-info btn-xs" target="_blank" v-show="todo.status_code | preBtn" :href="todo | preLink" >预览</a>
                             <button v-show="todo.status_code | stopBtn" @click="stopTemp(todo)" class="btn btn-xs btn-danger">停用</button>
+                            <a class="btn btn-success btn-xs" v-show="todo.status_code | editBtn" :href="todo | statusLink" >编辑</a>
                             <button v-show="todo.status_code | editBtn" class="btn btn-xs btn-danger btn-delete">删除</button>
-                            <a href="template-editAgain.html?id={{todo.id}}&#38;type_code={{todo.type_code}}" target="_blank" class="text-muted">
-                                {{todo.status_code|statusEdit}}
-                            </a>
                             <input v-model="todo.id" type="hidden" class="temp-id">
                             <span class="text-warning">{{todo.status_code|statusCode}}状态</span>
                         </p>

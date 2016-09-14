@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>批量表模板创建</title>
+    <title>批量表模板定义</title>
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <!--你自己的样式文件 -->
@@ -400,7 +400,7 @@
                                                 <th class="text-center">操作</th>
                                             </tr>
                                             <template v-for="table in tempData">
-                                                <template v-if="$index%2==1" track-by="id">
+                                                <template v-if="$index%2==1" track-by="$index">
                                                     <tr class="text-center warning">
                                                         <td>{{$index+1}}</td>
                                                         <td>{{table.data_type_code | dataType}}</td>
@@ -409,11 +409,12 @@
                                                         <td>{{table.length}}</td>
                                                         <td>{{table.default_value}}</td>
                                                         <td>
+                                                            <!-- <button @click="copyItem(table,$index)" class="btn btn-success">复制</button> -->
                                                             <button @click="deleteData(table)" class="btn btn-danger">删除</button>
                                                         </td>
                                                     </tr>
                                                 </template>
-                                                <template track-by="id" v-else>
+                                                <template track-by="$index" v-else>
                                                     <tr class="text-center">
                                                         <td>{{$index+1}}</td>
                                                         <td>{{table.data_type_code | dataType}}</td>
@@ -422,6 +423,7 @@
                                                         <td>{{table.length}}</td>
                                                         <td>{{table.default_value}}</td>
                                                         <td>
+                                                            <!-- <button @click="copyItem(table,$index)" class="btn btn-success">复制</button> -->
                                                             <button @click="deleteData(table)" class="btn btn-danger">删除</button>
                                                         </td>
                                                     </tr>

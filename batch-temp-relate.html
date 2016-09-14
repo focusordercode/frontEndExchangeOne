@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>批量表模板创建</title>
+    <title>批量表模板关联</title>
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <!--你自己的样式文件 -->
@@ -250,13 +250,13 @@
                                         <div class="form-inline">
                                             <div class="form-group">
                                                 <label>产品资料表模板：</label>
-                                                <input type="text" value="选择模板" class="form-control" readonly>
-                                                <button class="btn btn-default" data-toggle="modal" data-target="#selectMB">选择</button>
+                                                <input type="text" v-model="MBselected" class="form-control selectedMB" readonly>
+                                                <button class="btn btn-default" :disabled="selectBtn" @click="openList">选择</button>
                                             </div>
                                             <p></p>
                                             <div class="form-group">
                                                 <label>产品批量表模板：</label>
-                                                <input type="text" value="当前编辑的模板" class="form-control" readonly>
+                                                <input type="text" v-model="temp.cn_name" class="form-control" readonly>
                                             </div>
                                         </div>
                                     </div>
@@ -264,15 +264,14 @@
                                 <hr>
                                 <div class="row">
                                     <div class="col-md-12">
+                                        <div v-show="!proData" class="alert alert-danger" role="alert">请先选择产品资料表模板</div>
+
                                         <div class="form">
                                             <div class="col-md-4 col-md-offset-1">
                                                 <div class="form-group">
                                                     <label>产品资料表模板项目</label>
-                                                    <select class="form-control">
-                                                        <option value="">item</option>
-                                                        <option value="">item</option>
-                                                        <option value="">item</option>
-                                                        <option value="">item</option>
+                                                    <select v-model="selectedInfo" class="proSelect form-control">
+                                                        <option v-for="info in proData" value="{{$index}}" >{{info.en_name}}</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -280,17 +279,16 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label>产品批量表模板项目</label>
-                                                    <select class="form-control">
-                                                        <option value="">item</option>
-                                                        <option value="">item</option>
-                                                        <option value="">item</option>
-                                                        <option value="">item</option>
+                                                    <select v-model="selectedBacth" class="batSelect form-control">
+                                                        <option v-for="batch in tempData" value="{{$index}}"> {{batch.en_name}}</option>
                                                     </select>
                                                 </div>
                                             </div>
                                             <div class="col-md-1">
                                                 <div class="form-group">
-                                                    <button class="btn btn-info" style="margin-top:24px;">关联</button>
+                                                    <button @click="relate" :disabled="relateBtn" class="btn btn-info" style="margin-top:24px;">
+                                                        关联
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
@@ -304,44 +302,30 @@
                                                 <th class="text-center">序号</th>
                                                 <th class="text-center">产品资料表模板项目</th>
                                                 <th class="text-center">产品批量表模板项目</th>
-                                                <th class="text-center">项目标题</th>
+                                                <th class="text-center">状态</th>
                                                 <th class="text-center">操作</th>
                                             </tr>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>item</td>
-                                                <td>item</td>
-                                                <td>new item</td>
-                                                <td>
-                                                    <button class="btn btn-danger">删除</button>
-                                                </td>
-                                            </tr>
-                                            <tr class="warning">
-                                                <td>2</td>
-                                                <td>item</td>
-                                                <td>item</td>
-                                                <td>new item</td>
-                                                <td>
-                                                    <button class="btn btn-danger">删除</button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>3</td>
-                                                <td>item</td>
-                                                <td>item</td>
-                                                <td>new item</td>
-                                                <td>
-                                                    <button class="btn btn-danger">删除</button>
-                                                </td>
-                                            </tr>
+                                            <template v-for="relate in relateData">
+                                                <tr>
+                                                    <td>{{$index+1}}</td>
+                                                    <td>{{relate.info}}</td>
+                                                    <td>{{relate.batch}}</td>
+                                                    <td>
+                                                        关联
+                                                    </td>
+                                                    <td>
+                                                        <button @click="deleteItem(relate)" class="btn btn-danger">     删除
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            </template>
                                         </table>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-4 col-md-offset-4 text-center">
-                                        <button class="btn btn-default">匹配检查</button>
-                                        <!-- <button class="btn btn-success">保存</button> -->
-                                        <a href="batch-temp-defineVal.html" class="btn btn-success">保存</a>
+                                        <!-- <button class="btn btn-default">匹配检查</button> -->
+                                        <button @click="sendData" :disabled="sendBtn" class="btn btn-success">保存</button>
                                     </div>
                                 </div>
                             </div>
@@ -351,7 +335,8 @@
             </div>
         </div>
         
-        <div class="modal selectMB fade" id="selectMB" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <!-- 选择模板 -->
+        <div class="modal selectMB fade">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header bg-primary">
@@ -362,35 +347,19 @@
                         <div class="container-fluid">
                             <div class="row">
                                 <div class="col-md-10 col-md-offset-1">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <input type="text" v-model="MBkeyword" placeholder="输入关键字搜索模板" class="form-control">
-                                        </div>
-                                    </div>
-                                    <button class="btn btn-primary">搜索</button>
                                     
                                     <div class="funkyradio">
                                         <div class="funkyradio">
-                                            <div class="funkyradio-primary">
-                                                <input type="radio" name="radio" id="radio0">
-                                                <label for="radio0">
-                                                    家具用品 Furniture products <b class="text-warning">所属类目:</b>家居用品
-                                                </label>
-                                            </div><div class="funkyradio-primary">
-                                                <input type="radio" name="radio" id="radio1">
-                                                <label for="radio1">
-                                                    家具用品 Furniture products <b class="text-warning">所属类目:</b>家居用品
-                                                </label>
-                                            </div><div class="funkyradio-primary">
-                                                <input type="radio" name="radio" id="radio2">
-                                                <label for="radio2">
-                                                    通用模板 default_model <b class="text-warning">所属类目:</b>产品类目
+                                            <div v-for="MB in MBlist" class="funkyradio-primary">
+                                                <input type="radio" v-model="MB.checked" name="radio" id="radio{{$index}}"/>
+                                                <label for="radio{{$index}}">
+                                                    {{MB.cn_name}} {{MB.en_name}} <b class="text-warning">所属类目:</b>{{MB.category_name}}
                                                 </label>
                                             </div>
                                         </div>
                                     </div>
                                     <hr>
-                                    <button class="btn btn-primary">确定</button>
+                                    <button @click="selectedMB" v-show="MBlist.length>0" class="btn btn-primary">确定</button>
                                 </div>
                             </div>
                         </div>
@@ -402,7 +371,7 @@
         <hr>
         <div class="container">
             <div class="row">
-                <!-- <pre>{{$data|json}}</pre> -->
+                <pre>{{$data|json}}</pre>
             </div>
         </div>
 
@@ -422,5 +391,6 @@
         <!-- 包括所有bootstrap的js插件或者可以根据需要使用的js插件调用　-->
         <script src="js/bootstrap.min.js"></script>
         <script src='js/layer.js'></script>
+        <script src='js/batch-temp-relate.js'></script>
     </body>
 </html>

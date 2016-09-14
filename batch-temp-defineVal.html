@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>批量表模板创建</title>
+    <title>批量表模板常用值</title>
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <!--你自己的样式文件 -->
@@ -55,6 +55,9 @@
             font-size: 12px;
             line-height: 1.428571429;
             border-radius: 15px;
+        }
+        .table-bordered>tbody>tr>td, .table-bordered>tbody>tr>th, .table-bordered>tfoot>tr>td, .table-bordered>tfoot>tr>th, .table-bordered>thead>tr>td, .table-bordered>thead>tr>th {
+            vertical-align: middle;
         }
     </style>
 </head>
@@ -144,25 +147,24 @@
                                             <div class="form-group">
                                                 <label class="col-md-3 control-label">绑定模板项目：</label>
                                                 <div class="col-md-6">
-                                                    <select class="form-control">
-                                                        <option value="">请选择</option>
-                                                        <option value="">item</option>
-                                                        <option value="">item</option>
-                                                        <option value="">item</option>
-                                                        <option value="">item</option>
-                                                        <option value="">item</option>
+                                                    <select v-model="selectedItem" class="form-control">
+                                                        <option value="{{$index}}" v-for="op in tempData" >
+                                                            {{op.en_name}}
+                                                        </option>
                                                     </select>                                                    
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="col-md-3 control-label">常用值：</label>
                                                 <div class="col-md-6">
-                                                    <input type="text" class="form-control">           
+                                                    <input type="text" v-model="addVal" class="form-control">           
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <div class="col-md-6 col-md-offset-3 text-center">
-                                                    <button class="btn btn-default">保存</button>
+                                                    <button :disabled="addBtn" @click="addItem" class="btn btn-default">
+                                                        保存
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
@@ -178,39 +180,37 @@
                                                 <th class="text-center">常用值</th>
                                                 <th class="text-center">操作</th>
                                             </tr>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>item</td>
-                                                <td>常用值</td>
-                                                <td>
-                                                    <button class="btn btn-danger">删除</button>
-                                                </td>
-                                            </tr>
-                                            <tr class="warning">
-                                                <td>2</td>
-                                                <td>item</td>
-                                                <td>常用值</td>
-                                                <td>
-                                                    <button class="btn btn-danger">删除</button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>3</td>
-                                                <td>item</td>
-                                                <td>常用值</td>
-                                                <td>
-                                                    <button class="btn btn-danger">删除</button>
-                                                </td>
-                                            </tr>
+                                            <template v-for="table in valData">
+                                                <tr>
+                                                    <td>{{$index+1}}</td>
+                                                    <td>
+                                                        {{table.item}}
+                                                    </td>
+                                                    <td>
+                                                        <ul class="list-group">
+                                                            <li class="list-group-item text-left list-group-item-success" 
+                                                            v-for="label in table.itemArr" 
+                                                            track-by="$index">
+                                                                {{label}}
+                                                                <button @click="delItem(table,$index)" class="btn btn-xs btn-default">
+                                                                    <span>X</span>
+                                                                </button>
+                                                            </li>
+                                                        </ul>
+                                                    </td>
+                                                    <td>
+                                                        <button @click="delTable(table)" class="btn btn-danger">删除</button>
+                                                    </td>
+                                                </tr>
+                                            </template>
                                         </table>
                                     </div>
                                 </div>
                                 <hr>
                                 <div class="row">
                                     <div class="col-md-6 col-md-offset-3 text-center">
-                                        <button class="btn btn-default">重复检查</button>
-                                        <!-- <button class="btn btn-success">完成</button> -->
-                                        <a  href="batch-temp-start.html" class="btn btn-success">完成</a>
+                                        <!-- <button @click="checkVal" :disabled="checkBtn" class="btn btn-default">重复检查</button> -->
+                                        <button :disabled="sendBtn" @click="sendData" class="btn btn-success">完成</button>
                                     </div>
                                 </div>
                             </div>
@@ -224,7 +224,7 @@
         <hr>
         <div class="container">
             <div class="row">
-                <!-- <pre>{{$data|json}}</pre> -->
+                <pre>{{$data|json}}</pre>
             </div>
         </div>
 
@@ -244,5 +244,6 @@
         <!-- 包括所有bootstrap的js插件或者可以根据需要使用的js插件调用　-->
         <script src="js/bootstrap.min.js"></script>
         <script src='js/layer.js'></script>
+        <script src='js/batch-temp-defineVal.js'></script>
     </body>
 </html>

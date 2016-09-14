@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>日志搜索</title>
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!--你自己的样式文件 -->
+    <link href="css/index.css" rel="stylesheet">
+    <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
+    <!-- 以下两个插件用于在IE8以及以下版本浏览器支持HTML5元素和媒体查询，如果不需要用可以移除 -->
+    <!--[if lt IE 9]>
+    <script src="http://apps.bdimg.com/libs/html5shiv/3.7/html5shiv.js"></script>
+    <script src="http://apps.bdimg.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        .table th,.table td {
+            text-align: center;
+            vertical-align: middle!important;
+            min-width: 45px;
+        }
+        .table td .btn {
+            margin-bottom: 5px;
+        }
+        .active{
+            background-color: #00FF00;
+        }
+
+        .form-left{
+            margin-left: 15px;
+        }
+        .form-height{
+            height: 35px;
+            line-height: 35px;
+        }
+
+    </style>
+</head>
+<body>
+<!-- 顶部区域 -->
+<div class="container-fluid header-fluid-top">
+    <div class="row">
+        <div class="container header-top">
+            <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-12">
+                    <a href="#">
+                        <img src="images/logo.png" alt="">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 导航 -->
+<div class="navbar navbar-inverse nav-fluid-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand hidden-sm" href="#" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'navbar-首页'])">福克斯德</a>
+        </div>
+        <div class="navbar-collapse collapse" role="navigation">
+            <ul class="nav navbar-nav">
+                <li class="dropdown">
+                    <a href="##" data-toggle="dropdown" class="dropdown-toggle">图片库<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="pic-category.html">图片库</a></li>
+                        <li><a href="admin-category-pic.html">图片目录管理</a></li>
+                        <li><a href="pic-trash.html">回收站</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="##" data-toggle="dropdown" class="dropdown-toggle">产品资料<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="template.html">产品资料表模板</a></li>
+                        <li><a href="Table-info.html">产品资料表</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="##" data-toggle="dropdown" class="dropdown-toggle">批量表<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="template-batch-list.html">批量表模板</a></li>
+                        <li><a href="Table-batch.html">批量表</a></li>
+                    </ul>
+                </li>
+                <li class="hidden-sm hidden-md"><a href="admin-category.html" target="_blank" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'v2doc'])">分类管理</a></li>
+                <li class="hidden-sm hidden-md"><a href="customer.html" target="_blank" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'v3doc'])">客户管理</a></li>
+                <li><a href="upcUpload.html" target="_blank" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'v4doc'])">UPC</a></li>
+                <li><a href="partition.html" target="_blank" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'jquery'])">数据库分区</a></li>
+                <li><a href="Searchlog.html" target="_blank" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'jquery'])">日志</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!--搜索日志-->
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <form class="bg-success form-horizontal">
+                <!--<div class="form-group form-horizontal form-left">
+                    <select v-model="year" class="form-height col-md-1">
+                        <option>2016</option>
+                        <option>2017</option>
+                        <option>2018</option>
+                    </select>
+                    <select v-model="month" class="form-height col-md-1">
+                        <option>01</option>
+                        <option>02</option>
+                        <option>03</option>
+                        <option>04</option>
+                        <option>05</option>
+                        <option>06</option>
+                        <option>07</option>
+                        <option>08</option>
+                        <option>09</option>
+                        <option>10</option>
+                        <option>11</option>
+                        <option>12</option>
+                    </select>
+                    <select v-model="day" class="form-height col-md-1">
+                        <option></option>
+                        <option>01</option>
+                        <option>02</option>
+                        <option>03</option>
+                        <option>04</option>
+                        <option>05</option>
+                        <option>06</option>
+                        <option>07</option>
+                        <option>08</option>
+                        <option>09</option>
+                        <option>10</option>
+                        <option>11</option>
+                        <option>12</option>
+                        <option>13</option>
+                        <option>14</option>
+                        <option>15</option>
+                        <option>16</option>
+                        <option>17</option>
+                        <option>18</option>
+                        <option>19</option>
+                        <option>20</option>
+                        <option>21</option>
+                        <option>22</option>
+                        <option>23</option>
+                        <option>24</option>
+                        <option>25</option>
+                        <option>26</option>
+                        <option>27</option>
+                        <option>28</option>
+                        <option>29</option>
+                        <option>30</option>
+                        <option>31</option>
+                    </select>
+                    <button v-on:click="searchday" class="btn btn-success">搜索</button>
+                </div>-->
+
+                <div class="col-md-offset-8">
+                    <div class="form-group ">
+                        <label class="col-md-2 text-center"><h4>调试模式</h4></label>
+                        <button id="swibtn" v-on:click="switchste" class="btn btn-lg">{{state}}</button>
+                        <!--<span class="col-md-2 text-center">现在是{{state}}模式</span>-->
+
+                    </div>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group form-horizontal form-left">
+            <select v-model="year" class="form-height col-md-1">
+                <option value="">选择年</option>
+                <option v-for="n in 5" >{{n+2016}}</option>
+            </select>
+            <select v-model="month" class="form-height col-md-1">
+                <option value="">选择月</option>
+                <template v-for="h in 12">
+                    <template v-if="h<9">
+                        <option>0{{h+1}}</option>
+                    </template>
+                    <template v-else>
+                        <option>{{h+1}}</option>
+                    </template>
+                </template>
+            </select>
+            <select v-model="day" class="form-height col-md-1">
+                <option value="">选择日</option>
+                <template v-for="h in 31">
+                    <template v-if="h<9">
+                        <option>0{{h+1}}</option>
+                    </template>
+                    <template v-else>
+                        <option>{{h+1}}</option>
+                    </template>
+                </template>
+            </select>
+            <button v-on:click="searchday" class="btn btn-success">搜索</button>
+            <span class="text-warning">只需要选择到月</span>
+    </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <h4><b>日志</b></h4>
+                </div>
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <tr class="success text-success">
+                                <th class="text-center col-sm-1">选择</th>
+                                <th class="text-center">日志</th>
+                                <!--<th class="text-center col-md-2">操作</th>-->
+                            </tr>
+                            <!-- template渲染 -->
+                            <template v-for="log in logdata">
+                                <tr class="">
+                                    <td class="text-center"><input type="checkbox" v-model="urlarr" value="{{log.url}}"></td>
+                                    <td class="text-center"><a target="_blank" v-bind:href="log.url">{{log.name}}</a></td>
+
+                                </tr>
+                            </template>
+                        </table>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-offset-10">
+                            <button @click="deletelog" class="btn btn-danger btn-md">删除所选</button>
+                            <button @click="downloadlog" class="btn btn-success btn-md">下载所选</button>
+                            <!--<form action="" method="post" enctype="multipart/form-data">-->
+                                <!--<input type="text" class="form-control">-->
+                                <!--<button class="btn btn-default" type="submit">下载</button>-->
+                            <!--</form>-->
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+<hr>
+<!--<div class="container">
+    <div class="row">
+        <pre>{{ $data | json }}</pre>
+    </div>
+</div>-->
+<!-- 页脚 -->
+<div class="container-fluid footer-fluid">
+    <div class="contaier">
+        <div class="row">
+            <div class="col-lg-12">
+                © All rights reserved 深圳福克斯德信息咨询有限公司
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 如果要使用Bootstrap的js插件，必须先调入jQuery -->
+<script src="js/jquery.js"></script>
+<script src="js/vue.js"></script>
+<!-- 包括所有bootstrap的js插件或者可以根据需要使用的js插件调用　-->
+<script src="js/bootstrap.min.js"></script>
+<script src='js/layer.js'></script>
+<script src="js/searchlog.js"></script>
+
+</body>
+</html>
