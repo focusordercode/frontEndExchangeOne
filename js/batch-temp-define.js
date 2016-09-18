@@ -40,7 +40,7 @@ var tempDefine = new Vue({
         MBselected:'选择模板',
         MBselectedId:'',
         copyBtn:'',
-        tempData:'',
+        tempData:[],
         oText:{
             data_type_code:'char',
             cn_name:'',
@@ -251,7 +251,7 @@ var tempDefine = new Vue({
             function clear(item){
                 item.cn_name = '';
                 item.en_name = '';
-                item.default_value = '';
+                item.default_value = 12345678;
             }
             
             if(!item.cn_name.trim()){
@@ -275,7 +275,7 @@ var tempDefine = new Vue({
             function clear(item){
                 item.cn_name = '';
                 item.en_name = '';
-                item.default_value = '';
+                item.default_value = 1.25;
             }
             
             //验证小数
@@ -302,7 +302,7 @@ var tempDefine = new Vue({
             function clear(item){
                 item.cn_name = '';
                 item.en_name = '';
-                item.default_value = '';
+                item.default_value = 'imgURL';
             }
             
             if(!item.cn_name.trim()){
@@ -326,7 +326,7 @@ var tempDefine = new Vue({
             function clear(item){
                 item.cn_name = '';
                 item.en_name = '';
-                item.default_value = '';
+                item.default_value = '2016-12-01';
             }
             
             //验证日期
@@ -390,6 +390,7 @@ var tempDefine = new Vue({
                 tempDefine.tempData.$remove(table);
             }
         },
+        //发送数据
         sendData:function(){
             var template_id = this.temp.id,
                 tempDataLen = this.tempData.length,

@@ -286,9 +286,9 @@ Vue.filter('statusLink', function (value) {
     if(status=='creating'){
         return url1+'?id='+id;  //进入第二步
     }else if(status=='defining'){
-        return url2+'?id='+id;  //进入第三步
+        return url3+'?id='+id;  //进入第三步
     }else if(status=='connecting'){
-        return url3+'?id='+id;  //进入第四步
+        return url2+'?id='+id;  //进入第四步
     }else if(status=='values'){
         return url4+'?id='+id;  //进入第五步
     }else{

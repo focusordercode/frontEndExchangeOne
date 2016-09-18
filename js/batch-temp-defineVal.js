@@ -183,7 +183,14 @@ var tempVal = new Vue({
         //         tempVal.sendBtn = false;
         //     }
         // },
-        
+
+        //跳过次步骤
+        jumpStep:function(){
+            //解除未提交内容提示
+            $(window).unbind('beforeunload');
+            var url = 'batch-temp-start.html';
+            window.location.href = url+'?id='+template_id;
+        },
         //发送数据
         sendData:function(){
             var valData = this.valData;

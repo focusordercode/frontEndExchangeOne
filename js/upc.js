@@ -162,7 +162,7 @@ $('#upload').on('click',function(){
     var formData = new FormData();
     formData.append('file', $('#file')[0].files[0]);
     $.ajax({
-        url: 'http://192.168.1.42/canton/index.php/post/upc',
+        url: 'http://192.168.1.40/PicSystem/canton/post/upc',
         type: 'POST',
         cache: false,
         data: formData,

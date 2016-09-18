@@ -245,197 +245,94 @@
                         </div>
                         <div class="panel-body">
                             <div class="col-md-12">
-                                <!-- 模板复制 -->
-                                <div class="row">
-                                    <div class="col-md-6 col-md-offset-2">
-                                        <div class="form-inline">
-                                            <div class="form-group">
-                                                <label>模板快速复制：</label>
-                                                <input type="text" v-model="MBselected" class="form-control" readonly>
-                                                <button class="btn btn-default" @click="openList">选择模板</button>
-                                                <button class="btn btn-default" @click="copyMB" :disabled="copyBtn">复制</button>
-                                            </div>
-                                        </div>
+                                <div id="uploadForm">
+                                    <div class="form-group">
+                                        <label class="text-warning">批量表模板上传</label>
+                                        <input type="file" id="file" name="upc_file">
+                                    </div>
+                                    <div class="alert alert-info" role="alert">
+                                        注意:上传文件必须是"xls","xlsx"格式,文件中必须是亚马逊的模板Excel表格；可以参考示例<a href="images/shili.png" target="_blank" class="text-danger" >示例</a>
+                                    </div>
+                                    <div class="form-group">
+                                        <button type="submit" id="upload" @click="upload" :disabled="uploadBtn" class="btn btn-primary">提交</button>
                                     </div>
                                 </div>
-                                <hr>
-                                <!-- 添加模板功能区 -->
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <table class="table table-bordered">
-                                            <tr class="warning">
-                                                <th class="text-center">类型</th>
-                                                <th class="text-center">中文名</th>
-                                                <th class="text-center">英文名(表头)</th>
-                                                <th class="text-center">长度</th>
-                                                <th class="text-center">默认值</th>
-                                                <th class="text-center">操作</th>
-                                            </tr>
-                                            <!-- 文本类型 -->
-                                            <tr>
-                                                <td class="text-warning text-center">文本类型</td>
+                            </div>
+                            <hr>
+                            <div class="col-md-12">
+                                <table class="table table-bordered text-warning">
+                                    <tr class="info">
+                                        <th class="text-center">序号</th>
+                                        <th class="text-center">表头</th>
+                                        <th class="text-center">类型</th>
+                                        <th class="text-center">长度</th>
+                                        <!-- <th class="text-center">默认值</th> -->
+                                    </tr>
+                                    <template v-for="table in tempData">
+                                        <template v-if="$index%2==1">
+                                            <tr class="text-center warning">
                                                 <td>
-                                                    <input type="text" v-model="oText.cn_name" placeholder="中文名" class="form-control">
+                                                    {{$index+1}}
                                                 </td>
                                                 <td>
-                                                    <input type="text" v-model="oText.en_name" placeholder="英文名(表头)" class="form-control">
+                                                    {{table.en_name}}
                                                 </td>
                                                 <td>
-                                                    <select v-model="oText.length" class="form-control">
-                                                        <option value="50">50</option>
-                                                        <option value="100" selected>100</option>
+                                                    <select v-model="table.data_type_code" class="form-control">
+                                                        <option value="char">文本</option>
+                                                        <option value="int">整数</option>
+                                                        <option value="dc">小数</option>
+                                                        <option value="pic">图片</option>
+                                                        <option value="dt">日期</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select v-model="table.length" class="form-control">
+                                                        <option>{{table.length}}</option>
                                                         <option value="500">500</option>
+                                                        <option value="1000">1000</option>
                                                         <option value="2000">2000</option>
-                                                    </select>
-                                                </td>
-                                                <td>
-                                                    <input type="text" v-model="oText.default_value" placeholder="默认文本示例" class="form-control">
-                                                </td>
-                                                <td>
-                                                    <button @click="addText" class="btn btn-default">添加</button>
-                                                </td>
-                                            </tr>
-                                            <!-- 数字类型 -->
-                                            <tr>
-                                                <td class="text-warning text-center">整数</td>
-                                                <td>
-                                                    <input v-model="oNum.cn_name" type="text" placeholder="中文名" class="form-control">
-                                                </td>
-                                                <td>
-                                                    <input v-model="oNum.en_name" type="text" placeholder="英文名(表头)" class="form-control">
-                                                </td>
-                                                <td>
-                                                    <select v-model="oNum.length" class="form-control">
-                                                        <option value="18" selected>18</option>
+                                                        <option value="20">20</option>
                                                         <option value="50">50</option>
                                                     </select>
                                                 </td>
-                                                <td>
-                                                    <input v-model="oNum.default_value" type="number" placeholder="默认整数示例" class="form-control" readonly>
-                                                </td>
-                                                <td>
-                                                    <button @click="addNum" class="btn btn-default">添加</button>
-                                                </td>
                                             </tr>
-                                            <tr>
-                                                <td class="text-warning text-center">小数</td>
+                                        </template>
+                                        <template v-else>
+                                            <tr class="text-center">
                                                 <td>
-                                                    <input v-model="oFloat.cn_name" type="text" placeholder="中文名" class="form-control">
+                                                    {{$index+1}}
                                                 </td>
                                                 <td>
-                                                    <input v-model="oFloat.en_name" type="text" placeholder="英文名(表头)" class="form-control">
+                                                    {{table.en_name}}
                                                 </td>
                                                 <td>
-                                                    <select v-model="oFloat.length" class="form-control">
-                                                        <option value="2" selected>2</option>
-                                                        <option value="1">1</option>
-                                                        <option value="3">3</option>
-                                                        <option value="4">4</option>
+                                                    <select v-model="table.data_type_code" class="form-control">
+                                                        <option value="char">文本</option>
+                                                        <option value="int">整数</option>
+                                                        <option value="dc">小数</option>
+                                                        <option value="pic">图片</option>
+                                                        <option value="dt">日期</option>
                                                     </select>
                                                 </td>
                                                 <td>
-                                                    <input v-model="oFloat.default_value" type="number" placeholder="默认小数示例" class="form-control" readonly>
-                                                </td>
-                                                <td>
-                                                    <button @click="addFloat" class="btn btn-default">添加</button>
-                                                </td>
-                                            </tr>
-                                            <!-- 图片 -->
-                                            <tr>
-                                                <td class="text-warning text-center">图片</td>
-                                                <td>
-                                                    <input v-model="oPic.cn_name" type="text" placeholder="中文名" class="form-control">
-                                                </td>
-                                                <td>
-                                                    <input v-model="oPic.en_name" type="text" placeholder="英文名(表头)" class="form-control">
-                                                </td>
-                                                <td>
-                                                    <select v-model="oPic.length" class="form-control" readonly>
-                                                        <option value="150" selected>150</option>
+                                                    <select v-model="table.length" class="form-control">
+                                                        <option>{{table.length}}</option>
+                                                        <option value="500">500</option>
+                                                        <option value="1000">1000</option>
+                                                        <option value="2000">2000</option>
+                                                        <option value="20">20</option>
+                                                        <option value="50">50</option>
                                                     </select>
                                                 </td>
-                                                <td>
-                                                    <input v-model="oPic.default_value" type="text" placeholder="默认图片URL示例" class="form-control" readonly>
-                                                </td>
-                                                <td>
-                                                    <button @click="addPic" class="btn btn-default">添加</button>
-                                                </td>
                                             </tr>
-                                            <!-- 日期 -->
-                                            <tr>
-                                                <td class="text-warning text-center">日期</td>
-                                                <td>
-                                                    <input v-model="oDate.cn_name" type="text" placeholder="中文名" class="form-control">
-                                                </td>
-                                                <td>
-                                                    <input v-model="oDate.en_name" type="text" placeholder="英文名(表头)" class="form-control">
-                                                </td>
-                                                <td>
-                                                    <select v-model="oDate.length" class="form-control" readonly>
-                                                        <option value="50" selected>50</option>
-                                                    </select>
-                                                </td>
-                                                <td>
-                                                    <input v-model="oDate.default_value" type="text" placeholder="默认日期示例" class="form-control" readonly>
-                                                </td>
-                                                <td>
-                                                    <button @click="addDate" class="btn btn-default">添加</button>
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </div>
-                                </div>
-                                <hr>
-                                <!-- 模板条目 -->
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <table class="table table-bordered text-warning">
-                                            <tr class="info">
-                                                <th class="text-center">序号</th>
-                                                <th class="text-center">类型</th>
-                                                <th class="text-center">中文名</th>
-                                                <th class="text-center">英文名(表头)</th>
-                                                <th class="text-center">长度</th>
-                                                <th class="text-center">默认值</th>
-                                                <th class="text-center">操作</th>
-                                            </tr>
-                                            <template v-for="table in tempData">
-                                                <template v-if="$index%2==1" track-by="$index">
-                                                    <tr class="text-center warning">
-                                                        <td>{{$index+1}}</td>
-                                                        <td>{{table.data_type_code | dataType}}</td>
-                                                        <td>{{table.cn_name}}</td>
-                                                        <td>{{table.en_name}}</td>
-                                                        <td>{{table.length}}</td>
-                                                        <td>{{table.default_value}}</td>
-                                                        <td>
-                                                            <!-- <button @click="copyItem(table,$index)" class="btn btn-success">复制</button> -->
-                                                            <button @click="deleteData(table)" class="btn btn-danger">删除</button>
-                                                        </td>
-                                                    </tr>
-                                                </template>
-                                                <template track-by="$index" v-else>
-                                                    <tr class="text-center">
-                                                        <td>{{$index+1}}</td>
-                                                        <td>{{table.data_type_code | dataType}}</td>
-                                                        <td>{{table.cn_name}}</td>
-                                                        <td>{{table.en_name}}</td>
-                                                        <td>{{table.length}}</td>
-                                                        <td>{{table.default_value}}</td>
-                                                        <td>
-                                                            <!-- <button @click="copyItem(table,$index)" class="btn btn-success">复制</button> -->
-                                                            <button @click="deleteData(table)" class="btn btn-danger">删除</button>
-                                                        </td>
-                                                    </tr>
-                                                </template>
-                                            </template>
-                                        </table>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 col-md-offset-4 text-center">
-                                    <button @click="sendData" class="btn btn-primary">保存</button>
-                                    <!-- <a href="batch-temp-relate.html" class="btn btn-primary">保存</a> -->
-                                </div>
+                                        </template>
+                                    </template>
+                                </table>
+                            </div>
+                            <hr>
+                            <div class="col-md-4 col-md-offset-4 text-center">
+                                <button @click="sendData" class="btn btn-primary">保存</button>
                             </div>
                         </div>
                     </div>
@@ -443,43 +340,11 @@
             </div>
         </div>
         
-        <!-- 选择模板 -->
-        <div class="modal selectMB fade">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header bg-primary">
-                        <h4 class="modal-title text-center">选择模板</h4>
-                        <button type="button" class="close close-positon" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i class="fa fa-close"></i></span></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="container-fluid">
-                            <div class="row">
-                                <div class="col-md-10 col-md-offset-1">
-                                    
-                                    <div class="funkyradio">
-                                        <div class="funkyradio">
-                                            <div v-for="MB in MBlist" class="funkyradio-primary">
-                                                <input type="radio" v-model="MB.checked" name="radio" id="radio{{$index}}"/>
-                                                <label for="radio{{$index}}">
-                                                    {{MB.cn_name}} {{MB.en_name}} <b class="text-warning">所属类目:</b>{{MB.category_name}}
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <hr>
-                                    <button @click="selectedMB" v-show="MBlist.length>0" class="btn btn-primary">确定</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
 
         <hr>
         <div class="container">
             <div class="row">
-                <pre>{{$data|json}}</pre>
+                <!-- <pre>{{$data|json}}</pre> -->
             </div>
         </div>
 
@@ -499,6 +364,6 @@
         <!-- 包括所有bootstrap的js插件或者可以根据需要使用的js插件调用　-->
         <script src="js/bootstrap.min.js"></script>
         <script src='js/layer.js'></script>
-        <script src='js/batch-temp-define.js'></script>
+        <script src='js/batch-temp-define-new.js'></script>
     </body>
 </html>

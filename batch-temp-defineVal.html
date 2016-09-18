@@ -212,6 +212,9 @@
                                         <!-- <button @click="checkVal" :disabled="checkBtn" class="btn btn-default">重复检查</button> -->
                                         <button :disabled="sendBtn" @click="sendData" class="btn btn-success">完成</button>
                                     </div>
+                                    <div v-show="temp" class="col-md-1 col-md-offset-2">
+                                        <a href="javascript:" @click="jumpStep" class="text-muted">跳过</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
