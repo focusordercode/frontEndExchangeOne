@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>资料表流程-选择图片</title>
+    <title>批量表选择图片</title>
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <!--你自己的样式文件 -->
@@ -145,99 +145,139 @@
                 <div class="col-md-12">
                     <div class="panel panel-primary">
                         <div class="panel-heading">
-                            <h4><b>产品图片</b></h4>
+                            <h4><b>选择图片</b></h4>
                         </div>
                         <div class="panel-body">
-                            <p>
-                                <label class="text-primary">产品类目:</label>
-                                <span class="text-primary">{{tableInfo.name}}</span>
-                            </p>
-                            <p>
-                                <label class="text-primary">产品数量:</label>
-                                <span class="text-primary">{{tableInfo.productCount}}</span>
-                            </p>
-                            <p class="clearfix">
-                                <div class="form-horizontal">
-                                    <div class="form-group">
-                                        <label class="col-sm-2 textLeft control-label text-primary">图片目录:</label>
-                                        <div class="col-sm-2">
-                                            <input type="text" v-model="selectedPic" class="form-control" placeholder="选择目录" readonly>
-                                        </div>
-                                        <div class="col-sm-1">
-                                            <button @click="selectPicfolder" class="btn btn-default btn-sm">选择目录</button>
-                                        </div>
+                            <!-- 产品批量表信息 -->
+                            <div class="col-md-12">
+                                <h4 class="text-primary">产品批量表信息</h4>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <p>
+                                            <label class="text-primary">表格编号：</label>
+                                            <span class="text-muted">{{tableInfo.form_no}}</span>
+                                        </p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p>
+                                            <label class="text-primary">产品类目：</label>
+                                            <span class="text-muted">{{tableInfo.name}}</span>
+                                        </p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p>
+                                            <label class="text-primary">使用模板:</label>
+                                            <span class="text-muted">{{tableInfo.tempname}}</span>
+                                        </p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p>
+                                            <label class="text-primary">站点:</label>
+                                            <span class="text-muted">{{tableInfo.productCount}}</span>
+                                        </p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p>
+                                            <label class="text-primary">客户名称:</label>
+                                            <span class="text-muted">{{tableInfo.client_name}}</span>
+                                        </p>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <p>
+                                            <label class="text-primary">产品数量统计:</label>
+                                            <span class="text-muted">{{tableInfo.productCount}}</span>
+                                        </p>
                                     </div>
                                 </div>
-                            </p>
-                            <p class="clearfix">
-                                <div class="form-horizontal">
-                                    <div class="form-group">
-                                        <label class="col-sm-2 textLeft control-label text-primary">图片、产品重用比:</label>
-                                        <div class="col-sm-1">
-                                            <select v-model="pic_rate" class="form-control">
-                                                <option selected>1</option>
-                                                <option >2</option>
-                                                <option >3</option>
-                                                <option >4</option>
-                                                <option >5</option>
-                                                <option >6</option>
-                                                <option >7</option>
-                                                <option >8</option>
-                                                <option >9</option>
-                                                <option >10</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-sm-1">
-                                            <select v-model="pro_rate" class="form-control">
-                                                <option selected>1</option>
-                                                <option >2</option>
-                                                <option >3</option>
-                                                <option >4</option>
-                                                <option >5</option>
-                                            </select>
+                            </div>
+                            <!-- 图片选择条件 -->
+                            <div class="col-md-12 marginTop">
+                                <h4 class="text-primary">图片选择条件</h4>
+                                <hr>
+                                <p class="clearfix">
+                                    <div class="form-horizontal">
+                                        <div class="form-group">
+                                            <label class="col-sm-2 textLeft control-label text-primary">图片目录:</label>
+                                            <div class="col-sm-2">
+                                                <input type="text" v-model="selectedPic" class="form-control" placeholder="选择目录" readonly>
+                                            </div>
+                                            <div class="col-sm-1">
+                                                <button @click="selectPicfolder" class="btn btn-default btn-sm">选择目录</button>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </p>
-                            <p class="clearfix">
-                                <div class="form-horizontal">
-                                    <div class="form-group">
-                                        <label class="col-sm-2 textLeft control-label text-primary">
-                                            图片重用周期(月):
-                                        </label>
-                                        <div class="col-sm-1">
-                                            <select v-model="re_date" class="form-control">
-                                                <option >1</option>
-                                                <option >2</option>
-                                                <option selected>3</option>
-                                                <option >4</option>
-                                                <option >5</option>
-                                            </select>
+                                </p>
+                                <p class="clearfix">
+                                    <div class="form-horizontal">
+                                        <div class="form-group">
+                                            <label class="col-sm-2 textLeft control-label text-primary">图片、产品重用比:</label>
+                                            <div class="col-sm-1">
+                                                <select v-model="pic_rate" class="form-control">
+                                                    <option selected>1</option>
+                                                    <option >2</option>
+                                                    <option >3</option>
+                                                    <option >4</option>
+                                                    <option >5</option>
+                                                    <option >6</option>
+                                                    <option >7</option>
+                                                    <option >8</option>
+                                                    <option >9</option>
+                                                    <option >10</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-1">
+                                                <select v-model="pro_rate" class="form-control">
+                                                    <option selected>1</option>
+                                                    <!-- <option >2</option>
+                                                    <option >3</option>
+                                                    <option >4</option>
+                                                    <option >5</option> -->
+                                                </select>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </p>
-                            <p class="clearfix">
-                                <div class="form-horizontal">
-                                    <div class="form-group">
-                                        <label class="col-sm-2 textLeft control-label text-primary">图片类型:</label>
-                                        <div class="col-sm-2">
-                                            <select v-model="file_type" class="form-control">
-                                                <option value="jpg" selected>jpg</option>
-                                                <option value="png">png</option>
-                                                <option value="gif">gif</option>
-                                                <option value="all">全部</option>
-                                            </select>
+                                </p>
+                                <p class="clearfix">
+                                    <div class="form-horizontal">
+                                        <div class="form-group">
+                                            <label class="col-sm-2 textLeft control-label text-primary">
+                                                图片重用周期(月):
+                                            </label>
+                                            <div class="col-sm-1">
+                                                <select v-model="re_date" class="form-control">
+                                                    <option >1</option>
+                                                    <option >2</option>
+                                                    <option selected>3</option>
+                                                    <option >4</option>
+                                                    <option >5</option>
+                                                </select>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </p>
-                            <p class="text-center">
-                                <div class="col-sm-3 col-sm-offset-2">
-                                    <button @click="searchPic" class="btn btn-info" :disabled="getPic" >自动选图</button>
-                                    <button @click="resetData" class="btn btn-default">重置</button>
-                                </div>
-                            </p>
+                                </p>
+                                <p class="clearfix">
+                                    <div class="form-horizontal">
+                                        <div class="form-group">
+                                            <label class="col-sm-2 textLeft control-label text-primary">图片类型:</label>
+                                            <div class="col-sm-2">
+                                                <select v-model="file_type" class="form-control">
+                                                    <option value="jpg" selected>jpg</option>
+                                                    <option value="png">png</option>
+                                                    <option value="gif">gif</option>
+                                                    <option value="all">全部</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </p>
+                                <p class="text-center">
+                                    <div class="col-sm-3 col-sm-offset-2">
+                                        <button @click="searchPic" class="btn btn-info" :disabled="getPic" >自动选图</button>
+                                        <button @click="resetData" class="btn btn-default">重置</button>
+                                    </div>
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -372,7 +412,7 @@
 
         <div class="container">
             <div class="row">
-                <!-- <pre>{{$data|json}}</pre> -->
+                <pre>{{$data|json}}</pre>
             </div>
         </div>
 
@@ -393,6 +433,6 @@
         <!-- 包括所有bootstrap的js插件或者可以根据需要使用的js插件调用　-->
         <script src="js/bootstrap.min.js"></script>
         <script src='js/layer.js'></script>
-        <script src='js/TableWorkflow-selectPic.js'></script>
+        <script src='js/batch-table-selectPic.js'></script>
     </body>
 </html>

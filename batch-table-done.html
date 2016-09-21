@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>资料表流程-编辑表格</title>
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!--你自己的样式文件 -->
+    <link href="css/index.css" rel="stylesheet">
+    <link href="css/picUpload.css" rel="stylesheet">
+    <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">        
+    <!-- 以下两个插件用于在IE8以及以下版本浏览器支持HTML5元素和媒体查询，如果不需要用可以移除 -->
+    <!--[if lt IE 9]>
+    <script src="http://apps.bdimg.com/libs/html5shiv/3.7/html5shiv.js"></script>
+    <script src="http://apps.bdimg.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        .tableDetail label+span {
+            vertical-align: middle;
+            padding-left: 10px;
+        }
+        .table-bordered>tbody>tr>td, .table-bordered>tbody>tr>th, .table-bordered>tfoot>tr>td, .table-bordered>tfoot>tr>th, .table-bordered>thead>tr>td, .table-bordered>thead>tr>th {
+            min-width: 250px;
+            vertical-align: middle;
+            position: relative;
+        }
+        .table tr th:first-child {
+            min-width: 50px!important;
+        }
+        .table tr td:first-child {
+            min-width: 50px!important;
+        }
+        .table tr th:last-child {
+            min-width: 50px!important;
+        }
+        .table tr td:last-child {
+            min-width: 50px!important;
+        }
+        .table>tbody>tr.change>td {
+            background-color: #ECF0F1;
+        }
+        .clickTochange {
+            text-decoration: none;
+            /*border-bottom: dashed 1px #0088cc;*/
+        }
+        .td-input {
+            position: absolute;
+            top: -42px;
+            left: 0;
+            margin-bottom: 0;
+            background-color: #fff;
+            display: none;
+        }
+        .td-input > .input-group {
+            margin: 6px 10px;
+        }
+        .td-input button {
+            color: #fff;
+            margin-right: 10px;
+        }
+        .td-input > i {
+            position: absolute;
+            bottom: -9px;
+            left: 42%;
+            color: #fff;
+        }
+        .tableDetail .label {
+            font-size: 90%;
+        }
+        .tableCont {
+            overflow-x: auto;
+        }
+    </style>
+</head>
+    <body>
+        <!-- 主内容区域 -->
+        <!-- <div class="navbar navbar-inverse navbar-fixed-top tableTop">
+            <div class="navbar-inner">
+                <div class="container-fluid" style="margin-top:20px;">
+                    <div class="container-fluid tableDetail">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="well well-sm">
+                                    <p></p>
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <label class="label label-primary">表格编号</label>
+                                            <span class="text-muted">{{info.form_no}}</span>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label class="label label-primary">表格名称</label>
+                                            <span class="text-muted">{{info.title}}</span>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label class="label label-primary">所属类目</label>
+                                            <span class="text-muted">{{info.name}}</span>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label class="label label-primary">使用的模板</label>
+                                            <span class="text-muted">{{info.tempname}}</span>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label class="label label-primary">所属客户</label>
+                                            <span class="text-muted">{{info.client_name}}</span>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <button class="btn btn-xs btn-info" @click="downloadTable" :disabled="downloadBtn">
+                                                <i class="fa fa-download" aria-hidden="true"></i>下载表格
+                                            </button>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <a href="Table-info.html" class="btn btn-xs btn-info" >      <i class="fa fa-table" aria-hidden="true"></i>表格首页
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div> -->
+
+        <div class="container marginTop">
+            <div class="row">
+                <div class="panel panel-primary">
+                    <div class="panel-heading"><h4>预览产品批量表</h4></div>
+                    <div class="panel-body">
+                        <div class="col-md-12">
+                            <h4 class="text-primary">产品批量表信息</h4>
+                            <hr>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <p>
+                                        <label class="text-primary">表格编号：</label>
+                                        <span class="text-muted">{{info.form_no}}</span>
+                                    </p>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>
+                                        <label class="text-primary">产品类目：</label>
+                                        <span class="text-muted">{{info.name}}</span>
+                                    </p>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>
+                                        <label class="text-primary">使用模板:</label>
+                                        <span class="text-muted">{{info.tempname}}</span>
+                                    </p>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>
+                                        <label class="text-primary">站点:</label>
+                                        <span class="text-muted">{{info.productCount}}</span>
+                                    </p>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>
+                                        <label class="text-primary">客户名称:</label>
+                                        <span class="text-muted">{{info.client_name}}</span>
+                                    </p>
+                                </div>
+                                <div class="col-md-12">
+                                    <p>
+                                        <label class="text-primary">产品数量统计:</label>
+                                        <span class="text-muted">{{info.productCount}}</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- component template -->
+        <script type="text/x-template" id="grid-template">
+            <div class="container-fluid">
+                <div class="row">
+                    <div>
+                        <div class="tableContent">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">序号</th>
+                                        <th class="text-center" v-for="key in columns">
+                                            {{key | capitalize}}
+                                        </th>
+                                        <th class="text-center">序号</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template v-for="entry in data">
+                                        <!-- 主体展示方式 -->
+                                        <template v-if="entry.parent_id==0">
+                                            <tr class="info" track-by="product_id" :title="$index+1">
+                                                <td class="text-center">{{$index+1}}</td>
+                                                <td v-for="key in columns" class="text-center">
+                                                    <a href="javascript:" class="clickTochange">{{entry[key]}}</a>
+                                                </td>
+                                                <td class="text-center">{{$index+1}}</td>
+                                            </tr>
+                                        </template>
+                                         <!-- 变体展示方式 -->
+                                        <template v-else>
+                                            <tr class="change" track-by="product_id" :title="$index+1">
+                                                <td class="text-center">{{$index+1}}</td>
+                                                <td v-for="key in columns" class="text-center">
+                                                    <a href="javascript:" class="clickTochange">{{entry[key]}}</a>
+                                                </td>
+                                                <td class="text-center">{{$index+1}}</td>
+                                            </tr>
+                                        </template> 
+                                    </template>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </script>
+        
+        <div class="tableCont">
+            <!-- demo root element -->
+            <div id="table" class="marginTop">
+                <demo-grid
+                :data="gridData"
+                :columns="gridColumns">
+                </demo-grid>
+            </div>
+        </div>
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <button class="btn btn-primary" @click="downloadTable" :disabled="downloadBtn">       <i class="fa fa-download" aria-hidden="true"></i>下载表格
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 回到顶部 -->
+        <div class="scrollToTop">
+            <i class="fa fa-3x fa-angle-up" aria-hidden="true"></i>
+        </div>
+
+        <hr>
+        <div class="container">
+            <div class="row">
+                <pre>{{$data|json}}</pre>
+            </div>
+        </div>
+
+        <!-- 如果要使用Bootstrap的js插件，必须先调入jQuery -->
+        <script src="js/jquery.js"></script>
+        <script src="js/vue.js"></script>
+        <!-- 包括所有bootstrap的js插件或者可以根据需要使用的js插件调用　-->
+        <script src="js/bootstrap.min.js"></script>
+        <script src='js/layer.js'></script>
+        <script src='js/batch-table-done.js'></script>
+    </body>
+</html>

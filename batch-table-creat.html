@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>资料表流程-创建表格</title>
+    <title>创建批量表</title>
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <!--你自己的样式文件 -->
@@ -146,6 +146,19 @@
             background-color: #ECF0F1;
             cursor: pointer;
         }
+        .paddingLeft {
+            padding-left: 0;
+        }
+        .searchShadow {
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .searchShadow:focus {
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            border-color: #ccc;
+        }
+        .searchCompent {
+            display: none;
+        }
     </style>
 </head>
     <body>
@@ -174,7 +187,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand hidden-sm" href="Table-info.html" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'navbar-首页'])">资料表首页</a>
+                    <a class="navbar-brand hidden-sm" href="Table-batch.html" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'navbar-首页'])">批量表首页</a>
                 </div>
                 <div class="navbar-collapse collapse" role="navigation">
                     <ul class="nav navbar-nav">
@@ -249,7 +262,7 @@
             <div class="row">
                 <div class="col-lg-12 col-md-12">
                     <div class="well">
-                        <h3 class="text-primary col-sm-11 col-sm-offset-1 text-left">产品资料表信息</h3>
+                        <h3 class="text-primary col-sm-11 col-sm-offset-1 text-left">批量表表信息</h3>
                         <div class="form-horizontal">
                             <div class="form-group">
                                 <label class="col-sm-2 control-label text-muted">表格编号</label>
@@ -258,60 +271,92 @@
                                 </div>
                             </div>
                         </div>
+                        <!-- 选择类目 -->
                         <div class="form-horizontal">
                             <div class="form-group">
                                 <label class="col-sm-2 control-label text-muted">选择类目</label>
-                                <div class="col-sm-4 pors">
-                                    <input type="text" v-model="proSelected" class="form-control searchCate" placeholder="输入关键字搜索类目">
+                                <div class="col-sm-4">
+                                    <input type="text" v-model="proSelected" placeholder="选择类目" class="form-control" readonly>
+                                </div>
+                                <div class="col-sm-1">
+                                    <button class="btn btn-info btn-sm searchBtn">搜索</button>
+                                </div>
+                                <div class="col-sm-3 pors searchCompent">
+                                    <input type="text" class="form-control searchShadow searchCate" placeholder="输入关键字搜索类目">
                                     <ul class="cate-list">
                                         <li @click="selectCate(pro)" v-for="pro in proList">
                                             {{pro.cn_name}} {{pro.en_name}}
                                         </li>
                                     </ul>
                                 </div>
+                                <div class="col-sm-1 text-left paddingLeft searchCompent">
+                                    <button class="btn btn-default closeBtn searchShadow">
+                                        <i class="fa fa-close"></i>
+                                    </button>
+                                </div>
                             </div>
                         </div>
+                        <!-- 选择产品资料表 -->
                         <div class="temp-info-xg form-horizontal">
                             <div class="form-group">
-                                <label class="col-sm-2 control-label text-muted">选择模板</label>
+                                <label class="col-sm-2 control-label text-muted">选择产品资料表</label>
                                 <div class="col-sm-4">
-                                    <input type="text"  v-model="MBselected" class="form-control" placeholder="选择模板" readonly>
+                                    <input type="text"  v-model="tableSelected.title" class="form-control" placeholder="选择产品资料表" readonly>
                                 </div>
                                 <div class="col-sm-2">
-                                    <button @click="selectMB" class="btn btn-default btn-sm">选择模板</button>
+                                    <button @click="selectTable" :disabled="selecteTableBtn" class="btn btn-default btn-sm">选择</button>
                                 </div>
                             </div>
                         </div>
+                        <!-- 选择批量表模板 -->
                         <div class="form-horizontal">
-                            <div class="form-group pors">
-                                <label class="col-sm-2 control-label text-muted">客户名称</label>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label text-muted">选择批量表模板</label>
                                 <div class="col-sm-4">
-                                    <input type="text" v-model="CusSelect" class="form-control searchCus" placeholder="输入关键字搜索客户">
-                                    <ul class="input-list">
-                                        <li @click="selectCus(cus)" v-for="cus in CusList">
-                                            {{cus.custom_name}} {{cus.en_name}}
-                                        </li>
-                                    </ul>
+                                    <input type="text"  v-model="MBselected.cn_name" class="form-control" placeholder="选择批量表模板" readonly>
                                 </div>
                                 <div class="col-sm-2">
-                                    <!-- <button class="btn btn-default btn-sm">选择客户</button> -->
+                                    <button @click="selectMB" :disabled="selectMBBtn" class="btn btn-default btn-sm">选择</button>
                                 </div>
                             </div>
                         </div>
+                        <!-- 客户名称 -->
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label text-muted">客户名称</label>
+                                <div class="col-sm-4" style="margin-top:5px;">
+                                    <label class="label label-info">{{tableSelected.client_name}}</label>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 选择站点 -->
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label text-muted">站点</label>
+                                <div class="col-sm-2">
+                                    <select class="form-control" v-model="siteSelect" >
+                                        <option value="">选择站点</option>
+                                        <option v-for="site in sites">{{site}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 表格名称 -->
                         <div class="form-horizontal">
                             <div class="form-group">
                                 <label class="col-sm-2 control-label text-muted">表格名称</label>
                                 <div class="col-sm-4">
-                                    <input type="text" v-model="tableName" class="form-control table-title" placeholder="表格名称">
+                                    <input type="text" placeholder="输入表格名称" v-model="tableName" class="form-control">
                                 </div>
                             </div>
                         </div>
+                        <!-- 表格状态 -->
                         <div class="form-horizontal">
                             <div class="form-group">
                                 <label class="col-sm-2 control-label text-muted">状态</label>
-                                <div class="col-sm-4">
+                                <div class="col-sm-2">
                                     <select class="form-control" readonly>
-                                        <option value="creat" selected>创建</option>
+                                        <option value="">创建</option>
                                     </select>
                                 </div>
                             </div>
@@ -330,37 +375,84 @@
             </div>
         </div>
         
-        <!-- 选择模板 -->
-        <div class="modal selectMB fade">
+        <!-- 选择产品资料表 -->
+        <div class="modal selectTable fade">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header bg-primary">
-                        <h4 class="modal-title text-center">选择模板</h4>
+                        <h4 class="modal-title text-center">产品资料表</h4>
                         <button type="button" class="close close-positon" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i class="fa fa-close"></i></span></button>
                     </div>
                     <div class="modal-body">
                         <div class="container-fluid">
                             <div class="row">
-                                <div class="col-md-10 col-md-offset-1">
-                                    <!-- <div class="col-md-6">
-                                        <div class="form-group">
-                                            <input type="text" v-model="MBkeyword" placeholder="输入关键字搜索模板" class="form-control">
-                                        </div>
+                                <div class="col-md-12">
+
+                                    <!-- 无数据提示 -->
+                                    <div class="alert alert-info" v-show="tableList.length==0" role="alert" >
+                                        当前类目无【有效】状态的资料表
                                     </div>
-                                    <button @click="searchMB" class="btn btn-primary">搜索</button> -->
-                                    
+
                                     <div class="funkyradio">
                                         <div class="funkyradio">
-                                            <div v-for="MB in MBlist" class="funkyradio-primary">
-                                                <input type="radio" v-model="MB.checked" name="radio" id="radio{{$index}}"/>
+                                            <div v-for="table in tableList" class="funkyradio-primary">
+                                                <input type="radio" v-model="table.checked" name="radio" id="radio{{$index}}"/>
                                                 <label for="radio{{$index}}">
-                                                    {{MB.cn_name}} {{MB.en_name}} <b class="text-warning">所属类目:</b>{{MB.category_name}}
+                                                    <b class="text-warning">名称:</b>
+                                                    {{table.title}} 
+                                                    <b class="text-warning">所属类目:</b>
+                                                    {{table.name}}
+                                                    <b class="text-warning">所属客户:</b>
+                                                    {{table.client_name}}
+                                                    <b class="text-warning">状态:</b>
+                                                    有效
                                                 </label>
                                             </div>
                                         </div>
                                     </div>
                                     <hr>
-                                    <button @click="selectedMB" class="btn btn-primary">确定</button>
+                                    <button @click="confirmTable" v-show="tableList.length>0" class="btn btn-primary">确定</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 选择批量表模板 -->
+        <div class="modal selectMB fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header bg-primary">
+                        <h4 class="modal-title text-center">批量表模板</h4>
+                        <button type="button" class="close close-positon" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i class="fa fa-close"></i></span></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-md-12">
+
+                                    <!-- 无数据提示 -->
+                                    <div class="alert alert-info" v-show="MBList.length==0" role="alert" >
+                                        当前类目无【有效】状态的批量表模板
+                                    </div>
+
+                                    <div class="funkyradio">
+                                        <div class="funkyradio">
+                                            <div v-for="MB in MBList" class="funkyradio-primary">
+                                                <input type="radio" v-model="MB.checked" name="radio" id="radio{{$index+1}}"/>
+                                                <label for="radio{{$index+1}}">
+                                                    <b class="text-warning">名称:</b>
+                                                    {{MB.cn_name}}　{{MB.en_name}}　
+                                                    <b class="text-warning">状态:</b>
+                                                    有效
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <button @click="confirmMB" v-show="MBList.length>0" class="btn btn-primary">确定</button>
                                 </div>
                             </div>
                         </div>
@@ -371,7 +463,7 @@
 
         <div class="container">
             <div class="row">
-                <!-- <pre>{{$data|json}}</pre> -->
+                <pre>{{$data|json}}</pre>
             </div>
         </div>
 
@@ -392,6 +484,6 @@
         <!-- 包括所有bootstrap的js插件或者可以根据需要使用的js插件调用　-->
         <script src="js/bootstrap.min.js"></script>
         <script src='js/layer.js'></script>
-        <script src='js/TableWorkflow-creat.js'></script>
+        <script src="js/batch-table-creat.js"></script>
     </body>
 </html>

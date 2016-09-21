@@ -116,7 +116,7 @@ var oTableInfo = new Vue({
 				url:'http://192.168.1.40/PicSystem/canton/get/formNumber',
 				datatype:'json',
 				data:{
-					app_code:'product_form'
+					type_code:'info'
 				},
 				success:function(data){
 					if(data.status==100){

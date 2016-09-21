@@ -251,7 +251,7 @@
                                         <input type="file" id="file" name="upc_file">
                                     </div>
                                     <div class="alert alert-info" role="alert">
-                                        注意:上传文件必须是"xls","xlsx"格式,文件中必须是亚马逊的模板Excel表格；可以参考示例<a href="images/shili.png" target="_blank" class="text-danger" >示例</a>
+                                        注意:上传文件必须是"xls","xlsx"格式,文件中必须是亚马逊的模板Excel表格，且作为模板的工作表必须是默认；可以参考示例<a href="images/shili.png" target="_blank" class="text-danger" >示例</a>
                                     </div>
                                     <div class="form-group">
                                         <button type="submit" id="upload" @click="upload" :disabled="uploadBtn" class="btn btn-primary">提交</button>
@@ -289,13 +289,18 @@
                                                 <td>
                                                     <select v-model="table.length" class="form-control">
                                                         <option>{{table.length}}</option>
-                                                        <option value="500">500</option>
                                                         <option value="1000">1000</option>
                                                         <option value="2000">2000</option>
+                                                        <option value="500">500</option>
+                                                        <option value="10">10</option>
                                                         <option value="20">20</option>
                                                         <option value="50">50</option>
                                                     </select>
                                                 </td>
+                                                <!-- <td>
+                                                    <input type="text" v-show="table.data_type_code=='char'" v-model="table.default_value" class="form-control">
+                                                    <input type="number" v-show="table.data_type_code=='int'" v-model="table.default_value" class="form-control">
+                                                </td> -->
                                             </tr>
                                         </template>
                                         <template v-else>
@@ -318,13 +323,18 @@
                                                 <td>
                                                     <select v-model="table.length" class="form-control">
                                                         <option>{{table.length}}</option>
-                                                        <option value="500">500</option>
                                                         <option value="1000">1000</option>
                                                         <option value="2000">2000</option>
+                                                        <option value="500">500</option>
+                                                        <option value="10">10</option>
                                                         <option value="20">20</option>
                                                         <option value="50">50</option>
                                                     </select>
                                                 </td>
+                                                <!-- <td>
+                                                    <input type="text" v-show="table.data_type_code=='char'" v-model="table.default_value" class="form-control">
+                                                    <input type="number" v-show="table.data_type_code=='int'" v-model="table.default_value" class="form-control">
+                                                </td> -->
                                             </tr>
                                         </template>
                                     </template>

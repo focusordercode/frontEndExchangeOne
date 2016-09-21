@@ -196,33 +196,3 @@ Vue.filter('dataType', function (value) {
     }
     return str;
 })
-
-
-//模板上传
-// $('#upload').on('click',function(){
-//     var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
-
-//     var formData = new FormData();
-//     formData.append('file', $('#file')[0].files[0]);
-//     $.ajax({
-//         url:'http://192.168.1.40/PicSystem/canton/upload/item?template_id='+template_id,
-//         type:'POST',
-//         cache: false,
-//         data:formData,
-//         processData: false,
-//         contentType: false,
-//         success:function(data){
-//             layer.close(LoadIndex); //关闭遮罩层
-//             if(data.status==100){
-//                 layer.msg('上传成功');
-//                 // tempDefine.tempData = res.value;
-//             }else{
-//                 layer.msg(data.msg);
-//             }
-//         },
-//         error:function(jqXHR){
-//             layer.close(LoadIndex); //关闭遮罩层
-//             layer.msg('上传失败');
-//         }
-//     })
-// });
