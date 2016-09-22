@@ -337,7 +337,7 @@
         
         <!-- 选择模板 -->
         <div class="modal selectMB fade">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header bg-primary">
                         <h4 class="modal-title text-center">选择模板</h4>
@@ -346,14 +346,16 @@
                     <div class="modal-body">
                         <div class="container-fluid">
                             <div class="row">
-                                <div class="col-md-10 col-md-offset-1">
+                                <div class="col-md-12">
                                     
                                     <div class="funkyradio">
                                         <div class="funkyradio">
                                             <div v-for="MB in MBlist" class="funkyradio-primary">
-                                                <input type="radio" v-model="MB.checked" name="radio" id="radio{{$index}}"/>
-                                                <label for="radio{{$index}}">
-                                                    {{MB.cn_name}} {{MB.en_name}} <b class="text-warning">所属类目:</b>{{MB.category_name}}
+                                                <input type="radio" v-model="MB.checked" name="radio" id="radio{{$index+1}}"/>
+                                                <label for="radio{{$index+1}}">
+                                                    <b class="text-warning">名称:</b>{{MB.cn_name}} {{MB.en_name}} 　
+                                                    <b class="text-warning">所属类目:</b>{{MB.category_name}}　
+                                                    <b class="text-warning">修改时间:</b>{{MB.modified_time}}
                                                 </label>
                                             </div>
                                         </div>

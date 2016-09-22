@@ -2,6 +2,7 @@
 function windowFresh(){
     location.reload(true);
 }
+var type_code = 'info';
 
 var oTableInfo = new Vue({
 	el:'body',
@@ -29,7 +30,7 @@ var oTableInfo = new Vue({
 		    timeout:5000,
 		    data:{
 		        category_id:'',
-		        type_code:'info',
+		        type_code:type_code,
 		    },
 		    success: function(data){
 		    	layer.close(LoadIndex); //关闭遮罩层
@@ -80,7 +81,6 @@ var oTableInfo = new Vue({
 		//删除
 		remove:function(item){
 			var Id = item.id;
-			var type_code = item.type_code;
 
 			layer.confirm('是否确认删除?', {
 			  btn: ['确定','关闭'] //按钮
@@ -89,7 +89,6 @@ var oTableInfo = new Vue({
 				    type: "POST",
 				    url: "http://192.168.1.40/PicSystem/canton/index.php/del/infoform", //添加请求地址的参数
 				    dataType: "json",
-				    timeout:5000,
 				    data:{
 				        id:Id,
 				        type_code:type_code
@@ -116,7 +115,7 @@ var oTableInfo = new Vue({
 				url:'http://192.168.1.40/PicSystem/canton/get/formNumber',
 				datatype:'json',
 				data:{
-					type_code:'info'
+					type_code:type_code
 				},
 				success:function(data){
 					if(data.status==100){
@@ -136,7 +135,6 @@ var oTableInfo = new Vue({
 		},
 		//搜索
 		searchTable:function(){
-			var type_code = this.type_code;
 			var keyword = this.keyword.trim();
 			var status_code = this.status_code;
 			if(!keyword&&!status_code){
@@ -174,7 +172,6 @@ var oTableInfo = new Vue({
 		//上一页
 		goPrePage:function(){
 			var pageNow = this.pageNow;
-			var type_code = this.tableInfo[0].type_code;
 			if(pageNow<=1){
 				layer.msg('没有上一页啦');
 			}else{
@@ -212,7 +209,6 @@ var oTableInfo = new Vue({
 		goNextPage:function(){
 			var pageNow = this.pageNow;
 			var countPage = this.countPage;
-			var type_code = this.tableInfo[0].type_code;
 			if(pageNow==countPage){
 				layer.msg('没有下一页啦');
 			}else{
@@ -250,7 +246,6 @@ var oTableInfo = new Vue({
 		goJump:function(){
 			var jump = this.jump;
 			var countPage = this.countPage;
-			var type_code = this.tableInfo[0].type_code;
 			if(jump>countPage){
 				layer.msg('大于总页数啦');
 				oTableInfo.jump = '';

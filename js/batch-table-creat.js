@@ -141,7 +141,7 @@ var tableCreat = new Vue({
 
 				$.ajax({
 					type:'POST',
-					url:'http://192.168.1.42/canton/search/batchTel',
+					url:'http://192.168.1.40/PicSystem/canton/search/batchTel',
 					datatype:'json',
 					data:{
 						form_id:vm.tableSelected.id
@@ -203,7 +203,7 @@ var tableCreat = new Vue({
 				var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
 				$.ajax({
 					type:'POST',
-					url:'http://192.168.1.42/canton/index.php/add/infoform',
+					url:'http://192.168.1.40/PicSystem/canton/add/infoform',
 					datatype:'json',
 					data:{
 						type_code:type_code, 
@@ -272,7 +272,7 @@ $('.searchCate').on('keyup',function(){
 
 	$.ajax({
 		type:'POST',
-		url:'http://192.168.1.40/PicSystem/canton/index.php/vague/name',
+		url:'http://192.168.1.40/PicSystem/canton/vague/name',
 		datatype:'json',
 		data:{
 			text:searchCusVal

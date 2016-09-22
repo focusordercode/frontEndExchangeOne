@@ -79,7 +79,7 @@ var selectPic = new Vue({
         //获取表格信息
         $.ajax({
             type:'POST',
-            url:'http://192.168.1.42/canton/index.php/get/oneform',
+            url:'http://192.168.1.40/PicSystem/canton/get/oneform',
             datatype:'json',
             data:{
                 id:tableID,
@@ -175,7 +175,7 @@ var selectPic = new Vue({
                     url:'http://192.168.1.40/PicSystem/canton/marry/image',
                     datatype:'json',
                     data:{
-                        tableID:tableID,
+                        form_id:tableID,
                         num:num,
                         category_id:category_id,
                         gallery_id:gallery_id,
@@ -227,6 +227,44 @@ var selectPic = new Vue({
 
                 setInterval(goNext,1000);
             }
+        },
+        //返回上一步
+        takeBack:function(){
+            var vm = selectPic;
+            layer.confirm('返回上一步，此步骤的数据将不保存,上一步骤的数据也将被删除',{
+                btn:['确定','取消']
+            },function(index){
+                layer.close(index);
+
+                $.ajax({
+                    type:'POST',
+                    url:'http://192.168.1.40/PicSystem/canton/back',
+                    datatype:'json',
+                    data:{
+                        form_id:tableID,
+                        type_code:type_code
+                    },
+                    success:function(data){
+                        if(data.status==100){
+                            layer.msg('请求成功');
+                            //跳转函数
+                            function goNext() {
+                                var url = 'batch-table-edit.html';
+                                var template_id = vm.tableInfo.template_id;
+                                window.location.href = url+'?id='+tableID+'&template_id='+template_id;
+                            }
+
+                            setInterval(goNext,1000);
+
+                        }else{
+                            layer.msg(data.msg);
+                        }
+                    },
+                    error:function(jqXHR){
+                        layer.msg('向服务器请求撤销返回失败');
+                    }
+                })
+            })
         }
     }
 })

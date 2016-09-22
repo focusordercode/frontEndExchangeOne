@@ -63,7 +63,7 @@ var uploadPic = new Vue({
         //获取表格信息
         $.ajax({
             type:'POST',
-            url:'http://192.168.1.42/canton/index.php/get/oneform',
+            url:'http://192.168.1.40/PicSystem/canton/get/oneform',
             datatype:'json',
             data:{
                 id:tableID,
@@ -181,6 +181,7 @@ var uploadPic = new Vue({
                     datatype:'json',
                     data:{
                         form_id:tableID,
+                        type_code:type_code,
                         prorate:prorate,
                         picrate:picrate,
                         picCount:uploadPic.picData.length,
@@ -211,6 +212,42 @@ var uploadPic = new Vue({
                     }
                 })
             }
+        },
+        //返回上一步
+        takeBack:function(){
+            layer.confirm('返回上一步，此步骤的数据将不保存,上一步骤的数据也将被删除',{
+                btn:['确定','取消']
+            },function(index){
+                layer.close(index);
+
+                $.ajax({
+                    type:'POST',
+                    url:'http://192.168.1.40/PicSystem/canton/back',
+                    datatype:'json',
+                    data:{
+                        form_id:tableID,
+                        type_code:type_code
+                    },
+                    success:function(data){
+                        if(data.status==100){
+                            layer.msg('请求成功');
+                            //跳转函数
+                            function goNext() {
+                                var url = 'batch-table-selectPic.html';
+                                window.location.href = url+'?id='+tableID;
+                            }
+
+                            setInterval(goNext,1000);
+
+                        }else{
+                            layer.msg(data.msg);
+                        }
+                    },
+                    error:function(jqXHR){
+                        layer.msg('向服务器请求撤销返回失败');
+                    }
+                })
+            })
         }
     }
 })

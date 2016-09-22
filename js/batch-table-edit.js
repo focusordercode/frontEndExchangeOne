@@ -14,7 +14,13 @@ function UrlSearch() {
             this[name]=value;
         } 
     } 
-} 
+}
+
+//刷新函数
+function windowFresh(){
+    location.reload(true);
+}
+
 var Request=new UrlSearch();
 var tableID = Request.id;
 var type_code = 'batch';
@@ -68,7 +74,7 @@ Vue.component('demo-grid', {
         //添加条目获取ID
         $.ajax({
             type:'POST',
-            url:'http://192.168.1.42/canton/index.php/get/sysId',
+            url:'http://192.168.1.40/PicSystem/canton/get/sysId',
             datatype:'json',
             data:{
                 app_code:'product_batch_information',
@@ -97,7 +103,7 @@ Vue.component('demo-grid', {
         //添加条目获取ID
         $.ajax({
             type:'POST',
-            url:'http://192.168.1.42/canton/index.php/get/sysId',
+            url:'http://192.168.1.40/PicSystem/canton/get/sysId',
             datatype:'json',
             data:{
                 app_code:'product_batch_information',
@@ -180,7 +186,7 @@ var oTableIn = new Vue({
         //获取表格信息
         $.ajax({
             type:'POST',
-            url:'http://192.168.1.42/canton/index.php/get/oneform',
+            url:'http://192.168.1.40/PicSystem/canton/get/oneform',
             datatype:'json',
             data:{
                 id:tableID,
@@ -203,7 +209,7 @@ var oTableIn = new Vue({
         //获取表头
         $.ajax({
             type:'POST',
-            url:'http://192.168.1.42/canton/index.php/get/bootstrap',
+            url:'http://192.168.1.40/PicSystem/canton/get/bootstrap',
             datatype:'json',
             data:{
                 template_id:template_id,
@@ -222,7 +228,7 @@ var oTableIn = new Vue({
         //获取缓存数据
         $.ajax({
             type:'POST',
-            url:'http://192.168.1.42/canton/index.php/get/info',
+            url:'http://192.168.1.40/PicSystem/canton/get/info',
             datatype:'json',
             data:{
                 form_id:tableID,
@@ -260,7 +266,7 @@ var oTableIn = new Vue({
 
             $.ajax({
                 type:'POST',
-                url:'http://192.168.1.42/canton/index.php/post/info',
+                url:'http://192.168.1.40/PicSystem/canton/post/info',
                 datatype:'json',
                 data:{
                     type_code:type_code,
@@ -276,7 +282,7 @@ var oTableIn = new Vue({
                     layer.close(LoadIndex); //关闭遮罩层
                     if (data.status==100) {
                         // --------调试用
-                        // oTableIn.newData = data.t;
+                        oTableIn.newData = data.t;
                         // --------调试用
                         
                         layer.msg('提交成功');
@@ -308,7 +314,7 @@ var oTableIn = new Vue({
             var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层 
             $.ajax({
                 type:'POST',
-                url:'http://192.168.1.42/canton/index.php/post/info',
+                url:'http://192.168.1.40/PicSystem/canton/post/info',
                 datatype:'json',
                 data:{
                     type_code:type_code,
@@ -323,13 +329,15 @@ var oTableIn = new Vue({
                     layer.close(LoadIndex); //关闭遮罩层
                     if (data.status==100) {
                         // --------调试用
-                        // oTableIn.newData = data.t;
+                        oTableIn.newData = data.t;
                         // --------调试用
                         
                         layer.msg('暂存成功');
                         //解除未提交内容提示
                         $(window).unbind('beforeunload');
-                        oTableIn.newData = data.value;
+                        
+                        setInterval(windowFresh,1000);
+
                     }else{
                         layer.msg(data.msg);
                     }
@@ -338,6 +346,65 @@ var oTableIn = new Vue({
                     layer.close(LoadIndex); //关闭遮罩层
                     layer.msg('向服务器请求暂存失败');
                 }
+            })
+        },
+        //返回上一步
+        takeBack:function(){
+            var vm = oTableIn;
+            layer.confirm('返回上一步，此步骤的数据将不保存,上一步骤的数据也将被删除',{
+                btn:['确定','取消']
+            },function(index){
+                layer.close(index);
+
+                $.ajax({
+                    type:'POST',
+                    url:'http://192.168.1.40/PicSystem/canton/back',
+                    datatype:'json',
+                    data:{
+                        form_id:tableID,
+                        type_code:type_code
+                    },
+                    success:function(data){
+                        if(data.status==100){
+                            //跳转函数
+                            function goNext() {
+                                $.ajax({
+                                    type:'POST',
+                                    url:'http://192.168.1.40/PicSystem/canton/get/formNumber',
+                                    datatype:'json',
+                                    data:{
+                                        type_code:type_code
+                                    },
+                                    success:function(data){
+                                        if(data.status==100){
+                                            //解除未提交内容提示
+                                            $(window).unbind('beforeunload');
+
+                                            var id = data.value;
+                                            var url = 'batch-table-creat.html?tableID='+id;
+                                            if(id){
+                                                window.location.href = url;
+                                            }
+                                        }else{
+                                            layer.msg('返回失败，请重试');
+                                        }
+                                    },
+                                    error:function(jqXHR){
+                                        layer.msg('返回失败，请重试');
+                                    }
+                                })
+                            }
+
+                            setInterval(goNext,1000);
+
+                        }else{
+                            layer.msg(data.msg);
+                        }
+                    },
+                    error:function(jqXHR){
+                        layer.msg('向服务器请求撤销返回失败');
+                    }
+                })
             })
         },
         //上一页
@@ -351,7 +418,7 @@ var oTableIn = new Vue({
                 //获取缓存数据
                 $.ajax({
                     type:'POST',
-                    url:'http://192.168.1.42/canton/index.php/get/info',
+                    url:'http://192.168.1.40/PicSystem/canton/get/info',
                     datatype:'json',
                     data:{
                         form_id:Request.id,
@@ -395,7 +462,7 @@ var oTableIn = new Vue({
                 //获取缓存数据
                 $.ajax({
                     type:'POST',
-                    url:'http://192.168.1.42/canton/index.php/get/info',
+                    url:'http://192.168.1.40/PicSystem/canton/get/info',
                     datatype:'json',
                     data:{
                         form_id:Request.id,
@@ -442,7 +509,7 @@ var oTableIn = new Vue({
                 //获取缓存数据
                 $.ajax({
                     type:'POST',
-                    url:'http://192.168.1.42/canton/index.php/get/info',
+                    url:'http://192.168.1.40/PicSystem/canton/get/info',
                     datatype:'json',
                     data:{
                         form_id:Request.id,
@@ -482,7 +549,7 @@ var oTableIn = new Vue({
             //获取缓存数据
             $.ajax({
                 type:'POST',
-                url:'http://192.168.1.42/canton/index.php/get/info',
+                url:'http://192.168.1.40/PicSystem/canton/get/info',
                 datatype:'json',
                 data:{
                     form_id:Request.id,
@@ -517,7 +584,7 @@ var oTableIn = new Vue({
             //获取缓存数据
             $.ajax({
                 type:'POST',
-                url:'http://192.168.1.42/canton/index.php/get/info',
+                url:'http://192.168.1.40/PicSystem/canton/get/info',
                 datatype:'json',
                 data:{
                     form_id:Request.id,
@@ -552,7 +619,7 @@ var oTableIn = new Vue({
             //获取缓存数据
             $.ajax({
                 type:'POST',
-                url:'http://192.168.1.42/canton/index.php/get/info',
+                url:'http://192.168.1.40/PicSystem/canton/get/info',
                 datatype:'json',
                 data:{
                     form_id:Request.id,

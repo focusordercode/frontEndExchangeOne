@@ -3,6 +3,8 @@ function windowFresh(){
     location.reload(true);
 }
 
+var type_code = 'batch';
+
 var oTableInfo = new Vue({
 	el:'body',
 	data:{
@@ -18,18 +20,26 @@ var oTableInfo = new Vue({
 		prePageBtn:'',
 		nextPageBtn:'',
 		jump:'',
-		jumpBtn:''
+		jumpBtn:'',
+        infoCache:'',//信息修改暂存
+        sites:[
+			'UK',
+			'USA',
+			'France',
+			'Italy',
+			'Spain',
+			'Germany'
+		]
 	},
 	ready:function(){
-		var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层 
+		var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
 		$.ajax({
 		    type: "POST",
 		    url: "http://192.168.1.40/PicSystem/canton/get/infoform", //添加请求地址的参数
 		    dataType: "json",
-		    timeout:5000,
 		    data:{
 		        category_id:'',
-		        type_code:'batch',
+		        type_code:type_code,
 		    },
 		    success: function(data){
 		    	layer.close(LoadIndex); //关闭遮罩层
@@ -43,7 +53,7 @@ var oTableInfo = new Vue({
 		        }
 		    },
 		    error: function(jqXHR){
-		    	layer.close(LoadIndex); //关闭遮罩层     
+		    	layer.close(LoadIndex); //关闭遮罩层
 		        layer.msg('向服务器获取信息失败');
 		    }
 		})
@@ -80,7 +90,6 @@ var oTableInfo = new Vue({
 		//删除
 		remove:function(item){
 			var Id = item.id;
-			var type_code = item.type_code;
 
 			layer.confirm('是否确认删除?', {
 			  btn: ['确定','关闭'] //按钮
@@ -89,7 +98,6 @@ var oTableInfo = new Vue({
 				    type: "POST",
 				    url: "http://192.168.1.40/PicSystem/canton/index.php/del/infoform", //添加请求地址的参数
 				    dataType: "json",
-				    timeout:5000,
 				    data:{
 				        id:Id,
 				        type_code:type_code
@@ -102,11 +110,20 @@ var oTableInfo = new Vue({
 				        	layer.msg(data.msg);
 				        }
 				    },
-				    error: function(jqXHR){     
+				    error: function(jqXHR){
 				        layer.msg('向服务器请求失败');
 				    }
 				})
 			})
+		},
+		//修改表格信息
+		infoXG:function(item){
+			var vm = oTableInfo;
+			var item = item;
+			vm.infoCache = $.extend(true, {}, item);//复制数据
+			if(item.id){
+				$('.infoXG').modal('show');
+			}
 		},
 		//新建表格
 		creatTable:function(){
@@ -116,7 +133,7 @@ var oTableInfo = new Vue({
 				url:'http://192.168.1.40/PicSystem/canton/get/formNumber',
 				datatype:'json',
 				data:{
-					type_code:'batch'
+					type_code:type_code
 				},
 				success:function(data){
 					if(data.status==100){
@@ -136,13 +153,12 @@ var oTableInfo = new Vue({
 		},
 		//搜索
 		searchTable:function(){
-			var type_code = this.type_code;
 			var keyword = this.keyword.trim();
 			var status_code = this.status_code;
 			if(!keyword&&!status_code){
 				layer.msg('必须输入关键词或者选择表格状态');
 			}else{
-				var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层 
+				var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
 				$.ajax({
 					type:'POST',
 					url:'http://192.168.1.40/PicSystem/canton/search/form',
@@ -174,7 +190,6 @@ var oTableInfo = new Vue({
 		//上一页
 		goPrePage:function(){
 			var pageNow = this.pageNow;
-			var type_code = this.tableInfo[0].type_code;
 			if(pageNow<=1){
 				layer.msg('没有上一页啦');
 			}else{
@@ -212,7 +227,6 @@ var oTableInfo = new Vue({
 		goNextPage:function(){
 			var pageNow = this.pageNow;
 			var countPage = this.countPage;
-			var type_code = this.tableInfo[0].type_code;
 			if(pageNow==countPage){
 				layer.msg('没有下一页啦');
 			}else{
@@ -250,7 +264,6 @@ var oTableInfo = new Vue({
 		goJump:function(){
 			var jump = this.jump;
 			var countPage = this.countPage;
-			var type_code = this.tableInfo[0].type_code;
 			if(jump>countPage){
 				layer.msg('大于总页数啦');
 				oTableInfo.jump = '';
@@ -283,6 +296,40 @@ var oTableInfo = new Vue({
 					}
 				})
 			}
+		},
+		//提交修改
+		saveXG:function(){
+		    var infoCache = this.infoCache;
+		    if(infoCache.id){
+		        $.ajax({
+		        	type:'POST',
+		        	url:'http://192.168.1.40/PicSystem/canton/update/infoform',
+		        	datatype:'json',
+		        	data:{
+		        		type_code:type_code,
+		        		id:infoCache.id,
+		        		category_id:infoCache.category_id,
+		        		template_id:infoCache.template_id,
+		        		client_id:infoCache.client_id,
+		        		site_name:infoCache.name,
+		        		title:infoCache.title
+		        	},
+		        	success:function(data){
+		        		if(data.status==100){
+		        			layer.msg('保存成功');
+
+		        			$('.infoXG').modal('hide');
+
+		        			setInterval(windowFresh,1000);
+		        		}else {
+		        			layer.msg(data.msg);
+		        		}
+		        	},
+		        	error:function(jqXHR){
+		        		layer.msg('向服务器请求失败');
+		        	}
+		        })
+		    }
 		}
 	}
 })
@@ -292,10 +339,9 @@ Vue.filter('statusCode', function (value) {
     var str;
     switch(value){
         case "creating": str = "创建";break;
-        case "editing4info": str = "编辑-筛选图片";break;
-        case "editing4picture": str = "编辑-上传图片";break;
-        case "enabled": str = "有效";break;
-        case "finished": str = "完成";break;
+        case "editing4info": str = "编辑产品资料";break;
+        case "editing4picture": str = "编辑产品图片";break;
+        case "finished": str = "有效";break;
         case "halt": str = "终止";break;
     }
     return str;
@@ -310,20 +356,26 @@ Vue.filter('statusLink',function(value){
 	var form_no = item.form_no;
 	var template_id = item.template_id;
 	var type_code = item.type_code;
-	var edit = 'TableWorkflow-edit.html';
-	var selectPic = 'TableWorkflow-selectPic.html';
-	var donePage = 'TableWorkflow-done.html';
+
+	var edit = 'batch-table-edit.html';
+	var selectPic = 'batch-table-selectPic.html';
+	var donePage = 'batch-table-done.html';
+
 	if(status=='creating'){
 		//进入第二步
-		var str = edit + '?form_no='+form_no+'&id='+tableID+'&template_id='+template_id+'&type_code='+type_code;
+		var str = edit + '?id='+tableID+'&template_id='+template_id;
 		return str
 	}else if(status=='editing4info'){
 		//进入第三步
-		var str = selectPic + '?tableID='+tableID;
+		var str = selectPic + '?id='+tableID;
 		return str
-	}else if(status=='enabled'||status=='finished'){
+	}else if(status=='editing4picture'){
 		//进入第五步
-		var str = donePage+'?tableID='+tableID+'&template_id='+template_id+'&type_code='+type_code;
+		var str = donePage+'?id='+tableID+'&template_id='+template_id;
+		return str
+	}else if(status=='finished'){
+		//进入第五步,由于是完成状态，添加一个参数，标记为访问
+		var str = donePage+'?id='+tableID+'&template_id='+template_id+'&visit=yes';
 		return str
 	}else{
 		var str = 'javascript:'
@@ -343,7 +395,7 @@ Vue.filter('ListNum',function(value){
     return str
 })
 
-//修改表格休息按钮
+//删除按钮
 Vue.filter('deleteBtn',function(value){
     var value = value;
     str1 = ''; //隐藏
@@ -355,17 +407,14 @@ Vue.filter('deleteBtn',function(value){
     }
 })
 
-//删除按钮
+//修改按钮
 Vue.filter('xgBtn',function(value){
-    var str;
     var value = value;
-    var tableID = value.id,
-    	status_code = value.status_code,
-    	url1 = 'changeTable1.html';
-    	url2 = 'changeTable2.html';
-    if(status_code=='creating'){
-    	return str = url1 +'?tableID='+ tableID;
-    }else{
-    	return str = url2 +'?tableID='+ tableID;
+    str1 = ''; //隐藏
+    str2 = 'yes'; //显示
+    if(value=='finished'||value=='halt'){
+        return str1
+    }else {
+        return str2
     }
 })
