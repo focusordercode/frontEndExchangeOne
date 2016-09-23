@@ -59,6 +59,15 @@
         .table-bordered>tbody>tr>td, .table-bordered>tbody>tr>th, .table-bordered>tfoot>tr>td, .table-bordered>tfoot>tr>th, .table-bordered>thead>tr>td, .table-bordered>thead>tr>th {
             vertical-align: middle;
         }
+        .table .val {
+            min-width:100px;
+        }
+        .table .limit {
+            max-width: 100px;
+        }
+        .table .form-control {
+            border-radius: 0;
+        }
     </style>
 </head>
     <body>
@@ -108,7 +117,7 @@
                                 <p>创建模板</p>
                             </div>
                             <div class="stepwizard-step">
-                                <a href="javascript:" type="button" class="btn btn-default btn-circle" disabled="disabled">2</a>
+                                <a href="javascript:" type="button" class="btn btn-primary btn-circle">2</a>
                                 <p>定义格式</p>
                             </div>
                             <div class="stepwizard-step">
@@ -116,11 +125,7 @@
                                 <p>关联模板</p>
                             </div>
                             <div class="stepwizard-step">
-                                <a href="javascript:" type="button" class="btn btn-primary btn-circle">4</a>
-                                <p>定义常用值</p>
-                            </div>
-                            <div class="stepwizard-step">
-                                <a href="javascript:" type="button" class="btn btn-default btn-circle" disabled="disabled">5</a>
+                                <a href="javascript:" type="button" class="btn btn-default btn-circle" disabled="disabled">4</a>
                                 <p>确认启用</p>
                             </div>
                         </div>
@@ -130,92 +135,146 @@
         </div>
         
         <!-- 主内容区域 -->
-        <div class="container marginTop">
+        <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
                     <div class="panel panel-primary">
                         <div class="panel-heading">
                             <h4>
-                                <b>定义产品批量表常用值</b>
+                                <b>定义产品批量表格式</b>
                             </h4>
                         </div>
                         <div class="panel-body">
                             <div class="col-md-12">
-                                <div class="row">
-                                    <div class="col-md-6 col-md-offset-3">
-                                        <div class="form-horizontal">
-                                            <div class="form-group">
-                                                <label class="col-md-3 control-label">绑定模板项目：</label>
-                                                <div class="col-md-6">
-                                                    <select v-model="selectedItem" class="form-control">
-                                                        <option value="{{$index}}" v-for="op in tempData" >
-                                                            {{op.en_name}}
-                                                        </option>
-                                                    </select>                                                    
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="col-md-3 control-label">常用值：</label>
-                                                <div class="col-md-6">
-                                                    <input type="text" v-model="addVal" class="form-control">           
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="col-md-6 col-md-offset-3 text-center">
-                                                    <button :disabled="addBtn" @click="addItem" class="btn btn-default">
-                                                        保存
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
+                                <div id="uploadForm">
+                                    <div class="form-group">
+                                        <label class="text-warning">上传产品批量表模板文件</label>
+                                        <input type="file" id="file" name="upc_file">
+                                    </div>
+                                    <div class="alert alert-info" role="alert">
+                                        注意:上传文件必须是"xls","xlsx"格式,文件中必须是亚马逊的模板Excel表格，且作为模板的工作表必须是默认；可以参考示例<a href="images/shili.png" target="_blank" class="text-danger" >示例</a>
+                                    </div>
+                                    <div class="form-group">
+                                        <button type="submit" id="upload" @click="upload" :disabled="uploadBtn" class="btn btn-primary">加载</button>
                                     </div>
                                 </div>
-                                <hr>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <table class="table table-bordered text-center">
-                                            <tr class="info">
-                                                <th class="text-center">序号</th>
-                                                <th class="text-center">产品批量表模板绑定项目</th>
-                                                <th class="text-center">常用值</th>
-                                                <th class="text-center">操作</th>
-                                            </tr>
-                                            <template v-for="table in valData">
-                                                <tr>
-                                                    <td>{{$index+1}}</td>
-                                                    <td>
-                                                        {{table.item}}
+                            </div>
+                            <hr>
+                            <div class="col-md-12">
+                                <h4 class="text-warning">定义模板项目</h4>
+                                <div class="col-md-12">
+                                    <table class="table table-bordered text-warning">
+                                        <tr class="info">
+                                            <th class="text-center">序号</th>
+                                            <th class="text-center">产品批量表模板绑定项目</th>
+                                            <th class="text-center">数据类型</th>
+                                            <th class="text-center">长度</th>
+                                            <th class="text-center">精度</th>
+                                            <th class="text-center">默认值</th>
+                                            <th class="text-center">操作</th>
+                                        </tr>
+                                        <template v-for="table in tempData">
+                                            <template v-if="$index%2==1">
+                                                <tr class="warning">
+                                                    <td class="text-center">
+                                                        {{$index+1}}
+                                                    </td>
+                                                    <td class="limit">
+                                                        {{table.en_name}}
                                                     </td>
                                                     <td>
-                                                        <ul class="list-group">
-                                                            <li class="list-group-item text-left list-group-item-success" 
-                                                            v-for="label in table.itemArr" 
-                                                            track-by="$index">
-                                                                {{label}}
-                                                                <button @click="delItem(table,$index)" class="btn btn-xs btn-default">
-                                                                    <span>X</span>
-                                                                </button>
-                                                            </li>
-                                                        </ul>
+                                                        <!-- 数据类型 -->
+                                                        <select v-model="table.data_type_code" class="form-control" :disabled="table | dataTypeFilter">
+                                                            <option v-for="type in table.data_types" value="{{type}}">
+                                                                {{type | dataType}}
+                                                            </option>
+                                                        </select>
                                                     </td>
                                                     <td>
-                                                        <button @click="delTable(table)" class="btn btn-danger">删除</button>
+                                                        <!-- 长度 -->
+                                                        <select v-model="table.length" :disabled="table | textType" class="form-control">
+                                                            <option v-for="num in table.length_types">
+                                                                {{num}}
+                                                            </option>
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <!-- 精度 -->
+                                                        <select v-model="table.precision" :disabled="table | dcType" class="form-control">
+                                                            <option value="" selected>选择精度</option>
+                                                            <option v-for="dc in table.precision_dc">
+                                                                {{dc}}
+                                                            </option>
+                                                        </select>
+                                                    </td>
+                                                    <td class="val">
+                                                        <!-- 默认值 -->
+                                                        <template v-if="table.valid_value.length>1">
+                                                            <select v-model="table.default_value" class="form-control">
+                                                                <option v-for="op in table.valid_value">{{op}}</option>
+                                                            </select>
+                                                        </template>
+                                                        <template v-else>
+                                                            <input type="text" v-model="table.default_value" placeholder="输入默认值" class="form-control">
+                                                        </template>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <button class="btn btn-danger btn-sm" @click="deleteVal(table)">删除</button>
                                                     </td>
                                                 </tr>
                                             </template>
-                                        </table>
-                                    </div>
+                                            <template v-else>
+                                                <tr>
+                                                    <td class="text-center">
+                                                        {{$index+1}}
+                                                    </td>
+                                                    <td class="limit">
+                                                        {{table.en_name}}
+                                                    </td>
+                                                    <td>
+                                                        <select v-model="table.data_type_code" class="form-control" :disabled="table | dataTypeFilter">
+                                                            <option v-for="type in table.data_types" value="{{type}}">
+                                                                {{type | dataType}}
+                                                            </option>
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <select v-model="table.length" :disabled="table | textType" class="form-control">
+                                                            <option v-for="num in table.length_types">
+                                                                {{num}}
+                                                            </option>
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <select v-model="table.precision" :disabled="table | dcType" class="form-control">
+                                                            <option value="" selected>选择精度</option>
+                                                            <option v-for="dc in table.precision_dc">
+                                                                {{dc}}
+                                                            </option>
+                                                        </select>
+                                                    </td>
+                                                    <td class="val">
+                                                        <template v-if="table.valid_value.length>1">
+                                                            <select v-model="table.default_value" class="form-control">
+                                                                <option v-for="op in table.valid_value">{{op}}</option>
+                                                            </select>
+                                                        </template>
+                                                        <template v-else>
+                                                            <input type="text" v-model="table.default_value" placeholder="输入默认值" class="form-control">
+                                                        </template>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <button class="btn btn-danger btn-sm" @click="deleteVal(table)">删除</button>
+                                                    </td>
+                                                </tr>
+                                            </template>
+                                        </template>
+                                    </table>
                                 </div>
-                                <hr>
-                                <div class="row">
-                                    <div class="col-md-6 col-md-offset-3 text-center">
-                                        <!-- <button @click="checkVal" :disabled="checkBtn" class="btn btn-default">重复检查</button> -->
-                                        <button :disabled="sendBtn" @click="sendData" class="btn btn-success">完成</button>
-                                    </div>
-                                    <div v-show="temp" class="col-md-1 col-md-offset-2">
-                                        <a href="javascript:" @click="jumpStep" class="text-muted">跳过</a>
-                                    </div>
-                                </div>
+                            </div>
+                            <hr>
+                            <div class="col-md-4 col-md-offset-4 text-center">
+                                <button @click="sendData" class="btn btn-primary">保存</button>
                             </div>
                         </div>
                     </div>
@@ -223,6 +282,10 @@
             </div>
         </div>
         
+        <!-- 回到顶部 -->
+        <div class="scrollToTop">
+            <i class="fa fa-3x fa-angle-up" aria-hidden="true"></i>
+        </div>
 
         <hr>
         <div class="container">
@@ -247,6 +310,6 @@
         <!-- 包括所有bootstrap的js插件或者可以根据需要使用的js插件调用　-->
         <script src="js/bootstrap.min.js"></script>
         <script src='js/layer.js'></script>
-        <script src='js/batch-temp-defineVal.js'></script>
+        <script src='js/batch-temp-defineVal-new.js'></script>
     </body>
 </html>

@@ -269,7 +269,6 @@ Vue.filter('statusCode', function (value) {
         case "creating": str = "创建";break;
         case "defining": str = "定义格式";break;
         case "connecting": str = "关联模板";break;
-        case "values": str = "定义常用值";break;
         case "enabled": str = "启用";break;
         case "disabled": str = "停用";break;
     }
@@ -279,18 +278,15 @@ Vue.filter('statusCode', function (value) {
 Vue.filter('statusLink', function (value) {
     var id = value.id;
     var status = value.status_code;
-    var url1 = 'batch-temp-define.html';
     var url2 = 'batch-temp-defineVal.html';
     var url3 = 'batch-temp-relate.html';
     var url4 = 'batch-temp-start.html';
     if(status=='creating'){
-        return url1+'?id='+id;  //进入第二步
+        return url2+'?id='+id;  //进入第二步
     }else if(status=='defining'){
         return url3+'?id='+id;  //进入第三步
     }else if(status=='connecting'){
-        return url2+'?id='+id;  //进入第四步
-    }else if(status=='values'){
-        return url4+'?id='+id;  //进入第五步
+        return url4+'?id='+id;  //进入第四步
     }else{
         return 'javascript:'
     }

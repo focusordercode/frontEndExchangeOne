@@ -66,7 +66,7 @@ var creatTemp = new Vue({
 
                             //跳转函数
                             function goNext() {
-                                var url = 'batch-temp-define.html';
+                                var url = 'batch-temp-defineVal.html';
                                 window.location.href = url+'?id='+template_id;
                             }
 
