@@ -22,11 +22,9 @@ function windowFresh(){
     location.reload(true);
 }
 
-//未提交保存内容提示
-$(window).bind('beforeunload',function(){return "您修改的内容尚未保存，确定离开此页面吗？";});
 
 var template_id = Request.id;//模板ID
-var type_code = 'batch';//批量表模板
+var type_code = 'info';//批量表模板
 
 
 //英文正则,英文数字和空格
@@ -40,6 +38,8 @@ var tempDefine = new Vue({
         uploadBtn:''
     },
     ready:function(){
+        var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
+
         //获取当前模板的信息
         $.ajax({
             type:'POST',
@@ -57,30 +57,35 @@ var tempDefine = new Vue({
                 }
             },
             error:function(jqXHR){
+                layer.close(LoadIndex); //关闭遮罩层 
                 layer.msg('向服务器请求该模板信息失败');
             }
         })
+
         //获取当前模板的数据
         $.ajax({
             type: "POST",
-            url: "http://192.168.1.40/PicSystem/canton/get/templateitem", //添加请求地址的参数
+            url: "http://192.168.1.40/PicSystem/canton/get/title_valid", //添加请求地址的参数
             dataType: "json",
-            timeout:5000,
             data:{
                 template_id:template_id,
                 type_code:type_code
             },
             success: function(data){
+                layer.close(LoadIndex); //关闭遮罩层
+
                 if(data.status==100){
                     tempDefine.tempData = data.value;
                 }
             },
-            error: function(jqXHR){     
+            error: function(jqXHR){
+                layer.close(LoadIndex); //关闭遮罩层      
                 layer.msg('从服务器获取模板数据失败');
             }
         })
     },
     computed:{
+        //控制上传按钮
         uploadBtn:function(){
             if(this.temp){
                 return false
@@ -132,6 +137,33 @@ var tempDefine = new Vue({
                 })
             })
         },
+        //删除常用值条目
+        deleteVal:function(table){
+            var vm = tempDefine;
+            var table = table;
+            if(table.id){
+                $.ajax({
+                    type: "POST",
+                    url: "http://192.168.1.40/PicSystem/canton/delete/templateitem", //添加请求地址的参数
+                    dataType: "json",
+                    data:{
+                        id:table.id,
+                        type_code:type_code
+                    },
+                    success: function(data){
+                        if(data.status==100){
+                            layer.msg('删除成功',{time:1000})
+                            vm.tempData.$remove(table);
+                        }else{
+                            layer.msg(data.msg);
+                        }
+                    },
+                    error: function(jqXHR){     
+                        layer.msg('向服务器请求失败');
+                    }
+                })
+            }
+        },
         //发送数据
         sendData:function(){
             var template_id = this.temp.id,
@@ -151,6 +183,7 @@ var tempDefine = new Vue({
                     data:{
                         type_code:type_code,
                         template_id:template_id,
+                        item_num:tempDataLen,
                         tempData:tempData
                     },
                     success:function(data){
@@ -163,7 +196,7 @@ var tempDefine = new Vue({
                             
                             //跳转函数
                             function goNext() {
-                                var url = 'batch-temp-relate.html';
+                                var url = 'info-temp-done.html';
                                 window.location.href = url+'?id='+template_id;
                             }
 
@@ -183,7 +216,30 @@ var tempDefine = new Vue({
     }
 })
 
-//Vue过滤器
+//长度选择框
+Vue.filter('textType',function(value){
+    var table = value;
+    var datatype = table.data_type_code;  //类型 
+    if(datatype=='char'){
+        return false
+    }else{
+        return true
+    }
+})
+
+//精度选择框
+Vue.filter('dcType',function(value){
+    var table = value;
+    var datatype = table.data_type_code;  //类型 
+    if(datatype=='dc'){
+        return false
+    }else{
+        return true
+    }
+})
+
+
+//数据类型
 Vue.filter('dataType', function (value) {
     var str;
     switch(value){
@@ -193,6 +249,15 @@ Vue.filter('dataType', function (value) {
         case "dt": str = "日期";break;
         case "bl": str = "是否";break;
         case "pic": str = "图片";break;
+        case "upc_code": str = "UPC码";break;
     }
     return str;
 })
+
+
+$(document).ready(function(){
+    //回到顶部
+    $('.scrollToTop').click(function(){
+        $("html,body").animate({scrollTop:0},300);
+    });
+});

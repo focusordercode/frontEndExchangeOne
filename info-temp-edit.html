@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>批量表模板定义</title>
+    <title>资料表模板定义</title>
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <!--你自己的样式文件 -->
@@ -96,7 +96,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand hidden-sm" href="template-batch-list.html" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'navbar-首页'])">批量表模板首页</a>
+                    <a class="navbar-brand hidden-sm" href="template.html" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'navbar-首页'])">资料表模板首页</a>
                 </div>
                 <div class="navbar-collapse collapse" role="navigation">
                     <ul class="nav navbar-nav">
@@ -106,7 +106,7 @@
             </div>
         </div>
         
-        <!-- 主内容区域 -->
+        <!-- 步骤 -->
         <div class="container marginTop">
             <div class="row">
                 <div class="well well-sm clearfix">
@@ -119,10 +119,6 @@
                             <div class="stepwizard-step">
                                 <a href="javascript:" type="button" class="btn btn-primary btn-circle">2</a>
                                 <p>定义格式</p>
-                            </div>
-                            <div class="stepwizard-step">
-                                <a href="javascript:" type="button" class="btn btn-default btn-circle" disabled="disabled">3</a>
-                                <p>关联模板</p>
                             </div>
                             <div class="stepwizard-step">
                                 <a href="javascript:" type="button" class="btn btn-default btn-circle" disabled="disabled">4</a>
@@ -141,7 +137,7 @@
                     <div class="panel panel-primary">
                         <div class="panel-heading">
                             <h4>
-                                <b>定义产品批量表格式</b>
+                                <b>定义资料表格式</b>
                             </h4>
                         </div>
                         <div class="panel-body">
@@ -152,7 +148,7 @@
                                         <input type="file" id="file" name="upc_file">
                                     </div>
                                     <div class="alert alert-info" role="alert">
-                                        注意:上传文件必须是"xls","xlsx"格式,文件中必须是亚马逊的模板Excel表格，且作为模板的工作表必须是默认；可以参考示例<a href="images/shili.png" target="_blank" class="text-danger" >示例</a>
+                                        注意:上传文件必须是"xls"、"xlsx"格式，文件中必须完整的模板Excel表格，且作为模板的工作表必须是默认；可以参考示例<a href="images/shili.png" target="_blank" class="text-danger" >示例</a>
                                     </div>
                                     <div class="form-group">
                                         <button type="submit" id="upload" @click="upload" :disabled="uploadBtn" class="btn btn-primary">加载</button>
@@ -184,7 +180,7 @@
                                                     </td>
                                                     <td>
                                                         <!-- 数据类型 -->
-                                                        <select v-model="table.data_type_code" class="form-control" :disabled="table | dataTypeFilter">
+                                                        <select v-model="table.data_type_code" class="form-control">
                                                             <option v-for="type in table.data_types" value="{{type}}">
                                                                 {{type | dataType}}
                                                             </option>
@@ -209,14 +205,8 @@
                                                     </td>
                                                     <td class="val">
                                                         <!-- 默认值 -->
-                                                        <template v-if="table.valid_value.length>1">
-                                                            <select v-model="table.default_value" class="form-control">
-                                                                <option v-for="op in table.valid_value">{{op}}</option>
-                                                            </select>
-                                                        </template>
-                                                        <template v-else>
-                                                            <input type="text" v-model="table.default_value" placeholder="输入默认值" class="form-control">
-                                                        </template>
+                                                        
+                                                        <input type="text" v-model="table.default_value" placeholder="输入默认值" class="form-control">
                                                     </td>
                                                     <td class="text-center">
                                                         <button class="btn btn-danger btn-sm" @click="deleteVal(table)">删除</button>
@@ -232,7 +222,7 @@
                                                         {{table.en_name}}
                                                     </td>
                                                     <td>
-                                                        <select v-model="table.data_type_code" class="form-control" :disabled="table | dataTypeFilter">
+                                                        <select v-model="table.data_type_code" class="form-control">
                                                             <option v-for="type in table.data_types" value="{{type}}">
                                                                 {{type | dataType}}
                                                             </option>
@@ -254,14 +244,8 @@
                                                         </select>
                                                     </td>
                                                     <td class="val">
-                                                        <template v-if="table.valid_value.length>1">
-                                                            <select v-model="table.default_value" class="form-control">
-                                                                <option v-for="op in table.valid_value">{{op}}</option>
-                                                            </select>
-                                                        </template>
-                                                        <template v-else>
-                                                            <input type="text" v-model="table.default_value" placeholder="输入默认值" class="form-control">
-                                                        </template>
+                                                        
+                                                        <input type="text" v-model="table.default_value" placeholder="输入默认值" class="form-control">
                                                     </td>
                                                     <td class="text-center">
                                                         <button class="btn btn-danger btn-sm" @click="deleteVal(table)">删除</button>
@@ -310,6 +294,6 @@
         <!-- 包括所有bootstrap的js插件或者可以根据需要使用的js插件调用　-->
         <script src="js/bootstrap.min.js"></script>
         <script src='js/layer.js'></script>
-        <script src='js/batch-temp-defineVal-new.js'></script>
+        <script src='js/info-temp-edit.js'></script>
     </body>
 </html>

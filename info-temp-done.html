@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>批量表模板启用</title>
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!--你自己的样式文件 -->
+    <link href="css/index.css" rel="stylesheet">
+    <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">        
+    <!-- 以下两个插件用于在IE8以及以下版本浏览器支持HTML5元素和媒体查询，如果不需要用可以移除 -->
+    <!--[if lt IE 9]>
+    <script src="http://apps.bdimg.com/libs/html5shiv/3.7/html5shiv.js"></script>
+    <script src="http://apps.bdimg.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        .stepwizard-step p {
+            margin-top: 10px;
+        }
+        .stepwizard-row {
+            display: table-row;
+        }
+        .stepwizard {
+            display: table;
+            width: 100%;
+            position: relative;
+        }
+        .stepwizard-step button[disabled] {
+            opacity: 1 !important;
+            filter: alpha(opacity=100) !important;
+        }
+        .stepwizard-row:before {
+            top: 14px;
+            bottom: 0;
+            left: 30px;
+            position: absolute;
+            content: " ";
+            width: 95%;
+            height: 1px;
+            background-color: #ccc;
+            z-order: 0;
+        }
+        .stepwizard-step {
+            display: table-cell;
+            text-align: center;
+            position: relative;
+        }
+        .btn-circle {
+            width: 30px;
+            height: 30px;
+            text-align: center;
+            padding: 6px 0;
+            font-size: 12px;
+            line-height: 1.428571429;
+            border-radius: 15px;
+        }
+        .fixed-top {
+            position: fixed;
+            right: 0;
+            left: 0;
+            z-index: 1030;
+            background-color: #ecf0f5;
+            border-bottom: 1px solid #eee;
+        }
+        .fixed-nav {
+            background-color: #34495E;
+            border-radius: 0;
+            margin-bottom: 0;
+        }
+        .fixed-nav a {
+            display: block;
+            float: left;
+            padding: 15px 15px;
+            color: #fff;
+            font-size: 18px;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        .fixed-nav a:hover {
+            background-color: #2C3E50;
+        }
+        .tableDetail label+span {
+            vertical-align: middle;
+            padding-left: 10px;
+        }
+        .table-bordered>tbody>tr>td, .table-bordered>tbody>tr>th, .table-bordered>tfoot>tr>td, .table-bordered>tfoot>tr>th, .table-bordered>thead>tr>td, .table-bordered>thead>tr>th {
+            min-width: 250px;
+            vertical-align: middle;
+            position: relative;
+        }
+        #table {
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+    </style>
+</head>
+    <body>
+        <div class="fixed-top">
+            <!-- 顶部区域 -->
+            <div class="container-fluid header-fluid-top">
+                <div class="row">
+                    <div class="container header-top">
+                        <div class="row">
+                            <div class="col-lg-3 col-md-3 col-sm-12">
+                                <a href="#">
+                                    <img src="images/logo.png" alt="">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 导航 -->
+            <div class="container-fluid fixed-nav">
+                <div class="container">
+                    <a href="template.html">资料表模板首页</a>
+                </div>
+            </div>
+            <!-- 步骤 -->
+            <div class="container marginTop">
+                <div class="row">
+                    <div class="well well-sm clearfix">
+                        <div class="stepwizard col-md-12 ">
+                            <div class="stepwizard-row setup-panel">
+                                <div class="stepwizard-step">
+                                    <a href="javascript:" type="button" class="btn btn-default btn-circle" disabled="disabled">1</a>
+                                    <p>创建模板</p>
+                                </div>
+                                <div class="stepwizard-step">
+                                    <a href="javascript:" type="button" class="btn btn-default btn-circle" disabled="disabled">2</a>
+                                    <p>定义格式</p>
+                                </div>
+                                <div class="stepwizard-step">
+                                    <a href="javascript:" type="button" class="btn btn-primary btn-circle">4</a>
+                                    <p>确认启用</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+        <!-- 主内容区域 -->
+        <div id="table" style="padding-top: 400px;">
+            <div class="container-fluid">
+                <div class="row">
+                    <div>
+                        <table class="table table-bordered">
+                            <tr class="info">
+                                <th v-for="table in tempData" class="text-center">{{table.en_name}}</th>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="container" style="margin-top:100px;">
+            <div class="row">
+                <div v-show="!preType" class="col-md-12 text-center">
+                    <button @click="getStart" :disabled="doneBtn" class="btn btn-success">确认启用</button>
+                </div>
+            </div>
+        </div>
+
+        <hr>
+        <div class="container">
+            <div class="row">
+                <!-- <pre>{{$data|json}}</pre> -->
+            </div>
+        </div>
+
+        <!-- 如果要使用Bootstrap的js插件，必须先调入jQuery -->
+        <script src="js/jquery.js"></script>
+        <script src="js/vue.js"></script>
+        <!-- 包括所有bootstrap的js插件或者可以根据需要使用的js插件调用　-->
+        <script src="js/bootstrap.min.js"></script>
+        <script src='js/layer.js'></script>
+        <script src='js/info-temp-done.js'></script>
+    </body>
+</html>

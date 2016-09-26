@@ -574,6 +574,7 @@ var picGallery = new Vue({
                    checked.push(this.picData[i].id);
                 }
             }
+            
             layer.confirm('确定删除选中的图片吗?',{
                 btn:['确定','取消']
             },function(){

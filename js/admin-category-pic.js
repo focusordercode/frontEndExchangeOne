@@ -1,3 +1,5 @@
+//图片目录管理，此功能暂时废弃了
+
 // 获取标签
             $oAddtopBtn = $('.easy-tree-toolbar .addtop > button');//创建顶级分类按钮
             $oAddtopConfirm = $('.easy-tree-toolbar .addtop .confirm');//创建顶级分类下的确定按钮

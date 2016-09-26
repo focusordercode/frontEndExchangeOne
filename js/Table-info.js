@@ -287,8 +287,7 @@ Vue.filter('statusCode', function (value) {
     var str;
     switch(value){
         case "creating": str = "创建";break;
-        case "editing4info": str = "编辑-筛选图片";break;
-        case "editing4picture": str = "编辑-上传图片";break;
+        case "editing": str = "编辑";break;
         case "enabled": str = "有效";break;
         case "finished": str = "完成";break;
         case "halt": str = "终止";break;
@@ -312,12 +311,12 @@ Vue.filter('statusLink',function(value){
 		//进入第二步
 		var str = edit + '?form_no='+form_no+'&id='+tableID+'&template_id='+template_id+'&type_code='+type_code;
 		return str
-	}else if(status=='editing4info'){
+	}else if(status=='editing'){
 		//进入第三步
-		var str = selectPic + '?tableID='+tableID;
+		var str = donePage+'?tableID='+tableID+'&template_id='+template_id+'&type_code='+type_code;
 		return str
 	}else if(status=='enabled'||status=='finished'){
-		//进入第五步
+		//进入第三步
 		var str = donePage+'?tableID='+tableID+'&template_id='+template_id+'&type_code='+type_code;
 		return str
 	}else{
@@ -350,7 +349,7 @@ Vue.filter('deleteBtn',function(value){
     }
 })
 
-//删除按钮
+//修改按钮
 Vue.filter('xgBtn',function(value){
     var str;
     var value = value;

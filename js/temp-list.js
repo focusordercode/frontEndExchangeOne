@@ -76,7 +76,7 @@ var tempList = new Vue({
         KeywordSearch:function(){
             var name = this.name.trim();
             var status = this.searchStatus;
-            var type_code = type_code;
+            // console.log(type_code)
             if(!name&&!status){
                 layer.msg('必须输入关键词或者选择模板状态');
             }else{
@@ -260,6 +260,7 @@ var tempList = new Vue({
         }
     }
 })
+
 //Vue过滤器
 
 //状态码过滤器
@@ -267,22 +268,38 @@ Vue.filter('statusCode', function (value) {
     var str;
     switch(value){
         case "creating": str = "创建";break;
-        case "editing": str = "编辑";break;
+        case "editing": str = "定义格式";break;
         case "enabled": str = "启用";break;
         case "disabled": str = "停用";break;
     }
     return str;
 })
+
 //编辑按钮
-Vue.filter('statusEdit', function (value) {
-    var str;
-    switch(value){
-        case "creating": str = "编辑";break;
-        case "editing": str = "编辑";break;
-        case "enabled": str = "";break;
-        case "disabled": str = "";break;
+Vue.filter('statusLink', function (value) {
+    var id = value.id;
+    var status = value.status_code;
+    var url1 = 'info-temp-edit.html';
+    var url2 = 'batch-temp-done.html';
+    if(status=='creating'){
+        return url1+'?id='+id;  //进入第二步
+    }else if(status=='editing'){
+        return url2+'?id='+id;  //进入第三步
+    }else{
+        return 'javascript:'
     }
-    return str;
+})
+//预览按钮
+Vue.filter('preLink',function(value){
+    var id = value.id;
+    var status = value.status_code;
+    var str = '&type=pre';//标记为预览访问
+    var url = 'info-temp-done.html';
+    if(status=='enabled'||status=='disabled'){
+        return url+'?id='+id+str;
+    }else{
+        return 'javascript:'
+    }
 })
 //启用按钮显示
 Vue.filter('startBtn',function(value){
@@ -300,9 +317,20 @@ Vue.filter('editBtn',function(value){
     var value = value;
     str1 = ''; //隐藏
     str2 = 'yes'; //显示
-    if(value=='creating'||value=='editing'){
+    if(value=='enabled'||value=='disabled'){
+        return str1
+    }else{
         return str2
-    }else if(value=='enabled'||value=='disabled'){
+    }
+})
+//预览按钮显示隐藏
+Vue.filter('preBtn',function(value){
+    var value = value;
+    str1 = ''; //隐藏
+    str2 = 'yes'; //显示
+    if(value=='enabled'||value=='disabled'){
+        return str2
+    }else{
         return str1
     }
 })
@@ -318,15 +346,16 @@ Vue.filter('stopBtn',function(value){
     }
 })
 
-
+var creatUrl = 'info-temp-creat.html';//创建模板地址
 
 //打开创建的新的模板
 $('.temp-list .temp-add').click(function(){
-    window.open('template-creat.html?type_code='+type_code);
+    window.open(creatUrl+'?type_code='+type_code);
 });
 $('.temp-list .creatMB').click(function(){
-    window.open('template-creat.html?type_code='+type_code);
+    window.open(creatUrl+'?type_code='+type_code);
 });
+
 
 //popover初始化
 $(function () {

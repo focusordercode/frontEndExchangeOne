@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>产品资料模板</title>
+    <title>资料表模板</title>
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <!--你自己的样式文件 -->
@@ -107,7 +107,7 @@
                                     <select v-model="searchStatus" class="form-control">
                                         <option value="">选择状态</option>
                                         <option value="creating">创建状态</option>
-                                        <option value="editing">编辑状态</option>
+                                        <option value="editing">定义格式</option>
                                         <option value="enabled">启用状态</option>
                                         <option value="disabled">停用状态</option>
                                     </select>
@@ -121,9 +121,6 @@
                                 </div>
                                 <div class="col-md-1 col-md-offset-3">
                                     <button class="btn btn-success creatMB">创建模板</button>
-                                </div>
-                                <div class="col-md-2">
-                                    <!-- <input type="text" class="form-control" placeholder="测试" data-toggle="popover" data-trigger="focus" data-placement="top" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus."> -->
                                 </div>
                             </div>
                         </div>
@@ -157,12 +154,10 @@
                             <span class="text-muted date">{{todo.modified_time}}</span>
                         </p>
                         <p>
-                            <button v-show="todo.status_code | startBtn" class="btn btn-xs btn-info btn-start">启用</button>
+                            <a class="btn btn-info btn-xs" target="_blank" v-show="todo.status_code | preBtn" :href="todo | preLink" >预览</a>
                             <button v-show="todo.status_code | stopBtn" @click="stopTemp(todo)" class="btn btn-xs btn-danger">停用</button>
+                            <a class="btn btn-success btn-xs" v-show="todo.status_code | editBtn" :href="todo | statusLink" >编辑</a>
                             <button v-show="todo.status_code | editBtn" class="btn btn-xs btn-danger btn-delete">删除</button>
-                            <a href="template-editAgain.html?id={{todo.id}}&#38;type_code={{todo.type_code}}" target="_blank" class="text-muted">
-                                {{todo.status_code|statusEdit}}
-                            </a>
                             <input v-model="todo.id" type="hidden" class="temp-id">
                             <span class="text-warning">{{todo.status_code|statusCode}}状态</span>
                         </p>
@@ -192,7 +187,7 @@
         <hr>
         <div class="container">
             <div class="row">
-                <!-- <pre>{{$data|json}}</pre> -->
+                <pre>{{$data|json}}</pre>
             </div>
         </div>
 

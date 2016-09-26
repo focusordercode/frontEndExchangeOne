@@ -269,9 +269,10 @@ var oTableIn = new Vue({
                         //解除未提交内容提示
                         $(window).unbind('beforeunload');
                         //跳转到下一步
-                        var url = 'TableWorkflow-selectPic.html';
+                        var url = 'TableWorkflow-done.html';
                         var tableID = oTableIn.info.id;
-                        window.location.href = url+'?tableID='+tableID;
+                        var tem_id = oTableIn.info.template_id;
+                        window.location.href = url+'?tableID='+tableID+'&type_code=info'+'&template_id='+tem_id;
                     }else{
                         layer.msg(data.msg);
                     }
