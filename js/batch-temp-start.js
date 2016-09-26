@@ -84,23 +84,6 @@ var tempStart = new Vue({
     },
     methods:{
         getStart:function(){
-            // var arr = this.tempData.slice();
-            // var save = []
-            //     enArr = [];
-            // for(var h = 0;h<arr.length;h++){
-            //     enArr.push(arr[i].en_name);
-            // }
-
-            // var s = enArr.join(",")+",";  
-            // for(var i=0;i<enArr.length;i++) {  
-             
-            //     if(s.replace(enArr[i]+",","").indexOf(enArr[i]+",")>-1) {  
-            //         save.push(i);
-            //         break;
-            //     }  
-              
-            // }  
-            // console.log(save)
 
             if(!tempStart.temp.id){
                 layer.msg('没有检测到模板数据');

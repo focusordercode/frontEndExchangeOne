@@ -43,7 +43,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand hidden-sm" href="#" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'navbar-首页'])">福克斯德</a>
+                    <a class="navbar-brand hidden-sm" href="javascript:" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'navbar-首页'])">福克斯德</a>
                 </div>
                 <div class="navbar-collapse collapse" role="navigation">
                     <ul class="nav navbar-nav">
@@ -51,7 +51,6 @@
                             <a href="##" data-toggle="dropdown" class="dropdown-toggle">图片库<span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li><a href="pic-category.html">图片库</a></li>
-                                <li><a href="admin-category-pic.html">图片目录管理</a></li>
                                 <li><a href="pic-trash.html">回收站</a></li>
                             </ul>
                         </li>
@@ -69,11 +68,16 @@
                                 <li><a href="Table-batch.html">批量表</a></li>
                             </ul>
                         </li>
-                        <li class="hidden-sm hidden-md"><a href="admin-category.html" target="_blank" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'v2doc'])">分类管理</a></li>
-                        <li class="hidden-sm hidden-md"><a href="customer.html" target="_blank" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'v3doc'])">客户管理</a></li>
-                        <li><a href="upcUpload.html" target="_blank" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'v4doc'])">UPC</a></li>
-                        <li><a href="partition.html" target="_blank" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'jquery'])">数据库分区</a></li>
-                        <li><a href="Searchlog.html" target="_blank" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'jquery'])">日志</a></li>
+                        <li class="hidden-sm hidden-md"><a href="admin-category.html" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'v2doc'])">分类管理</a></li>
+                        <li class="hidden-sm hidden-md"><a href="customer.html"  onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'v3doc'])">客户管理</a></li>
+                        <li><a href="upcUpload.html" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'v4doc'])">UPC</a></li>
+                        <li class="dropdown">
+                            <a href="##" data-toggle="dropdown" class="dropdown-toggle">系统<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="partition.html">数据库分区</a></li>
+                                <li><a href="Searchlog.html">日志</a></li>
+                            </ul>
+                        </li>
                     </ul>
                 </div>
             </div>

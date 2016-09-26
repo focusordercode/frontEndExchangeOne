@@ -253,7 +253,7 @@ var tempRelate = new Vue({
                             
                             //跳转函数
                             function goNext() {
-                                var url = 'batch-temp-defineVal.html';
+                                var url = 'batch-temp-start.html';
                                 window.location.href = url+'?id='+batch_template_id;
                             }
 

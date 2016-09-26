@@ -38,6 +38,8 @@ var tempDefine = new Vue({
         uploadBtn:''
     },
     ready:function(){
+        var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
+
         //获取当前模板的信息
         $.ajax({
             type:'POST',
@@ -55,9 +57,11 @@ var tempDefine = new Vue({
                 }
             },
             error:function(jqXHR){
+                layer.close(LoadIndex); //关闭遮罩层 
                 layer.msg('向服务器请求该模板信息失败');
             }
         })
+
         //获取当前模板的数据
         $.ajax({
             type: "POST",
@@ -68,11 +72,13 @@ var tempDefine = new Vue({
                 type_code:type_code
             },
             success: function(data){
+                layer.close(LoadIndex); //关闭遮罩层 
                 if(data.status==100){
                     tempDefine.tempData = data.value;
                 }
             },
-            error: function(jqXHR){     
+            error: function(jqXHR){
+                layer.close(LoadIndex); //关闭遮罩层      
                 layer.msg('从服务器获取模板数据失败');
             }
         })
@@ -176,6 +182,7 @@ var tempDefine = new Vue({
                     data:{
                         type_code:type_code,
                         template_id:template_id,
+                        item_num:tempDataLen,
                         tempData:tempData
                     },
                     success:function(data){
