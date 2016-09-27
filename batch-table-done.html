@@ -69,103 +69,69 @@
         .tableDetail .label {
             font-size: 90%;
         }
+        .fixed-top {
+            position: fixed;
+            right: 0;
+            left: 0;
+            top: 0;
+            z-index: 1030;
+            background-color: #ecf0f5;
+            border-bottom: 1px solid #ccc;
+        }
         .tableCont {
             overflow-x: auto;
+        }
+        #table {
+            padding-top: 150px;
         }
     </style>
 </head>
     <body>
         <!-- 主内容区域 -->
-        <!-- <div class="navbar navbar-inverse navbar-fixed-top tableTop">
-            <div class="navbar-inner">
-                <div class="container-fluid" style="margin-top:20px;">
-                    <div class="container-fluid tableDetail">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="well well-sm">
-                                    <p></p>
-                                    <div class="row">
-                                        <div class="col-md-2">
-                                            <label class="label label-primary">表格编号</label>
-                                            <span class="text-muted">{{info.form_no}}</span>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <label class="label label-primary">表格名称</label>
-                                            <span class="text-muted">{{info.title}}</span>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <label class="label label-primary">所属类目</label>
-                                            <span class="text-muted">{{info.name}}</span>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <label class="label label-primary">使用的模板</label>
-                                            <span class="text-muted">{{info.tempname}}</span>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <label class="label label-primary">所属客户</label>
-                                            <span class="text-muted">{{info.client_name}}</span>
-                                        </div>
-                                        <div class="col-md-1">
-                                            <button class="btn btn-xs btn-info" @click="downloadTable" :disabled="downloadBtn">
-                                                <i class="fa fa-download" aria-hidden="true"></i>下载表格
-                                            </button>
-                                        </div>
-                                        <div class="col-md-1">
-                                            <a href="Table-info.html" class="btn btn-xs btn-info" >      <i class="fa fa-table" aria-hidden="true"></i>表格首页
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-        </div> -->
-
-        <div class="container marginTop">
+        <div class="container-fluid fixed-top">
             <div class="row">
-                <div class="panel panel-primary">
-                    <div class="panel-heading"><h4>产品批量表信息</h4></div>
-                    <div class="panel-body">
-                        <div class="col-md-12">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <p>
-                                        <label class="text-primary">表格编号：</label>
-                                        <span class="text-muted">{{info.form_no}}</span>
-                                    </p>
-                                </div>
-                                <div class="col-md-6">
-                                    <p>
-                                        <label class="text-primary">产品类目：</label>
-                                        <span class="text-muted">{{info.name}}</span>
-                                    </p>
-                                </div>
-                                <div class="col-md-6">
-                                    <p>
-                                        <label class="text-primary">使用模板:</label>
-                                        <span class="text-muted">{{info.tempname}}</span>
-                                    </p>
-                                </div>
-                                <div class="col-md-6">
-                                    <p>
-                                        <label class="text-primary">站点:</label>
-                                        <span class="text-muted">{{info.site_name}}</span>
-                                    </p>
-                                </div>
-                                <div class="col-md-6">
-                                    <p>
-                                        <label class="text-primary">客户名称:</label>
-                                        <span class="text-muted">{{info.client_name}}</span>
-                                    </p>
-                                </div>
-                                <div class="col-md-6">
-                                    <p>
-                                        <label class="text-primary">产品数量统计:</label>
-                                        <span class="text-muted">{{info.productCount}}</span>
-                                    </p>
+                <div class="col-md-12">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading"><h4>产品批量表信息</h4></div>
+                        <div class="panel-body">
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <p>
+                                            <label class="text-primary">表格编号：</label>
+                                            <span class="text-muted">{{info.form_no}}</span>
+                                        </p>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <p>
+                                            <label class="text-primary">产品类目：</label>
+                                            <span class="text-muted">{{info.name}}</span>
+                                        </p>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <p>
+                                            <label class="text-primary">使用模板:</label>
+                                            <span class="text-muted">{{info.tempname}}</span>
+                                        </p>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <p>
+                                            <label class="text-primary">站点:</label>
+                                            <span class="text-muted">{{info.site_name}}</span>
+                                        </p>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <p>
+                                            <label class="text-primary">客户名称:</label>
+                                            <span class="text-muted">{{info.client_name}}</span>
+                                        </p>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <p>
+                                            <label class="text-primary">产品数量统计:</label>
+                                            <span class="text-muted">{{info.productCount}}</span>
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -221,14 +187,13 @@
             </div>
         </script>
         
-        <div class="tableCont" v-show="gridData.length>2">
-            <!-- demo root element -->
-            <div id="table" class="marginTop">
-                <demo-grid
-                :data="gridData"
-                :columns="gridColumns">
-                </demo-grid>
-            </div>
+
+
+        <div id="table" v-show="gridData.length>2" class="marginTop">
+            <demo-grid
+            :data="gridData"
+            :columns="gridColumns">
+            </demo-grid>
         </div>
 
         <div class="container-fluid" v-show="gridData.length>2">
@@ -253,7 +218,7 @@
         <hr>
         <div class="container">
             <div class="row">
-                <pre>{{$data|json}}</pre>
+                <!-- <pre>{{$data|json}}</pre> -->
             </div>
         </div>
 

@@ -48,28 +48,75 @@ Vue.component('demo-grid', {
         var product_id = entry.product_id;
         var form_id = oTableIn.info.id;
         var parent_id = entry.parent_id;
-        var BigData = this.data;
+        var BigData = oTableIn.gridData;
+        var oIndex = $index; //当前数据索引
         if($index==0){
             layer.msg('模板数据不可以删除');
+            console.log($index);
         }else if(parent_id==0){ //如果是主条目,进入循环删除变体
-            var oDelete = new Array();
-            for(var i=0;i<BigData.length;i++){
-                if(BigData[i].parent_id==product_id) {
-                    oDelete.unshift(i);//倒叙存
+            //向服务器发起请求
+            $.ajax({
+                type:'POST',
+                url:'http://192.168.1.40/PicSystem/canton/delete/product',
+                datatype:'json',
+                data:{
+                    type_code:type_code,
+                    product_id:product_id
+                },
+                success:function(data){
+                    if(data.status==100){
+                        //删除---------->
+
+                        var oDelete = new Array();
+                        for(var i=0;i<oTableIn.gridData.length;i++){
+                            if(BigData[i].parent_id==product_id) {
+                                oDelete.unshift(i);//倒叙存
+                            }
+                        }
+                        for(var h=0;h<oDelete.length;h++){
+                            var i = oDelete[h];//获取oDelete数组中的下标，上面一个for循环存的
+                            oTableIn.gridData.splice(i,1);
+                        }
+
+                        //删除主体
+                        oTableIn.gridData.splice(oIndex,1);
+
+                        //删除---------->
+                    }else{
+                        layer.msg(data.msg);
+                    }
+                },
+                error:function(jqXHR){
+                    layer.msg('向服务器请求删除失败');
                 }
-            }
-            for(var h=0;h<oDelete.length;h++){
-                var i = oDelete[h];//获取oDelete数组中的下标，上面一个for循环存的
-                BigData.splice(i,1);
-            }
-            BigData.$remove(entry);
+            })
+
         }else if(parent_id!=0){ //如果是变体
-            BigData.$remove(entry);
+            //向服务器发起请求
+            $.ajax({
+                type:'POST',
+                url:'http://192.168.1.40/PicSystem/canton/delete/product',
+                datatype:'json',
+                data:{
+                    type_code:type_code,
+                    product_id:product_id
+                },
+                success:function(data){
+                    if(data.status==100){
+                        oTableIn.gridData.splice(oIndex,1);//删除
+                    }else{
+                        layer.msg(data.msg);
+                    }
+                },
+                error:function(jqXHR){
+                    layer.msg('向服务器请求删除失败');
+                }
+            })
         }
     },
     //添加主体
     addline:function(entry,$index){
-        var BigData = this.data; 
+        var BigData = oTableIn.gridData; 
         var newData = BigData.slice();//复制整个数组
         //添加条目获取ID
         $.ajax({
@@ -85,7 +132,7 @@ Vue.component('demo-grid', {
                     newObj = $.extend(true, {}, newData[$index]);//复制json对象,此方法只能复制json对象
                     newObj.product_id = data.value[0];//添加ID，好区别开来
                     newObj.types      = 'yes';   //标记是新增，后台需要
-                    BigData.push(newObj);//把新的对象push进去
+                    oTableIn.gridData.push(newObj);//把新的对象push进去
                 }else if(data.status==101){
                     layer.msg('操作失败');
                 }
@@ -97,7 +144,7 @@ Vue.component('demo-grid', {
     },
     //添加变体
     addchange:function(entry,$index){
-        var BigData = this.data; 
+        var BigData = oTableIn.gridData; 
         var newData = BigData.slice();//复制整个数组
         var parent_id = entry.product_id;
         //添加条目获取ID
@@ -115,7 +162,7 @@ Vue.component('demo-grid', {
                     newObj.product_id = data.value[0];//添加ID，好区别开来
                     newObj.parent_id = parent_id;
                     newObj.types = 'yes'; //标记是新增，后台需要
-                    BigData.splice($index+1,0,newObj);//把新的对象push进去
+                    oTableIn.gridData.splice($index+1,0,newObj);//把新的对象添加进去
                 }else if(data.status==101){
                     layer.msg('操作失败');
                 }
@@ -128,7 +175,8 @@ Vue.component('demo-grid', {
   }
 })
 
-var pageSize = 10;//默认每页展示多少数据，加载时用
+var pageSize = 20;//默认每页展示多少数据，加载时用
+var oPageNow; //当前页全局变量，暂存异步刷新用
 
 var oTableIn = new Vue({
     el:'body',
@@ -141,7 +189,7 @@ var oTableIn = new Vue({
         countPage:'',
         countNum:'',
         pageNow:'',
-        pageSize:10,
+        pageSize:20,
         newData:'',
         jump:'',
         selectCheck:'',//选中检查项
@@ -323,21 +371,27 @@ var oTableIn = new Vue({
                     form_id:oTableIn.info.id,
                     gridColumns:oTableIn.gridColumns,
                     max:max,
+                    pageSize:oTableIn.pageSize,
+                    pageNow:oTableIn.pageNow,
                     gridData:oTableIn.gridData
                 },
                 success:function(data){
                     layer.close(LoadIndex); //关闭遮罩层
                     if (data.status==100) {
                         // --------调试用
-                        oTableIn.newData = data.t;
+                        // oTableIn.newData = data.t;
                         // --------调试用
                         
                         layer.msg('暂存成功');
+                        oPageNow = oTableIn.pageNow;//当前页
+
+                        // 异步刷新
+                        update(tableID,template_id,type_code,oPageNow,pageSize)
+
+                        
                         //解除未提交内容提示
                         $(window).unbind('beforeunload');
-                        
-                        setInterval(windowFresh,1000);
-
+                        // oTableIn.newData = data.value;
                     }else{
                         layer.msg(data.msg);
                     }
@@ -421,9 +475,9 @@ var oTableIn = new Vue({
                     url:'http://192.168.1.40/PicSystem/canton/get/info',
                     datatype:'json',
                     data:{
-                        form_id:Request.id,
-                        template_id:Request.template_id,
-                        type_code:Request.type_code,
+                        form_id:tableID,
+                        template_id:template_id,
+                        type_code:type_code,
                         next:next,
                         pageSize:oTableIn.pageSize //每页展示多少数据
                     },
@@ -465,9 +519,9 @@ var oTableIn = new Vue({
                     url:'http://192.168.1.40/PicSystem/canton/get/info',
                     datatype:'json',
                     data:{
-                        form_id:Request.id,
-                        template_id:Request.template_id,
-                        type_code:Request.type_code,
+                        form_id:tableID,
+                        template_id:template_id,
+                        type_code:type_code,
                         next:next,
                         pageSize:oTableIn.pageSize //每页展示多少数据
                     },
@@ -512,9 +566,9 @@ var oTableIn = new Vue({
                     url:'http://192.168.1.40/PicSystem/canton/get/info',
                     datatype:'json',
                     data:{
-                        form_id:Request.id,
-                        template_id:Request.template_id,
-                        type_code:Request.type_code,
+                        form_id:tableID,
+                        template_id:template_id,
+                        type_code:type_code,
                         next:next,
                         pageSize:oTableIn.pageSize //每页展示多少数据
                     },
@@ -545,6 +599,7 @@ var oTableIn = new Vue({
         //选择展示个数
         selectNum1:function(){
             oTableIn.pageSize = 10;
+            pageSize = 10;
             var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
             //获取缓存数据
             $.ajax({
@@ -552,10 +607,10 @@ var oTableIn = new Vue({
                 url:'http://192.168.1.40/PicSystem/canton/get/info',
                 datatype:'json',
                 data:{
-                    form_id:Request.id,
-                    template_id:Request.template_id,
-                    type_code:Request.type_code,
-                    pageSize:pageSize //每页展示多少数据
+                    form_id:tableID,
+                    template_id:template_id,
+                    type_code:type_code,
+                    pageSize:oTableIn.pageSize //每页展示多少数据
                 },
                 success:function(data){
                     layer.close(LoadIndex); //关闭遮罩层
@@ -580,6 +635,7 @@ var oTableIn = new Vue({
         },
         selectNum2:function(){
             oTableIn.pageSize = 15;
+            pageSize = 15;
             var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
             //获取缓存数据
             $.ajax({
@@ -587,10 +643,10 @@ var oTableIn = new Vue({
                 url:'http://192.168.1.40/PicSystem/canton/get/info',
                 datatype:'json',
                 data:{
-                    form_id:Request.id,
-                    template_id:Request.template_id,
-                    type_code:Request.type_code,
-                    pageSize:pageSize //每页展示多少数据
+                    form_id:tableID,
+                    template_id:template_id,
+                    type_code:type_code,
+                    pageSize:oTableIn.pageSize //每页展示多少数据
                 },
                 success:function(data){
                     layer.close(LoadIndex); //关闭遮罩层
@@ -615,6 +671,7 @@ var oTableIn = new Vue({
         },
         selectNum3:function(){
             oTableIn.pageSize = 20;
+            pageSize = 20;
             var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
             //获取缓存数据
             $.ajax({
@@ -622,10 +679,10 @@ var oTableIn = new Vue({
                 url:'http://192.168.1.40/PicSystem/canton/get/info',
                 datatype:'json',
                 data:{
-                    form_id:Request.id,
-                    template_id:Request.template_id,
-                    type_code:Request.type_code,
-                    pageSize:pageSize //每页展示多少数据
+                    form_id:tableID,
+                    template_id:template_id,
+                    type_code:type_code,
+                    pageSize:oTableIn.pageSize //每页展示多少数据
                 },
                 success:function(data){
                     layer.close(LoadIndex); //关闭遮罩层
@@ -664,6 +721,45 @@ var oTableIn = new Vue({
     }
 })
 
+//获取数据函数
+function update(tableID,template_id,type_code,oPageNow,pageSize) {
+    var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
+
+    //获取缓存数据
+    $.ajax({
+        type:'POST',
+        url:'http://192.168.1.40/PicSystem/canton/get/info',
+        datatype:'json',
+        data:{
+            form_id:tableID,
+            template_id:template_id,
+            type_code:type_code,
+            next:oPageNow,
+            pageSize:pageSize //每页展示多少数据
+        },
+        success:function(data){
+            layer.close(LoadIndex); //关闭遮罩层
+            if(data.status==100){
+                oTableIn.gridData = data.value;
+                oTableIn.countPage = data.countPage;
+                oTableIn.countNum = data.countNum;
+                oTableIn.pageNow = data.pageNow;
+            }else if(data.status==101){
+                // layer.msg('数据为空');
+            }else if(data.status==102){
+                layer.msg('获取表格的ID为空');
+            }else if(data.status==111){
+                layer.msg('表格没有数据');
+            }
+        },
+        error:function(jqXHR){
+            layer.close(LoadIndex); //关闭遮罩层
+            layer.msg('向服务器请求表格信息失败');
+        }
+    })
+}
+
+
 
 //序号过滤器
 Vue.filter('ListNum',function(value){
@@ -679,13 +775,24 @@ Vue.filter('ListNum',function(value){
 })
 
 $(document).ready(function(){
+    //检测滚动条位置，显示隐藏页面头部
+    $(window).scroll(function(){
+       if($(window).scrollTop() > 50){
+           $('.topContent').slideUp(300);
+           $('#table').css('padding-top','200px');
+           $('#table').css('padding-top','50px');
+       }
+    })
+
     //页面顶部隐藏显示
     $('.pullUP').on('click',function(){
-        $('.topContent').slideUp(500);
+        $('.topContent').slideUp(300);
+        $('#table').css('padding-top','50px');
     });
 
     $('.pullDown').on('click',function(){
-        $('.topContent').slideDown(500);
+        $('.topContent').slideDown(300);
+        $('#table').css('padding-top','720px');
     });
 
     //回到顶部

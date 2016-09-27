@@ -16,6 +16,9 @@ function UrlSearch() {
     } 
 } 
 var Request=new UrlSearch();
+var tableID = Request.tableID;
+var template_id = Request.template_id;
+var type_code = 'info';
 
 // register the grid component
 Vue.component('demo-grid', {
@@ -44,8 +47,8 @@ var oTableIn = new Vue({
             url:'http://192.168.1.40/PicSystem/canton/get/oneform',
             datatype:'json',
             data:{
-                id:Request.tableID,
-                type_code:Request.type_code
+                id:tableID,
+                type_code:type_code
             },
             success:function(data){
                 if(data.status==100){
@@ -65,8 +68,8 @@ var oTableIn = new Vue({
             url:'http://192.168.1.40/PicSystem/canton/get/bootstrap',
             datatype:'json',
             data:{
-                template_id:Request.template_id,
-                type_code:Request.type_code
+                template_id:template_id,
+                type_code:type_code
             },
             success:function(data){
                 if(data.status==100){
@@ -86,9 +89,10 @@ var oTableIn = new Vue({
             url:'http://192.168.1.40/PicSystem/canton/get/info',
             datatype:'json',
             data:{
-                form_id:Request.tableID,
-                template_id:Request.template_id,
-                type_code:Request.type_code
+                form_id:tableID,
+                template_id:template_id,
+                type_code:type_code,
+                pageSize:1000 //获取全部不分页
             },
             success:function(data){
                 layer.close(LoadIndex); //关闭遮罩层
@@ -122,10 +126,44 @@ var oTableIn = new Vue({
             if(form_id){
                 window.location.href = 'http://192.168.1.40/PicSystem/canton/export?form_id='+form_id;
             }
+        },
+        //启用表格
+        startTable:function(){
+            if(tableID){
+                $.ajax({
+                    type:'POST',
+                    url:'http://192.168.1.40/PicSystem/canton/use/infoform',
+                    datatype:'json',
+                    data:{
+                        id:tableID,
+                        type_code:type_code
+                    },
+                    success:function(data){
+                        if(data.status==100){
+                            layer.msg('启用成功');
+                            oTableIn.info.status_code = 'enabled';
+                        }else{
+                            layer.msg(data.msg);
+                        }
+                    },
+                    error:function(jqXHR){
+                        layer.msg('向服务器请求表格信息失败');
+                    }
+                })
+            }
         }
     }
 })
 
+Vue.filter('startBtn',function(value){
+    var str1 = ''; //隐藏
+    var str2 = 'yes';//显示
+    if(value=='enabled'){
+        return str1
+    }else{
+        return str2
+    }
+})
 
 $(document).ready(function(){
     //回到顶部

@@ -317,7 +317,7 @@ Vue.filter('statusLink',function(value){
 		return str
 	}else if(status=='enabled'||status=='finished'){
 		//进入第三步
-		var str = donePage+'?tableID='+tableID+'&template_id='+template_id+'&type_code='+type_code;
+		var str = donePage+'?tableID='+tableID+'&template_id='+template_id;
 		return str
 	}else{
 		var str = 'javascript:'

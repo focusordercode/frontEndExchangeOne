@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>资料表流程-编辑表格</title>
+    <title>资料表流程-确认启用</title>
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <!--你自己的样式文件 -->
@@ -75,59 +75,6 @@
         <!-- 主内容区域 -->
         <div class="navbar navbar-inverse navbar-fixed-top tableTop">
             <div class="navbar-inner">
-                <!-- <div class="container marginTop">
-                    <div class="row form-group">
-                        <div class="col-md-12 col-xs-12">
-                            <ul class="nav nav-pills nav-justified thumbnail setup-panel">
-                                <li class="disabled">
-                                    <a href="javascript:">
-                                        <h3 class="list-group-item-heading">第一步</h3>
-                                        <p class="list-group-item-text">
-                                            <h4>创建表格</h4>
-                                            <i class="fa fa-table fa-3x"></i>
-                                        </p>
-                                    </a>
-                                </li>
-                                <li class="disabled">
-                                    <a href="javascript:">
-                                        <h3 class="list-group-item-heading">第二步</h3>
-                                        <p class="list-group-item-text">
-                                            <h4>编辑产品</h4>
-                                            <i class="fa fa-edit fa-3x"></i>
-                                        </p>
-                                    </a>
-                                </li>
-                                <li class="disabled">
-                                    <a href="javascript:">
-                                        <h3 class="list-group-item-heading">第三步</h3>
-                                        <p class="list-group-item-text">
-                                            <h4>选择图片</h4>
-                                            <i class="fa fa-file-image-o fa-3x"></i>
-                                        </p>
-                                    </a>
-                                </li>
-                                <li class="disabled">
-                                    <a href="javascript:">
-                                        <h3 class="list-group-item-heading">第四步</h3>
-                                        <p class="list-group-item-text">
-                                            <h4>上传图片</h4>
-                                        </p>
-                                        <i class="fa fa-cloud-upload fa-3x"></i>
-                                    </a>
-                                </li>
-                                <li class="active">
-                                    <a href="javascript:">
-                                        <h3 class="list-group-item-heading">第五步</h3>
-                                        <p class="list-group-item-text">
-                                            <h4>完成生效</h4>
-                                        </p>
-                                        <i class="fa fa-check fa-3x"></i>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div> -->
                 <div class="container-fluid" style="margin-top:20px;">
                     <div class="container-fluid tableDetail">
                         <div class="row">
@@ -156,9 +103,7 @@
                                             <span class="text-muted">{{info.client_name}}</span>
                                         </div>
                                         <div class="col-md-1">
-                                            <button class="btn btn-xs btn-info" @click="downloadTable" :disabled="downloadBtn">
-                                                <i class="fa fa-download" aria-hidden="true"></i>下载表格
-                                            </button>
+                                            <button class="btn btn-info btn-xs" v-show="info.status_code | startBtn"  @click="startTable">启用表格</button>
                                         </div>
                                         <div class="col-md-1">
                                             <a href="Table-info.html" class="btn btn-xs btn-info" >      <i class="fa fa-table" aria-hidden="true"></i>表格首页
@@ -221,7 +166,7 @@
         </script>
 
         <!-- demo root element -->
-        <div id="table" class="tableMargin">
+        <div id="table" style="margin-top:110px;">
             <demo-grid
             :data="gridData"
             :columns="gridColumns">
@@ -233,6 +178,7 @@
                 <div class="col-md-12">
                     <button class="btn btn-primary" @click="downloadTable" :disabled="downloadBtn">       <i class="fa fa-download" aria-hidden="true"></i>下载表格
                     </button>
+                    <button class="btn btn-info" v-show="info.status_code | startBtn" @click="startTable">启用表格</button>
                 </div>
             </div>
         </div>

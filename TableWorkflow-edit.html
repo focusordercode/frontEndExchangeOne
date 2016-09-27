@@ -80,7 +80,7 @@
             left: 0;
             z-index: 1030;
             background-color: #ecf0f5;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid #ccc;
         }
         .fixed-nav a {
             display: block;
@@ -94,15 +94,50 @@
         .fixed-nav a:hover {
             background-color: #2C3E50;
         }
+        .pullUP {
+            color: #777;
+            position: absolute;
+            bottom: -26px;
+            left: 50%;
+            margin-left: -20px;
+            width: 40px;
+            height: 26px;
+            background-color: rgba(221, 221, 221, .8);
+            text-align: center;
+            line-height: 34px;
+            cursor: pointer;
+        }
+        .pullDown {
+            color: #777;
+            position: absolute;
+            top: 0;
+            left: 50%;
+            margin-left: -20px;
+            width: 40px;
+            height: 26px;
+            background-color: rgba(221, 221, 221, .8);
+            text-align: center;
+            line-height: 34px;
+            cursor: pointer;
+            z-index: 5;
+        }
         #table {
-            padding-top: 645px;
+            padding-top: 680px;
             padding-left: 20px;
             padding-right: 20px;
         }
     </style>
 </head>
     <body>
+        <div class="pullDown">
+            <i class="fa fa-2x fa-angle-down" aria-hidden="true"></i>
+        </div>
+
         <div class="fixed-top">
+            <div class="pullUP">
+                <i class="fa fa-2x fa-angle-up" aria-hidden="true"></i>
+            </div>
+
             <!-- 顶部区域 -->
             <div class="container-fluid header-fluid-top">
                 <div class="row">
@@ -284,7 +319,7 @@
             </demo-grid>
         </div>
 
-        <div class="container" style="margin-bottom:680px;">
+        <div class="container">
             <div v-show="countPage>1" class="row">
                 <div class="alert alert-danger text-center" role="alert">
                     如果对表格做出了修改请一定要【暂存】后再进行翻页
@@ -325,7 +360,7 @@
         <div class="container">
             <div class="row">
                 <hr>
-                <pre>{{$data|json}}</pre>
+                <!-- <pre>{{$data|json}}</pre> -->
             </div>
         </div>
 

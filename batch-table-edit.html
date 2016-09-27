@@ -74,8 +74,12 @@
             padding-right: 20px;
         }
         .topContent {
+            position: fixed;
+            right: 0;
+            left: 0;
+            z-index: 1030;
             background-color: #f5f5f5;
-            position: relative;
+            border-bottom: 1px solid #ccc;
         }
         .pullUP {
             color: #777;
@@ -102,7 +106,7 @@
             text-align: center;
             line-height: 34px;
             cursor: pointer;
-            z-index: -10;
+            z-index: 6;
         }
         .tableCont {
             overflow-x: auto;
@@ -215,7 +219,7 @@
             </div>
 
             <!-- 选择显示个数 -->
-            <!-- <div class="container">
+            <div class="container">
                 <div class="row">
                     <div class="col-md-12">
                         <div class="well well-sm tableSelect">
@@ -229,14 +233,14 @@
                         </div>      
                     </div>
                 </div>
-            </div> -->
+            </div>
 
             <!-- 资料表信息 -->
             <div class="container-fluid tableDetail">
                 <div class="row">
                     <div class="col-md-12">
                         <div class="well">
-                            <h3 class="text-success">产品资料表录入</h3>
+                            <h3 class="text-success">批量表录入</h3>
                             <hr>
                             <div class="row">
                                 <div class="col-md-3">
@@ -326,14 +330,11 @@
             </div>
         </script>
         
-        <div class="container-fluid tableCont marginTop">
-            <!-- demo root element -->
-            <div id="table">
-                <demo-grid
-                :data="gridData"
-                :columns="gridColumns">
-                </demo-grid>
-            </div>
+        <div id="table" style="padding-top: 720px;">
+            <demo-grid
+            :data="gridData"
+            :columns="gridColumns">
+            </demo-grid>
         </div>
 
         <div class="container">

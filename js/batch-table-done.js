@@ -97,7 +97,8 @@ var oTableIn = new Vue({
             data:{
                 form_id:tableID,
                 template_id:template_id,
-                type_code:type_code
+                type_code:type_code,
+                pageSize:1000 //获取全部不分页
             },
             success:function(data){
                 layer.close(LoadIndex); //关闭遮罩层
