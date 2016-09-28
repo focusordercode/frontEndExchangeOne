@@ -40,6 +40,7 @@ var tempCreat = new Vue({
             vm.proList = '';
             //把搜索框清空
             $('.searchCate').val('');
+            $('.searchCompent').hide();
         },
         //保存模板信息
         sendMsg:function(){

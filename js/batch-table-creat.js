@@ -72,6 +72,7 @@ var tableCreat = new Vue({
 			vm.MBselected = '';
 			//把搜索框清空
 			$('.searchCate').val('');
+			$('.searchCompent').hide();
 		},
 		// 选择产品资料表
 		selectTable:function(){

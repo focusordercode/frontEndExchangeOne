@@ -46,6 +46,9 @@ var TableCreat = new Vue({
 			TableCreat.proSelected = pro.cn_name;
 			TableCreat.proSelectedId = pro.id;
 			TableCreat.proList = '';
+			//清空值，隐藏框
+			$('.searchCate').val('');
+			$('.searchCompent').hide();
 		},
 		//打开选择模板框
 		selectMB:function(){
@@ -139,6 +142,9 @@ var TableCreat = new Vue({
 			TableCreat.CusSelect = cus.custom_name;
 			TableCreat.CusSelectId = cus.id;
 			TableCreat.CusList = '';
+			//清除值,隐藏框
+			$('.searchCus').val('');
+			$('.searchCompent2').hide();
 		},
 		//保存表格信息
 		saveTable:function(){
@@ -197,6 +203,15 @@ var TableCreat = new Vue({
 	}
 }) 
 
+//搜索客户框
+$(function(){
+    $('.searchBtn2').on('click',function(){
+        $('.searchCompent2').show();
+    })
+    $('.closeBtn2').on('click',function(){
+        $('.searchCompent2').hide();
+    })
+})
 
 //搜索客户
 $('.searchCus').on('keyup',function(){
@@ -222,6 +237,16 @@ $('.searchCus').on('keyup',function(){
 		}
 	})
 });
+
+//搜索类目框
+$(function(){
+    $('.searchBtn').on('click',function(){
+        $('.searchCompent').show();
+    })
+    $('.closeBtn').on('click',function(){
+        $('.searchCompent').hide();
+    })
+})
 
 //搜索类目
 $('.searchCate').on('keyup',function(){

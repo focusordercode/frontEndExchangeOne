@@ -173,6 +173,39 @@ var oTableIn = new Vue({
                     }
                 })
             })
+        },
+        //匹配UPC
+        oFitUPC:function(){
+            if(tableID){
+                var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
+
+                $.ajax({
+                    type:'POST',
+                    url:'http://192.168.1.40/PicSystem/canton/marry_upc',
+                    datatype:'json',
+                    data:{
+                        form_id:tableID
+                    },
+                    success:function(data){
+                        layer.close(LoadIndex); //关闭遮罩层
+                        if(data.status==100){
+                            layer.msg('请求成功');
+
+                            function windowFresh(){
+                                location.reload(true);
+                            }
+
+                            setInterval(windowFresh,1000);
+                        }else{
+                            layer.msg(data.msg);
+                        }
+                    },
+                    error:function(jqXHR){
+                        layer.close(LoadIndex); //关闭遮罩层
+                        layer.msg('向服务器请求失败');
+                    }
+                })
+            }
         }
     }
 })

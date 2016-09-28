@@ -57,7 +57,6 @@ var tempStart = new Vue({
             type: "POST",
             url: "http://192.168.1.40/PicSystem/canton/get/templateitem", //添加请求地址的参数
             dataType: "json",
-            timeout:5000,
             data:{
                 template_id:template_id,
                 type_code:type_code

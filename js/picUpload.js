@@ -52,16 +52,12 @@ var picUpload = new Vue({
 
 $(window).bind('beforeunload',function(){return "您修改的内容尚未保存，确定离开此页面吗？";});
 
-//图片数量
-var len = 50;
 //上传功能
 var uploader = new plupload.Uploader({
-    runtimes : 'html5,flash,silverlight,html4',
+    runtimes : 'html5,html4',
     browse_button : 'pickfiles', 
     container: document.getElementById('container'), 
     url : 'http://192.168.1.40/PicSystem/canton/Picture/upload/gallery_id/'+Request.id,
-    flash_swf_url : 'js/Moxie.swf',
-    silverlight_xap_url : 'js/Moxie.xap',
     
     filters : {
         max_file_size : '5mb',
@@ -81,7 +77,7 @@ var uploader = new plupload.Uploader({
                     uploader.start();
                 }
                 
-                //return false;
+                return false;
             };
         },
 
@@ -89,18 +85,23 @@ var uploader = new plupload.Uploader({
             plupload.each(files, function(file) {
                 document.getElementById('filelist').innerHTML += '<li class="list-group-item list-group-item-warning" id="' + file.id + '">' + file.name + '(' + plupload.formatSize(file.size) + ') <b></b></li>';
             });
-            //更新已经选择图片的函数
-            function updateLen() {
-                var countLen = len - files.length;
-                document.getElementById('seletedLen').getElementsByTagName('b')[0].innerHTML = '还可以选择'+countLen+'张图片';
-            }
-            updateLen();
 
-            //检测图片数量是否超出
-            if(files.length > len){
-                alert('上传数量超载！');
-                $(window).unbind('beforeunload');
-                location.reload(true);
+            var Len = 50;// 最多上传50个文件
+            if(uploader.files.length>Len){ 
+                uploader.files.splice(Len,1999);//删除50后1999个文件
+            }
+
+            $('#filelist li').eq(Len-1).nextAll().remove();//移除dom
+
+            //更新已经选择图片
+            var countLen = Len - uploader.files.length;
+            if(countLen>0){
+                $('#pickfiles').show();
+                document.getElementById('seletedLen').getElementsByTagName('b')[0].innerHTML = '还可以选择'+countLen+'张图片';
+            }else{
+                layer.msg('最多只能上传50张图片，多余的已经自动移除');
+                $('#pickfiles').hide();
+                document.getElementById('seletedLen').getElementsByTagName('b')[0].innerHTML = '不能选择更多图片了';
             }
         },
 
@@ -122,8 +123,9 @@ var uploader = new plupload.Uploader({
                     btn:['确定','取消']
                 },function(yes){
                     var url = 'picUpload-edit.html?id='+files.length+'&cate='+Request.id;
-                    window.open(url);
-                    location.reload(true);
+                    // window.open(url);
+                    // location.reload(true);
+                    window.location.href = url;
                 },function(cancel){
                     location.reload(true);
                 })

@@ -169,6 +169,10 @@ var oTableInfo = new Vue({
 				})
 			}
 		},
+		//刷新
+		Reflesh:function(){
+			location.reload(true);
+		},
 		//上一页
 		goPrePage:function(){
 			var pageNow = this.pageNow;
@@ -337,7 +341,7 @@ Vue.filter('ListNum',function(value){
     return str
 })
 
-//修改表格休息按钮
+//删除按钮
 Vue.filter('deleteBtn',function(value){
     var value = value;
     str1 = ''; //隐藏
@@ -346,6 +350,30 @@ Vue.filter('deleteBtn',function(value){
         return str1
     }else {
         return str2
+    }
+})
+
+//编辑按钮
+Vue.filter('editBtn',function(value){
+    var value = value;
+    str1 = ''; //隐藏
+    str2 = 'yes'; //显示
+    if(value=='finished'||value=='halt'){
+        return str1
+    }else {
+        return str2
+    }
+})
+
+//预览按钮
+Vue.filter('prviewBtn',function(value){
+    var value = value;
+    str1 = ''; //隐藏
+    str2 = 'yes'; //显示
+    if(value=='finished'||value=='halt'){
+        return str2
+    }else {
+        return str1
     }
 })
 

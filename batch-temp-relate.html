@@ -236,7 +236,7 @@
                     <div class="panel panel-primary">
                         <div class="panel-heading">
                             <h4>
-                                <b>关联产品资料模板项目</b>
+                                <b>关联资料模板项目</b>
                             </h4>
                         </div>
                         <div class="panel-body">
@@ -260,12 +260,12 @@
                                 <hr>
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <div v-show="!proData" class="alert alert-danger" role="alert">请先选择产品资料表模板</div>
+                                        <div v-show="!proData" class="alert alert-danger" role="alert">请先选择资料表模板</div>
 
                                         <div class="form">
                                             <div class="col-md-4 col-md-offset-1">
                                                 <div class="form-group">
-                                                    <label>产品资料表模板项目</label>
+                                                    <label>资料表模板项目</label>
                                                     <select v-model="selectedInfo" class="proSelect form-control">
                                                         <option v-for="info in proData" value="{{$index}}" >{{info.en_name}}</option>
                                                     </select>
@@ -274,7 +274,7 @@
                                             <div class="col-md-1 text-center" style="line-height:74px;">====</div>
                                             <div class="col-md-4">
                                                 <div class="form-group">
-                                                    <label>产品批量表模板项目</label>
+                                                    <label>批量表模板项目</label>
                                                     <select v-model="selectedBacth" class="batSelect form-control">
                                                         <option v-for="batch in tempData" value="{{$index}}"> {{batch.en_name}}</option>
                                                     </select>
@@ -370,7 +370,7 @@
         <hr>
         <div class="container">
             <div class="row">
-                <pre>{{$data|json}}</pre>
+                <!-- <pre>{{$data|json}}</pre> -->
             </div>
         </div>
 

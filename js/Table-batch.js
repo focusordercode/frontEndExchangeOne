@@ -151,6 +151,10 @@ var oTableInfo = new Vue({
 				}
 			})
 		},
+		//刷新
+		Reflesh:function(){
+			location.reload(true);
+		},
 		//搜索
 		searchTable:function(){
 			var keyword = this.keyword.trim();

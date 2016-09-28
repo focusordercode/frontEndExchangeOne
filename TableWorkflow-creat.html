@@ -146,6 +146,19 @@
             background-color: #ECF0F1;
             cursor: pointer;
         }
+        .paddingLeft {
+            padding-left: 0;
+        }
+        .searchShadow {
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .searchShadow:focus {
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            border-color: #ccc;
+        }
+        .searchCompent,.searchCompent2 {
+            display: none;
+        }
     </style>
 </head>
     <body>
@@ -231,7 +244,7 @@
             <div class="row">
                 <div class="col-lg-12 col-md-12">
                     <div class="well">
-                        <h3 class="text-primary col-sm-11 col-sm-offset-1 text-left">产品资料表信息</h3>
+                        <h3 class="text-primary col-sm-11 col-sm-offset-1 text-left">资料表信息</h3>
                         <div class="form-horizontal">
                             <div class="form-group">
                                 <label class="col-sm-2 control-label text-muted">表格编号</label>
@@ -244,12 +257,23 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label text-muted">选择类目</label>
                                 <div class="col-sm-4 pors">
-                                    <input type="text" v-model="proSelected" class="form-control searchCate" placeholder="输入关键字搜索类目">
+                                    <input type="text" v-model="proSelected" class="form-control" placeholder="输入关键字搜索类目" readonly>
+                                </div>
+                                <div class="col-sm-1">
+                                    <button class="btn btn-info btn-sm searchBtn">搜索</button>
+                                </div>
+                                <div class="col-sm-3 pors searchCompent">
+                                    <input type="text" class="form-control searchShadow searchCate" placeholder="输入关键字搜索类目">
                                     <ul class="cate-list">
                                         <li @click="selectCate(pro)" v-for="pro in proList">
                                             {{pro.cn_name}} {{pro.en_name}}
                                         </li>
                                     </ul>
+                                </div>
+                                <div class="col-sm-1 text-left paddingLeft searchCompent">
+                                    <button class="btn btn-default closeBtn searchShadow">
+                                        <i class="fa fa-close"></i>
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -268,15 +292,23 @@
                             <div class="form-group pors">
                                 <label class="col-sm-2 control-label text-muted">客户名称</label>
                                 <div class="col-sm-4">
-                                    <input type="text" v-model="CusSelect" class="form-control searchCus" placeholder="输入关键字搜索客户">
+                                    <input type="text" v-model="CusSelect" class="form-control" placeholder="输入关键字搜索客户" readonly>
+                                </div>
+                                <div class="col-sm-1">
+                                    <button class="btn btn-info btn-sm searchBtn2">搜索</button>
+                                </div>
+                                <div class="col-sm-3 pors searchCompent2">
+                                    <input type="text" class="form-control searchShadow searchCus" placeholder="输入关键字搜索客户">
                                     <ul class="input-list">
                                         <li @click="selectCus(cus)" v-for="cus in CusList">
                                             {{cus.custom_name}} {{cus.en_name}}
                                         </li>
                                     </ul>
                                 </div>
-                                <div class="col-sm-2">
-                                    <!-- <button class="btn btn-default btn-sm">选择客户</button> -->
+                                <div class="col-sm-1 text-left paddingLeft searchCompent2">
+                                    <button class="btn btn-default closeBtn searchShadow">
+                                        <i class="fa fa-close"></i>
+                                    </button>
                                 </div>
                             </div>
                         </div>
