@@ -3,6 +3,8 @@ function windowFresh(){
     location.reload(true);
 }
 
+var serverUrl = "http://192.168.1.40/PicSystem/canton/"; //后端接口地址
+
 //查看信息组件
 Vue.component('my-component', {
     template: '#picinfo',
@@ -36,7 +38,7 @@ var picGallery = new Vue({
         //获取回收站图片数据
         $.ajax({
             type:'POST',
-            url:'http://192.168.1.40/PicSystem/canton/get/image',
+            url:serverUrl+'get/image',
             datatype:'json',
             data:{
                 rubbish:1
@@ -67,6 +69,25 @@ var picGallery = new Vue({
             }
         })
     },
+    computed:{
+        //控制分页按钮
+        disabledp:function(){
+            if(this.pageNow<=1){
+                return true
+            }else{
+                return false
+            }
+        },
+        disabledn:function(){
+            var pageNow = this.pageNow;
+            var countPage = this.countPage;
+            if(pageNow==countPage||countPage==0){
+                return true
+            }else{
+                return false
+            }
+        }
+    },
     methods:{
         //图片信息
         picinfo:function(pic){
@@ -88,7 +109,7 @@ var picGallery = new Vue({
             },function(){
                 $.ajax({
                     type:'POST',
-                    url:'http://192.168.1.40/PicSystem/canton/delete/image',
+                    url:serverUrl+'delete/image',
                     datatype:'json',
                     data:{
                         id:pic.id,
@@ -114,7 +135,7 @@ var picGallery = new Vue({
                 //获取图片数据
                 $.ajax({
                     type:'POST',
-                    url:'http://192.168.1.40/PicSystem/canton/get/image',
+                    url:serverUrl+'get/image',
                     datatype:'json',
                     data:{
                         rubbish:1,
@@ -162,7 +183,7 @@ var picGallery = new Vue({
                 //获取图片数据
                 $.ajax({
                     type:'POST',
-                    url:'http://192.168.1.40/PicSystem/canton/get/image',
+                    url:serverUrl+'get/image',
                     datatype:'json',
                     data:{
                         rubbish:1,
@@ -210,7 +231,7 @@ var picGallery = new Vue({
                 //获取图片数据
                 $.ajax({
                     type:'POST',
-                    url:'http://192.168.1.40/PicSystem/canton/get/image',
+                    url:serverUrl+'get/image',
                     datatype:'json',
                     data:{
                         rubbish:1,
@@ -258,7 +279,7 @@ var picGallery = new Vue({
                 //获取图片数据
                 $.ajax({
                     type:'POST',
-                    url:'http://192.168.1.40/PicSystem/canton/get/image',
+                    url:serverUrl+'get/image',
                     datatype:'json',
                     data:{
                         rubbish:1,
@@ -316,7 +337,7 @@ var picGallery = new Vue({
                 //恢复图片到分类
                 $.ajax({
                     type:'POST',
-                    url:'http://192.168.1.40/PicSystem/canton/recover/image',
+                    url:serverUrl+'recover/image',
                     datatype:'json',
                     data:{
                         id:picArray,
@@ -369,7 +390,7 @@ var picGallery = new Vue({
             },function(){
                 $.ajax({
                     type:'POST',
-                    url:'http://192.168.1.40/PicSystem/canton/delete/image',
+                    url:serverUrl+'delete/image',
                     datatype:'json',
                     data:{
                         id:checked,
@@ -398,7 +419,7 @@ var picGallery = new Vue({
             },function(){
                 $.ajax({
                     type:'POST',
-                    url:'http://192.168.1.40/PicSystem/canton/clear/image',
+                    url:serverUrl+'clear/image',
                     datatype:'json',
                     success:function(data){
                         if(data.status==100){
@@ -421,7 +442,7 @@ $(document).on('keyup','.pors .form-control',function(){
     $('.pors .list-group').css('width',inputWidth);
     $.ajax({
         type:'POST',
-        url:'http://192.168.1.40/PicSystem/canton/vague/gallery',
+        url:serverUrl+'vague/gallery',
         datatype:'json',
         data:{
             keyword:picGallery.keyword

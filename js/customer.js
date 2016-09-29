@@ -10,6 +10,8 @@ var Cmobile;
 var Cemail;
 var Caddress;
 
+var serverUrl = "http://192.168.1.40/PicSystem/canton/"; //后端接口地址
+
 var customer = new Vue({
 	el:'body',
 	data:{
@@ -44,7 +46,7 @@ var customer = new Vue({
 		//获取所有客户信息
 		$.ajax({
 			type:'POST',
-			url:'http://192.168.1.40/PicSystem/canton/get/custom',
+			url:serverUrl+'get/custom',
 			datatype:'json',
 			success:function(data){
 				if(data.status==100){
@@ -117,7 +119,7 @@ var customer = new Vue({
 				}else{
 					$.ajax({
 						type:'POST',
-						url:'http://192.168.1.40/PicSystem/canton/delete/custom',
+						url:serverUrl+'delete/custom',
 						datatype:'json',
 						data:{
 							id:checkedArr
@@ -145,7 +147,7 @@ var customer = new Vue({
 			},function(){
 				$.ajax({
 					type:'POST',
-					url:'http://192.168.1.40/PicSystem/canton/delete/custom',
+					url:serverUrl+'delete/custom',
 					datatype:'json',
 					data:{
 						id:id
@@ -186,7 +188,7 @@ var customer = new Vue({
 			}else{
 				$.ajax({
 					type:'POST',
-					url:'http://192.168.1.40/PicSystem/canton/post/custom',
+					url:serverUrl+'post/custom',
 					datatype:'json',
 					data:{
 						data:addNew
@@ -238,7 +240,7 @@ var customer = new Vue({
 			}else{
 				$.ajax({
 					type:'POST',
-					url:'http://192.168.1.40/PicSystem/canton/update/custom',
+					url:serverUrl+'update/custom',
 					datatype:'json',
 					data:{
 						data:addNew
@@ -280,7 +282,7 @@ var customer = new Vue({
 			var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
 			$.ajax({
 				type:'POST',
-				url:'http://192.168.1.40/PicSystem/canton/get/custom',
+				url:serverUrl+'get/custom',
 				datatype:'json',
 				data:{
 					pageNow:pageNow
@@ -317,7 +319,7 @@ var customer = new Vue({
 			var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
 			$.ajax({
 				type:'POST',
-				url:'http://192.168.1.40/PicSystem/canton/get/custom',
+				url:serverUrl+'get/custom',
 				datatype:'json',
 				data:{
 					pageNow:pageNow
@@ -359,7 +361,7 @@ var customer = new Vue({
 				var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
 				$.ajax({
 					type:'POST',
-					url:'http://192.168.1.40/PicSystem/canton/get/custom',
+					url:serverUrl+'get/custom',
 					datatype:'json',
 					data:{
 						pageNow:jumpPage

@@ -19,6 +19,8 @@ var Request=new UrlSearch();
 var type_code = 'batch';
 var tableID = Request.tableID;
 
+var serverUrl = "http://192.168.1.40/PicSystem/canton/"; //后端接口地址
+
 var tableCreat = new Vue({
 	el:'body',
 	data:{
@@ -85,7 +87,7 @@ var tableCreat = new Vue({
 
 				$.ajax({
 					type:'POST',
-					url:'http://192.168.1.40/PicSystem/canton/get/infoform',
+					url:serverUrl+'get/infoform',
 					datatype:'json',
 					data:{
 						type_code:'info',
@@ -142,7 +144,7 @@ var tableCreat = new Vue({
 
 				$.ajax({
 					type:'POST',
-					url:'http://192.168.1.40/PicSystem/canton/search/batchTel',
+					url:serverUrl+'search/batchTel',
 					datatype:'json',
 					data:{
 						form_id:vm.tableSelected.id
@@ -204,7 +206,7 @@ var tableCreat = new Vue({
 				var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
 				$.ajax({
 					type:'POST',
-					url:'http://192.168.1.40/PicSystem/canton/add/infoform',
+					url:serverUrl+'add/infoform',
 					datatype:'json',
 					data:{
 						type_code:type_code, 
@@ -273,7 +275,7 @@ $('.searchCate').on('keyup',function(){
 
 	$.ajax({
 		type:'POST',
-		url:'http://192.168.1.40/PicSystem/canton/vague/name',
+		url:serverUrl+'vague/name',
 		datatype:'json',
 		data:{
 			text:searchCusVal

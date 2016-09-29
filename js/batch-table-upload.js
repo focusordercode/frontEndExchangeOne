@@ -19,7 +19,7 @@ var Request=new UrlSearch();
 var tableID = Request.id;
 var type_code = 'batch';
 
-
+var serverUrl = "http://192.168.1.40/PicSystem/canton/"; //后端接口地址
 
 //未提交保存内容提示
 $(window).bind('beforeunload',function(){return "您修改的内容尚未保存，确定离开此页面吗？";});
@@ -39,7 +39,7 @@ var uploadPic = new Vue({
         //获取上一步骤筛选的图片
         $.ajax({
             type:'POST',
-            url:'http://192.168.1.40/PicSystem/canton/Picture/get_cache_pic',
+            url:serverUrl+'Picture/get_cache_pic',
             datatype:'json',
             data:{
                 key:'oD~8dyxGS9Az',
@@ -63,7 +63,7 @@ var uploadPic = new Vue({
         //获取表格信息
         $.ajax({
             type:'POST',
-            url:'http://192.168.1.40/PicSystem/canton/get/oneform',
+            url:serverUrl+'get/oneform',
             datatype:'json',
             data:{
                 id:tableID,
@@ -100,7 +100,6 @@ var uploadPic = new Vue({
             $.ajax({
                 type:'POST',
                 url:'http://120.25.228.115/ImagesUpload/Index.php/Home/Index/version',
-                // url:'http://www.sayshun.cc/ImagesUpload/index.php/Home/Index/version',
                 datatype:'json',
                 data:{
                     key:'1818d506396d77b3d035f719885c4cd1',
@@ -177,7 +176,7 @@ var uploadPic = new Vue({
                 //上传已经成功上传的图片数据给后端
                 $.ajax({
                     type:'POST',
-                    url:'http://192.168.1.40/PicSystem/canton/get/completeInfo',
+                    url:serverUrl+'get/completeInfo',
                     datatype:'json',
                     data:{
                         form_id:tableID,
@@ -222,7 +221,7 @@ var uploadPic = new Vue({
 
                 $.ajax({
                     type:'POST',
-                    url:'http://192.168.1.40/PicSystem/canton/back',
+                    url:serverUrl+'back',
                     datatype:'json',
                     data:{
                         form_id:tableID,
@@ -231,6 +230,10 @@ var uploadPic = new Vue({
                     success:function(data){
                         if(data.status==100){
                             layer.msg('请求成功');
+                            
+                            //解绑页面提示
+                            $(window).unbind('beforeunload');
+
                             //跳转函数
                             function goNext() {
                                 var url = 'batch-table-selectPic.html';

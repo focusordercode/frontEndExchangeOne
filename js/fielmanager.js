@@ -1,3 +1,6 @@
+
+var serverUrl = "http://192.168.1.40/PicSystem/canton/"; //后端接口地址
+
 var fliemanage = new Vue({
 	el:'body',
 	data:{
@@ -48,7 +51,7 @@ var fliemanage = new Vue({
 	searchfiel:function(){
 		$.ajax({
             type:'post',
-            url:'http://192.168.1.40/PicSystem/canton/get/folder',
+            url:serverUrl+'get/folder',
             datatype:'json',
             data:{
                 type:fliemanage.type
@@ -73,7 +76,7 @@ var fliemanage = new Vue({
         var u=fiels.url;
 		$.ajax({
             type:'post',
-            url:'http://192.168.1.40/PicSystem/canton/del/file',
+            url:serverUrl+'del/file',
             datatype:'json',
             data:{
                 url:item.url
@@ -95,7 +98,7 @@ var fliemanage = new Vue({
 	delectfile:function(){
 		$.ajax({
             type:'post',
-            url:'http://192.168.1.40/PicSystem/canton/del/file',
+            url:serverUrl+'del/file',
             datatype:'json',
             data:{
                 url:fliemanage.arrayurl
@@ -119,7 +122,7 @@ var fliemanage = new Vue({
 		var item = fiels;
 		$.ajax({
             type:'post',
-            url:'http://192.168.1.40/PicSystem/canton/get/file',
+            url:serverUrl+'get/file',
             datatype:'json',
             data:{
                 url:item.url
@@ -155,7 +158,7 @@ goPrePage:function(){
         var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
         $.ajax({
             type:'POST',
-            url:'http://192.168.1.40/PicSystem/canton/get/file',
+            url:serverUrl+'get/file',
             datatype:'json',
             data:{
                 number:pageNow,
@@ -190,7 +193,7 @@ goNextPage:function(){
         var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
         $.ajax({
             type:'POST',
-            url:'http://192.168.1.40/PicSystem/canton/get/file',
+            url:serverUrl+'get/file',
             datatype:'json',
             data:{
                number:pageNow,

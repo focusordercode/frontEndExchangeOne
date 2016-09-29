@@ -1,5 +1,7 @@
 //图片目录管理，此功能暂时废弃了
 
+var serverUrl = "http://192.168.1.40/PicSystem/canton/"; //后端接口地址
+
 // 获取标签
             $oAddtopBtn = $('.easy-tree-toolbar .addtop > button');//创建顶级分类按钮
             $oAddtopConfirm = $('.easy-tree-toolbar .addtop .confirm');//创建顶级分类下的确定按钮
@@ -17,7 +19,7 @@
             function loadPage(){
                 $.ajax({
                     type: "GET",    
-                    url: "http://192.168.1.40/PicSystem/canton/get/imageancestors", //添加请求地址的参数
+                    url: serverUrl+"get/imageancestors", //添加请求地址的参数
                     dataType: "json",
                     success: function(data){
                         if(data.status == 100){
@@ -57,7 +59,7 @@
             function open_again(ids,app_codes){
                 $.ajax({ 
                     type: "POST",   
-                    url: "http://192.168.1.40/PicSystem/canton/get/imagesub", //添加请求地址的参数
+                    url: serverUrl+"get/imagesub", //添加请求地址的参数
                     dataType: "json",
                     data:{
                         id:ids,
@@ -110,7 +112,7 @@
                     $oEn_name2 = (val.split("//"))[1];
                     $.ajax({
                         type: "POST",    
-                        url: "http://192.168.1.40/PicSystem/canton/update/imagesub", //添加请求地址的参数
+                        url: serverUrl+"update/imagesub", //添加请求地址的参数
                         dataType: "json",
                         data:{
                             id:$oLiName,
@@ -146,7 +148,7 @@
                     },function(yes){
                         $.ajax({
                             type: "POST",    
-                            url: "http://192.168.1.40/PicSystem/canton/delete/imagesub", //添加请求地址的参数
+                            url: serverUrl+"delete/imagesub", //添加请求地址的参数
                             dataType: "json",
                             data:{
                                 id:$oLiName,
@@ -198,7 +200,7 @@
                 }else{
                     $.ajax({
                         type: "POST",    
-                        url: "http://192.168.1.40/PicSystem/canton/post/imagesub", //添加请求地址的参数
+                        url: serverUrl+"post/imagesub", //添加请求地址的参数
                         dataType: "json",
                         data:{
                             id:$oLiName,

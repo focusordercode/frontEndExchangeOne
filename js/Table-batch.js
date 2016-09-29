@@ -3,6 +3,8 @@ function windowFresh(){
     location.reload(true);
 }
 
+var serverUrl = "http://192.168.1.40/PicSystem/canton/"; //后端接口地址
+
 var type_code = 'batch';
 
 var oTableInfo = new Vue({
@@ -35,7 +37,7 @@ var oTableInfo = new Vue({
 		var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
 		$.ajax({
 		    type: "POST",
-		    url: "http://192.168.1.40/PicSystem/canton/get/infoform", //添加请求地址的参数
+		    url: serverUrl+"get/infoform", //添加请求地址的参数
 		    dataType: "json",
 		    data:{
 		        category_id:'',
@@ -96,7 +98,7 @@ var oTableInfo = new Vue({
 			},function(){
 				$.ajax({
 				    type: "POST",
-				    url: "http://192.168.1.40/PicSystem/canton/index.php/del/infoform", //添加请求地址的参数
+				    url: serverUrl+"index.php/del/infoform", //添加请求地址的参数
 				    dataType: "json",
 				    data:{
 				        id:Id,
@@ -127,10 +129,10 @@ var oTableInfo = new Vue({
 		},
 		//新建表格
 		creatTable:function(){
-			var w = window.open();
+			// var w = window.open();
 			$.ajax({
 				type:'POST',
-				url:'http://192.168.1.40/PicSystem/canton/get/formNumber',
+				url:serverUrl+'get/formNumber',
 				datatype:'json',
 				data:{
 					type_code:type_code
@@ -140,7 +142,8 @@ var oTableInfo = new Vue({
 						var id = data.value;
 						var url = 'batch-table-creat.html?tableID='+id;
 						if(id){
-							w.location = url;
+							// w.location = url;
+							window.location.href = url;
 						}
 					}else if(data.status==101){
 						layer.msg('请求失败，请重试');
@@ -165,7 +168,7 @@ var oTableInfo = new Vue({
 				var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
 				$.ajax({
 					type:'POST',
-					url:'http://192.168.1.40/PicSystem/canton/search/form',
+					url:serverUrl+'search/form',
 					datatype:'json',
 					data:{
 						type_code:type_code,
@@ -201,7 +204,7 @@ var oTableInfo = new Vue({
 				var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
 				$.ajax({
 					type:'POST',
-					url:'http://192.168.1.40/PicSystem/canton/get/infoform',
+					url:serverUrl+'get/infoform',
 					datatype:'json',
 					data:{
 						next:pageNow,
@@ -238,7 +241,7 @@ var oTableInfo = new Vue({
 				var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
 				$.ajax({
 					type:'POST',
-					url:'http://192.168.1.40/PicSystem/canton/get/infoform',
+					url:serverUrl+'get/infoform',
 					datatype:'json',
 					data:{
 						next:pageNow,
@@ -275,7 +278,7 @@ var oTableInfo = new Vue({
 				var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
 				$.ajax({
 					type:'POST',
-					url:'http://192.168.1.40/PicSystem/canton/get/infoform',
+					url:serverUrl+'get/infoform',
 					datatype:'json',
 					data:{
 						next:jump,
@@ -307,7 +310,7 @@ var oTableInfo = new Vue({
 		    if(infoCache.id){
 		        $.ajax({
 		        	type:'POST',
-		        	url:'http://192.168.1.40/PicSystem/canton/update/infoform',
+		        	url:serverUrl+'update/infoform',
 		        	datatype:'json',
 		        	data:{
 		        		type_code:type_code,

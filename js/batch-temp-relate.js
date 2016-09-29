@@ -20,6 +20,8 @@ var Request=new UrlSearch();
 var template_id = Request.id;//模板ID
 var type_code = 'batch';//批量表模板
 
+var serverUrl = "http://192.168.1.40/PicSystem/canton/"; //后端接口地址
+
 //未提交保存内容提示
 $(window).bind('beforeunload',function(){return "您修改的内容尚未保存，确定离开此页面吗？";});
 
@@ -48,7 +50,7 @@ var tempRelate = new Vue({
         //获取当前模板的信息
         $.ajax({
             type:'POST',
-            url:'http://192.168.1.40/PicSystem/canton/getById/template',
+            url:serverUrl+'getById/template',
             datatype:'json',
             data:{
                 type_code:type_code,
@@ -69,7 +71,7 @@ var tempRelate = new Vue({
         //获取当前模板的数据
         $.ajax({
             type: "POST",
-            url: "http://192.168.1.40/PicSystem/canton/get/templateitem", //添加请求地址的参数
+            url: serverUrl+"get/templateitem", //添加请求地址的参数
             dataType: "json",
             timeout:5000,
             data:{
@@ -123,7 +125,7 @@ var tempRelate = new Vue({
                 //拉取当前模板的类目下所有模板，包括通用模板
                 $.ajax({
                     type:'POST',
-                    url:'http://192.168.1.40/PicSystem/canton/get/template10',
+                    url:serverUrl+'get/template10',
                     datatype:'json',
                     data:{
                         type_code:'info',
@@ -168,7 +170,7 @@ var tempRelate = new Vue({
             //确定选中后拉取资料表的数据
             $.ajax({
                 type: "POST",
-                url: "http://192.168.1.40/PicSystem/canton/get/templateitem", //添加请求地址的参数
+                url: serverUrl+"get/templateitem", //添加请求地址的参数
                 dataType: "json",
                 timeout:5000,
                 data:{
@@ -238,7 +240,7 @@ var tempRelate = new Vue({
             }else{
                 $.ajax({
                     type:'POST',
-                    url:'http://192.168.1.40/PicSystem/canton/marry/item',
+                    url:serverUrl+'marry/item',
                     datatype:'json',
                     data:{
                         batch_template_id:batch_template_id,
@@ -278,7 +280,7 @@ var tempRelate = new Vue({
 
                 $.ajax({
                     type:'POST',
-                    url:'http://192.168.1.40/PicSystem/canton/template_back',
+                    url:serverUrl+'template_back',
                     datatype:'json',
                     data:{
                         template_id:template_id,

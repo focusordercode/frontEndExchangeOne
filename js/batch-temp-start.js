@@ -22,6 +22,8 @@ var template_id = Request.id;//模板ID
 var type_code = 'batch';//批量表模板
 var preType = Request.type;//访问类型
 
+var serverUrl = "http://192.168.1.40/PicSystem/canton/"; //后端接口地址
+
 var tempStart = new Vue({
     el:'body',
     data:{
@@ -34,7 +36,7 @@ var tempStart = new Vue({
         //获取当前模板的信息
         $.ajax({
             type:'POST',
-            url:'http://192.168.1.40/PicSystem/canton/getById/template',
+            url:serverUrl+'getById/template',
             datatype:'json',
             data:{
                 type_code:type_code,
@@ -55,7 +57,7 @@ var tempStart = new Vue({
         //获取当前模板的数据
         $.ajax({
             type: "POST",
-            url: "http://192.168.1.40/PicSystem/canton/get/templateitem", //添加请求地址的参数
+            url: serverUrl+"get/templateitem", //添加请求地址的参数
             dataType: "json",
             data:{
                 template_id:template_id,
@@ -89,7 +91,7 @@ var tempStart = new Vue({
             }else{
                 $.ajax({
                     type:'POST',
-                    url:'http://192.168.1.40/PicSystem/canton/use/template',
+                    url:serverUrl+'use/template',
                     datatype:'json',
                     data:{
                         id:template_id,

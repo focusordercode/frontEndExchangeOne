@@ -18,6 +18,7 @@
 *
 */
 
+var serverUrl = "http://192.168.1.40/PicSystem/canton/"; //后端接口地址
 
 // 产品分类树形菜单的组件
 Vue.component('item', {
@@ -86,10 +87,16 @@ var tree = new Vue({
         //获取树形分类
         $.ajax({
             type: 'POST',
-            url: 'http://192.168.1.40/PicSystem/canton/get/treeCategory',
+            url: serverUrl+'get/treeCategory',
             datatype: 'json',
+            data:{
+                key:'category'
+            },
             success: function(data) {
                 tree.treeData = data;
+                if(data.status==101){
+                    layer.msg(data.msg);
+                }
             },
             error: function(jqXHR) {
                 layer.msg('向服务器请求产品目录失败');
@@ -131,7 +138,7 @@ var tree = new Vue({
             } else {
                 $.ajax({
                     type: 'POST',
-                    url: 'http://192.168.1.40/PicSystem/canton/post/sub',
+                    url: serverUrl+'post/sub',
                     datatype: 'json',
                     data: {
                         id: selectedData.id,
@@ -185,7 +192,7 @@ var tree = new Vue({
             } else {
                 $.ajax({
                     type: 'POST',
-                    url: 'http://192.168.1.40/PicSystem/canton/update/name',
+                    url: serverUrl+'update/name',
                     datatype: 'json',
                     data: {
                         id: selectedData.id,
@@ -220,7 +227,7 @@ var tree = new Vue({
 
                     $.ajax({
                         type: 'POST',
-                        url: 'http://192.168.1.40/PicSystem/canton/delete/sub',
+                        url: serverUrl+'delete/sub',
                         datatype: 'json',
                         data: {
                             id: selectedData.id

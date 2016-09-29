@@ -14,7 +14,9 @@ function UrlSearch() {
             this[name]=value;
         } 
     } 
-} 
+}
+
+var serverUrl = "http://192.168.1.40/PicSystem/canton/"; //后端接口地址
 
 var Request=new UrlSearch();
 var tableID = Request.id;
@@ -79,7 +81,7 @@ var selectPic = new Vue({
         //获取表格信息
         $.ajax({
             type:'POST',
-            url:'http://192.168.1.40/PicSystem/canton/get/oneform',
+            url:serverUrl+'get/oneform',
             datatype:'json',
             data:{
                 id:tableID,
@@ -130,7 +132,7 @@ var selectPic = new Vue({
                 $('.selectPic').css('margin-top','200px');
                 $.ajax({
                     type:'POST',
-                    url:'http://192.168.1.40/PicSystem/canton/get/treeGallery',
+                    url:serverUrl+'get/treeGallery',
                     datatype:'json',
                     data:{
                         category_id:cateId
@@ -172,7 +174,7 @@ var selectPic = new Vue({
                 //获取图片信息
                 $.ajax({
                     type:'POST',
-                    url:'http://192.168.1.40/PicSystem/canton/marry/image',
+                    url:serverUrl+'marry/image',
                     datatype:'json',
                     data:{
                         form_id:tableID,
@@ -238,7 +240,7 @@ var selectPic = new Vue({
 
                 $.ajax({
                     type:'POST',
-                    url:'http://192.168.1.40/PicSystem/canton/back',
+                    url:serverUrl+'back',
                     datatype:'json',
                     data:{
                         form_id:tableID,

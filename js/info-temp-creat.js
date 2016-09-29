@@ -18,6 +18,8 @@ function UrlSearch() {
 var Request=new UrlSearch();
 var type_code = 'info';
 
+var serverUrl = "http://192.168.1.40/PicSystem/canton/"; //后端接口地址
+
 //英文正则,英文数字和空格
 var Entext = /^[a-zA-Z_()\s]+[0-9]*$/;
 
@@ -49,10 +51,12 @@ var tempCreat = new Vue({
                 layer.msg('中文名不能为空');
             }else if(!this.en_name.trim()||!Entext.test(this.en_name)){
                 layer.msg('英文名不能为空，且只能是字母数字和空格');
+            }else if(!this.proSelectedId){
+                layer.msg('必须选择类目');
             }else{
                 $.ajax({
                     type:'POST',
-                    url:'http://192.168.1.40/PicSystem/canton/add/template',
+                    url:serverUrl+'add/template',
                     datatype:'json',
                     data:{
                         en_name:vm.en_name,
@@ -114,7 +118,7 @@ $('.searchCate').on('keyup',function(){
 
     $.ajax({
         type:'POST',
-        url:'http://192.168.1.40/PicSystem/canton/vague/name',
+        url:serverUrl+'vague/name',
         datatype:'json',
         data:{
             text:searchCusVal

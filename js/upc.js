@@ -1,3 +1,6 @@
+
+var serverUrl = "http://192.168.1.40/PicSystem/canton/"; //后端接口地址
+
 //刷新函数
 function windowFresh(){
     location.reload(true);
@@ -23,7 +26,7 @@ var upcInfo = new Vue({
                 pageNum--;
                 $.ajax({
                     type: "POST",
-                    url: "http://192.168.1.42/canton/index.php/get/upc", //添加请求地址的参数
+                    url: serverUrl+"get/upc", //添加请求地址的参数
                     dataType: "json",
                     data:{
                         pageNum:pageNum
@@ -53,7 +56,7 @@ var upcInfo = new Vue({
             }else {
                 $.ajax({
                     type: "POST",
-                    url: "http://192.168.1.42/canton/index.php/get/upc", //添加请求地址的参数
+                    url: serverUrl+"get/upc", //添加请求地址的参数
                     dataType: "json",
                     data:{
                         pageNum:pageNum
@@ -77,8 +80,8 @@ var upcInfo = new Vue({
     ready:function(){
         $.ajax({
             type: "POST",
-            url: "http://192.168.1.42/canton/index.php/get/upc", //添加请求地址的参数
-            // url: "http://192.168.1.40/PicSystem/canton/get/upc", //添加请求地址的参数
+            url: serverUrl+"get/upc", //添加请求地址的参数
+            // url: serverUrl+"get/upc", //添加请求地址的参数
             dataType: "json",
             data:{
                 pageNum:pageNum
@@ -132,7 +135,7 @@ $('.upcCtr .btn-jump').on('click',function(){
     }else {
         $.ajax({
             type: "POST",
-            url: "http://192.168.1.42/canton/index.php/get/upc", //添加请求地址的参数
+            url: serverUrl+"get/upc", //添加请求地址的参数
             dataType: "json",
             data:{
                 pageNum:$oPageNum
@@ -162,7 +165,7 @@ $('#upload').on('click',function(){
     var formData = new FormData();
     formData.append('file', $('#file')[0].files[0]);
     $.ajax({
-        url: 'http://192.168.1.40/PicSystem/canton/post/upc',
+        url: serverUrl+'post/upc',
         type: 'POST',
         cache: false,
         data: formData,

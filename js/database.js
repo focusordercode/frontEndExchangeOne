@@ -4,6 +4,8 @@
 
 /*页面刚开始从后台调数据*/
 
+var serverUrl = "http://192.168.1.40/PicSystem/canton/"; //后端接口地址
+
 var base = new Vue({
     el: 'body',
     data: {
@@ -27,7 +29,7 @@ var base = new Vue({
     ready: function () {
         $.ajax({
             type: "POST",
-            url: "http://192.168.1.40/PicSystem/canton/get/table",
+            url: serverUrl+"get/table",
             datatype: "json",
             success: function (data) {
                 if (data.status == 100) {
@@ -49,7 +51,7 @@ var base = new Vue({
             if( selected != ""){
                 $.ajax({
                     type:'POST',
-                    url:'http://192.168.1.40/PicSystem/canton/get/fields',
+                    url:serverUrl+'get/fields',
                     datatype:'JSON',
                     data:{
                         tbl_name:selected
@@ -80,7 +82,7 @@ var base = new Vue({
             }
             $.ajax({
                 type:'POST',
-                url:'http://192.168.1.40/PicSystem/canton/check',
+                url:serverUrl+'check',
                 datatype:'json',
                 data:{
                     tbl_name:selected,
@@ -119,7 +121,7 @@ var base = new Vue({
             console.log(types)
             $.ajax({
                 type:'POST',
-                url:'http://192.168.1.40/PicSystem/canton/establish/partition',
+                url:serverUrl+'establish/partition',
                 datatype:'json',
                 data:{
                     tbl_name:selected,
@@ -173,7 +175,7 @@ var base = new Vue({
         getdatatwo: function () {
             $.ajax({
                 type: "POST",
-                url: "http://192.168.1.40/PicSystem/canton/get/zone",
+                url: serverUrl+"get/zone",
                 datatype: "json",
                 success: function (data) {
                     if (data.status == 100) {
@@ -194,7 +196,7 @@ var base = new Vue({
             if( selected != ""){
                 $.ajax({
                     type:'POST',
-                    url:'http://192.168.1.40/PicSystem/canton/get/fields',
+                    url:serverUrl+'get/fields',
                     datatype:'JSON',
                     data:{
                         id:selected
@@ -223,7 +225,7 @@ var base = new Vue({
             }
             $.ajax({
                 type:'POST',
-                url:'http://192.168.1.40/PicSystem/canton/check',
+                url:serverUrl+'check',
                 datatype:'json',
                 data:{
                     tbl_name:selected,
@@ -262,7 +264,7 @@ var base = new Vue({
             console.log(types)
             $.ajax({
                 type:'POST',
-                url:'http://192.168.1.40/PicSystem/canton/update/partition',
+                url:serverUrl+'update/partition',
                 datatype:'json',
                 data:{
                     id:selected,
@@ -303,7 +305,7 @@ var base = new Vue({
         getdata:function(){
             $.ajax({
                 type:'POST',
-                url:'http://192.168.1.40/PicSystem/canton/get/zone',
+                url:serverUrl+'get/zone',
                 datatype:'json',
                 success:function(data){
                     if(data.status == 100){
@@ -326,7 +328,7 @@ var base = new Vue({
             }
             $.ajax({
                 type:'POST',
-                url:'http://192.168.1.40/PicSystem/canton/check',
+                url:serverUrl+'check',
                 datatype:'json',
                 data:{
                     tbl_name:selected,
@@ -358,7 +360,7 @@ var base = new Vue({
             console.log(id)
             $.ajax({
                 type:'POST',
-                url:'http://192.168.1.40/PicSystem/canton/dilatation/partition',
+                url:serverUrl+'dilatation/partition',
                 datatype:'json',
                 data:{
                     id:id,

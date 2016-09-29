@@ -21,6 +21,7 @@ var type_code = 'batch';
 var template_id = Request.template_id;
 var visit = Request.visit;
 
+var serverUrl = "http://192.168.1.40/PicSystem/canton/"; //后端接口地址
 
 // register the grid component
 Vue.component('demo-grid', {
@@ -50,7 +51,7 @@ var oTableIn = new Vue({
         //获取表格信息
         $.ajax({
             type:'POST',
-            url:'http://192.168.1.40/PicSystem/canton/get/oneform',
+            url:serverUrl+'get/oneform',
             datatype:'json',
             data:{
                 id:tableID,
@@ -71,7 +72,7 @@ var oTableIn = new Vue({
         //获取表头
         $.ajax({
             type:'POST',
-            url:'http://192.168.1.40/PicSystem/canton/get/bootstrap',
+            url:serverUrl+'get/bootstrap',
             datatype:'json',
             data:{
                 template_id:template_id,
@@ -92,7 +93,7 @@ var oTableIn = new Vue({
         //获取表格的详细信息
         $.ajax({
             type:'POST',
-            url:'http://192.168.1.40/PicSystem/canton/get/info',
+            url:serverUrl+'get/info',
             datatype:'json',
             data:{
                 form_id:tableID,
@@ -152,7 +153,7 @@ var oTableIn = new Vue({
 
                 $.ajax({
                     type:'POST',
-                    url:'http://192.168.1.40/PicSystem/canton/set/excel',
+                    url:serverUrl+'set/excel',
                     datatype:'json',
                     data:{
                         form_id:tableID,
@@ -181,7 +182,7 @@ var oTableIn = new Vue({
 
                 $.ajax({
                     type:'POST',
-                    url:'http://192.168.1.40/PicSystem/canton/marry_upc',
+                    url:serverUrl+'marry_upc',
                     datatype:'json',
                     data:{
                         form_id:tableID
@@ -211,6 +212,25 @@ var oTableIn = new Vue({
 })
 
 $(document).ready(function(){
+    //检测滚动条位置，显示隐藏页面头部
+    $(window).scroll(function(){
+       if($(window).scrollTop() > 50){
+           $('.fixed-top').slideUp(300);
+           $('#table').css('padding-top','30px');
+       }
+    })
+
+    //页面顶部隐藏显示
+    $('.pullUP').on('click',function(){
+        $('.fixed-top').slideUp(300);
+        $('#table').css('padding-top','30px');
+    });
+
+    $('.pullDown').on('click',function(){
+        $('.fixed-top').slideDown(300);
+        $('#table').css('padding-top','200px');
+    });
+
     //回到顶部
     $('.scrollToTop').click(function(){
         $("html,body").animate({scrollTop:0},300);

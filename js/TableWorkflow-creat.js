@@ -17,6 +17,8 @@ function UrlSearch() {
 } 
 var Request=new UrlSearch();
 
+var serverUrl = "http://192.168.1.40/PicSystem/canton/"; //后端接口地址
+
 
 var TableCreat = new Vue({
 	el:'body',
@@ -61,7 +63,7 @@ var TableCreat = new Vue({
 				//获取选中类目的模板数据
 				$.ajax({
 					type:'POST',
-					url:'http://192.168.1.40/PicSystem/canton/get/template10',
+					url:serverUrl+'get/template10',
 					datatype:'json',
 					data:{
 						type_code:'info',
@@ -92,7 +94,7 @@ var TableCreat = new Vue({
 			}else{
 				$.ajax({
 					type:'POST',
-					url:'http://192.168.1.40/PicSystem/canton/vague/templatename',
+					url:serverUrl+'vague/templatename',
 					datatype:'json',
 					data:{
 						type_code:'info',
@@ -165,7 +167,7 @@ var TableCreat = new Vue({
 			}else{
 				$.ajax({
 					type:'POST',
-					url:'http://192.168.1.40/PicSystem/canton/add/infoform',
+					url:serverUrl+'add/infoform',
 					datatype:'json',
 					data:{
 						type_code:'info',
@@ -220,7 +222,7 @@ $('.searchCus').on('keyup',function(){
 	var searchCusVal = $('.searchCus').val();
 	$.ajax({
 		type:'POST',
-		url:'http://192.168.1.40/PicSystem/canton/vague/custom',
+		url:serverUrl+'vague/custom',
 		datatype:'json',
 		data:{
 			keyword:searchCusVal
@@ -256,7 +258,7 @@ $('.searchCate').on('keyup',function(){
 
 	$.ajax({
 		type:'POST',
-		url:'http://192.168.1.40/PicSystem/canton/index.php/vague/name',
+		url:serverUrl+'index.php/vague/name',
 		datatype:'json',
 		data:{
 			text:searchCusVal

@@ -1,3 +1,6 @@
+
+var serverUrl = "http://192.168.1.40/PicSystem/canton/"; //后端接口地址
+
 var type_code = 'info'; //模板类型
 
 var tempList = new Vue({
@@ -18,7 +21,7 @@ var tempList = new Vue({
         var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层 
         $.ajax({
             type: "POST",
-            url: "http://192.168.1.40/PicSystem/canton/get/template", //添加请求地址
+            url: serverUrl+"get/template", //添加请求地址
             dataType: "json",
             data:{
                 type_code:type_code,
@@ -83,7 +86,7 @@ var tempList = new Vue({
                 var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
                 $.ajax({
                     type:'POST',
-                    url:'http://192.168.1.40/PicSystem/canton/vague/templatename',
+                    url:serverUrl+'vague/templatename',
                     dataType:'json',
                     data:{
                         type_code:type_code,
@@ -119,7 +122,7 @@ var tempList = new Vue({
                 var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
                 $.ajax({
                     type:'POST',
-                    url:'http://192.168.1.40/PicSystem/canton/get/template',
+                    url:serverUrl+'get/template',
                     datatype:'json',
                     data:{
                         type_code:type_code,
@@ -157,7 +160,7 @@ var tempList = new Vue({
                 var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
                 $.ajax({
                     type:'POST',
-                    url:'http://192.168.1.40/PicSystem/canton/get/template',
+                    url:serverUrl+'get/template',
                     datatype:'json',
                     data:{
                         type_code:type_code,
@@ -195,7 +198,7 @@ var tempList = new Vue({
                 var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
                 $.ajax({
                     type:'POST',
-                    url:'http://192.168.1.40/PicSystem/canton/get/template',
+                    url:serverUrl+'get/template',
                     datatype:'json',
                     data:{
                         type_code:type_code,
@@ -236,7 +239,7 @@ var tempList = new Vue({
 
                     $.ajax({
                         type:'POST',
-                        url:'http://192.168.1.40/PicSystem/canton/stop/template',
+                        url:serverUrl+'stop/template',
                         datatype:'json',
                         data:{
                             id:id,
@@ -257,6 +260,10 @@ var tempList = new Vue({
                         }
                     })
                 })     
+        },
+        //刷新
+        Reflesh:function(){
+            location.reload(true);
         }
     }
 })
@@ -350,10 +357,12 @@ var creatUrl = 'info-temp-creat.html';//创建模板地址
 
 //打开创建的新的模板
 $('.temp-list .temp-add').click(function(){
-    window.open(creatUrl+'?type_code='+type_code);
+    // window.open(creatUrl+'?type_code='+type_code);
+    window.location.href = creatUrl+'?type_code='+type_code;
 });
 $('.temp-list .creatMB').click(function(){
-    window.open(creatUrl+'?type_code='+type_code);
+    // window.open(creatUrl+'?type_code='+type_code);
+    window.location.href = creatUrl+'?type_code='+type_code;
 });
 
 
@@ -372,7 +381,7 @@ $(document).on('click','.temp-list .temp .btn-start',function(){
         layer.close(index);
         $.ajax({
             type: "POST",
-            url: "http://192.168.1.40/PicSystem/canton/use/template", //添加请求地址的参数
+            url: serverUrl+"use/template", //添加请求地址的参数
             dataType: "json",
             data:{
                 id:$tempId,
@@ -401,7 +410,7 @@ $(document).on('click','.temp-list .btn-delete',function(){
     },function(){
         $.ajax({
             type: "POST",
-            url: "http://192.168.1.40/PicSystem/canton/delete/template", //添加请求地址的参数
+            url: serverUrl+"delete/template", //添加请求地址的参数
             dataType: "json",
             data:{
               id:$tempId,

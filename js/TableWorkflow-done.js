@@ -20,6 +20,8 @@ var tableID = Request.tableID;
 var template_id = Request.template_id;
 var type_code = 'info';
 
+var serverUrl = "http://192.168.1.40/PicSystem/canton/"; //后端接口地址
+
 // register the grid component
 Vue.component('demo-grid', {
   template: '#grid-template',
@@ -44,7 +46,7 @@ var oTableIn = new Vue({
         //获取表格信息
         $.ajax({
             type:'POST',
-            url:'http://192.168.1.40/PicSystem/canton/get/oneform',
+            url:serverUrl+'get/oneform',
             datatype:'json',
             data:{
                 id:tableID,
@@ -65,7 +67,7 @@ var oTableIn = new Vue({
         //获取表头
         $.ajax({
             type:'POST',
-            url:'http://192.168.1.40/PicSystem/canton/get/bootstrap',
+            url:serverUrl+'get/bootstrap',
             datatype:'json',
             data:{
                 template_id:template_id,
@@ -86,7 +88,7 @@ var oTableIn = new Vue({
         //获取表格的详细信息
         $.ajax({
             type:'POST',
-            url:'http://192.168.1.40/PicSystem/canton/get/info',
+            url:serverUrl+'get/info',
             datatype:'json',
             data:{
                 form_id:tableID,
@@ -124,7 +126,7 @@ var oTableIn = new Vue({
         downloadTable:function(){
             var form_id = Request.tableID;
             if(form_id){
-                window.location.href = 'http://192.168.1.40/PicSystem/canton/export?form_id='+form_id;
+                window.location.href = serverUrl+'export?form_id='+form_id;
             }
         },
         //启用表格
@@ -132,7 +134,7 @@ var oTableIn = new Vue({
             if(tableID){
                 $.ajax({
                     type:'POST',
-                    url:'http://192.168.1.40/PicSystem/canton/use/infoform',
+                    url:serverUrl+'use/infoform',
                     datatype:'json',
                     data:{
                         id:tableID,

@@ -17,6 +17,8 @@ function UrlSearch() {
 } 
 var Request=new UrlSearch();
 
+var serverUrl = "http://192.168.1.40/PicSystem/canton/"; //后端接口地址
+
 var picEdit = new Vue({
 	el:'body',
 	data:{
@@ -27,7 +29,7 @@ var picEdit = new Vue({
 	ready:function(){
 		$.ajax({
 			type:'POST',
-			url:'http://192.168.1.40/PicSystem/canton/get/imageInfo',
+			url:serverUrl+'get/imageInfo',
 			datatype:'json',
 			data:{
 				num:Request.id
@@ -58,7 +60,7 @@ var picEdit = new Vue({
 		saveInfo:function(){
 			$.ajax({
 				type:'POST',
-				url:'http://192.168.1.40/PicSystem/canton/update/imageInfo',
+				url:serverUrl+'update/imageInfo',
 				datatype:'json',
 				data:{
 					data:picEdit.picInfo

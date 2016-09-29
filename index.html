@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>福克斯德conton项目</title>
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!--你自己的样式文件 -->
+    <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">        
+    <!-- 以下两个插件用于在IE8以及以下版本浏览器支持HTML5元素和媒体查询，如果不需要用可以移除 -->
+    <!--[if lt IE 9]>
+    <script src="http://apps.bdimg.com/libs/html5shiv/3.7/html5shiv.js"></script>
+    <script src="http://apps.bdimg.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        body {
+          background: #333;
+          font-family: "Lato", Helvetica, Arial, sans-serif!important;
+          font-size: 18px;
+          line-height: 1.72222;
+          color: #34495e;
+          height: 100%; 
+        }
+
+        .center {
+          display: block;
+          position: relative;
+          width: 200px;
+          height: 200px;
+          cursor: pointer;
+          background: url(images/fks.jpg);
+          background-size: 101%;
+          background-position: top left;
+          border-radius: 100%;
+          margin: 200px auto;
+          -webkit-transition: all 0.5s cubic-bezier(0.55, 0, 0.1, 1);
+          transition: all 0.5s cubic-bezier(0.55, 0, 0.1, 1);
+          box-shadow: 0px 5px 10px #000;
+        }
+        .center:hover {
+          box-shadow: 0px 5px 20px #000;
+          background-size: 115%;
+        }
+        .center:hover .outside {
+          -webkit-transform: rotate(-45deg) translate(0px) rotate(-315deg);
+                  transform: rotate(-45deg) translate(0px) rotate(-315deg);
+          background: rgba(16, 115, 96, 0.5);
+          width: 200px;
+          letter-spacing: 10px;
+          padding-left: 10px;
+          line-height: 200px;
+          height: 200px;
+          margin-top: -100px;
+          margin-left: -100px;
+          -webkit-transition: all 0.5s cubic-bezier(0.55, 0, 0.1, 1), letter-spacing 1.5s ease-out;
+          transition: all 0.5s cubic-bezier(0.55, 0, 0.1, 1), letter-spacing 1.5s ease-out;
+        }
+        .center .outside {
+          display: block;
+          position: absolute;
+          line-height: 100px;
+          text-align: center;
+          letter-spacing: 4px;
+          padding-left: 4px;
+          box-sizing: border-box;
+          font-weight: 300;
+          color: #fff;
+          border-radius: 100%;
+          width: 100px;
+          height: 100px;
+          background: #16A085;
+          left: 50%;
+          top: 50%;
+          margin-top: -50px;
+          margin-left: -50px;
+          -webkit-transform: rotate(-135deg) translate(-100px) rotate(135deg);
+                  transform: rotate(-135deg) translate(-100px) rotate(135deg);
+          box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.5);
+          -webkit-transition: all 0.5s cubic-bezier(0.55, 0, 0.1, 1);
+          transition: all 0.5s cubic-bezier(0.55, 0, 0.1, 1);
+        }
+        .center .outside span {
+          letter-spacing: 0;
+        }
+    </style>
+</head>
+    <body>
+        <div id="message" class="center">
+            <div class="outside">欢迎</div>
+        </div>
+
+        <script src="js/jquery.js"></script>
+        <script>
+            (function() {
+              'use strict';
+              var $message = $('#message');
+                
+              $message.on('mouseenter', function(){
+                
+                setTimeout(function(){
+                  $message.find('.outside').html('点击进入');
+                },200);
+              });
+              
+              $message.on('mouseleave', function(){
+                
+                setTimeout(function(){
+                  $message.find('.outside').html('欢迎');
+                },250);
+              });
+              $('.outside').click(function(){
+                window.location.href = 'pic-category.html';
+              });
+            }());
+        </script>
+    </body>
+</html>

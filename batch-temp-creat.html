@@ -57,27 +57,47 @@
             border-radius: 15px;
         }
         .pors .input-list,.pors .cate-list {
-            top: 59px;
-            left: 1px;
-            position: absolute;
-            z-index: 666;
-            list-style: none;
-            padding-left: 0;
-            border: 1px solid #ccc;
-            border-top: transparent;
-            background-color: #fff;
-        }
-        .pors .input-list li,.pors .cate-list li {
-            line-height: 32px;
-            text-indent: 12px;
-            border-bottom: 1px solid #ddd;
-            color: #8a6d3b;
-            font-size: 12px;
-        }
-        .pors .input-list li:hover,.pors .cate-list li:hover {
-            background-color: #ECF0F1;
-            cursor: pointer;
-        }
+                    top: 34px;
+                    left: 15px;
+                    position: absolute;
+                    z-index: 666;
+                    list-style: none;
+                    padding-left: 0;
+                    border: 1px solid #ccc;
+                    border-top: transparent;
+                    background-color: #fff;
+                }
+                .pors .input-list li,.pors .cate-list li {
+                    line-height: 32px;
+                    text-indent: 12px;
+                    border-bottom: 1px solid #ddd;
+                    color: #8a6d3b;
+                    font-size: 12px;
+                }
+                .pors .input-list li:hover,.pors .cate-list li:hover {
+                    background-color: #ECF0F1;
+                    cursor: pointer;
+                }
+                .pors .input-list li:hover,.pors .cate-list li:hover {
+                    background-color: #ECF0F1;
+                    cursor: pointer;
+                }
+                .paddingLeft {
+                    padding-left: 0;
+                }
+                .searchShadow {
+                    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+                }
+                .searchShadow:focus {
+                    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+                    border-color: #ccc;
+                }
+                .searchCompent {
+                    display: none;
+                }
+                .panel .form-control {
+                    border-radius: 0;
+                }
     </style>
 </head>
     <body>
@@ -153,7 +173,7 @@
                                 <b>创建批量表模板</b>
                             </h4>
                         </div>
-                        <div class="panel-body">
+                        <!-- <div class="panel-body">
                             <div class="col-md-6 col-md-offset-3">
                                 <div class="form-group">
                                     <label class="text-warning">模板名称</label>
@@ -164,7 +184,7 @@
                                 </div>
                                 <div class="form-group pors">
                                     <label class="text-warning">所属分类</label>
-                                    <input type="text" v-model="proName" placeholder="不填写则为全局模板" class="form-control searchCate">
+                                    <input type="text"  placeholder="不填写则为全局模板" class="form-control searchCate">
                                     <ul class="cate-list">
                                         <li v-for="pro in proList" @click="selectCate(pro)">
                                             {{pro.cn_name}}　{{pro.en_name}}
@@ -178,6 +198,56 @@
                                 <button @click="tempSub" class="btn btn-primary btn-xg">保存</button>
                                 <button @click="cancel" class="btn btn-default">取消</button>
                             </div>
+                        </div> -->
+                        <div class="panel-body">
+                            <div class="col-md-12">
+                                <div class="form-horizontal">
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">中文名:</label>
+                                        <div class="col-sm-4">
+                                            <input type="text" v-model="cn_name" placeholder="输入中文名" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">英文名:</label>
+                                        <div class="col-sm-4">
+                                            <input type="text" v-model="en_name" placeholder="输入英文名" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">选择类目:</label>
+                                        <div class="col-sm-4">
+                                            <input type="text" v-model="proName" placeholder="选择类目" class="form-control" readonly>
+                                        </div>
+                                        <div class="col-sm-1">
+                                            <button class="btn btn-info btn-sm searchBtn">搜索</button>
+                                        </div>
+                                        <div class="col-sm-3 pors searchCompent">
+                                            <input type="text" class="form-control searchShadow searchCate" placeholder="输入关键字搜索类目">
+                                            <ul class="cate-list">
+                                                <li v-for="pro in proList" @click="selectCate(pro)">
+                                                    {{pro.cn_name}}　{{pro.en_name}}
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-sm-1 text-left paddingLeft searchCompent">
+                                            <button class="btn btn-default closeBtn searchShadow">
+                                                <i class="fa fa-close"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">模板说明:</label>
+                                        <div class="col-sm-4">
+                                            <textarea rows="6" v-model="remark" placeholder="说明" class="form-control"></textarea>  
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-md-offset-2 text-center">
+                                <button @click="tempSub" class="btn btn-primary">保存</button>
+                                <button @click="cancel" class="btn btn-default">取消</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -187,7 +257,7 @@
         <hr>
         <div class="container">
             <div class="row">
-                <pre>{{$data|json}}</pre>
+                <!-- <pre>{{$data|json}}</pre> -->
             </div>
         </div>
 

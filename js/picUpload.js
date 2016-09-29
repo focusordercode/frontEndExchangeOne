@@ -17,6 +17,8 @@ function UrlSearch() {
 } 
 var Request=new UrlSearch();
 
+var serverUrl = "http://192.168.1.40/PicSystem/canton/"; //后端接口地址
+
 //拉取类目
 var picUpload = new Vue({
     el:'body',
@@ -26,7 +28,7 @@ var picUpload = new Vue({
     ready:function(){
         $.ajax({
             type:'POST',
-            url:'http://192.168.1.40/PicSystem/canton/get/imagegallery',
+            url:serverUrl+'get/imagegallery',
             datatype:'json',
             data:{
                 id:Request.id
@@ -57,7 +59,7 @@ var uploader = new plupload.Uploader({
     runtimes : 'html5,html4',
     browse_button : 'pickfiles', 
     container: document.getElementById('container'), 
-    url : 'http://192.168.1.40/PicSystem/canton/Picture/upload/gallery_id/'+Request.id,
+    url : serverUrl+'Picture/upload/gallery_id/'+Request.id,
     
     filters : {
         max_file_size : '5mb',

@@ -2,6 +2,8 @@
  * Created by Administrator on 2016/9/12.
  */
 
+ var serverUrl = "http://192.168.1.40/PicSystem/canton/"; //后端接口地址
+
 var searchlog = new Vue({
     el:'body',
     data:{
@@ -16,7 +18,7 @@ var searchlog = new Vue({
     ready:function(){
         $.ajax({
             type:'POST',
-            url:'http://192.168.1.40/PicSystem/canton/detection/debug',
+            url:serverUrl+'detection/debug',
             datatype:'json',
             success: function(data){
                 if(data.status==100){
@@ -45,7 +47,7 @@ var searchlog = new Vue({
             console.log(state11);
             $.ajax({
                 type:'post',
-                url:'http://192.168.1.40/PicSystem/canton/debug',
+                url:serverUrl+'debug',
                 datatype:'json',
                 data:{
                     state:state11
@@ -67,10 +69,10 @@ var searchlog = new Vue({
             var month = this.month;
             var day = this.day;
             if (day==""&&year==""&&month==""){
-                seaurl = "http://192.168.1.40/PicSystem/canton/get/nowlog"
+                seaurl = serverUrl+"get/nowlog"
             }
             else {
-                seaurl = "http://192.168.1.40/PicSystem/canton/get/fixlog"
+                seaurl = serverUrl+"get/fixlog"
             }
             $.ajax({
                 type:"POST",
@@ -107,7 +109,7 @@ var searchlog = new Vue({
             var url = searchlog.urlarr
             $.ajax({
                 type:"POST",
-                url:"http://192.168.1.40/PicSystem/canton/delete/log",
+                url:serverUrl+"delete/log",
                 datatype:'json',
                 data:{
                     url:url
@@ -126,10 +128,10 @@ var searchlog = new Vue({
         /*下载按钮*/
         downloadlog:function(){
             var dele = searchlog.urlarr
-            /*window.open("http://192.168.1.40/PicSystem/canton/download/log?"+dele,"_blank");*/
+            /*window.open(serverUrl+"download/log?"+dele,"_blank");*/
             $.ajax({
                 type:'POST',
-                url:'http://192.168.1.40/PicSystem/canton/download/log',
+                url:serverUrl+'download/log',
                 datatype:"json",
                 data:{
                     url:dele

@@ -26,6 +26,7 @@ function windowFresh(){
 var template_id = Request.id;//模板ID
 var type_code = 'info';//批量表模板
 
+var serverUrl = "http://192.168.1.40/PicSystem/canton/"; //后端接口地址
 
 //英文正则,英文数字和空格
 var Entext = /^[a-zA-Z_()\s]+[0-9]*$/;
@@ -43,7 +44,7 @@ var tempDefine = new Vue({
         //获取当前模板的信息
         $.ajax({
             type:'POST',
-            url:'http://192.168.1.40/PicSystem/canton/getById/template',
+            url:serverUrl+'getById/template',
             datatype:'json',
             data:{
                 type_code:type_code,
@@ -65,7 +66,7 @@ var tempDefine = new Vue({
         //获取当前模板的数据
         $.ajax({
             type: "POST",
-            url: "http://192.168.1.40/PicSystem/canton/get/title_valid", //添加请求地址的参数
+            url: serverUrl+"get/title_valid", //添加请求地址的参数
             dataType: "json",
             data:{
                 template_id:template_id,
@@ -110,7 +111,7 @@ var tempDefine = new Vue({
                 formData.append('type_code', type_code);//参数
 
                 $.ajax({
-                    url:'http://192.168.1.40/PicSystem/canton/upload/item',
+                    url:serverUrl+'upload/item',
                     type:'POST',
                     cache: false,
                     data:formData,
@@ -144,7 +145,7 @@ var tempDefine = new Vue({
             if(table.id){
                 $.ajax({
                     type: "POST",
-                    url: "http://192.168.1.40/PicSystem/canton/delete/templateitem", //添加请求地址的参数
+                    url: serverUrl+"delete/templateitem", //添加请求地址的参数
                     dataType: "json",
                     data:{
                         id:table.id,
@@ -178,7 +179,7 @@ var tempDefine = new Vue({
                 var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
                 $.ajax({
                     type:'POST',
-                    url:'http://192.168.1.40/PicSystem/canton/update/templateitem',
+                    url:serverUrl+'update/templateitem',
                     datatype:'json',
                     data:{
                         type_code:type_code,

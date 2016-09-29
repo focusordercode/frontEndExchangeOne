@@ -17,7 +17,7 @@ function UrlSearch() {
 } 
 var Request=new UrlSearch();
 
-
+var serverUrl = "http://192.168.1.40/PicSystem/canton/"; //后端接口地址
 var type_code = Request.type_code; //模板类型
 
 var creatTemp = new Vue({
@@ -36,6 +36,9 @@ var creatTemp = new Vue({
             creatTemp.proName = pro.cn_name;
             creatTemp.proId = pro.id;
             creatTemp.proList = '';
+            //清除值，隐藏框
+            $('.searchCate').val('');
+            $('.searchCompent').hide();
         },
         //提交请求
         tempSub:function(){
@@ -43,14 +46,16 @@ var creatTemp = new Vue({
             //英文正则,英文数字和空格
             var Entext = /^[a-zA-Z_()\s]+[0-9]*$/;
 
-            if(!this.cn_name||!this.remark){
-                layer.msg('中文名和介绍不能为空');
+            if(!this.cn_name.trim()){
+                layer.msg('中文名不能为空');
             }else if(!Entext.test(this.en_name)||!this.en_name){
                 layer.msg('英文名不能为空，且英文名只能是英文数字和空格');
+            }else if(!this.proId){
+                layer.msg('必须选择类目');
             }else{
                 $.ajax({
                     type:'POST',
-                    url:'http://192.168.1.40/PicSystem/canton/add/template',
+                    url:serverUrl+'add/template',
                     datatype:'json',
                     data:{
                         cn_name:creatTemp.cn_name,
@@ -94,6 +99,16 @@ var creatTemp = new Vue({
     }
 })
 
+//搜索类目框
+$(function(){
+    $('.searchBtn').on('click',function(){
+        $('.searchCompent').show();
+    })
+    $('.closeBtn').on('click',function(){
+        $('.searchCompent').hide();
+    })
+})
+
 //模糊搜索类目
 $('.searchCate').on('keyup',function(){
     var getWidth = $('.pors .cate-list').prev('.form-control').innerWidth();
@@ -102,7 +117,7 @@ $('.searchCate').on('keyup',function(){
 
     $.ajax({
         type:'POST',
-        url:'http://192.168.1.40/PicSystem/canton/index.php/vague/name',
+        url:serverUrl+'index.php/vague/name',
         datatype:'json',
         data:{
             text:searchCusVal
@@ -119,10 +134,3 @@ $('.searchCate').on('keyup',function(){
         }
     })
 });
-
-//观察搜索框的变化，控制是否有类目
-creatTemp.$watch('proName', function (val) {
-    if(!val){
-       creatTemp.proId = '';
-    }
-})
