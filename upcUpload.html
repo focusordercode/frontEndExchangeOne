@@ -92,11 +92,11 @@
                     <div class="panel-heading">UPC统计</div>
                     <div class="panel-body">
                         <label class="label label-info">总数:</label>
-                        <span>{{Allupc}}</span>
+                        <span>{{Allupc}}</span>　
                         <label class="label label-info">未使用:</label>
-                        <span>{{upc}}</span>
+                        <span>{{upc}}</span>　
                         <label class="label label-info">已使用:</label>
-                        <span>{{usedUpc}}</span>
+                        <span>{{usedUpc}}</span>　
                         <label class="label label-info">锁定中:</label>
                         <span>{{lockedUpc}}</span>
                     </div>
@@ -124,34 +124,23 @@
                         </template>
                     </table>
                     <hr>
-                    <div class="row upcCtr">
-                        <div class="form-horizontal">
-                            <div class="col-md-2 oPager">
-                                <button v-on:click="pre" class="btn btn-default disabled">上一页</button>
-                                <button v-on:click="next" class="btn btn-default">下一页</button>
-                            </div>
-                            <div class="col-md-1">
-                                <div class="form-group">
-                                    <input type="number" placeholder="输入页码" min="1" class="form-control pageNum">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-8 col-md-offset-2 text-center">
+                                    <div class="form-inline">
+                                        <button @click="goPrePage" :disabled="prePageBtn" class="btn btn-default">上一页</button>
+                                        <button @click="goNextPage" :disabled="nextPageBtn" class="btn btn-default">下一页</button>
+                                        <input type="number" v-model="jump" placeholder="页码" min="1" class="form-control" style="width:80px;">
+                                        <button class="btn btn-info" @click="goJump" :disabled="jumpBtn">跳转</button>
+                                        总页数:<strong class="text-warning">{{countPage}}</strong>　
+                                        当前页:<strong class="text-warning">{{pageNow}}</strong>　
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-md-2">
-                                <button class="btn btn-info btn-jump">跳转</button>
-                                当前页数
-                                <label class="upcCount text-warning">1</label>
                             </div>
                         </div>
                     </div>
                     <hr>
-                    <!-- <form action="http://192.168.1.40/PicSystem/canton/post/upc" method="post" enctype="multipart/form-data">
-                        <div class="form-group">
-                            <label class="text-warning">UPC上传</label>
-                            <input type="file" name="upc_file">
-                        </div>
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-info">提交</button>
-                        </div>
-                    </form> -->
                     <div id="uploadForm">
                         <div class="form-group">
                             <label class="text-warning">UPC上传</label>

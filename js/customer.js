@@ -43,12 +43,15 @@ var customer = new Vue({
 		}
 	},
 	ready:function(){
+		var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
+
 		//获取所有客户信息
 		$.ajax({
 			type:'POST',
 			url:serverUrl+'get/custom',
 			datatype:'json',
 			success:function(data){
+				layer.close(LoadIndex); //关闭遮罩层
 				if(data.status==100){
 					customer.cus_count = data.cus_count;
 					customer.pageNow = data.pageNow;
@@ -63,6 +66,7 @@ var customer = new Vue({
 				}
 			},
 			error:function(jqXHR){
+				layer.close(LoadIndex); //关闭遮罩层
 				layer.msg('向服务器请求客户信息失败');
 			}
 		})
