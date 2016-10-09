@@ -309,7 +309,8 @@ var picGallery = new Vue({
 			cn_name:'',
 			en_name:'',
 			category_id:''
-		}
+		},
+		changeData:'' //修改图片目录缓存
 	},
 	computed:{
 		//控制分页按钮
@@ -730,11 +731,14 @@ var picGallery = new Vue({
 		//修改图片目录弹出框
 		changeItem:function(){
 			$('.changeItem').modal('show');
-			$('.changeItem').css('margin-top','200px'); 
+			$('.changeItem').css('margin-top','200px');
+			//避开响应数据复制一个对象
+			var cache = $.extend(true, {}, this.pictreeActive);
+			this.changeData = cache;
 		},
 		//修改图片目录
 		changeItemAction:function(){
-			var item = this.pictreeActive;
+			var item = this.changeData;
 
 			//重新获取图片目录函数
 			function updatePictree(item){
