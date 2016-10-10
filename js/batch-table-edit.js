@@ -715,20 +715,24 @@ var oTableIn = new Vue({
         checkData:function(){
             var vm = oTableIn;
             var selectCheck = this.selectCheck;
-            console.log(selectCheck);
             var arr = new Array();
             var allData = this.gridData;
             var Len = allData.length;
+            //遍历数组内所有对象，放到数组里
             for (var i = 0;i<Len;i++) {
-                arr.push(allData[i][selectCheck]);
+                if (allData[i][selectCheck] != null) {
+                    arr.push(allData[i][selectCheck]);
+                }
             }
 
-            console.log(arr);
-            
+            //数组查重 
             var nary=arr.sort();
-            for(var i=0;i<arr.length;i++){
-                if (nary[i]==nary[i+1]){
-                    alert("数组中有重复内容："+nary[i]);
+            for (var i=0;i<arr.length;i++) {
+                if (nary[i]==nary[i+1]) {
+                    var msg = "有重复内容："+nary[i];
+                    layer.msg(msg,{time:3000});
+                }else{
+                    layer.msg('没有重复内容');
                 }
             }
         }
