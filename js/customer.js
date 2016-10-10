@@ -177,18 +177,21 @@ var customer = new Vue({
 		//提交新增客户
 		subTable:function(){
 			var addNew = this.addNew;
-			var tel = /^1[34578]{1}[0-9]{9}$/;
+			// var tel = /^1[34578]{1}[0-9]{9}$/;
+			var tel = /((\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$)/;
 			var EN = /^[A-z\s]+$/;
 			var Email = /^(?:[a-zA-Z0-9]+[_\-\+\.]?)*[a-zA-Z0-9]+@(?:([a-zA-Z0-9]+[_\-]?)*[a-zA-Z0-9]+\.)+([a-zA-Z]{2,})+$/;
 
-			if(!addNew.custom_name){
+			if(!(addNew.custom_name.trim())){
 				layer.msg('客户名称为空');
-			}else if(!addNew.en_name||!EN.test(addNew.en_name)){
-				layer.msg('英文名不能为空,英文只能是大小写字母和空格');
-			}else if(!addNew.mobile||!tel.test(addNew.mobile)){
-				layer.msg('电话不能为空，手机号格式要填写正确');
-			}else if(!addNew.email||!Email.test(addNew.email)){
-				layer.msg('邮箱不能为空，邮箱格式要填写正确');
+			}else if(!(addNew.en_name.trim())&&!EN.test(addNew.en_name)){
+				layer.msg('英文名不能为空,英文名只能是大小写字母和空格');
+			}else if (!(addNew.company.trim())) {
+				layer.msg('公司名不能为空');
+			}else if(!tel.test(addNew.mobile)&&addNew.mobile.trim()){
+				layer.msg('电话格式要填写正确');
+			}else if(!Email.test(addNew.email)&&addNew.email.trim()){
+				layer.msg('邮箱格式要填写正确');
 			}else{
 				$.ajax({
 					type:'POST',
@@ -229,18 +232,21 @@ var customer = new Vue({
 		//提交编辑
 		subEdit:function(){
 			var addNew = this.editOne;
-			var tel = /^1[34578]{1}[0-9]{9}$/;
+			// var tel = /^1[34578]{1}[0-9]{9}$/;
+			var tel = /((\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$)/;
 			var EN = /^[A-z\s]+$/;
 			var Email = /^(?:[a-zA-Z0-9]+[_\-\+\.]?)*[a-zA-Z0-9]+@(?:([a-zA-Z0-9]+[_\-]?)*[a-zA-Z0-9]+\.)+([a-zA-Z]{2,})+$/;
 
-			if(!addNew.custom_name){
+			if(!(addNew.custom_name.trim())){
 				layer.msg('客户名称为空');
-			}else if(!addNew.en_name||!EN.test(addNew.en_name)){
-				layer.msg('英文名不能为空,英文只能是大小写字母和空格');
-			}else if(!addNew.mobile||!tel.test(addNew.mobile)){
-				layer.msg('电话不能为空，手机号格式要填写正确');
-			}else if(!addNew.email||!Email.test(addNew.email)){
-				layer.msg('邮箱不能为空，邮箱格式要填写正确');
+			}else if(!(addNew.en_name.trim())&&!EN.test(addNew.en_name)){
+				layer.msg('英文名不能为空,英文名只能是大小写字母和空格');
+			}else if (!(addNew.company.trim())) {
+				layer.msg('公司名不能为空');
+			}else if(!tel.test(addNew.mobile)&&addNew.mobile.trim()){
+				layer.msg('电话格式要填写正确');
+			}else if(!Email.test(addNew.email)&&addNew.email.trim()){
+				layer.msg('邮箱格式要填写正确');
 			}else{
 				$.ajax({
 					type:'POST',

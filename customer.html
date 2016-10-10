@@ -24,6 +24,9 @@
         .table td .btn {
             margin-bottom: 5px;
         }
+        .modal-content .form-control {
+            border-radius: 0;
+        }
     </style>
 </head>
     <body>
@@ -184,7 +187,7 @@
         
         <div class="container">
             <div class="row">
-                <!-- <pre>{{$data|json}}</pre>  -->
+                <!-- <pre>{{$data|json}}</pre> -->
             </div>
         </div>
         
@@ -199,22 +202,50 @@
                     <div class="modal-body">
                         <div class="container-fluid">
                             <div class="row">
-                                <div class="col-md-6 col-md-offset-3">
-                                    <div class="form-group">
-                                        <label>客户名</label>
-                                        <input type="text" v-model="addNew.custom_name" placeholder="客户名" class="form-control">
-                                        <label>英文名</label>
-                                        <input type="text" v-model="addNew.en_name" placeholder="英文名" class="form-control">
-                                        <label>公司</label>
-                                        <input type="text" v-model="addNew.company" placeholder="公司名称" class="form-control">
-                                        <label>电话</label>
-                                        <input type="num" min="1" v-model="addNew.mobile"  placeholder="电话或手机号" class="form-control">
-                                        <label>邮箱</label>
-                                        <input type="text" v-model="addNew.email" placeholder="邮箱地址" class="form-control">
-                                        <label>地址</label>
-                                        <input type="text" v-model="addNew.address" placeholder="地址" class="form-control">
+                                <div class="col-md-12">
+                                    <div class="form-horizontal">
+                                        <div class="form-group">
+                                            <label class="col-md-2 control-label">客户名</label>
+                                            <div class="col-md-8">
+                                                <input type="text" v-model="addNew.custom_name" placeholder="客户名" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-2 control-label">英文名</label>
+                                            <div class="col-md-8">
+                                                <input type="text" v-model="addNew.en_name" placeholder="英文名" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-2 control-label">公司</label>
+                                            <div class="col-md-8">
+                                                <input type="text" v-model="addNew.company" placeholder="公司名称" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-2 control-label">电话</label>
+                                            <div class="col-md-8">
+                                                <input type="text" v-model="addNew.mobile"  placeholder="电话或手机号" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-2 control-label">邮箱</label>
+                                            <div class="col-md-8">
+                                                <input type="text" v-model="addNew.email" placeholder="邮箱地址" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-2 control-label">地址</label>
+                                            <div class="col-md-8">
+                                                <input type="text" v-model="addNew.address" placeholder="地址" class="form-control">
+                                            </div>
+                                        </div>
                                     </div>
-                                    <button @click="subTable" class="btn btn-default">提交</button>
+                                    <hr>
+                                    <div class="alert alert-info" role="alert">客户名、英文名和公司名为必填</div>
+                                    <div class="col-md-2 col-md-offset-5">
+                                        <button @click="subTable" class="btn btn-success">提交</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -234,22 +265,50 @@
                     <div class="modal-body">
                         <div class="container-fluid">
                             <div class="row">
-                                <div class="col-md-6 col-md-offset-3">
-                                    <div class="form-group">
-                                        <label>客户名</label>
-                                        <input type="text" v-model="editOne.custom_name" placeholder="客户名" class="form-control">
-                                        <label>英文名</label>
-                                        <input type="text" v-model="editOne.en_name" placeholder="英文名" class="form-control">
-                                        <label>公司</label>
-                                        <input type="text" v-model="editOne.company" placeholder="公司名称" class="form-control">
-                                        <label>电话</label>
-                                        <input type="num" min="1" v-model="editOne.mobile"  placeholder="电话或手机号" class="form-control">
-                                        <label>邮箱</label>
-                                        <input type="text" v-model="editOne.email" placeholder="邮箱地址" class="form-control">
-                                        <label>地址</label>
-                                        <input type="text" v-model="editOne.address" placeholder="地址" class="form-control">
+                                <div class="col-md-12">
+                                    <div class="form-horizontal">
+                                        <div class="form-group">
+                                            <label class="col-md-2 control-label">客户名</label>
+                                            <div class="col-md-8">
+                                                <input type="text" v-model="editOne.custom_name" placeholder="客户名" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-2 control-label">英文名</label>
+                                            <div class="col-md-8">
+                                                <input type="text" v-model="editOne.en_name" placeholder="英文名" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-2 control-label">公司</label>
+                                            <div class="col-md-8">
+                                                <input type="text" v-model="editOne.company" placeholder="公司名称" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-2 control-label">电话</label>
+                                            <div class="col-md-8">
+                                                <input type="text" v-model="editOne.mobile"  placeholder="电话或手机号" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-2 control-label">邮箱</label>
+                                            <div class="col-md-8">
+                                                <input type="text" v-model="editOne.email" placeholder="邮箱地址" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-2 control-label">地址</label>
+                                            <div class="col-md-8">
+                                                <input type="text" v-model="editOne.address" placeholder="地址" class="form-control">
+                                            </div>
+                                        </div>
                                     </div>
-                                    <button @click="subEdit" class="btn btn-success">保存</button>
+                                    <hr>
+                                    <div class="alert alert-info" role="alert">客户名、英文名和公司名为必填</div>
+                                    <div class="col-md-2 col-md-offset-5">
+                                        <button @click="subEdit" class="btn btn-success">保存</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
