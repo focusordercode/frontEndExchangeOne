@@ -720,20 +720,30 @@ var oTableIn = new Vue({
             var Len = allData.length;
             //遍历数组内所有对象，放到数组里
             for (var i = 0;i<Len;i++) {
-                if (allData[i][selectCheck] != null) {
+                if (allData[i][selectCheck] != null&&allData[i][selectCheck]) {
                     arr.push(allData[i][selectCheck]);
                 }
             }
 
-            //数组查重 
-            var nary=arr.sort();
-            for (var i=0;i<arr.length;i++) {
-                if (nary[i]==nary[i+1]) {
-                    var msg = "有重复内容："+nary[i];
-                    layer.msg(msg,{time:3000});
-                }else{
-                    layer.msg('没有重复内容');
+            //检查重复
+            var n = isRepeat(arr);
+            if (n) {
+                layer.msg('有重复值');
+            }else{
+                layer.msg('没有重复值');
+            }
+
+            // 验证重复元素，有重复返回true；否则返回false
+            function isRepeat(arr) {
+                var hash = {};
+                for(var i in arr) {
+                    if(hash[arr[i]]) {
+                        return true;
+                    }
+                    // 不存在该元素，则赋值为true，可以赋任意值，相应的修改if判断条件即可
+                    hash[arr[i]] = true;
                 }
+                return false;
             }
         }
     }
