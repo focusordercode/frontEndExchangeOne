@@ -22,9 +22,16 @@
             padding-left: 10px;
         }
         .table-bordered>tbody>tr>td, .table-bordered>tbody>tr>th, .table-bordered>tfoot>tr>td, .table-bordered>tfoot>tr>th, .table-bordered>thead>tr>td, .table-bordered>thead>tr>th {
-            min-width: 250px;
-            vertical-align: middle;
+            max-width: 300px;
             position: relative;
+            background-color: #e6e6e6;
+        }
+        .table-bordered>tbody>tr>td {
+            height: 30px;
+            word-break: break-all;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
         .table tr th:first-child {
             min-width: 50px!important;
@@ -111,6 +118,9 @@
         #table {
             padding-top: 200px;
         }
+        #tableContent {
+            margin: 250px 50px 30px 50px;
+        }
     </style>
 </head>
     <body>
@@ -177,19 +187,19 @@
                 </div>
             </div>
         </div>
-        
+       
         <!-- component template -->
         <script type="text/x-template" id="grid-template">
             <div class="container-fluid">
                 <div class="row">
                     <div>
                         <div class="tableContent">
-                            <table class="table table-bordered">
+                            <table class="table table-bordered" id="mytable">
                                 <thead>
                                     <tr>
                                         <th class="text-center">序号</th>
                                         <th class="text-center" v-for="key in columns">
-                                            {{key | capitalize}}
+                                            {{key}}
                                         </th>
                                         <th class="text-center">序号</th>
                                     </tr>
@@ -198,20 +208,20 @@
                                     <template v-for="entry in data">
                                         <!-- 主体展示方式 -->
                                         <template v-if="entry.parent_id==0">
-                                            <tr class="info" track-by="product_id" :title="$index+1">
+                                            <tr class="info" track-by="product_id">
                                                 <td class="text-center">{{$index+1}}</td>
-                                                <td v-for="key in columns" class="text-center">
-                                                    <a href="javascript:" class="clickTochange">{{entry[key]}}</a>
+                                                <td v-for="key in columns" class="text-left">
+                                                    <a href="javascript:" class="clickTochange" :title="entry[key]">{{entry[key]}}</a>
                                                 </td>
                                                 <td class="text-center">{{$index+1}}</td>
                                             </tr>
                                         </template>
                                          <!-- 变体展示方式 -->
                                         <template v-else>
-                                            <tr class="change" track-by="product_id" :title="$index+1">
+                                            <tr class="change" track-by="product_id">
                                                 <td class="text-center">{{$index+1}}</td>
-                                                <td v-for="key in columns" class="text-center">
-                                                    <a href="javascript:" class="clickTochange">{{entry[key]}}</a>
+                                                <td v-for="key in columns" class="text-left">
+                                                    <a href="javascript:" class="clickTochange" :title="entry[key]">{{entry[key]}}</a>
                                                 </td>
                                                 <td class="text-center">{{$index+1}}</td>
                                             </tr>
@@ -224,8 +234,6 @@
                 </div>
             </div>
         </script>
-        
-
 
         <div id="table" v-show="gridData.length>2" class="marginTop">
             <demo-grid
@@ -262,10 +270,9 @@
         </div>
 
         <!-- 如果要使用Bootstrap的js插件，必须先调入jQuery -->
-        <script src="js/jquery.js"></script>
+        <script src="js/jquery1.7.2.js"></script>
         <script src="js/vue.js"></script>
         <!-- 包括所有bootstrap的js插件或者可以根据需要使用的js插件调用　-->
-        <script src="js/bootstrap.min.js"></script>
         <script src='js/layer.js'></script>
         <script src='js/batch-table-done.js'></script>
     </body>

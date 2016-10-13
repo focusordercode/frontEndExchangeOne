@@ -398,6 +398,10 @@ var customer = new Vue({
 					}
 				})
 			}
+		},
+		//刷新
+		Reflesh:function(){
+		    location.reload(true);
 		}
 	}
 })
