@@ -15,6 +15,81 @@
     <script src="http://apps.bdimg.com/libs/html5shiv/3.7/html5shiv.js"></script>
     <script src="http://apps.bdimg.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <style>
+        .control-panel .form-control {
+            border-radius: 0;
+        }
+        .changTable .modal-content {
+            border-radius: 0;
+            border: 0;
+        }
+        .changTable .form-control {
+            border-radius: 0;
+        }
+        .searchField {
+            width: 1146px;
+            height: 38px;
+            margin: 10px;
+            border: 1px solid grey;
+            font-size: 20px;
+            outline: grey;
+            padding: 5px;
+            padding-right: 50px;
+            background-color: #fff;
+
+            color: grey;
+            box-sizing:border-box;
+        }
+        .searchInput {
+            position: absolute;
+            top: 25%;
+            left: 50%;
+            margin-left: -573px;
+            width: 1146px;
+            z-index: 5555;
+        }
+        .searchInput .glyphicon {
+            position: absolute;
+            z-index: 2;
+            right: 10px;
+            font-size: 24px;
+            width: 24px;
+            color: #4b4b4b;
+            text-align: center;
+            padding: 6px 0;
+            top: 11px;
+            cursor: pointer;
+        }
+        .searchInput ul,.searchInput li {
+            list-style: none;
+        }
+        .searchInput ul {
+            top: 48px;
+            left: 11px;
+            width: 1144px;
+            position: absolute;
+            z-index: 6666;
+            list-style: none;
+            padding-left: 0;
+            border: 1px solid #ccc;
+            border-top: transparent;
+            background-color: #fff;
+        }
+        .searchInput li {
+            line-height: 32px;
+            text-indent: 12px;
+            border-bottom: 1px solid #ddd;
+            color: #000;
+            font-size: 12px;
+        }
+        .searchInput li:hover {
+            background-color: #ECF0F1;
+            cursor: pointer;
+        }
+        .modal-backdrop {
+            display: none;
+        }
+    </style>
 </head>
     <body>
         <!-- 顶部区域 -->
@@ -86,7 +161,61 @@
         </div>
 
         <!-- 主内容区域 -->
+        <div class="container-fluid tableInfo marginTop">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-success">
+                        <div class="panel-heading"><h4><b>操作</b></h4></div>
+                        <div class="panel-body">
+                            <div class="form-horizontal control-panel">
+                                <div class="form-group">
+                                    <label class="col-md-1 control-label">选择搜索条件</label>
+                                    <div class="col-md-1">
+                                        <input type="text" placeholder="选择类目" class="form-control" readonly>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <select class="form-control" v-model="search.status">
+                                            <option value="" selected>所有状态</option>
+                                            <option :value="st" v-for="st in search.statusList">                   {{st | statusFlilter}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <input type="text" v-model="search.keyword" placeholder="输入关键字搜索" class="form-control">
+                                    </div>
+                                    <!-- <div class="col-md-1">
+                                        <button @click="searchTable" class="btn btn-default">搜索</button>
+                                    </div> -->
+                                    <div class="col-md-1">
+                                        <button @click="creatProduct" class="btn btn-success btn-sm pull-right">添加产品</button>
+                                    </div>
+                                    <div class="col-md-1 pull-right">
+                                        <button class="btn btn-info btn-sm" @click="Reflesh">刷新</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         
+        <!-- 搜索类目功能 -->
+        <!-- <div class="container">
+            <div class="row">
+                <div class="searchInput">
+                    <input type="text" class="searchField">
+                    <label for="search" class="glyphicon glyphicon-search" rel="tooltip" title="search"></label>
+                    <ul>
+                        <li>1</li>
+                        <li>1</li>
+                        <li>1</li>
+                        <li>1</li>
+                    </ul>
+                </div>
+            </div>
+        </div> -->
+        <div class="modal-backdrop fade in"></div>
 
         <div class="container">
             <div class="row">
