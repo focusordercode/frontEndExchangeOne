@@ -1,4 +1,4 @@
-// Creat by msh at 2016.10.13
+// Creat by msh at 2016.10.14
 
 
 var serverUrl = "http://192.168.1.42/canton/"; //后端接口地址
@@ -50,7 +50,7 @@ var oPCenter = new Vue({
     	var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
     	$.ajax({
     	    type:'POST',
-    	    url:serverUrl+'get/allproductcenter',
+    	    url:serverUrl+'get/allcenteritem',
     	    datatype:'json',
     	    success:function(data){
     	    	layer.close(LoadIndex); //关闭遮罩层

@@ -57,8 +57,18 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
             border-color: #ccc;
         }
-        .searchCompent {
+        .searchCompent,.searchCompent2 {
             display: none;
+        }
+        .new-alert {
+            line-height: 24px!important;
+            padding-top: 5px!important;
+            padding-bottom: 5px!important;
+            margin-bottom: 0!important;
+        }
+        #uploadForm {
+            margin-left: 15px;
+            margin-top: 5px;
         }
     </style>
 </head>
@@ -125,13 +135,21 @@
                                                     <div class="form-group">
                                                         <label class="col-sm-2 control-label">中文名:</label>
                                                         <div class="col-sm-4">
-                                                            <input type="text" placeholder="输入中文名" class="form-control">
+                                                            <input type="text" v-model="cn_name" placeholder="输入中文名" class="form-control">
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <div class="alert alert-danger new-alert" v-show="cn_alert" role="alert"> 请输入产品的中文名称
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
                                                         <label class="col-sm-2 control-label">英文名:</label>
                                                         <div class="col-sm-4">
                                                             <input type="text" v-model="en_name" placeholder="输入英文名" class="form-control">
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <div class="alert alert-danger new-alert" v-show="en_alert" role="alert"> 请输入产品的英文名称,英文名只能是英文数字和空格
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
@@ -145,7 +163,7 @@
                                                     <div class="form-group">
                                                         <label class="col-sm-2 control-label">所属类目:</label>
                                                         <div class="col-sm-4">
-                                                            <input type="text" v-model="proSelected" placeholder="选择类目" class="form-control" readonly>
+                                                            <input type="text" v-model="cate_name" placeholder="选择类目" class="form-control" readonly>
                                                         </div>
                                                         <div class="col-sm-1">
                                                             <button class="btn btn-info btn-sm searchBtn">搜索</button>
@@ -163,19 +181,23 @@
                                                                 <i class="fa fa-close"></i>
                                                             </button>
                                                         </div>
+                                                        <div class="col-sm-3">
+                                                            <div class="alert alert-danger new-alert"  role="alert" v-show="cate_alert"> 请选择类目
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                     <div class="form-group">
                                                         <label class="col-sm-2 control-label">产品说明:</label>
                                                         <div class="col-sm-4">
-                                                            <textarea cols="30" rows="5" class="form-control"></textarea>
+                                                            <textarea v-model="remark" cols="30" rows="5" class="form-control"></textarea>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                             <!-- 按钮 -->
                                             <div class="col-md-3 col-md-offset-2 text-center">
-                                                <button class="btn btn-primary">保存</button>
-                                                <button class="btn btn-default">返回</button>
+                                                <button @click="creatProduct" class="btn btn-primary">保存</button>
+                                                <a href="product-center.html" class="btn btn-default">返回</a>
                                             </div>
                                         </div>
                                     </div>
@@ -194,77 +216,66 @@
                                                     <div class="form-group">
                                                         <label class="col-sm-2 control-label">模板文件:</label>
                                                         <div class="col-sm-4">
-                                                            <a href="#" class="btn btn-link">点击下载</a>
+                                                            <a :href="download" class="btn btn-link">点击下载</a>
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
                                                         <label class="col-sm-2 control-label">所属类目:</label>
                                                         <div class="col-sm-4">
-                                                            <input type="text" v-model="proSelected" placeholder="选择类目" class="form-control" readonly>
+                                                            <input type="text" v-model="cate_name" placeholder="选择类目" class="form-control" readonly>
                                                         </div>
                                                         <div class="col-sm-1">
-                                                            <button class="btn btn-info btn-sm searchBtn">搜索</button>
+                                                            <button class="btn btn-info btn-sm searchBtn2">搜索</button>
                                                         </div>
-                                                        <div class="col-sm-3 pors searchCompent">
-                                                            <input type="text" class="form-control searchShadow searchCate" placeholder="输入关键字搜索类目">
+                                                        <div class="col-sm-3 pors searchCompent2">
+                                                            <input type="text" class="form-control searchShadow searchCate2" placeholder="输入关键字搜索类目">
                                                             <ul class="cate-list">
                                                                 <li @click="selectCate(pro)" v-for="pro in proList">
                                                                     {{pro.cn_name}} {{pro.en_name}}
                                                                 </li>
                                                             </ul>
                                                         </div>
-                                                        <div class="col-sm-1 text-left paddingLeft searchCompent">
-                                                            <button class="btn btn-default closeBtn searchShadow">
+                                                        <div class="col-sm-1 text-left paddingLeft searchCompent2">
+                                                            <button class="btn btn-default closeBtn2 searchShadow">
                                                                 <i class="fa fa-close"></i>
                                                             </button>
+                                                        </div>
+                                                        <div class="col-sm-3">
+                                                            <div class="alert alert-danger new-alert"  role="alert" v-show="cate_alert"> 请选择类目
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
                                                         <label class="col-sm-2 control-label">上传文件:</label>
                                                         <div class="col-sm-4">
-                                                            <input type="file" class="form-control">
+                                                            <div id="uploadForm">
+                                                                <div class="form-group">
+                                                                    <input type="file" id="file">
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
                                                         <label class="col-sm-2 control-label">导入结果:</label>
-                                                        <div class="col-sm-8">
-                                                            <table class="table table-bordered">
-                                                                <tr>
-                                                                    <th class="text-center">序号</th>
-                                                                    <th class="text-center">中文名</th>
-                                                                    <th class="text-center">英文名</th>
-                                                                    <th class="text-center">说明</th>
-                                                                    <th class="text-center">类目</th>
-                                                                </tr>
-                                                                <tr class="text-center">
-                                                                    <td>1</td>
-                                                                    <td>1</td>
-                                                                    <td>1</td>
-                                                                    <td>1</td>
-                                                                    <td rowspan="3">1</td>
-                                                                </tr>
-                                                                <tr class="text-center">
-                                                                    <td>1</td>
-                                                                    <td>1</td>
-                                                                    <td>1</td>
-                                                                    <td>1</td>
-                                                                </tr>
-                                                                <tr class="text-center">
-                                                                    <td>1</td>
-                                                                    <td>1</td>
-                                                                    <td>1</td>
-                                                                    <td>1</td>
-                                                                </tr>
-                                                            </table>
+                                                        <div class="col-sm-4">
+                                                            <div class="alert alert-info new-alert" role="alert">
+                                                                <dl class="dl-horizontal">
+                                                                     <dt>总共上传个数：</dt>
+                                                                     <dd>{{respons.count}}</dd>
+                                                                     <dt>成功个数:</dt>    
+                                                                     <dd>{{respons.success}}</dd>
+                                                                     <dt>失败个数:</dt>
+                                                                     <dd>{{respons.fail}}</dd>
+                                                                </dl>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                             <!-- 按钮 -->
                                             <div class="col-md-3 col-md-offset-2 text-center">
-                                                <button class="btn btn-primary">导入</button>
-                                                <!-- <button class="btn btn-primary">保存</button> -->
-                                                <button class="btn btn-default">返回</button>
+                                                <button @click="upload" class="btn btn-primary">导入</button>
+                                                <a href="product-center.html" class="btn btn-default">返回</a>
                                             </div>
                                         </div>
                                     </div>
@@ -278,7 +289,7 @@
 
         <div class="container">
             <div class="row">
-                <!-- <pre>{{$data|json}}</pre> -->
+                <pre>{{$data|json}}</pre>
             </div>
         </div>
 
@@ -299,5 +310,6 @@
         <!-- 包括所有bootstrap的js插件或者可以根据需要使用的js插件调用　-->
         <script src="js/bootstrap.min.js"></script>
         <script src='js/layer.js'></script>
+        <script src='js/add-product.js'></script>
     </body>
 </html>
