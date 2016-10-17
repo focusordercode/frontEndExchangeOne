@@ -89,16 +89,12 @@
                                             <div class="col-md-12">
                                                 <dl class="dl-horizontal">
                                                      <dt>项目名称：</dt>
-                                                     <dd>Description</dd>
+                                                     <dd>{{info.name}}</dd>
                                                      <dt>状态:</dt>    
-                                                     <dd>启用</dd>
+                                                     <dd>{{enabled}}</dd>
                                                      <dt>项目描述:</dt>
                                                      <dd>
-                                                         产品资料表、产品批量表中同名的表格列项目Description，作用是产品英文描述内容。
-                                                         产品资料表、产品批量表中同名的表格列项目Description，作用是产品英文描述内容。
-                                                         产品资料表、产品批量表中同名的表格列项目Description，作用是产品英文描述内容。
-                                                         产品资料表、产品批量表中同名的表格列项目Description，作用是产品英文描述内容。
-                                                         产品资料表、产品批量表中同名的表格列项目Description，作用是产品英文描述内容。
+                                                         {{info.remark}}
                                                      </dd>
                                                 </dl>
                                             </div>
@@ -119,9 +115,11 @@
                                                         <th class="text-center">项目名称</th>
                                                         <th class="text-center">内容值</th>
                                                     </tr>
-                                                    <tr class="text-center">
-                                                        <td>Description</td>
-                                                        <td>The double canopy design protects you from being wet on rainy days.<br>Sport umbrella is constructed of a durable fiberglass shaft and metal stretchers.<br>Auto open, auto close functionality brings you numerous convenience.</td>
+                                                    <tr class="text-center" v-for="table in valueList" track-by="id">
+                                                        <td>{{table.name}}</td>
+                                                        <td class="text-left">
+                                                            <p>{{table.value}}</p>
+                                                        </td>
                                                     </tr>
                                                 </table>
                                             </div>
@@ -142,9 +140,9 @@
                                                         <th class="text-center">产品类目</th>
                                                         <th class="text-center">产品名称</th>
                                                     </tr>
-                                                    <tr class="text-center">
-                                                        <td>户外 Outdoor</td>
-                                                        <td>雨伞 Umbrella</td>
+                                                    <tr class="text-center" v-for="rList in relateValList">
+                                                        <td>{{rList.category_cn}} {{rList.category_en}}</td>
+                                                        <td>{{rList.cn_name}} {{rList.en_name}}</td>
                                                     </tr>
                                                 </table>
                                             </div>
@@ -161,16 +159,17 @@
         <div class="container marginTop">
             <div class="row">
                 <div class="col-md-12 text-center">
-                    <button class="btn btn-info">修改</button>
-                    <button class="btn btn-danger">删除</button>
-                    <button class="btn btn-default">返回</button>
+                    <button @click="jumpXG" class="btn btn-info">修改</button>
+                    <button @click="deleteItem" class="btn btn-danger">删除</button>
+                    <a href="Thesaurus.html" class="btn btn-default">返回</a>
                 </div>
             </div>
         </div>
 
         <div class="container">
             <div class="row">
-                <!-- <pre>{{$data|json}}</pre> -->
+                <hr>
+                <pre>{{$data|json}}</pre>
             </div>
         </div>
 
@@ -191,5 +190,6 @@
         <!-- 包括所有bootstrap的js插件或者可以根据需要使用的js插件调用　-->
         <script src="js/bootstrap.min.js"></script>
         <script src='js/layer.js'></script>
+        <script src='js/Thesaurus-info.js'></script>
     </body>
 </html>

@@ -27,7 +27,7 @@ function windowFresh(){
 }
 
 var serverUrl = "http://192.168.1.42/canton/"; //后端接口地址
-var search = "http://192.168.1.40/PicSystem/canton/index.php/vague/name"; //模糊搜索地址
+var search = "http://192.168.1.42/canton/index.php/vague/name"; //模糊搜索地址
 var temp = "http://192.168.1.42/canton/Public/file/ProductTemplate.xlsx"  //模板地址
 
 //状态过滤器
@@ -132,6 +132,14 @@ var oInfo = new Vue({
 				item = this.info;
 			if(item){
 				window.location.href = url+'?id='+item.id+'&visitType=visitType';
+			}
+		},
+		//返回产品详情
+		goInfo:function () {
+			var url = 'product-info.html'
+				item = this.info;
+			if(item){
+				window.location.href = url+'?id='+item.id;
 			}
 		},
 		//从搜索结果中选中一个类目

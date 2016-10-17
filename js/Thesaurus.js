@@ -2,7 +2,7 @@
 
 
 var serverUrl = "http://192.168.1.42/canton/"; //后端接口地址
-var search = "http://192.168.1.40/PicSystem/canton/index.php/vague/name"; //模糊搜索地址
+var search = "http://192.168.1.42/canton/index.php/vague/name"; //模糊搜索地址
 
 //状态过滤器
 Vue.filter('statusFlilter',function(value){
@@ -98,18 +98,18 @@ var oPCenter = new Vue({
     	}
     },
     methods:{
-    	//删除产品
+    	//删除项目
     	deleteItem:function (item) {
     		var item = item,
     			vm = oPCenter;
-    		layer.confirm('确定删除产品?',{
+    		layer.confirm('确定删除项目?项目的内容和关联已将一并删除',{
     			btn:['确定','取消']
     		},function(index){
     			layer.close(index);
     			if (item) {
     				$.ajax({
     					type:'POST',
-    					url:serverUrl+'delete/productcenter',
+    					url:serverUrl+'delete/centeritem',
     					datatype:'json',
     					data:{
     						id:item.id
@@ -156,7 +156,7 @@ var oPCenter = new Vue({
     			var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
     			$.ajax({
     				type:'POST',
-    				url:serverUrl+'get/allproductcenter',
+    				url:serverUrl+'get/allcenteritem',
     				datatype:'json',
     				data:{
     					category_id:category_id,
@@ -198,7 +198,7 @@ var oPCenter = new Vue({
     			var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
     			$.ajax({
     				type:'POST',
-    				url:serverUrl+'get/allproductcenter',
+    				url:serverUrl+'get/allcenteritem',
     				datatype:'json',
     				data:{
     					pages:pageNow
@@ -235,7 +235,7 @@ var oPCenter = new Vue({
     			var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
     			$.ajax({
     				type:'POST',
-    				url:serverUrl+'get/allproductcenter',
+    				url:serverUrl+'get/allcenteritem',
     				datatype:'json',
     				data:{
     					pages:pageNow
@@ -272,7 +272,7 @@ var oPCenter = new Vue({
     			var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
     			$.ajax({
     				type:'POST',
-    				url:serverUrl+'get/infoform',
+    				url:serverUrl+'get/allcenteritem',
     				datatype:'json',
     				data:{
     					next:jump,

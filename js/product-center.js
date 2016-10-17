@@ -2,7 +2,7 @@
 
 
 var serverUrl = "http://192.168.1.42/canton/"; //后端接口地址
-var search = "http://192.168.1.40/PicSystem/canton/index.php/vague/name"; //模糊搜索地址
+var search = "http://192.168.1.42/canton/index.php/vague/name"; //模糊搜索地址
 
 //状态过滤器
 Vue.filter('statusFlilter',function(value){
@@ -272,7 +272,7 @@ var oPCenter = new Vue({
     			var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
     			$.ajax({
     				type:'POST',
-    				url:serverUrl+'get/infoform',
+    				url:serverUrl+'get/allproductcenter',
     				datatype:'json',
     				data:{
     					next:jump,

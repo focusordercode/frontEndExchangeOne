@@ -21,9 +21,6 @@
             background-color: #428bca!important;
             color: #fff!important;
         }
-        .dl-horizontal  dt,.dl-horizontal  dd {
-            margin-bottom: 20px;
-        }
         .pors .input-list,.pors .cate-list {
             top: 34px;
             left: 15px;
@@ -60,8 +57,18 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
             border-color: #ccc;
         }
-        .searchCompent {
+        .searchCompent,.searchCompent2 {
             display: none;
+        }
+        .new-alert {
+            line-height: 24px!important;
+            padding-top: 5px!important;
+            padding-bottom: 5px!important;
+            margin-bottom: 0!important;
+        }
+        #uploadForm {
+            margin-left: 15px;
+            margin-top: 5px;
         }
     </style>
 </head>
@@ -130,25 +137,34 @@
                                                     <div class="form-group">
                                                         <label class="col-sm-2 control-label">项目名称:</label>
                                                         <div class="col-sm-4">
-                                                            <input type="text" placeholder="输入名称" class="form-control">
+                                                            <input type="text" v-model="info.name" placeholder="输入名称" class="form-control">
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <div class="alert alert-danger new-alert" v-show="en_alert" role="alert"> 请输入说明的项目名称，建议使用唯一性的简短英文字符
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
                                                         <label class="col-sm-2 control-label">状态:</label>
                                                         <div class="col-sm-4">
-                                                            <select class="form-control">
-                                                                <option value="">启用</option>
-                                                                <option value="">停用</option>
+                                                            <select class="form-control" v-model="info.enabled">
+                                                                <option :value="st" v-for="st in statusList">
+                                                                    {{st | statusFlilter}}
+                                                                </option>
                                                             </select>
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
                                                         <label class="col-sm-2 control-label">项目描述:</label>
                                                         <div class="col-sm-4">
-                                                            <textarea cols="30" rows="5" class="form-control"></textarea>
+                                                            <textarea v-model="info.remark" cols="30" rows="5" class="form-control"></textarea>
                                                         </div>
                                                     </div>
                                                 </div>
+                                            </div>
+                                            <div class="col-md-3 col-md-offset-3">
+                                                <button class="btn btn-info" @click="update">保存</button>
+                                                <button @click="goback" class="btn btn-default">返回</button>
                                             </div>
                                         </div>
                                     </div>
@@ -170,13 +186,13 @@
                                                                 <label class="col-sm-2 control-label">添加类型:</label>
                                                                 <div class="radio col-sm-3">
                                                                     <label>
-                                                                        <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
+                                                                        <input type="radio" v-model="inputType" name="optionsRadios" id="optionsRadios1" value="option1" checked>
                                                                     手工录入
                                                                     </label>
                                                                 </div>
                                                                 <div class="radio col-sm-3">
                                                                     <label>
-                                                                        <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
+                                                                        <input type="radio" v-model="inputType" name="optionsRadios" id="optionsRadios2" value="option2">
                                                                     批量导入
                                                                     </label>
                                                                 </div>
@@ -185,72 +201,104 @@
                                                     </div>
                                                 </div>
                                                 <!-- 手工输入区 -->
-                                                <div class="row">
+                                                <div class="row" v-show="inputType=='option1'">
                                                     <div class="col-md-12">
                                                         <div class="form-horizontal">
                                                             <div class="form-group">
                                                                 <label class="col-sm-2 control-label">内容值:</label>
                                                                 <div class="col-sm-6">
-                                                                    <textarea cols="30" rows="6" class="form-control"></textarea>
+                                                                    <textarea v-model="newVal" cols="30" rows="6" class="form-control"></textarea>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-1 col-md-offset-4 text-center">
-                                                            <button class="btn btn-info">保存</button>
+                                                            <button @click="addVal" class="btn btn-info">保存</button>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <!-- 批量导入区 -->
-                                                <div class="row">
+                                                <div class="row" v-show="inputType=='option2'">
                                                     <div class="col-md-12">
                                                         <div class="form-horizontal">
                                                             <div class="form-group">
                                                                 <label class="col-sm-2 control-label">模板文件:</label>
                                                                 <div class="col-sm-4">
-                                                                    <a href="#" class="btn btn-link">点击下载</a>
+                                                                    <a :href="download" class="btn btn-link">点击下载</a>
                                                                 </div>
                                                             </div>
                                                             <div class="form-group">
                                                                 <label class="col-sm-2 control-label">上传文件:</label>
                                                                 <div class="col-sm-4">
-                                                                    <input type="file" class="form-control">
+                                                                    <div id="uploadForm">
+                                                                        <div class="form-group">
+                                                                            <input type="file" id="file">
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                             <div class="form-group">
                                                                 <label class="col-sm-2 control-label">导入结果:</label>
-                                                                <div class="col-sm-8">
-                                                                    
+                                                                <div class="col-sm-4">
+                                                                    <div class="alert alert-info new-alert" role="alert">
+                                                                        <dl class="dl-horizontal">
+                                                                             <dt>总共上传个数：</dt>
+                                                                             <dd>{{respons.count}}</dd>
+                                                                             <dt>成功个数:</dt>    
+                                                                             <dd>{{respons.success}}</dd>
+                                                                             <dt>失败个数:</dt>
+                                                                             <dd>{{respons.fail}}</dd>
+                                                                        </dl>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-1 col-md-offset-4 text-center">
-                                                            <button class="btn btn-info">导入</button>
+                                                            <button @click="uploadVal" class="btn btn-info">导入</button>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 
                                                 <hr>
                                                 <!-- 内容展示 -->
-                                                <table class="table table-bordered">
-                                                    <tr>
-                                                        <th class="text-center">项目名称</th>
-                                                        <th class="text-center">内容值</th>
-                                                        <th class="text-center">操作</th>
-                                                    </tr>
-                                                    <tr class="text-center">
-                                                        <td>Description</td>
-                                                        <td style="max-width: 550px;">The double canopy design protects you from being wet on rainy days.<br>Sport umbrella is constructed of a durable fiberglass shaft and metal stretchers.<br>Auto open, auto close functionality brings you numerous convenience.
-                                                        <textarea class="form-control" rows="5"  style="resize: none;">
-                                                            The double canopy design protects you from being wet on rainy days.<br>Sport umbrella is constructed of a durable fiberglass shaft and metal stretchers.<br>Auto open, auto close functionality brings you numerous convenience.
-                                                        </textarea>
-                                                        </td>
-                                                        <td>
-                                                            <button class="btn btn-default">编辑</button>
-                                                            <button class="btn btn-default">保存</button>
-                                                            <button class="btn btn-danger">删除</button>
-                                                        </td>
-                                                    </tr>
-                                                </table>
+                                                <div class="row">
+                                                    <div class="col-md-12 text-right">
+                                                        <button @click="getVal" class="btn btn-info btn-sm">刷新</button>
+                                                        <p></p>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <table class="table table-bordered">
+                                                            <tr>
+                                                                <th class="text-center">项目名称</th>
+                                                                <th class="text-center">内容值</th>
+                                                                <th class="text-center">操作</th>
+                                                            </tr>
+                                                            <tr class="text-center" v-for="table in valueList" track-by="id">
+                                                                <td>{{table.name}}</td>
+                                                                <td style="width: 700px;" class="text-left">
+                                                                    <p v-show="!table.edit">{{table.value}}</p>
+                                                                <textarea class="form-control" v-model="table.value" rows="5"  style="resize: none;" v-show="table.edit"></textarea>
+                                                                </td>
+                                                                <td>
+                                                                    <button @click="editable(table)" class="btn btn-default" v-show="!table.edit">   编辑
+                                                                    </button>
+                                                                    <button @click="saveVal(table)" class="btn btn-default" v-show="table.edit">
+                                                                        保存
+                                                                    </button>
+                                                                    <button @click="deleteItem(table)" class="btn btn-danger">
+                                                                        删除
+                                                                    </button>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-12 text-center">
+                                                        <button @click="goback" class="btn btn-default">返回</button>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -270,7 +318,7 @@
                                                             <div class="form-group">
                                                                 <label class="col-sm-2 control-label">关联类目:</label>
                                                                 <div class="col-sm-4">
-                                                                    <input type="text" v-model="proSelected" placeholder="选择类目" class="form-control" readonly>
+                                                                    <input type="text" v-model="pro_name" placeholder="选择类目" class="form-control" readonly>
                                                                 </div>
                                                                 <div class="col-sm-1">
                                                                     <button class="btn btn-info btn-sm searchBtn">搜索</button>
@@ -292,28 +340,29 @@
                                                             <div class="form-group">
                                                                 <label class="col-sm-2 control-label">选择产品:</label>
                                                                 <div class="col-sm-4">
-                                                                    <input type="text" v-model="proSelected" placeholder="选择产品" class="form-control" readonly>
+                                                                    <input type="text" v-model="reate_name" placeholder="选择产品" class="form-control" readonly>
                                                                 </div>
                                                                 <div class="col-sm-1">
-                                                                    <button class="btn btn-info btn-sm searchBtn">搜索</button>
+                                                                    <button class="btn btn-info btn-sm searchBtn2" :disabled="relateable"> 搜索
+                                                                    </button>
                                                                 </div>
-                                                                <div class="col-sm-3 pors searchCompent">
-                                                                    <input type="text" class="form-control searchShadow searchCate" placeholder="输入关键字搜索产品">
+                                                                <div class="col-sm-3 pors searchCompent2">
+                                                                    <input type="text" class="form-control searchShadow searchCate2" placeholder="输入关键字搜索产品">
                                                                     <ul class="cate-list">
-                                                                        <li @click="selectCate(pro)" v-for="pro in proList">
-                                                                            {{pro.cn_name}} {{pro.en_name}}
+                                                                        <li @click="selectRelate(reate)" v-for="reate in relateList">
+                                                                            {{reate.cn_name}} {{reate.en_name}}
                                                                         </li>
                                                                     </ul>
                                                                 </div>
-                                                                <div class="col-sm-1 text-left paddingLeft searchCompent">
-                                                                    <button class="btn btn-default closeBtn searchShadow">
+                                                                <div class="col-sm-1 text-left paddingLeft searchCompent2">
+                                                                    <button class="btn btn-default closeBtn2 searchShadow">
                                                                         <i class="fa fa-close"></i>
                                                                     </button>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-1 col-md-offset-3">
-                                                            <button class="btn btn-default">关联</button>
+                                                            <button @click="goRelate" class="btn btn-default" :disabled="goRelateBtn">关联</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -324,14 +373,17 @@
                                                         <th class="text-center">产品名称</th>
                                                         <th class="text-center">操作</th>
                                                     </tr>
-                                                    <tr class="text-center">
-                                                        <td>户外 Outdoor</td>
-                                                        <td>雨伞 Umbrella</td>
+                                                    <tr class="text-center" v-for="rList in relateValList">
+                                                        <td>{{rList.category_cn}} {{rList.category_en}}</td>
+                                                        <td>{{rList.cn_name}} {{rList.en_name}}</td>
                                                         <td>
-                                                            <button class="btn btn-danger">删除</button>
+                                                            <button @click="deleteRelate(rList)" class="btn btn-danger">删除</button>
                                                         </td>
                                                     </tr>
                                                 </table>
+                                            </div>
+                                            <div class="col-md-12 text-center">
+                                                <button @click="goback" class="btn btn-default">返回</button>
                                             </div>
                                         </div>
                                     </div>
@@ -343,17 +395,9 @@
             </div>
         </div>
 
-        <div class="container marginTop">
-            <div class="row">
-                <div class="col-md-12 text-center">
-                    <button class="btn btn-default">返回</button>
-                </div>
-            </div>
-        </div>
-
         <div class="container">
             <div class="row">
-                <!-- <pre>{{$data|json}}</pre> -->
+                <pre>{{$data|json}}</pre>
             </div>
         </div>
 
@@ -374,5 +418,6 @@
         <!-- 包括所有bootstrap的js插件或者可以根据需要使用的js插件调用　-->
         <script src="js/bootstrap.min.js"></script>
         <script src='js/layer.js'></script>
+        <script src='js/Thesaurus-xg.js'></script>
     </body>
 </html>
