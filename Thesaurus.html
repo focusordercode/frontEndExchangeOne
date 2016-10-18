@@ -164,7 +164,7 @@
         </div>
 
         <!-- 主内容区域 -->
-        <div class="container tableInfo marginTop">
+        <div class="container tableInfo marginTop" v-show="!searchResult">
             <div class="row">
                 <div class="col-md-12">
                     <div class="panel panel-success">
@@ -194,7 +194,7 @@
                                         <input type="text" v-model="search.keyword" placeholder="输入关键字搜索" class="form-control">
                                     </div>
                                     <div class="col-md-1">
-                                        <button @click="searchItem" class="btn btn-default">搜索</button>
+                                        <button @click="searchItem" class="btn btn-default" :disabled="searchBtn">搜索</button>
                                     </div>
                                     <div class="col-md-1">
                                         <a href="add-Thesaurus.html" class="btn btn-success btn-sm pull-right">添加项目</a>
@@ -209,18 +209,36 @@
                 </div>
             </div>
         </div>
-
-        <!-- 表格 -->
+        
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <div class="alert alert-success">
-                        表格数:<strong class="text-warning">{{count}}</strong>　
+                    <div class="alert alert-success" v-show="!searchResult">
+                        词条数:<strong class="text-warning">{{count}}</strong>　
                         当前页:<strong class="text-warning">{{pageNow}}</strong>　
                         总页数:<strong class="text-warning">{{countPage}}</strong>　
                     </div>
                 </div>
+            </div>
+        </div>
 
+        <div class="container marginTop" v-show="searchResult">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="alert alert-info">
+                        <b class="text-danger">搜索结果</b>　
+                        词条数:<strong class="text-warning">{{count}}</strong>　
+                        当前页:<strong class="text-warning">{{pageNow}}</strong>　
+                        总页数:<strong class="text-warning">{{countPage}}</strong>　
+                        <button class="btn btn-info btn-sm" @click="Reflesh">返回</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 表格 -->
+        <div class="container">
+            <div class="row">
                 <div class="col-md-12">
                     <div class="panel panel-success">
                         <div class="panel-heading">
@@ -279,7 +297,7 @@
         <!-- 分页 -->
         <div v-show="countPage>1" class="container">
             <div class="row">
-                <div class="col-md-4 col-md-offset-4 text-center">
+                <div class="col-md-6 col-md-offset-4 text-center">
                     <div class="form-inline">
                         <button @click="goPrePage" :disabled="prePageBtn" class="btn btn-default">上一页</button>
                         <button @click="goNextPage" :disabled="nextPageBtn" class="btn btn-default">下一页</button>
@@ -311,7 +329,7 @@
 
         <div class="container">
             <div class="row">
-                <pre>{{$data|json}}</pre>
+                <!-- <pre>{{$data|json}}</pre> -->
             </div>
         </div>
 

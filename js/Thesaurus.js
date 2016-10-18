@@ -3,6 +3,7 @@
 
 var serverUrl = "http://192.168.1.42/canton/"; //后端接口地址
 var search = "http://192.168.1.42/canton/index.php/vague/name"; //模糊搜索地址
+var num = 25;//每页展示个数
 
 //状态过滤器
 Vue.filter('statusFlilter',function(value){
@@ -21,7 +22,7 @@ Vue.filter('ListNum',function(value){
     if(pageNow==1){
     	str = str + 1;
     }else if(pageNow>1){
-    	str = (pageNow-1)*10+str+1;
+    	str = (pageNow-1)*num+str+1;
     }
     return str
 })
@@ -43,8 +44,11 @@ var oPCenter = new Vue({
     	pageNow:'',
     	countPage:'',
     	count:'',
+    	jump:'',
     	// 搜索类目
     	proList:'',
+    	//交互数据
+    	searchResult:'' //搜索结果
     },
     ready:function () {
     	var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
@@ -52,6 +56,9 @@ var oPCenter = new Vue({
     	    type:'POST',
     	    url:serverUrl+'get/allcenteritem',
     	    datatype:'json',
+    	    data:{
+    	    	num:num
+    	    },
     	    success:function(data){
     	    	layer.close(LoadIndex); //关闭遮罩层
     	        if(data.status==100){
@@ -91,6 +98,14 @@ var oPCenter = new Vue({
     		var pageNow = this.pageNow;
     		var countPage = this.countPage;
     		if(pageNow==countPage||countPage==0){
+    			return true
+    		}else{
+    			return false
+    		}
+    	},
+    	//搜索按钮
+    	searchBtn:function () {
+    		if (!this.search.cateId&&!this.search.status&&!this.search.keyword){
     			return true
     		}else{
     			return false
@@ -147,9 +162,9 @@ var oPCenter = new Vue({
     	//条件搜索
     	searchItem:function () {
     		var vm = oPCenter,
-    		category_id = oPCenter.search.cateId,
-    		enabled = oPCenter.search.status,
-    		vague = oPCenter.search.keyword;
+    		category_id = vm.search.cateId,
+    		enabled = vm.search.status,
+    		vague = vm.search.keyword;
     		if (!category_id&&!enabled&&!vague.trim()) {
     			layer.msg('类目，状态和关键词三个条件至少选其一');
     		}else{
@@ -161,7 +176,8 @@ var oPCenter = new Vue({
     				data:{
     					category_id:category_id,
     					enabled:enabled,
-    					vague:vague
+    					vague:vague,
+    					num:num
     				},
     				success:function(data){
     					layer.close(LoadIndex); //关闭遮罩层
@@ -170,6 +186,8 @@ var oPCenter = new Vue({
     						vm.pageNow = data.nowpages;
     						vm.countPage = data.pages;
     						vm.count = data.count;
+    						//搜索条件数据
+    						vm.searchResult = vm.search;
     					}else if(data.status==101){
     						layer.msg('没有搜索到数据');
     					}else{
@@ -190,7 +208,8 @@ var oPCenter = new Vue({
     	//上一页
     	goPrePage:function(){
     		var pageNow = this.pageNow;
-    		var vm = oPCenter;
+    		var vm = oPCenter,
+    			search = this.search;
     		if(pageNow<=1){
     			layer.msg('没有上一页啦');
     		}else{
@@ -201,7 +220,11 @@ var oPCenter = new Vue({
     				url:serverUrl+'get/allcenteritem',
     				datatype:'json',
     				data:{
-    					pages:pageNow
+    					pages:pageNow,
+    					num:num,
+    					category_id:search.cateId,
+    					enabled:search.status,
+    					vague:search.keyword
     				},
     				success:function(data){
     					layer.close(LoadIndex); //关闭遮罩层
@@ -227,7 +250,8 @@ var oPCenter = new Vue({
     	goNextPage:function(){
     		var pageNow = this.pageNow;
     		var countPage = this.countPage;
-    		var vm = oPCenter;
+    		var vm = oPCenter,
+    			search = this.search;
     		if(pageNow==countPage){
     			layer.msg('没有下一页啦');
     		}else{
@@ -238,7 +262,11 @@ var oPCenter = new Vue({
     				url:serverUrl+'get/allcenteritem',
     				datatype:'json',
     				data:{
-    					pages:pageNow
+    					pages:pageNow,
+    					num:num,
+    					category_id:search.cateId,
+    					enabled:search.status,
+    					vague:search.keyword
     				},
     				success:function(data){
     					layer.close(LoadIndex); //关闭遮罩层
@@ -264,10 +292,11 @@ var oPCenter = new Vue({
     	goJump:function(){
     		var jump = this.jump;
     		var countPage = this.countPage;
-    		var vm = oPCenter;
+    		var vm = oPCenter,
+    			search = this.search;
     		if(jump>countPage){
     			layer.msg('大于总页数啦');
-    			oTableInfo.jump = '';
+    			oPCenter.jump = '';
     		}else{
     			var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
     			$.ajax({
@@ -275,8 +304,11 @@ var oPCenter = new Vue({
     				url:serverUrl+'get/allcenteritem',
     				datatype:'json',
     				data:{
-    					next:jump,
-    					type_code:type_code
+    					pages:jump,
+    					num:num,
+    					category_id:search.cateId,
+    					enabled:search.status,
+    					vague:search.keyword
     				},
     				success:function(data){
     					layer.close(LoadIndex); //关闭遮罩层

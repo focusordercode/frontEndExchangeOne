@@ -164,7 +164,7 @@
         </div>
 
         <!-- 主内容区域 -->
-        <div class="container-fluid tableInfo marginTop">
+        <div class="container-fluid tableInfo marginTop" v-show="!searchResult">
             <div class="row">
                 <div class="col-md-12">
                     <div class="panel panel-success">
@@ -194,7 +194,7 @@
                                         <input type="text" v-model="search.keyword" placeholder="输入关键字搜索" class="form-control">
                                     </div>
                                     <div class="col-md-1">
-                                        <button @click="searchItem" class="btn btn-default">搜索</button>
+                                        <button @click="searchItem" class="btn btn-default" :disabled="searchBtn">搜索</button>
                                     </div>
                                     <div class="col-md-1">
                                         <a href="add-product.html" class="btn btn-success btn-sm pull-right">添加产品</a>
@@ -225,17 +225,35 @@
             </div>
         </div>
         
-        <!-- 表格 -->
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
-                    <div class="alert alert-success">
-                        表格数:<strong class="text-warning">{{count}}</strong>　
+                    <div class="alert alert-success" v-show="!searchResult">
+                        产品数:<strong class="text-warning">{{count}}</strong>　
                         当前页:<strong class="text-warning">{{pageNow}}</strong>　
                         总页数:<strong class="text-warning">{{countPage}}</strong>　
                     </div>
                 </div>
+            </div>
+        </div>
 
+        <div class="container-fluid marginTop" v-show="searchResult">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="alert alert-info">
+                        <b class="text-danger">搜索结果</b>　
+                        产品数:<strong class="text-warning">{{count}}</strong>　
+                        当前页:<strong class="text-warning">{{pageNow}}</strong>　
+                        总页数:<strong class="text-warning">{{countPage}}</strong>　
+                        <button class="btn btn-info btn-sm" @click="Reflesh">返回</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 表格 -->
+        <div class="container-fluid">
+            <div class="row">
                 <div class="col-md-12">
                     <div class="panel panel-success">
                         <div class="panel-heading">
@@ -315,7 +333,7 @@
         <div class="container">
             <div class="row">
                 <hr>
-                <pre>{{$data|json}}</pre>
+                <!-- <pre>{{$data|json}}</pre> -->
             </div>
         </div>
 
