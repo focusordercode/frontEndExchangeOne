@@ -88,9 +88,9 @@ var uploader = new plupload.Uploader({
                 document.getElementById('filelist').innerHTML += '<li class="list-group-item list-group-item-warning" id="' + file.id + '">' + file.name + '(' + plupload.formatSize(file.size) + ') <b></b></li>';
             });
 
-            var Len = 100;// 最多上传50个文件
+            var Len = 200;// 最多上传200个文件
             if(uploader.files.length>Len){ 
-                uploader.files.splice(Len,1999);//删除50后1999个文件
+                uploader.files.splice(Len,1999);//删除200后1999个文件
             }
 
             $('#filelist li').eq(Len-1).nextAll().remove();//移除dom
@@ -100,10 +100,12 @@ var uploader = new plupload.Uploader({
             if(countLen>0){
                 $('#pickfiles').show();
                 document.getElementById('seletedLen').getElementsByTagName('b')[0].innerHTML = '还可以选择'+countLen+'张图片';
+                document.getElementById('seletedLen2').getElementsByTagName('b')[0].innerHTML = '还可以选择'+countLen+'张图片';
             }else{
                 layer.msg('最多只能上传'+Len+'张图片，多余的已经自动移除');
                 $('#pickfiles').hide();
                 document.getElementById('seletedLen').getElementsByTagName('b')[0].innerHTML = '不能选择更多图片了';
+                document.getElementById('seletedLen2').getElementsByTagName('b')[0].innerHTML = '不能选择更多图片了';
             }
         },
 

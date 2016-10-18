@@ -287,7 +287,7 @@ Vue.filter('statusLink', function (value) {
     var id = value.id;
     var status = value.status_code;
     var url1 = 'info-temp-edit.html';
-    var url2 = 'batch-temp-done.html';
+    var url2 = 'info-temp-done.html';
     if(status=='creating'){
         return url1+'?id='+id;  //进入第二步
     }else if(status=='editing'){
