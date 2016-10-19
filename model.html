@@ -4,17 +4,29 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>图片分类管理</title>   
+    <title>业务模块</title>
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/Table-info.css">
     <!--你自己的样式文件 -->
-    <link href="css/index.css" rel="stylesheet">
     <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">        
     <!-- 以下两个插件用于在IE8以及以下版本浏览器支持HTML5元素和媒体查询，如果不需要用可以移除 -->
     <!--[if lt IE 9]>
     <script src="http://apps.bdimg.com/libs/html5shiv/3.7/html5shiv.js"></script>
     <script src="http://apps.bdimg.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <style>
+        .model-panel .form-control {
+            border-radius: 0;
+        }
+        .text-break {
+            word-break: break-all;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    </style>
 </head>
     <body>
         <!-- 顶部区域 -->
@@ -31,7 +43,7 @@
                 </div>
             </div>
         </div>
-
+        
         <!-- 导航 -->
         <div class="navbar navbar-inverse nav-fluid-top">
             <div class="container">
@@ -85,70 +97,74 @@
                 </div>
             </div>
         </div>
-
-        <div class="container">
+        
+        <!-- 主内容区域 -->
+        <div class="container marginTop model-panel">
             <div class="row">
-                <div class="col-lg-12">
-                    <h3 class="text-success">图片分类管理</h3>
-                    <div class="easy-tree">
-                        <!-- 操作面板 -->
-                        <div class="easy-tree-toolbar">
-                            <!-- 创建的按钮 -->
-                            <div class="create">
-                                <button class="btn btn-default btn-sm btn-success" title="添加分类">
-                                    <span class="glyphicon glyphicon-plus"></span>
-                                </button>
-                                <div class="input-group">
-                                    <input type="text" placeholder="输入分类中文名称" class="form-control cn-name">
-                                    <input type="text" placeholder="输入分类英文名称" class="form-control en-name">
-                                    <span class="input-group-btn">
-                                        <button type="button" class="btn btn-default btn-success confirm">确认</button>
-                                    </span>
-                                    <span class="input-group-btn">
-                                        <button type="button" class="btn btn-default cancel">取消</button>
-                                    </span>
+                <div class="col-md-12">
+                    <div class="panel panel-success">
+                        <div class="panel-heading"><h4><b>业务模块</b></h4></div>
+                        <div class="panel-body">
+                            <div class="col-md-12">
+                                <div class="form-horizontal">
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">中文名:</label>
+                                        <div class="col-sm-4">
+                                            <input type="text" v-model="cn_name" placeholder="输入中文名" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">英文名:</label>
+                                        <div class="col-sm-4">
+                                            <input type="text" v-model="en_name" placeholder="输入英文名" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">说明:</label>
+                                        <div class="col-sm-4">
+                                            <textarea rows="6" v-model="remark" placeholder="说明" class="form-control"></textarea>  
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <!-- 添加顶级分类的按钮 -->
-                            <!-- <div class="addtop">
-                                <button class="btn btn-default btn-sm btn-info" title="添加顶级分类">
-                                    <span class="glyphicon glyphicon-plus"></span>
-                                </button>
-                                <div class="input-group">
-                                    <select class="form-control">
-                                    </select>
-                                    <input type="text" placeholder="输入顶级分类中文名称" class="form-control cn-name">
-                                    <input type="text" placeholder="输入顶级分类英文名称" class="form-control en-name">
-                                    <span class="input-group-btn">
-                                        <button type="button" class="btn btn-default btn-success confirm">确认</button>
-                                    </span>
-                                    <span class="input-group-btn">
-                                        <button type="button" class="btn btn-default cancel">取消</button>
-                                    </span>
-                                </div>
-                            </div> -->
-                            <!-- 编辑的按钮 -->
-                            <div class="edit">
-                                <button class="btn btn-default btn-sm btn-primary" title="编辑">
-                                    <span class="glyphicon glyphicon-edit"></span>
-                                </button>
+                            <div class="col-md-3 col-md-offset-3">
+                                <button @click="addOne" class="btn btn-success">增加</button>
                             </div>
-                            <!-- 删除的按钮 -->
-                            <div class="remove">
-                                <button class="btn btn-default btn-sm btn-danger" title="删除">
-                                    <span class="glyphicon glyphicon-remove"></span>
-                                </button>
+                            <div class="col-md-12">
+                                <hr>
+                            </div>
+                            <div class="col-md-12">
+                                <table class="table table-bordered">
+                                    <tr>
+                                        <th class="text-center">中文名</th>
+                                        <th class="text-center">英文名</th>
+                                        <th class="text-center">编码</th>
+                                        <th class="text-center">说明</th>
+                                        <th class="text-center">操作</th>
+                                    </tr>
+                                    <tr class="text-center" v-for="table in valueList">
+                                        <td>{{table.cn_name}}</td>
+                                        <td> {{table.en_name}}</td>
+                                        <td>{{table.code}}</td>
+                                        <td class="text-break">{{table.remark}}</td>
+                                        <td>
+                                            <button @click="deleteOne(table)" class="btn btn-danger btn-xs">删除</button>
+                                        </td>
+                                    </tr>
+                                </table>
                             </div>
                         </div>
-                        <!-- 树形目录 -->
-                        <ul id="level-content">
-                            <!-- 顶级分类目录 -->
-                        </ul>
                     </div>
                 </div>
             </div>
-        </div>
+        </div>     
 
+        <div class="container">
+            <div class="row">
+                <!-- <pre>{{$data|json}}</pre> -->
+            </div>
+        </div>
+    
         <!-- 页脚 -->
         <div class="container-fluid footer-fluid">
             <div class="contaier">
@@ -159,12 +175,12 @@
                 </div>
             </div>
         </div>
-
         <!-- 如果要使用Bootstrap的js插件，必须先调入jQuery -->
         <script src="js/jquery.js"></script>
+        <script src="js/vue.js"></script>
         <!-- 包括所有bootstrap的js插件或者可以根据需要使用的js插件调用　-->
         <script src="js/bootstrap.min.js"></script>
-        <script src="js/layer.js"></script>
-        <script src="js/admin-category-pic.js"></script> 
+        <script src='js/layer.js'></script>
+        <script src='js/model.js'></script>
     </body>
 </html>

@@ -147,20 +147,20 @@
                                     <template v-for="entry in data">
                                         <!-- 主体展示方式 -->
                                         <template v-if="entry.parent_id==0">
-                                            <tr class="info" track-by="product_id" :title="$index+1">
+                                            <tr class="info" track-by="product_id">
                                                 <td class="text-center">{{$index+1}}</td>
                                                 <td v-for="key in columns" class="text-center">
-                                                    <a href="javascript:" class="clickTochange">{{entry[key]}}</a>
+                                                    <a href="javascript:" class="clickTochange" :title="entry[key]">{{entry[key]}}</a>
                                                 </td>
                                                 <td class="text-center">{{$index+1}}</td>
                                             </tr>
                                         </template>
                                          <!-- 变体展示方式 -->
                                         <template v-else>
-                                            <tr class="change" track-by="product_id" :title="$index+1">
+                                            <tr class="change" track-by="product_id">
                                                 <td class="text-center">{{$index+1}}</td>
                                                 <td v-for="key in columns" class="text-center">
-                                                    <a href="javascript:" class="clickTochange">{{entry[key]}}</a>
+                                                    <a href="javascript:" class="clickTochange" :title="entry[key]">{{entry[key]}}</a>
                                                 </td>
                                                 <td class="text-center">{{$index+1}}</td>
                                             </tr>

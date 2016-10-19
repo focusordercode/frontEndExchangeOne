@@ -107,7 +107,9 @@ var oTableIn = new Vue({
                 layer.close(LoadIndex); //关闭遮罩层
                 if(data.status==100){
                     oTableIn.gridData = data.value;
-
+                    Vue.nextTick(function () {
+                        FixTable("tablelie", 2, 1200, 750);
+                    })
                 }else{
                     layer.msg(data.msg);
                 }
@@ -118,7 +120,7 @@ var oTableIn = new Vue({
             }
         })
 
-        setTimeout('FixTable("tablelie", 2, 1200, 750)',1000)
+        // setTimeout('FixTable("tablelie", 2, 1200, 750)',1000)
 
     },
     computed:{
@@ -244,6 +246,7 @@ $(document).ready(function(){
     });
 });
 
+//冻结函数
 function FixTable(TableID, FixColumnNumber, width, height) {
     if ($("#" + TableID + "_tableLayout").length != 0) {
         $("#" + TableID + "_tableLayout").before($("#" + TableID));

@@ -114,14 +114,14 @@ var oTableInfo = new Vue({
 			// var w = window.open();
 			$.ajax({
 				type:'POST',
-				url:serverUrl+'get/formNumber',
+				url:serverUrl+'set/businesscode',
 				datatype:'json',
 				data:{
-					type_code:type_code
+					code:'1D'
 				},
 				success:function(data){
 					if(data.status==100){
-						var id = data.value;
+						var id = data.code;
 						var url = 'TableWorkflow-creat.html?tableID='+id;
 						if(id){
 							// w.location = url;
