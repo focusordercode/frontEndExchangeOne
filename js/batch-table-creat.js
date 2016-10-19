@@ -19,7 +19,7 @@ var Request=new UrlSearch();
 var type_code = 'batch';
 var tableID = Request.tableID;
 
-var serverUrl = "http://192.168.1.40/PicSystem/canton/"; //后端接口地址
+var serverUrl = "http://192.168.1.42/canton/"; //后端接口地址
 
 var tableCreat = new Vue({
 	el:'body',

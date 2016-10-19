@@ -22,7 +22,7 @@ var template_id = Request.id;//模板ID
 var type_code = 'info';//资料表模板
 var preType = Request.type;//访问类型
 
-var serverUrl = "http://192.168.1.40/PicSystem/canton/"; //后端接口地址
+var serverUrl = "http://192.168.1.42/canton/"; //后端接口地址
 
 var tempStart = new Vue({
     el:'body',

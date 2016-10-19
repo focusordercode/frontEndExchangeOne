@@ -20,7 +20,7 @@ var tableID = Request.tableID;
 var template_id = Request.template_id;
 var type_code = 'info';
 
-var serverUrl = "http://192.168.1.40/PicSystem/canton/"; //后端接口地址
+var serverUrl = "http://192.168.1.42/canton/"; //后端接口地址
 
 // register the grid component
 Vue.component('demo-grid', {

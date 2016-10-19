@@ -16,7 +16,7 @@ function UrlSearch() {
     } 
 }
 
-var serverUrl = "http://192.168.1.40/PicSystem/canton/"; //后端接口地址
+var serverUrl = "http://192.168.1.42/canton/"; //后端接口地址
 
 //刷新函数
 function windowFresh(){

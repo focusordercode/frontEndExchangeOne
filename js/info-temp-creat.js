@@ -18,7 +18,7 @@ function UrlSearch() {
 var Request=new UrlSearch();
 var type_code = 'info';
 
-var serverUrl = "http://192.168.1.40/PicSystem/canton/"; //后端接口地址
+var serverUrl = "http://192.168.1.42/canton/"; //后端接口地址
 
 //英文正则,英文数字和空格
 var Entext = /^[a-zA-Z_()\s]+[0-9]*$/;
