@@ -22,9 +22,18 @@
             padding-left: 10px;
         }
         .table-bordered>tbody>tr>td, .table-bordered>tbody>tr>th, .table-bordered>tfoot>tr>td, .table-bordered>tfoot>tr>th, .table-bordered>thead>tr>td, .table-bordered>thead>tr>th {
-            min-width: 250px;
+            min-width: 100px;
             vertical-align: middle;
             position: relative;
+            max-width: 300px;
+            background-color: #e6e6e6;
+        }
+        .table-bordered>tbody>tr>td {
+            height: 30px;
+            word-break: break-all;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
         .table tr th:first-child {
             min-width: 50px!important;
@@ -120,11 +129,11 @@
         
         <!-- component template -->
         <script type="text/x-template" id="grid-template">
-            <div class="container-fluid">
+            <div class="container">
                 <div class="row">
-                    <div>
+                    <div class="col-lg-12">
                         <div class="tableContent">
-                            <table class="table table-bordered">
+                            <table class="table table-bordered" id="tablelie">
                                 <thead>
                                     <tr>
                                         <th class="text-center">序号</th>
@@ -196,10 +205,10 @@
         </div>
 
         <!-- 如果要使用Bootstrap的js插件，必须先调入jQuery -->
-        <script src="js/jquery.js"></script>
+        <script src="js/jquery1.7.2.js"></script>
         <script src="js/vue.js"></script>
         <!-- 包括所有bootstrap的js插件或者可以根据需要使用的js插件调用　-->
-        <script src="js/bootstrap.min.js"></script>
+        <!--<script src="js/bootstrap.min.js"></script>-->
         <script src='js/layer.js'></script>
         <script src='js/TableWorkflow-done.js'></script>
     </body>
