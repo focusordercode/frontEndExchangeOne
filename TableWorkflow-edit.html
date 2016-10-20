@@ -255,58 +255,54 @@
         <script type="text/x-template" id="grid-template">
             <div class="container-fluid">
                 <div class="row">
-                    <div>
-                        <div class="">
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th>序号</th>
-                                        <th>
-                                            操作
-                                        </th>
-                                        <th v-for="key in columns">
-                                            {{key | capitalize}}
-                                        </th>
-                                        <th>序号</th>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>
+                                    操作
+                                </th>
+                                <th v-for="key in columns">
+                                    {{key | capitalize}}
+                                </th>
+                                <th>序号</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template v-for="entry in data">
+                                <!-- 主体展示方式 -->
+                                <template v-if="entry.parent_id==0" track-by="product_id">
+                                    <tr class="info" :title="$index+1" >
+                                        <td class="text-center">{{$index+1}}</td>
+                                        <td>
+                                            <button v-on:click="addline(entry,$index)" v-show="entry.parent_id==0" class="btn btn-success">主体</button>
+                                            <button v-on:click="addchange(entry,$index)" v-show="entry.parent_id==0" class="btn btn-info">变体</button>
+                                            <button v-on:click="remove(entry,$index)" class="btn btn-danger">删除</button>
+                                        </td>
+                                        <td v-for="key in columns">
+                                            <input type="text" v-model="entry[key]" class="form-control" data-toggle="popover" data-trigger="focus" data-placement="top" data-content="111">
+                                        </td>
+                                        <td class="text-center">{{$index+1}}</td>
                                     </tr>
-                                </thead>
-                                <tbody>
-                                    <template v-for="entry in data">
-                                        <!-- 主体展示方式 -->
-                                        <template v-if="entry.parent_id==0" track-by="product_id">
-                                            <tr class="info" :title="$index+1" >
-                                                <td class="text-center">{{$index+1}}</td>
-                                                <td>
-                                                    <button v-on:click="addline(entry,$index)" v-show="entry.parent_id==0" class="btn btn-success">主体</button>
-                                                    <button v-on:click="addchange(entry,$index)" v-show="entry.parent_id==0" class="btn btn-info">变体</button>
-                                                    <button v-on:click="remove(entry,$index)" class="btn btn-danger">删除</button>
-                                                </td>
-                                                <td v-for="key in columns">
-                                                    <input type="text" v-model="entry[key]" class="form-control" data-toggle="popover" data-trigger="focus" data-placement="top" data-content="111">
-                                                </td>
-                                                <td class="text-center">{{$index+1}}</td>
-                                            </tr>
-                                        </template>
-                                         <!-- 变体展示方式 -->
-                                        <template v-else track-by="product_id">
-                                            <tr class="warning" :title="$index+1">
-                                                <td class="text-center">{{$index+1}}</td>
-                                                <td>
-                                                    <button v-on:click="addline(entry,$index)" v-show="entry.parent_id==0" class="btn btn-success">主体</button>
-                                                    <button v-on:click="addchange(entry,$index)" v-show="entry.parent_id==0" class="btn btn-info">变体</button>
-                                                    <button v-on:click="remove(entry,$index)" class="btn btn-danger">删除</button>
-                                                </td>
-                                                <td v-for="key in columns">
-                                                    <input type="text" v-model="entry[key]" class="form-control" data-toggle="popover" data-trigger="focus" data-placement="top" data-content="222">
-                                                </td>
-                                                <td class="text-center">{{$index+1}}</td>
-                                            </tr>
-                                        </template> 
-                                    </template>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+                                </template>
+                                 <!-- 变体展示方式 -->
+                                <template v-else track-by="product_id">
+                                    <tr class="warning" :title="$index+1">
+                                        <td class="text-center">{{$index+1}}</td>
+                                        <td>
+                                            <button v-on:click="addline(entry,$index)" v-show="entry.parent_id==0" class="btn btn-success">主体</button>
+                                            <button v-on:click="addchange(entry,$index)" v-show="entry.parent_id==0" class="btn btn-info">变体</button>
+                                            <button v-on:click="remove(entry,$index)" class="btn btn-danger">删除</button>
+                                        </td>
+                                        <td v-for="key in columns">
+                                            <input type="text" v-model="entry[key]" class="form-control" data-toggle="popover" data-trigger="focus" data-placement="top" data-content="222">
+                                        </td>
+                                        <td class="text-center">{{$index+1}}</td>
+                                    </tr>
+                                </template> 
+                            </template>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </script>

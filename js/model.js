@@ -1,10 +1,6 @@
 // Creat by msh 2016.10.19
 
-
 var serverUrl = "http://192.168.1.42/canton/"; //后端接口地址
-
-//英文正则,英文数字和空格
-var Entext = /^[a-zA-Z_()\s]+[0-9]*$/;
 
 var model = new Vue({
 	el:'body',
@@ -17,6 +13,16 @@ var model = new Vue({
 	ready:function () {
 		updateData();
 	},
+	computed:{
+		//添加按钮
+		addBtn:function () {
+			if (!this.cn_name.trim()&&!this.en_name.trim()) {
+				return true
+			}else{
+				return false
+			}
+		}
+	},
 	methods:{
 		//添加
 		addOne:function () {
@@ -24,6 +30,8 @@ var model = new Vue({
 				cn_name = this.cn_name,
 				en_name = this.en_name,
 				remark = this.remark;
+			//英文正则,英文数字和空格
+			var Entext = /^[a-zA-Z_()\s]+[0-9]*$/;
 			if (!cn_name.trim()) {
 				layer.msg('中文名不能为空');
 			}else if (!en_name.trim()||!Entext.test(en_name)) {
@@ -58,7 +66,8 @@ var model = new Vue({
 		},
 		//删除
 		deleteOne:function (table) {
-			var id = table.id;
+			var id = table.id,
+				vm = model;
 			layer.confirm('确定删除?',{
 				btn:['确定','取消']
 			},function(index){
@@ -74,8 +83,8 @@ var model = new Vue({
 					success:function (data) {
 						if (data.status==100) {
 							layer.msg('删除成功');
-							//更新列表
-							updateData();
+							
+							vm.valueList.$remove(table);
 						}else{
 							layer.msg(data.msg);
 						}

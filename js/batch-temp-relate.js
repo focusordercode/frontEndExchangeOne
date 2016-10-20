@@ -47,7 +47,7 @@ var tempRelate = new Vue({
         relateBtn:''
     },
     ready:function(){
-        //获取当前模板的信息
+        //获取当前模板的信息,批量表
         $.ajax({
             type:'POST',
             url:serverUrl+'getById/template',
@@ -68,12 +68,11 @@ var tempRelate = new Vue({
             }
         }),
 
-        //获取当前模板的数据
+        //获取过滤后的模板数据，批量表
         $.ajax({
             type: "POST",
-            url: serverUrl+"get/templateitem", //添加请求地址的参数
+            url: serverUrl+"get/eliminateItem", //添加请求地址的参数
             dataType: "json",
-            timeout:5000,
             data:{
                 template_id:template_id,
                 type_code:type_code
@@ -108,6 +107,14 @@ var tempRelate = new Vue({
         //选择模板按钮
         selectBtn:function(){
             if(this.relateData.length>0){
+                return true
+            }else{
+                return false
+            }
+        },
+        //资料表模板是否有数据
+        proDataSelect:function () {
+            if(this.proData.length<1) {
                 return true
             }else{
                 return false
@@ -186,6 +193,11 @@ var tempRelate = new Vue({
                     layer.msg('从服务器获取模板数据失败');
                 }
             })
+
+            var batch_id = tempRelate.temp.id,  //批量表模板id
+                info_id = tempRelate.MBselectedId;  //资料表模板id
+            //拉取默认关联数据
+            defaultData(batch_id,info_id);
         },
         //点击关联后
         relate:function(){
@@ -202,12 +214,12 @@ var tempRelate = new Vue({
                 relateData.push(newItem);
 
                 //把数据从待选关联选项中删除
-                tempRelate.proData.splice(info,1);
+                // tempRelate.proData.splice(info,1);
                 tempRelate.tempData.splice(batch,1);
 
                 //恢复按钮
                 tempRelate.selectedBacth = '';
-                tempRelate.selectedInfo = '';
+                // tempRelate.selectedInfo = '';
             }else{
                 layer.msg('请先选择好资料表和批量表的项目');
             }
@@ -215,10 +227,11 @@ var tempRelate = new Vue({
         //点击删除
         deleteItem:function(relate){
             var relate = relate;
-            var proItem = {},
-                batItem = {};
-            proItem.en_name = relate.info;
-            proItem.id = relate.infoId;
+            // var proItem = {},
+            //     batItem = {};
+            var batItem = {};
+            // proItem.en_name = relate.info;
+            // proItem.id = relate.infoId;
             batItem.en_name = relate.batch;
             batItem.id = relate.batchId;
 
@@ -226,7 +239,7 @@ var tempRelate = new Vue({
             tempRelate.relateData.$remove(relate);
 
             //恢复数据到选项
-            tempRelate.proData.push(proItem);
+            // tempRelate.proData.push(proItem);
             tempRelate.tempData.push(batItem);
         },
         //保存数据
@@ -313,3 +326,25 @@ var tempRelate = new Vue({
         }
     }
 })
+
+//获取默认关联数据函数
+//批量表和资料表的id，整数型
+function defaultData (batch_id,info_id) {
+    $.ajax({
+        type: "POST",
+        url: serverUrl+"get/relationItem", //添加请求地址的参数
+        dataType: "json",
+        data:{
+            template_id:info_id,
+            batch_template_id:batch_id
+        },
+        success: function(data){
+            if(data.status==100){
+                tempRelate.relateData = data.value;
+            }
+        },
+        error: function(jqXHR){     
+            layer.msg('从服务器获取数据失败');
+        }
+    })
+}

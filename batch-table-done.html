@@ -36,7 +36,9 @@
             text-overflow: ellipsis;
         }
         .tableContent{
-
+            margin-left: auto;
+            margin-right: auto;
+            width: 1400px;
         }
         .table tr th:first-child {
             min-width: 50px!important;
@@ -57,27 +59,6 @@
             text-decoration: none;
             /*border-bottom: dashed 1px #0088cc;*/
         }
-        .td-input {
-            position: absolute;
-            top: -42px;
-            left: 0;
-            margin-bottom: 0;
-            background-color: #fff;
-            display: none;
-        }
-        .td-input > .input-group {
-            margin: 6px 10px;
-        }
-        .td-input button {
-            color: #fff;
-            margin-right: 10px;
-        }
-        .td-input > i {
-            position: absolute;
-            bottom: -9px;
-            left: 42%;
-            color: #fff;
-        }
         .tableDetail .label {
             font-size: 90%;
         }
@@ -89,9 +70,6 @@
             z-index: 1030;
             background-color: #ecf0f5;
             border-bottom: 1px solid #ccc;
-        }
-        .tableCont {
-            overflow-x: auto;
         }
         .pullUP {
             color: #777;
@@ -121,11 +99,8 @@
             z-index: 6;
         }
         #table {
-            padding-top: 200px;
+            padding-top: 255px;
         }
-        /*#tablelie {
-            margin: 250px 50px 30px 50px;
-        }*/
     </style>
 </head>
     <body>
@@ -195,54 +170,48 @@
         
         <!-- component template -->
         <script type="text/x-template" id="grid-template">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="tableContent ">
-                            <table class="table table-bordered" id="tablelie">
-                                <thead>
-                                    <tr>
-                                        <th class="text-center">序号</th>
-                                        <th class="text-center" v-for="key in columns">
-                                            {{key}}
-                                        </th>
-                                        <!--<th class="text-center">序号</th>-->
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <template v-for="entry in data">
-                                        <!-- 主体展示方式 -->
-                                        <template v-if="entry.parent_id==0">
-                                            <tr class="info" track-by="product_id">
-                                                <td class="text-center">{{$index+1}}</td>
-                                                <td v-for="key in columns" class="text-left">
-                                                    <a href="javascript:" class="clickTochange" :title="entry[key]">{{entry[key]}}</a>
-                                                </td>
-                                                <!--<td class="text-center">{{$index+1}}</td>-->
-                                            </tr>
-                                        </template>
-                                         <!-- 变体展示方式 -->
-                                        <template v-else>
-                                            <tr class="change" track-by="product_id">
-                                                <td class="text-center">{{$index+1}}</td>
-                                                <td v-for="key in columns" class="text-left">
-                                                    <a href="javascript:" class="clickTochange" :title="entry[key]">{{entry[key]}}</a>
-                                                </td>
-                                                <!--<td class="text-center">{{$index+1}}</td>-->
-                                            </tr>
-                                        </template> 
-                                    </template>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
+            <div class="tableContent">
+                <table class="table table-bordered" id="tablelie">
+                    <thead>
+                        <tr>
+                            <th class="text-center">序号</th>
+                            <th class="text-center" v-for="key in columns">
+                                {{key}}
+                            </th>
+                            <!--<th class="text-center">序号</th>-->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <template v-for="entry in data">
+                            <!-- 主体展示方式 -->
+                            <template v-if="entry.parent_id==0">
+                                <tr class="info" track-by="product_id">
+                                    <td class="text-center">{{$index+1}}</td>
+                                    <td v-for="key in columns" class="text-left">
+                                        <a href="javascript:" class="clickTochange" :title="entry[key]">{{entry[key]}}</a>
+                                    </td>
+                                    <!--<td class="text-center">{{$index+1}}</td>-->
+                                </tr>
+                            </template>
+                             <!-- 变体展示方式 -->
+                            <template v-else>
+                                <tr class="change" track-by="product_id">
+                                    <td class="text-center">{{$index+1}}</td>
+                                    <td v-for="key in columns" class="text-left">
+                                        <a href="javascript:" class="clickTochange" :title="entry[key]">{{entry[key]}}</a>
+                                    </td>
+                                    <!--<td class="text-center">{{$index+1}}</td>-->
+                                </tr>
+                            </template> 
+                        </template>
+                    </tbody>
+                </table>
             </div>
         </script>
         
 
 
-        <div id="table" v-show="gridData.length>2" class="marginTop">
+        <div id="table" v-show="gridData.length>2">
             <demo-grid
             :data="gridData"
             :columns="gridColumns">
@@ -251,8 +220,7 @@
 
         <div class="container-fluid" v-show="gridData.length>2">
             <div class="row">
-                <hr>
-                <div class="col-md-12 text-center">
+                <div class="col-md-12 text-center" style="margin-top: 10px;">
                     <button class="btn btn-success" v-show="!visitType" @click="oFitUPC">匹配UPC</button>
                     <button class="btn btn-info" v-show="!visitType" :disabled="makeExcelBtn" @click="makeExcel">生成表格</button>
                     <a :href="downLink" class="btn btn-primary" v-show="!visitType" :disabled="downloadBtn">        <i class="fa fa-download" aria-hidden="true"></i>下载表格
@@ -265,11 +233,6 @@
             </div>
         </div>
         
-        <!-- 回到顶部 -->
-        <div class="scrollToTop">
-            <i class="fa fa-3x fa-angle-up" aria-hidden="true"></i>
-        </div>
-
         <hr>
         <div class="container">
             <div class="row">

@@ -54,37 +54,61 @@
             text-decoration: none;
             /*border-bottom: dashed 1px #0088cc;*/
         }
-        .td-input {
-            position: absolute;
-            top: -42px;
-            left: 0;
-            margin-bottom: 0;
-            background-color: #fff;
-            display: none;
-        }
-        .td-input > .input-group {
-            margin: 6px 10px;
-        }
-        .td-input button {
-            color: #fff;
-            margin-right: 10px;
-        }
-        .td-input > i {
-            position: absolute;
-            bottom: -9px;
-            left: 42%;
-            color: #fff;
+        .tableContent{
+            margin-left: auto;
+            margin-right: auto;
+            width: 1400px;
         }
         .tableDetail .label {
             font-size: 90%;
         }
+        .pullDown {
+            color: #777;
+            position: absolute;
+            top: 0;
+            left: 50%;
+            margin-left: -20px;
+            width: 40px;
+            height: 26px;
+            background-color: rgba(221, 221, 221, .8);
+            text-align: center;
+            line-height: 34px;
+            cursor: pointer;
+            z-index: 0;
+        }
+        .pullUP {
+            color: #777;
+            position: absolute;
+            bottom: -27px;
+            left: 50%;
+            margin-left: -20px;
+            width: 40px;
+            height: 26px;
+            background-color: rgba(221, 221, 221, .8);
+            text-align: center;
+            line-height: 34px;
+            cursor: pointer;
+        }
+        .tableTop .navbar-inner .container-fluid {
+            background-color: #f5f5f5;
+        }
+        .tableTop .navbar-inner .well {
+            border-color: #f5f5f5;
+        }
     </style>
 </head>
     <body>
+        <div class="pullDown">
+            <i class="fa fa-2x fa-angle-down" aria-hidden="true"></i>
+        </div>
         <!-- 主内容区域 -->
-        <div class="navbar navbar-inverse navbar-fixed-top tableTop">
+        <div class="navbar navbar-inverse tableTop">
             <div class="navbar-inner">
-                <div class="container-fluid" style="margin-top:20px;">
+                <div class="pullUP">
+                    <i class="fa fa-2x fa-angle-up" aria-hidden="true"></i>
+                </div>
+
+                <div class="container-fluid">
                     <div class="container-fluid tableDetail">
                         <div class="row">
                             <div class="col-md-12">
@@ -129,53 +153,44 @@
         
         <!-- component template -->
         <script type="text/x-template" id="grid-template">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="tableContent">
-                            <table class="table table-bordered" id="tablelie">
-                                <thead>
-                                    <tr>
-                                        <th class="text-center">序号</th>
-                                        <th class="text-center" v-for="key in columns">
-                                            {{key | capitalize}}
-                                        </th>
-                                        <th class="text-center">序号</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <template v-for="entry in data">
-                                        <!-- 主体展示方式 -->
-                                        <template v-if="entry.parent_id==0">
-                                            <tr class="info" track-by="product_id">
-                                                <td class="text-center">{{$index+1}}</td>
-                                                <td v-for="key in columns" class="text-center">
-                                                    <a href="javascript:" class="clickTochange" :title="entry[key]">{{entry[key]}}</a>
-                                                </td>
-                                                <td class="text-center">{{$index+1}}</td>
-                                            </tr>
-                                        </template>
-                                         <!-- 变体展示方式 -->
-                                        <template v-else>
-                                            <tr class="change" track-by="product_id">
-                                                <td class="text-center">{{$index+1}}</td>
-                                                <td v-for="key in columns" class="text-center">
-                                                    <a href="javascript:" class="clickTochange" :title="entry[key]">{{entry[key]}}</a>
-                                                </td>
-                                                <td class="text-center">{{$index+1}}</td>
-                                            </tr>
-                                        </template> 
-                                    </template>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
+            <div class="tableContent">
+                <table class="table table-bordered" id="tablelie">
+                    <thead>
+                        <tr>
+                            <th class="text-center">序号</th>
+                            <th class="text-center" v-for="key in columns">
+                                {{key | capitalize}}
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <template v-for="entry in data">
+                            <!-- 主体展示方式 -->
+                            <template v-if="entry.parent_id==0">
+                                <tr class="info" track-by="product_id">
+                                    <td class="text-center">{{$index+1}}</td>
+                                    <td v-for="key in columns" class="text-center">
+                                        <a href="javascript:" class="clickTochange" :title="entry[key]">{{entry[key]}}</a>
+                                    </td>
+                                </tr>
+                            </template>
+                             <!-- 变体展示方式 -->
+                            <template v-else>
+                                <tr class="change" track-by="product_id">
+                                    <td class="text-center">{{$index+1}}</td>
+                                    <td v-for="key in columns" class="text-center">
+                                        <a href="javascript:" class="clickTochange" :title="entry[key]">{{entry[key]}}</a>
+                                    </td>
+                                </tr>
+                            </template> 
+                        </template>
+                    </tbody>
+                </table>
             </div>
         </script>
 
         <!-- demo root element -->
-        <div id="table" style="margin-top:110px;">
+        <div id="table" style="margin-top:30px;">
             <demo-grid
             :data="gridData"
             :columns="gridColumns">
@@ -184,17 +199,12 @@
 
         <div class="container-fluid">
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-12 text-center" style="margin-top: 10px;">
                     <button class="btn btn-primary" @click="downloadTable" :disabled="downloadBtn">       <i class="fa fa-download" aria-hidden="true"></i>下载表格
                     </button>
                     <button class="btn btn-info" v-show="info.status_code | startBtn" @click="startTable">启用表格</button>
                 </div>
             </div>
-        </div>
-        
-        <!-- 回到顶部 -->
-        <div class="scrollToTop">
-            <i class="fa fa-3x fa-angle-up" aria-hidden="true"></i>
         </div>
 
         <hr>

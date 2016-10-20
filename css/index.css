@@ -460,13 +460,6 @@ body,html {
     vertical-align: middle;
 }
 
-
-.tableContent {
-    float: left;
-    padding-left: 20px;
-    padding-right:20px;
-    width:auto;
-}
 .tableTop {
     background-color: #ecf0f5;
     border-color: #748aa5;

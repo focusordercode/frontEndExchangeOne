@@ -112,7 +112,7 @@ var oTableIn = new Vue({
                 if(data.status==100){
                     oTableIn.gridData = data.value;
                     Vue.nextTick(function () {
-                        FixTable("tablelie", 2, 1200, 750);
+                        FixTable("tablelie", 2, 1400, 650);
                     })
                 }else{
                     layer.msg(data.msg);
@@ -171,12 +171,24 @@ var oTableIn = new Vue({
     }
 })
 
-$(document).ready(function(){
-    //回到顶部
-    $('.scrollToTop').click(function(){
-        $("html,body").animate({scrollTop:0},300);
+$(function(){
+    //检测滚动条位置，显示隐藏页面头部
+    $(window).scroll(function(){
+       if($(window).scrollTop() > 50){
+           $('.tableTop').slideUp(300);
+       }
+    })
+
+    //页面顶部隐藏显示
+    $('.pullUP').on('click',function(){
+        $('.tableTop').slideUp(300);
     });
-});
+
+    $('.pullDown').on('click',function(){
+        $('.tableTop').slideDown(300);
+        $('.tableTop').css({'overflow':'visible'});
+    });
+})
 
 //冻结函数
 function FixTable(TableID, FixColumnNumber, width, height) {

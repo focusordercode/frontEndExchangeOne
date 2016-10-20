@@ -108,7 +108,7 @@ var oTableIn = new Vue({
                 if(data.status==100){
                     oTableIn.gridData = data.value;
                     Vue.nextTick(function () {
-                        FixTable("tablelie", 2, 1200, 750);
+                        FixTable("tablelie", 2, 1400, 650);
                     })
                 }else{
                     layer.msg(data.msg);
@@ -237,12 +237,8 @@ $(document).ready(function(){
 
     $('.pullDown').on('click',function(){
         $('.fixed-top').slideDown(300);
-        $('#table').css('padding-top','200px');
-    });
-
-    //回到顶部
-    $('.scrollToTop').click(function(){
-        $("html,body").animate({scrollTop:0},300);
+        $('.fixed-top').css({'overflow':'visible'});
+        $('#table').css('padding-top','255px');
     });
 });
 

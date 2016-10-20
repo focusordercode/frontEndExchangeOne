@@ -266,7 +266,7 @@
                                             <div class="col-md-4 col-md-offset-1">
                                                 <div class="form-group">
                                                     <label>资料表模板项目</label>
-                                                    <select v-model="selectedInfo" class="proSelect form-control">
+                                                    <select v-model="selectedInfo" :disabled="proDataSelect" class="proSelect form-control">
                                                         <option v-for="info in proData" value="{{$index}}" >{{info.en_name}}</option>
                                                     </select>
                                                 </div>
@@ -370,7 +370,7 @@
         <hr>
         <div class="container">
             <div class="row">
-                <!-- <pre>{{$data|json}}</pre> -->
+                <pre>{{$data|json}}</pre>
             </div>
         </div>
 

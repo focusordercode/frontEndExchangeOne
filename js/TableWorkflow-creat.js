@@ -35,7 +35,10 @@ var TableCreat = new Vue({
 		CusList:'',
 		CusSelect:'',
 		CusSelectId:'',
-		tableName:''
+		tableName:'',
+		tableType:'', //主体变体
+		mainNum:'', //主体个数
+		changeNum:'' //变体个数
 	},
 	computed:{
 		TableCreat:function(){

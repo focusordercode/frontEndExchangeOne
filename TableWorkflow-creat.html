@@ -159,6 +159,9 @@
         .searchCompent,.searchCompent2 {
             display: none;
         }
+        .expand-transition {
+          transition: all .3s ease;
+        }
     </style>
 </head>
     <body>
@@ -322,6 +325,39 @@
                         </div>
                         <div class="form-horizontal">
                             <div class="form-group">
+                                <label class="col-sm-2 control-label text-muted">产品类型</label>
+                                <div class="radio col-sm-1">
+                                    <label>
+                                        <input type="radio" v-model="tableType" name="optionsRadios" id="optionsRadios1" value="option1" checked>
+                                    常规
+                                    </label>
+                                </div>
+                                <div class="radio col-sm-1">
+                                    <label>
+                                        <input type="radio" v-model="tableType" name="optionsRadios" id="optionsRadios1" value="option2">
+                                    变体
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label text-muted">产品数量</label>
+                                <div class="col-sm-4">
+                                    <input type="number" min="1" class="form-control table-title" placeholder="产品数量">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-horizontal" v-show="tableType=='option2'">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label text-muted">变体数量</label>
+                                <div class="col-sm-4">
+                                    <input type="number" min="1" class="form-control table-title" placeholder="变体数量">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-horizontal">
+                            <div class="form-group">
                                 <label class="col-sm-2 control-label text-muted">状态</label>
                                 <div class="col-sm-4">
                                     <select class="form-control" readonly>
@@ -385,7 +421,7 @@
 
         <div class="container">
             <div class="row">
-                <!-- <pre>{{$data|json}}</pre> -->
+                <pre>{{$data|json}}</pre>
             </div>
         </div>
 
