@@ -224,7 +224,7 @@
                                                     </td>
                                                     <td>
                                                         <!-- 是否填写 -->
-                                                        <select  class="form-control" v-model="table.iswrite">
+                                                        <select  class="form-control" v-model="table.is_required">
                                                             <option :value="write" v-for="write in table.iswrite_array">
                                                                 {{write | writeType}}
                                                             </option>
@@ -232,7 +232,7 @@
                                                     </td>
                                                     <td>
                                                         <!-- 填写规则 -->
-                                                        <select  class="form-control" v-model="table.rule">
+                                                        <select  class="form-control" v-model="table.value_regulation">
                                                             <option value="" selected>请选择规则</option>
                                                             <option :value="writeRule" v-for="writeRule in table.rule_array">
                                                                 {{writeRule | ruleType}}
@@ -294,7 +294,7 @@
                                                     </td>
                                                     <td>
                                                         <!-- 是否填写 -->
-                                                        <select  class="form-control" v-model="table.iswrite">
+                                                        <select  class="form-control" v-model="table.is_required">
                                                             <option :value="write" v-for="write in table.iswrite_array">
                                                                 {{write | writeType}}
                                                             </option>
@@ -302,7 +302,7 @@
                                                     </td>
                                                     <td>
                                                         <!-- 填写规则 -->
-                                                        <select  class="form-control" v-model="table.rule">
+                                                        <select  class="form-control" v-model="table.value_regulation">
                                                             <option value="" selected>请选择规则</option>
                                                             <option :value="writeRule" v-for="writeRule in table.rule_array">
                                                                 {{writeRule | ruleType}}

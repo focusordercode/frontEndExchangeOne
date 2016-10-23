@@ -36,14 +36,10 @@ var TableCreat = new Vue({
 		CusSelect:'',
 		CusSelectId:'',
 		tableName:'',
+		creator_id:0,
 		tableType:'', //主体变体
-		mainNum:'', //主体个数
-		changeNum:'' //变体个数
-	},
-	computed:{
-		TableCreat:function(){
-			return 'TableWorkflow-creat.html'+'?tableID='+this.tableID
-		}
+		product_count:'', //主体个数
+		variant_num:'' //变体个数
 	},
 	methods:{
 		//从搜索结果中选中一个类目
@@ -153,12 +149,15 @@ var TableCreat = new Vue({
 		},
 		//保存表格信息
 		saveTable:function(){
-			var tableID = TableCreat.tableID;
-			var category_id = TableCreat.proSelectedId;
-			var template_id = TableCreat.MBselectedId;
-			var client_id = TableCreat.CusSelectId;
-			var title = TableCreat.tableName;
-			var creator_id = 0;
+			var vm = this;//vue示例
+			var tableID = vm.tableID,
+				category_id = vm.proSelectedId,
+				template_id = vm.MBselectedId,
+				client_id = vm.CusSelectId,
+				title = vm.tableName.trim(),
+				product_count = vm.product_count,
+				variant_num = vm.variant_num;
+
 			if(!category_id){
 				layer.msg('没有选择类目');
 			}else if(!template_id){
@@ -167,33 +166,21 @@ var TableCreat = new Vue({
 				layer.msg('没有选择客户');
 			}else if(!title){
 				layer.msg('没有填写表格名');
-			}else{
-				$.ajax({
-					type:'POST',
-					url:serverUrl+'add/infoform',
-					datatype:'json',
-					data:{
-						type_code:'info',
-						form_no:tableID,
-						category_id:category_id,
-						template_id:template_id,
-						client_id:client_id,
-						title:title,
-						creator_id:creator_id
-					},
-					success:function(data){
-						if(data.status==100){
-							var Id = data.id;
-							var url = 'TableWorkflow-edit.html';
-							window.location.href = url+'?form_no='+tableID+'&id='+Id+'&template_id='+template_id+'&type_code=info';
-						}else{
-							layer.msg(data.msg);
-						}
-					},
-					error:function(jqXHR){
-						layer.msg('向服务器请求保存表格失败');
-					}
-				})
+			}else if(vm.tableType=='option2'){ //选择有变体时
+				if(!product_count){
+					layer.msg('产品数量不能为空');
+				}else if(!variant_num){
+					layer.msg('变体数量不能为空');
+				}else{
+					submitTable(vm);
+				}
+			}else if(vm.tableType=='option1'){ //选择常规时
+				vm.variant_num = '';
+				if(!product_count){
+					layer.msg('产品数量不能为空');
+				}else{
+					submitTable(vm);
+				}
 			}
 		},
 		//取消编辑表格
@@ -207,6 +194,45 @@ var TableCreat = new Vue({
 		}
 	}
 }) 
+
+//提交表格信息函数
+function submitTable (vm) {
+	$.ajax({
+		type:'POST',
+		url:serverUrl+'add/infoform',
+		datatype:'json',
+		data:{
+			type_code:'info',
+			form_no:vm.tableID,
+			category_id:vm.proSelectedId,
+			template_id:vm.MBselectedId,
+			client_id:vm.CusSelectId,
+			title:vm.tableName,
+			product_count:vm.product_count,
+			variant_num:vm.variant_num,
+			creator_id:vm.creator_id
+		},
+		success:function(data){
+			if(data.status==100){
+				var Id = data.id;
+				layer.msg('提交保存成功');
+				
+				//跳转函数
+				function goNext() {
+				    var url = 'TableWorkflow-selectPic.html';
+				    window.location.href = url+'?id='+Id;
+				}
+
+				setInterval(goNext,1000);
+			}else{
+				layer.msg(data.msg);
+			}
+		},
+		error:function(jqXHR){
+			layer.msg('向服务器请求保存表格失败');
+		}
+	})
+}
 
 //搜索客户框
 $(function(){
