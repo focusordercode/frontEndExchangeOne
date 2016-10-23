@@ -4,6 +4,7 @@ function windowFresh(){
 }
 
 var serverUrl = "http://192.168.1.42/canton/"; //后端接口地址
+var oUrl = 'http://192.168.1.42/canton/';//图片服务器地址
 
 //查看信息组件
 Vue.component('my-component', {
@@ -322,7 +323,7 @@ var picGallery = new Vue({
         //恢复图片到指定类目
         recover:function(){
             var gallery_id = picGallery.recoverId;
-            var picArray = new Array();//恢复分类的id数组
+            var picArray = new Array();//恢复分类的图片id数组
             var picDataLength = picGallery.picData.length;
             for(var i = 0;i<picDataLength;i++){
                 if(picGallery.picData[i].checked){
@@ -351,6 +352,8 @@ var picGallery = new Vue({
                             // layer.msg('没有获取到图片');  //没有图片不提示了
                         }else if(data.status==102){
                             layer.msg('参数错误');
+                        }else{
+                            layer.msg(data.msg);
                         }
                     },
                     error:function(jqXHR){
@@ -458,7 +461,6 @@ $(document).on('keyup','.pors .form-control',function(){
     })
 });
 
-var oUrl = 'http://192.168.1.40/PicSystem/canton';//图片服务器地址
 //Vue过滤器
 Vue.filter('upLink',function(value){
     var str = value;

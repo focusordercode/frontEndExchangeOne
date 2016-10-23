@@ -125,7 +125,11 @@
                                         <label>选择目录</label>
                                         <input type="text" v-model="keyword" placeholder="输入文字搜索" class="form-control">
                                         <div class="list-group">
-                                            <a href="javascript:" @click="selectList(list)" v-for="list in recoverList" class="list-group-item list-group-item-warning">{{list.cn_name}}</a>
+                                            <template v-for="list in recoverList">
+                                                <template v-if="$index < 10">
+                                                    <a href="javascript:" @click="selectList(list)"  class="list-group-item list-group-item-warning">{{list.cn_name}} {{list.en_name}}</a>
+                                                </template>
+                                            </template>
                                         </div>
                                     </div>
                                 </div>

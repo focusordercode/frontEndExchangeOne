@@ -63,7 +63,7 @@
             min-width:100px;
         }
         .table .limit {
-            max-width: 100px;
+            max-width: 200px;
         }
         .table .form-control {
             border-radius: 0;
@@ -166,11 +166,26 @@
                                     <table class="table table-bordered text-warning">
                                         <tr class="info">
                                             <th class="text-center">序号</th>
-                                            <th class="text-center">批量表模板绑定项目</th>
-                                            <th class="text-center">数据类型</th>
-                                            <th class="text-center">长度</th>
-                                            <th class="text-center">精度</th>
-                                            <th class="text-center">默认值</th>
+                                            <th class="text-center">
+                                                批量表模板绑定项目<span class="text-danger">(*)</span>
+                                            </th>
+                                            <th class="text-center">
+                                                数据类型<span class="text-danger">(*)</span>
+                                            </th>
+                                            <th class="text-center">
+                                                长度<span class="text-danger">(*)</span>
+                                            </th>
+                                            <th class="text-center" title="小数的精度">
+                                                精度<span class="text-info">(?)</span>
+                                            </th>
+                                            <th class="text-center" title="选择“是”的数据项目，将会出现在“批量表”编辑产品界面的默认值标签内，为用户快速填写表格，前提是默认值没有填写">    是否填写<span class="text-info">(?)</span>
+                                            </th>
+                                            <th class="text-center" title="选择规则后的数据项目，将会出现在“批量表”编辑产品界面的【数据检查】标签内，帮助用户快速检查数据">
+                                                填写规则<span class="text-info">(?)</span>
+                                            </th>
+                                            <th class="text-center" title="该条目自动填充数据的默认值">
+                                                默认值
+                                            </th>
                                             <th class="text-center">操作</th>
                                         </tr>
                                         <template v-for="table in tempData">
@@ -207,11 +222,35 @@
                                                             </option>
                                                         </select>
                                                     </td>
+                                                    <td>
+                                                        <!-- 是否填写 -->
+                                                        <select  class="form-control" v-model="table.iswrite">
+                                                            <option :value="write" v-for="write in table.iswrite_array">
+                                                                {{write | writeType}}
+                                                            </option>
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <!-- 填写规则 -->
+                                                        <select  class="form-control" v-model="table.rule">
+                                                            <option value="" selected>请选择规则</option>
+                                                            <option :value="writeRule" v-for="writeRule in table.rule_array">
+                                                                {{writeRule | ruleType}}
+                                                            </option>
+                                                        </select>
+                                                    </td>
                                                     <td class="val">
                                                         <!-- 默认值 -->
                                                         <template v-if="table.valid_value.length>1">
                                                             <select v-model="table.default_value" class="form-control">
-                                                                <option v-for="op in table.valid_value">{{op}}</option>
+                                                                <template v-for="op in table.valid_value">
+                                                                    <template v-if="$index==0">
+                                                                        <option selected>{{op}}</option>
+                                                                    </template>
+                                                                    <template v-else>
+                                                                        <option >{{op}}</option>
+                                                                    </template>
+                                                                </template>
                                                             </select>
                                                         </template>
                                                         <template v-else>
@@ -253,10 +292,34 @@
                                                             </option>
                                                         </select>
                                                     </td>
+                                                    <td>
+                                                        <!-- 是否填写 -->
+                                                        <select  class="form-control" v-model="table.iswrite">
+                                                            <option :value="write" v-for="write in table.iswrite_array">
+                                                                {{write | writeType}}
+                                                            </option>
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <!-- 填写规则 -->
+                                                        <select  class="form-control" v-model="table.rule">
+                                                            <option value="" selected>请选择规则</option>
+                                                            <option :value="writeRule" v-for="writeRule in table.rule_array">
+                                                                {{writeRule | ruleType}}
+                                                            </option>
+                                                        </select>
+                                                    </td>
                                                     <td class="val">
                                                         <template v-if="table.valid_value.length>1">
                                                             <select v-model="table.default_value" class="form-control">
-                                                                <option v-for="op in table.valid_value">{{op}}</option>
+                                                                <template v-for="op in table.valid_value">
+                                                                    <template v-if="$index==0">
+                                                                        <option selected>{{op}}</option>
+                                                                    </template>
+                                                                    <template v-else>
+                                                                        <option >{{op}}</option>
+                                                                    </template>
+                                                                </template>
                                                             </select>
                                                         </template>
                                                         <template v-else>

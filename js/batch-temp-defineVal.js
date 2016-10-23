@@ -98,45 +98,50 @@ var tempDefine = new Vue({
     methods:{
         //上传模板文件
         upload:function(){
-            layer.confirm('如果该模板有数据，再次上传原来数据将会覆盖',{
-                btn:['确定','取消']
-            },function(index){
-                layer.close(index);
+            var fileData = $('#file').val();//文件数据
+            if(!fileData){
+                layer.msg('请先选择文件');
+            }else{
+                layer.confirm('如果该模板有数据，再次上传原来数据将会覆盖',{
+                    btn:['确定','取消']
+                },function(index){
+                    layer.close(index);
 
-                var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
+                    var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
 
-                var formData = new FormData();
-                formData.append('file', $('#file')[0].files[0]);//文件
-                formData.append('template_id', template_id);//参数
-                formData.append('type_code', type_code);//参数
+                    var formData = new FormData();
+                    formData.append('file', $('#file')[0].files[0]);//文件
+                    formData.append('template_id', template_id);//参数
+                    formData.append('type_code', type_code);//参数
 
-                $.ajax({
-                    url:serverUrl+'upload/item',
-                    type:'POST',
-                    cache: false,
-                    data:formData,
-                    processData: false,
-                    contentType: false,
-                    success:function(data){
-                        layer.close(LoadIndex); //关闭遮罩层
-                        if(data.status==100){
-                            layer.msg('上传成功');
+                    $.ajax({
+                        url:serverUrl+'upload/item',
+                        type:'POST',
+                        cache: false,
+                        data:formData,
+                        processData: false,
+                        contentType: false,
+                        success:function(data){
+                            layer.close(LoadIndex); //关闭遮罩层
+                            if(data.status==100){
+                                layer.msg('上传成功');
 
-                            //解除未提交内容提示
-                            $(window).unbind('beforeunload');
+                                //解除未提交内容提示
+                                $(window).unbind('beforeunload');
 
-                            //刷新页面
-                            setInterval(windowFresh,1000);
-                        }else{
-                            layer.msg(data.msg);
+                                //刷新页面
+                                setInterval(windowFresh,1000);
+                            }else{
+                                layer.msg(data.msg);
+                            }
+                        },
+                        error:function(jqXHR){
+                            layer.close(LoadIndex); //关闭遮罩层
+                            layer.msg('上传失败');
                         }
-                    },
-                    error:function(jqXHR){
-                        layer.close(LoadIndex); //关闭遮罩层
-                        layer.msg('上传失败');
-                    }
+                    })
                 })
-            })
+            }
         },
         //删除常用值条目
         deleteVal:function(table){
@@ -315,6 +320,26 @@ Vue.filter('dataType', function (value) {
     return str;
 })
 
+//是否自动填写
+Vue.filter('writeType', function (value) {
+    var str;
+    switch(value){
+        case 2: str = "否";break;
+        case 1: str = "是";break;
+    }
+    return str;
+})
+
+//数据检查类型
+Vue.filter('ruleType', function (value) {
+    var str;
+    switch(value){
+        case 'only': str = "唯一";break;
+        case 'required': str = "必填";break;
+        case 'repeat': str = "重复";break;
+    }
+    return str;
+})
 
 $(document).ready(function(){
     //回到顶部
