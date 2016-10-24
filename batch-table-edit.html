@@ -188,7 +188,7 @@
                                         <a href="javascript:">
                                             <h3 class="list-group-item-heading">第三步</h3>
                                             <p class="list-group-item-text">
-                                                <h4>选择图片</h4>
+                                                <h4>上传图片</h4>
                                                 <i class="fa fa-file-image-o fa-3x"></i>
                                             </p>
                                         </a>
@@ -197,12 +197,12 @@
                                         <a href="javascript:">
                                             <h3 class="list-group-item-heading">第四步</h3>
                                             <p class="list-group-item-text">
-                                                <h4>上传图片</h4>
+                                                <h4>完成表格</h4>
                                             </p>
                                             <i class="fa fa-cloud-upload fa-3x"></i>
                                         </a>
                                     </li>
-                                    <li class="disabled">
+                                    <!--<li class="disabled">
                                         <a href="javascript:">
                                             <h3 class="list-group-item-heading">第五步</h3>
                                             <p class="list-group-item-text">
@@ -210,7 +210,7 @@
                                             </p>
                                             <i class="fa fa-check fa-3x"></i>
                                         </a>
-                                    </li>
+                                    </li>-->
                                 </ul>
                             </div>
                         </div>
@@ -219,7 +219,7 @@
             </div>
 
             <!-- 选择显示个数 -->
-            <div class="container">
+            <!--<div class="container">
                 <div class="row">
                     <div class="col-md-12">
                         <div class="well well-sm tableSelect">
@@ -230,13 +230,13 @@
                                 <button @click="selectNum3" class="btn btn-default"><i class="fa fa-th"></i>20</button>
                             </div>　
                             <span class="text-primary">当前展示个数:{{pageSize}}</span>
-                        </div>      
+                        </div>
                     </div>
                 </div>
-            </div>
+            </div>-->
 
             <!-- 资料表信息 -->
-            <div class="container-fluid tableDetail">
+            <!--<div class="container-fluid tableDetail">
                 <div class="row">
                     <div class="col-md-12">
                         <div class="well">
@@ -267,9 +267,241 @@
                         </div>
                     </div>
                 </div>
+            </div>-->
+
+            <!--选项卡模式中的信息-->
+            <!--<div class="container">
+                <div class="row">
+                    <div class="col-lg-12" id="data-tab">
+                        <ul>
+                            <li class="active col-lg-2"><a href="#tab1" data-toggle="tab">常规信息</a></li>
+                            <li class="col-lg-2"><a href="#tab2" data-toggle="tab">编辑规则</a></li>
+                            <li class="col-lg-2"><a href="#tab3" data-toggle="tab">数据检查</a></li>
+                        </ul>
+                        <div class="tab-content col-lg-12">
+                            <div class="active tab-pane" id="tab1">
+                                <div class="row">
+                                    <div class="col-lg-12"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-content col-lg-12">
+                            <div class="active tab-pane" id="tab2">
+                                <div class="row">
+                                    <div class="col-lg-12"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-content col-lg-12">
+                            <div class="active tab-pane" id="tab3">
+                                <div class="row">
+                                    <div class="col-lg-12"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                </div>
+            </div>
+        </div>-->
+            <div class="container ">
+                <div class="row">
+                    <div class="col-md-12">
+                        <ul id="myTab" class="nav nav-tabs" role="tablist" style="background-color: #fff;">
+                            <li role="presentation" class="active">
+                                <a href="#home" id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true">常规信息</a>
+                            </li>
+                            <li role="presentation" class="">
+                                <a href="#profile" role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false">默认值</a>
+                            </li>
+                            <li role="presentation" class="">
+                                <a href="#relate" role="tab" id="relate-tab" data-toggle="tab" aria-controls="relate" aria-expanded="false">数据检查</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-12 ">
+                        <div id="myTabContent" class="tab-content">
+                            <!-- 常规信息 -->
+                            <div role="tabpanel" class="tab-pane fade active in" id="home" aria-labelledby="home-tab">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="panel panel-default">
+                                            <div class="panel-body">
+                                                <div class="col-md-12">
+                                                    <div class="row">
+                                                        <div class="col-md-10">
+                                                            <p style="border-bottom: 1px solid gray">表格信息</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-5">
+                                                            <p>表格编号：{{info.form_no}}</p>
+                                                            <p>所属类目：{{info.name}}</p>
+                                                            <p>使用模板：{{info.tempname}}</p>
+                                                        </div>
+                                                        <div class="col-md-5">
+                                                            <p>表格名称：{{info.title}}</p>
+                                                            <p>所属产品：</p>
+                                                            <p>所属客户：{{info.client_name}}</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-10">
+                                                            <p style="border-bottom: 1px solid gray">信息提示</p>
+                                                            <p style="margin-bottom: 20px">
+                                                                如果您对表格当前页进行过修改，请一定点击“暂存”按钮，保存修改结果后，再翻页浏览其他内容。否则，修改内容会丢失。
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-10">
+                                                            <p style="border-bottom: 1px solid gray">产品统计信息</p>
+                                                            <div class="well well-sm tableSelect">
+                                                                <strong class="text-primary">选择显示批量表主体个数</strong>　
+                                                                <div class="btn-group">
+                                                                    <button @click="selectNum1" class="btn btn-default"><i class="fa fa-th-large"></i>10</button>
+                                                                    <button @click="selectNum2" class="btn btn-default"><i class="fa fa-table"></i>15</button>
+                                                                    <button @click="selectNum3" class="btn btn-default"><i class="fa fa-th"></i>20</button>
+                                                                </div>　
+                                                                <span class="text-primary">当前展示个数:{{pageSize}}</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- 编辑规则 -->
+                            <div role="tabpanel" class="tab-pane fade" id="profile" aria-labelledby="profile-tab">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="panel panel-default">
+                                            <div class="panel-body">
+                                                <div class="col-md-12">
+                                                    <div class="form-horizontal">
+                                                        <div class="form-group">
+                                                            <label class="col-md-2 radio">产品类型：</label>
+                                                            <div class="radio col-sm-3">
+                                                                <label>
+                                                                    <input type="radio" name="product-tab" v-model="chioce" value="option1" checked>通用设置
+                                                                </label>
+                                                            </div>
+                                                            <div class="radio col-sm-3">
+                                                                <label>
+                                                                    <input type="radio" name="product-tab" v-model="chioce" value="option2">变体设置
+                                                                </label>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                    <div id="con-tab">
+                                                        <div v-show="chioce == 'option1'" class="" id="currency-set">
+                                                            <table class="table table-bordered">
+                                                                <thead>
+                                                                <tr>
+                                                                    <th>项目</th>
+                                                                    <th>默认值</th>
+                                                                    <th>操作</th>
+                                                                </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                <template >
+                                                                    <tr>
+                                                                        <td></td>
+                                                                        <td><input type="text"></td>
+                                                                        <td><input type="button">删除</td>
+                                                                    </tr>
+                                                                </template>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                        <div v-show="chioce == 'option2'" class="" id="variant-set" >
+                                                            <table class="table table-bordered">
+                                                                <thead>
+                                                                <tr>
+                                                                    <th>项目</th>
+                                                                    <th>parent</th>
+                                                                    <th>child</th>
+                                                                    <th>操作</th>
+                                                                </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                <template >
+                                                                    <tr>
+                                                                        <td></td>
+                                                                        <td><input type="text"></td>
+                                                                        <td><input type="text"></td>
+                                                                        <td><input type="button">删除</td>
+                                                                    </tr>
+                                                                </template>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- 数据检查 -->
+                            <div role="tabpanel" class="tab-pane fade" id="relate" aria-labelledby="relate-tab">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="panel panel-default">
+                                            <div class="panel-body">
+                                                <div class="col-md-8">
+                                                    <div>
+                                                        <table class="table table-bordered">
+                                                            <thead>
+                                                            <tr>
+                                                                <th>项目</th>
+                                                                <th>选择</th>
+                                                                <th>操作</th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            <template >
+                                                                <tr>
+                                                                    <td></td>
+                                                                    <td>
+                                                                        <select>
+                                                                            <option>唯一</option>
+                                                                            <option>重复</option>
+                                                                            <option>必填</option>
+                                                                        </select>
+                                                                    </td>
+                                                                    <td>
+                                                                        <input type="checkbox">启用
+                                                                    </td>
+                                                                </tr>
+                                                            </template>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-offset-3 col-md-12">
+                                                        <input type="button" value="数据检查">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <p style="border-bottom: 1px solid gray">检查结果</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--<div class="col-md-12 col-md-offset-4">
+                                <input type="button" value="生成表格">
+                            </div>-->
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        
         <!-- component template -->
         <script type="text/x-template" id="grid-template">
             <div class="container-fluid">
@@ -396,5 +628,6 @@
         <script src="js/bootstrap.min.js"></script>
         <script src='js/layer.js'></script>
         <script src='js/batch-table-edit.js'></script>
+
     </body>
 </html>

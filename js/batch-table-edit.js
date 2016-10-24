@@ -199,9 +199,11 @@ var oTableIn = new Vue({
         newData:'',
         jump:'',
         selectCheck:'',//选中检查项
-        checkDataBtn:''//重复检查按钮
+        checkDataBtn:'',//重复检查按钮
+        chioce:""
     },
     computed:{
+
         //控制上一页按钮
         preBtn:function(){
             if(this.pageNow==1){
