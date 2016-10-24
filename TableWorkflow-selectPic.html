@@ -56,11 +56,57 @@
         .img-hover {
             display: none;
             position: absolute;
-            top: 200px;
+            top: 80px;
             left: 50px;
+            z-index: 6666;
+        }
+        .img-hover img {
+            max-width: 300px;
+            max-height: 300px;
+            height: auto;
+            border: 1px solid #ddd;
         }
         .img-col:hover .img-hover {
             display: block;
+        }
+        .pors .input-list,.pors .cate-list {
+            top: 34px;
+            left: 15px;
+            position: absolute;
+            z-index: 666;
+            list-style: none;
+            padding-left: 0;
+            border: 1px solid #ccc;
+            border-top: transparent;
+            background-color: #fff;
+        }
+        .pors .input-list li,.pors .cate-list li {
+            line-height: 32px;
+            text-indent: 12px;
+            border-bottom: 1px solid #ddd;
+            color: #8a6d3b;
+            font-size: 12px;
+        }
+        .pors .input-list li:hover,.pors .cate-list li:hover {
+            background-color: #ECF0F1;
+            cursor: pointer;
+        }
+        .pors .input-list li:hover,.pors .cate-list li:hover {
+            background-color: #ECF0F1;
+            cursor: pointer;
+        }
+        .paddingLeft {
+            padding-left: 0;
+        }
+        .searchShadow {
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .searchShadow:focus {
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            border-color: #ccc;
+        }
+        .searchCompent,.searchCompent2 {
+            display: none;
         }
     </style>
 </head>
@@ -226,6 +272,19 @@
                                                 <p class="clearfix">
                                                     <div class="form-horizontal">
                                                         <div class="form-group">
+                                                            <label class="col-sm-2 textLeft control-label text-primary">图片标签(可选):</label>
+                                                            <div class="col-sm-2">
+                                                                <input type="text" v-model="selectedTag" class="form-control" placeholder="选择标签" readonly>
+                                                            </div>
+                                                            <div class="col-sm-1">
+                                                                <button class="btn btn-default btn-sm">选择标签</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </p>
+                                                <p class="clearfix">
+                                                    <div class="form-horizontal">
+                                                        <div class="form-group">
                                                             <label class="col-sm-2 textLeft control-label text-primary">图片、产品重用比:</label>
                                                             <div class="col-sm-1">
                                                                 <select v-model="pic_rate" class="form-control">
@@ -297,7 +356,85 @@
                                     </div>
                                     <!-- 产品 -->
                                     <div role="tabpanel" class="tab-pane fade" id="relate" aria-labelledby="relate-tab">
-                                        <div class="row">333</div>
+                                        <div class="row">
+                                            <div class="col-md-10 col-md-offset-1">
+                                                <div class="panel panel-default">
+                                                    <div class="panel-body">
+                                                        <div class="alert alert-warning" v-show="pro_zone">
+                                                            请先补全图片
+                                                        </div>
+                                                        <div class="form-horizontal">
+                                                            <div class="form-group">
+                                                                <label class="col-sm-2 control-label">所属类目:</label>
+                                                                <div class="col-sm-4">
+                                                                    <input type="text" v-model="pro.cn_name" placeholder="选择类目" class="form-control" readonly>
+                                                                </div>
+                                                                <div class="col-sm-1">
+                                                                    <button class="btn btn-info btn-sm searchBtn">搜索</button>
+                                                                </div>
+                                                                <div class="col-sm-3 pors searchCompent">
+                                                                    <input type="text" class="form-control searchShadow searchCate" placeholder="输入关键字搜索类目">
+                                                                    <ul class="cate-list">
+                                                                        <li @click="selectCate(pro)" v-for="pro in proList">
+                                                                            {{pro.cn_name}} {{pro.en_name}}
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                                <div class="col-sm-1 text-left paddingLeft searchCompent">
+                                                                    <button class="btn btn-default closeBtn searchShadow">
+                                                                        <i class="fa fa-close"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-sm-2 control-label">所属产品:</label>
+                                                                <div class="col-sm-4">
+                                                                    <input type="text" v-model="relate.cn_name" placeholder="选择产品" class="form-control" readonly>
+                                                                </div>
+                                                                <div class="col-sm-1">
+                                                                    <button class="btn btn-info btn-sm searchBtn2" :disabled="relateable"> 搜索
+                                                                    </button>
+                                                                </div>
+                                                                <div class="col-sm-3 pors searchCompent2">
+                                                                    <input type="text" class="form-control searchShadow searchCate2" placeholder="输入关键字搜索产品">
+                                                                    <ul class="cate-list">
+                                                                        <li @click="selectRelate(relate)" v-for="relate in relateList">
+                                                                            {{relate.cn_name}} {{relate.en_name}}
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                                <div class="col-sm-1 text-left paddingLeft searchCompent2">
+                                                                    <button class="btn btn-default closeBtn2 searchShadow">
+                                                                        <i class="fa fa-close"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-1 col-md-offset-3">
+                                                            <button @click="goRelate" class="btn btn-default" :disabled="pro_zone">关联</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <hr>
+                                                <table class="table table-bordered">
+                                                    <tr>
+                                                        <th class="text-center">产品类目</th>
+                                                        <th class="text-center">产品名称</th>
+                                                        <th class="text-center">操作</th>
+                                                    </tr>
+                                                    <tr class="text-center" v-for="rList in relateValList">
+                                                        <td>{{rList.category_cn}} {{rList.category_en}}</td>
+                                                        <td>{{rList.cn_name}} {{rList.en_name}}</td>
+                                                        <td>
+                                                            <button @click="deleteRelate(rList)" class="btn btn-danger">删除</button>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                                <div class="col-md-1 col-md-offset-4">
+                                                    <button @click="fitData" class="btn btn-info" :disabled="fitBtn">匹配</button>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -335,46 +472,137 @@
                             </a>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 匹配前 -->
+        <div class="container" v-show="PicTable">
+            <div class="row">
+                <div class="col-md-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <b class="text-primary">图片预选列表</b>
+                            <b class="text-primary">预选图片产品</b>
                         </div>
                         <div class="panel-body">
                             <table class="table table-bordered">
                                 <tr>
                                     <th>序号</th>
-                                    <th>文件名</th>
+                                    <th>图片预览</th>
                                     <th>标题</th>
                                     <th>图片类型</th>
                                     <th>图片大小</th>
                                     <th>图片尺寸(宽X高)</th>
                                 </tr>
                                 <template v-for="list in picData">
-                                    <tr>
-                                        <td>{{$index+1}}</td>
-                                        <td>
-                                            <div class="img-col">
-                                                <img :src="list | imgUrl" alt="" width="80" height="80">
-                                                <div class="img-hover">
-                                                    <img :src="list | imgUrl" alt="">
+                                    <template v-if="$index<10">
+                                        <tr>
+                                            <td>{{$index+1}}</td>
+                                            <td>
+                                                <div class="img-col">
+                                                    <img :src="list | imgUrl" alt="" width="80" height="80">
+                                                    <div class="img-hover">
+                                                        <img :src="list | imgUrl" alt="">
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </td>
-                                        <td>{{list.title}}</td>
-                                        <td>{{list.file_type}}</td>
-                                        <td>{{list.file_size | sizeCounter}}</td>
-                                        <td>{{list.width}}X{{list.height}}</td>
-                                    </tr>
+                                            </td>
+                                            <td>{{list.title}}</td>
+                                            <td>{{list.file_type}}</td>
+                                            <td>{{list.file_size | sizeCounter}}</td>
+                                            <td>{{list.width}}X{{list.height}}</td>
+                                        </tr>
+                                    </template>
+                                    <template v-else>
+                                        <tr v-show="seeMore">
+                                            <td>{{$index+1}}</td>
+                                            <td>
+                                                <div class="img-col">
+                                                    <img :src="list | imgUrl" alt="" width="80" height="80">
+                                                    <div class="img-hover">
+                                                        <img :src="list | imgUrl" alt="">
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>{{list.title}}</td>
+                                            <td>{{list.file_type}}</td>
+                                            <td>{{list.file_size | sizeCounter}}</td>
+                                            <td>{{list.width}}X{{list.height}}</td>
+                                        </tr>
+                                    </template>
                                 </template>
                             </table>
-                            <div class="row">
-                                <div class="col-md-4 col-md-offset-5">
-                                    <!-- <a class="btn btn-info" target="_blank" href="TableWorkflow-selectPic-seeMore.html" >查看更多</a> -->
-                                    <!-- <a class="btn btn-success" href="TableWorkflow-upload.html" >上传图片</a> -->
-                                    <button @click="NextStep" class="btn btn-default" :disabled="NextStepStatus">
-                                        去上传图片
-                                    </button>
+                            <div class="row" v-show="picData.length>1">
+                                <div class="col-md-4 col-md-offset-5" v-show="!seeMore">
+                                    <a href="javascript:" @click="toSeeMore" class="btn btn-link">
+                                        查看更多
+                                    </a>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 匹配后 -->
+        <div class="container-fluid" v-show="tableHead">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <b class="text-primary">预选图片产品</b>
+                        </div>
+                        <div class="panel-body">
+                            <table class="table table-bordered">
+                                <tr>
+                                    <th>序号</th>
+                                    <th v-for="key in tableHead">{{key}}</th>
+                                </tr>
+                                
+                                <template v-for="allData in tableData">
+                                    <template v-if="$index%2==0">
+                                        <tr>
+                                            <td>{{$index+1}}</td>
+                                            <td v-for="key in tableHead">
+                                                <template v-if="key == 'photo'">
+                                                    <div class="img-col">
+                                                        <img :src="allData[key] | imgUrl2" alt="" width="80" height="80">
+                                                        <div class="img-hover">
+                                                            <img :src="allData[key] | imgUrl2" alt="">
+                                                        </div>
+                                                    </div>
+                                                </template>
+                                                <template v-else>
+                                                    {{allData[key]}}
+                                                </template>
+                                            </td>
+                                        </tr>
+                                    </template>
+                                    <template v-else>
+                                        <tr class="info">
+                                            <td>{{$index+1}}</td>
+                                            <td v-for="key in tableHead">
+                                                <template v-if="key == 'photo'">
+                                                    <div class="img-col">
+                                                        <img :src="allData[key] | imgUrl2" alt="" width="80" height="80">
+                                                        <div class="img-hover">
+                                                            <img :src="allData[key] | imgUrl2" alt="">
+                                                        </div>
+                                                    </div>
+                                                </template>
+                                                <template v-else>
+                                                    {{allData[key]}}
+                                                </template>
+                                            </td>
+                                        </tr>
+                                    </template>
+                                </template>
+                            </table>
+                            <div class="col-md-12 text-center">
+                                <button class="btn btn-success" @click="NextStep" :disabled="NextStepStatus">
+                                    完成选图
+                                </button>
+                                <button class="btn btn-default">撤销</button>
                             </div>
                         </div>
                     </div>
