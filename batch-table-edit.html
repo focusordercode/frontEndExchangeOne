@@ -111,6 +111,9 @@
         .tableCont {
             overflow-x: auto;
         }
+        .underLine {
+            border-bottom: 1px solid #ddd;
+        }
     </style>
 </head>
     <body>
@@ -202,15 +205,6 @@
                                             <i class="fa fa-cloud-upload fa-3x"></i>
                                         </a>
                                     </li>
-                                    <!--<li class="disabled">
-                                        <a href="javascript:">
-                                            <h3 class="list-group-item-heading">第五步</h3>
-                                            <p class="list-group-item-text">
-                                                <h4>完成生效</h4>
-                                            </p>
-                                            <i class="fa fa-check fa-3x"></i>
-                                        </a>
-                                    </li>-->
                                 </ul>
                             </div>
                         </div>
@@ -218,95 +212,10 @@
                 </div>
             </div>
 
-            <!-- 选择显示个数 -->
-            <!--<div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="well well-sm tableSelect">
-                            <strong class="text-primary">选择显示批量表主体个数</strong>　
-                            <div class="btn-group">
-                                <button @click="selectNum1" class="btn btn-default"><i class="fa fa-th-large"></i>10</button>
-                                <button @click="selectNum2" class="btn btn-default"><i class="fa fa-table"></i>15</button>
-                                <button @click="selectNum3" class="btn btn-default"><i class="fa fa-th"></i>20</button>
-                            </div>　
-                            <span class="text-primary">当前展示个数:{{pageSize}}</span>
-                        </div>
-                    </div>
-                </div>
-            </div>-->
-
-            <!-- 资料表信息 -->
-            <!--<div class="container-fluid tableDetail">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="well">
-                            <h3 class="text-success">批量表录入</h3>
-                            <hr>
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <label class="label label-success">表格编号</label>
-                                    <span class="text-muted">{{info.form_no}}</span>
-                                </div>
-                                <div class="col-md-3">
-                                    <label class="label label-success">表格名称</label>
-                                    <span class="text-muted">{{info.title}}</span>
-                                </div>
-                                <div class="col-md-2">
-                                    <label class="label label-success">所属类目</label>
-                                    <span class="text-muted">{{info.name}}</span>
-                                </div>
-                                <div class="col-md-2">
-                                    <label class="label label-success">使用的模板</label>
-                                    <span class="text-muted">{{info.tempname}}</span>
-                                </div>
-                                <div class="col-md-2">
-                                    <label class="label label-success">所属客户</label>
-                                    <span class="text-muted">{{info.client_name}}</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>-->
-
-            <!--选项卡模式中的信息-->
-            <!--<div class="container">
-                <div class="row">
-                    <div class="col-lg-12" id="data-tab">
-                        <ul>
-                            <li class="active col-lg-2"><a href="#tab1" data-toggle="tab">常规信息</a></li>
-                            <li class="col-lg-2"><a href="#tab2" data-toggle="tab">编辑规则</a></li>
-                            <li class="col-lg-2"><a href="#tab3" data-toggle="tab">数据检查</a></li>
-                        </ul>
-                        <div class="tab-content col-lg-12">
-                            <div class="active tab-pane" id="tab1">
-                                <div class="row">
-                                    <div class="col-lg-12"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="tab-content col-lg-12">
-                            <div class="active tab-pane" id="tab2">
-                                <div class="row">
-                                    <div class="col-lg-12"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="tab-content col-lg-12">
-                            <div class="active tab-pane" id="tab3">
-                                <div class="row">
-                                    <div class="col-lg-12"></div>
-                                </div>
-                            </div>
-                        </div>
-
-                </div>
-            </div>
-        </div>-->
             <div class="container ">
                 <div class="row">
                     <div class="col-md-12">
-                        <ul id="myTab" class="nav nav-tabs" role="tablist" style="background-color: #fff;">
+                        <ul id="myTab" class="nav nav-tabs" role="tablist" style="background-color: #fff;border-bottom:0;">
                             <li role="presentation" class="active">
                                 <a href="#home" id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true">常规信息</a>
                             </li>
@@ -328,8 +237,8 @@
                                             <div class="panel-body">
                                                 <div class="col-md-12">
                                                     <div class="row">
-                                                        <div class="col-md-10">
-                                                            <p style="border-bottom: 1px solid gray">表格信息</p>
+                                                        <div class="col-md-12">
+                                                            <p class="underLine">表格信息</p>
                                                         </div>
                                                     </div>
                                                     <div class="row">
@@ -345,16 +254,16 @@
                                                         </div>
                                                     </div>
                                                     <div class="row">
-                                                        <div class="col-md-10">
-                                                            <p style="border-bottom: 1px solid gray">信息提示</p>
+                                                        <div class="col-md-12">
+                                                            <p class="underLine">信息提示</p>
                                                             <p style="margin-bottom: 20px">
                                                                 如果您对表格当前页进行过修改，请一定点击“暂存”按钮，保存修改结果后，再翻页浏览其他内容。否则，修改内容会丢失。
                                                             </p>
                                                         </div>
                                                     </div>
                                                     <div class="row">
-                                                        <div class="col-md-10">
-                                                            <p style="border-bottom: 1px solid gray">产品统计信息</p>
+                                                        <div class="col-md-12">
+                                                            <p style="">产品统计信息</p>
                                                             <div class="well well-sm tableSelect">
                                                                 <strong class="text-primary">选择显示批量表主体个数</strong>　
                                                                 <div class="btn-group">
@@ -392,7 +301,6 @@
                                                                     <input type="radio" name="product-tab" v-model="chioce" value="option2">变体设置
                                                                 </label>
                                                             </div>
-
                                                         </div>
                                                     </div>
                                                     <div id="con-tab">
@@ -483,25 +391,23 @@
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-md-offset-3 col-md-12">
-                                                        <input type="button" value="数据检查">
+                                                        <button class="btn btn-default">数据检查</button>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-8">
-                                                    <p style="border-bottom: 1px solid gray">检查结果</p>
+                                                    <p class="underLine">检查结果</p>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <!--<div class="col-md-12 col-md-offset-4">
-                                <input type="button" value="生成表格">
-                            </div>-->
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
         <!-- component template -->
         <script type="text/x-template" id="grid-template">
             <div class="container-fluid">
@@ -628,6 +534,5 @@
         <script src="js/bootstrap.min.js"></script>
         <script src='js/layer.js'></script>
         <script src='js/batch-table-edit.js'></script>
-
     </body>
 </html>

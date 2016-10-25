@@ -315,8 +315,8 @@ var selectPic = new Vue({
                     url:serverUrl+'receive/value',
                     datatype:'json',
                     data:{
-                        data:vm.tableInfo.form_no,
-                        form_no:vm.tableData
+                        form_no:vm.tableInfo.form_no,
+                        data:vm.tableData
                     },
                     success:function(data){
                         if(data.status==100){
