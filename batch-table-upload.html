@@ -92,31 +92,22 @@
                                         </p>
                                     </a>
                                 </li>
-                                <li class="disabled">
+                                <li class="active">
                                     <a href="javascript:">
                                         <h3 class="list-group-item-heading">第三步</h3>
                                         <p class="list-group-item-text">
-                                            <h4>选择图片</h4>
+                                            <h4>上传图片</h4>
                                             <i class="fa fa-file-image-o fa-3x"></i>
                                         </p>
                                     </a>
                                 </li>
-                                <li class="active">
+                                <li class="disabled">
                                     <a href="javascript:">
                                         <h3 class="list-group-item-heading">第四步</h3>
                                         <p class="list-group-item-text">
-                                            <h4>上传图片</h4>
+                                            <h4>完成表格</h4>
                                         </p>
                                         <i class="fa fa-cloud-upload fa-3x"></i>
-                                    </a>
-                                </li>
-                                <li class="disabled">
-                                    <a href="javascript:">
-                                        <h3 class="list-group-item-heading">第五步</h3>
-                                        <p class="list-group-item-text">
-                                            <h4>完成生效</h4>
-                                        </p>
-                                        <i class="fa fa-check fa-3x"></i>
                                     </a>
                                 </li>
                             </ul>
@@ -137,20 +128,20 @@
                             <table class="table table-bordered">
                                 <tr>
                                     <th>序号</th>
-                                    <th>图片名称</th>
+                                    <!-- <th>图片名称</th> -->
                                     <th>图片URL</th>
-                                    <th>图片大小</th>
-                                    <th>图片尺寸(宽X高)</th>
+                                    <!-- <th>图片大小</th> -->
+                                    <!-- <th>图片尺寸(宽X高)</th> -->
                                     <th>上传状态</th>
                                     <th>操作</th>
                                 </tr>
                                 <template v-for="list in picData">
                                     <tr v-if="$index<=9">
                                         <td>{{$index+1}}</td>
-                                        <td>{{list.file_name}}</td>
+                                        <!-- <td>{{list.file_name}}</td> -->
                                         <td>{{list.image_url}}</td>
-                                        <td>{{list.file_size | sizeCounter}}</td>
-                                        <td>{{list.width}}X{{list.height}}</td>
+                                        <!-- <td>{{list.file_size | sizeCounter}}</td> -->
+                                        <!-- <td>{{list.width}}X{{list.height}}</td> -->
                                         <td>
                                             <i v-show="!list.image_url" class="fa fa-2x fa-frown-o"></i>
 

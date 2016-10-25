@@ -187,12 +187,13 @@ var oPageNow; //当前页全局变量，暂存异步刷新用
 var oTableIn = new Vue({
     el:'body',
     data:{
-        newData:'',
         setdatatong:[],
         setdatabian:'',
-        dataoption1:'',
-        dataoption2:'',
-        TableCreat:'',
+        checkData:'',
+        checkTyle:[
+            1,
+            2
+        ],
         info:'',
         gridColumns: [],//表头数据
         gridData: [],//表格数据
@@ -286,6 +287,53 @@ var oTableIn = new Vue({
             }
         })
 
+        //获取设置项目
+        $.ajax({
+            type:'POST',
+            url:serverUrl+'get/editdefault',
+            datatype:'json',
+            data:{
+                form_id:tableID,
+                type_code:type_code,
+            },
+            success:function(data){
+                console.log(status)
+                if(data.status==100){
+                    oTableIn.setdatatong = data.value;
+                    oTableIn.setdatabian = $.extend(true, {}, oTableIn.setdatatong);
+                    Vue.nextTick(function () {
+                        for(var x in oTableIn.setdatabian){
+                            data.value[x] = [];
+                        }
+                    })
+                } else {
+
+                }
+            },
+            error:function(jqXHR){
+                layer.msg('向服务器请求失败');
+            }
+        })
+
+        //获取数据检查数据
+        $.ajax({
+            type:'POST',
+            url:serverUrl+'get/checkrule',
+            datatype:'json',
+            data:{
+                form_id:tableID,
+                type_code:type_code
+            },
+            success:function(data){
+                if(data.status==100){
+                    oTableIn.checkData = data.value;
+                }
+            },
+            error:function(jqXHR){
+                layer.msg('向服务器请求数据检查数据失败');
+            }
+        })
+
         //获取缓存数据
         $.ajax({
             type:'POST',
@@ -317,58 +365,6 @@ var oTableIn = new Vue({
                 layer.msg('向服务器请求表格信息失败');
             }
         })
-        //获取设置项目
-        /*$.ajax({
-            type:'POST',
-            URL:serverUrl+'get/editdefault',
-            datatype:'json',
-            data:{
-                type_code:'batch',
-                form_id:11,
-            },
-            success:function(data){
-                console.log(data.status);
-                if(data.status==100){
-                    console.log(data.status);
-                    oTableIn.setdata=data.value;
-                }else{
-                    console.log(data.msg);
-                    console.log(data.status);
-                }
-            },
-            error:function(jqXHR) {
-                layer.msg('向服务器请求表格信息失败');
-            }
-        })*/
-        $.ajax({
-            type:'POST',
-            url:serverUrl+'get/editdefault',
-            datatype:'json',
-            data:{
-                form_id:tableID,
-                type_code:type_code,
-            },
-            success:function(data){
-                console.log(status)
-                if(data.status==100){
-                    /*console.log(data.value)*/
-                    oTableIn.setdatatong = data.value;
-                    oTableIn.setdatabian = $.extend(true, {}, oTableIn.setdatatong);
-                    Vue.nextTick(function () {
-                        for(var x in oTableIn.setdatabian){
-                            data.value[x] = [];
-                        }
-                    })
-                }else{
-
-                }
-            },
-            error:function(jqXHR){
-                layer.msg('向服务器请求失败');
-            }
-        })
-
-
     },
     methods:{
         //提交
@@ -384,12 +380,12 @@ var oTableIn = new Vue({
                 data:{
                     type_code:type_code,
                     save_type:'submit',
-                    category_id:oTableIn.info.category_id,
-                    template_id:oTableIn.info.template_id,
-                    form_id:oTableIn.info.id,
-                    gridColumns:oTableIn.gridColumns,
+                    category_id:vm.info.category_id,
+                    template_id:vm.info.template_id,
+                    form_id:vm.info.id,
+                    gridColumns:vm.gridColumns,
                     max:max,
-                    gridData:oTableIn.gridData
+                    gridData:vm.gridData
                 },
                 success:function(data){
                     layer.close(LoadIndex); //关闭遮罩层
@@ -405,7 +401,7 @@ var oTableIn = new Vue({
 
                         //跳转函数
                         function goNext() {
-                            var url = 'batch-table-selectPic.html';
+                            var url = 'batch-table-upload.html';
                             window.location.href = url+'?id='+Id;
                         }
 
@@ -530,88 +526,22 @@ var oTableIn = new Vue({
         goPre:function(){
             var next = this.pageNow;
             if(this.pageNow>1){
-                var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
                 //解除未提交内容提示
                 $(window).unbind('beforeunload');
                 next--;
-                //获取缓存数据
-                $.ajax({
-                    type:'POST',
-                    url:serverUrl+'get/info',
-                    datatype:'json',
-                    data:{
-                        form_id:tableID,
-                        template_id:template_id,
-                        type_code:type_code,
-                        next:next,
-                        pageSize:oTableIn.pageSize //每页展示多少数据
-                    },
-                    success:function(data){
-                        layer.close(LoadIndex); //关闭遮罩层
-                        if(data.status==100){
-                            oTableIn.gridData = data.value;
-                            oTableIn.countPage = data.countPage;
-                            oTableIn.countNum = data.countNum;
-                            oTableIn.pageNow = data.pageNow;
-                            //未提交保存内容提示
-                            $(window).bind('beforeunload',function(){return "您修改的内容尚未保存，确定离开此页面吗？";});
-                        }else if(data.status==101){
-                            // layer.msg('数据为空');
-                        }else if(data.status==102){
-                            layer.msg('获取表格的ID为空');
-                        }else if(data.status==111){
-                            layer.msg('表格没有数据');
-                        }
-                    },
-                    error:function(jqXHR){
-                        layer.close(LoadIndex); //关闭遮罩层
-                        layer.msg('向服务器请求表格信息失败');
-                    }
-                })
+
+                dataPage(tableID,template_id,type_code,next,pageSize,oTableIn)
             }
         },
         //下一页
         goNext:function(){
             var next = this.pageNow;
             if(this.pageNow<this.countPage){
-                var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
                 //解除未提交内容提示
                 $(window).unbind('beforeunload');
                 next++;
-                //获取缓存数据
-                $.ajax({
-                    type:'POST',
-                    url:serverUrl+'get/info',
-                    datatype:'json',
-                    data:{
-                        form_id:tableID,
-                        template_id:template_id,
-                        type_code:type_code,
-                        next:next,
-                        pageSize:oTableIn.pageSize //每页展示多少数据
-                    },
-                    success:function(data){
-                        layer.close(LoadIndex); //关闭遮罩层
-                        if(data.status==100){
-                            oTableIn.gridData = data.value;
-                            oTableIn.countPage = data.countPage;
-                            oTableIn.countNum = data.countNum;
-                            oTableIn.pageNow = data.pageNow;
-                            //未提交保存内容提示
-                            $(window).bind('beforeunload',function(){return "您修改的内容尚未保存，确定离开此页面吗？";});
-                        }else if(data.status==101){
-                            // layer.msg('数据为空');
-                        }else if(data.status==102){
-                            layer.msg('获取表格的ID为空');
-                        }else if(data.status==111){
-                            layer.msg('表格没有数据');
-                        }
-                    },
-                    error:function(jqXHR){
-                        layer.close(LoadIndex); //关闭遮罩层
-                        layer.msg('向服务器请求表格信息失败');
-                    }
-                })
+
+                dataPage(tableID,template_id,type_code,next,pageSize,oTableIn)
             }
         },
         //跳转
@@ -621,213 +551,56 @@ var oTableIn = new Vue({
                 layer.msg('输入页码大于总页数');
                 this.jump = '';
             }else{
-                var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
                 //解除未提交内容提示
                 $(window).unbind('beforeunload');
-                next++;
                 //获取缓存数据
-                $.ajax({
-                    type:'POST',
-                    url:serverUrl+'get/info',
-                    datatype:'json',
-                    data:{
-                        form_id:tableID,
-                        template_id:template_id,
-                        type_code:type_code,
-                        next:next,
-                        pageSize:oTableIn.pageSize //每页展示多少数据
-                    },
-                    success:function(data){
-                        layer.close(LoadIndex); //关闭遮罩层
-                        if(data.status==100){
-                            oTableIn.gridData = data.value;
-                            oTableIn.countPage = data.countPage;
-                            oTableIn.countNum = data.countNum;
-                            oTableIn.pageNow = data.pageNow;
-                            //未提交保存内容提示
-                            $(window).bind('beforeunload',function(){return "您修改的内容尚未保存，确定离开此页面吗？";});
-                        }else if(data.status==101){
-                            // layer.msg('数据为空');
-                        }else if(data.status==102){
-                            layer.msg('获取表格的ID为空');
-                        }else if(data.status==111){
-                            layer.msg('表格没有数据');
-                        }
-                    },
-                    error:function(jqXHR){
-                        layer.close(LoadIndex); //关闭遮罩层
-                        layer.msg('向服务器请求表格信息失败');
-                    }
-                })
+                dataPage(tableID,template_id,type_code,next,pageSize,oTableIn)
             }
         },
         //选择展示个数
         selectNum1:function(){
             oTableIn.pageSize = 10;
             pageSize = 10;
-            var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
-            //获取缓存数据
-            $.ajax({
-                type:'POST',
-                url:serverUrl+'get/info',
-                datatype:'json',
-                data:{
-                    form_id:tableID,
-                    template_id:template_id,
-                    type_code:type_code,
-                    pageSize:oTableIn.pageSize //每页展示多少数据
-                },
-                success:function(data){
-                    layer.close(LoadIndex); //关闭遮罩层
-                    if(data.status==100){
-                        oTableIn.gridData = data.value;
-                        oTableIn.countPage = data.countPage;
-                        oTableIn.countNum = data.countNum;
-                        oTableIn.pageNow = data.pageNow;
-                    }else if(data.status==101){
-                        // layer.msg('数据为空');
-                    }else if(data.status==102){
-                        layer.msg('获取表格的ID为空');
-                    }else if(data.status==111){
-                        layer.msg('表格没有数据');
-                    }
-                },
-                error:function(jqXHR){
-                    layer.close(LoadIndex); //关闭遮罩层
-                    layer.msg('向服务器请求表格信息失败');
-                }
-            }) 
+            dataNum(tableID,template_id,type_code,pageSize,oTableIn); 
         },
         selectNum2:function(){
             oTableIn.pageSize = 15;
             pageSize = 15;
-            var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
-            //获取缓存数据
-            $.ajax({
-                type:'POST',
-                url:serverUrl+'get/info',
-                datatype:'json',
-                data:{
-                    form_id:tableID,
-                    template_id:template_id,
-                    type_code:type_code,
-                    pageSize:oTableIn.pageSize //每页展示多少数据
-                },
-                success:function(data){
-                    layer.close(LoadIndex); //关闭遮罩层
-                    if(data.status==100){
-                        oTableIn.gridData = data.value;
-                        oTableIn.countPage = data.countPage;
-                        oTableIn.countNum = data.countNum;
-                        oTableIn.pageNow = data.pageNow;
-                    }else if(data.status==101){
-                        // layer.msg('数据为空');
-                    }else if(data.status==102){
-                        layer.msg('获取表格的ID为空');
-                    }else if(data.status==111){
-                        layer.msg('表格没有数据');
-                    }
-                },
-                error:function(jqXHR){
-                    layer.close(LoadIndex); //关闭遮罩层
-                    layer.msg('向服务器请求表格信息失败');
-                }
-            }) 
+            dataNum(tableID,template_id,type_code,pageSize,oTableIn);
         },
         selectNum3:function(){
             oTableIn.pageSize = 20;
             pageSize = 20;
-            var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
-            //获取缓存数据
-            $.ajax({
-                type:'POST',
-                url:serverUrl+'get/info',
-                datatype:'json',
-                data:{
-                    form_id:tableID,
-                    template_id:template_id,
-                    type_code:type_code,
-                    pageSize:oTableIn.pageSize //每页展示多少数据
-                },
-                success:function(data){
-                    layer.close(LoadIndex); //关闭遮罩层
-                    if(data.status==100){
-                        oTableIn.gridData = data.value;
-                        oTableIn.countPage = data.countPage;
-                        oTableIn.countNum = data.countNum;
-                        oTableIn.pageNow = data.pageNow;
-                    }else if(data.status==101){
-                        // layer.msg('数据为空');
-                    }else if(data.status==102){
-                        layer.msg('获取表格的ID为空');
-                    }else if(data.status==111){
-                        layer.msg('表格没有数据');
-                    }
-                },
-                error:function(jqXHR){
-                    layer.close(LoadIndex); //关闭遮罩层
-                    layer.msg('向服务器请求表格信息失败');
-                }
-            }) 
-        },
-        //重复检查
-        checkData:function(){
-            var vm = oTableIn;
-            var selectCheck = this.selectCheck;
-            var arr = new Array();
-            var allData = this.gridData;
-            var Len = allData.length;
-            //遍历数组内所有对象，放到数组里
-            for (var i = 0;i<Len;i++) {
-                if (allData[i][selectCheck] != null&&allData[i][selectCheck]) {
-                    arr.push(allData[i][selectCheck]);
-                }
-            }
-
-            //检查重复
-            var n = isRepeat(arr);
-            if (n) {
-                layer.msg('有重复值');
-            }else{
-                layer.msg('没有重复值');
-            }
-
-            // 验证重复元素，有重复返回true；否则返回false
-            function isRepeat(arr) {
-                var hash = {};
-                for(var i in arr) {
-                    if(hash[arr[i]]) {
-                        return true;
-                    }
-                    // 不存在该元素，则赋值为true，可以赋任意值，相应的修改if判断条件即可
-                    hash[arr[i]] = true;
-                }
-                return false;
-            }
+            dataNum(tableID,template_id,type_code,pageSize,oTableIn);
         },
         //提交通用设置与变体设置
         submitset:function(){
             var vm = this;
-            var form_id = tableID;
             var DefaultData = vm.setdatatong;
             var VariantData = vm.setdatabian;
 
+            var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
             $.ajax({
                 type:'POST',
                 url:'http://192.168.1.40/PicSystem/canton/fill/batch',
                 datatype:'json',
                 data:{
-                    form_id:form_id,
+                    form_id:tableID,
                     DefaultData:DefaultData,
                     VariantData:VariantData
                 },
                 success:function(data){
-                    console.log(data)
+                    layer.close(LoadIndex); //关闭遮罩层
                     if(data.status == 100){
                         layer.msg('提交成功');
-                        /*location.reload();*/
+                        
+                        //解除未提交内容提示
+                        $(window).unbind('beforeunload');
+
+                        setInterval(windowFresh,1000);
+
                     } else {
-                        layer.msg("111");
+                        layer.msg(data.msg);
                     }
                 },
                 error:function(jqXHR) {
@@ -887,7 +660,116 @@ function update(tableID,template_id,type_code,oPageNow,pageSize) {
     })
 }
 
+//获取数据函数,更改显示个数
+function dataNum (tableID,template_id,type_code,pageSize,vm) {
 
+    var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
+    //获取缓存数据
+    $.ajax({
+        type:'POST',
+        url:serverUrl+'get/info',
+        datatype:'json',
+        data:{
+            form_id:tableID,
+            template_id:template_id,
+            type_code:type_code,
+            pageSize:pageSize //每页展示多少数据
+        },
+        success:function(data){
+            layer.close(LoadIndex); //关闭遮罩层
+            if(data.status==100){
+                vm.gridData = data.value;
+                vm.countPage = data.countPage;
+                vm.countNum = data.countNum;
+                vm.pageNow = data.pageNow;
+            }else if(data.status==101){
+                // layer.msg('数据为空');
+            }else if(data.status==102){
+                layer.msg('获取表格的ID为空');
+            }else if(data.status==111){
+                layer.msg('表格没有数据');
+            }
+        },
+        error:function(jqXHR){
+            layer.close(LoadIndex); //关闭遮罩层
+            layer.msg('向服务器请求表格信息失败');
+        }
+    }) 
+}
+
+//获取数据函数,翻页
+function dataPage(tableID,template_id,type_code,oPageNow,pageSize,vm) {
+    var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
+    $.ajax({
+        type:'POST',
+        url:serverUrl+'get/info',
+        datatype:'json',
+        data:{
+            form_id:tableID,
+            template_id:template_id,
+            type_code:type_code,
+            next:oPageNow,
+            pageSize:pageSize //每页展示多少数据
+        },
+        success:function(data){
+            layer.close(LoadIndex); //关闭遮罩层
+            if(data.status==100){
+                vm.gridData = data.value;
+                vm.countPage = data.countPage;
+                vm.countNum = data.countNum;
+                vm.pageNow = data.pageNow;
+                //未提交保存内容提示
+                $(window).bind('beforeunload',function(){return "您修改的内容尚未保存，确定离开此页面吗？";});
+            }else if(data.status==101){
+                // layer.msg('数据为空');
+            }else if(data.status==102){
+                layer.msg('获取表格的ID为空');
+            }else if(data.status==111){
+                layer.msg('表格没有数据');
+            }
+        },
+        error:function(jqXHR){
+            layer.close(LoadIndex); //关闭遮罩层
+            layer.msg('向服务器请求表格信息失败');
+        }
+    })
+}
+
+//查重函数
+function checkRepeat(vm,allData,selectCheck) {
+    var arr = new Array();
+    var Len = allData.length;
+    //遍历数组内所有对象，放到数组里
+    for (var i = 0;i<Len;i++) {
+        if (allData[i][selectCheck] != null&&allData[i][selectCheck]) {
+            arr.push(allData[i][selectCheck]);
+        }
+    }
+
+    //检查重复
+    var n = isRepeat(arr);
+    if (n) {
+        vm.result1.push(selectCheck);
+    }
+
+    // 验证重复元素，有重复返回true；否则返回false
+    function isRepeat(arr) {
+        var hash = {};
+        for(var i in arr) {
+            if(hash[arr[i]]) {
+                return true;
+            }
+            // 不存在该元素，则赋值为true，可以赋任意值，相应的修改if判断条件即可
+            hash[arr[i]] = true;
+        }
+        return false;
+    }
+}
+
+//刷新函数
+function windowFresh() {
+    location.reload(true);
+}
 
 //序号过滤器
 Vue.filter('ListNum',function(value){
@@ -900,6 +782,16 @@ Vue.filter('ListNum',function(value){
         str = (pageNow-1)*10+str+1;
     }
     return str
+})
+
+//数据检查类型
+Vue.filter('ruleType', function (value) {
+    var str;
+    switch(value){
+        case 1: str = "唯一";break;
+        case 2: str = "重复";break;
+    }
+    return str;
 })
 
 $(document).ready(function(){
@@ -928,32 +820,3 @@ $(document).ready(function(){
         $("html,body").animate({scrollTop:0},300);
     });
 });
-
-
-/*
-$(function(){
-    $("#aaa").click(function(){
-        $.ajax({
-            type:'POST',
-            URL:'http://192.168.1.40/PicSystem/canton/fill/batch',
-            datatype:'json',
-            data:{
-                form_id:2,
-            },
-            success:function(data){
-                //vm.newData = data.value;
-                //console.log(data.value)
-                if(data.status == 100){
-                    layer.msg('提交成功');
-                    location.reload();
-                }else {
-                    layer.msg("111");
-                }
-            },
-            error:function(jqXHR) {
-                layer.close(LoadIndex); //关闭遮罩层
-                layer.msg('向服务器请求表格信息失败');
-            }
-        })
-    });
-});*/

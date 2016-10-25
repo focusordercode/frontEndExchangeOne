@@ -19,7 +19,8 @@ var Request=new UrlSearch();
 var tableID = Request.id;
 var type_code = 'batch';
 
-var serverUrl = "http://192.168.1.42/canton/"; //后端接口地址
+var serverUrl = "http://192.168.1.42/canton/"; //后端接口地址1
+var serverUrl2 = "http://192.168.1.40/PicSystem/canton/"; //后端接口地址2
 
 //未提交保存内容提示
 $(window).bind('beforeunload',function(){return "您修改的内容尚未保存，确定离开此页面吗？";});
@@ -37,13 +38,36 @@ var uploadPic = new Vue({
     },
     ready:function(){
         //获取上一步骤筛选的图片
+        // $.ajax({
+        //     type:'POST',
+        //     url:serverUrl+'Picture/get_cache_pic',
+        //     datatype:'json',
+        //     data:{
+        //         key:'oD~8dyxGS9Az',
+        //         rand_id:Request.rand_id
+        //     },
+        //     success:function(data){
+        //         if(data.status==100){
+        //             uploadPic.picData = data.value;
+        //             uploadPic.count = data.count;
+        //         }else{
+        //             layer.msg(data.msg);
+        //             uploadPic.picData = '';
+        //             uploadPic.count = '';
+        //         }
+        //     },
+        //     error:function(jqXHR){
+        //         layer.msg('向服务器请求筛选成功的图片失败');
+        //     }
+        // })
+
+        //获取图片
         $.ajax({
             type:'POST',
-            url:serverUrl+'Picture/get_cache_pic',
+            url:serverUrl2+'ready/uploadImages',
             datatype:'json',
             data:{
-                key:'oD~8dyxGS9Az',
-                rand_id:Request.rand_id
+                form_id:2 
             },
             success:function(data){
                 if(data.status==100){

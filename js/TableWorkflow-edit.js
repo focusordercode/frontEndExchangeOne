@@ -182,7 +182,6 @@ var oPageNow; //当前页全局变量，暂存异步刷新用
 var oTableIn = new Vue({
     el:'body',
     data:{
-        TableCreat:'',
         info:'',
         gridColumns: [],
         gridData: [],
