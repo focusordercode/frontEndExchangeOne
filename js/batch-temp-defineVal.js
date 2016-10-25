@@ -334,9 +334,8 @@ Vue.filter('writeType', function (value) {
 Vue.filter('ruleType', function (value) {
     var str;
     switch(value){
-        case 'only': str = "唯一";break;
-        case 'required': str = "必填";break;
-        case 'repeat': str = "重复";break;
+        case 1: str = "唯一";break;
+        case 2: str = "重复";break;
     }
     return str;
 })
