@@ -219,7 +219,7 @@
                             <li role="presentation" class="active">
                                 <a href="#home" id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true">常规信息</a>
                             </li>
-                            <li role="presentation" class="">
+                            <li role="presentation" class="" >
                                 <a href="#profile" role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false">默认值</a>
                             </li>
                             <li role="presentation" class="">
@@ -281,7 +281,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- 编辑规则 -->
+                            <!-- 默认值 -->
                             <div role="tabpanel" class="tab-pane fade" id="profile" aria-labelledby="profile-tab">
                                 <div class="row">
                                     <div class="col-md-12">
@@ -314,15 +314,20 @@
                                                                 </tr>
                                                                 </thead>
                                                                 <tbody>
-                                                                <template >
-                                                                    <tr>
-                                                                        <td></td>
-                                                                        <td><input type="text"></td>
-                                                                        <td><input type="button">删除</td>
+                                                                <template v-for="settong in setdatatong">
+                                                                    <tr id="adddata">
+                                                                        <td><p>{{$key}}</p></td>
+                                                                        <td><input type="text" v-model="settong" value="" class="form-control"></td>
+                                                                        <td>
+                                                                            <button @click="removeVal($key)" class="btn btn-danger">
+                                                                                删除
+                                                                            </button>
+                                                                        </td>
                                                                     </tr>
                                                                 </template>
                                                                 </tbody>
                                                             </table>
+
                                                         </div>
                                                         <div v-show="chioce == 'option2'" class="" id="variant-set" >
                                                             <table class="table table-bordered">
@@ -335,12 +340,20 @@
                                                                 </tr>
                                                                 </thead>
                                                                 <tbody>
-                                                                <template >
+                                                                <template v-for="setbian in setdatabian">
                                                                     <tr>
-                                                                        <td></td>
-                                                                        <td><input type="text"></td>
-                                                                        <td><input type="text"></td>
-                                                                        <td><input type="button">删除</td>
+                                                                        <td><p>{{$key}}</p></td>
+                                                                        <div>
+                                                                        <td><input type="text" v-model="setbian[0]" class="form-control"></td>
+                                                                        <td>
+                                                                            <input type="text" v-model="setbian[1]" class="form-control">
+                                                                        </td>
+                                                                        </div>
+                                                                        <td>
+                                                                            <button @click="removebian($key)" class="btn btn-danger">
+                                                                                删除
+                                                                            </button>
+                                                                        </td>
                                                                     </tr>
                                                                 </template>
                                                                 </tbody>
@@ -407,7 +420,7 @@
                 </div>
             </div>
         </div>
-
+        <pre>{{$data|json}}</pre>
         <!-- component template -->
         <script type="text/x-template" id="grid-template">
             <div class="container-fluid">
