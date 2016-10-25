@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="57f4b822-3711-47c0-8cae-aadd8c62ed7d" name="默认的" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/batch-table-edit.html" afterPath="$PROJECT_DIR$/batch-table-edit.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/batch-table-edit.js" afterPath="$PROJECT_DIR$/js/batch-table-edit.js" />
-    </list>
+    <list default="true" id="57f4b822-3711-47c0-8cae-aadd8c62ed7d" name="默认的" comment="" />
     <ignored path="kaifa.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -27,7 +24,7 @@
       <file leaf-file-name="batch-table-edit.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/batch-table-edit.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="3.0617716">
+            <state vertical-scroll-proportion="2.544289">
               <caret line="498" column="37" selection-start-line="498" selection-start-column="37" selection-end-line="498" selection-end-column="37" />
               <folding>
                 <element signature="n#style#0;n#head#0;n#html#0;n#!!top" expanded="false" />
@@ -140,7 +137,7 @@
     <property name="android.project.structure.last.selected" value="SDK Location" />
     <property name="android.project.structure.proportion" value="0.15" />
     <property name="android.sdk.path" value="$USER_HOME$/Downloads/adt-bundle-mac-x86_64-20140702/sdk" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/.." />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="HbShouldOpenHtmlAsHb" value="" />
   </component>
@@ -177,7 +174,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="7" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="false" />
     <layout>
       <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.12585571" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -364,7 +361,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/batch-table-edit.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="3.0617716">
+        <state vertical-scroll-proportion="2.544289">
           <caret line="498" column="37" selection-start-line="498" selection-start-column="37" selection-end-line="498" selection-end-column="37" />
           <folding>
             <element signature="n#style#0;n#head#0;n#html#0;n#!!top" expanded="false" />
