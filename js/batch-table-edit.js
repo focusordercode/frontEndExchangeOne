@@ -187,6 +187,11 @@ var oPageNow; //当前页全局变量，暂存异步刷新用
 var oTableIn = new Vue({
     el:'body',
     data:{
+        newData:'',
+        setdatatong:[],
+        setdatabian:'',
+        dataoption1:'',
+        dataoption2:'',
         TableCreat:'',
         info:'',
         gridColumns: [],//表头数据
@@ -200,7 +205,7 @@ var oTableIn = new Vue({
         jump:'',
         selectCheck:'',//选中检查项
         checkDataBtn:'',//重复检查按钮
-        chioce:""
+        chioce:''
     },
     computed:{
 
@@ -311,7 +316,59 @@ var oTableIn = new Vue({
                 layer.close(LoadIndex); //关闭遮罩层
                 layer.msg('向服务器请求表格信息失败');
             }
-        })   
+        })
+        //获取设置项目
+        /*$.ajax({
+            type:'POST',
+            URL:serverUrl+'get/editdefault',
+            datatype:'json',
+            data:{
+                type_code:'batch',
+                form_id:11,
+            },
+            success:function(data){
+                console.log(data.status);
+                if(data.status==100){
+                    console.log(data.status);
+                    oTableIn.setdata=data.value;
+                }else{
+                    console.log(data.msg);
+                    console.log(data.status);
+                }
+            },
+            error:function(jqXHR) {
+                layer.msg('向服务器请求表格信息失败');
+            }
+        })*/
+        $.ajax({
+            type:'POST',
+            url:serverUrl+'get/editdefault',
+            datatype:'json',
+            data:{
+                form_id:tableID,
+                type_code:type_code,
+            },
+            success:function(data){
+                console.log(status)
+                if(data.status==100){
+                    /*console.log(data.value)*/
+                    oTableIn.setdatatong = data.value;
+                    oTableIn.setdatabian = $.extend(true, {}, oTableIn.setdatatong);
+                    Vue.nextTick(function () {
+                        for(var x in oTableIn.setdatabian){
+                            data.value[x] = [];
+                        }
+                    })
+                }else{
+
+                }
+            },
+            error:function(jqXHR){
+                layer.msg('向服务器请求失败');
+            }
+        })
+
+
     },
     methods:{
         //提交
@@ -747,6 +804,47 @@ var oTableIn = new Vue({
                 }
                 return false;
             }
+        },
+        //提交通用设置与变体设置
+        submitset:function(){
+            var vm = this;
+            var form_id = tableID;
+            var DefaultData = vm.setdatatong;
+            var VariantData = vm.setdatabian;
+
+            $.ajax({
+                type:'POST',
+                url:'http://192.168.1.40/PicSystem/canton/fill/batch',
+                datatype:'json',
+                data:{
+                    form_id:form_id,
+                    DefaultData:DefaultData,
+                    VariantData:VariantData
+                },
+                success:function(data){
+                    console.log(data)
+                    if(data.status == 100){
+                        layer.msg('提交成功');
+                        /*location.reload();*/
+                    } else {
+                        layer.msg("111");
+                    }
+                },
+                error:function(jqXHR) {
+                    layer.close(LoadIndex); //关闭遮罩层
+                    layer.msg('向服务器请求表格信息失败');
+                }
+            })
+        },
+        //删除通用设置项目的按钮
+        removeVal:function (key) {
+            var vm = this;
+            Vue.delete(vm.setdatatong,key);
+        },
+        //删除变体项目的按钮
+        removebian:function (key) {
+            var vm = this;
+            Vue.delete(vm.setdatabian,key);
         }
     }
 })
@@ -830,3 +928,32 @@ $(document).ready(function(){
         $("html,body").animate({scrollTop:0},300);
     });
 });
+
+
+/*
+$(function(){
+    $("#aaa").click(function(){
+        $.ajax({
+            type:'POST',
+            URL:'http://192.168.1.40/PicSystem/canton/fill/batch',
+            datatype:'json',
+            data:{
+                form_id:2,
+            },
+            success:function(data){
+                //vm.newData = data.value;
+                //console.log(data.value)
+                if(data.status == 100){
+                    layer.msg('提交成功');
+                    location.reload();
+                }else {
+                    layer.msg("111");
+                }
+            },
+            error:function(jqXHR) {
+                layer.close(LoadIndex); //关闭遮罩层
+                layer.msg('向服务器请求表格信息失败');
+            }
+        })
+    });
+});*/
