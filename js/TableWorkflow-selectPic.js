@@ -152,7 +152,7 @@ var selectPic = new Vue({
     methods:{
         //选择图片目录
         selectPicfolder:function(){
-            var cateId = selectPic.tableInfo.category_id;
+            var cateId = this.tableInfo.category_id;
             if(!cateId){
                 layer.msg('没有获取到产品类目');
             }else{
@@ -304,7 +304,7 @@ var selectPic = new Vue({
         deleteRelate:function (rList) {
             this.relateValList.$remove(rList);
         },
-        //跳转到编辑步骤
+        //跳转到编辑步骤,发送数据
         NextStep:function () {
             var vm = this;
             if (vm.tableData.length<1) {
