@@ -320,12 +320,13 @@ Vue.filter('dataType', function (value) {
     return str;
 })
 
-//是否自动填写
+//填写方式
 Vue.filter('writeType', function (value) {
     var str;
     switch(value){
-        case 2: str = "否";break;
-        case 1: str = "是";break;
+        case 1: str = "常规";break;
+        case 2: str = "变体";break;
+        case 3: str = "不填";break;
     }
     return str;
 })

@@ -24,9 +24,6 @@
             text-align: center;
             vertical-align: middle!important;
         }
-        .start {
-            display: none;
-        }
     </style>
 </head>
     <body>
@@ -128,44 +125,33 @@
                             <table class="table table-bordered">
                                 <tr>
                                     <th>序号</th>
-                                    <!-- <th>图片名称</th> -->
                                     <th>图片URL</th>
-                                    <!-- <th>图片大小</th> -->
-                                    <!-- <th>图片尺寸(宽X高)</th> -->
                                     <th>上传状态</th>
                                     <th>操作</th>
                                 </tr>
                                 <template v-for="list in picData">
-                                    <tr v-if="$index<=9">
+                                    <tr>
                                         <td>{{$index+1}}</td>
-                                        <!-- <td>{{list.file_name}}</td> -->
                                         <td>{{list.image_url}}</td>
-                                        <!-- <td>{{list.file_size | sizeCounter}}</td> -->
-                                        <!-- <td>{{list.width}}X{{list.height}}</td> -->
                                         <td>
-                                            <i v-show="!list.image_url" class="fa fa-2x fa-frown-o"></i>
+                                            <i v-show="!list.status_msg" class="fa fa-2x fa-frown-o"></i>
 
                                             <span class="text-success">
-                                                <i v-show="list.image_url" class="text-succuss fa fa-2x fa-smile-o"></i>
+                                                <i v-show="list.status_msg" class="text-succuss fa fa-2x fa-smile-o"></i>
                                             </span>
                                         </td>
                                         <td>
-                                            <button v-show="!list.image_url" @click="removeLsit(list)" class="btn btn-danger">
+                                            <button v-show="!list.status_msg" @click="removeLsit(list)" class="btn btn-danger">
                                                 删除
                                             </button>
                                         </td>
                                     </tr>
                                 </template>
-                                <tr>
-                                    <td v-show="picData.length>10" colspan="7">
-                                        <b>......</b>
-                                    </td>
-                                </tr>
                             </table>
                             <div class="row">
                                 <div class="col-md-4 col-md-offset-5">
-                                    <button @click="getReady" class="btn ready btn-default">准备</button>
-                                    <button @click="startUpload" v-show="picData[0].image_url" class="btn start btn-info">
+                                    <button @click="getReady" v-show="!version_id" class="btn ready btn-default">准备</button>
+                                    <button @click="startUpload" v-show="version_id" class="btn start btn-info">
                                         开始上传
                                     </button>
                                 </div>
@@ -194,7 +180,7 @@
                         <hr>
                         <div class="col-md-4 col-md-offset-5">
                             <div class="form-group">
-                                <button @click="uploadDone" class="btn btn-primary" :disabled="uploadDoneStatus" >完成生效</button>
+                                <button @click="uploadDone" class="btn btn-primary" :disabled="!uploadDoneStatus" >预览</button>
                                 <button v-show="picData" class="btn btn-default" @click="takeBack">撤销</button>
                             </div>
                         </div>

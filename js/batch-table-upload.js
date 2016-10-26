@@ -64,7 +64,7 @@ var uploadPic = new Vue({
         //获取图片
         $.ajax({
             type:'POST',
-            url:serverUrl2+'ready/uploadImages',
+            url:serverUrl+'ready/uploadImages',
             datatype:'json',
             data:{
                 form_id:2 
@@ -110,6 +110,22 @@ var uploadPic = new Vue({
             var allPic = this.picData.length;
             var success = this.success;
             return allPic - success;
+        },
+        //预览表格按钮
+        uploadDoneStatus:function () {
+            var picData = this.picData;
+            var picLen = this.picData.length;
+            var successArr = [];
+            for (var i = 0;i<picLen;i++) {
+                if (picData[i].status_msg) {
+                    successArr.push(1);
+                }
+            }
+            if (successArr.length==picLen) {
+                return true //全部成功
+            }else{
+                return false
+            }
         }
     },
     methods:{
@@ -132,8 +148,6 @@ var uploadPic = new Vue({
                     layer.close(LoadIndex); //关闭遮罩层
                     if(data.status==100){
                         uploadPic.version_id = data.version;
-                        $('.ready').hide();
-                        $('.start').show();
                     }else{
                         layer.msg(data.msg);
                     }
@@ -148,8 +162,9 @@ var uploadPic = new Vue({
         startUpload:function(){
             var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
             //开始上传
-            var version_id = uploadPic.version_id;
-            var picArr = uploadPic.picData;
+            var vm = this;
+            var version_id = vm.version_id;
+            var picArr = vm.picData;
             var prorate = Request.pro_rate;
             var picrate = Request.pic_rate;
 
@@ -172,8 +187,9 @@ var uploadPic = new Vue({
                     success:function(data){
                         layer.close(LoadIndex); //关闭遮罩层
                         if(data.status==100){
-                            uploadPic.picData = data.value;
-                            uploadPic.success = data.success;
+                            vm.picData = data.value;
+                            vm.success = data.success;
+                            vm.status_msg = data.status_msg;
                         }else{
                             layer.msg(data.msg);
                         }
@@ -188,10 +204,7 @@ var uploadPic = new Vue({
         //上传已经成功上传的图片数据给后端
         uploadDone:function(){
             //通过判断表格中是否有图片地址判断上传成功
-            var hasImgUrl = this.picData[0].image_url;
-            var prorate = Request.pro_rate;
-            var picrate = Request.pic_rate;
-            if(!hasImgUrl){
+            if(!this.uploadDoneStatus){
                 layer.msg('图片没有上传成功');
             }else{
                 var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
@@ -204,11 +217,8 @@ var uploadPic = new Vue({
                     datatype:'json',
                     data:{
                         form_id:tableID,
-                        type_code:type_code,
-                        prorate:prorate,
-                        picrate:picrate,
-                        picCount:uploadPic.picData.length,
-                        picArr:uploadPic.picData
+                        picCount:vm.picData.length,
+                        picArr:vm.picData
                     },
                     success:function(data){
                         layer.close(LoadIndex); //关闭遮罩层
@@ -231,13 +241,14 @@ var uploadPic = new Vue({
                     },
                     error:function(jqXHR){
                         layer.close(LoadIndex); //关闭遮罩层
-                        layer.msg('向图片服务器请求版本失败');
+                        layer.msg('向服务器请求失败');
                     }
                 })
             }
         },
         //返回上一步
         takeBack:function(){
+            var vm = this;
             layer.confirm('返回上一步，此步骤的数据将不保存,上一步骤的数据也将被删除',{
                 btn:['确定','取消']
             },function(index){
@@ -258,10 +269,12 @@ var uploadPic = new Vue({
                             //解绑页面提示
                             $(window).unbind('beforeunload');
 
+                            var template_id = vm.info.template_id;
+
                             //跳转函数
                             function goNext() {
-                                var url = 'batch-table-selectPic.html';
-                                window.location.href = url+'?id='+tableID;
+                                var url = 'batch-table-edit.html';
+                                window.location.href = url+'?id='+tableID+'&template_id='+template_id;
                             }
 
                             setInterval(goNext,1000);
@@ -283,16 +296,4 @@ Vue.filter('sizeCounter',function(value){
     var str = value;
     str = Math.round(str/1024) + 'kb';
     return str
-})
-
-//检测表格中是否有图片地址判断上传成功
-uploadPic.$watch('picData', function (data) {
-    var hasImgUrl = data[0].image_url;
-    if(hasImgUrl){
-        uploadPic.uploadDoneStatus = false;
-    }else{
-        uploadPic.uploadDoneStatus = true;
-    }
-},{
-    deep: true
 })

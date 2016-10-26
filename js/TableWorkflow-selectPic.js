@@ -59,7 +59,6 @@ Vue.component('tree', {
 var selectPic = new Vue({
     el:'body',
     data:{
-        TableEdit:'',
         tableInfo:'',
         pictree:{},
         selectedPic:'',
@@ -321,10 +320,11 @@ var selectPic = new Vue({
                     success:function(data){
                         if(data.status==100){
                             layer.msg('请求成功');
+                            var template_id = vm.tableInfo.template_id;
                             //跳转函数
                             function goNext() {
                                 var url = 'TableWorkflow-edit.html';
-                                window.location.href = url+'?id='+Id;
+                                window.location.href = url+'?id='+Id+'&template_id='+template_id;
                             }
 
                             setInterval(goNext,1000);
@@ -379,7 +379,7 @@ function dataSteam (num,idArr,picData,vm) {
                     wordData = data.value;
                     //把图片数据加进去
                     for(var y = 0;y<picAdress.length;y++){
-                        wordData[y].photo=(picAdress[y]);
+                        wordData[y].photo = (picAdress[y]);
                     }
 
                     console.log(wordData);

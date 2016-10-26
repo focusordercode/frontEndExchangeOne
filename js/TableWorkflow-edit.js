@@ -21,6 +21,7 @@ var tableID = Request.id;
 var template_id = Request.template_id;
 
 var serverUrl = "http://192.168.1.42/canton/"; //后端接口地址
+var oUrl = 'http://192.168.1.42/canton';//图片服务器地址
 
 //未提交保存内容提示
 $(window).bind('beforeunload',function(){return "您修改的内容尚未保存，确定离开此页面吗？";});
@@ -194,6 +195,8 @@ var oTableIn = new Vue({
         jump:'',
         //默认值
         defaultVal:'',
+        variantVal:'',
+        chioce:'',
         //填写规则
         fillRule:{
             sku_front:'',
@@ -258,7 +261,6 @@ var oTableIn = new Vue({
             success:function(data){
                 if(data.status==100){
                     oTableIn.gridColumns = data.value;
-                    // oTableIn.gridData = data.data;
                 }
             },
             error:function(jqXHR){
@@ -277,7 +279,8 @@ var oTableIn = new Vue({
             },
             success:function(data){
                 if(data.status==100){
-                    oTableIn.defaultVal = data.value;
+                    oTableIn.defaultVal = data.value.default;
+                    oTableIn.variantVal = data.value.variant;
                 }
             },
             error:function(jqXHR){
@@ -322,6 +325,10 @@ var oTableIn = new Vue({
                     oTableIn.countPage = data.countPage;
                     oTableIn.countNum = data.countNum;
                     oTableIn.pageNow = data.pageNow;
+                    //判断是否加photo表头
+                    Vue.nextTick(function(){
+                        oTableIn.gridColumns.unshift('photo');
+                    })
                 }else if(data.status==101){
                     // layer.msg('数据为空');
                 }else if(data.status==102){
@@ -359,6 +366,22 @@ var oTableIn = new Vue({
                 return true
             }else{
                 return false
+            }
+        },
+        //自动填表按钮
+        fillBtn:function () {
+            var setdatatong = this.defaultVal,setdatabian = this.variantVal;
+            var arr1 = [],arr2 = [];
+            for(var x in setdatatong){
+                arr1.push(x);
+            }
+            for(var i in setdatabian){
+                arr1.push(i);
+            }
+            if (arr1.length<1&&arr2.length<1) {
+                return false
+            }else{
+                return true
             }
         },
         //控制数据检查按钮
@@ -513,62 +536,85 @@ var oTableIn = new Vue({
             pageSize = 20;
             dataNum(tableID,template_id,type_code,pageSize,oTableIn);
         },
-        //删除默认值
+        //删除常规默认值
         removeDeval:function (key) {
             var vm = this;
             Vue.delete(vm.defaultVal,key);
         },
+        //删除变体默认值
+        removeVaval:function (key) {
+            var vm = this;
+            Vue.delete(vm.variantVal,key);
+        },
         //发起自动填表
         fillTable:function () {
             var vm = this;
+            var DefaultData = vm.defaultVal;
+            var VariantData = vm.variantVal;
 
-            var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
-            $.ajax({
-                type:'POST',
-                url:serverUrl+'autofill/product',
-                datatype:'json',
-                data:{
-                    table_info:vm.info,
-                    getdata:vm.defaultVal,
-                    reludata:vm.fillRule
-                },
-                success:function(data){
-                    layer.close(LoadIndex); //关闭遮罩层
-                    if(data.status==100){
-                        layer.msg('请求成功');
-                        //解除未提交内容提示
-                        $(window).unbind('beforeunload');
-
-                        setInterval(windowFresh,1000);
-                    }else{
-                        console.log(data);
-                        console.log(data.msg);
-                        console.log(data.status);
-                    }
-                },
-                error:function(jqXHR){
-                    layer.close(LoadIndex); //关闭遮罩层
-                    layer.msg('向服务器请求失败');
+            //检查录入项是否为空
+            var checkArr1 = [];
+            var checkArr2 = [];
+            for(var x in DefaultData){
+                if (!(DefaultData[x].trim())) {
+                    checkArr1.push(x)
                 }
-            })
-        },
-        //重复检查,暂时废弃
-        goCheck:function () {
-            var vm = this;
-            var allData = this.gridData;
-            var checkData = this.checkData;
-            var forArr = [];
-
-            //把检查项放进数组里
-            for (prop in checkData) {
-                forArr.push(prop);
+            }
+            for(var n in VariantData){
+                if (!(VariantData[n][0].trim())&&!(VariantData[n][1].trim())) {
+                    checkArr2.push(n)
+                }
             }
 
-            if (forArr.length>0) { //有检查项目时执行
-                for (var i = 0;i<forArr.length;i++) {
-                    var selectCheck = forArr[i];
-                    checkRepeat(vm,allData,selectCheck);
-                }
+            //对为空的项进行判断提示
+            if (checkArr1.length>0&&checkArr2.length>0) {
+                var str = '常规的和变体的有项目未填'+'<br/>'+'不填写的应删除';
+                layer.alert(str, function(index){
+                  layer.close(index);
+                });
+            }else if (checkArr1.length>0) {
+                var str = '常规的有项目未填'+'<br/>'+'不填写的应删除';
+                layer.alert(str, function(index){
+                  layer.close(index);
+                });
+            }else if (checkArr2.length>0) {
+                var str = '变体的有项目未填'+'<br/>'+'不填写的应删除';
+                layer.alert(str, function(index){
+                  layer.close(index);
+                });
+            }else{
+                var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
+                var getdata = {};
+                    getdata.default = DefaultData,
+                    getdata.variant = VariantData;
+                $.ajax({
+                    type:'POST',
+                    url:serverUrl+'autofill/product',
+                    datatype:'json',
+                    data:{
+                        table_info:vm.info,
+                        getdata:getdata,
+                        reludata:vm.fillRule
+                    },
+                    success:function(data){
+                        layer.close(LoadIndex); //关闭遮罩层
+                        if(data.status==100){
+                            layer.msg('请求成功');
+                            //解除未提交内容提示
+                            $(window).unbind('beforeunload');
+
+                            setInterval(windowFresh,1000);
+                        }else{
+                            console.log(data);
+                            console.log(data.msg);
+                            console.log(data.status);
+                        }
+                    },
+                    error:function(jqXHR){
+                        layer.close(LoadIndex); //关闭遮罩层
+                        layer.msg('向服务器请求失败');
+                    }
+                })
             }
         },
         //发送数据检查请求
@@ -674,7 +720,7 @@ function dataNum (tableID,template_id,type_code,pageSize,vm) {
 }
 
 //获取数据函数,翻页
-function dataPage(tableID,template_id,type_code,oPageNow,pageSize,vm) {
+function dataPage (tableID,template_id,type_code,oPageNow,pageSize,vm) {
     var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
     $.ajax({
         type:'POST',
@@ -712,7 +758,7 @@ function dataPage(tableID,template_id,type_code,oPageNow,pageSize,vm) {
 }
 
 //查重函数
-function checkRepeat(vm,allData,selectCheck) {
+function checkRepeat (vm,allData,selectCheck) {
     var arr = new Array();
     var Len = allData.length;
     //遍历数组内所有对象，放到数组里
@@ -769,6 +815,14 @@ Vue.filter('ruleType', function (value) {
         case 2: str = "重复";break;
     }
     return str;
+})
+
+Vue.filter('imgUrl2',function(value){
+    var str = value;
+    var strLen = str.length;
+    var strNew = str.substr(1,strLen-1);
+    strNew = oUrl + strNew;
+    return strNew
 })
 
 $(document).ready(function(){

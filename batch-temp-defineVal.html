@@ -178,7 +178,7 @@
                                             <th class="text-center" title="小数的精度">
                                                 精度<span class="text-info">(?)</span>
                                             </th>
-                                            <th class="text-center" title="选择“是”的数据项目，将会出现在“批量表”编辑产品界面的默认值标签内，为用户快速填写表格，前提是默认值没有填写">    是否填写<span class="text-info">(?)</span>
+                                            <th class="text-center" title="【填写方式】选择“常规和变体”的所有数据项目，将会出现在“批量表”编辑产品界面的默认值标签内，为用户快速填写表格，设置各类业务数据">    填写方式<span class="text-info">(?)</span>
                                             </th>
                                             <th class="text-center" title="选择规则后的数据项目，将会出现在“批量表”编辑产品界面的【数据检查】标签内，帮助用户快速检查数据">
                                                 填写规则<span class="text-info">(?)</span>
@@ -223,8 +223,8 @@
                                                         </select>
                                                     </td>
                                                     <td>
-                                                        <!-- 是否填写 -->
-                                                        <select  class="form-control" v-model="table.is_required">
+                                                        <!-- 填写方式 -->
+                                                        <select  class="form-control" v-model="table.filling_type">
                                                             <option :value="write" v-for="write in table.iswrite_array">
                                                                 {{write | writeType}}
                                                             </option>
@@ -294,7 +294,7 @@
                                                     </td>
                                                     <td>
                                                         <!-- 是否填写 -->
-                                                        <select  class="form-control" v-model="table.is_required">
+                                                        <select  class="form-control" v-model="table.filling_type">
                                                             <option :value="write" v-for="write in table.iswrite_array">
                                                                 {{write | writeType}}
                                                             </option>

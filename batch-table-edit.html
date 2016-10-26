@@ -255,7 +255,7 @@
                                                         </div>
                                                         <div class="col-md-5">
                                                             <p>表格名称：{{info.title}}</p>
-                                                            <p>所属产品：</p>
+                                                            <p>所属产品：{{info.name}}</p>
                                                             <p>所属客户：{{info.client_name}}</p>
                                                         </div>
                                                     </div>
@@ -299,7 +299,7 @@
                                                             <label class="col-md-2 radio">产品类型：</label>
                                                             <div class="radio col-sm-3">
                                                                 <label>
-                                                                    <input type="radio" name="product-tab" v-model="chioce" value="option1" checked>通用设置
+                                                                    <input type="radio" name="product-tab" v-model="chioce" value="option1" checked>常规设置
                                                                 </label>
                                                             </div>
                                                             <div class="radio col-sm-3">
@@ -368,7 +368,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-md-12  text-center">
-                                                    <button @click="submitset" class="btn btn-success">自动填表</button>
+                                                    <button @click="submitset" v-show="fillBtn" class="btn btn-success">自动填表</button>
                                                 </div>
                                             </div>
                                         </div>

@@ -187,7 +187,7 @@ var oPageNow; //当前页全局变量，暂存异步刷新用
 var oTableIn = new Vue({
     el:'body',
     data:{
-        setdatatong:[],
+        setdatatong:'',
         setdatabian:'',
         checkData:'',
         checkTyle:[
@@ -207,41 +207,6 @@ var oTableIn = new Vue({
         selectCheck:'',//选中检查项
         checkDataBtn:'',//重复检查按钮
         chioce:''
-    },
-    computed:{
-
-        //控制上一页按钮
-        preBtn:function(){
-            if(this.pageNow==1){
-                return true
-            }else{
-                return false
-            }
-        },
-        //控制下一页按钮
-        nextBtn:function(){
-            if(this.pageNow==this.countPage){
-                return true
-            }else{
-                return false
-            }
-        },
-        //跳转按钮
-        jumpBtn:function(){
-            if(!this.jump){
-                return true
-            }else{
-                return false
-            }
-        },
-        //重复检查按钮
-        checkDataBtn:function(){
-            if(this.selectCheck){
-                return false
-            }else{
-                return true
-            }
-        }
     },
     ready:function(){
         var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
@@ -297,17 +262,9 @@ var oTableIn = new Vue({
                 type_code:type_code,
             },
             success:function(data){
-                console.log(status)
                 if(data.status==100){
-                    oTableIn.setdatatong = data.value;
-                    oTableIn.setdatabian = $.extend(true, {}, oTableIn.setdatatong);
-                    Vue.nextTick(function () {
-                        for(var x in oTableIn.setdatabian){
-                            data.value[x] = [];
-                        }
-                    })
-                } else {
-
+                    oTableIn.setdatatong = data.value.default;
+                    oTableIn.setdatabian = data.value.variant;
                 }
             },
             error:function(jqXHR){
@@ -352,6 +309,7 @@ var oTableIn = new Vue({
                     oTableIn.countPage = data.countPage;
                     oTableIn.countNum = data.countNum;
                     oTableIn.pageNow = data.pageNow;
+                    
                 }else if(data.status==101){
                     // layer.msg('数据为空');
                 }else if(data.status==102){
@@ -366,56 +324,108 @@ var oTableIn = new Vue({
             }
         })
     },
+    computed:{
+
+        //控制上一页按钮
+        preBtn:function(){
+            if(this.pageNow==1){
+                return true
+            }else{
+                return false
+            }
+        },
+        //控制下一页按钮
+        nextBtn:function(){
+            if(this.pageNow==this.countPage){
+                return true
+            }else{
+                return false
+            }
+        },
+        //跳转按钮
+        jumpBtn:function(){
+            if(!this.jump){
+                return true
+            }else{
+                return false
+            }
+        },
+        //自动填表按钮
+        fillBtn:function () {
+            var setdatatong = this.setdatatong,setdatabian = this.setdatabian;
+            var arr1 = [],arr2 = [];
+            for(var x in setdatatong){
+                arr1.push(x);
+            }
+            for(var i in setdatabian){
+                arr1.push(i);
+            }
+            if (arr1.length<1&&arr2.length<1) {
+                return false
+            }else{
+                return true
+            }
+        },
+        //重复检查按钮
+        checkDataBtn:function(){
+            if(this.selectCheck){
+                return false
+            }else{
+                return true
+            }
+        }
+    },
     methods:{
         //提交
         sendMsg:function(){
             var max = oTableIn.gridData.length;
             var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
             var vm = oTableIn;
+            if (max>1) {
+                $.ajax({
+                    type:'POST',
+                    url:serverUrl+'post/info',
+                    datatype:'json',
+                    data:{
+                        type_code:type_code,
+                        save_type:'submit',
+                        category_id:vm.info.category_id,
+                        template_id:vm.info.template_id,
+                        form_id:vm.info.id,
+                        gridColumns:vm.gridColumns,
+                        max:max,
+                        gridData:vm.gridData
+                    },
+                    success:function(data){
+                        layer.close(LoadIndex); //关闭遮罩层
+                        if (data.status==100) {
+                            // --------调试用
+                            vm.newData = data.t;
+                            // --------调试用
+                            
+                            layer.msg('提交成功');
+                            //解除未提交内容提示
+                            $(window).unbind('beforeunload');
+                            var Id = vm.info.id;
 
-            $.ajax({
-                type:'POST',
-                url:serverUrl+'post/info',
-                datatype:'json',
-                data:{
-                    type_code:type_code,
-                    save_type:'submit',
-                    category_id:vm.info.category_id,
-                    template_id:vm.info.template_id,
-                    form_id:vm.info.id,
-                    gridColumns:vm.gridColumns,
-                    max:max,
-                    gridData:vm.gridData
-                },
-                success:function(data){
-                    layer.close(LoadIndex); //关闭遮罩层
-                    if (data.status==100) {
-                        // --------调试用
-                        oTableIn.newData = data.t;
-                        // --------调试用
-                        
-                        layer.msg('提交成功');
-                        //解除未提交内容提示
-                        $(window).unbind('beforeunload');
-                        var Id = vm.info.id;
+                            //跳转函数
+                            function goNext() {
+                                var url = 'batch-table-upload.html';
+                                window.location.href = url+'?id='+Id;
+                            }
 
-                        //跳转函数
-                        function goNext() {
-                            var url = 'batch-table-upload.html';
-                            window.location.href = url+'?id='+Id;
+                            setInterval(goNext,1000);
+
+                        }else{
+                            layer.msg(data.msg);
                         }
-
-                        setInterval(goNext,1000);
-
-                    }else{
-                        layer.msg(data.msg);
+                    },
+                    error:function(jqXHR){
+                        layer.close(LoadIndex); //关闭遮罩层
+                        layer.msg('向服务器请求提交数据失败');
                     }
-                },
-                error:function(jqXHR){
-                    layer.close(LoadIndex); //关闭遮罩层
-                    layer.msg('向服务器请求提交数据失败');
-                }
-            })
+                })
+            }
         },
         //暂存
         saveMsg:function(){
@@ -573,41 +583,84 @@ var oTableIn = new Vue({
             pageSize = 20;
             dataNum(tableID,template_id,type_code,pageSize,oTableIn);
         },
-        //提交通用设置与变体设置
+        //提交通用设置与变体设置,填充表格
         submitset:function(){
             var vm = this;
             var DefaultData = vm.setdatatong;
             var VariantData = vm.setdatabian;
 
-            var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
-            $.ajax({
-                type:'POST',
-                url:'http://192.168.1.40/PicSystem/canton/fill/batch',
-                datatype:'json',
-                data:{
-                    form_id:tableID,
-                    DefaultData:DefaultData,
-                    VariantData:VariantData
-                },
-                success:function(data){
-                    layer.close(LoadIndex); //关闭遮罩层
-                    if(data.status == 100){
-                        layer.msg('提交成功');
-                        
-                        //解除未提交内容提示
-                        $(window).unbind('beforeunload');
-
-                        setInterval(windowFresh,1000);
-
-                    } else {
-                        layer.msg(data.msg);
-                    }
-                },
-                error:function(jqXHR) {
-                    layer.close(LoadIndex); //关闭遮罩层
-                    layer.msg('向服务器请求表格信息失败');
+            //检查录入项是否为空
+            var checkArr1 = [];
+            var checkArr2 = [];
+            for(var x in DefaultData){
+                if (!(DefaultData[x].trim())) {
+                    checkArr1.push(x)
                 }
-            })
+            }
+            for(var n in VariantData){
+                if (!(VariantData[n][0].trim())&&!(VariantData[n][1].trim())) {
+                    checkArr2.push(n)
+                }
+            }
+            //提取未填写项目为字符函数,暂不用
+            function GetString(str,arr) {
+                for (var i = 0;i<arr.length;i++) {
+                    if (i==arr.length-1) {
+                        str += arr[i];
+                    }else{
+                        str += arr[i] + '，';
+                    }
+                }
+                return str
+            }
+
+            //对为空的项进行判断提示
+            if (checkArr1.length>0&&checkArr2.length>0) {
+                var str = '常规的和变体的有项目未填'+'<br/>'+'不填写的应删除';
+                layer.alert(str, function(index){
+                  layer.close(index);
+                });
+            }else if (checkArr1.length>0) {
+                var str = '常规的有项目未填'+'<br/>'+'不填写的应删除';
+                layer.alert(str, function(index){
+                  layer.close(index);
+                });
+            }else if (checkArr2.length>0) {
+                var str = '变体的有项目未填'+'<br/>'+'不填写的应删除';
+                layer.alert(str, function(index){
+                  layer.close(index);
+                });
+            }else{
+                var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
+                $.ajax({
+                    type:'POST',
+                    url:serverUrl+'fill/batch',
+                    datatype:'json',
+                    data:{
+                        form_id:tableID,
+                        DefaultData:DefaultData,
+                        VariantData:VariantData
+                    },
+                    success:function(data){
+                        layer.close(LoadIndex); //关闭遮罩层
+                        if(data.status == 100){
+                            layer.msg('提交成功');
+                            
+                            //解除未提交内容提示
+                            $(window).unbind('beforeunload');
+
+                            setInterval(windowFresh,1000);
+
+                        } else {
+                            layer.msg(data.msg);
+                        }
+                    },
+                    error:function(jqXHR) {
+                        layer.close(LoadIndex); //关闭遮罩层
+                        layer.msg('向服务器请求表格信息失败');
+                    }
+                })
+            }
         },
         //删除通用设置项目的按钮
         removeVal:function (key) {
@@ -733,37 +786,6 @@ function dataPage(tableID,template_id,type_code,oPageNow,pageSize,vm) {
             layer.msg('向服务器请求表格信息失败');
         }
     })
-}
-
-//查重函数
-function checkRepeat(vm,allData,selectCheck) {
-    var arr = new Array();
-    var Len = allData.length;
-    //遍历数组内所有对象，放到数组里
-    for (var i = 0;i<Len;i++) {
-        if (allData[i][selectCheck] != null&&allData[i][selectCheck]) {
-            arr.push(allData[i][selectCheck]);
-        }
-    }
-
-    //检查重复
-    var n = isRepeat(arr);
-    if (n) {
-        vm.result1.push(selectCheck);
-    }
-
-    // 验证重复元素，有重复返回true；否则返回false
-    function isRepeat(arr) {
-        var hash = {};
-        for(var i in arr) {
-            if(hash[arr[i]]) {
-                return true;
-            }
-            // 不存在该元素，则赋值为true，可以赋任意值，相应的修改if判断条件即可
-            hash[arr[i]] = true;
-        }
-        return false;
-    }
 }
 
 //刷新函数

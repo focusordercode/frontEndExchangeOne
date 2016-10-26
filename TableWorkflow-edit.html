@@ -141,6 +141,25 @@
             margin-left: -15px;
             margin-right: -15px;
         }
+        .img-col {
+            position: relative;
+        }
+        .img-hover {
+            display: none;
+            position: absolute;
+            top: 80px;
+            left: 50px;
+            z-index: 6666;
+        }
+        .img-hover img {
+            max-width: 300px;
+            max-height: 300px;
+            height: auto;
+            border: 1px solid #ddd;
+        }
+        .img-col:hover .img-hover {
+            display: block;
+        }
     </style>
 </head>
     <body>
@@ -307,23 +326,80 @@
                                             <div class="panel-body">
                                                 <div class="col-md-12">
                                                     <div class="form-horizontal">
-                                                        <template v-for="deVal in defaultVal">
-                                                            <div class="form-group">
-                                                                <label class="col-sm-2 control-label text-muted">{{$key}}</label>
-                                                                <div class="col-sm-4">
-                                                                    <input type="text" v-model="deVal" placeholder="填写默认值" class="form-control">
-                                                                </div>
-                                                                <div class="col-sm-2 infoPanel-botton">
-                                                                    <button @click="removeDeval($key)" class="btn btn-danger btn-sm">
-                                                                        删除
-                                                                    </button>
-                                                                </div>
+                                                        <div class="form-group">
+                                                            <label class="col-md-2 radio">产品类型：</label>
+                                                            <div class="radio col-sm-3">
+                                                                <label>
+                                                                    <input type="radio" name="product-tab" v-model="chioce" value="option1" checked>常规设置
+                                                                </label>
                                                             </div>
-                                                        </template>
+                                                            <div class="radio col-sm-3">
+                                                                <label>
+                                                                    <input type="radio" name="product-tab" v-model="chioce" value="option2">变体设置
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div id="con-tab">
+                                                        <div v-show="chioce == 'option1'" class="" id="currency-set">
+                                                            <table class="table table-bordered">
+                                                                <thead>
+                                                                <tr>
+                                                                    <th>项目</th>
+                                                                    <th>默认值</th>
+                                                                    <th>操作</th>
+                                                                </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                <template v-for="settong in defaultVal">
+                                                                    <tr id="adddata">
+                                                                        <td><p>{{$key}}</p></td>
+                                                                        <td><input type="text" v-model="settong" value="" class="form-control"></td>
+                                                                        <td>
+                                                                            <button @click="removeDeval($key)" class="btn btn-danger">
+                                                                                删除
+                                                                            </button>
+                                                                        </td>
+                                                                    </tr>
+                                                                </template>
+                                                                </tbody>
+                                                            </table>
+
+                                                        </div>
+                                                        <div v-show="chioce == 'option2'" class="" id="variant-set" >
+                                                            <table class="table table-bordered">
+                                                                <thead>
+                                                                <tr>
+                                                                    <th>项目</th>
+                                                                    <th>parent</th>
+                                                                    <th>child</th>
+                                                                    <th>操作</th>
+                                                                </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                <template v-for="setbian in variantVal">
+                                                                    <tr>
+                                                                        <td><p>{{$key}}</p></td>
+                                                                        <div>
+                                                                        <td><input type="text" v-model="setbian[0]" class="form-control"></td>
+                                                                        <td>
+                                                                            <input type="text" v-model="setbian[1]" class="form-control">
+                                                                        </td>
+                                                                        </div>
+                                                                        <td>
+                                                                            <button @click="removeVaval($key)" class="btn btn-danger">
+                                                                                删除
+                                                                            </button>
+                                                                        </td>
+                                                                    </tr>
+                                                                </template>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-1 col-md-offset-3">
-                                                    <button @click="fillTable" class="btn btn-success">自动填表</button>
+                                                <div class="col-md-12  text-center">
+                                                    <button @click="fillTable" v-show="fillBtn" class="btn btn-success">自动填表</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -461,7 +537,7 @@
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-md-1 col-md-offset-5">
-                                                        <button @click="goCheck" v-show="checkBtn" class="btn btn-info">数据检查</button>
+                                                        <button v-show="checkBtn" class="btn btn-info">数据检查</button>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-8" v-show="checkBtn">
@@ -507,7 +583,22 @@
                                             <button v-on:click="remove(entry,$index)" class="btn btn-danger">删除</button>
                                         </td>
                                         <td v-for="key in columns">
-                                            <input type="text" v-model="entry[key]" class="form-control" data-toggle="popover" data-trigger="focus" data-placement="top" data-content="111">
+                                            <template v-if="key == 'photo'"> <!-- 先判断表头 -->
+                                                <template v-if="entry[key]">  <!-- 再判断该表头内是否有值 -->
+                                                    <div class="img-col">
+                                                        <img :src="entry[key] | imgUrl2" alt="" width="50" height="50">
+                                                        <div class="img-hover">
+                                                            <img :src="entry[key] | imgUrl2" alt="">
+                                                        </div>
+                                                    </div>
+                                                </template>
+                                                <template v-else>
+                                                    暂无图片
+                                                </template>
+                                            </template>
+                                            <template v-else>
+                                                <input type="text" v-model="entry[key]" class="form-control" data-toggle="popover" data-trigger="focus" data-placement="top" data-content="111">
+                                            </template>
                                         </td>
                                         <td class="text-center">{{$index+1}}</td>
                                     </tr>
@@ -522,7 +613,22 @@
                                             <button v-on:click="remove(entry,$index)" class="btn btn-danger">删除</button>
                                         </td>
                                         <td v-for="key in columns">
-                                            <input type="text" v-model="entry[key]" class="form-control" data-toggle="popover" data-trigger="focus" data-placement="top" data-content="222">
+                                            <template v-if="key == 'photo'">
+                                                <template v-if="entry[key]">
+                                                    <div class="img-col">
+                                                        <img :src="entry[key] | imgUrl2" alt="" width="50" height="50">
+                                                        <div class="img-hover">
+                                                            <img :src="entry[key] | imgUrl2" alt="">
+                                                        </div>
+                                                    </div>
+                                                </template>
+                                                <template v-else>
+                                                    暂无图片
+                                                </template>
+                                            </template>
+                                            <template v-else>
+                                                <input type="text" v-model="entry[key]" class="form-control" data-toggle="popover" data-trigger="focus" data-placement="top" data-content="111">
+                                            </template>
                                         </td>
                                         <td class="text-center">{{$index+1}}</td>
                                     </tr>
