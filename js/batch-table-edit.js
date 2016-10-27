@@ -203,10 +203,11 @@ var oTableIn = new Vue({
         pageNow:'',
         pageSize:20,
         newData:'',
-        jump:'',
-        selectCheck:'',//选中检查项
-        checkDataBtn:'',//重复检查按钮
-        chioce:''
+        jump:'',        
+        chioce:'',
+        //数据检查
+        checkRultData:'',
+        checkDataBtn:''//重复检查按钮
     },
     ready:function(){
         var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
@@ -366,12 +367,29 @@ var oTableIn = new Vue({
                 return true
             }
         },
-        //重复检查按钮
-        checkDataBtn:function(){
-            if(this.selectCheck){
-                return false
-            }else{
+        //控制数据检查按钮
+        checkBtn:function () {
+            if(this.checkData){
                 return true
+            }else{
+                return false
+            }
+        },
+        //数据检查前往修改按钮
+        goXgCheckBtn:function () {
+            var checkRultData = [], checkRultData = this.checkRultData;
+            var arr = [];//收集收据数组
+            for (var i = 0;i<checkRultData.length;i++) {
+                var str = '数据无误';
+                if (checkRultData[i].value ==str) {
+                    arr.push(i);
+                }
+            }
+
+            if(arr.length==checkRultData.length){
+                return true //全部通过
+            }else{
+                return false //有未通过项
             }
         }
     },
@@ -671,6 +689,44 @@ var oTableIn = new Vue({
         removebian:function (key) {
             var vm = this;
             Vue.delete(vm.setdatabian,key);
+        },
+        //发送数据检查请求
+        checkRequest:function () {
+            var vm = this;
+            var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
+            $.ajax({
+                type:'POST',
+                url:serverUrl+'data/check',
+                datatype:'json',
+                data:{
+                    form_id:vm.info.id,
+                    type_code:type_code,
+                    check:vm.checkData
+                },
+                success:function(data){
+                    console.log(data);
+                    layer.close(LoadIndex); //关闭遮罩层
+                    if(data.status==100){
+                        layer.msg('请求成功');
+                        vm.checkRultData = data.value;
+                    }else{
+                        layer.msg(data.msg);
+                    }
+                },
+                error:function(jqXHR){
+                    layer.close(LoadIndex); //关闭遮罩层
+                    layer.msg('向服务器请求失败');
+                }
+            })
+        },
+        //前往修改数据
+        goXgCheck:function () {
+            var vm = this,
+                template_id = vm.info.template_id;
+            if (template_id&&tableID) {
+                var url = 'changeTableData.html?id='+tableID+'&template_id='+template_id+'&type_code='+type_code;
+                window.open(url);
+            }
         }
     }
 })

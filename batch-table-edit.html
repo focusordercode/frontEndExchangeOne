@@ -73,6 +73,12 @@
             padding-left: 20px;
             padding-right: 20px;
         }
+        .dl-horizontal dt {
+            color: #337ab7;
+        }
+        .dl-horizontal dd {
+            color: #333;
+        }
         .topContent {
             position: fixed;
             right: 0;
@@ -399,11 +405,20 @@
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-md-1 col-md-offset-5">
-                                                        <button v-show="checkBtn" class="btn btn-info">数据检查</button>
+                                                        <button @click="checkRequest" v-show="checkBtn" class="btn btn-info">数据检查</button>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-8" v-show="checkBtn">
+                                                <div class="col-md-12" v-show="checkBtn">
                                                     <p class="underLine">检查结果</p>
+                                                    <dl class="dl-horizontal">
+                                                        <template v-for="checkRult in checkRultData">
+                                                            <dt>{{checkRult.field}}</dt>
+                                                            <dd>{{checkRult.value}}</dd>
+                                                        </template>
+                                                    </dl>
+                                                    <div class="col-md-1 col-md-offset-1">
+                                                        <button @click="goXgCheck" v-show="!goXgCheckBtn" class="btn btn-info btn-sm">前往修改</button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

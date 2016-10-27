@@ -316,15 +316,15 @@ Vue.filter('statusLink',function(value){
 	var donePage = 'TableWorkflow-done.html';
 	if(status=='creating'){
 		//进入第二步
-		var str = edit + '?form_no='+form_no+'&id='+tableID+'&template_id='+template_id+'&type_code='+type_code;
+		var str = selectPic + '?id='+tableID;
 		return str
-	}else if(status=='editing'){
+	}else if(status=='selecting'){
 		//进入第三步
-		var str = donePage+'?tableID='+tableID+'&template_id='+template_id+'&type_code='+type_code;
+		var str = edit+'?id='+tableID+'&template_id='+template_id+'&type_code='+type_code;
 		return str
-	}else if(status=='enabled'||status=='finished'){
+	}else if(status=='editing'||status=='finished'){
 		//进入第三步
-		var str = donePage+'?tableID='+tableID+'&template_id='+template_id;
+		var str = donePage+'?id='+tableID+'&template_id='+template_id+'&type_code='+type_code;
 		return str
 	}else{
 		var str = 'javascript:'

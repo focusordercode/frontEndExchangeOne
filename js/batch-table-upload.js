@@ -249,7 +249,7 @@ var uploadPic = new Vue({
         //返回上一步
         takeBack:function(){
             var vm = this;
-            layer.confirm('返回上一步，此步骤的数据将不保存,上一步骤的数据也将被删除',{
+            layer.confirm('返回上一步?',{
                 btn:['确定','取消']
             },function(index){
                 layer.close(index);

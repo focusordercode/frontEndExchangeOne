@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>数据检查数据修改</title>
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!--你自己的样式文件 -->
+    <link href="css/index.css" rel="stylesheet">
+    <link href="css/picUpload.css" rel="stylesheet">
+    <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">        
+    <!-- 以下两个插件用于在IE8以及以下版本浏览器支持HTML5元素和媒体查询，如果不需要用可以移除 -->
+    <!--[if lt IE 9]>
+    <script src="http://apps.bdimg.com/libs/html5shiv/3.7/html5shiv.js"></script>
+    <script src="http://apps.bdimg.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        .tableDetail label+span {
+            vertical-align: middle;
+            padding-left: 10px;
+        }
+        .table-bordered>tbody>tr>td, .table-bordered>tbody>tr>th, .table-bordered>tfoot>tr>td, .table-bordered>tfoot>tr>th, .table-bordered>thead>tr>td, .table-bordered>thead>tr>th {
+            min-width: 250px;
+            vertical-align: middle;
+            position: relative;
+        }
+        .table tr th:first-child {
+            min-width: 50px!important;
+        }
+        .table tr td:first-child {
+            min-width: 50px!important;
+        }
+        .table tr th:last-child {
+            min-width: 50px!important;
+        }
+        .table tr td:last-child {
+            min-width: 50px!important;
+        }
+        .table>tbody>tr.change>td {
+            background-color: #ECF0F1;
+        }
+        .clickTochange {
+            text-decoration: none;
+            border-bottom: dashed 1px #0088cc;
+        }
+        .td-input {
+            position: absolute;
+            top: -42px;
+            left: 0;
+            margin-bottom: 0;
+            background-color: #fff;
+            display: none;
+        }
+        .td-input > .input-group {
+            margin: 6px 10px;
+        }
+        .td-input button {
+            color: #fff;
+            margin-right: 10px;
+        }
+        .td-input > i {
+            position: absolute;
+            bottom: -9px;
+            left: 42%;
+            color: #fff;
+        }
+        .tableDetail .label {
+            font-size: 90%;
+        }
+        .fixed-nav {
+            background-color: #34495E;
+            border-radius: 0;
+            margin-bottom: 0;
+        }
+        .fixed-top {
+            position: fixed;
+            right: 0;
+            left: 0;
+            z-index: 1030;
+            background-color: #ecf0f5;
+            border-bottom: 1px solid #ccc;
+        }
+        .fixed-nav a {
+            display: block;
+            float: left;
+            padding: 15px 15px;
+            color: #fff;
+            font-size: 18px;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        .fixed-nav a:hover {
+            background-color: #2C3E50;
+        }
+        .pullUP {
+            color: #777;
+            position: absolute;
+            bottom: -26px;
+            left: 50%;
+            margin-left: -20px;
+            width: 40px;
+            height: 26px;
+            background-color: rgba(221, 221, 221, .8);
+            text-align: center;
+            line-height: 34px;
+            cursor: pointer;
+        }
+        .pullDown {
+            color: #777;
+            position: absolute;
+            top: 0;
+            left: 50%;
+            margin-left: -20px;
+            width: 40px;
+            height: 26px;
+            background-color: rgba(221, 221, 221, .8);
+            text-align: center;
+            line-height: 34px;
+            cursor: pointer;
+            z-index: 5;
+        }
+        .dl-horizontal dt {
+            color: #337ab7;
+        }
+        .dl-horizontal dd {
+            color: #333;
+        }
+        #table {
+            padding-top: 680px;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+        .underLine {
+            border-bottom: 1px solid #ddd;
+        }
+        .infoPanel {
+            max-height: 420px;
+            overflow-y: auto;
+        }
+        .infoPanel-botton {
+            margin-top: 2px;
+        }
+        .text-lineheigt {
+            line-height: 34px;
+            margin-left: -15px;
+            margin-right: -15px;
+        }
+        .img-col {
+            position: relative;
+        }
+        .img-hover {
+            display: none;
+            position: absolute;
+            top: 80px;
+            left: 50px;
+            z-index: 6666;
+        }
+        .img-hover img {
+            max-width: 300px;
+            max-height: 300px;
+            height: auto;
+            border: 1px solid #ddd;
+        }
+        .img-col:hover .img-hover {
+            display: block;
+        }
+    </style>
+</head>
+    <body>
+        <div class="pullDown">
+            <i class="fa fa-2x fa-angle-down" aria-hidden="true"></i>
+        </div>
+
+        <div class="fixed-top">
+            <div class="pullUP">
+                <i class="fa fa-2x fa-angle-up" aria-hidden="true"></i>
+            </div>
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 ">
+                        <div id="myTabContent" class="tab-content">
+                            <!-- 常规信息 -->
+                            <div role="tabpanel" class="tab-pane fade active in" id="home" aria-labelledby="home-tab">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="panel panel-default infoPanel">
+                                            <div class="panel-body">
+                                                <div class="col-md-12">
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <p class="underLine">表格信息</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-5">
+                                                            <p>表格编号：{{info.form_no}}</p>
+                                                            <p>所属类目：{{info.name}}</p>
+                                                            <p>使用模板：{{info.tempname}}</p>
+                                                        </div>
+                                                        <div class="col-md-5">
+                                                            <p>表格名称：{{info.title}}</p>
+                                                            <p>所属产品：</p>
+                                                            <p>所属客户：{{info.client_name}}</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="table" style="padding-top: 250px;">
+            <div class="container-fluid">
+                <div class="row">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th v-for="key in gridColumns">
+                                    {{key | capitalize}}
+                                </th>
+                                <th>序号</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template v-for="entry in gridData">
+                                <!-- 主体展示方式 -->
+                                <template v-if="entry.parent_id==0" track-by="product_id">
+                                    <tr class="info" :title="$index+1" >
+                                        <td class="text-center">{{$index+1}}</td>
+                                        <td v-for="key in gridColumns">
+                                            <input type="text" v-model="entry[key]" class="form-control" data-toggle="popover" data-trigger="focus" data-placement="top" data-content="111">
+                                        </td>
+                                        <td class="text-center">{{$index+1}}</td>
+                                    </tr>
+                                </template>
+                                 <!-- 变体展示方式 -->
+                                <template v-else track-by="product_id">
+                                    <tr class="warning" :title="$index+1">
+                                        <td class="text-center">{{$index+1}}</td>
+                                        <td v-for="key in gridColumns">
+                                            <input type="text" v-model="entry[key]" class="form-control" data-toggle="popover" data-trigger="focus" data-placement="top" data-content="111">
+                                        </td>
+                                        <td class="text-center">{{$index+1}}</td>
+                                    </tr>
+                                </template> 
+                            </template>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row">
+                    <hr>
+                    <div class="col-md-12 text-center">
+                        <button @click="saveData" class="btn btn-success">提交修改</button>
+                        <button @click="cancel" class="btn btn-default">取消</button>
+                    </div>
+                </div>
+            </div>            
+        </div>
+        
+        <!-- 回到顶部 -->
+        <div class="scrollToTop">
+            <i class="fa fa-3x fa-angle-up" aria-hidden="true"></i>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <hr>
+                <pre>{{$data|json}}</pre>
+            </div>
+        </div>
+
+        <!-- 如果要使用Bootstrap的js插件，必须先调入jQuery -->
+        <script src="js/jquery.js"></script>
+        <script src="js/vue.js"></script>
+        <!-- 包括所有bootstrap的js插件或者可以根据需要使用的js插件调用　-->
+        <script src="js/bootstrap.min.js"></script>
+        <script src='js/layer.js'></script>
+        <script src='js/changeTableData.js'></script>
+    </body>
+</html>

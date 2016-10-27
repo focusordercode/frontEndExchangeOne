@@ -82,7 +82,8 @@ var selectPic = new Vue({
         relateValList:[],
         //整合了的表格数据
         tableHead:'',
-        tableData:''
+        tableData:'',
+        newData:''
     },
     ready:function(){
         //获取表格信息
@@ -291,7 +292,7 @@ var selectPic = new Vue({
         fitData:function () {
             var vm = this;
             if (vm.relateValList.length>0) {
-                var count = vm.count;
+                var count = vm.picData.length;
                 var idArr = vm.relateValList.slice();
                 var picData = vm.picData.slice();
                 dataSteam(count,idArr,picData,selectPic);
@@ -321,13 +322,15 @@ var selectPic = new Vue({
                         if(data.status==100){
                             layer.msg('请求成功');
                             var template_id = vm.tableInfo.template_id;
-                            //跳转函数
-                            function goNext() {
-                                var url = 'TableWorkflow-edit.html';
-                                window.location.href = url+'?id='+Id+'&template_id='+template_id;
-                            }
+                            if (Id&&template_id) {
+                                //跳转函数
+                                function goNext() {
+                                    var url = 'TableWorkflow-edit.html';
+                                    window.location.href = url+'?id='+Id+'&template_id='+template_id;
+                                }
 
-                            setInterval(goNext,1000);
+                                setInterval(goNext,1000);
+                            }
                         }else{
                             layer.msg(data.msg);
                         }
@@ -344,10 +347,10 @@ var selectPic = new Vue({
 
 //获取产品所关联的词库内容并合并数据的函数
 function dataSteam (num,idArr,picData,vm) {
-    var arr = [],
+    var arr = [],//选择匹配词库的id
         header = [], //表格的表头总数据
         wordData = [], //表格的总数据
-        picAdress = [];
+        picAdress = [];//提取图片地址
     var defaultHead = ['photo'];
 
     for (var i = 0;i<idArr.length;i++) {
@@ -377,15 +380,21 @@ function dataSteam (num,idArr,picData,vm) {
                     header = defaultHead.concat(getHead);
 
                     wordData = data.value;
-                    //把图片数据加进去
-                    for(var y = 0;y<picAdress.length;y++){
-                        wordData[y].photo = (picAdress[y]);
-                    }
 
-                    console.log(wordData);
-                    //赋值给vue实例
-                    vm.tableHead = header;
-                    vm.tableData = wordData;
+                    //把图片数据加进去
+                    if (wordData.length==picAdress.length) {
+                        for(var x = 0;x<wordData.length;x++){
+                            console.log(x);
+                            console.log(wordData[x]);
+                            wordData[x].photo = picAdress[x];
+                        }
+
+                        // //赋值给vue实例
+                        vm.tableHead = header;
+                        vm.tableData = wordData;
+                    }else{
+                        layer.msg('匹配的词库数据有误');
+                    }
                 }else{
                     layer.msg(data.msg);
                 }
@@ -501,3 +510,9 @@ $('.searchCate2').on('keyup',function(){
     })
 });
 
+$(function(){
+    //回到顶部
+    $('.scrollToTop').click(function(){
+        $("html,body").animate({scrollTop:0},300);
+    });
+})

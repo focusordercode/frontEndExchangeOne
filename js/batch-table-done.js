@@ -119,9 +119,6 @@ var oTableIn = new Vue({
                 layer.msg('向服务器请求表格信息失败');
             }
         })
-
-        // setTimeout('FixTable("tablelie", 2, 1200, 750)',1000)
-
     },
     computed:{
         downloadBtn:function(){

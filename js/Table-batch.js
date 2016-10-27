@@ -365,23 +365,23 @@ Vue.filter('statusLink',function(value){
 	var type_code = item.type_code;
 
 	var edit = 'batch-table-edit.html';
-	var selectPic = 'batch-table-selectPic.html';
 	var donePage = 'batch-table-done.html';
+	var upload = 'batch-table-upload.html';
 
 	if(status=='creating'){
 		//进入第二步
 		var str = edit + '?id='+tableID+'&template_id='+template_id;
 		return str
-	}else if(status=='editing4info'){
+	}else if(status=='editing'){
 		//进入第三步
-		var str = selectPic + '?id='+tableID;
+		var str = upload + '?id='+tableID;
 		return str
-	}else if(status=='editing4picture'){
-		//进入第五步
-		var str = donePage+'?id='+tableID+'&template_id='+template_id;
+	}else if(status=='uploading'){
+		//进入第四步
+		var str = donePage+'?id='+tableID;
 		return str
 	}else if(status=='finished'){
-		//进入第五步,由于是完成状态，添加一个参数，标记为访问
+		//进入第四步,由于是完成状态，添加一个参数，标记为访问
 		var str = donePage+'?id='+tableID+'&template_id='+template_id+'&visit=yes';
 		return str
 	}else{

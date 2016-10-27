@@ -26,11 +26,6 @@ var oUrl = 'http://192.168.1.42/canton';//图片服务器地址
 //未提交保存内容提示
 $(window).bind('beforeunload',function(){return "您修改的内容尚未保存，确定离开此页面吗？";});
 
-//popover初始化
-$(function () {
-  $('[data-toggle="popover"]').popover()
-})
-
 // register the grid component
 Vue.component('demo-grid', {
   template: '#grid-template',
@@ -221,8 +216,7 @@ var oTableIn = new Vue({
             2
         ],
         //检查结果
-        result1:[],
-        result2:[]
+        checkRultData:''
     },
     ready:function(){
         var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
@@ -325,7 +319,7 @@ var oTableIn = new Vue({
                     oTableIn.countPage = data.countPage;
                     oTableIn.countNum = data.countNum;
                     oTableIn.pageNow = data.pageNow;
-                    //判断是否加photo表头
+                    //加photo表头
                     Vue.nextTick(function(){
                         oTableIn.gridColumns.unshift('photo');
                     })
@@ -390,6 +384,23 @@ var oTableIn = new Vue({
                 return true
             }else{
                 return false
+            }
+        },
+        //数据检查前往修改按钮
+        goXgCheckBtn:function () {
+            var checkRultData = [], checkRultData = this.checkRultData;
+            var arr = [];//收集收据数组
+            for (var i = 0;i<checkRultData.length;i++) {
+                var str = '数据无误';
+                if (checkRultData[i].value ==str) {
+                    arr.push(i);
+                }
+            }
+
+            if(arr.length==checkRultData.length){
+                return true //全部通过
+            }else{
+                return false //有未通过项
             }
         }
     },
@@ -605,9 +616,7 @@ var oTableIn = new Vue({
 
                             setInterval(windowFresh,1000);
                         }else{
-                            console.log(data);
-                            console.log(data.msg);
-                            console.log(data.status);
+                            layer.msg(data.msg);
                         }
                     },
                     error:function(jqXHR){
@@ -620,19 +629,24 @@ var oTableIn = new Vue({
         //发送数据检查请求
         checkRequest:function () {
             var vm = this;
+            var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
             $.ajax({
                 type:'POST',
-                url:serverUrl+'',
+                url:serverUrl+'data/check',
                 datatype:'json',
                 data:{
                     form_id:vm.info.id,
-                    data:vm.checkData
+                    type_code:type_code,
+                    check:vm.checkData
                 },
                 success:function(data){
+                    console.log(data);
+                    layer.close(LoadIndex); //关闭遮罩层
                     if(data.status==100){
-                        
+                        layer.msg('请求成功');
+                        vm.checkRultData = data.value;
                     }else{
-                        
+                        layer.msg(data.msg);
                     }
                 },
                 error:function(jqXHR){
@@ -640,6 +654,15 @@ var oTableIn = new Vue({
                     layer.msg('向服务器请求失败');
                 }
             })
+        },
+        //前往修改数据
+        goXgCheck:function () {
+            var vm = this,
+                template_id = vm.info.template_id;
+            if (template_id&&tableID) {
+                var url = 'changeTableData.html?id='+tableID+'&template_id='+template_id+'&type_code='+type_code;
+                window.open(url);
+            }
         }
     }
 })
