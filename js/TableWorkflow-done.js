@@ -17,9 +17,12 @@ function UrlSearch() {
 }
 
 var Request=new UrlSearch();
-var tableID = Request.tableID;
+var tableID = Request.id;
 var template_id = Request.template_id;
 var type_code = 'info';
+console.log(tableID);
+console.log(template_id);
+console.log(type_code);
 
 var serverUrl = "http://192.168.1.42/canton/"; //后端接口地址
 
@@ -112,7 +115,7 @@ var oTableIn = new Vue({
                 if(data.status==100){
                     oTableIn.gridData = data.value;
                     Vue.nextTick(function () {
-                        FixTable("tablelie", 2, 1400, 650);
+                        // FixTable("tablelie", 2, 1400, 650);
                     })
                 }else{
                     layer.msg(data.msg);
@@ -138,9 +141,8 @@ var oTableIn = new Vue({
     methods:{
         //下载表格
         downloadTable:function(){
-            var form_id = Request.tableID;
-            if(form_id){
-                window.location.href = serverUrl+'export?form_id='+form_id;
+            if(tableID){
+                window.location.href = serverUrl+'export?form_id='+tableID;
             }
         },
         //启用表格
@@ -167,6 +169,43 @@ var oTableIn = new Vue({
                     }
                 })
             }
+        },
+        //返回上一步
+        takeBack:function(){
+            var vm = this;
+            layer.confirm('返回上一步，此步骤的数据将不保存',{
+                btn:['确定','取消']
+            },function(index){
+                layer.close(index);
+
+                $.ajax({
+                    type:'POST',
+                    url:serverUrl+'rollback/checkinfo',
+                    datatype:'json',
+                    data:{
+                        form_id:tableID
+                    },
+                    success:function(data){
+                        if(data.status==100){
+                            layer.msg('请求成功');
+                            var template_id = vm.info.template_id;
+                            //跳转函数
+                            function goNext() {
+                                var url = 'TableWorkflow-edit.html';
+                                window.location.href = url+'?id='+tableID+'&template_id='+template_id;
+                            }
+
+                            setInterval(goNext,1000);
+
+                        }else{
+                            layer.msg(data.msg);
+                        }
+                    },
+                    error:function(jqXHR){
+                        layer.msg('向服务器请求撤销返回失败');
+                    }
+                })
+            })
         }
     }
 })

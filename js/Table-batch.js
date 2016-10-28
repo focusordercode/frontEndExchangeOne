@@ -346,8 +346,8 @@ Vue.filter('statusCode', function (value) {
     var str;
     switch(value){
         case "creating": str = "创建";break;
-        case "editing4info": str = "编辑产品资料";break;
-        case "editing4picture": str = "编辑产品图片";break;
+        case "editing": str = "编辑产品";break;
+        case "uploading": str = "上传图片";break;
         case "finished": str = "有效";break;
         case "halt": str = "终止";break;
     }

@@ -38,11 +38,11 @@ var upcInfo = new Vue({
                 layer.close(LoadIndex); //关闭遮罩层
                 if(data.status==100){
                     upcInfo.upcInfo = data.value;
-                    upcInfo.countPage = data.count;
-                    upcInfo.pageNow = data.pageNow;
-                    upcInfo.Allupc = data.allupc;
-                    upcInfo.usedUpc = data.usedupc;
-                    upcInfo.lockedUpc = data.lockedupc;
+                    upcInfo.countPage = data.count; //总页数
+                    upcInfo.pageNow = data.pageNow; //当前页
+                    upcInfo.Allupc = data.allupc;  //全部UPC
+                    upcInfo.usedUpc = data.usedupc; //已使用UPC
+                    upcInfo.lockedUpc = data.lockedupc; //已锁定的UPC
                     upcInfo.upc = data.upc;
                 }else if(data.status==101){
                     layer.msg('获取UPC失败');
@@ -230,70 +230,39 @@ Vue.filter('lockStatus',function(value){
 })
 
 
-//跳转
-$('.upcCtr .btn-jump').on('click',function(){
-    $oPageNum = $('.upcCtr .pageNum').val();
-    if($oPageNum<1){
-        layer.msg('输入的页码错误');
-        $('.upcCtr .pageNum').val('');
-    }else if($oPageNum>upcInfo.count) {
-        layer.msg('不存在那么多页数');
-    }else {
-        $.ajax({
-            type: "POST",
-            url: serverUrl+"get/upc", //添加请求地址的参数
-            dataType: "json",
-            data:{
-                pageNum:$oPageNum
-            },
-            success: function(data){
-                if(data.status==100){
-                    pageNum = $oPageNum;//全局变量值改变
-                    upcInfo.upcInfo = data.value;
-                    $('.upcCtr .upcCount').text(pageNum);//更新页码
-                    $('.oPager > .btn').eq(0).removeClass('disabled');//上一页可操作
-                    $('.upcCtr .pageNum').val('');
-                }else if(data.status==101){
-                    layer.msg('获取UPC失败');
-                }else if(data.status==102){
-                    layer.msg('参数错误');
-                }
-            },
-            error: function(jqXHR){     
-                layer.msg('向服务器请求失败');
-            }
-        })
-    }
-});
-
 //UPC上传
 $('#upload').on('click',function(){
-    var formData = new FormData();
-    formData.append('file', $('#file')[0].files[0]);
-    $.ajax({
-        url: serverUrl+'post/upc',
-        type: 'POST',
-        cache: false,
-        data: formData,
-        processData: false,
-        contentType: false
-    }).done(function(res) {
-        if(res.status==100){
-            // layer.alert('上传成功!'+'文件中已存在的UPC:'+res.value.same_upc+'&nbsp;添加成功的UPC:'+res.value.inserted+'');
+    var fileData = $('#file').val();
+    if(!fileData){
+        layer.msg('请先选择文件');
+    }else{
+        var formData = new FormData();
+        formData.append('file', $('#file')[0].files[0]);
+        $.ajax({
+            url: serverUrl+'post/upc',
+            type: 'POST',
+            cache: false,
+            data: formData,
+            processData: false,
+            contentType: false
+        }).done(function(res) {
+            if(res.status==100){
+                // layer.alert('上传成功!'+'文件中已存在的UPC:'+res.value.same_upc+'&nbsp;添加成功的UPC:'+res.value.inserted+'');
 
-            layer.alert('上传成功!'+'文件中已存在的UPC:'+res.value.same_upc+'&nbsp;添加成功的UPC:'+res.value.inserted+'', function(yes){
-                windowFresh();
-            }); 
-        }else if(res.status==102){
-            layer.msg('没有文档上传');
-        }else if(res.status==103){
-            layer.msg('文件类型不符合要求');
-        }else if(res.status==104){
-            layer.msg('上传文件大小超过1M');
-        }else if(res.status==105){
-            layer.msg('文档upc格式不符合要求');
-        }
-    }).fail(function(res) {
-        layer.msg('上传失败');
-    });
+                layer.alert('上传成功!'+'文件中已存在的UPC:'+res.value.same_upc+'&nbsp;添加成功的UPC:'+res.value.inserted+'', function(yes){
+                    windowFresh();
+                }); 
+            }else if(res.status==102){
+                layer.msg('没有文档上传');
+            }else if(res.status==103){
+                layer.msg('文件类型不符合要求');
+            }else if(res.status==104){
+                layer.msg('上传文件大小超过1M');
+            }else if(res.status==105){
+                layer.msg('文档upc格式不符合要求');
+            }
+        }).fail(function(res) {
+            layer.msg('上传失败');
+        });
+    }
 });

@@ -67,7 +67,7 @@ var uploadPic = new Vue({
             url:serverUrl+'ready/uploadImages',
             datatype:'json',
             data:{
-                form_id:2 
+                form_id:tableID 
             },
             success:function(data){
                 if(data.status==100){
@@ -80,7 +80,7 @@ var uploadPic = new Vue({
                 }
             },
             error:function(jqXHR){
-                layer.msg('向服务器请求筛选成功的图片失败');
+                layer.msg('向服务器请求图片失败');
             }
         })
 

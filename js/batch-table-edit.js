@@ -509,6 +509,7 @@ var oTableIn = new Vue({
                     },
                     success:function(data){
                         if(data.status==100){
+                            layer.msg('请求成功');
                             //跳转函数
                             function goNext() {
                                 $.ajax({

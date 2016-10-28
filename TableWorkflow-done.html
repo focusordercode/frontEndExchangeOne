@@ -203,6 +203,7 @@
                     <button class="btn btn-primary" @click="downloadTable" :disabled="downloadBtn">       <i class="fa fa-download" aria-hidden="true"></i>下载表格
                     </button>
                     <button class="btn btn-info" v-show="info.status_code | startBtn" @click="startTable">启用表格</button>
+                    <button @click="takeBack" class="btn btn-default">撤销</button>
                 </div>
             </div>
         </div>

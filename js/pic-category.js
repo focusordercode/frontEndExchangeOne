@@ -156,25 +156,30 @@ Vue.component('item', {
 
 		//获取图片目录
 		var cateId = model.id;
-		$.ajax({
-			type:'POST',
-			url:serverUrl+'get/treeGallery',
-			datatype:'json',
-			data:{
-				category_id:cateId
-			},
-			success:function(data){
-				if(data.status==100){
-					picGallery.pictree = data.value[0];
-				}else if(data.status==101){
-					picGallery.pictree = data.value;
-					clear();
+		if(cateId){
+			var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
+			$.ajax({
+				type:'POST',
+				url:serverUrl+'get/treeGallery',
+				datatype:'json',
+				data:{
+					category_id:cateId
+				},
+				success:function(data){
+					layer.close(LoadIndex); //关闭遮罩层
+					if(data.status==100){
+						picGallery.pictree = data.value[0];
+					}else if(data.status==101){
+						picGallery.pictree = data.value;
+						clear();
+					}
+				},
+				error:function(jqXHR){
+					layer.close(LoadIndex); //关闭遮罩层
+					layer.msg('向服务器请求图片目录失败');
 				}
-			},
-			error:function(jqXHR){
-				layer.msg('向服务器请求图片目录失败');
-			}
-		})
+			})
+		}
 	}
 
   }

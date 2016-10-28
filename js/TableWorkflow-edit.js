@@ -209,7 +209,7 @@ var oTableIn = new Vue({
             size2:''
         },
         //数据检查数据
-        checkData:[],
+        checkData:'',
         //1是唯一，2是重复
         checkTyle:[
             1,
@@ -437,7 +437,7 @@ var oTableIn = new Vue({
                         var url = 'TableWorkflow-done.html';
                         var tableID = oTableIn.info.id;
                         var tem_id = oTableIn.info.template_id;
-                        window.location.href = url+'?tableID='+tableID+'&template_id='+tem_id;
+                        window.location.href = url+'?id='+tableID+'&template_id='+tem_id;
                     }else{
                         layer.msg(data.msg);
                     }
@@ -494,6 +494,46 @@ var oTableIn = new Vue({
                     layer.close(LoadIndex); //关闭遮罩层
                     layer.msg('向服务器请求暂存失败');
                 }
+            })
+        },
+        //返回上一步
+        takeBack:function(){
+            var vm = this;
+            layer.confirm('返回上一步，此步骤的数据将不保存,上一步骤的数据也将被删除',{
+                btn:['确定','取消']
+            },function(index){
+                layer.close(index);
+
+                $.ajax({
+                    type:'POST',
+                    url:serverUrl+'rollback/checkinfo',
+                    datatype:'json',
+                    data:{
+                        form_id:tableID
+                    },
+                    success:function(data){
+                        if(data.status==100){
+                            layer.msg('请求成功');
+
+                            //解除未提交内容提示
+                            $(window).unbind('beforeunload');
+
+                            //跳转函数
+                            function goNext() {
+                                var url = 'TableWorkflow-selectPic.html';
+                                window.location.href = url+'?id='+tableID;
+                            }
+
+                            setInterval(goNext,1000);
+
+                        }else{
+                            layer.msg(data.msg);
+                        }
+                    },
+                    error:function(jqXHR){
+                        layer.msg('向服务器请求撤销返回失败');
+                    }
+                })
             })
         },
         //上一页

@@ -296,6 +296,8 @@ var selectPic = new Vue({
                 var idArr = vm.relateValList.slice();
                 var picData = vm.picData.slice();
                 dataSteam(count,idArr,picData,selectPic);
+                //所有btn失去焦点
+                $('.btn').blur();
             }else{
                 layer.msg('请先选择产品');
             }
@@ -316,7 +318,9 @@ var selectPic = new Vue({
                     datatype:'json',
                     data:{
                         form_no:vm.tableInfo.form_no,
-                        data:vm.tableData
+                        category_id:vm.tableInfo.category_id,
+                        picData:vm.picData,
+                        data:vm.tableData,
                     },
                     success:function(data){
                         if(data.status==100){
@@ -487,17 +491,18 @@ $('.searchCate2').on('keyup',function(){
     var getWidth = $('.searchCate2').innerWidth();
     $('.searchCate2').next().css('width',getWidth);
     var searchCusVal = $('.searchCate2').val();
-
+    console.log(selectPic.pro.id);
+    console.log(searchCusVal);
     $.ajax({
         type:'POST',
-        url:serverUrl+'get/allproductcenter',
+        url:serverUrl+'get/product2value',
         datatype:'json',
         data:{
-            category_id:selectPic.pro_id,
-            enabled:1,
+            category_id:selectPic.pro.id,
             vague:searchCusVal
         },
         success:function(data){
+            console.log(data);
             if(data.status==100){
                 selectPic.relateList = data.value;
             }else{
