@@ -1,18 +1,13 @@
-//刷新函数
-function windowFresh(){
-    location.reload(true);
-}
 var type_code = 'info';
 
 var serverUrl = "http://192.168.1.42/canton/"; //后端接口地址
+var num = 25;//每页展示个数
 
 var oTableInfo = new Vue({
 	el:'body',
 	data:{
 		tableInfo:'',
 		type_code:'',
-		status_code:'',
-		keyword:'',
 		count:'',
 		countPage:'',
 		pageNow:'',
@@ -21,7 +16,14 @@ var oTableInfo = new Vue({
 		prePageBtn:'',
 		nextPageBtn:'',
 		jump:'',
-		jumpBtn:''
+		jumpBtn:'',
+		//搜索条件
+		searchFeild:{
+			status_code:'',
+			keyword:''
+		},
+		//交互数据
+		searchResult:'' //搜索结果
 	},
 	ready:function(){
 		var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层 
@@ -33,6 +35,7 @@ var oTableInfo = new Vue({
 		    data:{
 		        category_id:'',
 		        type_code:type_code,
+		        num:num
 		    },
 		    success: function(data){
 		    	layer.close(LoadIndex); //关闭遮罩层
@@ -82,7 +85,8 @@ var oTableInfo = new Vue({
 	methods:{
 		//删除
 		remove:function(item){
-			var Id = item.id;
+			var Id = item.id,
+				vm = this;
 
 			layer.confirm('是否确认删除?', {
 			  btn: ['确定','关闭'] //按钮
@@ -97,7 +101,7 @@ var oTableInfo = new Vue({
 				    },
 				    success: function(data){
 				        if(data.status==100){
-				        	oTableInfo.tableInfo.$remove(item);
+				        	vm.tableInfo.$remove(item);
 				        	layer.msg('删除成功');
 				        }else{
 				        	layer.msg(data.msg);
@@ -111,7 +115,6 @@ var oTableInfo = new Vue({
 		},
 		//新建表格
 		creatTable:function(){
-			// var w = window.open();
 			$.ajax({
 				type:'POST',
 				url:serverUrl+'set/businesscode',
@@ -124,7 +127,6 @@ var oTableInfo = new Vue({
 						var id = data.code;
 						var url = 'TableWorkflow-creat.html?tableID='+id;
 						if(id){
-							// w.location = url;
 							window.location.href = url;
 						}
 					}else if(data.status==101){
@@ -138,8 +140,10 @@ var oTableInfo = new Vue({
 		},
 		//搜索
 		searchTable:function(){
-			var keyword = this.keyword.trim();
-			var status_code = this.status_code;
+			var keyword = this.searchFeild.keyword.trim();
+			var status_code = this.searchFeild.status_code;
+			var searchFeild = this.searchFeild;
+			var vm = this;
 			if(!keyword&&!status_code){
 				layer.msg('必须输入关键词或者选择表格状态');
 			}else{
@@ -151,16 +155,19 @@ var oTableInfo = new Vue({
 					data:{
 						type_code:type_code,
 						status_code:status_code,
-						keyword:keyword
+						keyword:keyword,
+						num:num
 					},
 					success:function(data){
 						layer.close(LoadIndex); //关闭遮罩层
 						if(data.status==100){
-							oTableInfo.tableInfo = data.value;
-							oTableInfo.count = data.count;
-							oTableInfo.countPage = data.countPage;
-							oTableInfo.pageNow = data.pageNow;
-							oTableInfo.keyword = '';
+							vm.tableInfo = data.value;
+							vm.count = data.count;
+							vm.countPage = data.countPage;
+							vm.pageNow = data.pageNow;
+							//搜索条件数据
+							var newObj = $.extend(true, {}, vm.searchFeild);
+    						vm.searchResult = newObj;
 						}else{
 							layer.msg(data.msg);
 						}
@@ -179,111 +186,42 @@ var oTableInfo = new Vue({
 		//上一页
 		goPrePage:function(){
 			var pageNow = this.pageNow;
+			var search = this.searchResult;
+			var vm = this;
 			if(pageNow<=1){
 				layer.msg('没有上一页啦');
 			}else{
 				pageNow--
-				var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
-				$.ajax({
-					type:'POST',
-					url:serverUrl+'get/infoform',
-					datatype:'json',
-					data:{
-						next:pageNow,
-						type_code:type_code
-					},
-					success:function(data){
-						layer.close(LoadIndex); //关闭遮罩层
-						if(data.status==100){
-							oTableInfo.tableInfo = data.value;
-							oTableInfo.count = data.count;
-							oTableInfo.countPage = data.countPage;
-							oTableInfo.pageNow = data.pageNow;
-						}else if(data.status==101){
-							layer.msg('操作失败');
-						}else if(data.status==102){
-							layer.msg('参数错误');
-						}
-					},
-					error:function(jqXHR){
-						layer.close(LoadIndex); //关闭遮罩层
-						layer.msg('向服务器请求失败');
-					}
-				})
+				getPageData (vm,pageNow,search,num,type_code);
 			}
 		},
 		//下一页
 		goNextPage:function(){
 			var pageNow = this.pageNow;
 			var countPage = this.countPage;
+			var search = this.searchResult;
+			var vm = this;
 			if(pageNow==countPage){
 				layer.msg('没有下一页啦');
 			}else{
 				pageNow++
-				var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
-				$.ajax({
-					type:'POST',
-					url:serverUrl+'get/infoform',
-					datatype:'json',
-					data:{
-						next:pageNow,
-						type_code:type_code
-					},
-					success:function(data){
-						layer.close(LoadIndex); //关闭遮罩层
-						if(data.status==100){
-							oTableInfo.tableInfo = data.value;
-							oTableInfo.count = data.count;
-							oTableInfo.countPage = data.countPage;
-							oTableInfo.pageNow = data.pageNow;
-						}else if(data.status==101){
-							layer.msg('操作失败');
-						}else if(data.status==102){
-							layer.msg('参数错误');
-						}
-					},
-					error:function(jqXHR){
-						layer.close(LoadIndex); //关闭遮罩层
-						layer.msg('向服务器请求失败');
-					}
-				})
+				getPageData (vm,pageNow,search,num,type_code);
 			}
 		},
 		//页面跳转
 		goJump:function(){
 			var jump = this.jump;
 			var countPage = this.countPage;
+			var search = this.searchResult;
+			var vm = this;
 			if(jump>countPage){
 				layer.msg('大于总页数啦');
-				oTableInfo.jump = '';
-			}else{
-				var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
-				$.ajax({
-					type:'POST',
-					url:serverUrl+'get/infoform',
-					datatype:'json',
-					data:{
-						next:jump,
-						type_code:type_code
-					},
-					success:function(data){
-						layer.close(LoadIndex); //关闭遮罩层
-						if(data.status==100){
-							oTableInfo.tableInfo = data.value;
-							oTableInfo.count = data.count;
-							oTableInfo.countPage = data.countPage;
-							oTableInfo.pageNow = data.pageNow;
-						}else if(data.status==101){
-							layer.msg('操作失败');
-						}else if(data.status==102){
-							layer.msg('参数错误');
-						}
-					},
-					error:function(jqXHR){
-						layer.close(LoadIndex); //关闭遮罩层
-						layer.msg('向服务器请求失败');
-					}
-				})
+				vm.jump = '';
+			}else if (jump<=0){
+                layer.msg('页码错误');
+                vm.jump = '';
+            }else{
+				getPageData (vm,jump,search,num,type_code);
 			}
 		}
 	}
@@ -340,7 +278,7 @@ Vue.filter('ListNum',function(value){
     if(pageNow==1){
     	str = str + 1;
     }else if(pageNow>1){
-    	str = (pageNow-1)*10+str+1;
+    	str = (pageNow-1)*num+str+1;
     }
     return str
 })
@@ -395,3 +333,41 @@ Vue.filter('xgBtn',function(value){
     	return str = url2 +'?tableID='+ tableID;
     }
 })
+
+//刷新函数
+function windowFresh(){
+    location.reload(true);
+}
+
+function getPageData (vm,pageNow,search,num,type_code) {
+	var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
+	$.ajax({
+		type:'POST',
+		url:serverUrl+'get/infoform',
+		datatype:'json',
+		data:{
+			next:pageNow,
+			type_code:type_code,
+			num:num,
+			status_code:search.status_code,
+			keyword:search.keyword
+		},
+		success:function(data){
+			layer.close(LoadIndex); //关闭遮罩层
+			if(data.status==100){
+				vm.tableInfo = data.value;
+				vm.count = data.count;
+				vm.countPage = data.countPage;
+				vm.pageNow = data.pageNow;
+			}else if(data.status==101){
+				layer.msg('操作失败');
+			}else if(data.status==102){
+				layer.msg('参数错误');
+			}
+		},
+		error:function(jqXHR){
+			layer.close(LoadIndex); //关闭遮罩层
+			layer.msg('向服务器请求失败');
+		}
+	})
+}

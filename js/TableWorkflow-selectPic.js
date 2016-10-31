@@ -20,7 +20,7 @@ var Id = Request.id;
 var type_code = 'info';
 
 var serverUrl = "http://192.168.1.42/canton/"; //后端接口地址
-var oUrl = 'http://192.168.1.42/canton';//图片服务器地址
+var oUrl = 'http://192.168.1.42/canton/';//图片服务器地址
 var search = "http://192.168.1.42/canton/index.php/vague/name"; //模糊搜索地址
 
 // 图片目录树形菜单的组件

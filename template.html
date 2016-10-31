@@ -88,7 +88,7 @@
         </div>
         
         <!-- 主内容区域 -->
-        <div class="container temp-list">
+        <div class="container temp-list" v-show="!searchResult">
             <div class="row">
                 <div class="panel panel-success">
                     <div class="panel-heading">
@@ -108,7 +108,7 @@
                             <div class="form-group">
                                 <label class="col-md-2 control-label">根据模板名称</label>
                                 <div class="col-md-2">
-                                    <select v-model="searchStatus" class="form-control">
+                                    <select v-model="search.searchStatus" class="form-control">
                                         <option value="">选择状态</option>
                                         <option value="creating">创建状态</option>
                                         <option value="editing">定义格式</option>
@@ -117,7 +117,7 @@
                                     </select>
                                 </div>
                                 <div class="col-md-2">
-                                    <input type="text" v-model="name" placeholder="输入关键词" class="form-control">
+                                    <input type="text" v-model="search.name" placeholder="输入关键词" class="form-control">
                                 </div>
                                 <div class="col-md-1">
                                     <button @click="KeywordSearch" type="submit" class="btn btn-default">   搜索
@@ -134,13 +134,35 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="alert alert-success">
                 模板总数:<strong class="text-warning">{{count}}</strong>　
                 当前页:<strong class="text-warning">{{pageNow}}</strong>　
                 总页数:<strong class="text-warning">{{countPage}}</strong>　
             </div>
+        </div>
 
+        
+        <div class="container temp-list" v-show="searchResult">
+            <div class="row">
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        <h3>资料表模板</h3>
+                    </div>
+                </div>    
+            </div>
+            <div class="row">
+                <div class="alert alert-info">
+                    <b class="text-danger">搜索结果</b>　
+                    模板总数:<strong class="text-warning">{{count}}</strong>　
+                    当前页:<strong class="text-warning">{{pageNow}}</strong>　
+                    总页数:<strong class="text-warning">{{countPage}}</strong>　
+                    <button class="btn btn-sm btn-info" @click="Reflesh">返回</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="container temp-list">
             <div class="row">
                 <!-- 模板item -->
                 <div v-for="todo in temp" class="col-sm-6 col-xs-12 col-md-4 temp">
@@ -164,8 +186,7 @@
                             <a class="btn btn-info btn-xs" target="_blank" v-show="todo.status_code | preBtn" :href="todo | preLink" >预览</a>
                             <button v-show="todo.status_code | stopBtn" @click="stopTemp(todo)" class="btn btn-xs btn-danger">停用</button>
                             <a class="btn btn-success btn-xs" v-show="todo.status_code | editBtn" :href="todo | statusLink" >编辑</a>
-                            <button v-show="todo.status_code | editBtn" class="btn btn-xs btn-danger btn-delete">删除</button>
-                            <input v-model="todo.id" type="hidden" class="temp-id">
+                            <button v-show="todo.status_code | editBtn" @click="deleteItem(todo)" class="btn btn-xs btn-danger">删除</button>
                             <span class="text-warning">{{todo.status_code|statusCode}}状态</span>
                         </p>
                     </div>
@@ -194,7 +215,7 @@
         <hr>
         <div class="container">
             <div class="row">
-                <!-- <pre>{{$data|json}}</pre> -->
+                <pre>{{$data|json}}</pre>
             </div>
         </div>
 

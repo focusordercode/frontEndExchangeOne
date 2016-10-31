@@ -115,7 +115,7 @@ var oTableIn = new Vue({
                 if(data.status==100){
                     oTableIn.gridData = data.value;
                     Vue.nextTick(function () {
-                        // FixTable("tablelie", 2, 1400, 650);
+                        FixTable("tablelie", 2, 1400, 650);
                     })
                 }else{
                     layer.msg(data.msg);

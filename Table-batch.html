@@ -101,8 +101,8 @@
 
         <!-- 主内容区域 -->
 
-        <div class="container-fluid tableInfo marginTop">
-        <!-- 操作区域 -->
+        <div class="container-fluid tableInfo marginTop" v-show="!searchResult">
+            <!-- 操作区域 -->
             <div class="row">
                 <div class="col-md-12">
                     <div class="panel panel-success">
@@ -112,22 +112,22 @@
                                 <div class="form-group">
                                     <label class="col-md-1 control-label">选择搜索条件</label>
                                     <div class="col-md-1">
-                                        <select class="form-control" v-model="type_code" readonly>
+                                        <select class="form-control" readonly>
                                             <option value="batch" selected>批量表</option>
                                         </select>
                                     </div>
                                     <div class="col-md-1">
-                                        <select v-model="status_code" class="form-control">
+                                        <select v-model="searchFeild.status_code" class="form-control">
                                             <option value="" selected>表格状态</option>
                                             <option value="creating">创建</option>
-                                            <option value="editing4info">编辑-筛选图片</option>
-                                            <option value="editing4picture">编辑-产品图片</option>
-                                            <option value="finished">完成</option>
+                                            <option value="editing">编辑产品</option>
+                                            <option value="uploading">上传图片</option>
+                                            <option value="finished">有效</option>
                                             <option value="halt">终止</option>
                                         </select>
                                     </div>
                                     <div class="col-md-2">
-                                        <input type="text" v-model="keyword" placeholder="输入表格名" class="form-control">
+                                        <input type="text" v-model="searchFeild.keyword" placeholder="输入表格名" class="form-control">
                                     </div>
                                     <div class="col-md-1">
                                         <button @click="searchTable" class="btn btn-default">搜索</button>
@@ -144,14 +144,31 @@
                     </div>
                 </div>
             </div>
+        </div>
 
-
+        <div class="container-fluid" v-show="!searchResult">
             <div class="alert alert-success">
                 表格数:<strong class="text-warning">{{count}}</strong>　
                 当前页:<strong class="text-warning">{{pageNow}}</strong>　
                 总页数:<strong class="text-warning">{{countPage}}</strong>　
             </div>
+        </div>
 
+        <div class="container-fluid marginTop" v-show="searchResult">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="alert alert-info">
+                            <b class="text-danger">搜索结果</b>　
+                            表格数:<strong class="text-warning">{{count}}</strong>　
+                            当前页:<strong class="text-warning">{{pageNow}}</strong>　
+                            总页数:<strong class="text-warning">{{countPage}}</strong>　
+                            <button class="btn btn-info btn-sm" @click="Reflesh">返回</button>
+                    </div>
+                </div>
+            </div>
+        </div>    
+
+        <div class="container-fluid">
             <!-- 表格列表 -->
             <div class="row">
                 <div class="col-md-12">
@@ -223,7 +240,6 @@
                     </div>
                 </div>
             </div>
-            </div>
 
             <!-- 分页 -->
             <div v-show="countPage>1" class="container-fluid">
@@ -240,13 +256,14 @@
                     </div>
                 </div>
             </div>
-
-            <div class="container">
-                <div class="row">
-                    <hr>
-                    <!-- <pre>{{$data|json 4}}</pre> -->
-                </div>
+        </div>
+        
+        <div class="container">
+            <div class="row">
+                <hr>
+                <!-- <pre>{{$data|json 4}}</pre> -->
             </div>
+        </div>
         <!-- 页脚 -->
 
         <!-- 修改表格信息 -->

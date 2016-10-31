@@ -21,7 +21,7 @@
 */
 
 var serverUrl = "http://192.168.1.42/canton/"; //后端接口地址
-var oUrl = 'http://192.168.1.42/canton';//图片服务器地址
+var oUrl = 'http://192.168.1.42/canton/';//图片服务器地址
 
 //刷新函数
 function windowFresh(){

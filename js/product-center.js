@@ -116,7 +116,7 @@ var oPCenter = new Vue({
     	//删除产品
     	deleteItem:function (item) {
     		var item = item,
-    			vm = oPCenter;
+    			vm = this;
     		layer.confirm('确定删除产品?',{
     			btn:['确定','取消']
     		},function(index){
@@ -146,9 +146,9 @@ var oPCenter = new Vue({
     	},
     	//从搜索结果中选中一个类目
     	selectCate:function(pro){
-    	    oPCenter.search.cate_name = pro.cn_name;
-    	    oPCenter.search.cateId = pro.id;
-    	    oPCenter.proList = '';
+    	    this.search.cate_name = pro.cn_name;
+    	    this.search.cateId = pro.id;
+    	    this.proList = '';
     	    //清除值，隐藏框
     	    $('.searchField').val('');
     	    $('.searchInput').hide();
@@ -161,7 +161,7 @@ var oPCenter = new Vue({
     	},
     	//条件搜索
     	searchItem:function () {
-    		var vm = oPCenter,
+    		var vm = this,
     		category_id = vm.search.cateId,
     		enabled = vm.search.status,
     		vague = vm.search.keyword;
@@ -187,7 +187,8 @@ var oPCenter = new Vue({
     						vm.countPage = data.pages;
     						vm.count = data.count;
     						//搜索条件数据
-    						vm.searchResult = vm.search;
+    						var newObj = $.extend(true, {}, vm.search);
+                            vm.searchResult = newObj;
     					}else if(data.status==101){
     						layer.msg('没有搜索到数据');
     					}else{
@@ -208,126 +209,42 @@ var oPCenter = new Vue({
     	//上一页
     	goPrePage:function(){
     		var pageNow = this.pageNow;
-    		var vm = oPCenter,
-    			search = this.search;
+    		var vm = this,
+    			search = this.searchResult;
     		if(pageNow<=1){
     			layer.msg('没有上一页啦');
     		}else{
     			pageNow--
-    			var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
-    			$.ajax({
-    				type:'POST',
-    				url:serverUrl+'get/allproductcenter',
-    				datatype:'json',
-    				data:{
-    					pages:pageNow,
-    					num:num,
-    					category_id:search.cateId,
-    					enabled:search.status,
-    					vague:search.keyword
-    				},
-    				success:function(data){
-    					layer.close(LoadIndex); //关闭遮罩层
-    					if(data.status==100){
-    						vm.list = data.value;
-    						vm.pageNow = data.nowpages;
-    						vm.countPage = data.pages;
-    						vm.count = data.count;
-    					}else if(data.status==101){
-    						layer.msg('操作失败');
-    					}else if(data.status==102){
-    						layer.msg('参数错误');
-    					}
-    				},
-    				error:function(jqXHR){
-    					layer.close(LoadIndex); //关闭遮罩层
-    					layer.msg('向服务器请求失败');
-    				}
-    			})
+    			getPageData (vm,pageNow,search,num);
     		}
     	},
     	//下一页
     	goNextPage:function(){
     		var pageNow = this.pageNow;
     		var countPage = this.countPage;
-    		var vm = oPCenter,
-    			search = this.search;
+    		var vm = this,
+    			search = this.searchResult;
     		if(pageNow==countPage){
     			layer.msg('没有下一页啦');
     		}else{
     			pageNow++
-    			var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
-    			$.ajax({
-    				type:'POST',
-    				url:serverUrl+'get/allproductcenter',
-    				datatype:'json',
-    				data:{
-    					pages:pageNow,
-    					num:num,
-    					category_id:search.cateId,
-    					enabled:search.status,
-    					vague:search.keyword
-    				},
-    				success:function(data){
-    					layer.close(LoadIndex); //关闭遮罩层
-    					if(data.status==100){
-    						vm.list = data.value;
-    						vm.pageNow = data.nowpages;
-    						vm.countPage = data.pages;
-    						vm.count = data.count;
-    					}else if(data.status==101){
-    						layer.msg('操作失败');
-    					}else if(data.status==102){
-    						layer.msg('参数错误');
-    					}
-    				},
-    				error:function(jqXHR){
-    					layer.close(LoadIndex); //关闭遮罩层
-    					layer.msg('向服务器请求失败');
-    				}
-    			})
+    			getPageData (vm,pageNow,search,num);
     		}
     	},
     	//页面跳转
     	goJump:function(){
     		var jump = this.jump;
     		var countPage = this.countPage;
-    		var vm = oPCenter,
-    			search = this.search;
+    		var vm = this,
+    			search = this.searchResult;
     		if(jump>countPage){
     			layer.msg('大于总页数啦');
-    			oPCenter.jump = '';
-    		}else{
-    			var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
-    			$.ajax({
-    				type:'POST',
-    				url:serverUrl+'get/allproductcenter',
-    				datatype:'json',
-    				data:{
-    					pages:jump,
-    					num:num,
-    					category_id:search.cateId,
-    					enabled:search.status,
-    					vague:search.keyword
-    				},
-    				success:function(data){
-    					layer.close(LoadIndex); //关闭遮罩层
-    					if(data.status==100){
-    						vm.list = data.value;
-    						vm.pageNow = data.nowpages;
-    						vm.countPage = data.pages;
-    						vm.count = data.count;
-    					}else if(data.status==101){
-    						layer.msg('操作失败');
-    					}else if(data.status==102){
-    						layer.msg('参数错误');
-    					}
-    				},
-    				error:function(jqXHR){
-    					layer.close(LoadIndex); //关闭遮罩层
-    					layer.msg('向服务器请求失败');
-    				}
-    			})
+    			vm.jump = '';
+    		}else if (jump<=0){
+                layer.msg('页码错误');
+                vm.jump = '';
+            }else{
+    			getPageData (vm,jump,search,num);
     		}
     	}
     }
@@ -336,6 +253,40 @@ var oPCenter = new Vue({
 //刷新函数
 function windowFresh(){
     location.reload(true);
+}
+
+//获取数据函数,翻页
+function getPageData (vm,pageNow,search,num) {
+    var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
+    $.ajax({
+        type:'POST',
+        url:serverUrl+'get/allproductcenter',
+        datatype:'json',
+        data:{
+            pages:pageNow,
+            num:num,
+            category_id:search.cateId,
+            enabled:search.status,
+            vague:search.keyword
+        },
+        success:function(data){
+            layer.close(LoadIndex); //关闭遮罩层
+            if(data.status==100){
+                vm.list = data.value;
+                vm.pageNow = data.nowpages;
+                vm.countPage = data.pages;
+                vm.count = data.count;
+            }else if(data.status==101){
+                layer.msg('操作失败');
+            }else if(data.status==102){
+                layer.msg('参数错误');
+            }
+        },
+        error:function(jqXHR){
+            layer.close(LoadIndex); //关闭遮罩层
+            layer.msg('向服务器请求失败');
+        }
+    })
 }
 
 $(document).ready(function(){

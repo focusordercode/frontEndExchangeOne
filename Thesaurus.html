@@ -92,6 +92,13 @@
         .modal-backdrop,.searchInput {
             display: none;
         }
+        .td-remark {
+            max-width: 250px;
+            word-break: break-all;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
     </style>
 </head>
     <body>
@@ -251,6 +258,7 @@
                                     <tr class="success text-success">
                                         <th class="text-center">序号</th>
                                         <th class="text-center">名称</th>
+                                        <th class="text-center td-remark">描述</th>
                                         <th class="text-center">创建时间</th>
                                         <th class="text-center">更新时间</th>
                                         <th class="text-center">状态</th>
@@ -264,6 +272,7 @@
                                             <tr class="warning">
                                                 <td class="text-center">{{$index | ListNum}}</td>
                                                 <td class="text-center">{{item.name}}</td>
+                                                <td class="text-center td-remark">{{item.remark}}</td>
                                                 <td class="text-center">{{item.created_time}}</td>
                                                 <td class="text-center">{{item.modified_time}}</td>
                                                 <td class="text-center">{{item.enabled | statusFlilter}}</td>
@@ -277,6 +286,7 @@
                                             <tr>
                                                 <td class="text-center">{{$index | ListNum}}</td>
                                                 <td class="text-center">{{item.name}}</td>
+                                                <td class="text-center td-remark">{{item.remark}}</td>
                                                 <td class="text-center">{{item.created_time}}</td>
                                                 <td class="text-center">{{item.modified_time}}</td>
                                                 <td class="text-center">{{item.enabled | statusFlilter}}</td>
