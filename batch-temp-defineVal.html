@@ -243,14 +243,8 @@
                                                         <!-- 默认值 -->
                                                         <template v-if="table.valid_value.length>1">
                                                             <select v-model="table.default_value" class="form-control">
-                                                                <template v-for="op in table.valid_value">
-                                                                    <template v-if="$index==0">
-                                                                        <option selected>{{op}}</option>
-                                                                    </template>
-                                                                    <template v-else>
-                                                                        <option >{{op}}</option>
-                                                                    </template>
-                                                                </template>
+                                                                <option value="" selected></option>
+                                                                <option v-for="op in table.valid_value">{{op}}</option>
                                                             </select>
                                                         </template>
                                                         <template v-else>
@@ -312,14 +306,8 @@
                                                     <td class="val">
                                                         <template v-if="table.valid_value.length>1">
                                                             <select v-model="table.default_value" class="form-control">
-                                                                <template v-for="op in table.valid_value">
-                                                                    <template v-if="$index==0">
-                                                                        <option selected>{{op}}</option>
-                                                                    </template>
-                                                                    <template v-else>
-                                                                        <option >{{op}}</option>
-                                                                    </template>
-                                                                </template>
+                                                                <option value="" selected></option>
+                                                                <option v-for="op in table.valid_value">{{op}}</option>
                                                             </select>
                                                         </template>
                                                         <template v-else>

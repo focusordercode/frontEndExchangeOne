@@ -1,29 +1,24 @@
-//刷新函数
-function windowFresh(){
-    location.reload(true);
-}
-//缓存修改的数据
-var Ccustom_name;
-var Cen_name;
-var Ccompany;
-var Cmobile;
-var Cemail;
-var Caddress;
-
 var serverUrl = "http://192.168.1.42/canton/"; //后端接口地址
+var num = 15;//每页展示个数
 
 var customer = new Vue({
 	el:'body',
 	data:{
+		cusData:'',
+		//分页
 		cus_count:'',
 		pageNow:'',
 		countPage:'',
-		cusData:'',
-		deleteAll:'',
 		prePage:'',
 		nextPage:'',
 		jumpPage:'',
 		jumpBtn:'',
+		//控制删除全部和全选按钮
+		deleteAll:'',
+		selectAllBtn:{
+			checked:false
+		},
+		//添加新客户
 		addNew:{
 			custom_name:'',
 			en_name:'',
@@ -32,15 +27,8 @@ var customer = new Vue({
 			email:'',
 			address:''
 		},
-		editOne:{
-			id: "",
-			custom_name: "",
-			en_name: "",
-			company: "",
-			mobile: "",
-			email: "",
-			address: ""
-		}
+		//编辑客户
+		editOne:''
 	},
 	ready:function(){
 		var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
@@ -50,6 +38,9 @@ var customer = new Vue({
 			type:'POST',
 			url:serverUrl+'get/custom',
 			datatype:'json',
+			data:{
+				pageSize:num
+			},
 			success:function(data){
 				layer.close(LoadIndex); //关闭遮罩层
 				if(data.status==100){
@@ -106,9 +97,10 @@ var customer = new Vue({
 	methods:{
 		//删除选中按钮
 		removeSelect:function(){
-			var cusData = this.cusData;
-			var cusLen = cusData.length;
-			var checkedArr = new Array();
+			var vm = this,
+				cusData = vm.cusData,
+				cusLen = cusData.length;
+			var checkedArr = [];
 			for(var i = 0;i<cusLen;i++){
 				if(cusData[i].checked){
 					checkedArr.push(cusData[i].id);
@@ -118,7 +110,7 @@ var customer = new Vue({
 			layer.confirm('确定删除选中?',{
 				btn:['确定','取消']
 			},function(){
-				if(checkedArr.length<=0){
+				if(!checkedArr.length){
 					layer.msg('没有选中任何客户');
 				}else{
 					$.ajax({
@@ -134,6 +126,8 @@ var customer = new Vue({
 								setInterval(windowFresh,1000);
 							}else if(data.status==101){
 								layer.msg('操作失败');
+							}else{
+								layer.msg(data.msg);
 							}
 						},
 						error:function(jqXHR){
@@ -143,9 +137,7 @@ var customer = new Vue({
 				}
 			})
 		},
-		removeThis:function(table){
-			var table = table;
-			var id = table.id;
+		removeThis:function(table){ 
 			layer.confirm('确定删除该客户?',{
 				btn:['确定','取消']
 			},function(){
@@ -154,14 +146,16 @@ var customer = new Vue({
 					url:serverUrl+'delete/custom',
 					datatype:'json',
 					data:{
-						id:id
+						id:table.id
 					},
 					success:function(data){
 						if(data.status==100){
 							layer.msg('删除成功');
-							customer.cusData.$remove(table);
+							setInterval(windowFresh,1000);
 						}else if(data.status==101){
 							layer.msg('操作失败');
+						}else{
+							layer.msg(data.msg);
 						}
 					},
 					error:function(jqXHR){
@@ -208,6 +202,8 @@ var customer = new Vue({
 							layer.msg('操作失败');
 						}else if(data.status==102){
 							layer.msg('参数错误');
+						}else{
+							layer.msg(data.msg);
 						}
 					},
 					error:function(jqXHR){
@@ -218,16 +214,10 @@ var customer = new Vue({
 		},
 		//编辑客户
 		edit:function(table,index){
+			var vm = this;
 			$('.editTable').modal('show');
 			$('.editTable').css('margin-top','200px');
-			this.editOne = table;
-			//缓存修改的数据
-			Ccustom_name = table.custom_name;
-			Cen_name = table.en_name;
-			Ccompany = table.company;
-			Cmobile = table.mobile;
-			Cemail = table.email;
-			Caddress = table.address;
+			vm.editOne = $.extend(true, {}, table);
 		},
 		//提交编辑
 		subEdit:function(){
@@ -259,10 +249,13 @@ var customer = new Vue({
 						if(data.status==100){
 							layer.msg('修改成功');
 							$('.editTable').modal('hide');
+							setInterval(windowFresh,1000);
 						}else if(data.status==101){
 							layer.msg('操作失败,未作出任何修改');
 						}else if(data.status==102){
 							layer.msg('参数错误');
+						}else{
+							layer.msg(data.msg);
 						}
 					},
 					error:function(jqXHR){
@@ -274,139 +267,69 @@ var customer = new Vue({
 		//取消编辑
 		cancel:function(){
 			//还原数据
+			this.editOne = '';
 			$('.editTable').modal('hide');
-			Vue.set(customer.editOne,'custom_name',Ccustom_name);
-			Vue.set(customer.editOne,'en_name',Cen_name);
-			Vue.set(customer.editOne,'company',Ccompany);
-			Vue.set(customer.editOne,'mobile',Cmobile);
-			Vue.set(customer.editOne,'email',Cemail);
-			Vue.set(customer.editOne,'address',Caddress);
 		},
 		//上一页
 		preP:function(){
 			var pageNow = this.pageNow;
-			pageNow--;
-			//获取所有客户信息
-
-			//显示加载按钮
-			var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
-			$.ajax({
-				type:'POST',
-				url:serverUrl+'get/custom',
-				datatype:'json',
-				data:{
-					pageNow:pageNow
-				},
-				success:function(data){
-					layer.close(LoadIndex); //关闭遮罩层
-					if(data.status==100){
-						customer.cus_count= data.cus_count;
-						customer.pageNow= data.pageNow;
-						customer.countPage= data.countPage;
-						customer.cusData= data.value;
-						var cusLen = customer.cusData.length;
-						for(var i = 0;i<cusLen;i++){
-							Vue.set(customer.cusData[i],'checked',false);
-						}
-					}else if(data.status==101){
-						layer.msg('获取失败，客户信息为空');
-					}
-				},
-				error:function(jqXHR){
-					layer.close(LoadIndex); //关闭遮罩层
-					layer.msg('向服务器请求客户信息失败');
-				}
-			})
+			var vm = this;
+			if(pageNow<=1){
+			    layer.msg('没有上一页啦');
+			}else{
+			    pageNow--
+			    getPageData (vm,pageNow,num);
+			}
 		},
 		//下一页
 		nextP:function(){
 			var pageNow = this.pageNow;
-			pageNow++;
-
-			//获取客户信息
-
-			//显示加载按钮
-			var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
-			$.ajax({
-				type:'POST',
-				url:serverUrl+'get/custom',
-				datatype:'json',
-				data:{
-					pageNow:pageNow
-				},
-				success:function(data){
-					layer.close(LoadIndex); //关闭遮罩层
-					if(data.status==100){
-						customer.cus_count= data.cus_count;
-						customer.pageNow= data.pageNow;
-						customer.countPage= data.countPage;
-						customer.cusData= data.value;
-						var cusLen = customer.cusData.length;
-						for(var i = 0;i<cusLen;i++){
-							Vue.set(customer.cusData[i],'checked',false);
-						}
-					}else if(data.status==101){
-						layer.msg('获取失败');
-					}
-				},
-				error:function(jqXHR){
-					layer.close(LoadIndex); //关闭遮罩层
-					layer.msg('向服务器请求客户信息失败');
-				}
-			})
+			var countPage = this.countPage;
+			var vm = this;
+			if(pageNow==countPage){
+			    layer.msg('没有下一页啦');
+			}else{
+			    pageNow++
+			    getPageData (vm,pageNow,num);
+			}
 		},
 		//跳转
 		jumpP:function(){
 			var jumpPage = this.jumpPage;
 			var countPage = this.countPage;
-
+			var vm = this;
 			//获取客户信息
 			if(jumpPage<1){
 				layer.msg('输入页数不符合要求');
 			}else if(jumpPage>countPage){
 				layer.msg('输入页码大于总页数');
-				this.jumpPage = '';
+				vm.jumpPage = '';
 			}else{
-				//显示加载按钮
-				var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
-				$.ajax({
-					type:'POST',
-					url:serverUrl+'get/custom',
-					datatype:'json',
-					data:{
-						pageNow:jumpPage
-					},
-					success:function(data){
-						layer.close(LoadIndex); //关闭遮罩层
-						if(data.status==100){
-							customer.cus_count= data.cus_count;
-							customer.pageNow= data.pageNow;
-							customer.countPage= data.countPage;
-							customer.cusData= data.value;
-							customer.jumpPage= '';
-							var cusLen = customer.cusData.length;
-							for(var i = 0;i<cusLen;i++){
-								Vue.set(customer.cusData[i],'checked',false);
-							}
-						}else if(data.status==101){
-							layer.msg('获取失败，客户信息为空');
-						}
-					},
-					error:function(jqXHR){
-						layer.close(LoadIndex); //关闭遮罩层
-						layer.msg('向服务器请求客户信息失败');
-					}
-				})
+				getPageData (vm,jumpPage,num);
 			}
 		},
-		//刷新
-		Reflesh:function(){
-		    location.reload(true);
+		//全选按钮
+		selectAll:function(){
+			var selectBtn = this.selectAllBtn.checked;
+			var vm = this;
+			if(selectBtn==false){
+				selectBtn = true;
+				var picDataLength = vm.cusData.length;
+				for(var i = 0;i<picDataLength;i++){
+					vm.cusData[i].checked = true;
+				}
+			}else{
+				selectBtn = false;
+				var picDataLength = vm.cusData.length;
+				for(var i = 0;i<picDataLength;i++){
+					vm.cusData[i].checked = false;
+				}
+			}
 		}
 	}
 })
 
-//检测表格数据的选中状态，控制批量删除按钮
+//检测表格数据的选中状态，控制批量删除按钮全选按钮
 customer.$watch('cusData', function (data) {
 	var cusLen = data.length;
 	var checkedArr = new Array();
@@ -417,9 +340,15 @@ customer.$watch('cusData', function (data) {
 	}
 
 	if(checkedArr.length<=0){
-		customer.deleteAll = true;
-	}else{
 		customer.deleteAll = false;
+	}else{
+		customer.deleteAll = true;
+	}
+	//全选按钮
+	if(checkedArr.length==data.length){
+		customer.selectAllBtn.checked =  true
+	}else{
+		customer.selectAllBtn.checked =  false
 	}
 },{
 	deep:true
@@ -432,7 +361,45 @@ Vue.filter('ListNum',function(value){
     if(pageNow==1){
     	str = str + 1;
     }else if(pageNow>1){
-    	str = (pageNow-1)*10+str+1;
+    	str = (pageNow-1)*num+str+1;
     }
     return str
 })
+
+//刷新函数
+function windowFresh(){
+    location.reload(true);
+}
+
+//获取数据函数,翻页
+function getPageData (vm,pageNow,num) {
+    var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
+    $.ajax({
+    	type:'POST',
+    	url:serverUrl+'get/custom',
+    	datatype:'json',
+    	data:{
+    		pageNow:pageNow,
+    		pageSize:num
+    	},
+    	success:function(data){
+    		layer.close(LoadIndex); //关闭遮罩层
+    		if(data.status==100){
+    			vm.cus_count= data.cus_count;
+    			vm.pageNow= data.pageNow;
+    			vm.countPage= data.countPage;
+    			vm.cusData= data.value;
+    			var cusLen = vm.cusData.length;
+    			for(var i = 0;i<cusLen;i++){
+    				Vue.set(vm.cusData[i],'checked',false);
+    			}
+    		}else{
+    			layer.msg(data.msg);
+    		}
+    	},
+    	error:function(jqXHR){
+    		layer.close(LoadIndex); //关闭遮罩层
+    		layer.msg('向服务器请求客户信息失败');
+    	}
+    })
+}

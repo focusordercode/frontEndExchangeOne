@@ -396,9 +396,10 @@ var oTableIn = new Vue({
     methods:{
         //提交
         sendMsg:function(){
-            var max = oTableIn.gridData.length;
+            var max = this.gridData.length;
+            var vm = this;
+            console.log(type_code);
             var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
-            var vm = oTableIn;
             if (max>1) {
                 $.ajax({
                     type:'POST',
@@ -447,7 +448,9 @@ var oTableIn = new Vue({
         },
         //暂存
         saveMsg:function(){
-            var max = oTableIn.gridData.length;
+            var max = this.gridData.length;
+            var vm = this;
+            console.log(type_code);
             var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层 
             $.ajax({
                 type:'POST',
@@ -455,14 +458,14 @@ var oTableIn = new Vue({
                 datatype:'json',
                 data:{
                     type_code:type_code,
-                    category_id:oTableIn.info.category_id,
-                    template_id:oTableIn.info.template_id,
-                    form_id:oTableIn.info.id,
-                    gridColumns:oTableIn.gridColumns,
+                    category_id:vm.info.category_id,
+                    template_id:vm.info.template_id,
+                    form_id:vm.info.id,
+                    gridColumns:vm.gridColumns,
                     max:max,
-                    pageSize:oTableIn.pageSize,
-                    pageNow:oTableIn.pageNow,
-                    gridData:oTableIn.gridData
+                    pageSize:vm.pageSize,
+                    pageNow:vm.pageNow,
+                    gridData:vm.gridData
                 },
                 success:function(data){
                     layer.close(LoadIndex); //关闭遮罩层
@@ -471,12 +474,12 @@ var oTableIn = new Vue({
                         // oTableIn.newData = data.t;
                         // --------调试用
                         
-                        layer.msg('暂存成功');
-                        oPageNow = oTableIn.pageNow;//当前页
+                        oPageNow = vm.pageNow;//当前页
 
                         // 异步刷新
-                        update(tableID,template_id,type_code,oPageNow,pageSize)
+                        update(tableID,template_id,type_code,oPageNow,pageSize,vm)
 
+                        layer.msg('暂存成功');
                         
                         //解除未提交内容提示
                         $(window).unbind('beforeunload');
@@ -733,7 +736,7 @@ var oTableIn = new Vue({
 })
 
 //获取数据函数
-function update(tableID,template_id,type_code,oPageNow,pageSize) {
+function update(tableID,template_id,type_code,oPageNow,pageSize,vm) {
     var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
 
     //获取缓存数据
@@ -751,10 +754,10 @@ function update(tableID,template_id,type_code,oPageNow,pageSize) {
         success:function(data){
             layer.close(LoadIndex); //关闭遮罩层
             if(data.status==100){
-                oTableIn.gridData = data.value;
-                oTableIn.countPage = data.countPage;
-                oTableIn.countNum = data.countNum;
-                oTableIn.pageNow = data.pageNow;
+                vm.gridData = data.value;
+                vm.countPage = data.countPage;
+                vm.countNum = data.countNum;
+                vm.pageNow = data.pageNow;
             }else if(data.status==101){
                 // layer.msg('数据为空');
             }else if(data.status==102){
