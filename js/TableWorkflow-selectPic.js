@@ -195,6 +195,7 @@ var selectPic = new Vue({
         searchPic:function(){
             var vm = this;
             var num = vm.tableInfo.product_count;//产品个数
+            var v_num = vm.tableInfo.variant_num;
             var category_id = vm.tableInfo.category_id;
             var gallery_id = vm.selectedPicId;
             var pic_rate = vm.pic_rate;
@@ -213,6 +214,7 @@ var selectPic = new Vue({
                     data:{
                         tableID:Id,
                         num:num,
+                        v_num:v_num,
                         category_id:category_id,
                         gallery_id:gallery_id,
                         pic_rate:pic_rate,
