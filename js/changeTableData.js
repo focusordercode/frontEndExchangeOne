@@ -16,7 +16,7 @@ function UrlSearch() {
     } 
 } 
 var Request=new UrlSearch();
-var type_code = 'batch';
+var type_code = Request.type_code;
 var tableID = Request.id;
 var template_id = Request.template_id;
 
