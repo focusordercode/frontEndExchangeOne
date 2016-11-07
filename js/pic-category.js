@@ -52,6 +52,7 @@ Vue.component('my-additem', {
 			var item2 = picGallery.pictreeActive;
 			var cn_name = this.cn_name;
 			var en_name = this.en_name;
+				en_name = $.trim(  en_name  );
 			var rule = /^[a-zA-Z_0-9\s\'-]+$/;  //英文正则，包含数字
 			if(!rule.test(en_name)){
 				layer.msg('英文名只能是字母,数字，空格,横杠和单引号');
@@ -773,9 +774,11 @@ var picGallery = new Vue({
 				})
 			}
 
+			var en_name = $.trim(  item.en_name  );
+
 			//修改图片目录
 			var rule = /^[a-zA-Z_0-9\s\'-]+$/;  //英文正则，包含数字
-			if(!rule.test(item.en_name)){
+			if(!rule.test(en_name)){
 				layer.msg('英文名只能是字母,数字，空格,横杠和单引号');
 			}else if(!item.cn_name){
 				layer.msg('中文名不能为空');
@@ -787,7 +790,7 @@ var picGallery = new Vue({
 					data:{
 						id:item.id,
 						cn_name:item.cn_name,
-						en_name:item.en_name
+						en_name:en_name
 					},
 					success:function(data){
 						if(data.status==100){

@@ -101,6 +101,7 @@ var oTableIn = new Vue({
                 form_id:tableID,
                 template_id:template_id,
                 type_code:type_code,
+                status:'preview',
                 pageSize:1000 //获取全部不分页
             },
             success:function(data){
