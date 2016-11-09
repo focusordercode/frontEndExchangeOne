@@ -18,8 +18,7 @@ function UrlSearch() {
 var Request=new UrlSearch();
 var type_code = 'batch';
 var tableID = Request.tableID;
-
-var serverUrl = "http://192.168.1.42/canton/"; //后端接口地址
+console.log(serverUrl); //后端接口地址
 
 var tableCreat = new Vue({
 	el:'body',

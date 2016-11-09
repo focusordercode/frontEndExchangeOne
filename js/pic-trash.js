@@ -3,8 +3,8 @@ function windowFresh(){
     location.reload(true);
 }
 
-var serverUrl = "http://192.168.1.42/canton/"; //后端接口地址
-var oUrl = 'http://192.168.1.42/canton/';//图片服务器地址
+console.log(serverUrl); //后端接口地址
+var oUrl = serverUrl;//图片服务器地址
 
 //查看信息组件
 Vue.component('my-component', {

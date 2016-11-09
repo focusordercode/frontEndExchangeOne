@@ -23,8 +23,7 @@ var type_code = 'info';
 console.log(tableID);
 console.log(template_id);
 console.log(type_code);
-
-var serverUrl = "http://192.168.1.42/canton/"; //后端接口地址
+console.log(serverUrl);//后端接口地址
 
 // register the grid component
 Vue.component('demo-grid', {

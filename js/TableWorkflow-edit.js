@@ -23,8 +23,8 @@ console.log(type_code);
 console.log(tableID);
 console.log(template_id);
 
-var serverUrl = "http://192.168.1.42/canton/"; //后端接口地址
-var oUrl = 'http://192.168.1.42/canton/';//图片服务器地址
+console.log(serverUrl); //后端接口地址
+var oUrl = serverUrl;//图片服务器地址
 
 //未提交保存内容提示
 $(window).bind('beforeunload',function(){return "您修改的内容尚未保存，确定离开此页面吗？";});

@@ -16,7 +16,6 @@ function UrlSearch() {
     } 
 }
 
-var serverUrl = "http://192.168.1.42/canton/"; //后端接口地址
 
 //刷新函数
 function windowFresh(){
@@ -30,6 +29,7 @@ var template_id = Request.template_id;
 console.log(tableID);
 console.log(type_code);
 console.log(template_id);
+console.log(serverUrl); //后端接口地址
 
 //未提交保存内容提示
 $(window).bind('beforeunload',function(){return "您修改的内容尚未保存，确定离开此页面吗？";});

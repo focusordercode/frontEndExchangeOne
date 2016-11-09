@@ -1,8 +1,7 @@
 // Creat by msh at 2016.10.13
-
-var serverUrl = "http://192.168.1.42/canton/"; //后端接口地址
-var search = "http://192.168.1.42/canton/index.php/vague/name"; //模糊搜索地址
-var temp = "http://192.168.1.42/canton/Public/file/ProductTemplate.xlsx"  //模板地址
+var search = serverUrl+"index.php/vague/name"; //模糊搜索地址
+var temp = serverUrl+"Public/file/ProductTemplate.xlsx"  //模板地址
+console.log(serverUrl); //后端接口地址
 
 var oCreat = new Vue({
     el:'body',

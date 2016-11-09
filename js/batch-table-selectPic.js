@@ -16,13 +16,13 @@ function UrlSearch() {
     } 
 }
 
-var serverUrl = "http://192.168.1.42/canton/"; //后端接口地址
 
 var Request=new UrlSearch();
 var tableID = Request.id;
 var type_code = 'batch';
 console.log(tableID);
 console.log(type_code);
+console.log(serverUrl); //后端接口地址
 
 // 图片目录树形菜单的组件
 Vue.component('tree', {

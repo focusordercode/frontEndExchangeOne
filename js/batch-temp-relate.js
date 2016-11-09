@@ -19,8 +19,7 @@ var Request=new UrlSearch();
 
 var template_id = Request.id;//模板ID
 var type_code = 'batch';//批量表模板
-
-var serverUrl = "http://192.168.1.42/canton/"; //后端接口地址
+console.log(serverUrl); //后端接口地址
 
 //未提交保存内容提示
 $(window).bind('beforeunload',function(){return "您修改的内容尚未保存，确定离开此页面吗？";});

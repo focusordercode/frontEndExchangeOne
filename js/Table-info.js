@@ -1,6 +1,6 @@
 var type_code = 'info';
 
-var serverUrl = "http://192.168.1.42/canton/"; //后端接口地址
+console.log(serverUrl); //后端接口地址
 var num = 25;//每页展示个数
 
 var oTableInfo = new Vue({

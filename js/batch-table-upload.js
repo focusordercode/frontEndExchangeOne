@@ -18,9 +18,8 @@ function UrlSearch() {
 var Request=new UrlSearch();
 var tableID = Request.id;
 var type_code = 'batch';
+console.log(serverUrl); //后端接口地址
 
-var serverUrl = "http://192.168.1.42/canton/"; //后端接口地址1
-var serverUrl2 = "http://192.168.1.40/PicSystem/canton/"; //后端接口地址2
 
 //未提交保存内容提示
 $(window).bind('beforeunload',function(){return "您修改的内容尚未保存，确定离开此页面吗？";});

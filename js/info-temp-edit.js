@@ -25,8 +25,7 @@ function windowFresh(){
 
 var template_id = Request.id;//模板ID
 var type_code = 'info';//批量表模板
-
-var serverUrl = "http://192.168.1.42/canton/"; //后端接口地址
+console.log(serverUrl); //后端接口地址
 
 //英文正则,英文数字和空格
 var Entext = /^[a-zA-Z_()\s]+[0-9]*$/;

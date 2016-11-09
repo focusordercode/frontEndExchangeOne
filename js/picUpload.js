@@ -17,7 +17,7 @@ function UrlSearch() {
 } 
 var Request=new UrlSearch();
 
-var serverUrl = "http://192.168.1.42/canton/"; //后端接口地址
+console.log(serverUrl); //后端接口地址
 
 //拉取类目
 var picUpload = new Vue({

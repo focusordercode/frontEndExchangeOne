@@ -1,5 +1,5 @@
 
-var serverUrl = "http://192.168.1.42/canton/"; //后端接口地址
+console.log(serverUrl); //后端接口地址
 
 var fliemanage = new Vue({
 	el:'body',
