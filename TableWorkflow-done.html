@@ -9,7 +9,7 @@
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <!--你自己的样式文件 -->
     <link href="css/index.css" rel="stylesheet">
-    <link href="css/picUpload.css" rel="stylesheet">
+    <link href="css/handsontable.full.css" rel="stylesheet">
     <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">        
     <!-- 以下两个插件用于在IE8以及以下版本浏览器支持HTML5元素和媒体查询，如果不需要用可以移除 -->
     <!--[if lt IE 9]>
@@ -17,50 +17,30 @@
     <script src="http://apps.bdimg.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
     <style>
-        .tableDetail label+span {
-            vertical-align: middle;
-            padding-left: 10px;
-        }
-        .table-bordered>tbody>tr>td, .table-bordered>tbody>tr>th, .table-bordered>tfoot>tr>td, .table-bordered>tfoot>tr>th, .table-bordered>thead>tr>td, .table-bordered>thead>tr>th {
-            min-width: 100px;
-            vertical-align: middle;
-            position: relative;
-            max-width: 300px;
-            background-color: #e6e6e6;
-        }
-        .table-bordered>tbody>tr>td {
-            height: 30px;
-            word-break: break-all;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        .table tr th:first-child {
-            min-width: 50px!important;
-        }
-        .table tr td:first-child {
-            min-width: 50px!important;
-        }
-        .table tr th:last-child {
-            min-width: 50px!important;
-        }
-        .table tr td:last-child {
-            min-width: 50px!important;
-        }
-        .table>tbody>tr.change>td {
-            background-color: #ECF0F1;
-        }
-        .clickTochange {
-            text-decoration: none;
-            /*border-bottom: dashed 1px #0088cc;*/
-        }
-        .tableContent{
-            margin-left: auto;
-            margin-right: auto;
-            width: 1400px;
-        }
         .tableDetail .label {
             font-size: 90%;
+        }
+        .fixed-top {
+            position: fixed;
+            right: 0;
+            left: 0;
+            top: 0;
+            z-index: 1030;
+            background-color: #ecf0f5;
+            border-bottom: 1px solid #ccc;
+        }
+        .pullUP {
+            color: #777;
+            position: absolute;
+            bottom: -26px;
+            left: 50%;
+            margin-left: -20px;
+            width: 40px;
+            height: 26px;
+            background-color: rgba(221, 221, 221, .8);
+            text-align: center;
+            line-height: 34px;
+            cursor: pointer;
         }
         .pullDown {
             color: #777;
@@ -74,26 +54,25 @@
             text-align: center;
             line-height: 34px;
             cursor: pointer;
-            z-index: 0;
+            z-index: 6;
         }
-        .pullUP {
-            color: #777;
-            position: absolute;
-            bottom: -27px;
-            left: 50%;
-            margin-left: -20px;
-            width: 40px;
-            height: 26px;
-            background-color: rgba(221, 221, 221, .8);
-            text-align: center;
-            line-height: 34px;
-            cursor: pointer;
+        #table {
+            margin-top: 260px;
+            margin-left: auto;
+            margin-right: auto;
         }
-        .tableTop .navbar-inner .container-fluid {
-            background-color: #f5f5f5;
+        .handsontable td {
+            max-width: 250px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap !important;
         }
-        .tableTop .navbar-inner .well {
-            border-color: #f5f5f5;
+        .handsontable .htDimmed {
+            color: #333;
+        }
+        .ht_clone_left .htCore  th,.ht_clone_left .htCore  td {
+            background-color: #d9edf7;
+            /*background-color: #c4d4e8;*/
         }
     </style>
 </head>
@@ -101,47 +80,58 @@
         <div class="pullDown">
             <i class="fa fa-2x fa-angle-down" aria-hidden="true"></i>
         </div>
-        <!-- 主内容区域 -->
-        <div class="navbar navbar-inverse tableTop">
-            <div class="navbar-inner">
-                <div class="pullUP">
-                    <i class="fa fa-2x fa-angle-up" aria-hidden="true"></i>
-                </div>
 
-                <div class="container-fluid">
-                    <div class="container-fluid tableDetail">
-                        <div class="row">
+        <!-- 主内容区域 -->
+        <div class="container-fluid fixed-top">
+            <div class="pullUP">
+                <i class="fa fa-2x fa-angle-up" aria-hidden="true"></i>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading"><h4>资料表信息</h4></div>
+                        <div class="panel-body">
                             <div class="col-md-12">
-                                <div class="well well-sm">
-                                    <p></p>
-                                    <div class="row">
-                                        <div class="col-md-2">
-                                            <label class="label label-primary">表格编号</label>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <p>
+                                            <label class="text-primary">表格编号：</label>
                                             <span class="text-muted">{{info.form_no}}</span>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <label class="label label-primary">表格名称</label>
+                                        </p>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <p>
+                                            <label class="text-primary">表格名称：</label>
                                             <span class="text-muted">{{info.title}}</span>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <label class="label label-primary">所属类目</label>
+                                        </p>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <p>
+                                            <label class="text-primary">产品类目：</label>
                                             <span class="text-muted">{{info.name}}</span>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <label class="label label-primary">使用的模板</label>
+                                        </p>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <p>
+                                            <label class="text-primary">使用模板:</label>
                                             <span class="text-muted">{{info.tempname}}</span>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <label class="label label-primary">所属客户</label>
+                                        </p>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <p>
+                                            <label class="text-primary">客户名称:</label>
                                             <span class="text-muted">{{info.client_name}}</span>
-                                        </div>
-                                        <div class="col-md-1">
-                                            <button class="btn btn-info btn-xs" v-show="info.status_code | startBtn"  @click="startTable">启用表格</button>
-                                        </div>
-                                        <div class="col-md-1">
-                                            <a href="Table-info.html" class="btn btn-xs btn-info" >      <i class="fa fa-table" aria-hidden="true"></i>表格首页
-                                            </a>
-                                        </div>
+                                        </p>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <p>
+                                            <label class="text-primary">产品数量统计:</label>
+                                            <span class="text-muted">{{info.productCount}}</span>
+                                        </p>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <a href="Table-info.html" class="btn btn-info btn-sm">返回首页</a>
                                     </div>
                                 </div>
                             </div>
@@ -151,52 +141,8 @@
             </div>
         </div>
         
-        <!-- component template -->
-        <script type="text/x-template" id="grid-template">
-            <div class="tableContent">
-                <table class="table table-bordered" id="tablelie">
-                    <thead>
-                        <tr>
-                            <th class="text-center">序号</th>
-                            <th class="text-center" v-for="key in columns">
-                                {{key | capitalize}}
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <template v-for="entry in data">
-                            <!-- 主体展示方式 -->
-                            <template v-if="entry.parent_id==0">
-                                <tr class="info" track-by="product_id">
-                                    <td class="text-center">{{$index+1}}</td>
-                                    <td v-for="key in columns" class="text-center">
-                                        <a href="javascript:" class="clickTochange" :title="entry[key]">{{entry[key]}}</a>
-                                    </td>
-                                </tr>
-                            </template>
-                             <!-- 变体展示方式 -->
-                            <template v-else>
-                                <tr class="change" track-by="product_id">
-                                    <td class="text-center">{{$index+1}}</td>
-                                    <td v-for="key in columns" class="text-center">
-                                        <a href="javascript:" class="clickTochange" :title="entry[key]">{{entry[key]}}</a>
-                                    </td>
-                                </tr>
-                            </template> 
-                        </template>
-                    </tbody>
-                </table>
-            </div>
-        </script>
-
-        <!-- demo root element -->
-        <div id="table" style="margin-top:30px;">
-            <demo-grid
-            :data="gridData"
-            :columns="gridColumns">
-            </demo-grid>
-        </div>
-
+        <div id="table"></div>
+        
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12 text-center" style="margin-top: 10px;">
@@ -215,11 +161,9 @@
             </div>
         </div>
 
-        <!-- 如果要使用Bootstrap的js插件，必须先调入jQuery -->
-        <script src="js/jquery1.7.2.js"></script>
+        <script src="js/jquery.js"></script>
         <script src="js/vue.js"></script>
-        <!-- 包括所有bootstrap的js插件或者可以根据需要使用的js插件调用　-->
-        <!--<script src="js/bootstrap.min.js"></script>-->
+        <script src="js/handsontable.full.min-pro.js"></script>
         <script src='js/layer.js'></script>
         <script src='js/serverUrl.js'></script>
         <script src='js/TableWorkflow-done.js'></script>

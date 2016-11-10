@@ -25,16 +25,6 @@ console.log(template_id);
 console.log(type_code);
 console.log(serverUrl);//后端接口地址
 
-// register the grid component
-Vue.component('demo-grid', {
-  template: '#grid-template',
-  props: {
-    data: Array,
-    columns: Array,
-    filterKey: String
-  }
-})
-
 Vue.filter('startBtn',function(value){
     var str1 = ''; //隐藏
     var str2 = 'yes';//显示
@@ -49,13 +39,10 @@ var oTableIn = new Vue({
     el:'body',
     data:{
         info:'',
-        gridColumns: [],
-        gridData: [],
+        gridData: '',
         downloadBtn:'',
-        newData:''
     },
     ready:function(){
-        var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
         //获取表格信息
         $.ajax({
             type:'POST',
@@ -74,56 +61,6 @@ var oTableIn = new Vue({
             },
             error:function(jqXHR){
                 layer.msg('向服务器获取表格信息失败');
-            }
-        })
-
-        //获取表头
-        $.ajax({
-            type:'POST',
-            url:serverUrl+'get/bootstrap',
-            datatype:'json',
-            data:{
-                template_id:template_id,
-                type_code:type_code
-            },
-            success:function(data){
-                if(data.status==100){
-                    oTableIn.gridColumns = data.value;
-                }else{
-                    layer.msg(data.msg);
-                }
-            },
-            error:function(jqXHR){
-                layer.msg('向服务器请求表头信息失败');
-            }
-        })
-
-        //获取表格的详细信息
-        $.ajax({
-            type:'POST',
-            url:serverUrl+'get/info',
-            datatype:'json',
-            data:{
-                form_id:tableID,
-                template_id:template_id,
-                type_code:type_code,
-                status:'preview',
-                pageSize:1000 //获取全部不分页
-            },
-            success:function(data){
-                layer.close(LoadIndex); //关闭遮罩层
-                if(data.status==100){
-                    oTableIn.gridData = data.value;
-                    Vue.nextTick(function () {
-                        FixTable("tablelie", 2, 1400, 650);
-                    })
-                }else{
-                    layer.msg(data.msg);
-                }
-            },
-            error:function(jqXHR){
-                layer.close(LoadIndex); //关闭遮罩层
-                layer.msg('向服务器请求表格信息失败');
             }
         })
     },
@@ -210,107 +147,159 @@ var oTableIn = new Vue({
     }
 })
 
-$(function(){
+$(document).ready(function(){
+
+    var headers,gridData,cols = [];
+    //获取数据函数
+    function getAallData () {
+        var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
+        //获取表头
+        $.ajax({
+            type:'POST',
+            url:serverUrl+'get/bootstrap',
+            datatype:'json',
+            async: false,
+            data:{
+                template_id:template_id,
+                type_code:type_code
+            },
+            success:function(data){
+                if(data.status==100){
+                    headers = data.value;
+                    //设置cols
+                    if (headers.length) {
+                        for(var i = 0;i<headers.length;i++){
+                            if(headers[i]=='main_image_url'){
+                                var obj = {};
+                                obj.data = headers[i];
+                                obj.renderer = coverRenderer;
+                                cols.push(obj);
+                            }else{
+                                var obj = {};
+                                obj.data = headers[i];
+                                cols.push(obj);
+                            }
+                        }
+                        var obj = {};
+                            obj.data = 'product_id';
+                        cols.unshift(obj);
+                            obj.data = 'parent_id';
+                        cols.unshift(obj);
+                    }
+
+                    //添加表头数据
+                    if (headers.length) {
+                        headers.unshift('parent_id');
+                        headers.unshift('product_id');
+                    }
+                }else{
+                    layer.msg(data.msg);
+                }
+            },
+            error:function(jqXHR){
+                layer.msg('向服务器请求表头信息失败');
+            }
+        })
+
+        //获取表格的详细信息
+        $.ajax({
+            type:'POST',
+            url:serverUrl+'get/info',
+            datatype:'json',
+            async: false,
+            data:{
+                form_id:tableID,
+                template_id:template_id,
+                type_code:type_code,
+                status:'preview',
+                pageSize:1000 //获取全部不分页
+            },
+            success:function(data){
+                layer.close(LoadIndex); //关闭遮罩层
+                if(data.status==100){
+                    gridData = data.value;
+                    //赋值给vue示例
+                    oTableIn.gridData = gridData;
+                }else{
+                    layer.msg(data.msg);
+                }
+            },
+            error:function(jqXHR){
+                layer.close(LoadIndex); //关闭遮罩层
+                layer.msg('向服务器请求表格信息失败');
+            }
+        })
+    }
+
+    getAallData ();
+
+    // console.log(gridData);
+    console.log(headers);
+    console.log(cols);
+    //handsontable实例
+    var container = document.getElementById('table');
+    var hot = new Handsontable(container, {
+      data: gridData,
+      rowHeaders: true,
+      colHeaders: headers,
+      columns:cols,
+      stretchH: 'all',
+      autoWrapRow: true,
+      hiddenColumns: {
+          columns:[0,1]
+      },
+      readOnly: true,
+      // colWidths:150,
+      // rowHeights:30,
+      width:1400,
+      height:650,
+      autoRowSize: false,
+      autoColSize: false,
+      fixedColumnsLeft: 3
+    });
+    
+    function coverRenderer (instance, td, row, col, prop, value, cellProperties) {
+       var escaped = Handsontable.helper.stringify(value),
+         img;
+     
+       if (escaped.indexOf('http') === 0) { //该链接字符串http首次出现的位置是0的情况下
+         img = document.createElement('IMG');
+         img.src = value;
+         img.width = 50;
+         img.height = 50;
+
+         Handsontable.Dom.addEvent(img, 'mousedown', function (e){
+           e.preventDefault(); // prevent selection quirk
+         });
+     
+         Handsontable.Dom.empty(td);
+         td.appendChild(img);
+       }
+       else {
+         // render as text
+         Handsontable.renderers.TextRenderer.apply(this, arguments);
+       }
+     
+       return td;
+     }
+
     //检测滚动条位置，显示隐藏页面头部
     $(window).scroll(function(){
        if($(window).scrollTop() > 50){
-           $('.tableTop').slideUp(300);
+           $('.fixed-top').slideUp(300);
+           $('#table').css('margin-top','30px');
        }
     })
 
     //页面顶部隐藏显示
     $('.pullUP').on('click',function(){
-        $('.tableTop').slideUp(300);
+        $('.fixed-top').slideUp(300);
+        $('#table').css('margin-top','30px');
     });
 
     $('.pullDown').on('click',function(){
-        $('.tableTop').slideDown(300);
-        $('.tableTop').css({'overflow':'visible'});
+        $('.fixed-top').slideDown(300);
+        $('.fixed-top').css({'overflow':'visible'});
+        $('#table').css('margin-top','255px');
     });
-})
-
-//冻结函数
-function FixTable(TableID, FixColumnNumber, width, height) {
-    if ($("#" + TableID + "_tableLayout").length != 0) {
-        $("#" + TableID + "_tableLayout").before($("#" + TableID));
-        $("#" + TableID + "_tableLayout").empty();
-    }
-    else {
-        $("#" + TableID).after("<div id='" + TableID + "_tableLayout' style='overflow:hidden;height:" + height + "px; width:" + width + "px;'></div>");
-    }
-
-    $('<div id="' + TableID + '_tableFix"></div>'
-        + '<div id="' + TableID + '_tableHead"></div>'
-        + '<div id="' + TableID + '_tableColumn"></div>'
-        + '<div id="' + TableID + '_tableData"></div>').appendTo("#" + TableID + "_tableLayout");
-
-
-    var oldtable = $("#" + TableID);
-
-    var tableFixClone = oldtable.clone(true);
-    tableFixClone.attr("id", TableID + "_tableFixClone");
-    $("#" + TableID + "_tableFix").append(tableFixClone);
-    var tableHeadClone = oldtable.clone(true);
-    tableHeadClone.attr("id", TableID + "_tableHeadClone");
-    $("#" + TableID + "_tableHead").append(tableHeadClone);
-    var tableColumnClone = oldtable.clone(true);
-    tableColumnClone.attr("id", TableID + "_tableColumnClone");
-    $("#" + TableID + "_tableColumn").append(tableColumnClone);
-    $("#" + TableID + "_tableData").append(oldtable);
-
-    $("#" + TableID + "_tableLayout table").each(function () {
-        $(this).css("margin", "0");
-    });
-
-
-    var HeadHeight = $("#" + TableID + "_tableHead thead").height();
-    HeadHeight += 2;
-    $("#" + TableID + "_tableHead").css("height", HeadHeight);
-    $("#" + TableID + "_tableFix").css("height", HeadHeight);
-
-
-    var ColumnsWidth = 0;
-    var ColumnsNumber = 0;
-    $("#" + TableID + "_tableColumn tr:last td:lt(" + FixColumnNumber + ")").each(function () {
-        ColumnsWidth += $(this).outerWidth(true);
-        ColumnsNumber++;
-    });
-    ColumnsWidth += 2;
-    if ($.browser.msie) {
-        switch ($.browser.version) {
-            case "7.0":
-                if (ColumnsNumber >= 3) ColumnsWidth--;
-                break;
-            case "8.0":
-                if (ColumnsNumber >= 2) ColumnsWidth--;
-                break;
-        }
-    }
-    $("#" + TableID + "_tableColumn").css("width", ColumnsWidth);
-    $("#" + TableID + "_tableFix").css("width", ColumnsWidth);
-
-
-    $("#" + TableID + "_tableData").scroll(function () {
-        $("#" + TableID + "_tableHead").scrollLeft($("#" + TableID + "_tableData").scrollLeft());
-        $("#" + TableID + "_tableColumn").scrollTop($("#" + TableID + "_tableData").scrollTop());
-    });
-
-    $("#" + TableID + "_tableFix").css({ "overflow": "hidden", "position": "relative", "z-index": "50", "background-color": "Silver" });
-    $("#" + TableID + "_tableHead").css({ "overflow": "hidden", "width": width - 17, "position": "relative", "z-index": "45", "background-color": "Silver" });
-    $("#" + TableID + "_tableColumn").css({ "overflow": "hidden", "height": height - 17, "position": "relative", "z-index": "40", "background-color": "Silver" });
-    $("#" + TableID + "_tableData").css({ "overflow": "scroll", "width": width, "height": height, "position": "relative", "z-index": "35" });
-
-    $("#" + TableID + "_tableFix").offset($("#" + TableID + "_tableLayout").offset());
-    $("#" + TableID + "_tableHead").offset($("#" + TableID + "_tableLayout").offset());
-    $("#" + TableID + "_tableColumn").offset($("#" + TableID + "_tableLayout").offset());
-    $("#" + TableID + "_tableData").offset($("#" + TableID + "_tableLayout").offset());
-
-    if ($("#" + TableID + "_tableHead").width() > $("#" + TableID + "_tableFix table").width()) {
-        $("#" + TableID + "_tableHead").css("width", $("#" + TableID + "_tableFix table").width());
-        $("#" + TableID + "_tableData").css("width", $("#" + TableID + "_tableFix table").width() + 17);
-    }
-    if ($("#" + TableID + "_tableColumn").height() > $("#" + TableID + "_tableColumn table").height()) {
-        $("#" + TableID + "_tableColumn").css("height", $("#" + TableID + "_tableColumn table").height());
-        $("#" + TableID + "_tableData").css("height", $("#" + TableID + "_tableFix table").height() + 17);
-    }
-}
+});

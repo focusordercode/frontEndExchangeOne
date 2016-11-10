@@ -9,7 +9,7 @@
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <!--你自己的样式文件 -->
     <link href="css/index.css" rel="stylesheet">
-    <link href="css/picUpload.css" rel="stylesheet">
+    <link href="css/handsontable.full.css" rel="stylesheet">
     <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">        
     <!-- 以下两个插件用于在IE8以及以下版本浏览器支持HTML5元素和媒体查询，如果不需要用可以移除 -->
     <!--[if lt IE 9]>
@@ -17,48 +17,6 @@
     <script src="http://apps.bdimg.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
     <style>
-        .tableDetail label+span {
-            vertical-align: middle;
-            padding-left: 10px;
-        }
-        .table-bordered>tbody>tr>td, .table-bordered>tbody>tr>th, .table-bordered>tfoot>tr>td, .table-bordered>tfoot>tr>th, .table-bordered>thead>tr>td, .table-bordered>thead>tr>th {
-            min-width: 100px;
-            vertical-align: middle;
-            position: relative;
-            max-width: 300px;
-            background-color: #e6e6e6;
-        }
-        .table-bordered>tbody>tr>td {
-            height: 30px;
-            word-break: break-all;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        .tableContent{
-            margin-left: auto;
-            margin-right: auto;
-            width: 1400px;
-        }
-        .table tr th:first-child {
-            min-width: 50px!important;
-        }
-        .table tr td:first-child {
-            min-width: 50px!important;
-        }
-        .table tr th:last-child {
-            min-width: 50px!important;
-        }
-        .table tr td:last-child {
-            min-width: 50px!important;
-        }
-        .table>tbody>tr.change>td {
-            background-color: #ECF0F1;
-        }
-        .clickTochange {
-            text-decoration: none;
-            /*border-bottom: dashed 1px #0088cc;*/
-        }
         .tableDetail .label {
             font-size: 90%;
         }
@@ -99,7 +57,22 @@
             z-index: 6;
         }
         #table {
-            padding-top: 255px;
+            margin-top: 260px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .handsontable td {
+            max-width: 250px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap !important;
+        }
+        .handsontable .htDimmed {
+            color: #333;
+        }
+        .ht_clone_left .htCore  th,.ht_clone_left .htCore  td {
+            background-color: #d9edf7;
+            /*background-color: #c4d4e8;*/
         }
     </style>
 </head>
@@ -121,43 +94,49 @@
                         <div class="panel-body">
                             <div class="col-md-12">
                                 <div class="row">
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <p>
                                             <label class="text-primary">表格编号：</label>
                                             <span class="text-muted">{{info.form_no}}</span>
                                         </p>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
+                                        <p>
+                                            <label class="text-primary">表格名称：</label>
+                                            <span class="text-muted">{{info.title}}</span>
+                                        </p>
+                                    </div>
+                                    <div class="col-md-3">
                                         <p>
                                             <label class="text-primary">产品类目：</label>
                                             <span class="text-muted">{{info.name}}</span>
                                         </p>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <p>
                                             <label class="text-primary">使用模板:</label>
                                             <span class="text-muted">{{info.tempname}}</span>
                                         </p>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <p>
                                             <label class="text-primary">站点:</label>
                                             <span class="text-muted">{{info.site_name}}</span>
                                         </p>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <p>
                                             <label class="text-primary">客户名称:</label>
                                             <span class="text-muted">{{info.client_name}}</span>
                                         </p>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <p>
                                             <label class="text-primary">产品数量统计:</label>
                                             <span class="text-muted">{{info.productCount}}</span>
                                         </p>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-12">
                                         <a href="Table-batch.html" class="btn btn-info btn-sm">返回首页</a>
                                     </div>
                                 </div>
@@ -168,67 +147,16 @@
             </div>
         </div>
         
-        <!-- component template -->
-        <script type="text/x-template" id="grid-template">
-            <div class="tableContent">
-                <table class="table table-bordered" id="tablelie">
-                    <thead>
-                        <tr>
-                            <th class="text-center">序号</th>
-                            <th class="text-center" v-for="key in columns">
-                                {{key}}
-                            </th>
-                            <!--<th class="text-center">序号</th>-->
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <template v-for="entry in data">
-                            <!-- 主体展示方式 -->
-                            <template v-if="entry.parent_id==0">
-                                <tr class="info" track-by="product_id">
-                                    <td class="text-center">{{$index+1}}</td>
-                                    <td v-for="key in columns" class="text-left">
-                                        <a href="javascript:" class="clickTochange" :title="entry[key]">{{entry[key]}}</a>
-                                    </td>
-                                    <!--<td class="text-center">{{$index+1}}</td>-->
-                                </tr>
-                            </template>
-                             <!-- 变体展示方式 -->
-                            <template v-else>
-                                <tr class="change" track-by="product_id">
-                                    <td class="text-center">{{$index+1}}</td>
-                                    <td v-for="key in columns" class="text-left">
-                                        <a href="javascript:" class="clickTochange" :title="entry[key]">{{entry[key]}}</a>
-                                    </td>
-                                    <!--<td class="text-center">{{$index+1}}</td>-->
-                                </tr>
-                            </template> 
-                        </template>
-                    </tbody>
-                </table>
-            </div>
-        </script>
-        
-
-
-        <div id="table" v-show="gridData.length>2">
-            <demo-grid
-            :data="gridData"
-            :columns="gridColumns">
-            </demo-grid>
-        </div>
+        <div id="table"></div>
 
         <div class="container-fluid" v-show="gridData.length>2">
             <div class="row">
                 <div class="col-md-12 text-center" style="margin-top: 10px;">
                     <button class="btn btn-success" v-show="!visitType" @click="oFitUPC">匹配UPC</button>
-                    <button class="btn btn-info" v-show="!visitType" :disabled="makeExcelBtn" @click="makeExcel">生成表格</button>
-                    <a :href="downLink" class="btn btn-primary" v-show="!visitType" :disabled="downloadBtn">        <i class="fa fa-download" aria-hidden="true"></i>下载表格
-                    </a>
-                    <a :href="info.url" class="btn btn-primary" v-show="visitType">
+                    <button class="btn btn-info" :disabled="makeExcelBtn" @click="makeExcel">生成表格</button>
+                    <a :href="info.url" class="btn btn-primary" v-show="downloadBtn">
                         <i class="fa fa-download" aria-hidden="true"></i>下载表格
                     </a>
-
                 </div>
             </div>
         </div>
@@ -236,16 +164,13 @@
         <hr>
         <div class="container">
             <div class="row">
-                <pre>{{$data|json}}</pre>
+                <!-- <pre>{{$data|json}}</pre> -->
             </div>
         </div>
 
-        <!-- 如果要使用Bootstrap的js插件，必须先调入jQuery -->
-        <script src="js/jquery1.7.2.js"></script>
+        <script src="js/jquery.js"></script>
         <script src="js/vue.js"></script>
-        <script src="js/handsontable.full.js"></script>
-        <!-- 包括所有bootstrap的js插件或者可以根据需要使用的js插件调用　-->
-        <!--<script src="js/bootstrap.min.js"></script>-->
+        <script src="js/handsontable.full.min-pro.js"></script>
         <script src='js/layer.js'></script>
         <script src='js/serverUrl.js'></script>
         <script src='js/batch-table-done.js'></script>

@@ -9,7 +9,8 @@ var dataText = {
 		{"nav_tab":"系统","nav_list":[{"link":"Searchlog.html","link_name":"日志"},{"link":"partition.html","link_name":"数据库"},{"link":"FileManager.html","link_name":"文件管理器"},{"link":"model.html","link_name":"业务模块"}]}
 	]
 };
-var navHtml = '<template v-for="tab in dataText.navData"><li class="dropdown"><a href="javascript:" class="dropdown-toggle">{{tab.nav_tab}}<span class="caret"></span></a><ul class="dropdown-menu">        	<template v-for="link in tab.nav_list">            	<li><a :href="link.link">{{link.link_name}}</a></li>        	</template></ul></li></template>';
+var navHtml = '<template v-for="tab in dataText.navData"><li class="dropdown"><a href="javascript:" class="dropdown-toggle">{{tab.nav_tab}}<span class="caret"></span></a><ul class="dropdown-menu"><template v-for="link in tab.nav_list"><li><a :href="link.link">{{link.link_name}}</a></li></template></ul></li></template>';
+
 var navTPL = Vue.extend({
     template: navHtml,
     data: function () {
@@ -28,6 +29,12 @@ $(document).on('click','.dropdown',function(){
 	}
 });
 
+$(document).on('click',function(e){
+    var _con = $('.dropdown');
+    if(!_con.is(e.target) && _con.has(e.target).length === 0){
+    	$('.dropdown').removeClass('open');
+    }
+})
 
 //模板的html标签
 /*
