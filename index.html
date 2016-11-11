@@ -1,211 +1,141 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>福克斯德conton项目</title>
-    <!-- Bootstrap -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <!--你自己的样式文件 -->
-    <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">        
-    <!-- 以下两个插件用于在IE8以及以下版本浏览器支持HTML5元素和媒体查询，如果不需要用可以移除 -->
-    <!--[if lt IE 9]>
-    <script src="http://apps.bdimg.com/libs/html5shiv/3.7/html5shiv.js"></script>
-    <script src="http://apps.bdimg.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-    <style>
-        body {
-          /*background: #333;*/
-          background: #102a46;
-          font-family: "Lato", Helvetica, Arial, sans-serif!important;
-          font-size: 18px;
-          line-height: 1.72222;
-          color: #34495e;
-          height: 100%; 
-        }
+<html lang="en">
 
-        .center {
-          display: block;
-          position: relative;
-          z-index: 5555;
-          width: 200px;
-          height: 200px;
-          cursor: pointer;
-          background: url(images/fks.jpg);
-          background-size: 101%;
-          background-position: top left;
-          border-radius: 100%;
-          margin: 200px auto;
-          -webkit-transition: all 0.5s cubic-bezier(0.55, 0, 0.1, 1);
-          transition: all 0.5s cubic-bezier(0.55, 0, 0.1, 1);
-          box-shadow: 0px 5px 10px #000;
-        }
-        .center:hover {
-          box-shadow: 0px 5px 20px #000;
-          background-size: 115%;
-        }
-        .center:hover .outside {
-          -webkit-transform: rotate(-45deg) translate(0px) rotate(-315deg);
-                  transform: rotate(-45deg) translate(0px) rotate(-315deg);
-          background: rgba(16, 115, 96, 0.5);
-          width: 200px;
-          letter-spacing: 10px;
-          padding-left: 10px;
-          line-height: 200px;
-          height: 200px;
-          margin-top: -100px;
-          margin-left: -100px;
-          -webkit-transition: all 0.5s cubic-bezier(0.55, 0, 0.1, 1), letter-spacing 1.5s ease-out;
-          transition: all 0.5s cubic-bezier(0.55, 0, 0.1, 1), letter-spacing 1.5s ease-out;
-        }
-        .center .outside {
-          display: block;
-          position: absolute;
-          z-index: 6666;
-          line-height: 100px;
-          text-align: center;
-          letter-spacing: 4px;
-          padding-left: 4px;
-          box-sizing: border-box;
-          font-weight: 300;
-          color: #fff;
-          border-radius: 100%;
-          width: 100px;
-          height: 100px;
-          background: #16A085;
-          left: 50%;
-          top: 50%;
-          margin-top: -50px;
-          margin-left: -50px;
-          -webkit-transform: rotate(-135deg) translate(-100px) rotate(135deg);
-                  transform: rotate(-135deg) translate(-100px) rotate(135deg);
-          box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.5);
-          -webkit-transition: all 0.5s cubic-bezier(0.55, 0, 0.1, 1);
-          transition: all 0.5s cubic-bezier(0.55, 0, 0.1, 1);
-        }
-        .center .outside span {
-          letter-spacing: 0;
-        }
-        .layer {
-          position: absolute;
-          top: 0;
-          left: 0;
-        }
+<head>
+    <meta charset="UTF-8">
+    <title>雨点效果</title>
+    <style media="screen">
+    body {
+        overflow: hidden;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+    
+    img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+    
+    .center {
+        display: block;
+        position: relative;
+        z-index: 5555;
+        width: 200px;
+        height: 200px;
+        cursor: pointer;
+        background: url(images/fks.jpg);
+        background-size: 101%;
+        background-position: top left;
+        border-radius: 100%;
+        margin: 200px auto;
+        -webkit-transition: all 0.5s cubic-bezier(0.55, 0, 0.1, 1);
+        transition: all 0.5s cubic-bezier(0.55, 0, 0.1, 1);
+        box-shadow: 0px 5px 10px #000;
+    }
+    
+    .center:hover {
+        box-shadow: 0px 5px 20px #000;
+        background-size: 115%;
+    }
+    
+    .center:hover .outside {
+        -webkit-transform: rotate(-45deg) translate(0px) rotate(-315deg);
+        transform: rotate(-45deg) translate(0px) rotate(-315deg);
+        background: rgba(16, 115, 96, 0.5);
+        width: 200px;
+        letter-spacing: 10px;
+        padding-left: 10px;
+        line-height: 200px;
+        height: 200px;
+        margin-top: -100px;
+        margin-left: -100px;
+        -webkit-transition: all 0.5s cubic-bezier(0.55, 0, 0.1, 1), letter-spacing 1.5s ease-out;
+        transition: all 0.5s cubic-bezier(0.55, 0, 0.1, 1), letter-spacing 1.5s ease-out;
+    }
+    
+    .center .outside {
+        display: block;
+        position: absolute;
+        z-index: 6666;
+        line-height: 100px;
+        text-align: center;
+        letter-spacing: 4px;
+        padding-left: 4px;
+        box-sizing: border-box;
+        font-weight: 300;
+        font-family: "微软雅黑", sans-serif;
+        color: #fff;
+        border-radius: 100%;
+        width: 100px;
+        height: 100px;
+        background: rgba(22, 160, 133, 0.74);
+        left: 50%;
+        top: 50%;
+        margin-top: -50px;
+        margin-left: -50px;
+        -webkit-transform: rotate(-135deg) translate(-100px) rotate(135deg);
+        transform: rotate(-135deg) translate(-100px) rotate(135deg);
+        box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.5);
+        -webkit-transition: all 0.5s cubic-bezier(0.55, 0, 0.1, 1);
+        transition: all 0.5s cubic-bezier(0.55, 0, 0.1, 1);
+    }
+    
+    .center .outside span {
+        letter-spacing: 0;
+    }
     </style>
 </head>
-    <body>
-        <div id="message" class="center">
-            <div class="outside">欢迎</div>
-        </div>
 
-        <script src="js/jquery.js"></script>
-        <script src="js/TweenMax.min.js"></script>
-        <!-- 点击进入区域 -->
-        <script>
-            (function() {
-              'use strict';
-              var $message = $('#message');
-                
-              $message.on('mouseenter', function(){
-                
-                setTimeout(function(){
-                  $message.find('.outside').html('点击进入');
-                },200);
-              });
-              
-              $message.on('mouseleave', function(){
-                
-                setTimeout(function(){
-                  $message.find('.outside').html('欢迎');
-                },250);
-              });
-              $('.outside').click(function(){
-                window.location.href = 'pic-category.html';
-              });
-            }());
-        </script>
-        <script>
-            var layers = 6;
-              var starDensity = 0.0025;
+<body>
+    <img id="background" alt="background" src="" />
+    <div id="message" class="center">
+        <div class="outside">欢迎</div>
+    </div>
+    <script src="js/rainyday.0.1.2.min.js"></script>
+    <script src="js/jquery.js"></script>
+    <script>
+    window.onload = run();
 
-              var ww = $(window).width();
-              var wh = $(window).height();
+    function run() {
+        var image = document.getElementById('background');
+        image.onload = function() {
+            var engine = new RainyDay({
+                image: this
+            });
+            engine.rain([
+                [1, 3, 20]
+            ], 100);
+        };
+        image.crossOrigin = 'anonymous';
+        image.src = 'images/cloud.jpg';
+    }
 
-              var dpi = window.devicePixelRatio;
-              var cw = ww * dpi;
-              var ch = wh * dpi;
-              var stars = ww * ww * starDensity * dpi;
+    (function() {
+        'use strict';
+        var $message = $('#message');
 
-              var contexts = [];
+        $message.on('mouseenter', function() {
 
-              function startBlinking($layer) {
-                function blink() {
-                  TweenMax.to($layer, 0.2 + (Math.random() * 0.4), {
-                    opacity: 0.4 + (Math.random() * 0.4),
-                    onComplete: blink,
-                    repeat: 1,
-                    yoyo: true,
-                    ease: Quad.easeInOut
-                  });
-                }
-                blink();
-              }
+            setTimeout(function() {
+                $message.find('.outside').html('点击进入');
+            }, 200);
+        });
 
-              for (var i = 0; i < layers; i++) {
-                var $layer = $("<canvas/>")
-                  .addClass("layer")
-                  .attr({
-                    width: ww,
-                    height: wh
-                  })
-                  .css({
-                    width: ww,
-                    height: wh
-                  })
-                  .appendTo("body");
-                var ctx = $layer.get(0).getContext("2d");
-                ctx.fillStyle = "#00f6ff";
-                contexts.push(ctx);
-                startBlinking($layer);
+        $message.on('mouseleave', function() {
 
-              }
+            setTimeout(function() {
+                $message.find('.outside').html('欢迎');
+            }, 250);
+        });
+        $('.outside').click(function() {
+            window.location.href = 'pic-category.html';
+        });
+    }());
+    </script>
+</body>
 
-              for (var i = 0; i < stars; i++) {
-                var x = Math.round(Math.random() * cw) - 0.5;
-                var y = Math.round(Math.random() * ch) - 0.5;
-
-                var s = Math.random();
-                s = Math.pow(s, 8) * 1.5;
-                s += 0.3
-                if (Math.random() < 0.1) {
-                  s *= 2;
-                }
-                if (s < 0) s = 0;
-
-                var a = 1;
-                if (s < 1) {
-                  a = s;
-                  s = 1;
-                }
-
-                var id = Math.round(Math.random() * (contexts.length - 1));
-                var ctx = contexts[id];
-
-                ctx.translate(x, y);
-                ctx.globalAlpha = a;
-                ctx.rotate(Math.PI / 4);
-                ctx.fillRect(0, 0, s * dpi, s * dpi);
-
-                if (s >= 1) {
-                  ctx.globalAlpha = 0.03;
-                  var shineSize = (s * s * s) * 1.5 * dpi;
-                  ctx.fillRect((s - (shineSize)) / 2, (s - (shineSize)) / 2, shineSize, shineSize);
-                }
-
-                ctx.rotate(-Math.PI / 4);
-                ctx.translate(-x, -y);
-              }
-        </script>
-    </body>
 </html>
