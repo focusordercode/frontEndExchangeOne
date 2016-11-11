@@ -180,15 +180,14 @@ $(document).ready(function(){
                                 cols.push(obj);
                             }
                         }
-                        var obj = {};
-                            obj.data = 'product_id';
-                        cols.unshift(obj);
-                            obj.data = 'parent_id';
-                        cols.unshift(obj);
-                    }
+                        //额外cols
+                        var obj1 = {},obj2 = {};
+                            obj1.data = 'product_id';
+                            obj2.data = 'parent_id';
+                        cols.unshift(obj2);    
+                        cols.unshift(obj1);
 
-                    //添加表头数据
-                    if (headers.length) {
+                        //添加表头数据
                         headers.unshift('parent_id');
                         headers.unshift('product_id');
                     }
