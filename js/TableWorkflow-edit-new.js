@@ -341,6 +341,8 @@ var oTableIn = new Vue({
 $(document).ready(function(){
     //获取表格数据
     var headers,gridData,cols = [];
+    var str1 = '<button class="btn btn-sm btn-success btn-main">主体</button><button class="btn btn-sm btn-info btn-var">变体</button><button class="btn btn-sm btn-danger btn-delete">删除</button>';
+    var str2 = '<button class="btn btn-sm btn-danger btn-delete">删除</button>';
     function getAllData () {
         getHeaders ();
         getgridData ();
@@ -368,19 +370,30 @@ $(document).ready(function(){
                             cols.push(obj);
                         }
                         //额外cols
-                        var obj1 = {},obj2 = {},obj3 = {};
+                        var obj1 = {},obj2 = {},obj3 = {},obj4 = {},obj5 = {};
                             obj1.data = 'product_id';
+                            obj1.readOnly = true;
                             obj2.data = 'parent_id';
+                            obj2.readOnly = true;
                             obj3.data = '操作';
                             obj3.renderer = "html";
                             obj3.readOnly = true;
+                            obj4.data = 'types';
+                            obj4.readOnly = true;
+                            obj5.data = 'photo';
+                            obj5.readOnly = true;
+                            obj5.renderer = coverRenderer;
+                        cols.unshift(obj5);    
                         cols.unshift(obj2);    
                         cols.unshift(obj1);
+                        cols.unshift(obj4);
                         cols.unshift(obj3);
 
                         //添加表头数据
+                        headers.unshift('photo');
                         headers.unshift('parent_id');
                         headers.unshift('product_id');
+                        headers.unshift('types');
                         headers.unshift('操作');
                     }
                 }
@@ -410,8 +423,6 @@ $(document).ready(function(){
                     gridData = data.value;
 
                     if(gridData.length){
-                        var str1 = '<button class="btn btn-sm btn-success btn-main">主体</button><button class="btn btn-sm btn-info btn-var">变体</button><button class="btn btn-sm btn-danger btn-delete">删除</button>';
-                        var str2 = '<button class="btn btn-sm btn-danger btn-delete">删除</button>';
                         for (var i = 0;i<gridData.length;i++) {
                             if(gridData[i].parent_id!=0){
                                 gridData[i]['操作'] = str2;
@@ -437,9 +448,9 @@ $(document).ready(function(){
 
     getAllData ();
 
-    console.log(headers)
+    // console.log(headers)
     console.log(gridData)
-    console.log(cols)
+    // console.log(cols)
 
     //handsontable实例
     var container = document.getElementById('table');
@@ -452,16 +463,216 @@ $(document).ready(function(){
         stretchH: 'all',
         autoWrapRow: true,
         // hiddenColumns: {
-        //     columns:[1,2]
+        //     columns:[1,2,3]
         // },
         // colWidths:150,
         // rowHeights:30,
-        width:1200,
+        width:1400,
         height:800,
         autoRowSize: true,
         autoColSize: false,
-        fixedColumnsLeft: 4
+        fixedColumnsLeft: 5
     });
+
+
+    //主体添加方法
+    $(document).on('click','.btn-main',function() {
+        hot.render();//获取前先把表格渲染一次,防止修改的没有获取到
+        var rowIndex = hot.getSelected();//获取选中行的索引,返回是数组,下标0为当前行索引
+        if(rowIndex.length){
+            var product_id = getId();
+            var rowDatas = $.extend(true, {}, gridData[rowIndex[0]]);//获取选中行的值
+            rowDatas.product_id = product_id;//修改product_id
+            rowDatas.types = 'yes';//标记是新增，后台需要
+            gridData.push(rowDatas);
+            hot.render();//渲染表格
+            layer.msg('操作成功',{time:1000});
+        }
+    })
+
+    //变体添加方法
+    $(document).on('click','.btn-var',function() {
+        hot.render();//获取前先把表格渲染一次,防止修改的没有获取到
+        var rowIndex = hot.getSelected();//获取选中行的索引,返回是数组,下标0为当前行索引
+        if(rowIndex.length){
+            var product_id = getId();
+            var rowDatas = $.extend(true, {}, gridData[rowIndex[0]]);//获取选中行的值
+            var parent_id = rowDatas.product_id;//获取produ_id,用做变体的parent_id
+                rowDatas['操作'] = str2; //修改操作区内容
+                rowDatas.types = 'yes';//标记是新增，后台需要
+                //赋值两个id
+                rowDatas.product_id = product_id;
+                rowDatas.parent_id = parent_id;
+            gridData.splice(rowIndex[0]+1,0,rowDatas);//把新的变体数据添加进去
+            hot.render();//渲染表格
+            layer.msg('操作成功',{time:1000});
+        }
+    })
+
+    //删除方法
+    $(document).on('click','.btn-delete',function() {
+        hot.render();//获取前先把表格渲染一次,防止修改的没有获取到
+        var rowIndex = hot.getSelected();//获取选中行的索引,返回是数组,下标0为当前行索引
+        if(rowIndex.length){
+            if(rowIndex[0]==0){
+                layer.msg('模板数据不可以删除');
+            }else if(gridData[rowIndex[0]].parent_id!=0){ //删除变体
+                var product_id = gridData[rowIndex[0]].product_id;//获取product_id
+                //执行删除函数并且确认是否删除成功
+                var deleteconfirm = dRequest(product_id); 
+                if(deleteconfirm==1){
+                    hot.alter('remove_row',rowIndex[0],1);
+                    layer.msg('删除成功',{time:1000});
+                }
+            }else if(gridData[rowIndex[0]].parent_id==0){ //删除主体
+                var product_id = gridData[rowIndex[0]].product_id;//获取product_id
+                //执行删除函数并且确认是否删除成功
+                var deleteconfirm = dRequest(product_id);
+                if(deleteconfirm==1){
+                    var gridDataLen = gridData.length;
+                    var oDelete = [];
+                    for(var i = 0;i<gridDataLen;i++){
+                        if(gridData[i].parent_id==product_id){
+                            oDelete.push(i);
+                        }
+                    }
+                    var deleteLen = oDelete.length + 1;//统计删除的个数,加上主体本身
+                    hot.alter('remove_row',rowIndex[0],deleteLen);//删除主体及其变体方法
+                    layer.msg('删除成功',{time:1000});
+                }
+            }else{
+                layer.msg('未知错误');
+            }
+        }
+    })
+
+    //获取product_id的函数
+    function getId() {
+        var a;
+        $.ajax({
+            type:'POST',
+            url:serverUrl+'get/sysId',
+            datatype:'json',
+            async:false,
+            data:{
+                app_code:'product_information',
+                num:1
+            },
+            success:function(data){
+                if(data.status==100){
+                    a = data.value[0];
+                }else if(data.status==101){
+                    layer.msg('操作失败');
+                }else{
+                    layer.msg(data.msg);
+                }
+            },
+            error:function(jqXHR){
+                layer.msg('向服务器请求增加失败');
+            }
+        })
+        return a
+    }
+
+    //发起删除请求
+    function dRequest(product_id) {
+        var a;
+        $.ajax({
+            type:'POST',
+            url:serverUrl+'delete/product',
+            datatype:'json',
+            async:false,
+            data:{
+                type_code:type_code,
+                product_id:product_id
+            },
+            success:function(data){
+                if(data.status==100){
+                    a = 1;//删除成功
+                }else{
+                    a = 2;//删除失败
+                    layer.msg(data.msg);
+                }
+            },
+            error:function(jqXHR){
+                a = 2;//删除失败
+                layer.msg('向服务器请求删除失败');
+            }
+        })
+        return a
+    }
+
+    //photo
+    function coverRenderer (instance, td, row, col, prop, value, cellProperties) {
+       var escaped = Handsontable.helper.stringify(value),
+         img;
+     
+       if (escaped.indexOf('http') === 0) { //该链接字符串http首次出现的位置是0的情况下
+         img = document.createElement('IMG');
+         img.src = value;
+         img.width = 50;
+         img.height = 50;
+
+         Handsontable.Dom.addEvent(img, 'mousedown', function (e){
+           e.preventDefault(); // prevent selection quirk
+         });
+     
+         Handsontable.Dom.empty(td);
+         td.appendChild(img);
+       }
+       else {
+         // render as text
+         Handsontable.renderers.TextRenderer.apply(this, arguments);
+       }
+     
+       return td;
+     }
+
+    //提交暂存
+    $('.cacheData').on('click',function(){
+        hot.render();//获取前先把表格渲染一次,防止修改的没有获取到
+        tableData = hot.getData();
+        console.log(tableData);
+        console.log(gridData);
+        var gridColumns = headers.slice();
+        console.log(gridColumns);
+        //暂存
+        var vm = oTableIn;
+        var max = tableData.length;
+        console.log(type_code);
+        layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
+        $.ajax({
+            type:'POST',
+            url:serverUrl+'commit/data',
+            datatype:'json',
+            data:{
+                category_id:vm.info.category_id,
+                template_id:vm.info.template_id,
+                form_id:vm.info.id,
+                type_code:type_code,
+                max:max,
+                gridColumns:gridColumns,
+                gridData:tableData
+            },
+            success:function(data){
+                layer.closeAll(); //关闭遮罩层
+                if (data.status==100) {
+
+                    layer.msg('暂存成功');
+                    //解除未提交内容提示
+                    // $(window).unbind('beforeunload');
+
+                    setInterval(windowFresh,1000);
+                }else{
+                    layer.msg(data.msg);
+                }
+            },
+            error:function(jqXHR){
+                layer.closeAll(); //关闭遮罩层
+                layer.msg('向服务器请求暂存失败');
+            }
+        })
+    })
 
     //检测滚动条位置，显示隐藏页面头部
     // $(window).scroll(function(){
@@ -485,9 +696,9 @@ $(document).ready(function(){
     $('.scrollToTop').click(function(){
         $("html,body").animate({scrollTop:0},300);
     });
-
-    $('.submitData').on('click',function(){
-        var a = hot.getData();
-        console.log(a)
-    })
 });
+
+//刷新函数
+function windowFresh() {
+    location.reload(true);
+}
