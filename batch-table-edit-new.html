@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>资料表流程-编辑表格</title>
+    <title>批量表编辑</title>
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <!--你自己的样式文件 -->
@@ -135,7 +135,7 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <a class="navbar-brand hidden-sm" href="Table-info.html" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'navbar-首页'])">资料表首页</a>
+                        <a class="navbar-brand hidden-sm" href="Table-batch.html" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'navbar-首页'])">批量表首页</a>
                     </div>
                     <div class="navbar-collapse collapse" role="navigation">
                         <ul class="nav navbar-nav">
@@ -161,18 +161,9 @@
                                             </p>
                                         </a>
                                     </li>
-                                    <li class="disabled">
-                                        <a href="javascript:">
-                                            <h3 class="list-group-item-heading">第二步</h3>
-                                            <p class="list-group-item-text">
-                                                <h4>选择图片</h4>
-                                                <i class="fa fa-file-image-o fa-3x"></i>
-                                            </p>
-                                        </a>
-                                    </li>
                                     <li class="active">
                                         <a href="javascript:">
-                                            <h3 class="list-group-item-heading">第三步</h3>
+                                            <h3 class="list-group-item-heading">第二步</h3>
                                             <p class="list-group-item-text">
                                                 <h4>编辑产品</h4>
                                                 <i class="fa fa-edit fa-3x"></i>
@@ -181,11 +172,20 @@
                                     </li>
                                     <li class="disabled">
                                         <a href="javascript:">
+                                            <h3 class="list-group-item-heading">第三步</h3>
+                                            <p class="list-group-item-text">
+                                                <h4>上传图片</h4>
+                                                <i class="fa fa-file-image-o fa-3x"></i>
+                                            </p>
+                                        </a>
+                                    </li>
+                                    <li class="disabled">
+                                        <a href="javascript:">
                                             <h3 class="list-group-item-heading">第四步</h3>
                                             <p class="list-group-item-text">
-                                                <h4>完成生效</h4>
+                                                <h4>完成表格</h4>
                                             </p>
-                                            <i class="fa fa-check fa-3x"></i>
+                                            <i class="fa fa-cloud-upload fa-3x"></i>
                                         </a>
                                     </li>
                                 </ul>
@@ -196,18 +196,15 @@
             </div>
 
             <!-- 功能区 -->
-            <div class="container">
+            <div class="container ">
                 <div class="row">
                     <div class="col-md-12">
                         <ul id="myTab" class="nav nav-tabs" role="tablist" style="background-color: #fff;border-bottom:0;">
                             <li role="presentation" class="active">
                                 <a href="#home" id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true">常规信息</a>
                             </li>
-                            <li role="presentation" class="">
-                                <a href="#defaultVal" role="tab" id="defaultVal-tab" data-toggle="tab" aria-controls="defaultVal" aria-expanded="false">默认值</a>
-                            </li>
-                            <li role="presentation" class="">
-                                <a href="#profile" role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false">编辑规则</a>
+                            <li role="presentation" class="" >
+                                <a href="#profile" role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false">默认值</a>
                             </li>
                             <li role="presentation" class="">
                                 <a href="#relate" role="tab" id="relate-tab" data-toggle="tab" aria-controls="relate" aria-expanded="false">数据检查</a>
@@ -233,22 +230,35 @@
                                                             <p>表格编号：{{info.form_no}}</p>
                                                             <p>所属类目：{{info.name}}</p>
                                                             <p>使用模板：{{info.tempname}}</p>
-                                                            <p>产品数量：{{info.product_count}}</p>
+                                                            <p>产品数量：{{info.productCount}}</p>
                                                             <p>状态: {{info.status_code}}</p>
                                                         </div>
                                                         <div class="col-md-5">
                                                             <p>表格名称：{{info.title}}</p>
-                                                            <p>所属产品：</p>
+                                                            <p>所属产品：{{info.name}}</p>
                                                             <p>所属客户：{{info.client_name}}</p>
-                                                            <p>变体数量：{{info.variant_num}}</p>
                                                         </div>
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-md-12">
                                                             <p class="underLine">信息提示</p>
-                                                            <p class="text-warning" style="margin-bottom: 20px">
+                                                            <p style="margin-bottom: 20px">
                                                                 如果您对表格当前页进行过修改，请一定点击“暂存”按钮，保存修改结果后，再翻页浏览其他内容。否则，修改内容会丢失。
                                                             </p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <p style="">产品统计信息</p>
+                                                            <div class="well well-sm tableSelect">
+                                                                <strong class="text-primary">选择显示批量表主体个数</strong>　
+                                                                <div class="btn-group">
+                                                                    <button @click="selectNum1" class="btn btn-default"><i class="fa fa-th-large"></i>10</button>
+                                                                    <button @click="selectNum2" class="btn btn-default"><i class="fa fa-table"></i>15</button>
+                                                                    <button @click="selectNum3" class="btn btn-default"><i class="fa fa-th"></i>20</button>
+                                                                </div>　
+                                                                <span class="text-primary">当前展示个数:{{pageSize}}</span>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -258,7 +268,7 @@
                                 </div>
                             </div>
                             <!-- 默认值 -->
-                            <div role="tabpanel" class="tab-pane fade" id="defaultVal" aria-labelledby="defaultVal-tab">
+                            <div role="tabpanel" class="tab-pane fade" id="profile" aria-labelledby="profile-tab">
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="panel panel-default infoPanel">
@@ -290,12 +300,12 @@
                                                                 </tr>
                                                                 </thead>
                                                                 <tbody>
-                                                                <template v-for="settong in defaultVal">
+                                                                <template v-for="settong in setdatatong">
                                                                     <tr id="adddata">
                                                                         <td><p>{{$key}}</p></td>
                                                                         <td><input type="text" v-model="settong" value="" class="form-control"></td>
                                                                         <td>
-                                                                            <button @click="removeDeval($key)" class="btn btn-danger">
+                                                                            <button @click="removeVal($key)" class="btn btn-danger">
                                                                                 删除
                                                                             </button>
                                                                         </td>
@@ -316,7 +326,7 @@
                                                                 </tr>
                                                                 </thead>
                                                                 <tbody>
-                                                                <template v-for="setbian in variantVal">
+                                                                <template v-for="setbian in setdatabian">
                                                                     <tr>
                                                                         <td><p>{{$key}}</p></td>
                                                                         <div>
@@ -326,7 +336,7 @@
                                                                         </td>
                                                                         </div>
                                                                         <td>
-                                                                            <button @click="removeVaval($key)" class="btn btn-danger">
+                                                                            <button @click="removebian($key)" class="btn btn-danger">
                                                                                 删除
                                                                             </button>
                                                                         </td>
@@ -338,114 +348,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-md-12  text-center">
-                                                    <button @click="fillTable" v-show="fillBtn" class="btn btn-success">自动填表</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- 编辑规则 -->
-                            <div role="tabpanel" class="tab-pane fade" id="profile" aria-labelledby="profile-tab">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="panel panel-default infoPanel">
-                                            <div class="panel-body">
-                                                <div class="col-md-12">
-                                                    <div class="form-horizontal">
-                                                        <div class="form-group">
-                                                            <label class="col-sm-2 control-label text-muted">SKU前缀</label>
-                                                            <div class="col-sm-2">
-                                                                <input type="text" v-model="fillRule.sku_front" class="form-control">
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label class="col-sm-2 control-label text-muted">SKU编号</label>
-                                                            <div class="col-sm-2">
-                                                                <input type="number" min="0" v-model="fillRule.sku_num1" class="form-control">
-                                                            </div>
-                                                            <div class="col-sm-1 text-center text-lineheigt">连续至</div>
-                                                            <div class="col-sm-2">
-                                                                <input type="number" min="0" v-model="fillRule.sku_num2" class="form-control">
-                                                            </div>
-                                                            <div class="col-sm-4 text-danger text-lineheigt">
-                                                                <!-- <b>填写错误</b> -->
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label class="col-sm-2 control-label text-muted">Quantity on hand</label>
-                                                            <div class="col-sm-2">
-                                                                <input type="number" min="0" v-model="fillRule.quantity1" class="form-control">
-                                                            </div>
-                                                            <div class="col-sm-1 text-center text-lineheigt">至</div>
-                                                            <div class="col-sm-2">
-                                                                <input type="number" min="0" v-model="fillRule.quantity2" class="form-control">
-                                                            </div>
-                                                            <div class="col-sm-2 text-lineheigt">随机整数</div>
-                                                            <div class="col-sm-4 text-danger text-lineheigt">
-                                                                <!-- <b>填写错误</b> -->
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label class="col-sm-2 control-label text-muted">Price (USD)</label>
-                                                            <div class="col-sm-2">
-                                                                <input type="number" min="0" v-model="fillRule.priceUsd1" class="form-control">
-                                                            </div>
-                                                            <div class="col-sm-1 text-center text-lineheigt">至</div>
-                                                            <div class="col-sm-2">
-                                                                <input type="number" min="0" v-model="fillRule.priceUsd2" class="form-control">
-                                                            </div>
-                                                            <div class="col-sm-3 text-lineheigt">随机小数(会自动添加0.99)</div>
-                                                            <div class="col-sm-3 text-danger text-lineheigt">
-                                                                <!-- <b>填写错误</b> -->
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label class="col-sm-2 control-label text-muted">Price (GBP)</label>
-                                                            <div class="col-sm-2">
-                                                                <input type="number" min="0" v-model="fillRule.priceGbp1" class="form-control">
-                                                            </div>
-                                                            <div class="col-sm-1 text-center text-lineheigt">至</div>
-                                                            <div class="col-sm-2">
-                                                                <input type="number" min="0" v-model="fillRule.priceGbp2" class="form-control">
-                                                            </div>
-                                                            <div class="col-sm-3 text-lineheigt">随机小数(会自动添加0.99)</div>
-                                                            <div class="col-sm-3 text-danger text-lineheigt">
-                                                                <!-- <b>填写错误</b> -->
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label class="col-sm-2 control-label text-muted">Weight  (ounce)</label>
-                                                            <div class="col-sm-2">
-                                                                <input type="number" min="0" v-model="fillRule.weight1" class="form-control">
-                                                            </div>
-                                                            <div class="col-sm-1 text-center text-lineheigt">至</div>
-                                                            <div class="col-sm-2">
-                                                                <input type="number" min="0" v-model="fillRule.weight2" class="form-control">
-                                                            </div>
-                                                            <div class="col-sm-3 text-lineheigt">随机整数</div>
-                                                            <div class="col-sm-3 text-danger text-lineheigt">
-                                                                <!-- <b>填写错误</b> -->
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label class="col-sm-2 control-label text-muted">Size</label>
-                                                            <div class="col-sm-2">
-                                                                <input type="number" min="0" v-model="fillRule.size1" class="form-control">
-                                                            </div>
-                                                            <div class="col-sm-1 text-center text-lineheigt">至</div>
-                                                            <div class="col-sm-2">
-                                                                <input type="number" min="0" v-model="fillRule.size2" class="form-control">
-                                                            </div>
-                                                            <div class="col-sm-3 text-lineheigt">递增整数</div>
-                                                            <div class="col-sm-3 text-danger text-lineheigt">
-                                                                <!-- <b>填写错误</b> -->
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-1 col-md-offset-3">
-                                                    <button @click="fillTable" class="btn btn-success">自动填表</button>
+                                                    <button @click="submitset" v-show="fillBtn" class="btn btn-success">自动填表</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -508,11 +411,15 @@
 
 
         <!-- 主内容区域 -->
-        <div id="table"></div>
+        <div id="table">
+            <div class="img-show"></div>
+        </div>
 
         <div class="container marginTop">
             <div class="col-md-12 text-center">
                 <button class="btn btn-info cacheData">暂存</button>
+                <button class="btn btn-primary submitData">提交</button>
+                <button @click="takeBack" class="btn btn-default">撤销</button>
             </div>
         </div>
         

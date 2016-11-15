@@ -9,7 +9,7 @@
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <!--你自己的样式文件 -->
     <link href="css/index.css" rel="stylesheet">
-    <link href="css/handsontable.full.css" rel="stylesheet">
+    <link href="css/picUpload.css" rel="stylesheet">
     <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">        
     <!-- 以下两个插件用于在IE8以及以下版本浏览器支持HTML5元素和媒体查询，如果不需要用可以移除 -->
     <!--[if lt IE 9]>
@@ -17,13 +17,87 @@
     <script src="http://apps.bdimg.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
     <style>
-        .panel-top {
+        .tableDetail label+span {
+            vertical-align: middle;
+            padding-left: 10px;
+        }
+        .table-bordered>tbody>tr>td, .table-bordered>tbody>tr>th, .table-bordered>tfoot>tr>td, .table-bordered>tfoot>tr>th, .table-bordered>thead>tr>td, .table-bordered>thead>tr>th {
+            min-width: 250px;
+            vertical-align: middle;
             position: relative;
+        }
+        .table tr th:first-child {
+            min-width: 50px!important;
+        }
+        .table tr td:first-child {
+            min-width: 50px!important;
+        }
+        .table tr th:last-child {
+            min-width: 50px!important;
+        }
+        .table tr td:last-child {
+            min-width: 50px!important;
+        }
+        .table>tbody>tr.change>td {
+            background-color: #ECF0F1;
+        }
+        .clickTochange {
+            text-decoration: none;
+            border-bottom: dashed 1px #0088cc;
+        }
+        .td-input {
+            position: absolute;
+            top: -42px;
+            left: 0;
+            margin-bottom: 0;
+            background-color: #fff;
+            display: none;
+        }
+        .td-input > .input-group {
+            margin: 6px 10px;
+        }
+        .td-input button {
+            color: #fff;
+            margin-right: 10px;
+        }
+        .td-input > i {
+            position: absolute;
+            bottom: -9px;
+            left: 42%;
+            color: #fff;
+        }
+        .tableDetail .label {
+            font-size: 90%;
+        }
+        .fixed-nav {
+            background-color: #34495E;
+            border-radius: 0;
+            margin-bottom: 0;
+        }
+        .fixed-top {
+            position: fixed;
+            right: 0;
+            left: 0;
+            z-index: 1030;
+            background-color: #ecf0f5;
+            border-bottom: 1px solid #ccc;
+        }
+        .fixed-nav a {
+            display: block;
+            float: left;
+            padding: 15px 15px;
+            color: #fff;
+            font-size: 18px;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        .fixed-nav a:hover {
+            background-color: #2C3E50;
         }
         .pullUP {
             color: #777;
             position: absolute;
-            bottom: -5px;
+            bottom: -26px;
             left: 50%;
             margin-left: -20px;
             width: 40px;
@@ -46,7 +120,6 @@
             line-height: 34px;
             cursor: pointer;
             z-index: 5;
-            display: none;
         }
         .dl-horizontal dt {
             color: #337ab7;
@@ -55,9 +128,9 @@
             color: #333;
         }
         #table {
-            margin-top: 50px;
-            margin-left: auto;
-            margin-right: auto;
+            padding-top: 680px;
+            padding-left: 20px;
+            padding-right: 20px;
         }
         .underLine {
             border-bottom: 1px solid #ddd;
@@ -93,23 +166,18 @@
         .img-col:hover .img-hover {
             display: block;
         }
-        .handsontable table .btn {
-            margin: 5px
-        }
-        .handsontable td {
-            max-width: 250px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap !important;
-        }
     </style>
 </head>
     <body>
         <div class="pullDown">
             <i class="fa fa-2x fa-angle-down" aria-hidden="true"></i>
         </div>
-        <!-- 顶部容器 -->
-        <div class="panel-top pors">
+
+        <div class="fixed-top">
+            <div class="pullUP">
+                <i class="fa fa-2x fa-angle-up" aria-hidden="true"></i>
+            </div>
+
             <!-- 顶部区域 -->
             <div class="container-fluid header-fluid-top">
                 <div class="row">
@@ -124,29 +192,15 @@
                     </div>
                 </div>
             </div>
-
             <!-- 导航 -->
-            <div class="navbar navbar-inverse nav-fluid-top">
+            <div class="container-fluid fixed-nav">
                 <div class="container">
-                    <div class="navbar-header">
-                        <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target=".navbar-collapse">
-                            <span class="sr-only">Toggle navigation</span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </button>
-                        <a class="navbar-brand hidden-sm" href="Table-info.html" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'navbar-首页'])">资料表首页</a>
-                    </div>
-                    <div class="navbar-collapse collapse" role="navigation">
-                        <ul class="nav navbar-nav">
-                            
-                        </ul>
-                    </div>
+                    <a href="Table-info.html">资料表首页</a>
                 </div>
             </div>
-               
             <!-- 步骤 -->
-            <div class="container marginTop">
+            <p></p>
+            <div class="container">
                 <div class="row">
                     <div class="container">
                         <div class="row form-group">
@@ -195,7 +249,6 @@
                 </div>
             </div>
 
-            <!-- 功能区 -->
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">
@@ -247,8 +300,22 @@
                                                         <div class="col-md-12">
                                                             <p class="underLine">信息提示</p>
                                                             <p class="text-warning" style="margin-bottom: 20px">
-                                                                如果您对表格当前页进行过修改，请一定点击“暂存”按钮，保存修改结果后再离开。否则，修改内容会丢失。
+                                                                如果您对表格当前页进行过修改，请一定点击“暂存”按钮，保存修改结果后，再翻页浏览其他内容。否则，修改内容会丢失。
                                                             </p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <p style="">产品统计信息</p>
+                                                            <div class="well well-sm tableSelect">
+                                                                <strong class="text-primary">选择显示批量表主体个数</strong>　
+                                                                <div class="btn-group">
+                                                                    <button @click="selectNum1" class="btn btn-default"><i class="fa fa-th-large"></i>10</button>
+                                                                    <button @click="selectNum2" class="btn btn-default"><i class="fa fa-table"></i>15</button>
+                                                                    <button @click="selectNum3" class="btn btn-default"><i class="fa fa-th"></i>20</button>
+                                                                </div>　
+                                                                <span class="text-primary">当前展示个数:{{pageSize}}</span>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -463,19 +530,33 @@
                                                         <div class="col-md-5">
                                                             <div class="form-horizontal">
                                                                 <div class="form-group">
-                                                                    <label class="col-sm-6 control-label text-muted">{{check[0]}}</label>
+                                                                    <label class="col-sm-8 control-label text-muted">{{$key}}</label>
                                                                     <div class="col-sm-4">
-                                                                        <select class="form-control" v-model="check[1]">
+                                                                        <select class="form-control" v-model="check">
                                                                             <option value="{{op}}" v-for="op in checkTyle">{{op | ruleType}}</option>
                                                                         </select>
-                                                                    </div>
-                                                                    <div class="col-sm-2">
-                                                                        <button class="btn btn-info gocheck btn-md">检查</button>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </template>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-1 col-md-offset-5">
+                                                        <button @click="checkRequest" v-show="checkBtn" class="btn btn-info">数据检查</button>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12" v-show="checkBtn">
+                                                    <p class="underLine">检查结果</p>
+                                                    <dl class="dl-horizontal">
+                                                        <template v-for="checkRult in checkRultData">
+                                                            <dt>{{checkRult.field}}</dt>
+                                                            <dd>{{checkRult.value}}</dd>
+                                                        </template>
+                                                    </dl>
+                                                    <div class="col-md-1 col-md-offset-1">
+                                                        <button @click="goXgCheck" v-show="!goXgCheckBtn" class="btn btn-info btn-sm">前往修改</button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -486,23 +567,133 @@
                     </div>
                 </div>
             </div>
-
-            <div class="pullUP">
-                <i class="fa fa-2x fa-angle-up" aria-hidden="true"></i>
+        </div>
+        
+        <!-- component template -->
+        <script type="text/x-template" id="grid-template">
+            <div class="container-fluid">
+                <div class="row">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>
+                                    操作
+                                </th>
+                                <th v-for="key in columns">
+                                    {{key | capitalize}}
+                                </th>
+                                <th>序号</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template v-for="entry in data">
+                                <!-- 主体展示方式 -->
+                                <template v-if="entry.parent_id==0" track-by="product_id">
+                                    <tr class="info" :title="$index+1" >
+                                        <td class="text-center">{{$index+1}}</td>
+                                        <td>
+                                            <button v-on:click="addline(entry,$index)" v-show="entry.parent_id==0" class="btn btn-success">主体</button>
+                                            <button v-on:click="addchange(entry,$index)" v-show="entry.parent_id==0" class="btn btn-info">变体</button>
+                                            <button v-on:click="remove(entry,$index)" class="btn btn-danger">删除</button>
+                                        </td>
+                                        <td v-for="key in columns">
+                                            <template v-if="key == 'photo'"> <!-- 先判断表头 -->
+                                                <template v-if="entry[key]">  <!-- 再判断该表头内是否有值 -->
+                                                    <div class="img-col">
+                                                        <img :src="entry[key] | imgUrl2" alt="" width="50" height="50">
+                                                        <div class="img-hover">
+                                                            <img :src="entry[key] | imgUrl2" alt="">
+                                                        </div>
+                                                    </div>
+                                                </template>
+                                                <template v-else>
+                                                    暂无图片
+                                                </template>
+                                            </template>
+                                            <template v-else>
+                                                <input type="text" v-model="entry[key]" class="form-control" data-toggle="popover" data-trigger="focus" data-placement="top" data-content="111">
+                                            </template>
+                                        </td>
+                                        <td class="text-center">{{$index+1}}</td>
+                                    </tr>
+                                </template>
+                                 <!-- 变体展示方式 -->
+                                <template v-else track-by="product_id">
+                                    <tr class="warning" :title="$index+1">
+                                        <td class="text-center">{{$index+1}}</td>
+                                        <td>
+                                            <button v-on:click="addline(entry,$index)" v-show="entry.parent_id==0" class="btn btn-success">主体</button>
+                                            <button v-on:click="addchange(entry,$index)" v-show="entry.parent_id==0" class="btn btn-info">变体</button>
+                                            <button v-on:click="remove(entry,$index)" class="btn btn-danger">删除</button>
+                                        </td>
+                                        <td v-for="key in columns">
+                                            <template v-if="key == 'photo'">
+                                                <template v-if="entry[key]">
+                                                    <div class="img-col">
+                                                        <img :src="entry[key] | imgUrl2" alt="" width="50" height="50">
+                                                        <div class="img-hover">
+                                                            <img :src="entry[key] | imgUrl2" alt="">
+                                                        </div>
+                                                    </div>
+                                                </template>
+                                                <template v-else>
+                                                    暂无图片
+                                                </template>
+                                            </template>
+                                            <template v-else>
+                                                <input type="text" v-model="entry[key]" class="form-control" data-toggle="popover" data-trigger="focus" data-placement="top" data-content="111">
+                                            </template>
+                                        </td>
+                                        <td class="text-center">{{$index+1}}</td>
+                                    </tr>
+                                </template> 
+                            </template>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        </div>
+        </script>
 
-
-        <!-- 主内容区域 -->
+        <!-- demo root element -->
         <div id="table">
-            <div class="img-show"></div>
+            <demo-grid
+            :data="gridData"
+            :columns="gridColumns">
+            </demo-grid>
         </div>
 
-        <div class="container marginTop">
-            <div class="col-md-12 text-center">
-                <button class="btn btn-info cacheData">暂存</button>
-                <button class="btn btn-primary submitData">提交</button>
-                <button @click="takeBack" class="btn btn-default">撤销</button>
+        <div class="container">
+            <div v-show="countPage>1" class="row">
+                <div class="alert alert-danger text-center" role="alert">
+                    如果对表格做出了修改请一定要【暂存】后再进行翻页
+                </div>
+                <div class="col-md-12 text-center">　　
+                    <span class="text-warning">总产品资料数:<b class="text-muted">{{countNum}}</b></span>　　
+                    <span class="text-warning">每页展示主体个数:<b class="text-muted">{{pageSize}}</b></span>　　
+                    <span class="text-warning">总页数:<b class="text-muted">{{countPage}}</b></span>　　
+                    <span class="text-warning">当前页:<b class="text-muted">{{pageNow}}</b></span>　　
+                </div>
+                <hr>
+                <hr>
+                <div class="col-md-12 text-center">
+                    <button :disabled="preBtn" @click="goPre" class="btn btn-default">上一页</button>
+                    <button :disabled="nextBtn" @click="goNext" class="btn btn-default">下一页</button>
+                    <div class="form-group" style="display:inline-block;">
+                        <input type="number" v-model="jump" min="1" class="form-control" style="width:80px;">
+                    </div>
+                    <button :disabled="jumpBtn" @click="goJump" class="btn btn-info" style="vertical-align: middle;">跳转</button>
+                </div>
+                <hr>
+                <hr>
+                <hr>
+            </div>
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <button @click="sendMsg" class="btn btn-primary">提交</button>
+                    <button @click="saveMsg" class="btn btn-info">暂存</button>
+                    <button @click="takeBack" class="btn btn-default">撤销</button>
+                </div>
             </div>
         </div>
         
@@ -514,19 +705,18 @@
         <div class="container">
             <div class="row">
                 <hr>
-                <!-- <pre>{{$data|json}}</pre> -->
+                <pre>{{$data|json}}</pre>
             </div>
         </div>
 
 
         <!-- 如果要使用Bootstrap的js插件，必须先调入jQuery -->
         <script src="js/jquery.js"></script>
-        <script src="js/handsontable.full.min-pro.js"></script>
         <script src="js/vue.js"></script>
         <!-- 包括所有bootstrap的js插件或者可以根据需要使用的js插件调用　-->
         <script src="js/bootstrap.min.js"></script>
         <script src='js/layer.js'></script>
         <script src='js/serverUrl.js'></script>
-        <script src='js/TableWorkflow-edit-new.js'></script>
+        <script src='js/TableWorkflow-edit.js'></script>
     </body>
 </html>
