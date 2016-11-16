@@ -24,6 +24,25 @@
             text-align: center;
             vertical-align: middle!important;
         }
+        .img-col {
+            position: relative;
+        }
+        .img-hover {
+            display: none;
+            position: absolute;
+            top: 20px;
+            left: 200px;
+            z-index: 6666;
+        }
+        .img-hover {
+            max-width: 220px;
+            max-height: 250px;
+            height: auto;
+            border: 1px solid #ddd;
+        }
+        .img-col:hover .img-hover {
+            display: block;
+        }
     </style>
 </head>
     <body>
@@ -132,26 +151,30 @@
                                 <template v-for="list in picData">
                                     <tr>
                                         <td>{{$index+1}}</td>
-                                        <td>{{list.image_url}}</td>
+                                        <td>
+                                            <div class="img-col">
+                                                <img :src="list.image_url" width="60" height="60" alt="">
+                                                <img :src="list.image_url" alt="" class="img-hover">
+                                            </div>
+                                        </td>
                                         <td>
                                             <i v-show="!list.status_msg" class="fa fa-2x fa-frown-o"></i>
-
                                             <span class="text-success">
-                                                <i v-show="list.status_msg" class="text-succuss fa fa-2x fa-smile-o"></i>
+                                                <i v-show="list.status_msg == 'success'" class="text-succuss fa fa-2x fa-smile-o"></i>
                                             </span>
                                         </td>
                                         <td>
                                             <button v-show="!list.status_msg" @click="removeLsit(list)" class="btn btn-danger">
                                                 删除
                                             </button>
+                                            <span v-show="list.status_msg == 'success'" class="text-info">上传成功后无法操作</span>
                                         </td>
                                     </tr>
                                 </template>
                             </table>
                             <div class="row">
                                 <div class="col-md-4 col-md-offset-5">
-                                    <button @click="getReady" v-show="!version_id" class="btn ready btn-default">准备</button>
-                                    <button @click="startUpload" v-show="version_id" class="btn start btn-info">
+                                    <button @click="startUpload" class="btn start btn-info">
                                         开始上传
                                     </button>
                                 </div>
@@ -169,11 +192,11 @@
                             </div>
                             <div class="col-md-2">
                                 <label class="label label-primary">成功上传:</label>
-                                <span class="text-muted">{{success}}</span>
+                                <span class="text-muted">{{success_count}}</span>
                             </div>
                             <div class="col-md-2">
                                 <label class="label label-primary">失败上传:</label>
-                                <span class="text-muted">{{error}}</span>
+                                <span class="text-muted">{{picData.length - success_count}}</span>
                             </div>
                         </div>
                         <hr>
@@ -189,6 +212,11 @@
             </div>
         </div>
 
+        <!-- 回到顶部 -->
+        <div class="scrollToTop">
+            <i class="fa fa-3x fa-angle-up" aria-hidden="true"></i>
+        </div>
+        
         <div class="container">
             <div class="row">
                 <!-- <pre>{{$data|json}}</pre> -->

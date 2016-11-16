@@ -19,7 +19,7 @@ var Request=new UrlSearch();
 var tableID = Request.id;
 var type_code = 'batch';
 console.log(serverUrl); //后端接口地址
-
+var oUrl = serverUrl;//图片服务器地址
 
 //未提交保存内容提示
 $(window).bind('beforeunload',function(){return "您修改的内容尚未保存，确定离开此页面吗？";});
@@ -27,39 +27,11 @@ $(window).bind('beforeunload',function(){return "您修改的内容尚未保存�
 var uploadPic = new Vue({
     el:'body',
     data:{
-        info:'',
-        picData:'',
-        count:'',
-        version_id:'',
-        uploadDoneStatus:'',
-        success:'',
-        error:''
+        info:'',//表格数据
+        picData:'',//图片数据
+        success_count:0 //成功上传个数,默认为0
     },
     ready:function(){
-        //获取上一步骤筛选的图片
-        // $.ajax({
-        //     type:'POST',
-        //     url:serverUrl+'Picture/get_cache_pic',
-        //     datatype:'json',
-        //     data:{
-        //         key:'oD~8dyxGS9Az',
-        //         rand_id:Request.rand_id
-        //     },
-        //     success:function(data){
-        //         if(data.status==100){
-        //             uploadPic.picData = data.value;
-        //             uploadPic.count = data.count;
-        //         }else{
-        //             layer.msg(data.msg);
-        //             uploadPic.picData = '';
-        //             uploadPic.count = '';
-        //         }
-        //     },
-        //     error:function(jqXHR){
-        //         layer.msg('向服务器请求筛选成功的图片失败');
-        //     }
-        // })
-
         //获取图片
         $.ajax({
             type:'POST',
@@ -75,7 +47,6 @@ var uploadPic = new Vue({
                 }else{
                     layer.msg(data.msg);
                     uploadPic.picData = '';
-                    uploadPic.count = '';
                 }
             },
             error:function(jqXHR){
@@ -105,23 +76,13 @@ var uploadPic = new Vue({
         })
     },
     computed:{
-        error:function(){
-            var allPic = this.picData.length;
-            var success = this.success;
-            return allPic - success;
-        },
         //预览表格按钮
         uploadDoneStatus:function () {
-            var picData = this.picData;
-            var picLen = this.picData.length;
-            var successArr = [];
-            for (var i = 0;i<picLen;i++) {
-                if (picData[i].status_msg) {
-                    successArr.push(1);
-                }
-            }
-            if (successArr.length==picLen) {
-                return true //全部成功
+            var vm = this;
+            var Len = vm.picData.length;
+            var result = Len - vm.success_count;
+            if(Len&&result==0){
+                return true
             }else{
                 return false
             }
@@ -130,84 +91,54 @@ var uploadPic = new Vue({
     methods:{
         //删除数据
         removeLsit:function(list){
+            layer.msg('删除成功',{time:1000});
             uploadPic.picData.$remove(list);
-        },
-        //获取版本号
-        getReady:function(){
-            var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
-            //获取版本号
-            $.ajax({
-                type:'POST',
-                url:'http://120.25.228.115/ImagesUpload/Index.php/Home/Index/version',
-                datatype:'json',
-                data:{
-                    key:'1818d506396d77b3d035f719885c4cd1',
-                },
-                success:function(data){
-                    layer.close(LoadIndex); //关闭遮罩层
-                    if(data.status==100){
-                        uploadPic.version_id = data.version;
-                    }else{
-                        layer.msg(data.msg);
-                    }
-                },
-                error:function(jqXHR){
-                    layer.close(LoadIndex); //关闭遮罩层
-                    layer.msg('向图片服务器请求版本失败');
-                }
-            })
         },
         //开始上传
         startUpload:function(){
-            var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
-            //开始上传
             var vm = this;
-            var version_id = vm.version_id;
-            var picArr = vm.picData;
-            var prorate = Request.pro_rate;
-            var picrate = Request.pic_rate;
-
-            if(!version_id){
-                layer.msg('没有获取到图片服务器版本号不能上传');
-            }else{
+            var picCount = this.picData.length,
+                form_id = this.info.id;
+            if(picCount&&form_id){
+                var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
                 $.ajax({
                     type:'POST',
-                    url:'http://120.25.228.115/ImagesUpload/index.php/Home/Index/php_upload',
-                    // url:'http://www.sayshun.cc/ImagesUpload/index.php/Home/Index/php_upload',
+                    url:serverUrl+'upload/pic',
                     datatype:'json',
                     data:{
-                        picCount:picArr.length,
-                        information_id:tableID,
-                        version_id:version_id,
-                        prorate:prorate,
-                        picrate:picrate,
-                        picArr:picArr
+                        form_id:form_id,
+                        picCount:picCount,
+                        picArr:vm.picData
                     },
                     success:function(data){
-                        layer.close(LoadIndex); //关闭遮罩层
+                        layer.close(LoadIndex);//关闭遮罩层
                         if(data.status==100){
                             vm.picData = data.value;
-                            vm.success = data.success;
-                            vm.status_msg = data.status_msg;
+                            layer.msg('操作成功');
+                            //更新上传结果
+                            var arr = vm.picData;
+                            vm.success_count = countPic(arr);
                         }else{
                             layer.msg(data.msg);
                         }
                     },
                     error:function(jqXHR){
-                        layer.close(LoadIndex); //关闭遮罩层
+                        layer.close(LoadIndex);//关闭遮罩层
                         layer.msg('向服务器请求上传图片失败');
                     }
                 })
+            }else{
+                layer.msg('没有检测到图片数据和表格信息');
             }
         },
         //上传已经成功上传的图片数据给后端
         uploadDone:function(){
+            var vm = this;
+            var Len = vm.picData.length;
+            var result = Len - vm.success_count; //全部上传成功
             //通过判断表格中是否有图片地址判断上传成功
-            if(!this.uploadDoneStatus){
-                layer.msg('图片没有上传成功');
-            }else{
+            if(Len&&result==0){
                 var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
-                var vm = uploadPic;
 
                 //上传已经成功上传的图片数据给后端
                 $.ajax({
@@ -243,6 +174,8 @@ var uploadPic = new Vue({
                         layer.msg('向服务器请求失败');
                     }
                 })
+            }else{
+                layer.msg('图片没有上传成功');
             }
         },
         //返回上一步
@@ -271,13 +204,13 @@ var uploadPic = new Vue({
                             var template_id = vm.info.template_id;
 
                             //跳转函数
-                            function goNext() {
+                            function goNext1() {
                                 var url = 'batch-table-edit.html';
                                 window.location.href = url+'?id='+tableID+'&template_id='+template_id;
                             }
-
-                            setInterval(goNext,1000);
-
+                            if(template_id&&tableID){
+                                setInterval(goNext1,1000);
+                            }
                         }else{
                             layer.msg(data.msg);
                         }
@@ -291,8 +224,26 @@ var uploadPic = new Vue({
     }
 })
 
+//计算成功上传个数函数
+function countPic(arr) {
+    var a = 0;
+    for(var i = 0;i<arr.length;i++){
+        if(arr[i].status_msg == 'success'){
+            a ++;
+        }
+    }
+    return a
+}
+
 Vue.filter('sizeCounter',function(value){
     var str = value;
     str = Math.round(str/1024) + 'kb';
     return str
+})
+
+$(function(){
+    //回到顶部
+    $('.scrollToTop').click(function(){
+        $("html,body").animate({scrollTop:0},300);
+    });
 })

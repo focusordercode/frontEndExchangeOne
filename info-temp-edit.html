@@ -145,17 +145,22 @@
                                 <div id="uploadForm">
                                     <div class="form-group">
                                         <label class="text-warning">上传资料表模板文件</label>
-                                        <input type="file" id="file" name="upc_file">
+                                        <input type="file" id="file">
                                     </div>
                                     <div class="alert alert-info" role="alert">
                                         注意:上传文件必须是"xls"、"xlsx"格式，文件中必须完整的模板Excel表格，且作为模板的工作表必须是默认；可以参考示例<a href="images/shili.png" target="_blank" class="text-danger" >示例</a>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="text-warning">模板页码:</label>
+                                        <input type="number" v-model="pageNumber" min="1"><span class="text-red">*</span>
+                                        <label class="text-info">　　指定模板格式在表格文件中第几页</label>
                                     </div>
                                     <div class="form-group">
                                         <button type="submit" id="upload" @click="upload" :disabled="uploadBtn" class="btn btn-primary">加载</button>
                                     </div>
                                 </div>
                             </div>
-                            <hr>
+                            <div class="col-md-12"><hr></div>
                             <div class="col-md-12">
                                 <h4 class="text-warning">定义模板项目</h4>
                                 <div class="col-md-12">

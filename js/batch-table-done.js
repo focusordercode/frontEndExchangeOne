@@ -176,16 +176,19 @@ $(document).ready(function(){
                     //设置cols
                     if (headers.length) {
                         for(var i = 0;i<headers.length;i++){
-                            if(headers[i]=='main_image_url'){
-                                var obj = {};
-                                obj.data = headers[i];
-                                obj.renderer = coverRenderer;
-                                cols.push(obj);
-                            }else{
-                                var obj = {};
-                                obj.data = headers[i];
-                                cols.push(obj);
-                            }
+                            // if(headers[i]=='main_image_url'){
+                            //     var obj = {};
+                            //     obj.data = headers[i];
+                            //     obj.renderer = coverRenderer;
+                            //     cols.push(obj);
+                            // }else{
+                            //     var obj = {};
+                            //     obj.data = headers[i];
+                            //     cols.push(obj);
+                            // }
+                            var obj = {};
+                            obj.data = headers[i];
+                            cols.push(obj);
                         }
                         //额外cols
                         var obj1 = {},obj2 = {};

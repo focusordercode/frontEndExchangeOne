@@ -9,7 +9,7 @@
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <!--你自己的样式文件 -->
     <link href="css/index.css" rel="stylesheet">
-    <link href="css/handsontable.full.css" rel="stylesheet">
+    <link href="css/picUpload.css" rel="stylesheet">
     <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">        
     <!-- 以下两个插件用于在IE8以及以下版本浏览器支持HTML5元素和媒体查询，如果不需要用可以移除 -->
     <!--[if lt IE 9]>
@@ -17,13 +17,80 @@
     <script src="http://apps.bdimg.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
     <style>
-        .panel-top {
+        .tableDetail label+span {
+            vertical-align: middle;
+            padding-left: 10px;
+        }
+        .table-bordered>tbody>tr>td, .table-bordered>tbody>tr>th, .table-bordered>tfoot>tr>td, .table-bordered>tfoot>tr>th, .table-bordered>thead>tr>td, .table-bordered>thead>tr>th {
+            min-width: 250px;
+            vertical-align: middle;
             position: relative;
+        }
+        .table tr th:first-child {
+            min-width: 50px!important;
+        }
+        .table tr td:first-child {
+            min-width: 50px!important;
+        }
+        .table tr th:last-child {
+            min-width: 50px!important;
+        }
+        .table tr td:last-child {
+            min-width: 50px!important;
+        }
+        .table>tbody>tr.change>td {
+            background-color: #ECF0F1;
+        }
+        .clickTochange {
+            text-decoration: none;
+            border-bottom: dashed 1px #0088cc;
+        }
+        .td-input {
+            position: absolute;
+            top: -42px;
+            left: 0;
+            margin-bottom: 0;
+            background-color: #fff;
+            display: none;
+        }
+        .td-input > .input-group {
+            margin: 6px 10px;
+        }
+        .td-input button {
+            color: #fff;
+            margin-right: 10px;
+        }
+        .td-input > i {
+            position: absolute;
+            bottom: -9px;
+            left: 42%;
+            color: #fff;
+        }
+        .tableDetail .label {
+            font-size: 90%;
+        }
+        #table {
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+        .dl-horizontal dt {
+            color: #337ab7;
+        }
+        .dl-horizontal dd {
+            color: #333;
+        }
+        .topContent {
+            position: fixed;
+            right: 0;
+            left: 0;
+            z-index: 1030;
+            background-color: #f5f5f5;
+            border-bottom: 1px solid #ccc;
         }
         .pullUP {
             color: #777;
             position: absolute;
-            bottom: -5px;
+            bottom: -26px;
             left: 50%;
             margin-left: -20px;
             width: 40px;
@@ -45,19 +112,10 @@
             text-align: center;
             line-height: 34px;
             cursor: pointer;
-            z-index: 5;
-            display: none;
+            z-index: 6;
         }
-        .dl-horizontal dt {
-            color: #337ab7;
-        }
-        .dl-horizontal dd {
-            color: #333;
-        }
-        #table {
-            margin-top: 50px;
-            margin-left: auto;
-            margin-right: auto;
+        .tableCont {
+            overflow-x: auto;
         }
         .underLine {
             border-bottom: 1px solid #ddd;
@@ -66,50 +124,19 @@
             max-height: 420px;
             overflow-y: auto;
         }
-        .infoPanel-botton {
-            margin-top: 2px;
-        }
-        .text-lineheigt {
-            line-height: 34px;
-            margin-left: -15px;
-            margin-right: -15px;
-        }
-        .img-col {
-            position: relative;
-        }
-        .img-hover {
-            display: none;
-            position: absolute;
-            top: 80px;
-            left: 50px;
-            z-index: 6666;
-        }
-        .img-hover img {
-            max-width: 300px;
-            max-height: 300px;
-            height: auto;
-            border: 1px solid #ddd;
-        }
-        .img-col:hover .img-hover {
-            display: block;
-        }
-        .handsontable table .btn {
-            margin: 5px
-        }
-        .handsontable td {
-            max-width: 250px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap !important;
-        }
     </style>
 </head>
     <body>
         <div class="pullDown">
             <i class="fa fa-2x fa-angle-down" aria-hidden="true"></i>
         </div>
+
         <!-- 顶部容器 -->
-        <div class="panel-top pors">
+        <div class="topContent">
+            <div class="pullUP">
+                <i class="fa fa-2x fa-angle-up" aria-hidden="true"></i>
+            </div>
+
             <!-- 顶部区域 -->
             <div class="container-fluid header-fluid-top">
                 <div class="row">
@@ -144,7 +171,7 @@
                     </div>
                 </div>
             </div>
-               
+                    
             <!-- 步骤 -->
             <div class="container marginTop">
                 <div class="row">
@@ -195,7 +222,6 @@
                 </div>
             </div>
 
-            <!-- 功能区 -->
             <div class="container ">
                 <div class="row">
                     <div class="col-md-12">
@@ -403,23 +429,105 @@
                     </div>
                 </div>
             </div>
-
-            <div class="pullUP">
-                <i class="fa fa-2x fa-angle-up" aria-hidden="true"></i>
+        </div>
+        <!-- component template -->
+        <script type="text/x-template" id="grid-template">
+            <div class="container-fluid">
+                <div class="row">
+                    <div>
+                        <div class="">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>序号</th>
+                                        <th>
+                                            操作
+                                        </th>
+                                        <th v-for="key in columns">
+                                            {{key | capitalize}}
+                                        </th>
+                                        <th>序号</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template v-for="entry in data">
+                                        <!-- 主体展示方式 -->
+                                        <template v-if="entry.parent_id==0" track-by="product_id">
+                                            <tr class="info" :title="$index+1" >
+                                                <td class="text-center">{{$index+1}}</td>
+                                                <td>
+                                                    <button v-on:click="addline(entry,$index)" v-show="entry.parent_id==0" class="btn btn-success">主体</button>
+                                                    <button v-on:click="addchange(entry,$index)" v-show="entry.parent_id==0" class="btn btn-info">变体</button>
+                                                    <button v-on:click="remove(entry,$index)" class="btn btn-danger">删除</button>
+                                                </td>
+                                                <td v-for="key in columns">
+                                                    <input type="text" v-model="entry[key]" class="form-control" data-toggle="popover" data-trigger="focus" data-placement="top" data-content="111">
+                                                </td>
+                                                <td class="text-center">{{$index+1}}</td>
+                                            </tr>
+                                        </template>
+                                         <!-- 变体展示方式 -->
+                                        <template v-else track-by="product_id">
+                                            <tr class="warning" :title="$index+1">
+                                                <td class="text-center">{{$index+1}}</td>
+                                                <td>
+                                                    <button v-on:click="addline(entry,$index)" v-show="entry.parent_id==0" class="btn btn-success">主体</button>
+                                                    <button v-on:click="addchange(entry,$index)" v-show="entry.parent_id==0" class="btn btn-info">变体</button>
+                                                    <button v-on:click="remove(entry,$index)" class="btn btn-danger">删除</button>
+                                                </td>
+                                                <td v-for="key in columns">
+                                                    <input type="text" v-model="entry[key]" class="form-control" data-toggle="popover" data-trigger="focus" data-placement="top" data-content="222">
+                                                </td>
+                                                <td class="text-center">{{$index+1}}</td>
+                                            </tr>
+                                        </template> 
+                                    </template>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
+        </script>
+        
+        <div id="table" style="padding-top: 720px;">
+            <demo-grid
+            :data="gridData"
+            :columns="gridColumns">
+            </demo-grid>
         </div>
 
-
-        <!-- 主内容区域 -->
-        <div id="table">
-            <div class="img-show"></div>
-        </div>
-
-        <div class="container marginTop">
-            <div class="col-md-12 text-center">
-                <button class="btn btn-info cacheData">暂存</button>
-                <button class="btn btn-primary submitData">提交</button>
-                <button @click="takeBack" class="btn btn-default">撤销</button>
+        <div class="container">
+            <div v-show="countPage>1" class="row">
+                <div class="alert alert-danger text-center" role="alert">
+                    如果对表格做出了修改请一定要【暂存】后再进行翻页
+                </div>
+                <div class="col-md-12 text-center">　　
+                    <span class="text-warning">总产品资料数:<b class="text-muted">{{countNum}}</b></span>　　
+                    <span class="text-warning">每页展示主体个数:<b class="text-muted">{{pageSize}}</b></span>　　
+                    <span class="text-warning">总页数:<b class="text-muted">{{countPage}}</b></span>　　
+                    <span class="text-warning">当前页:<b class="text-muted">{{pageNow}}</b></span>　　
+                </div>
+                <hr>
+                <hr>
+                <div class="col-md-12 text-center">
+                    <button :disabled="preBtn" @click="goPre" class="btn btn-default">上一页</button>
+                    <button :disabled="nextBtn" @click="goNext" class="btn btn-default">下一页</button>
+                    <div class="form-group" style="display:inline-block;">
+                        <input type="number" v-model="jump" min="1" class="form-control" style="width:80px;">
+                    </div>
+                    <button :disabled="jumpBtn" @click="goJump" class="btn btn-info" style="vertical-align: middle;">跳转</button>
+                </div>
+                <hr>
+                <hr>
+                <hr>
+            </div>
+            <div class="row">
+                <div class="col-md-12 text-center marginTop">
+                    <button @click="sendMsg" class="btn btn-primary">提交</button>
+                    <button @click="saveMsg" class="btn btn-info">暂存</button>
+                    <button class="btn btn-default" @click="takeBack">撤销</button>
+                </div>
             </div>
         </div>
         
@@ -438,12 +546,11 @@
 
         <!-- 如果要使用Bootstrap的js插件，必须先调入jQuery -->
         <script src="js/jquery.js"></script>
-        <script src="js/handsontable.full.min-pro.js"></script>
         <script src="js/vue.js"></script>
         <!-- 包括所有bootstrap的js插件或者可以根据需要使用的js插件调用　-->
         <script src="js/bootstrap.min.js"></script>
         <script src='js/layer.js'></script>
         <script src='js/serverUrl.js'></script>
-        <script src='js/TableWorkflow-edit-new.js'></script>
+        <script src='js/batch-table-edit.js'></script>
     </body>
 </html>

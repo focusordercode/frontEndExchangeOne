@@ -36,7 +36,8 @@ var tempDefine = new Vue({
     data:{
         temp:'',
         tempData:[],
-        uploadBtn:''
+        uploadBtn:'',
+        pageNumber:5
     },
     ready:function(){
         var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
@@ -98,8 +99,11 @@ var tempDefine = new Vue({
         //上传模板文件
         upload:function(){
             var fileData = $('#file').val();//文件数据
+            var pageNumber = this.pageNumber.trim();
             if(!fileData){
                 layer.msg('请先选择文件');
+            }else if(!pageNumber){
+                layer.msg('请填写正确的页码');
             }else{
                 layer.confirm('如果该模板有数据，再次上传原来数据将会覆盖',{
                     btn:['确定','取消']
@@ -112,6 +116,7 @@ var tempDefine = new Vue({
                     formData.append('file', $('#file')[0].files[0]);//文件
                     formData.append('template_id', template_id);//参数
                     formData.append('type_code', type_code);//参数
+                    formData.append('pageNumber', pageNumber);//参数
 
                     $.ajax({
                         url:serverUrl+'upload/item',
@@ -323,9 +328,9 @@ Vue.filter('dataType', function (value) {
 Vue.filter('writeType', function (value) {
     var str;
     switch(value){
-        case 1: str = "常规";break;
-        case 2: str = "变体";break;
-        case 3: str = "不填";break;
+        case 1: str = "固定值";break;
+        case 2: str = "变化值";break;
+        case 3: str = "不填写";break;
     }
     return str;
 })

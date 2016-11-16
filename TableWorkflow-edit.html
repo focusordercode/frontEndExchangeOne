@@ -74,25 +74,6 @@
             margin-left: -15px;
             margin-right: -15px;
         }
-        .img-col {
-            position: relative;
-        }
-        .img-hover {
-            display: none;
-            position: absolute;
-            top: 80px;
-            left: 50px;
-            z-index: 6666;
-        }
-        .img-hover img {
-            max-width: 300px;
-            max-height: 300px;
-            height: auto;
-            border: 1px solid #ddd;
-        }
-        .img-col:hover .img-hover {
-            display: block;
-        }
         .handsontable table .btn {
             margin: 5px
         }
@@ -101,6 +82,26 @@
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap !important;
+        }
+        .img-show-content {
+            width: 1400px;
+            height: 1px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .img-show {
+            position: absolute;
+            z-index: 100001;
+            top: 100px;
+            left: 800px;
+            width: 240px;
+            height: 240px;
+            max-width: 220px;
+            max-height: 220px;
+            height: auto;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            display: none;
         }
     </style>
 </head>
@@ -247,7 +248,7 @@
                                                         <div class="col-md-12">
                                                             <p class="underLine">信息提示</p>
                                                             <p class="text-warning" style="margin-bottom: 20px">
-                                                                如果您对表格当前页进行过修改，请一定点击“暂存”按钮，保存修改结果后再离开。否则，修改内容会丢失。
+                                                                如果您对表格当前页进行过修改，请一定点击“暂存”按钮，保存修改结果后再离开(包括刷新)。否则，修改内容会丢失。
                                                             </p>
                                                         </div>
                                                     </div>
@@ -266,15 +267,15 @@
                                                 <div class="col-md-12">
                                                     <div class="form-horizontal">
                                                         <div class="form-group">
-                                                            <label class="col-md-2 radio">产品类型：</label>
+                                                            <label class="col-md-2 radio">值类型：</label>
                                                             <div class="radio col-sm-3">
                                                                 <label>
-                                                                    <input type="radio" name="product-tab" v-model="chioce" value="option1" checked>常规设置
+                                                                    <input type="radio" name="product-tab" v-model="chioce" value="option1" checked>固定值
                                                                 </label>
                                                             </div>
                                                             <div class="radio col-sm-3">
                                                                 <label>
-                                                                    <input type="radio" name="product-tab" v-model="chioce" value="option2">变体设置
+                                                                    <input type="radio" name="product-tab" v-model="chioce" value="option2">变化值
                                                                 </label>
                                                             </div>
                                                         </div>
@@ -494,9 +495,10 @@
 
 
         <!-- 主内容区域 -->
-        <div id="table">
-            <div class="img-show"></div>
+        <div class="img-show-content pors">
+            <img class="img-show" src="images/logo.png" alt="">
         </div>
+        <div id="table"></div>
 
         <div class="container marginTop">
             <div class="col-md-12 text-center">

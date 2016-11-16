@@ -16,7 +16,7 @@ function UrlSearch() {
     } 
 }
 var Request=new UrlSearch();
-var type_code = 'info';
+var type_code = 'batch';
 var tableID = Request.id;
 var template_id = Request.template_id;
 console.log(type_code);
@@ -32,36 +32,18 @@ $(window).bind('beforeunload',function(){return "您修改的内容尚未保存�
 var oTableIn = new Vue({
     el:'body',
     data:{
-        info:'',
-        //默认值
         defaultVal:'',
         variantVal:'',
-        chioce:'',
-        //填写规则
-        fillRule:{
-            sku_front:'',
-            sku_num1:'',
-            sku_num2:'',
-            quantity1:'',
-            quantity2:'',
-            priceUsd1:'',
-            priceUsd2:'',
-            priceGbp1:'',
-            priceGbp2:'',
-            weight1:'',
-            weight2:'',
-            size1:'',
-            size2:''
-        },
-        //数据检查数据
         checkData:'',
-        //1是唯一，2是重复
         checkTyle:[
             1,
             2
         ],
-        //检查结果
-        checkRultData:''
+        info:'',       
+        chioce:'',
+        //数据检查
+        checkRultData:'',
+        checkDataBtn:''//重复检查按钮
     },
     ready:function(){
         var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
@@ -159,7 +141,7 @@ var oTableIn = new Vue({
     methods:{
         //返回上一步
         takeBack:function(){
-            var vm = this;
+            var vm = oTableIn;
             layer.confirm('返回上一步，此步骤的数据将不保存,上一步骤的数据也将被删除',{
                 btn:['确定','取消']
             },function(index){
@@ -167,22 +149,42 @@ var oTableIn = new Vue({
 
                 $.ajax({
                     type:'POST',
-                    url:serverUrl+'rollback/checkinfo',
+                    url:serverUrl+'back',
                     datatype:'json',
                     data:{
-                        form_id:tableID
+                        form_id:tableID,
+                        type_code:type_code
                     },
                     success:function(data){
                         if(data.status==100){
                             layer.msg('请求成功');
-
-                            //解除未提交内容提示
-                            $(window).unbind('beforeunload');
-
                             //跳转函数
                             function goNext() {
-                                var url = 'TableWorkflow-selectPic.html';
-                                window.location.href = url+'?id='+tableID;
+                                $.ajax({
+                                    type:'POST',
+                                    url:serverUrl+'get/formNumber',
+                                    datatype:'json',
+                                    data:{
+                                        type_code:type_code
+                                    },
+                                    success:function(data){
+                                        if(data.status==100){
+                                            //解除未提交内容提示
+                                            $(window).unbind('beforeunload');
+
+                                            var id = data.value;
+                                            var url = 'batch-table-creat.html?tableID='+id;
+                                            if(id){
+                                                window.location.href = url;
+                                            }
+                                        }else{
+                                            layer.msg('返回失败，请重试');
+                                        }
+                                    },
+                                    error:function(jqXHR){
+                                        layer.msg('返回失败，请重试');
+                                    }
+                                })
                             }
 
                             setInterval(goNext,1000);
@@ -207,8 +209,8 @@ var oTableIn = new Vue({
             var vm = this;
             Vue.delete(vm.variantVal,key);
         },
-        //发起自动填表
-        fillTable:function () {
+        //提交通用设置与变体设置,填充表格
+        submitset:function(){
             var vm = this;
             var DefaultData = vm.defaultVal;
             var VariantData = vm.variantVal;
@@ -225,6 +227,17 @@ var oTableIn = new Vue({
                 if (!(VariantData[n][0].trim())&&!(VariantData[n][1].trim())) {
                     checkArr2.push(n)
                 }
+            }
+            //提取未填写项目为字符函数,暂不用
+            function GetString(str,arr) {
+                for (var i = 0;i<arr.length;i++) {
+                    if (i==arr.length-1) {
+                        str += arr[i];
+                    }else{
+                        str += arr[i] + '，';
+                    }
+                }
+                return str
             }
 
             //对为空的项进行判断提示
@@ -245,33 +258,32 @@ var oTableIn = new Vue({
                 });
             }else{
                 var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
-                var getdata = {};
-                    getdata.default = DefaultData,
-                    getdata.variant = VariantData;
                 $.ajax({
                     type:'POST',
-                    url:serverUrl+'autofill/product',
+                    url:serverUrl+'fill/batch',
                     datatype:'json',
                     data:{
-                        table_info:vm.info,
-                        getdata:getdata,
-                        reludata:vm.fillRule
+                        form_id:tableID,
+                        DefaultData:DefaultData,
+                        VariantData:VariantData
                     },
                     success:function(data){
                         layer.close(LoadIndex); //关闭遮罩层
-                        if(data.status==100){
-                            layer.msg('请求成功');
+                        if(data.status == 100){
+                            layer.msg('提交成功');
+                            
                             //解除未提交内容提示
                             $(window).unbind('beforeunload');
 
                             setInterval(windowFresh,1000);
-                        }else{
+
+                        } else {
                             layer.msg(data.msg);
                         }
                     },
-                    error:function(jqXHR){
+                    error:function(jqXHR) {
                         layer.close(LoadIndex); //关闭遮罩层
-                        layer.msg('向服务器请求失败');
+                        layer.msg('向服务器请求表格信息失败');
                     }
                 })
             }
@@ -400,7 +412,7 @@ $(document).ready(function(){
 
     // console.log(headers)
     console.log(gridData)
-    // console.log(cols)
+    console.log(cols)
 
     //handsontable实例
     var container = document.getElementById('table');
@@ -561,7 +573,7 @@ $(document).ready(function(){
         hot.render();//获取前先把表格渲染一次,防止修改的没有获取到
         tableData = hot.getData();
         console.log(tableData);
-        console.log(gridData);
+        // console.log(gridData);
         var gridColumns = headers.slice();
         console.log(gridColumns);
         //暂存
@@ -607,7 +619,7 @@ $(document).ready(function(){
         hot.render();//获取前先把表格渲染一次,防止修改的没有获取到
         tableData = hot.getData();
         console.log(tableData);
-        console.log(gridData);
+        // console.log(gridData);
         var gridColumns = headers.slice();
         console.log(gridColumns);
         //提交
@@ -638,15 +650,14 @@ $(document).ready(function(){
                     //解除未提交内容提示
                     $(window).unbind('beforeunload');
                     
-                    var url = 'TableWorkflow-done.html';
+                    var url = 'batch-table-upload.html';
                     var tableID = vm.info.id;
-                    var tem_id = vm.info.template_id;
                     //跳转到下一步
-                    if(tableID&&tem_id){
+                    if(tableID){
                         setInterval(goNext1,1000)
                     }
                     function goNext1(){
-                        window.location.href = url+'?id='+tableID+'&template_id='+tem_id;
+                        window.location.href = url+'?id='+tableID;
                     }
                 }else{
                     layer.msg(data.msg);
@@ -775,7 +786,6 @@ $(document).ready(function(){
     function windowFresh() {
         location.reload(true);
     }
-
 
     $('.pullUP').click(function(){
         $('.panel-top').slideUp(300);
