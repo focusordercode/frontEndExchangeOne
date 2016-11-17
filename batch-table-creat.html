@@ -323,7 +323,6 @@
                                 </div>
                             </div>
                         </div>
-                        
                         <!-- 选择站点 -->
                         <div class="form-horizontal">
                             <div class="form-group">
@@ -338,7 +337,7 @@
                         </div>
                         <!-- 表格名称 -->
                         <div class="form-horizontal">
-                            <div class="form-group" v-on:click.self='setflie'>
+                            <div class="form-group">
                                 <label class="col-sm-2 control-label text-muted">表格名称</label>
                                 <div class="col-sm-4">
                                     <input type="text" placeholder="输入表格名称" v-model="tableName" class="form-control">
@@ -474,7 +473,7 @@
 
         <div class="container">
             <div class="row">
-                <pre>{{$data|json}}</pre>
+                <!-- <pre>{{$data|json}}</pre> -->
             </div>
         </div>
 
