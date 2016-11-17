@@ -43,10 +43,9 @@ var tableCreat = new Vue({
 			'Germany'
 		],
 		siteSelect:'',
+		//文件名
 		tableName:'',
-		company_name:'',
-		file_name:'',
-		setdate:'',
+		file_name:''
 	},
 	computed:{
 		// 选择产品资料表按钮
@@ -68,13 +67,6 @@ var tableCreat = new Vue({
 
 	},
 	methods:{
-		//查看文件名称的完整
-		/*setflie:function(){
-			var vm = this;
-			var nowtime = new Date();
-			vm.setdate = nowtime.toLocaleString()*//*.replace(/年|月/g,'-').replace(/日/g,'-');
-			vm.file_name = vm.tableSelected.company_name + "-" + vm.tableName;
-		},*/
 		//从搜索结果中选中一个类目
 		selectCate:function(pro){
 			var vm = tableCreat;
@@ -200,7 +192,7 @@ var tableCreat = new Vue({
 		},
 		//提交批量表信息
 		saveTable:function(){
-			var vm = tableCreat;
+			var vm = this;
 			vm.file_name = vm.tableSelected.company_name + "-" + vm.tableName;
 			var file_name = $.trim( vm.file_name );
 			if(!vm.tableID){
@@ -230,7 +222,7 @@ var tableCreat = new Vue({
 						product_form_id:vm.tableSelected.id,//资料表ID
 						site_name:vm.siteSelect,//站点信息
 						title:vm.tableName,//表格名称
-						file_name:file_name,
+						file_name:file_name //文件名
 					},
 					success:function(data){
 						layer.close(LoadIndex); //关闭遮罩层
