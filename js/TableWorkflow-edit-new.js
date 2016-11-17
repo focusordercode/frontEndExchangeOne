@@ -417,16 +417,16 @@ $(document).ready(function(){
         columns:cols,
         stretchH: 'all',
         autoWrapRow: true,
-        // hiddenColumns: {
-        //     columns:[1,2,3]
-        // },
+        hiddenColumns: {
+            columns:[1,2,3]
+        },
         // colWidths:150,
         // rowHeights:30,
         width:1400,
         height:700,
         autoRowSize: true,
         autoColSize: false,
-        fixedColumnsLeft: 5
+        fixedColumnsLeft: 6
     });
 
 
