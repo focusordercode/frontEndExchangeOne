@@ -18,7 +18,8 @@ function UrlSearch() {
 var Request=new UrlSearch();
 var type_code = 'batch';
 var tableID = Request.tableID;
-console.log(serverUrl); //后端接口地址
+
+var serverUrl = "http://192.168.1.42/canton/"; //后端接口地址
 
 var tableCreat = new Vue({
 	el:'body',
@@ -29,7 +30,7 @@ var tableCreat = new Vue({
 		proSelectedId:'',
 		selecteTableBtn:'',
 		tableList:'',
-		tableSelected:'',
+		tableSelected:'',//选择的资料表
 		selectMBBtn:'',
 		MBList:'',
 		MBselected:'',
@@ -42,7 +43,10 @@ var tableCreat = new Vue({
 			'Germany'
 		],
 		siteSelect:'',
-		tableName:''
+		tableName:'',
+		company_name:'',
+		file_name:'',
+		setdate:'',
 	},
 	computed:{
 		// 选择产品资料表按钮
@@ -60,9 +64,17 @@ var tableCreat = new Vue({
 			}else{
 				return true
 			}
-		}
+		},
+
 	},
 	methods:{
+		//查看文件名称的完整
+		/*setflie:function(){
+			var vm = this;
+			var nowtime = new Date();
+			vm.setdate = nowtime.toLocaleString()*//*.replace(/年|月/g,'-').replace(/日/g,'-');
+			vm.file_name = vm.tableSelected.company_name + "-" + vm.tableName;
+		},*/
 		//从搜索结果中选中一个类目
 		selectCate:function(pro){
 			var vm = tableCreat;
@@ -189,6 +201,8 @@ var tableCreat = new Vue({
 		//提交批量表信息
 		saveTable:function(){
 			var vm = tableCreat;
+			vm.file_name = vm.tableSelected.company_name + "-" + vm.tableName;
+			var file_name = $.trim( vm.file_name );
 			if(!vm.tableID){
 				layer.msg('没有检测到表格编码');
 			}else if(!vm.proSelectedId){
@@ -215,7 +229,8 @@ var tableCreat = new Vue({
 						client_id:vm.tableSelected.client_id,//客户ID
 						product_form_id:vm.tableSelected.id,//资料表ID
 						site_name:vm.siteSelect,//站点信息
-						title:vm.tableName//表格名称
+						title:vm.tableName,//表格名称
+						file_name:file_name,
 					},
 					success:function(data){
 						layer.close(LoadIndex); //关闭遮罩层

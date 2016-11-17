@@ -159,6 +159,9 @@
         .searchCompent {
             display: none;
         }
+        .fleft{
+            margin-left: -31px;
+        }
     </style>
 </head>
     <body>
@@ -320,6 +323,7 @@
                                 </div>
                             </div>
                         </div>
+                        
                         <!-- 选择站点 -->
                         <div class="form-horizontal">
                             <div class="form-group">
@@ -334,13 +338,29 @@
                         </div>
                         <!-- 表格名称 -->
                         <div class="form-horizontal">
-                            <div class="form-group">
+                            <div class="form-group" v-on:click.self='setflie'>
                                 <label class="col-sm-2 control-label text-muted">表格名称</label>
                                 <div class="col-sm-4">
                                     <input type="text" placeholder="输入表格名称" v-model="tableName" class="form-control">
                                 </div>
                             </div>
                         </div>
+                        <!-- 导出文件名字 -->
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label text-muted">导出文件名称</label>
+                                <div class="col-sm-2">
+                                    <!-- <input type="text" readonly v-model="file_name" class="form-control table-title" placeholder="">
+                                    <button @click="setflie" class="btn btn-default btn-sm">查看</button> -->
+                                    <input type="text" readonly class="form-control table-title" placeholder={{tableSelected.company_name}}>
+                                </div>
+                                <div class="col-sm-2 fleft">
+                                    <input type="text" readonly class="form-control table-title" placeholder={{tableName}}>
+                                </div>
+                                <!-- <div class="col-sm-2 fleft">等待用户的接入
+                                    <input type="text" readonly class="form-control table-title" placeholder={{tableName}}>
+                                </div> -->
+                            </div>
                         <!-- 表格状态 -->
                         <div class="form-horizontal">
                             <div class="form-group">
@@ -454,7 +474,7 @@
 
         <div class="container">
             <div class="row">
-                <!-- <pre>{{$data|json}}</pre> -->
+                <pre>{{$data|json}}</pre>
             </div>
         </div>
 
@@ -475,7 +495,6 @@
         <!-- 包括所有bootstrap的js插件或者可以根据需要使用的js插件调用　-->
         <script src="js/bootstrap.min.js"></script>
         <script src='js/layer.js'></script>
-        <script src='js/serverUrl.js'></script>
         <script src="js/batch-table-creat.js"></script>
     </body>
 </html>
