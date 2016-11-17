@@ -1,7 +1,7 @@
 var type_code = 'batch'; //模板类型
 
 console.log(serverUrl); //后端接口地址
-var num = 8;//每页展示个数
+var num = 9;//每页展示个数
 
 var tempList = new Vue({
     el:'body',

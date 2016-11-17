@@ -26,6 +26,11 @@ console.log(template_id);
 console.log(serverUrl); //后端接口地址
 var oUrl = serverUrl;//图片服务器地址
 
+//刷新函数
+function windowFresh() {
+    location.reload(true);
+}
+
 //未提交保存内容提示
 $(window).bind('beforeunload',function(){return "您修改的内容尚未保存，确定离开此页面吗？";});
 
@@ -781,11 +786,6 @@ $(document).ready(function(){
      
        return td;
      }
-
-    //刷新函数
-    function windowFresh() {
-        location.reload(true);
-    }
 
     $('.pullUP').click(function(){
         $('.panel-top').slideUp(300);

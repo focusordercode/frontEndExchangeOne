@@ -37,7 +37,7 @@ var tempDefine = new Vue({
         temp:'',
         tempData:[],
         uploadBtn:'',
-        pageNumber:5
+        pageNumber:4
     },
     ready:function(){
         var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
@@ -99,7 +99,11 @@ var tempDefine = new Vue({
         //上传模板文件
         upload:function(){
             var fileData = $('#file').val();//文件数据
-            var pageNumber = this.pageNumber.trim();
+            var vm = this;
+            var pageNumber = vm.pageNumber;
+            if(vm.pageNumber){
+               pageNumber = $.trim(vm.pageNumber); 
+            }
             if(!fileData){
                 layer.msg('请先选择文件');
             }else if(!pageNumber){

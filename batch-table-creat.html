@@ -159,8 +159,11 @@
         .searchCompent {
             display: none;
         }
-        .fleft{
-            margin-left: -31px;
+        .plus-center {
+            width: 40px;
+            margin: 5px -15px 0;
+            padding-left: 5px;
+            padding-right: 5px;
         }
     </style>
 </head>
@@ -348,15 +351,15 @@
                         <div class="form-horizontal">
                             <div class="form-group">
                                 <label class="col-sm-2 control-label text-muted">导出文件名称</label>
+                                <div class="col-sm-3">
+                                    <input type="text" readonly class="form-control table-title" placeholder={{tableSelected.company_name}}>
+                                </div>
+                                <div class="col-sm-1 plus-center text-center">
+                                    <i class="fa fa-plus" aria-hidden="true"></i>
+                                </div>
                                 <div class="col-sm-2">
-                                    <input style="border-right: 0" type="text" readonly class="form-control table-title" placeholder={{tableSelected.company_name}}>
-                                </div>
-                                <div class="col-sm-2 fleft">
-                                    <input style="border-left: 0;border-radius: 0 4px 4px 0" type="text" readonly class="form-control table-title" placeholder={{tableName}}>
-                                </div>
-                                <!-- <div class="col-sm-2 fleft">等待用户的接入
                                     <input type="text" readonly class="form-control table-title" placeholder={{tableName}}>
-                                </div> -->
+                                </div>
                             </div>
                         </div>
                         <!-- 表格状态 -->

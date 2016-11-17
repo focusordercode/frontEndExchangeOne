@@ -91,8 +91,9 @@ var uploadPic = new Vue({
     methods:{
         //删除数据
         removeLsit:function(list){
+            var vm = this;
             layer.msg('删除成功',{time:1000});
-            uploadPic.picData.$remove(list);
+            vm.picData.$remove(list);
         },
         //开始上传
         startUpload:function(){
