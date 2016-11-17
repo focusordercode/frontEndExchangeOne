@@ -80,9 +80,9 @@ var uploadPic = new Vue({
         uploadDoneStatus:function () {
             var vm = this;
             var Len = vm.picData.length;
-            var result = Len - vm.success_count;
+            var result = Len - vm.success_count;//全部上传成功
             if(Len&&result==0){
-                return true
+                return true  //全部上传成功
             }else{
                 return false
             }
@@ -101,32 +101,35 @@ var uploadPic = new Vue({
             var picCount = this.picData.length,
                 form_id = this.info.id;
             if(picCount&&form_id){
-                var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
-                $.ajax({
-                    type:'POST',
-                    url:serverUrl+'upload/pic',
-                    datatype:'json',
-                    data:{
-                        form_id:form_id,
-                        picCount:picCount,
-                        picArr:vm.picData
-                    },
-                    success:function(data){
-                        layer.close(LoadIndex);//关闭遮罩层
-                        if(data.status==100){
-                            vm.picData = data.value;
-                            layer.msg('操作成功');
-                            //更新上传结果
-                            var arr = vm.picData;
-                            vm.success_count = countPic(arr);
-                        }else{
-                            layer.msg(data.msg);
+                layer.confirm('上传图片到外网服务器需要3-5分钟(取决于网速和图片大小)',function(index){
+                    layer.close(index);
+                    var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
+                    $.ajax({
+                        type:'POST',
+                        url:serverUrl+'upload/pic',
+                        datatype:'json',
+                        data:{
+                            form_id:form_id,
+                            picCount:picCount,
+                            picArr:vm.picData
+                        },
+                        success:function(data){
+                            layer.close(LoadIndex);//关闭遮罩层
+                            if(data.status==100){
+                                vm.picData = data.value;
+                                layer.msg('操作成功');
+                                //更新上传结果
+                                var arr = vm.picData;
+                                vm.success_count = countPic(arr);
+                            }else{
+                                layer.msg(data.msg);
+                            }
+                        },
+                        error:function(jqXHR){
+                            layer.close(LoadIndex);//关闭遮罩层
+                            layer.msg('向服务器请求上传图片失败');
                         }
-                    },
-                    error:function(jqXHR){
-                        layer.close(LoadIndex);//关闭遮罩层
-                        layer.msg('向服务器请求上传图片失败');
-                    }
+                    })
                 })
             }else{
                 layer.msg('没有检测到图片数据和表格信息');
