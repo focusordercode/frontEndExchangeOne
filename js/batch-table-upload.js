@@ -101,9 +101,41 @@ var uploadPic = new Vue({
             var picCount = this.picData.length,
                 form_id = this.info.id;
             if(picCount&&form_id){
-                layer.confirm('上传图片到外网服务器需要3-5分钟(取决于网速和图片大小)',function(index){
+                layer.confirm('上传图片到外网服务器需要5-6分钟(取决于网速和图片大小)',function(index){
                     layer.close(index);
-                    var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
+                    //查询进度
+                    var progressbar = $('.progress-bar');
+                    //设定循环获取进度函数
+                    var timeid = setInterval(function(){
+                        $.ajax({
+                            type:'POST',
+                            url:serverUrl+'get/progress',
+                            datatype:'json',
+                            data:{
+                                form_id:tableID
+                            },
+                            success:function(data){
+                                if(data.status==100){
+                                    var progress = data.progress;
+                                    if(progress){
+                                        progressbar.css('width',progress);
+                                        progressbar.text(progress);
+                                    }
+                                }else{
+                                    layer.msg('未知错误');
+                                    //解绑页面提示
+                                    $(window).unbind('beforeunload');
+                                    setInterval(windowFresh,1000);
+                                }
+                            },
+                            error:function(jqXHR){
+                                layer.msg('向服务器请求进度失败');
+                            }
+                        })
+                    },3000);
+
+                    $('.progress-display').show();//开启遮罩层
+
                     $.ajax({
                         type:'POST',
                         url:serverUrl+'upload/pic',
@@ -114,7 +146,8 @@ var uploadPic = new Vue({
                             picArr:vm.picData
                         },
                         success:function(data){
-                            layer.close(LoadIndex);//关闭遮罩层
+                            window.clearInterval(timeid);//停止执行
+                            $('.progress-display').hide();//关闭遮罩层
                             if(data.status==100){
                                 vm.picData = data.value;
                                 layer.msg('操作成功');
@@ -126,7 +159,8 @@ var uploadPic = new Vue({
                             }
                         },
                         error:function(jqXHR){
-                            layer.close(LoadIndex);//关闭遮罩层
+                            window.clearInterval(timeid);//停止执行
+                            $('.progress-display').hide();//关闭遮罩层
                             layer.msg('向服务器请求上传图片失败');
                         }
                     })
@@ -237,6 +271,11 @@ function countPic(arr) {
         }
     }
     return a
+}
+
+//刷新函数
+function windowFresh(){
+    location.reload(true);
 }
 
 Vue.filter('sizeCounter',function(value){

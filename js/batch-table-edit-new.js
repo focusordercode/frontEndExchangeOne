@@ -670,7 +670,7 @@ $(document).ready(function(){
             },
             error:function(jqXHR){
                 layer.closeAll(); //关闭遮罩层
-                layer.msg('向服务器请求暂存失败');
+                layer.msg('向服务器请求失败');
             }
         })
     })

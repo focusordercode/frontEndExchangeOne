@@ -43,6 +43,18 @@
         .img-col:hover .img-hover {
             display: block;
         }
+        .bar-content {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            margin-left: -300px;
+            margin-top: -50px;
+            z-index: 1500;
+            width: 600px;
+        }
+        .progress-display {
+            display: none;
+        }
     </style>
 </head>
     <body>
@@ -216,7 +228,20 @@
         <div class="scrollToTop">
             <i class="fa fa-3x fa-angle-up" aria-hidden="true"></i>
         </div>
-        
+
+        <!-- 进度条 -->
+        <div class="modal-backdrop fade in progress-display"></div>
+        <div class="bar-content progress-display">
+            <div class="well well-sm">
+                <h3 class="text-muted text-center">上传进度</h3>
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" style="width: 1%;min-width: 20px;">
+                        0%
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="container">
             <div class="row">
                 <!-- <pre>{{$data|json}}</pre> -->
