@@ -404,7 +404,21 @@
                                     <div class="alert alert-info" v-show="tableList.length==0" role="alert" >
                                         当前类目无【有效】状态的资料表
                                     </div>
-
+                                    <!-- 模糊搜索资料表 -->
+                                    <div class="form-horizontal" v-show="tableList.length>0">
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label text-info">搜索资料表</label>
+                                            <div class="col-sm-4">
+                                                <input type="text" v-model="keyword" class="form-control">
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <button @click="searchTable" :disabled="!searchTableBtn" class="btn btm-md btn-default">
+                                                    搜索
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
                                     <div class="funkyradio">
                                         <div class="funkyradio">
                                             <div v-for="table in tableList" class="funkyradio-primary">

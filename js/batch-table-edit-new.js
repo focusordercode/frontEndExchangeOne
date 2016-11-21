@@ -624,7 +624,6 @@ $(document).ready(function(){
         hot.render();//获取前先把表格渲染一次,防止修改的没有获取到
         tableData = hot.getData();
         console.log(tableData);
-        // console.log(gridData);
         var gridColumns = headers.slice();
         console.log(gridColumns);
         //提交

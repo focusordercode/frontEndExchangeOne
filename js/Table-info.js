@@ -1,6 +1,7 @@
 var type_code = 'info';
 
 console.log(serverUrl); //后端接口地址
+var search = serverUrl+"index.php/vague/name"; //模糊搜索地址
 var num = 25;//每页展示个数
 
 var oTableInfo = new Vue({
@@ -17,10 +18,14 @@ var oTableInfo = new Vue({
 		nextPageBtn:'',
 		jump:'',
 		jumpBtn:'',
+		// 搜索类目
+		proList:'',
 		//搜索条件
 		searchFeild:{
 			status_code:'',
-			keyword:''
+			keyword:'',
+			cate_name:'',
+			cateId:''
 		},
 		//交互数据
 		searchResult:'' //搜索结果
@@ -87,6 +92,8 @@ var oTableInfo = new Vue({
 		remove:function(item){
 			var Id = item.id,
 				vm = this;
+			var search = vm.searchResult;
+			var pageNow = vm.pageNow;
 
 			layer.confirm('是否确认删除?', {
 			  btn: ['确定','关闭'] //按钮
@@ -103,6 +110,7 @@ var oTableInfo = new Vue({
 				        if(data.status==100){
 				        	vm.tableInfo.$remove(item);
 				        	layer.msg('删除成功');
+				        	setTimeout(getPageData(vm,pageNow,search,num,type_code),1000);
 				        }else{
 				        	layer.msg(data.msg);
 				        }
@@ -138,14 +146,30 @@ var oTableInfo = new Vue({
 				}
 			})
 		},
+		//从搜索结果中选中一个类目
+		selectCate:function(pro){
+		    this.searchFeild.cate_name = pro.cn_name;
+		    this.searchFeild.cateId = pro.id;
+		    this.proList = '';
+		    //清除值，隐藏框
+		    $('.searchField').val('');
+		    $('.searchInput').hide();
+		    $('.modal-backdrop').hide();
+		},
+		// 取消选中类目
+		cancelCate:function () {
+			this.searchFeild.cate_name = '';
+			this.searchFeild.cateId = '';
+		},
 		//搜索
 		searchTable:function(){
 			var keyword = this.searchFeild.keyword.trim();
 			var status_code = this.searchFeild.status_code;
+			var category_id = this.searchFeild.cateId;
 			var searchFeild = this.searchFeild;
 			var vm = this;
-			if(!keyword&&!status_code){
-				layer.msg('必须输入关键词或者选择表格状态');
+			if(!keyword&&!status_code&&!category_id){
+				layer.msg('必须输入关键词,选择类目或者选择表格状态');
 			}else{
 				var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层 
 				$.ajax({
@@ -156,6 +180,7 @@ var oTableInfo = new Vue({
 						type_code:type_code,
 						status_code:status_code,
 						keyword:keyword,
+						category_id:category_id,
 						num:num
 					},
 					success:function(data){
@@ -339,17 +364,19 @@ function windowFresh(){
     location.reload(true);
 }
 
+//获取数据函数,分页
 function getPageData (vm,pageNow,search,num,type_code) {
 	var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
 	$.ajax({
 		type:'POST',
-		url:serverUrl+'get/infoform',
+		url:serverUrl+'search/form',
 		datatype:'json',
 		data:{
 			next:pageNow,
 			type_code:type_code,
 			num:num,
 			status_code:search.status_code,
+			category_id:search.cateId,
 			keyword:search.keyword
 		},
 		success:function(data){
@@ -371,3 +398,41 @@ function getPageData (vm,pageNow,search,num,type_code) {
 		}
 	})
 }
+
+$(document).ready(function(){
+	//模糊搜索类目
+	$('.searchField').on('keyup',function(){
+	    var searchCusVal = $('.searchField').val();
+	    if(searchCusVal){
+	    	$.ajax({
+	    	    type:'POST',
+	    	    url:search,
+	    	    datatype:'json',
+	    	    data:{
+	    	        text:searchCusVal
+	    	    },
+	    	    success:function(data){
+	    	        if(data.status==100){
+	    	            oTableInfo.proList = data.value;
+	    	        }else{
+	    	            oTableInfo.proList= '';
+	    	        }
+	    	    },
+	    	    error:function(jqXHR){
+	    	        layer.msg('向服务器请求客户信息失败');
+	    	    }
+	    	})
+	    }
+	});
+
+	//打开关闭搜索
+	$('.goSearch').on('click',function(){
+	    $('.searchInput').show();
+	    $('.modal-backdrop').show();
+	    $('.searchField').focus();
+	})
+	$('.modal-backdrop').on('click',function(){
+	    $('.searchInput').hide();
+	    $('.modal-backdrop').hide();
+	})
+});

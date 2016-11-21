@@ -1,3 +1,4 @@
+var num = 10;//选择资料表展示个数
 //获取ID
 function UrlSearch() {
     var name,value; 
@@ -24,11 +25,14 @@ var tableCreat = new Vue({
 	el:'body',
 	data:{
 		tableID:tableID,
+		//类目列表
 		proList:'',
 		proSelected:'',
 		proSelectedId:'',
 		selecteTableBtn:'',
+		//资料表列表
 		tableList:'',
+		keyword:'',
 		tableSelected:'',//选择的资料表
 		selectMBBtn:'',
 		MBList:'',
@@ -63,12 +67,20 @@ var tableCreat = new Vue({
 				return true
 			}
 		},
-
+		//模糊搜索产品资料表按钮
+		searchTableBtn:function(){
+			var keyword = this.keyword.trim();
+			if(keyword){
+				return true
+			}else{
+				return false
+			}
+		}
 	},
 	methods:{
 		//从搜索结果中选中一个类目
 		selectCate:function(pro){
-			var vm = tableCreat;
+			var vm = this;
 			vm.proSelected = pro.cn_name;
 			vm.proSelectedId = pro.id;
 			vm.proList = '';
@@ -80,44 +92,30 @@ var tableCreat = new Vue({
 		},
 		// 选择产品资料表
 		selectTable:function(){
-			var vm = tableCreat;
+			var vm = this;
 
 			if(!vm.proSelectedId){
 				layer.msg('请先选择产品类目');
 			}else{
 				$('.selectTable').modal('show');
 
-				$.ajax({
-					type:'POST',
-					url:serverUrl+'get/infoform',
-					datatype:'json',
-					data:{
-						type_code:'info',
-						status_code:'enabled',
-						category_id:vm.proSelectedId
-					},
-					success:function(data){
-						if(data.status==100){
-							vm.tableList = data.value;
-
-							var Len = vm.tableList.length;
-							for(var i = 0;i<Len;i++){
-								Vue.set(vm.tableList[i],'checked',false);
-							}
-
-						}else{
-							vm.tableList = '';
-						}
-					},
-					error:function(jqXHR){
-						layer.msg('向服务器请求产品资料表失败');
-					}
-				})
+				var keyword; //定义个空的,这里不需要关键词
+				getInfoTable(vm,num,keyword);
+			}
+		},
+		//模糊搜索产品资料表
+		searchTable:function () {
+			var vm = this;
+			var keyword = vm.keyword.trim();
+			if(!keyword){
+				layer.msg('请输入关键词');
+			}else{
+				getInfoTable(vm,num,keyword);
 			}
 		},
 		//确定选中一个资料表
 		confirmTable:function(){
-			var vm = tableCreat;
+			var vm = this;
 			var Len = vm.tableList.length;
 			var tableArr = new Array ();
 
@@ -137,10 +135,10 @@ var tableCreat = new Vue({
 		},
 		//选择批量表模板
 		selectMB:function(){
-			var vm = tableCreat;
+			var vm = this;
 
-			if(!vm.proSelectedId){
-				layer.msg('请先选择资料表模板');
+			if(!vm.tableSelected){
+				layer.msg('请先选择资料表');
 			}else{
 				$('.selectMB').modal('show');
 
@@ -172,7 +170,7 @@ var tableCreat = new Vue({
 		},
 		//确定选中一个批量表模板
 		confirmMB:function(){
-			var vm = tableCreat;
+			var vm = this;
 			var Len = vm.MBList.length;
 			var MBarr = new Array ();
 
@@ -261,6 +259,39 @@ var tableCreat = new Vue({
 		}
 	}
 })
+
+//获取产品资料表函数
+function getInfoTable(vm,num,keyword){
+	$.ajax({
+		type:'POST',
+		url:serverUrl+'search/form',
+		datatype:'json',
+		data:{
+			type_code:'info',
+			status_code:'enabled',
+			keyword:keyword,
+			num:num,
+			category_id:vm.proSelectedId
+		},
+		success:function(data){
+			if(data.status==100){
+				vm.tableList = data.value;
+
+				var Len = vm.tableList.length;
+				for(var i = 0;i<Len;i++){
+					Vue.set(vm.tableList[i],'checked',false);
+				}
+
+			}else{
+				vm.tableList = '';
+			}
+		},
+		error:function(jqXHR){
+			layer.msg('向服务器请求产品资料表失败');
+		}
+	})
+}
+
 
 //搜索类目框
 $(function(){
