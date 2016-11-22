@@ -72,7 +72,17 @@
                     <div class="panel-body">
                         <div class="form-horizontal">
                             <div class="form-group">
-                                <label class="col-md-2 control-label">根据模板名称</label>
+                                <label class="col-md-2 control-label">选择搜索条件</label>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                              <input type="text" v-model="search.cate_name" placeholder="选择类目" class="form-control goSearch" readonly>
+                                              <div class="input-group-addon" v-show="search.cateId" @click="cancelCate">
+                                                  <i class="fa fa-close"></i>
+                                              </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="col-md-2">
                                     <select v-model="search.searchStatus" class="form-control">
                                         <option value="">选择状态</option>
@@ -89,7 +99,7 @@
                                     <button @click="KeywordSearch" type="submit" class="btn btn-default">   搜索
                                     </button>
                                 </div>
-                                <div class="col-md-1 col-md-offset-1">
+                                <div class="col-md-1">
                                     <button class="btn btn-success btn-sm creatMB">创建模板</button>
                                 </div>
                                 <div class="col-md-1 pull-right">
@@ -100,7 +110,7 @@
                     </div>
                 </div>
             </div>
-
+    
             <div class="alert alert-success">
                 模板总数:<strong class="text-warning">{{count}}</strong>　
                 当前页:<strong class="text-warning">{{pageNow}}</strong>　
@@ -178,6 +188,23 @@
             </div>
         </div>
         
+        <!-- 搜索类目功能 -->
+        <div class="container">
+            <div class="row">
+                <div class="searchInput">
+                    <input type="text" class="searchField">
+                    <label for="search" class="glyphicon glyphicon-search" rel="tooltip" title="search"></label>
+                    <ul>
+                        <li @click="selectCate(pro)" v-for="pro in proList">
+                            {{pro.cn_name}} {{pro.en_name}}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-backdrop modal-backdrop-search fade in"></div>
+
         <hr>
         <div class="container">
             <div class="row">

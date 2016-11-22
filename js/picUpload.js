@@ -51,9 +51,6 @@ var picUpload = new Vue({
 })
 
 
-
-$(window).bind('beforeunload',function(){return "您修改的内容尚未保存，确定离开此页面吗？";});
-
 //上传功能
 var uploader = new plupload.Uploader({
     runtimes : 'html5,html4',
@@ -116,12 +113,10 @@ var uploader = new plupload.Uploader({
             document.getElementById('console').appendChild(document.createTextNode("\nError #" + err.code + ": " + err.message));
         },
         UploadComplete: function (uploader,files){
+            updateData ();
             if(files.length<=0){
                 layer.msg('没有上传任何图片');
             }else{
-                //解绑页面离开提示
-                $(window).unbind('beforeunload');
-
                 var str = "上传成功 "+files.length+" 张图片。";
                 layer.confirm(str+'去编辑上传成功图片信息',{
                     btn:['确定','取消']
@@ -139,3 +134,18 @@ var uploader = new plupload.Uploader({
 });
 
 uploader.init();
+
+//请求更新图片目录缓存
+function updateData () {
+    $.ajax({
+        type:'POST',
+        url:serverUrl+'ImageCategory/updateGalleryCache',
+        datatype:'json',
+        success:function(data){
+            console.log('请求成功');
+        },
+        error:function(jqXHR){
+            console.log('请求更新图片目录缓存失败');
+        }
+    })
+}

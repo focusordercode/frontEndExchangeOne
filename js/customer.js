@@ -137,10 +137,15 @@ var customer = new Vue({
 				}
 			})
 		},
-		removeThis:function(table){ 
+		removeThis:function(table){
+			var vm = this;
+			var pageNow = this.pageNow;
+
 			layer.confirm('确定删除该客户?',{
 				btn:['确定','取消']
-			},function(){
+			},function(index){
+				layer.close(index);
+
 				$.ajax({
 					type:'POST',
 					url:serverUrl+'delete/custom',
@@ -150,8 +155,9 @@ var customer = new Vue({
 					},
 					success:function(data){
 						if(data.status==100){
+							vm.cusData.$remove(table);
 							layer.msg('删除成功');
-							setInterval(windowFresh,1000);
+							setTimeout(getPageData (vm,pageNow,num),1000);
 						}else if(data.status==101){
 							layer.msg('操作失败');
 						}else{

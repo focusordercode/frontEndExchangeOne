@@ -216,7 +216,7 @@
                         当前图片目录:<b class="text-warning">{{pictreeActive.cn_name}}</b> 　　
                         当前图片目录图片数:<b class="text-warning">{{countImage}}</b>
                         <hr>
-                        <a v-show="pictreeActive.id" v-bind:href="pictreeActive.id | upLink" class="btn btn-success btn-sm">上传</a>
+                        <a v-show="pictreeActive.id" target="_blank" v-bind:href="pictreeActive.id | upLink" class="btn btn-success btn-sm">上传</a>
                     </div>
                     <div v-show="!picData" class="alert alert-warning" role="alert">当前图片目录没有图片</div>
                 </div>

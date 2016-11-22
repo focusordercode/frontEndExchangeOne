@@ -31,13 +31,11 @@ var oPCenter = new Vue({
     el:'body',
     data:{
     	search:{
-    		cateId:'',
     		status:'',
     		statusList:[
     			1,
     			2
     		],
-    		cate_name:'',
     		keyword:''
     	},
     	list:'',
@@ -48,7 +46,7 @@ var oPCenter = new Vue({
     	// 搜索类目
     	proList:'',
     	//交互数据
-    	searchResult:'' //搜索结果
+    	searchResult:'' //搜索成功后的条件
     },
     ready:function () {
     	var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
@@ -115,8 +113,9 @@ var oPCenter = new Vue({
     methods:{
     	//删除项目
     	deleteItem:function (item) {
-    		var item = item,
-    			vm = this;
+    		var	vm = this;
+            var pageNow = vm.pageNow;
+            var search = vm.search;
     		layer.confirm('确定删除项目?项目的内容和关联已将一并删除',{
     			btn:['确定','取消']
     		},function(index){
@@ -133,6 +132,8 @@ var oPCenter = new Vue({
     						if(data.status==100){
     							layer.msg('删除成功');
     							vm.list.$remove(item);
+                                //重新拉取数据
+                                setTimeout(getPageData (vm,pageNow,search,num),1000);
     						}else{
     							layer.msg(data.msg);
     						}
@@ -144,29 +145,13 @@ var oPCenter = new Vue({
     			}
     		})
     	},
-    	//从搜索结果中选中一个类目
-    	selectCate:function(pro){
-    	    this.search.cate_name = pro.cn_name;
-    	    this.search.cateId = pro.id;
-    	    this.proList = '';
-    	    //清除值，隐藏框
-    	    $('.searchField').val('');
-    	    $('.searchInput').hide();
-    	    $('.modal-backdrop').hide();
-    	},
-    	// 取消选中类目
-    	cancelCate:function () {
-    		this.search.cate_name = '';
-    		this.search.cateId = '';
-    	},
     	//条件搜索
     	searchItem:function () {
     		var vm = this,
-    		category_id = vm.search.cateId,
     		enabled = vm.search.status,
-    		vague = vm.search.keyword;
-    		if (!category_id&&!enabled&&!vague.trim()) {
-    			layer.msg('类目，状态和关键词三个条件至少选其一');
+    		vague = vm.search.keyword.trim();
+    		if (!enabled&&!vague) {
+    			layer.msg('状态和关键词至少选其一');
     		}else{
     			var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
     			$.ajax({
@@ -174,7 +159,6 @@ var oPCenter = new Vue({
     				url:serverUrl+'get/allcenteritem',
     				datatype:'json',
     				data:{
-    					category_id:category_id,
     					enabled:enabled,
     					vague:vague,
     					num:num
@@ -265,7 +249,6 @@ function getPageData (vm,pageNow,search,num) {
         data:{
             pages:pageNow,
             num:num,
-            category_id:search.cateId,
             enabled:search.status,
             vague:search.keyword
         },
@@ -288,41 +271,3 @@ function getPageData (vm,pageNow,search,num) {
         }
     })
 }
-
-$(document).ready(function(){
-	//模糊搜索类目
-	$('.searchField').on('keyup',function(){
-	    var searchCusVal = $('.searchField').val();
-	    if(searchCusVal){
-	    	$.ajax({
-	    	    type:'POST',
-	    	    url:search,
-	    	    datatype:'json',
-	    	    data:{
-	    	        text:searchCusVal
-	    	    },
-	    	    success:function(data){
-	    	        if(data.status==100){
-	    	            oPCenter.proList = data.value;
-	    	        }else{
-	    	            oPCenter.proList= '';
-	    	        }
-	    	    },
-	    	    error:function(jqXHR){
-	    	        layer.msg('向服务器请求客户信息失败');
-	    	    }
-	    	})
-	    }
-	});
-
-	//打开关闭搜索
-	$('.goSearch').on('click',function(){
-	    $('.searchInput').show();
-	    $('.modal-backdrop').show();
-	    $('.searchField').focus();
-	})
-	$('.modal-backdrop').on('click',function(){
-	    $('.searchInput').hide();
-	    $('.modal-backdrop').hide();
-	})
-});

@@ -78,9 +78,14 @@
                                 <div class="form-group">
                                     <label class="col-md-1 control-label">选择搜索条件</label>
                                     <div class="col-md-1">
-                                        <select class="form-control" readonly>
-                                            <option value="batch" selected>批量表</option>
-                                        </select>
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                  <input type="text" v-model="searchFeild.cate_name" placeholder="选择类目" class="form-control goSearch" readonly>
+                                                  <div class="input-group-addon" v-show="searchFeild.cateId" @click="cancelCate">
+                                                      <i class="fa fa-close"></i>
+                                                  </div>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="col-md-1">
                                         <select v-model="searchFeild.status_code" class="form-control">
@@ -108,6 +113,21 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 搜索类目功能 -->
+        <div class="container">
+            <div class="row">
+                <div class="searchInput">
+                    <input type="text" class="searchField">
+                    <label for="search" class="glyphicon glyphicon-search" rel="tooltip" title="search"></label>
+                    <ul>
+                        <li @click="selectCate(pro)" v-for="pro in proList">
+                            {{pro.cn_name}} {{pro.en_name}}
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -223,6 +243,8 @@
                 </div>
             </div>
         </div>
+
+        <div class="modal-backdrop modal-backdrop-search fade in"></div>
         
         <div class="container">
             <div class="row">

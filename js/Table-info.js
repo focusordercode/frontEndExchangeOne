@@ -28,7 +28,7 @@ var oTableInfo = new Vue({
 			cateId:''
 		},
 		//交互数据
-		searchResult:'' //搜索结果
+		searchResult:'' //搜索成功后的条件
 	},
 	ready:function(){
 		var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层 

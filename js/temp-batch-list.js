@@ -1,7 +1,8 @@
-var type_code = 'batch'; //模板类型
-
 console.log(serverUrl); //后端接口地址
-var num = 9;//每页展示个数
+var search = serverUrl+"index.php/vague/name"; //模糊搜索地址
+
+var type_code = 'batch'; //模板类型
+var num = 12;//每页展示个数
 
 var tempList = new Vue({
     el:'body',
@@ -9,7 +10,9 @@ var tempList = new Vue({
         temp:[],
         search:{
             searchStatus:'',
-            name:''
+            name:'',
+            cate_name:'',
+            cateId:''
         },
         prePageBtn:'',
         nextPageBtn:'',
@@ -18,8 +21,10 @@ var tempList = new Vue({
         pageNow:'',
         jump:'',
         jumpBtn:'',
+        // 搜索类目
+        proList:'',
         //交互数据
-        searchResult:'' //搜索结果
+        searchResult:'' //搜索成功后的条件
     },
     ready:function(){
         var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层 
@@ -79,13 +84,29 @@ var tempList = new Vue({
         }
     },
     methods:{
-        //根据模板名称搜索
+        //从搜索结果中选中一个类目
+        selectCate:function(pro){
+            this.search.cate_name = pro.cn_name;
+            this.search.cateId = pro.id;
+            this.proList = '';
+            //清除值，隐藏框
+            $('.searchField').val('');
+            $('.searchInput').hide();
+            $('.modal-backdrop').hide();
+        },
+        // 取消选中类目
+        cancelCate:function () {
+            this.search.cate_name = '';
+            this.search.cateId = '';
+        },
+        //模板搜索
         KeywordSearch:function(){
             var name = this.search.name.trim();
             var status = this.search.searchStatus;
+            var category_id = this.search.cateId;
             var vm = this;
-            if(!name&&!status){
-                layer.msg('必须输入关键词或者选择模板状态');
+            if(!name&&!status&&!category_id){
+                layer.msg('必须选择类目,输入关键词或者选择模板状态');
             }else{
                 var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
                 $.ajax({
@@ -95,6 +116,7 @@ var tempList = new Vue({
                     data:{
                         type_code:type_code,
                         vague:name,
+                        category_id:category_id,
                         enabled:status,
                         num:num
                     },
@@ -194,9 +216,14 @@ var tempList = new Vue({
         },
         //删除模板
         deleteItem:function (todo) {
+            var pageNow = this.pageNow;
+            var search = this.searchResult;
+            var vm = this;
+
             layer.confirm('确认删除?', {
               btn: ['确定','关闭'] //按钮
-            },function(){
+            },function(index){
+                layer.close(index);
                 $.ajax({
                     type: "POST",
                     url: serverUrl+"delete/template", //添加请求地址的参数
@@ -207,8 +234,8 @@ var tempList = new Vue({
                     },
                     success: function(data){
                         if(data.status==100){
-                            layer.msg('操作成功');
-                            setInterval(windowFresh,1000);
+                            layer.msg('删除成功');
+                            setTimeout(getPageData(vm,pageNow,search,num,type_code),1000);
                         }else{
                             layer.msg(data.msg);
                         }
@@ -225,6 +252,7 @@ var tempList = new Vue({
         }
     }
 })
+
 //Vue过滤器
 
 //状态码过滤器
@@ -314,19 +342,6 @@ Vue.filter('stopBtn',function(value){
     }
 })
 
-var creatUrl = 'batch-temp-creat.html';//创建模板地址
-
-//打开创建的新的模板
-$('.temp-list .temp-add').click(function(){
-    // window.open(creatUrl+'?type_code='+type_code);
-    window.location.href = creatUrl+'?type_code='+type_code;
-});
-$('.temp-list .creatMB').click(function(){
-    // window.open(creatUrl+'?type_code='+type_code);
-    window.location.href = creatUrl+'?type_code='+type_code;
-});
-
-
 //刷新函数
 function windowFresh(){
     location.reload(true);
@@ -344,6 +359,7 @@ function getPageData (vm,pageNow,search,num,type_code) {
             next:pageNow,
             num:num,
             vague:search.name,
+            category_id:search.cateId,
             enabled:search.searchStatus
         },
         success:function(data){
@@ -365,3 +381,53 @@ function getPageData (vm,pageNow,search,num,type_code) {
         }
     })
 }
+
+var creatUrl = 'batch-temp-creat.html';//创建模板地址
+
+//打开创建的新的模板
+$('.temp-list .temp-add').click(function(){
+    // window.open(creatUrl+'?type_code='+type_code);
+    window.location.href = creatUrl+'?type_code='+type_code;
+});
+$('.temp-list .creatMB').click(function(){
+    // window.open(creatUrl+'?type_code='+type_code);
+    window.location.href = creatUrl+'?type_code='+type_code;
+});
+
+$(document).ready(function(){
+    //模糊搜索类目
+    $('.searchField').on('keyup',function(){
+        var searchCusVal = $('.searchField').val();
+        if(searchCusVal){
+            $.ajax({
+                type:'POST',
+                url:search,
+                datatype:'json',
+                data:{
+                    text:searchCusVal
+                },
+                success:function(data){
+                    if(data.status==100){
+                        tempList.proList = data.value;
+                    }else{
+                        tempList.proList= '';
+                    }
+                },
+                error:function(jqXHR){
+                    layer.msg('向服务器请求客户信息失败');
+                }
+            })
+        }
+    });
+
+    //打开关闭搜索
+    $('.goSearch').on('click',function(){
+        $('.searchInput').show();
+        $('.modal-backdrop').show();
+        $('.searchField').focus();
+    })
+    $('.modal-backdrop').on('click',function(){
+        $('.searchInput').hide();
+        $('.modal-backdrop').hide();
+    })
+});

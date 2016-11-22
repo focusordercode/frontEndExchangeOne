@@ -48,7 +48,7 @@ var oPCenter = new Vue({
     	// 搜索类目
     	proList:'',
     	//交互数据
-    	searchResult:'' //搜索结果
+    	searchResult:'' //搜索成功后的条件
     },
     ready:function () {
     	var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
@@ -115,8 +115,9 @@ var oPCenter = new Vue({
     methods:{
     	//删除产品
     	deleteItem:function (item) {
-    		var item = item,
-    			vm = this;
+    		var vm = this;
+            var pageNow = this.pageNow;
+            var search = this.search;
     		layer.confirm('确定删除产品?',{
     			btn:['确定','取消']
     		},function(index){
@@ -133,6 +134,8 @@ var oPCenter = new Vue({
     						if(data.status==100){
     							layer.msg('删除成功');
     							vm.list.$remove(item);
+                                //重新拉取数据
+                                setTimeout(getPageData (vm,pageNow,search,num),1000);
     						}else{
     							layer.msg(data.msg);
     						}
@@ -164,8 +167,8 @@ var oPCenter = new Vue({
     		var vm = this,
     		category_id = vm.search.cateId,
     		enabled = vm.search.status,
-    		vague = vm.search.keyword;
-    		if (!category_id&&!enabled&&!vague.trim()) {
+    		vague = vm.search.keyword.trim();
+    		if (!category_id&&!enabled&&!vague) {
     			layer.msg('类目，状态和关键词三个条件至少选其一');
     		}else{
     			var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层

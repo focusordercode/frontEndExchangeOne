@@ -14,7 +14,7 @@ function UrlSearch() {
             this[name]=value;
         } 
     } 
-} 
+}
 var Request=new UrlSearch();
 var type_code = 'info';
 var tableID = Request.id;
@@ -26,171 +26,18 @@ console.log(template_id);
 console.log(serverUrl); //后端接口地址
 var oUrl = serverUrl;//图片服务器地址
 
+//刷新函数
+function windowFresh() {
+    location.reload(true);
+}
+
 //未提交保存内容提示
 $(window).bind('beforeunload',function(){return "您修改的内容尚未保存，确定离开此页面吗？";});
-
-// register the grid component
-Vue.component('demo-grid', {
-  template: '#grid-template',
-  props: {
-    data: Array,
-    columns: Array,
-    filterKey: String
-  },
-  methods:{
-    //删除数据
-    remove:function(entry,$index){
-        var entry = entry;
-        var product_id = entry.product_id;
-        var form_id = oTableIn.info.id;
-        var parent_id = entry.parent_id;
-        var BigData = oTableIn.gridData;
-        var oIndex = $index; //当前数据索引
-        if($index==0){
-            layer.msg('模板数据不可以删除');
-            console.log($index);
-        }else if(parent_id==0){ //如果是主条目,进入循环删除变体
-            //向服务器发起请求
-            $.ajax({
-                type:'POST',
-                url:serverUrl+'delete/product',
-                datatype:'json',
-                data:{
-                    type_code:type_code,
-                    product_id:product_id
-                },
-                success:function(data){
-                    if(data.status==100){
-                        //删除---------->
-
-                        var oDelete = new Array();
-                        for(var i=0;i<oTableIn.gridData.length;i++){
-                            if(BigData[i].parent_id==product_id) {
-                                oDelete.unshift(i);//倒叙存
-                            }
-                        }
-                        var deleteLen = oDelete.length+1;//加1是加上主体本身
-                        //进行删除
-                        oTableIn.gridData.splice(oIndex,deleteLen);
-
-                        // for(var h=0;h<oDelete.length;h++){
-                        //     var i = oDelete[h];//获取oDelete数组中的下标，上面一个for循环存的
-                        //     oTableIn.gridData.splice(i,1);
-                        // }
-
-                        //删除主体
-                        // oTableIn.gridData.splice(oIndex,1);
-
-                        //删除---------->
-                    }else{
-                        layer.msg(data.msg);
-                    }
-                },
-                error:function(jqXHR){
-                    layer.msg('向服务器请求删除失败');
-                }
-            })
-
-        }else if(parent_id!=0){ //如果是变体
-            //向服务器发起请求
-            $.ajax({
-                type:'POST',
-                url:serverUrl+'delete/product',
-                datatype:'json',
-                data:{
-                    type_code:type_code,
-                    product_id:product_id
-                },
-                success:function(data){
-                    if(data.status==100){
-                        oTableIn.gridData.splice(oIndex,1);//删除
-                    }else{
-                        layer.msg(data.msg);
-                    }
-                },
-                error:function(jqXHR){
-                    layer.msg('向服务器请求删除失败');
-                }
-            })
-        }
-    },
-    //添加主体
-    addline:function(entry,$index){
-        var BigData = oTableIn.gridData; 
-        var newData = BigData.slice();//复制整个数组
-        //添加条目获取ID
-        $.ajax({
-            type:'POST',
-            url:serverUrl+'get/sysId',
-            datatype:'json',
-            data:{
-                app_code:'product_information',
-                num:1
-            },
-            success:function(data){
-                if(data.status==100){
-                    newObj = $.extend(true, {}, newData[$index]);//复制json对象,此方法只能复制json对象
-                    newObj.product_id = data.value[0];//添加ID，好区别开来
-                    newObj.types      = 'yes';   //标记是新增，后台需要
-                    oTableIn.gridData.push(newObj);//把新的对象push进去
-                }else if(data.status==101){
-                    layer.msg('操作失败');
-                }
-            },
-            error:function(jqXHR){
-                layer.msg('向服务器请求增加失败');
-            }
-        })
-    },
-    //添加变体
-    addchange:function(entry,$index){
-        var BigData = oTableIn.gridData; 
-        var newData = BigData.slice();//复制整个数组
-        var parent_id = entry.product_id;
-        //添加条目获取ID
-        $.ajax({
-            type:'POST',
-            url:serverUrl+'get/sysId',
-            datatype:'json',
-            data:{
-                app_code:'product_information',
-                num:1
-            },
-            success:function(data){
-                if(data.status==100){
-                    newObj = $.extend(true, {}, newData[$index]);//复制json对象,此方法只能复制json对象
-                    newObj.product_id = data.value[0];//添加ID，好区别开来
-                    newObj.parent_id = parent_id;
-                    newObj.types = 'yes'; //标记是新增，后台需要
-                    oTableIn.gridData.splice($index+1,0,newObj);//把新的对象添加进去
-                }else if(data.status==101){
-                    layer.msg('操作失败');
-                }
-            },
-            error:function(jqXHR){
-                layer.msg('向服务器请求增加失败');
-            }
-        })
-    }
-  }
-})
-
-var pageSize = 20;//默认每页展示多少数据，加载时用,修改这里时把data的pageSize一起改
-var oPageNow; //当前页全局变量，暂存异步刷新用
 
 var oTableIn = new Vue({
     el:'body',
     data:{
         info:'',
-        gridColumns: [],
-        gridData: [],
-        pageData:[],
-        countPage:'',
-        countNum:'',
-        pageNow:'',
-        pageSize:20,
-        newData:'',
-        jump:'',
         //默认值
         defaultVal:'',
         variantVal:'',
@@ -246,24 +93,6 @@ var oTableIn = new Vue({
             }
         })
 
-        //获取表头
-        $.ajax({
-            type:'POST',
-            url:serverUrl+'get/bootstrap',
-            datatype:'json',
-            data:{
-                template_id:template_id,
-                type_code:type_code
-            },
-            success:function(data){
-                if(data.status==100){
-                    oTableIn.gridColumns = data.value;
-                }
-            },
-            error:function(jqXHR){
-                layer.msg('向服务器请求表头信息失败');
-            }
-        })
 
         //获取默认值
         $.ajax({
@@ -295,76 +124,18 @@ var oTableIn = new Vue({
                 type_code:type_code
             },
             success:function(data){
+                layer.close(LoadIndex); //关闭遮罩层
                 if(data.status==100){
                     oTableIn.checkData = data.value;
                 }
             },
             error:function(jqXHR){
+                layer.close(LoadIndex); //关闭遮罩层
                 layer.msg('向服务器请求数据检查数据失败');
-            }
-        })
-
-        //获取缓存数据
-        $.ajax({
-            type:'POST',
-            url:serverUrl+'get/info',
-            datatype:'json',
-            data:{
-                form_id:tableID,
-                template_id:template_id,
-                type_code:type_code,
-                pageSize:pageSize //每页展示多少数据
-            },
-            success:function(data){
-                layer.close(LoadIndex); //关闭遮罩层
-                if(data.status==100){
-                    oTableIn.gridData = data.value;
-                    oTableIn.countPage = data.countPage;
-                    oTableIn.countNum = data.countNum;
-                    oTableIn.pageNow = data.pageNow;
-                    //加photo表头
-                    Vue.nextTick(function(){
-                        oTableIn.gridColumns.unshift('photo');
-                    })
-                }else if(data.status==101){
-                    // layer.msg('数据为空');
-                }else if(data.status==102){
-                    layer.msg('获取表格的ID为空');
-                }else if(data.status==111){
-                    layer.msg('表格没有数据');
-                }
-            },
-            error:function(jqXHR){
-                layer.close(LoadIndex); //关闭遮罩层
-                layer.msg('向服务器请求表格数据失败');
             }
         })
     },
     computed:{
-        //控制上一页按钮
-        preBtn:function(){
-            if(this.pageNow==1){
-                return true
-            }else{
-                return false
-            }
-        },
-        //控制下一页按钮
-        nextBtn:function(){
-            if(this.pageNow==this.countPage){
-                return true
-            }else{
-                return false
-            }
-        },
-        //跳转按钮
-        jumpBtn:function(){
-            if(!this.jump){
-                return true
-            }else{
-                return false
-            }
-        },
         //自动填表按钮
         fillBtn:function () {
             var setdatatong = this.defaultVal,setdatabian = this.variantVal;
@@ -388,120 +159,9 @@ var oTableIn = new Vue({
             }else{
                 return false
             }
-        },
-        //数据检查前往修改按钮
-        goXgCheckBtn:function () {
-            var checkRultData = [], checkRultData = this.checkRultData;
-            var arr = [];//收集收据数组
-            for (var i = 0;i<checkRultData.length;i++) {
-                var str = '数据无误';
-                if (checkRultData[i].value ==str) {
-                    arr.push(i);
-                }
-            }
-
-            if(arr.length==checkRultData.length){
-                return true //全部通过
-            }else{
-                return false //有未通过项
-            }
         }
     },
     methods:{
-        //提交
-        sendMsg:function(){
-            var max = this.gridData.length;
-            var vm = this;
-            console.log(type_code);
-            var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层 
-            $.ajax({
-                type:'POST',
-                url:serverUrl+'post/info',
-                datatype:'json',
-                data:{
-                    save_type:'submit',
-                    category_id:vm.info.category_id,
-                    template_id:vm.info.template_id,
-                    form_id:vm.info.id,
-                    gridColumns:vm.gridColumns,
-                    type_code:type_code,
-                    max:max,
-                    gridData:vm.gridData
-                },
-                success:function(data){
-                    layer.close(LoadIndex); //关闭遮罩层
-                    if (data.status==100) {
-                        // --------调试用
-                        // oTableIn.newData = data.t;
-                        // --------调试用
-                        
-                        layer.msg('提交成功');
-                        //解除未提交内容提示
-                        $(window).unbind('beforeunload');
-                        //跳转到下一步
-                        var url = 'TableWorkflow-done.html';
-                        var tableID = oTableIn.info.id;
-                        var tem_id = oTableIn.info.template_id;
-                        window.location.href = url+'?id='+tableID+'&template_id='+tem_id;
-                    }else{
-                        layer.msg(data.msg);
-                    }
-                },
-                error:function(jqXHR){
-                    layer.close(LoadIndex); //关闭遮罩层
-                    layer.msg('向服务器请求提交数据失败');
-                }
-            })
-        },
-        //暂存
-        saveMsg:function(){
-            var max = this.gridData.length;
-            var vm = this;
-            console.log(type_code);
-            var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层 
-            $.ajax({
-                type:'POST',
-                url:serverUrl+'post/info',
-                datatype:'json',
-                data:{
-                    category_id:vm.info.category_id,
-                    template_id:vm.info.template_id,
-                    form_id:vm.info.id,
-                    gridColumns:vm.gridColumns,
-                    type_code:type_code,
-                    max:max,
-                    pageSize:vm.pageSize,
-                    pageNow:vm.pageNow,
-                    gridData:vm.gridData
-                },
-                success:function(data){
-                    layer.close(LoadIndex); //关闭遮罩层
-                    if (data.status==100) {
-                        // --------调试用
-                        // oTableIn.newData = data.t;
-                        // --------调试用
-                        
-                        oPageNow = vm.pageNow;//当前页
-                        
-                        // 异步刷新
-                        update(tableID,template_id,type_code,oPageNow,pageSize,vm)
-
-                        layer.msg('暂存成功');
-                        
-                        //解除未提交内容提示
-                        $(window).unbind('beforeunload');
-                        // oTableIn.newData = data.value;
-
-                    }else{
-                        layer.msg(data.msg);
-                    }
-                },
-                error:function(jqXHR){
-                    layer.close(LoadIndex); //关闭遮罩层
-                    layer.msg('向服务器请求暂存失败');
-                }
-            })
-        },
         //返回上一步
         takeBack:function(){
             var vm = this;
@@ -542,57 +202,6 @@ var oTableIn = new Vue({
                 })
             })
         },
-        //上一页
-        goPre:function(){
-            var next = this.pageNow;
-            if(this.pageNow>1){
-                //解除未提交内容提示
-                $(window).unbind('beforeunload');
-                next--;
-
-                dataPage(tableID,template_id,type_code,next,pageSize,oTableIn)
-            }
-        },
-        //下一页
-        goNext:function(){
-            var next = this.pageNow;
-            if(this.pageNow<this.countPage){
-                //解除未提交内容提示
-                $(window).unbind('beforeunload');
-                next++;
-
-                dataPage(tableID,template_id,type_code,next,pageSize,oTableIn)
-            }
-        },
-        //跳转
-        goJump:function(){
-            var next = this.jump;
-            if(next>this.countPage){
-                layer.msg('输入页码大于总页数');
-                this.jump = '';
-            }else{
-                //解除未提交内容提示
-                $(window).unbind('beforeunload');
-                //获取缓存数据
-                dataPage(tableID,template_id,type_code,next,pageSize,oTableIn)
-            }
-        },
-        //选择展示个数
-        selectNum1:function(){
-            oTableIn.pageSize = 10;
-            pageSize = 10;
-            dataNum(tableID,template_id,type_code,pageSize,oTableIn);
-        },
-        selectNum2:function(){
-            oTableIn.pageSize = 15;
-            pageSize = 15;
-            dataNum(tableID,template_id,type_code,pageSize,oTableIn); 
-        },
-        selectNum3:function(){
-            oTableIn.pageSize = 20;
-            pageSize = 20;
-            dataNum(tableID,template_id,type_code,pageSize,oTableIn);
-        },
         //删除常规默认值
         removeDeval:function (key) {
             var vm = this;
@@ -625,17 +234,17 @@ var oTableIn = new Vue({
 
             //对为空的项进行判断提示
             if (checkArr1.length>0&&checkArr2.length>0) {
-                var str = '常规的和变体的有项目未填'+'<br/>'+'不填写的应删除';
+                var str = '固定值和变化值有项目未填'+'<br/>'+'不填写的应删除';
                 layer.alert(str, function(index){
                   layer.close(index);
                 });
             }else if (checkArr1.length>0) {
-                var str = '常规的有项目未填'+'<br/>'+'不填写的应删除';
+                var str = '固定值有项目未填'+'<br/>'+'不填写的应删除';
                 layer.alert(str, function(index){
                   layer.close(index);
                 });
             }else if (checkArr2.length>0) {
-                var str = '变体的有项目未填'+'<br/>'+'不填写的应删除';
+                var str = '变化值有项目未填'+'<br/>'+'不填写的应删除';
                 layer.alert(str, function(index){
                   layer.close(index);
                 });
@@ -671,209 +280,8 @@ var oTableIn = new Vue({
                     }
                 })
             }
-        },
-        //发送数据检查请求
-        checkRequest:function () {
-            var vm = this;
-            var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
-            $.ajax({
-                type:'POST',
-                url:serverUrl+'data/check',
-                datatype:'json',
-                data:{
-                    form_id:vm.info.id,
-                    type_code:type_code,
-                    check:vm.checkData
-                },
-                success:function(data){
-                    console.log(data);
-                    layer.close(LoadIndex); //关闭遮罩层
-                    if(data.status==100){
-                        layer.msg('请求成功');
-                        vm.checkRultData = data.value;
-                    }else{
-                        layer.msg(data.msg);
-                    }
-                },
-                error:function(jqXHR){
-                    layer.close(LoadIndex); //关闭遮罩层
-                    layer.msg('向服务器请求失败');
-                }
-            })
-        },
-        //前往修改数据
-        goXgCheck:function () {
-            var vm = this,
-                template_id = vm.info.template_id;
-            if (template_id&&tableID) {
-                var url = 'changeTableData.html?id='+tableID+'&template_id='+template_id+'&type_code='+type_code;
-                window.open(url);
-            }
         }
     }
-})
-
-//获取数据函数
-function update(tableID,template_id,type_code,oPageNow,pageSize,vm) {
-    var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
-
-    //获取缓存数据
-    $.ajax({
-        type:'POST',
-        url:serverUrl+'get/info',
-        datatype:'json',
-        data:{
-            form_id:tableID,
-            template_id:template_id,
-            type_code:type_code,
-            next:oPageNow,
-            pageSize:pageSize //每页展示多少数据
-        },
-        success:function(data){
-            layer.close(LoadIndex); //关闭遮罩层
-            if(data.status==100){
-                vm.gridData = data.value;
-                vm.countPage = data.countPage;
-                vm.countNum = data.countNum;
-                vm.pageNow = data.pageNow;
-            }else if(data.status==101){
-                // layer.msg('数据为空');
-            }else if(data.status==102){
-                layer.msg('获取表格的ID为空');
-            }else if(data.status==111){
-                layer.msg('表格没有数据');
-            }
-        },
-        error:function(jqXHR){
-            layer.close(LoadIndex); //关闭遮罩层
-            layer.msg('向服务器请求表格信息失败');
-        }
-    })
-}
-
-//获取数据函数,更改显示个数
-function dataNum (tableID,template_id,type_code,pageSize,vm) {
-
-    var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
-    //获取缓存数据
-    $.ajax({
-        type:'POST',
-        url:serverUrl+'get/info',
-        datatype:'json',
-        data:{
-            form_id:tableID,
-            template_id:template_id,
-            type_code:type_code,
-            pageSize:pageSize //每页展示多少数据
-        },
-        success:function(data){
-            layer.close(LoadIndex); //关闭遮罩层
-            if(data.status==100){
-                vm.gridData = data.value;
-                vm.countPage = data.countPage;
-                vm.countNum = data.countNum;
-                vm.pageNow = data.pageNow;
-            }else if(data.status==101){
-                // layer.msg('数据为空');
-            }else if(data.status==102){
-                layer.msg('获取表格的ID为空');
-            }else if(data.status==111){
-                layer.msg('表格没有数据');
-            }
-        },
-        error:function(jqXHR){
-            layer.close(LoadIndex); //关闭遮罩层
-            layer.msg('向服务器请求表格信息失败');
-        }
-    }) 
-}
-
-//获取数据函数,翻页
-function dataPage (tableID,template_id,type_code,oPageNow,pageSize,vm) {
-    var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
-    $.ajax({
-        type:'POST',
-        url:serverUrl+'get/info',
-        datatype:'json',
-        data:{
-            form_id:tableID,
-            template_id:template_id,
-            type_code:type_code,
-            next:oPageNow,
-            pageSize:pageSize //每页展示多少数据
-        },
-        success:function(data){
-            layer.close(LoadIndex); //关闭遮罩层
-            if(data.status==100){
-                vm.gridData = data.value;
-                vm.countPage = data.countPage;
-                vm.countNum = data.countNum;
-                vm.pageNow = data.pageNow;
-                //未提交保存内容提示
-                $(window).bind('beforeunload',function(){return "您修改的内容尚未保存，确定离开此页面吗？";});
-            }else if(data.status==101){
-                // layer.msg('数据为空');
-            }else if(data.status==102){
-                layer.msg('获取表格的ID为空');
-            }else if(data.status==111){
-                layer.msg('表格没有数据');
-            }
-        },
-        error:function(jqXHR){
-            layer.close(LoadIndex); //关闭遮罩层
-            layer.msg('向服务器请求表格信息失败');
-        }
-    })
-}
-
-//查重函数
-function checkRepeat (vm,allData,selectCheck) {
-    var arr = new Array();
-    var Len = allData.length;
-    //遍历数组内所有对象，放到数组里
-    for (var i = 0;i<Len;i++) {
-        if (allData[i][selectCheck] != null&&allData[i][selectCheck]) {
-            arr.push(allData[i][selectCheck]);
-        }
-    }
-
-    //检查重复
-    var n = isRepeat(arr);
-    if (n) {
-        vm.result1.push(selectCheck);
-    }
-
-    // 验证重复元素，有重复返回true；否则返回false
-    function isRepeat(arr) {
-        var hash = {};
-        for(var i in arr) {
-            if(hash[arr[i]]) {
-                return true;
-            }
-            // 不存在该元素，则赋值为true，可以赋任意值，相应的修改if判断条件即可
-            hash[arr[i]] = true;
-        }
-        return false;
-    }
-}
-
-//刷新函数
-function windowFresh() {
-    location.reload(true);
-}
-
-
-//序号过滤器
-Vue.filter('ListNum',function(value){
-    var str = value;
-    var pageNow = oTableIn.pageNow;
-    var pageCount = oTableIn.pageSize;
-    if(pageNow==1){
-        str = str + 1;
-    }else if(pageNow>1){
-        str = (pageNow-1)*10+str+1;
-    }
-    return str
 })
 
 //数据检查类型
@@ -886,32 +294,496 @@ Vue.filter('ruleType', function (value) {
     return str;
 })
 
-Vue.filter('imgUrl2',function(value){
-    var str = value;
-    var strLen = str.length;
-    var strNew = str.substr(1,strLen-1);
-    strNew = oUrl + strNew;
-    return strNew
-})
-
 $(document).ready(function(){
-    //检测滚动条位置，显示隐藏页面头部
-    $(window).scroll(function(){
-       if($(window).scrollTop() > 50){
-           $('.fixed-top').slideUp(300);
-           $('#table').css('padding-top','200px');
-           $('#table').css('padding-top','50px');
-       }
+    //获取表格数据
+    var headers,gridData,cols = [];
+    var str1 = '<button class="btn btn-sm btn-success btn-main">主体</button><button class="btn btn-sm btn-info btn-var">变体</button><button class="btn btn-sm btn-danger btn-delete">删除</button>';
+    var str2 = '<button class="btn btn-sm btn-danger btn-delete">删除</button>';
+    function getAllData () {
+        getHeaders ();
+        getgridData ();
+    }
+
+    //获取表头
+    function getHeaders() {
+        $.ajax({
+            type:'POST',
+            url:serverUrl+'get/bootstrap',
+            datatype:'json',
+            async: false,
+            data:{
+                template_id:template_id,
+                type_code:type_code
+            },
+            success:function(data){
+                if(data.status==100){
+                    headers = data.value;
+                    //设置cols和headers
+                    if (headers.length) {
+                        for(var i = 0;i<headers.length;i++){
+                            var obj = {};
+                            obj.data = headers[i];
+                            cols.push(obj);
+                        }
+                        //额外cols
+                        var obj1 = {},obj2 = {},obj3 = {},obj4 = {},obj5 = {};
+                            obj1.data = 'product_id';
+                            obj1.readOnly = true;
+                            obj2.data = 'parent_id';
+                            obj2.readOnly = true;
+                            obj3.data = '操作';
+                            obj3.renderer = "html";
+                            obj3.readOnly = true;
+                            obj4.data = 'types';
+                            obj4.readOnly = true;
+                            obj5.data = 'photo';
+                            obj5.readOnly = true;
+                            obj5.renderer = coverRenderer;
+                        cols.unshift(obj5);    
+                        cols.unshift(obj2);    
+                        cols.unshift(obj1);
+                        cols.unshift(obj4);
+                        cols.unshift(obj3);
+
+                        //添加表头数据
+                        headers.unshift('photo');
+                        headers.unshift('parent_id');
+                        headers.unshift('product_id');
+                        headers.unshift('types');
+                        headers.unshift('操作');
+                    }
+                }
+            },
+            error:function(jqXHR){
+                layer.msg('向服务器请求表头信息失败');
+            }
+        })
+    }
+    //获取表格数据
+    function getgridData () {
+        //获取缓存数据
+        $.ajax({
+            type:'POST',
+            url:serverUrl+'get/info',
+            datatype:'json',
+            async: false,
+            data:{
+                form_id:tableID,
+                template_id:template_id,
+                type_code:type_code,
+                status:'preview'
+            },
+            success:function(data){
+                if(data.status==100){
+                    gridData = data.value;
+
+                    if(gridData.length){
+                        for (var i = 0;i<gridData.length;i++) {
+                            if(gridData[i].parent_id!=0){
+                                gridData[i]['操作'] = str2;
+                            }else{
+                                gridData[i]['操作'] = str1;
+                            }
+                        }
+                    }
+
+                }else if(data.status==101){
+                    // layer.msg('数据为空');
+                }else if(data.status==102){
+                    layer.msg('获取表格的ID为空');
+                }else if(data.status==111){
+                    layer.msg('表格没有数据');
+                }
+            },
+            error:function(jqXHR){
+                layer.msg('向服务器请求表格数据失败');
+            }
+        })
+    }
+
+    getAllData ();
+
+    // console.log(headers)
+    console.log(gridData)
+    // console.log(cols)
+
+    //handsontable实例
+    var container = document.getElementById('table');
+
+    var hot = new Handsontable(container, {
+        data: gridData,
+        rowHeaders: true,
+        colHeaders: headers,
+        columns:cols,
+        stretchH: 'all',
+        autoWrapRow: true,
+        hiddenColumns: {
+            columns:[1,2,3]
+        },
+        // colWidths:150,
+        // rowHeights:30,
+        width:1400,
+        height:700,
+        autoRowSize: true,
+        autoColSize: false,
+        fixedColumnsLeft: 6
+    });
+
+
+    //主体添加方法
+    $(document).on('click','.btn-main',function() {
+        hot.render();//获取前先把表格渲染一次,防止修改的没有获取到
+        var rowIndex = hot.getSelected();//获取选中行的索引,返回是数组,下标0为当前行索引
+        if(rowIndex.length){
+            var product_id = getId();
+            var rowDatas = $.extend(true, {}, gridData[rowIndex[0]]);//获取选中行的值
+            rowDatas.product_id = product_id;//修改product_id
+            rowDatas.types = 'yes';//标记是新增，后台需要
+            gridData.push(rowDatas);
+            hot.render();//渲染表格
+            layer.msg('操作成功',{time:1000});
+        }
     })
 
+    //变体添加方法
+    $(document).on('click','.btn-var',function() {
+        hot.render();//获取前先把表格渲染一次,防止修改的没有获取到
+        var rowIndex = hot.getSelected();//获取选中行的索引,返回是数组,下标0为当前行索引
+        if(rowIndex.length){
+            var product_id = getId();
+            var rowDatas = $.extend(true, {}, gridData[rowIndex[0]]);//获取选中行的值
+            var parent_id = rowDatas.product_id;//获取produ_id,用做变体的parent_id
+                rowDatas['操作'] = str2; //修改操作区内容
+                rowDatas.types = 'yes';//标记是新增，后台需要
+                //赋值两个id
+                rowDatas.product_id = product_id;
+                rowDatas.parent_id = parent_id;
+            gridData.splice(rowIndex[0]+1,0,rowDatas);//把新的变体数据添加进去
+            hot.render();//渲染表格
+            layer.msg('操作成功',{time:1000});
+        }
+    })
+
+    //删除方法
+    $(document).on('click','.btn-delete',function() {
+        hot.render();//获取前先把表格渲染一次,防止修改的没有获取到
+        var rowIndex = hot.getSelected();//获取选中行的索引,返回是数组,下标0为当前行索引
+        if(rowIndex.length){
+            if(rowIndex[0]==0){
+                layer.msg('模板数据不可以删除');
+            }else if(gridData[rowIndex[0]].parent_id!=0){ //删除变体
+                var product_id = gridData[rowIndex[0]].product_id;//获取product_id
+                //执行删除函数并且确认是否删除成功
+                var deleteconfirm = dRequest(product_id); 
+                if(deleteconfirm==1){
+                    hot.alter('remove_row',rowIndex[0],1);
+                    layer.msg('删除成功',{time:1000});
+                }
+            }else if(gridData[rowIndex[0]].parent_id==0){ //删除主体
+                var product_id = gridData[rowIndex[0]].product_id;//获取product_id
+                //执行删除函数并且确认是否删除成功
+                var deleteconfirm = dRequest(product_id);
+                if(deleteconfirm==1){
+                    var gridDataLen = gridData.length;
+                    var oDelete = [];
+                    for(var i = 0;i<gridDataLen;i++){
+                        if(gridData[i].parent_id==product_id){
+                            oDelete.push(i);
+                        }
+                    }
+                    var deleteLen = oDelete.length;//统计删除的个数
+                    if(deleteLen){
+                        deleteLen = deleteLen + 1;//加上主体本身
+                    }else{
+                        deleteLen = 1;
+                    }
+                    
+                    hot.alter('remove_row',rowIndex[0],deleteLen);//删除主体及其变体方法
+                    layer.msg('删除成功',{time:1000});
+                }
+            }
+        }
+    })
+
+    //发起数据检查请求
+    $(document).on('click','.gocheck',function(){
+        var Len = headers.length;//表头长度
+        var checkName = $(this).closest('.form-group').find('.control-label').eq(0).text();//检查项
+        var checkType = $(this).closest('.form-group').find('.form-control').eq(0).val();//检查类型
+            checkType = Number(checkType);
+        var checkIndex;//检查项在表头中的位置
+
+        //获取下标
+        for(var h = 0;h<Len;h++){
+            if(checkName==headers[h]){
+                checkIndex = h;
+            }
+        }
+        console.log(checkIndex);
+        //进入数据检查
+        if(checkType&&checkIndex){
+            //判断检查的类型
+            if(checkType==1){ //唯一性检查
+                hot.render();
+                var arr = hot.getDataAtCol(checkIndex);//获取检查数据
+                var arrRpt = checkOnly(arr);//执行检查函数获取结果
+                if(arrRpt.length){
+                    hot.selectCell(arrRpt[0],checkIndex);//定位到第一个数据重复的数据
+                    layer.msg('已定位到第一个重复的单元格',{time:1000});
+                }else{
+                    layer.msg('检查唯一性通过');
+                }
+            }else if(checkType==2){ //重复性检查
+                hot.render();
+                var arr1 = hot.getDataAtCol(checkIndex);//获取检查数据
+                var arrRpt = checkRepeat(arr1)//执行检查函数获取结果
+                if(arrRpt){
+                    hot.selectCell(arrRpt,checkIndex);//定位到第一个数据不重复的数据
+                    layer.msg('已定位到第一个不重复的单元格',{time:1000});
+                }else{
+                    layer.msg('检查重复性通过');
+                }
+            }
+        }
+    });
+
+    //图片放大展示
+    //进入
+    $(document).on('mouseenter','.imgcols',function(){
+        var srcUrl = $(this).attr('src');
+        if(srcUrl){
+            $('.img-show-content .img-show').attr('src',srcUrl);
+            $('.img-show-content .img-show').show();
+        }
+    })
+    //离开
+    $(document).on('mouseleave','.imgcols',function(){
+        $('.img-show-content .img-show').hide();
+    })
+
+    //提交暂存
+    $('.cacheData').on('click',function(){
+        hot.render();//获取前先把表格渲染一次,防止修改的没有获取到
+        tableData = hot.getData();
+        console.log(tableData);
+        console.log(gridData);
+        var gridColumns = headers.slice();
+        console.log(gridColumns);
+        //暂存
+        var vm = oTableIn;
+        var max = tableData.length;
+        console.log(type_code);
+        layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
+        $.ajax({
+            type:'POST',
+            url:serverUrl+'commit/data',
+            datatype:'json',
+            data:{
+                category_id:vm.info.category_id,
+                template_id:vm.info.template_id,
+                form_id:vm.info.id,
+                type_code:type_code,
+                max:max,
+                gridColumns:gridColumns,
+                gridData:tableData
+            },
+            success:function(data){
+                layer.closeAll(); //关闭遮罩层
+                if (data.status==100) {
+
+                    layer.msg('暂存成功');
+                    //解除未提交内容提示
+                    $(window).unbind('beforeunload');
+
+                    setInterval(windowFresh,1000);
+                }else{
+                    layer.msg(data.msg);
+                }
+            },
+            error:function(jqXHR){
+                layer.closeAll(); //关闭遮罩层
+                layer.msg('向服务器请求暂存失败');
+            }
+        })
+    })
+
+    //提交数据跳转
+    $('.submitData').on('click',function(){
+        hot.render();//获取前先把表格渲染一次,防止修改的没有获取到
+        tableData = hot.getData();
+        console.log(tableData);
+        console.log(gridData);
+        var gridColumns = headers.slice();
+        console.log(gridColumns);
+        //提交
+        var vm = oTableIn;
+        var max = tableData.length;
+        console.log(type_code);
+        layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
+        $.ajax({
+            type:'POST',
+            url:serverUrl+'commit/data',
+            datatype:'json',
+            data:{
+                type:'submit',
+                category_id:vm.info.category_id,
+                template_id:vm.info.template_id,
+                form_id:vm.info.id,
+                type_code:type_code,
+                max:max,
+                gridColumns:gridColumns,
+                gridData:tableData
+            },
+            success:function(data){
+                layer.closeAll(); //关闭遮罩层
+                if (data.status==100) {
+
+                    layer.msg('提交成功');
+
+                    //解除未提交内容提示
+                    $(window).unbind('beforeunload');
+                    
+                    var url = 'TableWorkflow-done.html';
+                    var tableID = vm.info.id;
+                    var tem_id = vm.info.template_id;
+                    //跳转到下一步
+                    if(tableID&&tem_id){
+                        setInterval(goNext1,1000)
+                    }
+                    function goNext1(){
+                        window.location.href = url+'?id='+tableID+'&template_id='+tem_id;
+                    }
+                }else{
+                    layer.msg(data.msg);
+                }
+            },
+            error:function(jqXHR){
+                layer.closeAll(); //关闭遮罩层
+                layer.msg('向服务器请求暂存失败');
+            }
+        })
+    })
+
+    //获取product_id的函数
+    function getId() {
+        var a;
+        $.ajax({
+            type:'POST',
+            url:serverUrl+'get/sysId',
+            datatype:'json',
+            async:false,
+            data:{
+                app_code:'product_information',
+                num:1
+            },
+            success:function(data){
+                if(data.status==100){
+                    a = data.value[0];
+                }else if(data.status==101){
+                    layer.msg('操作失败');
+                }else{
+                    layer.msg(data.msg);
+                }
+            },
+            error:function(jqXHR){
+                layer.msg('向服务器请求增加失败');
+            }
+        })
+        return a
+    }
+
+    //发起删除请求函数
+    function dRequest(product_id) {
+        var a;
+        $.ajax({
+            type:'POST',
+            url:serverUrl+'delete/product',
+            datatype:'json',
+            async:false,
+            data:{
+                type_code:type_code,
+                product_id:product_id
+            },
+            success:function(data){
+                if(data.status==100){
+                    a = 1;//删除成功
+                }else{
+                    a = 2;//删除失败
+                    layer.msg(data.msg);
+                }
+            },
+            error:function(jqXHR){
+                a = 2;//删除失败
+                layer.msg('向服务器请求删除失败');
+            }
+        })
+        return a
+    }
+
+    //数据查重函数(唯一性)
+    function checkOnly(arr) {
+        var arrRpt = [], hash = {};   
+        for (var i = 0, elem; (elem = arr[i]) != null; i++) {
+            if (!hash[elem]) {
+                hash[elem] = true;
+            }else{
+                arrRpt.push(i);//获取重复 
+            }
+        }
+        return arrRpt
+    }
+    //数据查重复函数(重复性)
+    function checkRepeat(arr) {
+        var arrRpt;
+        for(var i = 0;i<arr.length;i++){
+            if(i+1==arr.length){
+                break
+            }else{
+                if(arr[i]!=arr[i+1]){
+                    arrRpt = i+1;
+                    break
+                }
+            }
+        }
+        console.log(arrRpt);
+        return arrRpt
+    }
+
+    //photo
+    function coverRenderer (instance, td, row, col, prop, value, cellProperties) {
+       var escaped = Handsontable.helper.stringify(value),
+         img;
+     
+       if (escaped.indexOf('http') === 0) { //该链接字符串http首次出现的位置是0的情况下
+         img = document.createElement('IMG');
+         img.src = value;
+         img.className = 'imgcols';
+         img.width = 50;
+         img.height = 50;
+
+         Handsontable.Dom.addEvent(img, 'mousedown', function (e){
+           e.preventDefault(); // prevent selection quirk
+         });
+     
+         Handsontable.Dom.empty(td);
+         td.appendChild(img);
+       }
+       else {
+         // render as text
+         Handsontable.renderers.TextRenderer.apply(this, arguments);
+       }
+     
+       return td;
+     }
+
     $('.pullUP').click(function(){
-        $('.fixed-top').slideUp(300);
-        $('#table').css('padding-top','50px');
+        $('.panel-top').slideUp(300);
+        $('.pullDown').show();
     });
 
     $('.pullDown').click(function(){
-        $('.fixed-top').slideDown(300);
-        $('#table').css('padding-top','680px');
+        $('.panel-top').slideDown(300);
+        $('.pullDown').hide();
     });
 
     //回到顶部
