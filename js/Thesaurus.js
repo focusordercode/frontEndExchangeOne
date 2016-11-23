@@ -229,6 +229,7 @@ var oPCenter = new Vue({
                 vm.jump = '';
             }else{
     			getPageData (vm,jump,search,num);
+                vm.jump = '';
     		}
     	}
     }

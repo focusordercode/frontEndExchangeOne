@@ -181,6 +181,7 @@ var tempList = new Vue({
                 vm.jump = '';
             }else{
                 getPageData (vm,jump,search,num,type_code);
+                vm.jump = '';
             }
         },
         //停用模板
