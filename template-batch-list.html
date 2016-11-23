@@ -144,7 +144,7 @@
                 <!-- 模板item -->
                 <div v-for="todo in temp" class="col-sm-6 col-xs-12 col-md-4 temp">
                     <div class="well">
-                        <h3 class="text-muted text-break">{{todo.cn_name}} <small>{{todo.en_name}}</small></h3>
+                        <h3 class="text-muted text-break">{{todo.cn_name}} <small :title="todo.en_name">{{todo.en_name}}</small></h3>
                         <p>
                             <span class="label label-success">模板类目</span>
                             <span class="text-muted temp-cate">{{todo.category_name}}</span>
