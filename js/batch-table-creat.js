@@ -39,7 +39,7 @@ var tableCreat = new Vue({
 		MBselected:'',
 		sites:[
 			'UK',
-			'USA',
+			'US',
 			'France',
 			'Italy',
 			'Spain',

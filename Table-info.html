@@ -196,9 +196,9 @@
                                                 <td class="text-center">{{item.modified_time}}</td>
                                                 <td class="text-center">{{item.status_code|statusCode}}</td>
                                                 <td class="text-center">
-                                                    <a :href="item | xgBtn" v-show="item.status_code | deleteBtn" target="_blank" class="btn btn-info btn-xs">
+                                                    <button @click="infoXG(item)" v-show="item.status_code | deleteBtn" class="btn btn-info btn-xs">
                                                         修改
-                                                    </a>
+                                                    </button>
                                                     <a v-show="item.status_code | editBtn" class="btn btn-success btn-xs" target="_blank" :href="item | statusLink" >编辑</a>
                                                     <a v-show="item.status_code | prviewBtn" class="btn btn-success btn-xs" target="_blank" :href="item | statusLink" >查看</a>
                                                     <button v-show="item.status_code | deleteBtn" v-on:click="remove(item)" class="btn btn-danger btn-xs">    删除
@@ -217,9 +217,9 @@
                                                 <td class="text-center">{{item.modified_time}}</td>
                                                 <td class="text-center">{{item.status_code|statusCode}}</td>
                                                 <td class="text-center">
-                                                    <a :href="item | xgBtn" v-show="item.status_code | deleteBtn" target="_blank" class="btn btn-info btn-xs">
+                                                    <button @click="infoXG(item)" v-show="item.status_code | deleteBtn" class="btn btn-info btn-xs">
                                                         修改
-                                                    </a>
+                                                    </button>
                                                     <a v-show="item.status_code | editBtn" class="btn btn-success btn-xs" target="_blank" :href="item | statusLink" >编辑</a>
                                                     <a v-show="item.status_code | prviewBtn" class="btn btn-success btn-xs" target="_blank" :href="item | statusLink" >查看</a>
                                                     <button v-show="item.status_code | deleteBtn" v-on:click="remove(item)" class="btn btn-danger btn-xs">    删除
@@ -260,6 +260,39 @@
                 <!-- <pre>{{$data|json 4}}</pre> -->
             </div>
         </div>
+
+        <!-- 修改表格信息 -->
+        <div class="modal infoXG fade">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header bg-success">
+                        <h5 class="modal-title text-center"><b>表格信息修改</b></h5>
+                        <button type="button" class="close close-positon" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i class="fa fa-close"></i></span></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-horizontal">
+                                        <div class="form-group">
+                                            <label class="col-sm-2 label control-label">表格名称</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" v-model="infoCache.title" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="col-md-3 col-md-offset-2">
+                                    <button class="btn btn-success" @click="saveXG">保存</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
         <!-- 页脚 -->
         <div class="container-fluid footer-fluid">
             <div class="contaier">

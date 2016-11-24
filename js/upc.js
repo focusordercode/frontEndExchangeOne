@@ -1,11 +1,6 @@
 
 console.log(serverUrl); //后端接口地址
 
-//刷新函数
-function windowFresh(){
-    location.reload(true);
-}
-
 var pageNum = 1; //页码全局变量
 var upcInfo = new Vue({
     el:'body',
@@ -17,10 +12,7 @@ var upcInfo = new Vue({
         usedUpc:'',     //已使用UPC
         lockedUpc:'',   //已锁定的UPC
         upc:'',          //未使用的UPC
-        prePageBtn:'',
-        nextPageBtn:'',
-        jump:'',
-        jumpBtn:''
+        jump:''
         
     },
     //拉取第一页
@@ -78,7 +70,7 @@ var upcInfo = new Vue({
                 return false
             }
         },
-        //三个按钮状态
+        //跳转按钮
         jumpBtn:function(){
             var jump = this.jump;
             if(!jump){
@@ -91,125 +83,41 @@ var upcInfo = new Vue({
     methods:{
         //上一页
         goPrePage:function(){
+            var vm = this;
             var pageNow = this.pageNow;
             if(pageNow<=1){
                 layer.msg('没有上一页啦');
             }else{
                 pageNow--
-                var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
-                $.ajax({
-                    type: "POST",
-                    url: serverUrl+"get/upc", //添加请求地址的参数
-                    dataType: "json",
-                    data:{
-                        pageNum:pageNow
-                    },
-                    success: function(data){
-                        layer.close(LoadIndex); //关闭遮罩层
-                        if(data.status==100){
-                            upcInfo.upcInfo = data.value;
-                            upcInfo.countPage = data.count;
-                            upcInfo.pageNow = data.pageNow;
-                            upcInfo.Allupc = data.allupc;
-                            upcInfo.usedUpc = data.usedupc;
-                            upcInfo.lockedUpc = data.lockedupc;
-                            upcInfo.upc = data.upc;
-                        }else if(data.status==101){
-                            layer.msg('获取UPC失败');
-                        }else if(data.status==102){
-                            layer.msg('参数错误');
-                        }else if(data.status==110){
-                            layer.msg('没有UPC');
-                        }
-                    },
-                    error: function(jqXHR){
-                        layer.close(LoadIndex); //关闭遮罩层
-                        layer.msg('向服务器请求失败');
-                    }
-                })
+                getPageData(vm,pageNow);
             }
         },
         //下一页
         goNextPage:function(){
+            var vm = this;
             var pageNow = this.pageNow;
             var countPage = this.countPage;
             if(pageNow==countPage){
                 layer.msg('没有下一页啦');
             }else{
                 pageNow++
-                var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
-                $.ajax({
-                    type: "POST",
-                    url: serverUrl+"get/upc", //添加请求地址的参数
-                    dataType: "json",
-                    data:{
-                        pageNum:pageNow
-                    },
-                    success: function(data){
-                        layer.close(LoadIndex); //关闭遮罩层
-                        if(data.status==100){
-                            upcInfo.upcInfo = data.value;
-                            upcInfo.countPage = data.count;
-                            upcInfo.pageNow = data.pageNow;
-                            upcInfo.Allupc = data.allupc;
-                            upcInfo.usedUpc = data.usedupc;
-                            upcInfo.lockedUpc = data.lockedupc;
-                            upcInfo.upc = data.upc;
-                        }else if(data.status==101){
-                            layer.msg('获取UPC失败');
-                        }else if(data.status==102){
-                            layer.msg('参数错误');
-                        }else if(data.status==110){
-                            layer.msg('没有UPC');
-                        }
-                    },
-                    error: function(jqXHR){
-                        layer.close(LoadIndex); //关闭遮罩层
-                        layer.msg('向服务器请求失败');
-                    }
-                })
+                getPageData(vm,pageNow);
             }
         },
         //跳转
         goJump:function(){
+            var vm = this;
             var jump = this.jump;
             var countPage = this.countPage;
             if(jump>countPage){
                 layer.msg('大于总页数啦');
                 this.jump = '';
+            }else if (jump<=0){
+                layer.msg('页码错误');
+                vm.jump = '';
             }else{
-                var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
-                $.ajax({
-                    type: "POST",
-                    url: serverUrl+"get/upc", //添加请求地址的参数
-                    dataType: "json",
-                    data:{
-                        pageNum:jump
-                    },
-                    success: function(data){
-                        layer.close(LoadIndex); //关闭遮罩层
-                        if(data.status==100){
-                            upcInfo.upcInfo = data.value;
-                            upcInfo.countPage = data.count;
-                            upcInfo.pageNow = data.pageNow;
-                            upcInfo.Allupc = data.allupc;
-                            upcInfo.usedUpc = data.usedupc;
-                            upcInfo.lockedUpc = data.lockedupc;
-                            upcInfo.upc = data.upc;
-                            upcInfo.jump = '';
-                        }else if(data.status==101){
-                            layer.msg('获取UPC失败');
-                        }else if(data.status==102){
-                            layer.msg('参数错误');
-                        }else if(data.status==110){
-                            layer.msg('没有UPC');
-                        }
-                    },
-                    error: function(jqXHR){
-                        layer.close(LoadIndex); //关闭遮罩层
-                        layer.msg('向服务器请求失败');
-                    }
-                })
+                getPageData(vm,jump);
+                vm.jump = '';
             }
         }
     }
@@ -229,6 +137,45 @@ Vue.filter('lockStatus',function(value){
     return value
 })
 
+//刷新函数
+function windowFresh(){
+    location.reload(true);
+}
+
+//获取数据函数,分页
+function getPageData(vm,pageNow) {
+    var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
+    $.ajax({
+        type: "POST",
+        url: serverUrl+"get/upc", //添加请求地址的参数
+        dataType: "json",
+        data:{
+            pageNum:pageNow
+        },
+        success: function(data){
+            layer.close(LoadIndex); //关闭遮罩层
+            if(data.status==100){
+                vm.upcInfo = data.value;
+                vm.countPage = data.count;
+                vm.pageNow = data.pageNow;
+                vm.Allupc = data.allupc;
+                vm.usedUpc = data.usedupc;
+                vm.lockedUpc = data.lockedupc;
+                vm.upc = data.upc;
+            }else if(data.status==101){
+                layer.msg('获取UPC失败');
+            }else if(data.status==102){
+                layer.msg('参数错误');
+            }else if(data.status==110){
+                layer.msg('没有UPC');
+            }
+        },
+        error: function(jqXHR){
+            layer.close(LoadIndex); //关闭遮罩层
+            layer.msg('向服务器请求失败');
+        }
+    })
+}
 
 //UPC上传
 $('#upload').on('click',function(){
@@ -247,8 +194,6 @@ $('#upload').on('click',function(){
             contentType: false
         }).done(function(res) {
             if(res.status==100){
-                // layer.alert('上传成功!'+'文件中已存在的UPC:'+res.value.same_upc+'&nbsp;添加成功的UPC:'+res.value.inserted+'');
-
                 layer.alert('上传成功!'+'文件中已存在的UPC:'+res.value.same_upc+'&nbsp;添加成功的UPC:'+res.value.inserted+'', function(yes){
                     windowFresh();
                 }); 

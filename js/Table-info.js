@@ -7,17 +7,11 @@ var num = 25;//每页展示个数
 var oTableInfo = new Vue({
 	el:'body',
 	data:{
-		tableInfo:'',
-		type_code:'',
-		count:'',
+		tableInfo:'',//表格数据数组
+		count:'',//统计所有的数据
 		countPage:'',
 		pageNow:'',
-		prePage:'',
-		nextPage:'',
-		prePageBtn:'',
-		nextPageBtn:'',
 		jump:'',
-		jumpBtn:'',
 		// 搜索类目
 		proList:'',
 		//搜索条件
@@ -28,6 +22,7 @@ var oTableInfo = new Vue({
 			cateId:''
 		},
 		//交互数据
+		infoCache:'',//信息修改暂存
 		searchResult:'' //搜索成功后的条件
 	},
 	ready:function(){
@@ -208,6 +203,53 @@ var oTableInfo = new Vue({
 		Reflesh:function(){
 			location.reload(true);
 		},
+		//修改表格信息
+		infoXG:function(item){
+			var vm = this;
+			vm.infoCache = $.extend(true, {}, item);//复制数据
+			if(item.id){
+				$('.infoXG').modal('show');
+			}
+		},
+		//提交修改
+		saveXG:function(){
+		    var infoCache = this.infoCache;
+		    var pageNow = this.pageNow;
+		    var vm = this;
+		    var search = this.searchResult;
+		    var title = infoCache.title.trim();
+		    if(infoCache.id&&title){
+		        $.ajax({
+		        	type:'POST',
+		        	url:serverUrl+'update/infoform',
+		        	datatype:'json',
+		        	data:{
+		        		type_code:type_code,
+		        		id:infoCache.id,
+		        		category_id:infoCache.category_id,
+		        		template_id:infoCache.template_id,
+		        		client_id:infoCache.client_id,
+		        		title:infoCache.title
+		        	},
+		        	success:function(data){
+		        		if(data.status==100){
+		        			layer.msg('保存成功');
+
+		        			$('.infoXG').modal('hide');
+
+		        			setTimeout(getPageData(vm,pageNow,search,num,type_code),1000);
+		        		}else {
+		        			layer.msg(data.msg);
+		        		}
+		        	},
+		        	error:function(jqXHR){
+		        		layer.msg('向服务器请求失败');
+		        	}
+		        })
+		    }else{
+		    	layer.msg('不能为空');
+		    }
+		},
 		//上一页
 		goPrePage:function(){
 			var pageNow = this.pageNow;
@@ -247,6 +289,7 @@ var oTableInfo = new Vue({
                 vm.jump = '';
             }else{
 				getPageData (vm,jump,search,num,type_code);
+				vm.jump = '';
 			}
 		}
 	}
@@ -341,21 +384,6 @@ Vue.filter('prviewBtn',function(value){
         return str2
     }else {
         return str1
-    }
-})
-
-//修改按钮
-Vue.filter('xgBtn',function(value){
-    var str;
-    var value = value;
-    var tableID = value.id,
-    	status_code = value.status_code,
-    	url1 = 'changeTable1.html';
-    	url2 = 'changeTable2.html';
-    if(status_code=='creating'){
-    	return str = url1 +'?tableID='+ tableID;
-    }else{
-    	return str = url2 +'?tableID='+ tableID;
     }
 })
 

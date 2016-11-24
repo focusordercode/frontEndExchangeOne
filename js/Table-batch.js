@@ -7,17 +7,11 @@ var type_code = 'batch';
 var oTableInfo = new Vue({
 	el:'body',
 	data:{
-		tableInfo:'',
-		type_code:'',
-		count:'',
+		tableInfo:'',//表格数据数组
+		count:'',//统计所有的数据
 		countPage:'',
 		pageNow:'',
-		prePage:'',
-		nextPage:'',
-		prePageBtn:'',
-		nextPageBtn:'',
 		jump:'',
-		jumpBtn:'',
 		// 搜索类目
 		proList:'',
 		//搜索条件
@@ -264,6 +258,7 @@ var oTableInfo = new Vue({
                 vm.jump = '';
             }else{
 				getPageData (vm,jump,search,num,type_code);
+				vm.jump = '';
 			}
 		},
 		//提交修改
@@ -272,7 +267,8 @@ var oTableInfo = new Vue({
 		    var pageNow = this.pageNow;
 		    var vm = this;
 		    var search = this.searchResult;
-		    if(infoCache.id){
+		    var title = infoCache.title.trim();
+		    if(infoCache.id&&title){
 		        $.ajax({
 		        	type:'POST',
 		        	url:serverUrl+'update/infoform',
@@ -301,6 +297,8 @@ var oTableInfo = new Vue({
 		        		layer.msg('向服务器请求失败');
 		        	}
 		        })
+		    }else{
+		    	layer.msg('不能为空');
 		    }
 		}
 	}
