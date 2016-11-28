@@ -161,9 +161,9 @@
                         </p>
                         <p>
                             <a class="btn btn-info btn-xs" target="_blank" v-show="todo.status_code | preBtn" :href="todo | preLink" >预览</a>
+                            <a class="btn btn-success btn-xs" v-show="todo.edit | editBtn" :href="todo | statusLink" >编辑</a>
                             <button v-show="todo.status_code | stopBtn" @click="stopTemp(todo)" class="btn btn-xs btn-danger">停用</button>
-                            <a class="btn btn-success btn-xs" v-show="todo.status_code | editBtn" :href="todo | statusLink" >编辑</a>
-                            <button v-show="todo.status_code | editBtn" class="btn btn-xs btn-danger btn-delete">删除</button>
+                            <button v-show="todo.status_code | delBtn" class="btn btn-xs btn-danger btn-delete">删除</button>
                             <input v-model="todo.id" type="hidden" class="temp-id">
                             <span class="text-warning">{{todo.status_code|statusCode}}状态</span>
                         </p>

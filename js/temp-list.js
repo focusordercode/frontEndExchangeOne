@@ -288,8 +288,10 @@ Vue.filter('preLink',function(value){
     var status = value.status_code;
     var str = '&type=pre';//标记为预览访问
     var url = 'info-temp-done.html';
-    if(status=='enabled'||status=='disabled'){
+    if(status=='enabled'){
         return url+'?id='+id+str;
+    }else if(status=='disabled'){
+        return url+'?id='+id;
     }else{
         return 'javascript:'
     }

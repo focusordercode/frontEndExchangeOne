@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>批量表模板启用</title>
+    <title>资料表模板启用</title>
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <!--你自己的样式文件 -->
@@ -151,7 +151,28 @@
                     <div>
                         <table class="table table-bordered">
                             <tr class="info">
+                                <th v-show="tempData">表头</th>
                                 <th v-for="table in tempData" class="text-center">{{table.en_name}}</th>
+                            </tr>
+                            <tr>
+                                <th v-show="temFormat">类型</th>
+                                <td v-for="type in temFormat" class="text-center">{{type.data_type_code | dataType}}</td>
+                            </tr>
+                            <tr>
+                                <th v-show="temFormat">长度</th>
+                                <td v-for="num in temFormat" class="text-center">{{num.length}}</td>
+                            </tr>
+                            <tr>
+                                <th v-show="temFormat">精度</th>
+                                <td v-for="preciasion in temFormat" class="text-center">{{preciasion.preciasion}}</td>
+                            </tr>
+                            <tr>
+                                <th v-show="temFormat">填写方式</th>
+                                <td v-for="filling_type in temFormat" class="text-center">{{filling_type.filling_type | writeType}}</td>
+                            </tr>
+                            <tr>
+                                <th v-show="temFormat">数据检查</th>
+                                <td v-for="value_requlation in temFormat" class="text-center">{{value_requlation.value_requlation | ruleType}}</td>
                             </tr>
                         </table>
                     </div>

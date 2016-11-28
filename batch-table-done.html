@@ -74,6 +74,11 @@
             background-color: #d9edf7;
             /*background-color: #c4d4e8;*/
         }
+        .select-product {
+            display: inline-block;
+            width: 100px;
+            padding-top: 3px;
+        }
     </style>
 </head>
     <body>
@@ -153,6 +158,10 @@
             <div class="row">
                 <div class="col-md-12 text-center" style="margin-top: 10px;">
                     <button class="btn btn-success" v-show="!visitType" @click="oFitUPC">匹配UPC</button>
+                    <select class="form-control select-product" v-model="productSelect">
+                        <option value="1" selected>全部</option>
+                        <option value="2">子商品</option>
+                    </select>
                     <button class="btn btn-info" :disabled="makeExcelBtn" @click="makeExcel">生成表格</button>
                     <a :href="info.url" class="btn btn-primary" v-show="downloadBtn">
                         <i class="fa fa-download" aria-hidden="true"></i>下载表格

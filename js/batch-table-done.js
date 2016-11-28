@@ -32,6 +32,7 @@ var oTableIn = new Vue({
         downloadBtn:'',
         makeExcelBtn:'',//生成表格按钮
         downLink:'',
+        productSelect:'',
         visitType:visit
     },
     ready:function(){
@@ -99,6 +100,7 @@ var oTableIn = new Vue({
                     datatype:'json',
                     data:{
                         form_id:tableID,
+                        productSelect:vm.productSelect,
                         template_id:template_id
                     },
                     success:function(data){

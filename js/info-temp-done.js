@@ -29,6 +29,7 @@ var tempStart = new Vue({
         temp:'',
         tempData:'',
         doneBtn:'',
+        temFormat:'',//模板的格式数据
         preType:preType //判断访问类型
     },
     ready:function(){
@@ -66,6 +67,25 @@ var tempStart = new Vue({
             success: function(data){
                 if(data.status==100){
                     tempStart.tempData = data.value;
+                }
+            },
+            error: function(jqXHR){     
+                layer.msg('从服务器获取模板数据失败');
+            }
+        })
+        //获取当前模板的格式数据
+        $.ajax({
+            type: "POST",
+            url: serverUrl+"get/temformat", //添加请求地址的参数
+            dataType: "json",
+            timeout:5000,
+            data:{
+                template_id:template_id,
+                type_code:type_code
+            },
+            success: function(data){
+                if(data.status==100){
+                    tempStart.temFormat = data.value;
                 }
             },
             error: function(jqXHR){     
@@ -117,4 +137,39 @@ var tempStart = new Vue({
             }
         }
     }
+})
+
+//数据类型
+Vue.filter('dataType', function (value) {
+    var str;
+    switch(value){
+        case "int": str = "整数";break;
+        case "char": str = "文本";break;
+        case "dc": str = "小数";break;
+        case "dt": str = "日期";break;
+        case "bl": str = "是否";break;
+        case "pic": str = "图片";break;
+        case "upc_code": str = "UPC码";break;
+    }
+    return str;
+})
+//填写方式
+Vue.filter('writeType', function (value) {
+    var str;
+    switch(value){
+        case 1: str = "固定值";break;
+        case 2: str = "变化值";break;
+        case 3: str = "不填写";break;
+    }
+    return str;
+})
+//数据检查类型
+Vue.filter('ruleType', function (value) {
+    var str;
+    switch(value){
+        case 1: str = "唯一";break;
+        case 2: str = "重复";break;
+        case 0: str = "无";break;
+    }
+    return str;
 })

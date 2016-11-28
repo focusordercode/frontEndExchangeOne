@@ -273,6 +273,7 @@ Vue.filter('statusCode', function (value) {
 Vue.filter('statusLink', function (value) {
     var id = value.id;
     var status = value.status_code;
+    var edit = value.edit;
     var url2 = 'batch-temp-defineVal.html';
     var url3 = 'batch-temp-relate.html';
     var url4 = 'batch-temp-start.html';
@@ -282,6 +283,8 @@ Vue.filter('statusLink', function (value) {
         return url3+'?id='+id;  //进入第三步
     }else if(status=='connecting'){
         return url4+'?id='+id;  //进入第四步
+    }else if(status=='enabled'&&edit==1){ //启用后,检查没有关联过表格可以编辑
+        return url2+'?id='+id;  //进入第二步
     }else{
         return 'javascript:'
     }
@@ -292,25 +295,27 @@ Vue.filter('preLink',function(value){
     var status = value.status_code;
     var str = '&type=pre';//标记为预览访问
     var url = 'batch-temp-start.html';
-    if(status=='enabled'||status=='disabled'){
+    if(status=='enabled'){
         return url+'?id='+id+str;
+    }else if(status=='disabled'){
+        return url+'?id='+id;
     }else{
         return 'javascript:'
     }
 })
-//启用按钮显示
-Vue.filter('startBtn',function(value){
+//编辑按钮显示隐藏
+Vue.filter('editBtn',function(value){
     var value = value;
     str1 = ''; //隐藏
     str2 = 'yes'; //显示
-    if(value=='creating'||value=='editing'||value=='disabled'){
+    if(value==1){ //可编辑
         return str2
-    }else if(value=='enabled'){
+    }else if(value==0){//不可编辑
         return str1
     }
 })
-//编辑按钮显示隐藏
-Vue.filter('editBtn',function(value){
+//删除按钮显示隐藏
+Vue.filter('delBtn',function(value){
     var value = value;
     str1 = ''; //隐藏
     str2 = 'yes'; //显示

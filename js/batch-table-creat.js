@@ -48,7 +48,9 @@ var tableCreat = new Vue({
 		siteSelect:'',
 		//文件名
 		tableName:'',
-		file_name:''
+		file_name:'',
+		//产品数量
+		product_num:''
 	},
 	computed:{
 		// 选择产品资料表按钮
@@ -190,6 +192,8 @@ var tableCreat = new Vue({
 		//提交批量表信息
 		saveTable:function(){
 			var vm = this;
+			var product_num = vm.product_num.trim();//产品数量
+			var numTest= /^[0-9]*[1-9][0-9]*$/;//正整数正则
 			vm.file_name = vm.tableSelected.company_name + "-" + vm.tableName;
 			var file_name = $.trim( vm.file_name );
 			if(!vm.tableID){
@@ -204,6 +208,8 @@ var tableCreat = new Vue({
 				layer.msg('没有选择站点');
 			}else if(!vm.tableName.trim()){
 				layer.msg('表格名称不能为空');
+			}else if(!numTest.test(product_num)&&product_num){
+				layer.msg('产品数量必须是正整数');
 			}else{
 				var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
 				$.ajax({
@@ -219,7 +225,8 @@ var tableCreat = new Vue({
 						product_form_id:vm.tableSelected.id,//资料表ID
 						site_name:vm.siteSelect,//站点信息
 						title:vm.tableName,//表格名称
-						file_name:file_name //文件名
+						file_name:file_name, //文件名
+						product_num:product_num //产品数量
 					},
 					success:function(data){
 						layer.close(LoadIndex); //关闭遮罩层
