@@ -423,7 +423,8 @@ var picGallery = new Vue({
 			var picData = this.picData;
 			layer.confirm('确定删除图片?',{
 				btn:['确定','取消']
-			},function(){
+			},function(index){
+				layer.close(index);
 				$.ajax({
 					type:'POST',
 					url:serverUrl+'delete/image',
@@ -613,7 +614,8 @@ var picGallery = new Vue({
 			
 			layer.confirm('确定删除选中的图片吗?',{
 				btn:['确定','取消']
-			},function(){
+			},function(index){
+				layer.close(index);
 				$.ajax({
 					type:'POST',
 					url:serverUrl+'delete/image',

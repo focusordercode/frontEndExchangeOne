@@ -636,7 +636,7 @@ $(document).ready(function(){
             url:serverUrl+'commit/data',
             datatype:'json',
             data:{
-                type:'submit',
+                save_type:'submit',
                 category_id:vm.info.category_id,
                 template_id:vm.info.template_id,
                 form_id:vm.info.id,

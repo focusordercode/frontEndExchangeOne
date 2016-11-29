@@ -148,6 +148,8 @@ var uploadPic = new Vue({
                         success:function(data){
                             window.clearInterval(timeid);//停止执行
                             $('.progress-display').hide();//关闭遮罩层
+                            progressbar.css('width',0);//还原进度条
+                            progressbar.text('0.00');
                             if(data.status==100){
                                 vm.picData = data.value;
                                 layer.msg('操作成功');
@@ -161,6 +163,8 @@ var uploadPic = new Vue({
                         error:function(jqXHR){
                             window.clearInterval(timeid);//停止执行
                             $('.progress-display').hide();//关闭遮罩层
+                            progressbar.css('width',0);//还原进度条
+                            progressbar.text('0.00');
                             layer.msg('向服务器请求上传图片失败');
                         }
                     })
