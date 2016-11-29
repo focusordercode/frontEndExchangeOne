@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>添加用户</title>
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!--你自己的样式文件 -->
+    <link href="css/index.css" rel="stylesheet">
+    <link href="css/picUpload.css" rel="stylesheet">
+    <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
+    <!-- 以下两个插件用于在IE8以及以下版本浏览器支持HTML5元素和媒体查询，如果不需要用可以移除 -->
+    <!--[if lt IE 9]>
+    <script src="http://apps.bdimg.com/libs/html5shiv/3.7/html5shiv.js"></script>
+    <script src="http://apps.bdimg.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        .nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
+            background-color: #428bca!important;
+            color: #fff!important;
+        }
+        .pors .input-list,.pors .cate-list {
+            top: 34px;
+            left: 15px;
+            position: absolute;
+            z-index: 666;
+            list-style: none;
+            padding-left: 0;
+            border: 1px solid #ccc;
+            border-top: transparent;
+            background-color: #fff;
+        }
+        .pors .input-list li,.pors .cate-list li {
+            line-height: 32px;
+            text-indent: 12px;
+            border-bottom: 1px solid #ddd;
+            color: #8a6d3b;
+            font-size: 12px;
+        }
+        .pors .input-list li:hover,.pors .cate-list li:hover {
+            background-color: #ECF0F1;
+            cursor: pointer;
+        }
+        .pors .input-list li:hover,.pors .cate-list li:hover {
+            background-color: #ECF0F1;
+            cursor: pointer;
+        }
+        .paddingLeft {
+            padding-left: 0;
+        }
+        .searchShadow {
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .searchShadow:focus {
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            border-color: #ccc;
+        }
+        .searchCompent,.searchCompent2 {
+            display: none;
+        }
+        .new-alert {
+            line-height: 24px!important;
+            padding-top: 5px!important;
+            padding-bottom: 5px!important;
+            margin-bottom: 0!important;
+        }
+        #uploadForm {
+            margin-left: 15px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+<!-- 顶部区域 -->
+<div class="container-fluid header-fluid-top">
+    <div class="row">
+        <div class="container header-top">
+            <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-12">
+                    <a href="#">
+                        <img src="images/logo.png" alt="">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 导航 -->
+<div class="navbar navbar-inverse nav-fluid-top">
+    <div class="container">
+        <div class="navbar-header">
+            <!--<button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>-->
+            <!--<a class="navbar-brand hidden-sm" href="product-center.html" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'navbar-首页'])">产品中心首页</a>-->
+        </div>
+        <div class="navbar-collapse collapse" role="navigation">
+            <ul class="nav navbar-nav">
+
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- 主内容区域 -->
+<div class="container marginTop">
+    <div class="row">
+        <!--<div class="col-md-12">
+            <ul id="myTab" class="nav nav-tabs" role="tablist" style="background-color: #fff;">
+                <li role="presentation" class="active">
+                    <a href="#home" id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true">手工录入</a>
+                </li>
+                <li role="presentation" class="">
+                    <a href="#profile" role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false">批量导入</a>
+                </li>
+            </ul>
+        </div>-->
+        <div class="col-md-12 marginTop">
+            <div id="myTabContent" class="tab-content">
+                <!-- 手工录入 -->
+                <div role="tabpanel" class="tab-pane fade active in" id="home" aria-labelledby="home-tab">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">添加用户</div>
+                                <div class="panel-body">
+                                    <div class="col-md-12">
+                                        <div class="form-horizontal">
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label"><span class="text-red">*</span>用户名:</label>
+                                                <div class="col-sm-4">
+                                                    <input type="text" v-model="user_name" placeholder="请输入用户名" class="form-control">
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="alert alert-danger new-alert" v-show="al_name" role="alert">sssss
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label"><span class="text-red">*</span>密码:</label>
+                                                <div class="col-sm-4">
+                                                    <input type="text" v-model="password" placeholder="输入密码" class="form-control">
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="alert alert-danger new-alert" v-show="al_pass" role="alert">sssssss
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label"><span class="text-red">*</span>真实用户名：</label>
+                                                <div class="col-sm-4">
+                                                    <input type="text" v-model="real_name" placeholder="请输入真实名字" class="form-control">
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="alert alert-danger new-alert" v-show="al_true" role="alert">sssssss
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">E-mail</label>
+                                                <div class="col-sm-4">
+                                                    <input type="text" v-model="email" placeholder="请输入邮箱" class="form-control">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">手机号</label>
+                                                <div class="col-sm-4">
+                                                    <input type="text" v-model="mobile" placeholder="请输入手机号" class="form-control">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label"><span class="text-red">*</span>是否员工</label>
+                                                <div class="col-sm-1">
+                                                    <select class="form-control" v-model="is_staff">
+                                                        <option value="1">是</option>
+                                                        <option value="0" selected>否</option>
+                                                    </select>
+                                                </div>
+                                                <label class="col-sm-2 control-label"><span class="text-red">*</span>是否领导</label>
+                                                <div class="col-sm-1">
+                                                    <select class="form-control" v-model="is_staff">
+                                                        <option value="1">是</option>
+                                                        <option value="0" selected>否</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label"><span class="text-red">*</span>归属</label>
+                                                <div class="col-sm-3">
+                                                    <input type="text" readonly v-model="" class="form-control">
+                                                </div>
+                                                <div class="col-sm-1">
+                                                    <button class="btn btn-primary">选择</button>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="alert alert-danger new-alert" v-show="al_belong" role="alert">sssssss
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">产品说明:</label>
+                                                <div class="col-sm-4">
+                                                    <textarea v-model="remark" cols="30" rows="5" class="form-control"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- 按钮 -->
+                                    <div class="col-md-3 col-md-offset-2 text-center">
+                                        <button @click="" class="btn btn-success">添加</button>
+                                        <a href="" class="btn btn-default col-md-offset-1">返回</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 批量导入 -->
+                <div role="tabpanel" class="tab-pane fade" id="profile" aria-labelledby="profile-tab">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">添加产品</div>
+                                <div class="panel-body">
+                                    <div class="col-md-12">
+                                        <div class="form-horizontal">
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">模板文件:</label>
+                                                <div class="col-sm-4">
+                                                    <a :href="download" class="btn btn-link">点击下载</a>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">所属类目:</label>
+                                                <div class="col-sm-4">
+                                                    <input type="text" v-model="cate_name" placeholder="选择类目" class="form-control" readonly>
+                                                </div>
+                                                <div class="col-sm-1">
+                                                    <button class="btn btn-info btn-sm searchBtn2">搜索</button>
+                                                </div>
+                                                <div class="col-sm-3 pors searchCompent2">
+                                                    <input type="text" class="form-control searchShadow searchCate2" placeholder="输入关键字搜索类目">
+                                                    <ul class="cate-list">
+                                                        <li @click="selectCate(pro)" v-for="pro in proList">
+                                                            {{pro.cn_name}} {{pro.en_name}}
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div class="col-sm-1 text-left paddingLeft searchCompent2">
+                                                    <button class="btn btn-default closeBtn2 searchShadow">
+                                                        <i class="fa fa-close"></i>
+                                                    </button>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <div class="alert alert-danger new-alert"  role="alert" v-show="cate_alert"> 请选择类目
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">上传文件:</label>
+                                                <div class="col-sm-4">
+                                                    <div id="uploadForm">
+                                                        <div class="form-group">
+                                                            <input type="file" id="file">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">导入结果:</label>
+                                                <div class="col-sm-4">
+                                                    <div class="alert alert-info new-alert" role="alert">
+                                                        <dl class="dl-horizontal">
+                                                            <dt>总共上传个数：</dt>
+                                                            <dd>{{respons.count}}</dd>
+                                                            <dt>成功个数:</dt>
+                                                            <dd>{{respons.success}}</dd>
+                                                            <dt>失败个数:</dt>
+                                                            <dd>{{respons.fail}}</dd>
+                                                        </dl>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- 按钮 -->
+                                    <div class="col-md-3 col-md-offset-2 text-center">
+                                        <button @click="upload" class="btn btn-primary">导入</button>
+                                        <a href="product-center.html" class="btn btn-default">返回</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <!-- <pre>{{$data|json}}</pre> -->
+    </div>
+</div>
+
+<!-- 页脚 -->
+<div class="container-fluid footer-fluid">
+    <div class="contaier">
+        <div class="row">
+            <div class="col-lg-12">
+                © All rights reserved 深圳福克斯德信息咨询有限公司
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 如果要使用Bootstrap的js插件，必须先调入jQuery -->
+<script src="js/jquery.js"></script>
+<script src="js/vue.js"></script>
+<!-- 包括所有bootstrap的js插件或者可以根据需要使用的js插件调用　-->
+<script src="js/bootstrap.min.js"></script>
+<script src='js/layer.js'></script>
+<script src='js/serverUrl.js'></script>
+<script src='js/add_user.js'></script>
+</body>
+</html>
