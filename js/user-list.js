@@ -1,5 +1,5 @@
 console.log(serverUrl);
-
+serverUrl = 'http://192.168.1.40/canton/';
 //序号过滤器
 Vue.filter('ListNum',function(value){
     var str = value;
@@ -24,7 +24,7 @@ var userlist = new Vue({
 	ready:function(){
 		$.ajax({
 			type:'POST',
-			url:'http://192.168.1.40/canton/get/user',
+			url:serverUrl+'get/user',
 			datatype:'json',
 			success:function(data){
 				if (data.status==100) {
@@ -49,7 +49,7 @@ var userlist = new Vue({
     			if (use) {
     				$.ajax({
     					type:'POST',
-    					url:'http://192.168.1.40/canton/delete/user',
+    					url:serverUrl+'delete/user',
     					datatype:'json',
     					data:{
     						uid:use.id
