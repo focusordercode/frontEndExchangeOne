@@ -23,6 +23,12 @@
             padding-bottom: 5px!important;
             margin-bottom: 0!important;
         }
+        .alert{
+            padding: 0;
+        }
+        .down{
+            padding-top: 7px;
+        }
     </style>
 </head>
 <body>
@@ -51,7 +57,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand hidden-sm" href="" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'navbar-首页'])">用户首页</a>
+                <a class="navbar-brand hidden-sm" href="user-list.html" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'navbar-首页'])">用户首页</a>
             </div>
             <div class="navbar-collapse collapse" role="navigation">
                 <ul class="nav navbar-nav">
@@ -65,7 +71,7 @@
     <div class="container marginTop">
         <div class="row">
             <div class="col-md-12">
-                <!-- 产品详情 -->
+                <!-- 用户详情 -->
                 <div class="panel panel-primary" v-show="!visitType">
                     <div class="panel-heading"><b>用户详情</b></div>
                     <div class="panel-body">
@@ -75,43 +81,49 @@
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">用户名:</label>
                                         <div class="col-sm-4">
-                                            <p></p>
+                                            <p class="down">{{userdata.username}}</p>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-sm-2 control-label">状态:</label>
+                                        <label class="col-sm-2 control-label">真实用户名:</label>
                                         <div class="col-sm-4">
-                                            <p></p>
+                                            <p class="down">{{userdata.real_name}}</p>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-sm-2 control-label">拥有权限:</label>
+                                        <label class="col-sm-2 control-label">E-mail:</label>
                                         <div class="col-sm-4">
-                                            <p></p>
+                                            <p class="down">{{userdata.email}}</p>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-sm-2 control-label">创建者ID:</label>
+                                        <label class="col-sm-2 control-label">手机号码:</label>
                                         <div class="col-sm-4">
-                                            <p></p>
+                                            <p class="down">{{userdata.mobile}}</p>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-sm-2 control-label">创建时间:</label>
+                                        <label class="col-sm-2 control-label">是否员工:</label>
                                         <div class="col-sm-4">
-                                            <p></p>
+                                            <p class="down">{{userdata.is_staff}}</p>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-sm-2 control-label">修改时间:</label>
+                                        <label class="col-sm-2 control-label">是否领导:</label>
                                         <div class="col-sm-4">
-                                            <p></p>
+                                            <p class="down">{{userdata.is_head}}</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">是否关闭:</label>
+                                        <div class="col-sm-4">
+                                            <p class="down">{{userdata.enabled}}</p>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">备注说明:</label>
                                         <div class="col-sm-4">
-                                            <textarea v-model="info.remark" cols="30" rows="5" class="form-control" readonly style="resize: none;"></textarea>
+                                            <textarea cols="30" rows="5" class="form-control" readonly style="resize: none;">{{userdata.remark}}</textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -129,31 +141,88 @@
                     <div class="panel-heading"><b>用户信息修改</b></div>
                     <div class="panel-body">
                         <div class="col-md-12">
-                            <div class="col-md-12">
-                                <div class="form-horizontal">
-                                    <div class="form-group">
-                                        <label class="col-sm-2 control-label">用户名:</label>
-                                        <div class="col-sm-4">
-                                            <input type="text" v-model="info.cn_name" placeholder="输入用户名" class="form-control">
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <div class="alert alert-danger new-alert" v-show="" role="alert"> 请输入新的用户名
-                                            </div>
-                                        </div>
+                            <div class="form-horizontal">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">新的密码:</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" v-model="password" placeholder="请输入新的密码" class="form-control">
                                     </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-2 control-label">备注说明:</label>
-                                        <div class="col-sm-4">
-                                            <textarea v-model="info.remark" cols="30" rows="5" class="form-control"></textarea>
+                                    <div class="col-sm-6">
+                                        <div class="alert alert-danger new-alert" v-show="al_pass" role="alert">密码不能为空且只能是英文字母
                                         </div>
                                     </div>
                                 </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">真实用户名：</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" v-model="real_name" placeholder="请输入新的真实名字" class="form-control">
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="alert alert-danger new-alert" v-show="al_true" role="alert">请输入真实姓名
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">E-mail</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" v-model="email" placeholder="请输入新的邮箱" class="form-control">
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="alert alert-danger new-alert" v-show="al_email" role="alert">请输入正确的邮箱
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">手机号</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" v-model="mobile" placeholder="请输入手机号" class="form-control">
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="alert alert-danger new-alert" v-show="al_mobile" role="alert">请输入正确的手机号
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">是否员工</label>
+                                    <div class="col-sm-1">
+                                        <select class="form-control" v-model="is_staff">
+                                            <option value="1">是</option>
+                                            <option value="0" selected>否</option>
+                                        </select>
+                                    </div>
+                                    <label class="col-sm-2 control-label">是否领导</label>
+                                    <div class="col-sm-1">
+                                        <select class="form-control" v-model="is_head">
+                                            <option value="1">是</option>
+                                            <option value="0" selected>否</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">是否关闭该用户</label>
+                                    <div class="col-sm-1">
+                                        <select class="form-control" v-model="enabled">
+                                            <option value="1">是</option>
+                                            <option value="0" selected>否</option>
+                                        </select>
+                                    </div>
+                                
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">产品说明:</label>
+                                    <div class="col-sm-4">
+                                        <textarea v-model="remark" cols="30" rows="5" class="form-control"></textarea>
+                                    </div>
+                                </div>
                             </div>
-                            <!-- 按钮 -->
-                            <div class="col-md-3 col-md-offset-2 text-center">
-                                <button @click="" class="btn btn-primary">保存</button>
-                                <button @click="" class="btn btn-default">返回</button>
-                            </div>
+                        </div>
+                        <!-- 按钮 -->
+                        <div class="col-md-3 col-md-offset-2 text-center">
+                            <button @click="save" class="btn btn-success">保存</button>
+                            <a href="" class="btn btn-default col-md-offset-1">返回</a>
                         </div>
                     </div>
                 </div>
@@ -185,6 +254,6 @@
     <script src="js/bootstrap.min.js"></script>
     <script src='js/layer.js'></script>
     <script src='js/serverUrl.js'></script>
-
+    <<script src='js/usermessage.js'></script>
 </body>
 </html>

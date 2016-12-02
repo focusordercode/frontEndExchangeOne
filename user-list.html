@@ -47,13 +47,15 @@
                     </button>
                     <a class="navbar-brand hidden-sm" href="javascript:">福克斯德</a>
                 </div>
-                <div class="navbar-collapse collapse" role="navigation">
+                <!-- <div class="navbar-collapse collapse" role="navigation">
                     <ul class="nav navbar-nav">
                         <nav-component></nav-component>
                     </ul>
-                </div>
+                </div> -->
             </div>
         </div>
+
+
 
         <!-- 主内容区域 -->
         <div class="container-fluid marginTop">
@@ -61,6 +63,9 @@
                 <div class="col-md-12">
                     <div class="panel panel-primary">
                         <div class="panel-heading"><h4><b>用户管理</b></h4></div>
+
+                        
+
                         <div class="panel-body">
                             <div class="col-md-12">
                                 <div class="panel panel-default">
@@ -85,64 +90,63 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered">
+                                                <tr class="success text-success">
+                                                    <th class="text-center">序号</th>
+                                                    <th class="text-center">用户名</th>
+                                                    <th class="text-center">真实姓名</th>
+                                                    <th class="text-center">部门</th>
+                                                    <th class="text-center">角色</th>
+                                                    <th class="text-center">邮箱</th>
+                                                    <th class="text-center">手机</th>
+                                                    <th class="text-center">操作</th>
+                                                </tr>
+                                                <!-- template渲染 -->
+                                                <template v-for="use in alluser">
+
+                                                    <!-- 条件渲染 -->
+                                                    <template v-if="$index%2==1">
+                                                        <tr class="warning">
+                                                            <td class="text-center">{{$index | ListNum}}</td>
+                                                            <td class="text-center">{{use.username}}</td>
+                                                            <td class="text-center">{{use.real_name}}</td>
+                                                            <td class="text-center">{{use.orgs}}</td>
+                                                            <td class="text-center">{{use.roles}}</td>
+                                                            <td class="text-center">{{use.email}}</td>
+                                                            <td class="text-center">{{use.mobile}}</td>
+                                                            <td class="text-center">
+                                                                <a :href="'usermessage.html'+'?id='+use.id" class="btn btn-success btn-xs">详情</a>
+                                                                <button @click="deleteuse(use)" class="btn btn-xs btn-danger">删除</button>
+                                                            </td>
+                                                        </tr>
+                                                    </template>
+                                                    <template v-else>
+                                                        <tr>
+                                                            <td class="text-center">{{$index | ListNum}}</td>
+                                                            <td class="text-center">{{use.username}}</td>
+                                                            <td class="text-center">{{use.real_name}}</td>
+                                                            <td class="text-center">{{use.orgs}}</td>
+                                                            <td class="text-center">{{use.roles}}</td>
+                                                            <td class="text-center">{{use.email}}</td>
+                                                            <td class="text-center">{{use.mobile}}</td>
+                                                            <td class="text-center">
+                                                                <a :href="'usermessage.html'+'?id='+use.id" class="btn btn-success btn-xs">详情</a>
+                                                                <button @click="deleteuse(use)" class="btn btn-xs btn-danger">删除</button>
+                                                            </td>
+                                                        </tr>
+                                                    </template>
+                                                </template>
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-12">
-                                <table class="table">
-                                    <tr>
-                                        <th>序号</th>
-                                        <th>用户名</th>
-                                        <th>真实姓名</th>
-                                        <th>部门</th>
-                                        <th>角色</th>
-                                        <th>邮箱</th>
-                                        <th>操作</th>
-                                    </tr>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>程叼</td>
-                                        <td>程叼</td>
-                                        <td>技术部</td>
-                                        <td>PHP后端</td>
-                                        <td>123@163.com</td>
-                                        <td>
-                                            <a href="#" target="_blank">详情</a>
-                                            <a href="javascript:">删除</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>林叼</td>
-                                        <td>林叼</td>
-                                        <td>技术部</td>
-                                        <td>PHP后端</td>
-                                        <td>123@163.com</td>
-                                        <td>
-                                            <a href="#" target="_blank">详情</a>
-                                            <a href="javascript:">删除</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>张叼</td>
-                                        <td>张叼</td>
-                                        <td>技术部</td>
-                                        <td>web前端</td>
-                                        <td>123@163.com</td>
-                                        <td>
-                                            <a href="#" target="_blank">详情</a>
-                                            <a href="javascript:">删除</a>
-                                        </td>
-                                    </tr>
-                                </table>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
         <div class="container">
             <div class="row">
                 <hr>
@@ -168,7 +172,8 @@
         <script src="js/bootstrap.min.js"></script>
         <script src='js/layer.js'></script>
         <script src='js/serverUrl.js'></script>
-        <script src='js/navTpl.js'></script>
-        <script src='js/organization.js'></script>
+        <!-- <script src='js/navTpl.js'></script>
+        <script src='js/organization.js'></script> -->
+        <<script src='js/user-list.js'></script>
     </body>
 </html>
