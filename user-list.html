@@ -47,11 +47,11 @@
                     </button>
                     <a class="navbar-brand hidden-sm" href="javascript:">福克斯德</a>
                 </div>
-                <!-- <div class="navbar-collapse collapse" role="navigation">
+                <div class="navbar-collapse collapse" role="navigation">
                     <ul class="nav navbar-nav">
                         <nav-component></nav-component>
                     </ul>
-                </div> -->
+                </div>
             </div>
         </div>
 
@@ -64,7 +64,31 @@
                     <div class="panel panel-primary">
                         <div class="panel-heading"><h4><b>用户管理</b></h4></div>
 
-                        
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="alert alert-success" v-show="!searchResult">
+                                        用户数:<strong class="text-warning">{{countUser}}</strong>　
+                                        当前页:<strong class="text-warning">{{pageNow}}</strong>　
+                                        总页数:<strong class="text-warning">{{countPage}}</strong>　
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="container-fluid marginTop" v-show="searchResult">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="alert alert-info">
+                                        <b class="text-danger">搜索结果</b>　
+                                        用户数:<strong class="text-warning">{{countUser}}</strong>　
+                                        当前页:<strong class="text-warning">{{pageNow}}</strong>　
+                                        总页数:<strong class="text-warning">{{countPage}}</strong>　
+                                        <button class="btn btn-info btn-sm" @click="">返回</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
                         <div class="panel-body">
                             <div class="col-md-12">
@@ -147,6 +171,24 @@
                 </div>
             </div>
         </div>
+        
+        <!-- 分页 -->
+
+        <div v-show="countPage>1" class="container-fluid">
+            <div class="row">
+                <div class="col-md-4 col-md-offset-4 text-center">
+                    <div class="form-inline">
+                        <button @click="goPrePage" :disabled="prePageBtn" class="btn btn-default">上一页</button>
+                        <button @click="goNextPage" :disabled="nextPageBtn" class="btn btn-default">下一页</button>
+                        <input type="number" v-model="jump" placeholder="页码" min="1" class="form-control" style="width:80px;">
+                        <button class="btn btn-info" @click="goJump" :disabled="jumpBtn">跳转</button>
+                        总页数:<strong class="text-warning">{{countPage}}</strong>　
+                        当前页:<strong class="text-warning">{{pageNow}}</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="container">
             <div class="row">
                 <hr>
@@ -172,8 +214,7 @@
         <script src="js/bootstrap.min.js"></script>
         <script src='js/layer.js'></script>
         <script src='js/serverUrl.js'></script>
-        <!-- <script src='js/navTpl.js'></script>
-        <script src='js/organization.js'></script> -->
-        <<script src='js/user-list.js'></script>
+        <script src='js/navTpl.js'></script>
+        <script src='js/user-list.js'></script>
     </body>
 </html>

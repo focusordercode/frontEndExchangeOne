@@ -16,11 +16,8 @@ var adduse = new Vue ({
         enabled:'',
         is_staff:'',
         is_head:'',
-        sex:'',
         creator_id:'',
         belong:'管理员',
-        created_time:'',
-        modified_time:'',
         remark:'',
         roleid:'',
         //用于判断的数据
@@ -30,9 +27,8 @@ var adduse = new Vue ({
         al_belong:false,
         al_mobile:false,
         al_email:false
-
-
     },
+
     methods:{
         //添加用户
         adduserbtn:function () {
@@ -42,31 +38,31 @@ var adduse = new Vue ({
             var EM = /^(?:[a-zA-Z0-9]+[_\-\+\.]?)*[a-zA-Z0-9]+@(?:([a-zA-Z0-9]+[_\-]?)*[a-zA-Z0-9]+\.)+([a-zA-Z]{2,})+$/;
             if (!(vm.user_name.trim())) {
                 vm.al_name = true;
-            } else if (!(vm.password.trim())&&!word.test(vm.password)) {
+            } else if (!(vm.password.trim())||!word.test(vm.password)) {
                 vm.al_name = false;
                 vm.al_pass = true;
             } else if (!vm.real_name) {
                 vm.al_name = false;
                 vm.al_pass = false;
                 vm.al_true = true;
-            } else if (!vm.belong) {
-                vm.al_name = false;
-                vm.al_pass = false;
-                vm.al_true = false;
-                vm.al_belong = true;
             } else if (vm.mobile&&!tel.test(vm.mobile)) {
                 vm.al_name = false;
                 vm.al_pass = false;
                 vm.al_true = false;
-                vm.al_belong = false;
                 vm.al_mobile = true;
             } else if (vm.email&&!EM.test(vm.email)) {
                 vm.al_name = false;
                 vm.al_pass = false;
                 vm.al_true = false;
-                vm.al_belong = false;
                 vm.al_mobile = false;
                 vm.al_email = true;
+            } else if (!vm.belong) {
+                vm.al_name = false;
+                vm.al_pass = false;
+                vm.al_true = false;
+                vm.al_email = false;
+                vm.al_mobile = false;
+                vm.al_belong = true;
             } else {
                 vm.al_name = false;
                 vm.al_pass = false;
@@ -105,7 +101,8 @@ var adduse = new Vue ({
                     success:function(data){
 
                         if (data.status==100) {
-                            layer.msg('添加成功');
+                            alert('添加成功');
+                            location.reload();
                         }else{
                             layer.msg(data.msg);
                         }
@@ -113,8 +110,6 @@ var adduse = new Vue ({
                     error:function(jqXHR){
                         layer.msg('向服务器请求添加失败');
                     }
-
-
                 })
             }
         }

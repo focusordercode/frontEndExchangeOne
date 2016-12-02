@@ -18,22 +18,38 @@ function UrlSearch() {
 var Request=new UrlSearch();
 
 var cus_id = Request.id;//用户id
+var visitType = Request.visitType,
+	itemId = Request.id;
 
 console.log(serverUrl);
+
+//员工领导过滤器
+
+Vue.filter('uFlilter',function(value){
+    var str;
+    if (value == 0) {
+    	str = "否";
+    }else if (value == 1) {
+    	str = "是";
+    }
+    return str;
+})
+//状态过滤
+Vue.filter('staFlilter',function(value){
+    var str;
+    if (value == 0) {
+    	str = "关闭";
+    }else if (value == 1) {
+    	str = "启用";
+    }
+    return str;
+})
 
 var amend = new Vue({
 	el:"body",
 	data:{
 		userdata:'',//用户数据
-		uid:'',
-		password:'',
-		mobile:'',
-		email:'',
-		real_name:'',
-		is_staff:'',
-		is_head:'',
-		remark:'',
-		enabled:'',
+		visitType:visitType,
 		//01数据状态
 		//判断数据
 		al_pass:false,
@@ -63,21 +79,33 @@ var amend = new Vue({
 	},
 	computed:{
 		head:function(){
-			
+
 		}
 	},
 	methods:{
 		//跳转修改函数
-		modify:function(){
-
+		goXG:function () {
+			var url = 'usermessage.html'
+				item = this.userdata;
+			if(item){
+				window.location.href = url+'?id='+item.id+'&visitType=visitType';
+			}
 		},
-		//保存函数
+		//返回用户详情
+		goInfo:function () {
+			var url = 'usermessage.html'
+				item = this.userdata;
+			if(item){
+				window.location.href = url+'?id='+item.id;
+			}
+		},
+		//保存
 		save:function(){
 			var vm = amend;
 			var tel = /((\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$)/;
             var word = /^[A-z\s]+$/;
             var EM = /^(?:[a-zA-Z0-9]+[_\-\+\.]?)*[a-zA-Z0-9]+@(?:([a-zA-Z0-9]+[_\-]?)*[a-zA-Z0-9]+\.)+([a-zA-Z]{2,})+$/;
-			if(!(vm.password.trim())&&!word.test(vm.password)) {
+			if(vm.password&&!word.test(vm.password)) {
 				vm.al_pass = true;
 			}else if (vm.mobile&&!tel.test(vm.mobile)) {
 				vm.al_pass = false;
@@ -86,7 +114,7 @@ var amend = new Vue({
 				vm.al_pass = false;
 				vm.al_mobile = false;
 				vm.al_email = true;
-			}else if (!vm.real_name) {
+			}else if (vm.real_name) {
 				vm.al_pass = false;
 				vm.al_mobile = false;
 				vm.al_email = false;
@@ -97,20 +125,21 @@ var amend = new Vue({
 				vm.al_email = false;
 				vm.al_true = false;
 
-				var password = vm.password;
-				var mobile = vm.mobile;
-				var email = vm.mobile;
-				var real_name = vm.real_name;
-				var is_head = vm.is_head;
-				var is_staff = vm.is_staff;
-				var remark = vm.remark;
-				var enabled = vm.enabled;
+				var password = vm.userdata.password;
+				var mobile = vm.userdata.mobile;
+				var email = vm.userdata.email;
+				var real_name = vm.userdata.real_name;
+				var is_head = vm.userdata.is_head;
+				var is_staff = vm.userdata.is_staff;
+				var remark = vm.userdata.remark;
+				var enabled = vm.userdata.enabled;
 
 				$.ajax({
 					type:'POST',
 					url:'http://192.168.1.40/canton/edit/user',
 					datatype:'json',
 					data:{
+						uid:cus_id,
 						password:password,
 						mobile:mobile,
 						email:email,
