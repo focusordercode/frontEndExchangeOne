@@ -18,33 +18,9 @@ function UrlSearch() {
 var Request=new UrlSearch();
 
 var cus_id = Request.id;//用户id
-var visitType = Request.visitType,
-	itemId = Request.id;
+var visitType = Request.visitType;
 
 console.log(serverUrl);
-
-//员工领导过滤器
-
-Vue.filter('uFlilter',function(value){
-    var str;
-    if (value == 0) {
-    	str = "否";
-    }else if (value == 1) {
-    	str = "是";
-    }
-    return str;
-})
-//状态过滤
-Vue.filter('staFlilter',function(value){
-    var str;
-    if (value == 0) {
-    	str = "关闭";
-    }else if (value == 1) {
-    	str = "启用";
-    }
-    return str;
-})
-
 var amend = new Vue({
 	el:"body",
 	data:{
@@ -85,7 +61,7 @@ var amend = new Vue({
 	methods:{
 		//跳转修改函数
 		goXG:function () {
-			var url = 'usermessage.html'
+			var url = 'usermessage.html',
 				item = this.userdata;
 			if(item){
 				window.location.href = url+'?id='+item.id+'&visitType=visitType';
@@ -93,7 +69,7 @@ var amend = new Vue({
 		},
 		//返回用户详情
 		goInfo:function () {
-			var url = 'usermessage.html'
+			var url = 'usermessage.html',
 				item = this.userdata;
 			if(item){
 				window.location.href = url+'?id='+item.id;
@@ -167,4 +143,23 @@ var amend = new Vue({
 	}
 })
 
-
+//员工领导过滤器
+Vue.filter('uFlilter',function(value){
+    var str;
+    if (value == 0) {
+    	str = "否";
+    }else if (value == 1) {
+    	str = "是";
+    }
+    return str;
+})
+//状态过滤
+Vue.filter('staFlilter',function(value){
+    var str;
+    if (value == 0) {
+    	str = "关闭";
+    }else if (value == 1) {
+    	str = "启用";
+    }
+    return str;
+})

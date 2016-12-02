@@ -71,38 +71,27 @@ var adduse = new Vue ({
                 vm.al_mobile = false;
                 vm.al_email = false;
 
-                var user_name = vm.user_name;
-                var password = vm.password;
-                var real_name = vm.real_name;
-                var email = vm.email;
-                var mobile = vm.mobile;
-                var is_staff = vm.is_staff;
-                var is_head = vm.is_head;
-                var belong = vm.remark;
-                var remark = vm.remark;
-                var roleid = vm.roleid;
-
                 $.ajax({
                     type: 'POST',
                     url: 'http://192.168.1.40/canton/add/user',
                     datatype: 'json',
                     data: {
-                        username:user_name,
-                        password:password,
-                        real_name:real_name,
-                        email:email,
-                        mobile:mobile,
-                        is_staff:is_staff,
-                        is_head:is_head,
-                        belong:belong,
-                        remark:remark,
-                        roleid:roleid
+                        username:vm.user_name,
+                        password:vm.password,
+                        real_name:vm.real_name,
+                        email:vm.email,
+                        mobile:vm.mobile,
+                        is_staff:vm.is_staff,
+                        is_head:vm.is_head,
+                        belong:vm.belong,
+                        remark:vm.remark,
+                        roleid:vm.roleid
                     },
                     success:function(data){
-
                         if (data.status==100) {
-                            alert('添加成功');
-                            location.reload();
+                            layer.msg('添加成功');
+
+                            setInterval(windowFresh,1000);
                         }else{
                             layer.msg(data.msg);
                         }
@@ -116,6 +105,7 @@ var adduse = new Vue ({
     }
 })
 
-
-
-
+//刷新函数
+function windowFresh(){
+    location.reload(true);
+}

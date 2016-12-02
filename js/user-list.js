@@ -1,37 +1,30 @@
 console.log(serverUrl);
-
 serverUrl = 'http://192.168.1.40/canton/';
-//序号过滤器
-Vue.filter('ListNum',function(value){
-    var str = value;
-    var pageNow = userlist.pageNow;
-    if(pageNow==1){
-    	str = str + 1;
-    }else if(pageNow>1){
-    	str = (pageNow-1)*num+str+1;
-    }
-    return str
-})
 
+var num = 25;//默认展示个数
 
 var userlist = new Vue({
 	el:'body',
 	data:{
 		alluser:'',
-		countUser:'',
+		count:'',
 		pageNow:'',
 		countPage:'',
-		jump:''
+		jump:'',
+		search:''
 	},
 	ready:function(){
 		$.ajax({
 			type:'POST',
 			url:serverUrl+'get/user',
+			data:{
+				pagesize:num
+			},
 			datatype:'json',
 			success:function(data){
 				if (data.status==100) {
 					userlist.alluser = data.value;
-					userlist.countUser = data.countUser;
+					userlist.count = data.countUser;
 					userlist.pageNow = data.pageNow;
 					userlist.countPage = data.countPage;
 				}
@@ -108,8 +101,8 @@ var userlist = new Vue({
     	//上一页
     	goPrePage:function(){
     		var pageNow = this.pageNow;
-    		var vm = this,
-    			search = this.searchResult;
+    		var vm = this;
+			var search = this.searchResult;
     		if(pageNow<=1){
     			layer.msg('没有上一页啦');
     		}else{
@@ -121,8 +114,8 @@ var userlist = new Vue({
     	goNextPage:function(){
     		var pageNow = this.pageNow;
     		var countPage = this.countPage;
-    		var vm = this,
-    			search = this.searchResult;
+    		var vm = this;
+    		var	search = this.searchResult;
     		if(pageNow==countPage){
     			layer.msg('没有下一页啦');
     		}else{
@@ -160,22 +153,19 @@ function getPageData (vm,pageNow,search,num) {
     var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
     $.ajax({
         type:'POST',
-        url:serverUrl+'get/allproductcenter',
+        url:serverUrl+'get/user',
         datatype:'json',
         data:{
-            pages:pageNow,
-            num:num,
-            category_id:search.cateId,
-            enabled:search.status,
-            vague:search.keyword
+            page:pageNow,
+            pagesize:num
         },
         success:function(data){
             layer.close(LoadIndex); //关闭遮罩层
             if(data.status==100){
-                vm.list = data.value;
-                vm.pageNow = data.nowpages;
-                vm.countPage = data.pages;
-                vm.count = data.count;
+                vm.alluser = data.value;
+                vm.count = data.countUser;
+                vm.pageNow = data.pageNow;
+                vm.countPage = data.countPage;
             }else if(data.status==101){
                 layer.msg('操作失败');
             }else if(data.status==102){
@@ -189,8 +179,14 @@ function getPageData (vm,pageNow,search,num) {
     })
 }
 
-
-
-
-
-
+//序号过滤器
+Vue.filter('ListNum',function(value){
+    var str = value;
+    var pageNow = userlist.pageNow;
+    if(pageNow==1){
+    	str = str + 1;
+    }else if(pageNow>1){
+    	str = (pageNow-1)*num+str+1;
+    }
+    return str
+})
