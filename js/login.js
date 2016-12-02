@@ -1,3 +1,4 @@
+serverUrl = 'http://192.168.1.40/';
 console.log(serverUrl); //后端接口地址
 
 $(function(){
@@ -18,7 +19,7 @@ $(function(){
         }else{
             $.ajax({
                 type:'POST',
-                url:'http://192.168.1.40/canton/login',
+                url:serverUrl+'canton/login',
                 data:{
                     username:username,
                     password:psw
@@ -27,6 +28,12 @@ $(function(){
                 success:function(data){
                     if(data.status==100){
                         layer.msg('成功');
+                        var pens = data.value;
+                        console.log(pens);
+                        console.log(pens.user);
+                        if(pens){
+                            setCookie(pens)
+                        }
                     }else if(data.status==101){
                         //密码错误
                         pswInput.attr('data-content','密码错误');
@@ -37,6 +44,10 @@ $(function(){
                         userInput.attr('data-content','用户不存在');
                         userInput.popover('show');
                         Shake(box);
+                    }else if(data.status==104){
+                        $('.form-control').popover('destroy');//隐藏提示框
+                        Shake(box);
+                        layer.msg('错误次数太多,15分钟后再试');
                     }
                 },
                 error:function(jqXHR){
@@ -67,3 +78,16 @@ $(function(){
         };
     }
 })
+
+//设置cookie函数
+function setCookie(pens) {
+    var username = pens.user.username;
+    var token = pens.user_id;
+    cookie.set({'token':token,'username':username},{  //批量设置
+    "expires": 7,
+    "path": '/',
+    "domain":""
+    });
+    console.log(cookie.get('username'));
+    console.log(cookie.get('token'));
+}
