@@ -148,7 +148,7 @@
                                         <input type="text" v-model="userdata.password" placeholder="请输入新的密码" class="form-control">
                                     </div>
                                     <div class="col-sm-6">
-                                        <div class="alert alert-danger new-alert" v-show="al_pass" role="alert">密码不能为空且只能是英文字母
+                                        <div class="alert alert-danger new-alert" v-show="al_pass" role="alert">密码只能是英文字母和数字
                                         </div>
                                     </div>
                                 </div>
@@ -232,7 +232,7 @@
 
     <div class="container">
         <div class="row">
-            <!-- <pre>{{$data|json}}</pre> -->
+            <pre>{{$data|json}}</pre>
         </div>
     </div>
 

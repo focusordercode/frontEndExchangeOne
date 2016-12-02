@@ -2,7 +2,7 @@
  * Created by Administrator on 2016/11/29.
  */
 console.log(serverUrl);
-
+serverUrl = 'http://192.168.1.40/canton/';
 var adduse = new Vue ({
     el:"body",
     data:{
@@ -34,7 +34,7 @@ var adduse = new Vue ({
         adduserbtn:function () {
             var vm = adduse;
             var tel = /((\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$)/;
-            var word = /^[A-z\s]+$/;
+            var word =/^[A-Za-z0-9]+$/;
             var EM = /^(?:[a-zA-Z0-9]+[_\-\+\.]?)*[a-zA-Z0-9]+@(?:([a-zA-Z0-9]+[_\-]?)*[a-zA-Z0-9]+\.)+([a-zA-Z]{2,})+$/;
             if (!(vm.user_name.trim())) {
                 vm.al_name = true;
@@ -73,7 +73,7 @@ var adduse = new Vue ({
 
                 $.ajax({
                     type: 'POST',
-                    url: 'http://192.168.1.40/canton/add/user',
+                    url: serverUrl+'add/user',
                     datatype: 'json',
                     data: {
                         username:vm.user_name,

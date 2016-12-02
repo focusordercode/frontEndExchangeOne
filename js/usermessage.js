@@ -20,6 +20,27 @@ var Request=new UrlSearch();
 var cus_id = Request.id;//用户id
 var visitType = Request.visitType;
 
+//员工领导过滤器
+Vue.filter('uFlilter',function(value){
+    var str;
+    if (value == 0) {
+    	str = "否";
+    }else if (value == 1) {
+    	str = "是";
+    }
+    return str;
+})
+//状态过滤
+Vue.filter('staFlilter',function(value){
+    var str;
+    if (value == 0) {
+    	str = "关闭";
+    }else if (value == 1) {
+    	str = "启用";
+    }
+    return str;
+})
+
 console.log(serverUrl);
 var amend = new Vue({
 	el:"body",
@@ -79,18 +100,18 @@ var amend = new Vue({
 		save:function(){
 			var vm = amend;
 			var tel = /((\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$)/;
-            var word = /^[A-z\s]+$/;
+            var word =/^[A-Za-z0-9]+$/;
             var EM = /^(?:[a-zA-Z0-9]+[_\-\+\.]?)*[a-zA-Z0-9]+@(?:([a-zA-Z0-9]+[_\-]?)*[a-zA-Z0-9]+\.)+([a-zA-Z]{2,})+$/;
-			if(vm.password&&!word.test(vm.password)) {
+			if(vm.userdata.password&&!word.test(vm.userdata.password)) {
 				vm.al_pass = true;
-			}else if (vm.mobile&&!tel.test(vm.mobile)) {
+			}else if (vm.userdata.mobile&&!tel.test(vm.userdata.mobile)) {
 				vm.al_pass = false;
 				vm.al_mobile = true;
-			}else if (vm.email&&!EM.test(vm.email)) {
+			}else if (vm.userdata.email&&!EM.test(vm.userdata.email)) {
 				vm.al_pass = false;
 				vm.al_mobile = false;
 				vm.al_email = true;
-			}else if (vm.real_name) {
+			}else if (!vm.userdata.real_name) {
 				vm.al_pass = false;
 				vm.al_mobile = false;
 				vm.al_email = false;
@@ -143,23 +164,3 @@ var amend = new Vue({
 	}
 })
 
-//员工领导过滤器
-Vue.filter('uFlilter',function(value){
-    var str;
-    if (value == 0) {
-    	str = "否";
-    }else if (value == 1) {
-    	str = "是";
-    }
-    return str;
-})
-//状态过滤
-Vue.filter('staFlilter',function(value){
-    var str;
-    if (value == 0) {
-    	str = "关闭";
-    }else if (value == 1) {
-    	str = "启用";
-    }
-    return str;
-})
