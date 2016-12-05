@@ -125,20 +125,20 @@
                     </div>
                     <div class="well well-sm">
                         <div class="creat">
-                            <button :disabled="ctrBtn" @click="addCate" class="btn btn-default btn-sm btn-success" title="添加分类">
+                            <button :disabled="!ctrBtn" @click="addCate" class="btn btn-default btn-sm btn-success" title="添加机构">
                                 <span class="glyphicon glyphicon-plus"></span>
                             </button>
-                            <button :disabled="ctrBtn" @click="changeOne" class="btn btn-default btn-sm btn-info" title="修改分类">
+                            <button :disabled="!ctrBtn" @click="changeOne" class="btn btn-default btn-sm btn-info" title="修改机构">
                                 <span class="glyphicon glyphicon-edit"></span>
                             </button>
-                            <button :disabled="ctrBtn" @click="deleteOne" class="btn btn-default btn-sm btn-danger" title="删除分类">
+                            <button :disabled="!ctrBtn" @click="deleteOne" class="btn btn-default btn-sm btn-danger" title="删除机构">
                                 <span class="glyphicon glyphicon-remove"></span>
                             </button>
                         </div>
                         <ul class="tree">
                             <item
                               class="item"
-                              :model="treeData">
+                              :model="son">
                             </item>
                         </ul>
                     </div>
@@ -156,20 +156,19 @@
         <!-- 产品树形目录 template -->
         <script type="text/x-template" id="item-template">
             <li>
-                <div class="tree-node">
+                <div class="tree-node" :title="model.introduce">
                     <span v-show="isFolder">
                         <span class="fa fa-2x caret-ii fa-caret-right vertical" @click="toggle(model)" v-show="!open"></span>
                         <span class="fa fa-2x caret-ii fa-caret-down vertical" @click="toggle(model)" v-show="open"></span>
                     </span>
                     <span class="selected vertical" @click="selected(model)">
-                        {{model.cn_name}}
-                        {{model.en_name}}
+                        {{model.name}}
                     </span>
                 </div>
                 <ul v-show="open" v-if="isFolder">
                     <item
                         class="item"
-                        v-for="model in model.children"
+                        v-for="model in model.son"
                         :model="model">
                     </item>
                 </ul>
@@ -181,7 +180,7 @@
             <div class="modal-dialog modal-sm">
                 <div class="modal-content">
                     <div class="modal-header bg-primary">
-                        <h4 class="modal-title">增加分类</h4>
+                        <h4 class="modal-title">增加机构</h4>
                         <button type="button" class="close close-positon" data-dismiss="modal">
                             <span><i class="fa fa-close"></i></span>
                         </button>
@@ -192,15 +191,15 @@
                                 <div class="col-md-12">
                                     <div class="form-horizontal">
                                         <div class="form-group">
-                                            <label class="control-label col-md-4">中文名</label>
+                                            <label class="control-label col-md-4">名称</label>
                                             <div class="col-md-8">
-                                                <input v-model="addOne.cn_name" type="text" class="form-control">
+                                                <input v-model="addOne.name" type="text" class="form-control">
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="control-label col-md-4">英文名</label>
+                                            <label class="control-label col-md-4">简介</label>
                                             <div class="col-md-8">
-                                                <input v-model="addOne.en_name" type="text" class="form-control">
+                                                <textarea v-model="addOne.introduce" cols="30" rows="3" class="form-control" style="resize: none;"></textarea>
                                             </div>
                                         </div>
                                         <p></p>
@@ -223,8 +222,8 @@
             <div class="modal-dialog modal-sm">
                 <div class="modal-content">
                     <div class="modal-header bg-primary">
-                        <h4 class="modal-title">修改分类</h4>
-                        <button type="button" class="close close-positon" @click="closeChange" >
+                        <h4 class="modal-title">修改机构</h4>
+                        <button type="button" class="close close-positon" data-dismiss="modal">
                             <span><i class="fa fa-close"></i></span>
                         </button>
                     </div>
@@ -234,15 +233,15 @@
                                 <div class="col-md-12">
                                     <div class="form-horizontal">
                                         <div class="form-group">
-                                            <label class="control-label col-md-4">中文名</label>
+                                            <label class="control-label col-md-4">名称</label>
                                             <div class="col-md-8">
-                                                <input v-model="selectedData.cn_name" type="text" class="form-control">
+                                                <input v-model="cacheData.name" type="text" class="form-control">
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="control-label col-md-4">英文名</label>
+                                            <label class="control-label col-md-4">简介</label>
                                             <div class="col-md-8">
-                                                <input v-model="selectedData.en_name" type="text" class="form-control">
+                                                <textarea v-model="cacheData.introduce" cols="30" rows="3" class="form-control" style="resize: none;"></textarea>
                                             </div>
                                         </div>
                                         <p></p>
