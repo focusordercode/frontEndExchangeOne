@@ -1,6 +1,7 @@
 console.log(serverUrl); //后端接口地址
 
-// 产品分类树形菜单的组件
+serverUrl = 'http://192.168.1.40/canton/'; //调试后删除
+// 组织机构树形菜单的组件
 Vue.component('item', {
     template: '#item-template',
     props: {
@@ -13,29 +14,29 @@ Vue.component('item', {
     },
     computed: {
         isFolder: function() {
-            return this.model.children &&
-                this.model.children.length
+            return this.model.son && this.model.son.length
         }
     },
     methods: {
-        //点击展开子分类
+        //点击展开子机构
         toggle: function(model) {
             if (this.isFolder) {
                 this.open = !this.open
                 console.log(this.open)
             }
         },
-        //点击分类
+        //点击机构
         selected: function(model) {
-            var model = model;
-            var selected,
-                id = model.id,
-                cn_name = model.cn_name,
-                en_name = model.en_name;
-            selected = {
+            var id = model.id,
+                name = model.name,
+                introduce = model.introduce,
+                sonLen = model.son.length;
+                
+            var selected = {
                 id,
-                cn_name,
-                en_name
+                name,
+                introduce,
+                sonLen
             };
 
             //赋值到父组件
@@ -44,159 +45,150 @@ Vue.component('item', {
     }
 })
 
-
-//数据缓存全局变量
-var cacheData;
-
 //刷新函数
 function windowFresh() {
     location.reload(true);
 }
-
-// 产品树形菜单的Vue实例
+// Vue实例
 var tree = new Vue({
     el: 'body',
     data: {
-        treeData: {},
-        selectedData: '',
+        son:{},
+        selectedData: '',//点击选中的数据
         addOne: {
-            cn_name: '',
-            en_name: ''
-        }
+            name: '',
+            introduce:'',
+            no:''
+        },
+        statusList:[0,1],//0为关闭，1为启用
+        cacheData:'' //暂存数据，修改
     },
     ready: function() {
         //获取树形分类
         $.ajax({
             type: 'POST',
-            url: serverUrl+'get/treeCategory',
+            url: serverUrl+'get/org',
             datatype: 'json',
             data:{
-                key:'category'
+                isGetRole:0
             },
             success: function(data) {
-                tree.treeData = data;
-                if(data.status==101){
+                if(data.status==100){
+                    tree.son = data.value[0];
+                }else if(data.status==101){
                     layer.msg(data.msg);
                 }
             },
             error: function(jqXHR) {
-                layer.msg('向服务器请求产品目录失败');
+                layer.msg('向服务器请求组织机构失败');
             }
         })
     },
     computed: {
         ctrBtn: function() {
-            var selectedData = this.selectedData;
-            if (selectedData.id) {
-                return false
-            } else {
+            if (this.selectedData.id) {
                 return true
+            } else {
+                return false
             }
-        }
+        },
     },
     methods: {
-        //打开添加分类的面板
+        //打开添加的面板
         addCate: function() {
-            var selectedData = this.selectedData;
+            var vm = this;
+            var selectedData = vm.selectedData;
             //有选中才能打开
             if (selectedData.id) {
                 $('.addCate').modal('show');
                 $('.addCate').css('margin-top', '200px');
             }
         },
-        //提交添加分类请求
+        //提交添加请求
         subOne: function() {
+            var vm = this;
             var selectedData = this.selectedData;
             var addOne = this.addOne;
-            //英文正则,英文数字和空格
-            var Entext = /^[a-zA-Z_()\s]+[0-9]*$/;
-
+            var oIndex = selectedData.sonLen + 1; //排序,默认加到最后面
             //发起添加请求
-            if (!addOne.cn_name.trim()) {
-                layer.msg('中文名不能为空');
-            } else if (!Entext.test(addOne.en_name) || !addOne.en_name) {
-                layer.msg('英文名不能为空，且只能是英文字母数字和空格');
+            if (!addOne.name.trim()) {
+                layer.msg('名称不能为空');
             } else {
                 $.ajax({
                     type: 'POST',
-                    url: serverUrl+'post/sub',
+                    url: serverUrl+'add/org',
                     datatype: 'json',
                     data: {
-                        id: selectedData.id,
-                        cn_name: addOne.cn_name,
-                        en_name: addOne.en_name
+                        name: addOne.name,
+                        introduce:addOne.introduce,
+                        p_id: selectedData.id,
+                        no:oIndex
                     },
                     success: function(data) {
                         if (data.status == 100) {
                             layer.msg('添加成功');
                             $('.addCate').modal('hide');
-                            tree.addOne.cn_name = '';
-                            tree.addOne.en_name = '';
-                            setInterval(windowFresh, 1000);
+                            vm.addOne.name = '';
+                            vm.addOne.introduce = '';
+                            setTimeout(getTreeData(vm),1000);
                         } else {
                             layer.msg(data.msg);
                         }
                     },
                     error: function(jqXHR) {
-                        layer.msg('向服务器请求添加分类失败');
+                        layer.msg('向服务器请求添加失败');
                     }
                 })
             }
         },
-        //打开修改分类的面板
+        //打开修改的面板
         changeOne: function() {
+            var vm = this;
             var selectedData = this.selectedData;
-            //缓存数据
-            cacheData = $.extend(true, {}, selectedData);
+            //复制选中数据
+            vm.cacheData = $.extend(true, {}, selectedData);
             //有选中才能打开
-            if (selectedData.id) {
+            if (vm.cacheData.id) {
                 $('.changeCate').modal('show');
                 $('.changeCate').css('margin-top', '200px');
             }
         },
-        //取消修改,关闭修改面板
-        closeChange: function() {
-            this.selectedData = cacheData;
-            $('.changeCate').modal('hide');
-        },
         //提交修改
         subChange: function() {
-            var selectedData = this.selectedData;
-            //英文正则,英文数字和空格
-            var Entext = /^[a-zA-Z_()\s]+[0-9]*$/;
-
+            var vm = this;
+            var cacheData = vm.cacheData;
             //提交修改
-            if (!selectedData.cn_name) {
-                layer.msg('英文名不能为空');
-            } else if (!selectedData.en_name || !Entext.test(selectedData.en_name)) {
-                layer.msg('英文名不能为空，且只能是英文字母数字和空格');
-            } else {
+            if (!cacheData.name.trim()) {
+                layer.msg('名称不能为空');
+            }else {
                 $.ajax({
                     type: 'POST',
-                    url: serverUrl+'update/name',
+                    url: serverUrl+'edit/org',
                     datatype: 'json',
                     data: {
-                        id: selectedData.id,
-                        cn_name: selectedData.cn_name,
-                        en_name: selectedData.en_name
+                        org_id: cacheData.id,
+                        name: cacheData.name,
+                        enabled:1,
+                        introduce:cacheData.introduce
                     },
                     success: function(data) {
                         if (data.status == 100) {
                             layer.msg('修改成功');
                             $('.changeCate').modal('hide');
-                            setInterval(windowFresh, 1000);
+                            setTimeout(getTreeData(vm),1000);
                         } else {
                             layer.msg(data.msg);
                         }
                     },
                     error: function(jqXHR) {
-                        layer.msg('向服务器请求添加分类失败');
+                        layer.msg('向服务器请求失败');
                     }
                 })
             }
         },
         //删除一个分类
         deleteOne: function() {
+            var vm = this;
             var selectedData = this.selectedData;
             if (selectedData.id == 1) {
                 layer.msg('顶级类目无法删除');
@@ -208,15 +200,20 @@ var tree = new Vue({
 
                     $.ajax({
                         type: 'POST',
-                        url: serverUrl+'delete/sub',
+                        url: serverUrl+'delete/org',
                         datatype: 'json',
                         data: {
-                            id: selectedData.id
+                            org_id: selectedData.id
                         },
                         success: function(data) {
                             if (data.status == 100) {
                                 layer.msg('删除成功');
-                                setInterval(windowFresh, 1000);
+                                selectedData.id = '',
+                                selectedData.name = '',
+                                selectedData.introduce = '',
+                                selectedData.enabled = '',
+                                selectedData.sonLen = '',
+                                setTimeout(getTreeData(vm),1000);
                             } else {
                                 layer.msg(data.msg);
                             }
@@ -231,7 +228,29 @@ var tree = new Vue({
     }
 })
 
-//点击产品树形菜单
+//获取树形分类函数
+function getTreeData(vm) {
+    $.ajax({
+        type: 'POST',
+        url: serverUrl+'get/org',
+        datatype: 'json',
+        data:{
+            isGetRole:0
+        },
+        success: function(data) {
+            if(data.status==100){
+                vm.son = data.value[0];
+            }else if(data.status==101){
+                layer.msg(data.msg);
+            }
+        },
+        error: function(jqXHR) {
+            layer.msg('向服务器请求组织机构失败');
+        }
+    })
+}
+
+//点击组织机构树形菜单
 $(document).on('click', '.tree .item .tree-node .selected', function() {
     $('.tree .item .tree-node').removeClass('node-selected');
     $(this).parent('.tree-node').addClass('node-selected');
