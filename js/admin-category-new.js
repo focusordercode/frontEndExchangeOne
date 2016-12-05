@@ -1,23 +1,3 @@
-/*
-*┏━━━━┓
-*┃◤    ◥┃
-*┃  bug   ┃ 
-*┃  stop  ┃
-*┃  here  ┃
-*┃        ┃
-*┃ 巴  千 ┃
-*┃ 格  行 ┃
-*┃ 不  代 ┃
-*┃ 沾  码 ┃
-*┃ 身  过 ┃
-*┃        ┃
-*┃        ┃
-*┃◣    ◢┃
-*┗━━━━┛
-*
-*
-*/
-
 console.log(serverUrl); //后端接口地址
 
 // 产品分类树形菜单的组件
@@ -46,12 +26,10 @@ Vue.component('item', {
         },
         //点击分类
         selected: function(model) {
-            var model = model;
-            var selected,
-                id = model.id,
+            var id = model.id,
                 cn_name = model.cn_name,
                 en_name = model.en_name;
-            selected = {
+            var selected = {
                 id,
                 cn_name,
                 en_name
@@ -63,15 +41,6 @@ Vue.component('item', {
     }
 })
 
-
-//数据缓存全局变量
-var cacheData;
-
-//刷新函数
-function windowFresh() {
-    location.reload(true);
-}
-
 // 产品树形菜单的Vue实例
 var tree = new Vue({
     el: 'body',
@@ -81,7 +50,8 @@ var tree = new Vue({
         addOne: {
             cn_name: '',
             en_name: ''
-        }
+        },
+        cacheData:'' //修改数据暂存
     },
     ready: function() {
         //获取树形分类
@@ -99,17 +69,16 @@ var tree = new Vue({
                 }
             },
             error: function(jqXHR) {
-                layer.msg('向服务器请求产品目录失败');
+                layer.msg('向服务器请求产品类目失败');
             }
         })
     },
     computed: {
         ctrBtn: function() {
-            var selectedData = this.selectedData;
-            if (selectedData.id) {
-                return false
-            } else {
+            if (this.selectedData.id) {
                 return true
+            } else {
+                return false
             }
         }
     },
@@ -125,6 +94,7 @@ var tree = new Vue({
         },
         //提交添加分类请求
         subOne: function() {
+            var vm = this;
             var selectedData = this.selectedData;
             var addOne = this.addOne;
             //英文正则,英文数字和空格
@@ -149,9 +119,9 @@ var tree = new Vue({
                         if (data.status == 100) {
                             layer.msg('添加成功');
                             $('.addCate').modal('hide');
-                            tree.addOne.cn_name = '';
-                            tree.addOne.en_name = '';
-                            setInterval(windowFresh, 1000);
+                            vm.addOne.cn_name = '';
+                            vm.addOne.en_name = '';
+                            setTimeout(getTreeData(vm),1000);
                         } else {
                             layer.msg(data.msg);
                         }
@@ -164,30 +134,27 @@ var tree = new Vue({
         },
         //打开修改分类的面板
         changeOne: function() {
+            var vm = this;
             var selectedData = this.selectedData;
             //缓存数据
-            cacheData = $.extend(true, {}, selectedData);
+            vm.cacheData = $.extend(true, {}, selectedData);
             //有选中才能打开
             if (selectedData.id) {
                 $('.changeCate').modal('show');
                 $('.changeCate').css('margin-top', '200px');
             }
         },
-        //取消修改,关闭修改面板
-        closeChange: function() {
-            this.selectedData = cacheData;
-            $('.changeCate').modal('hide');
-        },
         //提交修改
         subChange: function() {
-            var selectedData = this.selectedData;
+            var vm = this;
+            var cacheData = this.cacheData;
             //英文正则,英文数字和空格
             var Entext = /^[a-zA-Z_()\s]+[0-9]*$/;
 
             //提交修改
-            if (!selectedData.cn_name) {
-                layer.msg('英文名不能为空');
-            } else if (!selectedData.en_name || !Entext.test(selectedData.en_name)) {
+            if (!cacheData.cn_name) {
+                layer.msg('中文名不能为空');
+            } else if (!cacheData.en_name.trim() || !Entext.test(cacheData.en_name)) {
                 layer.msg('英文名不能为空，且只能是英文字母数字和空格');
             } else {
                 $.ajax({
@@ -195,15 +162,15 @@ var tree = new Vue({
                     url: serverUrl+'update/name',
                     datatype: 'json',
                     data: {
-                        id: selectedData.id,
-                        cn_name: selectedData.cn_name,
-                        en_name: selectedData.en_name
+                        id: cacheData.id,
+                        cn_name: cacheData.cn_name,
+                        en_name: cacheData.en_name
                     },
                     success: function(data) {
                         if (data.status == 100) {
                             layer.msg('修改成功');
                             $('.changeCate').modal('hide');
-                            setInterval(windowFresh, 1000);
+                            setTimeout(getTreeData(vm),1000);
                         } else {
                             layer.msg(data.msg);
                         }
@@ -216,6 +183,7 @@ var tree = new Vue({
         },
         //删除一个分类
         deleteOne: function() {
+            var vm = this;
             var selectedData = this.selectedData;
             if (selectedData.id == 1) {
                 layer.msg('顶级类目无法删除');
@@ -235,7 +203,12 @@ var tree = new Vue({
                         success: function(data) {
                             if (data.status == 100) {
                                 layer.msg('删除成功');
-                                setInterval(windowFresh, 1000);
+
+                                vm.selectedData.en_name = "";
+                                vm.selectedData.cn_name = "";
+                                vm.selectedData.id = "";
+
+                                setTimeout(getTreeData(vm),1000);
                             } else {
                                 layer.msg(data.msg);
                             }
@@ -249,6 +222,27 @@ var tree = new Vue({
         }
     }
 })
+
+//获取产品类目数据函数
+function getTreeData(vm) {
+    $.ajax({
+        type: 'POST',
+        url: serverUrl+'get/treeCategory',
+        datatype: 'json',
+        data:{
+            key:'category'
+        },
+        success: function(data) {
+            vm.treeData = data;
+            if(data.status==101){
+                layer.msg(data.msg);
+            }
+        },
+        error: function(jqXHR) {
+            layer.msg('向服务器请求产品目录失败');
+        }
+    })
+}
 
 //点击产品树形菜单
 $(document).on('click', '.tree .item .label .selected', function() {
