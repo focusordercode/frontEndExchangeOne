@@ -191,9 +191,7 @@ var tree = new Vue({
             var vm = this;
             var selectedData = this.selectedData;
             if (selectedData.id) {
-                layer.confirm('确定删除该机构?', {
-                    btn: ['确定', '取消']
-                }, function(index) {
+                layer.confirm('确定删除该机构?', function(index) {
                     layer.close(index);
 
                     $.ajax({

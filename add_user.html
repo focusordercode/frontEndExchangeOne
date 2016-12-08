@@ -20,6 +20,82 @@
         .alert{
             padding: 0;
         }
+        .nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
+            background-color: #428bca!important;
+            color: #fff!important;
+        }
+        .new-alert {
+            line-height: 24px!important;
+            padding-top: 5px!important;
+            padding-bottom: 5px!important;
+            margin-bottom: 0!important;
+        }
+        .bootstrap-tagsinput {
+            width: 100%;
+            /*min-height: 32px;*/
+            background-color: #fff;
+            border: 1px solid #ccc;
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+            display: inline-block;
+            padding: 4px 6px;
+            color: #555;
+            vertical-align: middle;
+            border-radius: 4px;
+            max-width: 100%;
+            line-height: 22px;
+            cursor: text;
+        }
+        .bootstrap-tagsinput .tag {
+            margin-right: 2px;
+            color: white;
+        }
+        .bootstrap-tagsinput .tag [data-role="remove"] {
+            margin-left: 8px;
+            cursor: pointer;
+        }
+        .bootstrap-tagsinput .tag [data-role="remove"]:after {
+            content: "x";
+            padding: 0px 2px;
+        }
+        .pors .input-list,.pors .cate-list {
+            top: 34px;
+            left: 15px;
+            position: absolute;
+            z-index: 666;
+            list-style: none;
+            padding-left: 0;
+            border: 1px solid #ccc;
+            border-top: transparent;
+            background-color: #fff;
+        }
+        .pors .cate-list li {
+            line-height: 32px;
+            text-indent: 12px;
+            border-bottom: 1px solid #ddd;
+            color: #8a6d3b;
+            font-size: 12px;
+        }
+        .pors .cate-list li:hover {
+            background-color: #ECF0F1;
+            cursor: pointer;
+        }
+        .paddingLeft {
+            padding-left: 0;
+        }
+        .searchShadow {
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .searchShadow:focus {
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            border-color: #ccc;
+        }
+        .searchCompent {
+            display: none;
+        }
+        .height {
+            min-height: 32px!important;
+            overflow: hidden;
+        }
 
     </style>
 </head>
@@ -145,15 +221,30 @@
 
                                                 <div class="form-group">
                                                     <label class="col-sm-2 control-label"><span class="text-red">*</span>归属</label>
-                                                    <div class="col-sm-3">
-                                                        <input type="text" readonly v-model="" class="form-control">
+                                                    <div class="col-sm-4">
+                                                        <div class="bootstrap-tagsinput height">
+                                                            <span class="tag label label-info" v-for="org in orgSelect">
+                                                                {{org.name}}<span data-role="remove" @click="removeOrg(org)"></span>
+                                                            </span>
+                                                        </div>
                                                     </div>
                                                     <div class="col-sm-1">
-                                                        <button class="btn btn-primary">选择</button>
+                                                        <button class="btn btn-info btn-sm searchBtn">搜索</button>
                                                     </div>
-                                                    <div class="col-sm-4">
-                                                        <div class="alert alert-danger new-alert" v-show="al_belong" role="alert">请选择归属
-                                                        </div>
+                                                    <div class="col-sm-3 pors searchCompent">
+                                                        <input type="text" class="form-control searchShadow searchCate " placeholder="输入关键字搜索类目">
+                                                        <ul class="cate-list">
+                                                            <template v-for="one in oneList" v-if="$index<=9">
+                                                                <li @click="selectOne(one)">
+                                                                    {{one.name}}
+                                                                </li>
+                                                            </template>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="col-sm-1 text-left paddingLeft searchCompent">
+                                                        <button class="btn btn-default closeBtn searchShadow">
+                                                            <i class="fa fa-close"></i>
+                                                        </button>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
@@ -181,7 +272,7 @@
 
     <div class="container">
         <div class="row">
-            <!-- <pre>{{$data|json}}</pre> -->
+            <pre>{{$data|json}}</pre>
         </div>
     </div>
 

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>tagsInput</title>
+	<link rel="stylesheet" href="css/bootstrap.css">
+	<style>
+		.bootstrap-tagsinput {
+			width: 100%;
+			/*min-height: 32px;*/
+		    background-color: #fff;
+		    border: 1px solid #ccc;
+		    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+		    display: inline-block;
+		    padding: 4px 6px;
+		    color: #555;
+		    vertical-align: middle;
+		    border-radius: 4px;
+		    max-width: 100%;
+		    line-height: 22px;
+		    cursor: text;
+		}
+		.bootstrap-tagsinput .tag {
+		    margin-right: 2px;
+		    color: white;
+		}
+		.bootstrap-tagsinput .tag [data-role="remove"] {
+		    margin-left: 8px;
+		    cursor: pointer;
+		}
+		.bootstrap-tagsinput .tag [data-role="remove"]:after {
+		    content: "x";
+		    padding: 0px 2px;
+		}
+		.pors {
+			position: relative;
+		}
+		.label-group {
+			display: none;
+			width: 100%;
+			position: absolute;
+			top: 31px;
+			left: 0;
+			padding: 6px 6px 15px;
+			border: 1px solid #ccc;
+			background-color: #ECF0F1;
+		}
+		.label-group .label {
+			margin: 5px 2px 0 0;
+			display: inline-block;
+			cursor: pointer;
+		}
+	</style>
+</head>
+<body>
+	<div class="container" style="margin-top: 50px;">
+		<div class="row">
+			<div class="col-md-8">
+				<div class="pors">
+					<!-- 标签 -->
+		            <div class="bootstrap-tagsinput">
+		            	<span class="tag label label-info">Amsterdam<span data-role="remove"></span></span>
+		            </div>
+		            <!-- toggle框 -->
+					<div class="label-group">
+						<span class="label label-info">Amsterdam</span>
+						<span class="label label-info">Washington</span>
+						<span class="label label-info">Sydney</span>
+						<span class="label label-info">Beijing</span>
+					</div>
+	            </div>
+			</div>
+			<div class="col-md-2">
+				<button class="btn btn-default btn-sm toggle-btn">选择</button>
+			</div>
+		</div>
+	</div>
+	<script src="js/jquery.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script>
+		$(function(){
+			//toggle
+			$('.toggle-btn').click(function(){
+			    if($(".label-group").is(":hidden")){
+			        $(".label-group").show();
+			    }else{
+			        $(".label-group").hide();
+			    }
+			})
+			//添加label
+			$('.label-group .label').click(function(){
+				var labelVal = $(this).text(),
+				  label = '<span class="tag label label-info">'+labelVal+'<span data-role="remove"></span></span>';
+				$('.bootstrap-tagsinput').append(label);
+			})
+			//删除label
+			$(document).on('click','.bootstrap-tagsinput .tag [data-role="remove"]',function(){
+				$(this).parent('.label').remove();
+			});
+		})
+	</script>
+</body>
+</html>

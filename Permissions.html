@@ -15,9 +15,6 @@
     <script src="http://apps.bdimg.com/libs/html5shiv/3.7/html5shiv.js"></script>
     <script src="http://apps.bdimg.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-    <style>
-        
-    </style>
 </head>
     <body>
         <!-- 顶部区域 -->
@@ -62,7 +59,7 @@
                     <div class="panel panel-defaault">
                         <div class="panel-heading"><h4><b class="text-primary">权限设置</b></h4></div>
                         <div class="panel-body">
-                            当前编辑的角色: <b class="text-info">技术部</b>
+                            当前编辑的角色: <b class="text-info">{{role_info.name}}</b>
                         </div>
                     </div>
                 </div>
@@ -70,50 +67,34 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="well well-sm">
-                        <template>
-
+                        <template v-for = "per in pers">
+                            <dl class="dl-horizontal">
+                                <dt class="clearfix">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" :value="per.id" v-model="per.have">
+                                            <b class="text-info">
+                                                {{per.name}}
+                                            </b>
+                                        </label>
+                                    </div>
+                                </dt>
+                                <template v-for="per_son in per.son">
+                                    <dd>
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" :value="per_son.id" v-model="per_son.have">
+                                                {{per_son.name}}
+                                            </label>
+                                        </div>
+                                    </dd>
+                                </template>
+                            </dl>
+                            <hr>
                         </template>
-                        <h4>模块1</h4>
-                        <div class="form-inline">
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox" value="">
-                                    权限点1
-                                </label>
-                            </div>
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox" value="">
-                                    权限点2
-                                </label>
-                            </div>
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox" value="">
-                                    权限点3
-                                </label>
-                            </div>
-                        </div>
-                        <hr>
-                        <h4>模块2</h4>
-                        <div class="form-inline">
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox" value="">
-                                    权限点1
-                                </label>
-                            </div>
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox" value="">
-                                    权限点2
-                                </label>
-                            </div>
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox" value="">
-                                    权限点3
-                                </label>
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <button class="btn btn-success" @click="addbtn">保存</button>
                             </div>
                         </div>
                     </div>
@@ -124,7 +105,7 @@
         <div class="container">
             <div class="row">
                 <hr>
-                <!-- <pre>{{$data|json}}</pre> -->
+                <pre>{{$data|json}}</pre>
             </div>
         </div>
 
@@ -147,6 +128,6 @@
         <script src='js/layer.js'></script>
         <script src='js/serverUrl.js'></script>
         <script src='js/navTpl.js'></script>
-        <script src='js/organization.js'></script>
+        <script src='js/permissions.js'></script>
     </body>
 </html>

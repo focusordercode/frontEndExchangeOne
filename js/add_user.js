@@ -19,7 +19,11 @@ var adduse = new Vue ({
         creator_id:'',
         belong:'管理员',
         remark:'',
-        roleid:'',
+        roleid:[],
+        orgSelect:[], //选择的角色
+        addremark:'',
+        //搜索角色数据
+        oneList:'',
         //用于判断的数据
         al_name:false,
         al_pass:false,
@@ -33,6 +37,8 @@ var adduse = new Vue ({
         //添加用户
         adduserbtn:function () {
             var vm = adduse;
+            var Select = vm.orgSelect;
+            var roleid = getroleid(Select);
             var tel = /((\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$)/;
             var word =/^[A-Za-z0-9]+$/;
             var EM = /^(?:[a-zA-Z0-9]+[_\-\+\.]?)*[a-zA-Z0-9]+@(?:([a-zA-Z0-9]+[_\-]?)*[a-zA-Z0-9]+\.)+([a-zA-Z]{2,})+$/;
@@ -62,12 +68,12 @@ var adduse = new Vue ({
                 vm.al_true = false;
                 vm.al_email = false;
                 vm.al_mobile = false;
-                vm.al_belong = true;
+                vm.al_roleid = true;
             } else {
                 vm.al_name = false;
                 vm.al_pass = false;
                 vm.al_true = false;
-                vm.al_belong = false;
+                vm.al_roleid = false;
                 vm.al_mobile = false;
                 vm.al_email = false;
 
@@ -83,9 +89,8 @@ var adduse = new Vue ({
                         mobile:vm.mobile,
                         is_staff:vm.is_staff,
                         is_head:vm.is_head,
-                        belong:vm.belong,
                         remark:vm.remark,
-                        roleid:vm.roleid
+                        roleid:roleid
                     },
                     success:function(data){
                         if (data.status==100) {
@@ -101,7 +106,37 @@ var adduse = new Vue ({
                     }
                 })
             }
-        }
+        },
+        //点击选中一个机构
+        selectOne:function(one){
+            var vm = this;
+            var orgSelect = [];
+            var hasOne = [];
+            orgSelect = vm.orgSelect;
+            console.log(orgSelect)
+            for(var i = 0;i<orgSelect.length;i++){
+                if(orgSelect[i]==one){
+                    hasOne.push(i);
+                }
+            }
+            console.log(hasOne)
+            if(hasOne.length){
+                layer.msg("已经选中了");
+            }else{
+                vm.orgSelect.push(one);
+            }
+        },
+        //删除选中角色
+        removeOrg:function(org){
+            var vm = this;
+            vm.orgSelect.$remove(org);
+        },
+        //取消编辑
+        cancel:function(){
+            //还原数据
+            this.editOne = '';
+            $('.editTable').modal('hide');
+        },
     }
 })
 
@@ -109,3 +144,44 @@ var adduse = new Vue ({
 function windowFresh(){
     location.reload(true);
 }
+
+$(function(){
+    $('.searchBtn').on('click',function(){
+        $('.searchCompent').show();
+    })
+    $('.closeBtn').on('click',function(){
+        $('.searchCompent').hide();
+    })
+})
+
+//搜索角色
+$('.searchCate').on('keyup',function(){
+    var getWidth = $('.pors .cate-list').prev('.form-control').innerWidth();
+    $('.pors .cate-list').css('width',getWidth);
+    var searchCusVal = $('.searchCate').val();
+    $.ajax({
+        type:'POST',
+        url:'http://192.168.1.42/canton/get/roles',
+        datatype:'json',
+        data:{
+            searchText:searchCusVal
+        },
+        success:function(data){
+            if(data.status == 100){
+                adduse.oneList = data.value;
+            }else{
+                adduse.oneList = '';
+            }
+        },
+        error:function(jqXHR){
+            layer.msg('向服务器请求搜索角色失败');
+        }
+    })
+}); 
+function getroleid(orgSelect){
+    var roleid = [];
+    for (var i = 0; i < orgSelect.length; i++) {
+        roleid.push(orgSelect[i].id);
+    }
+    return roleid
+}   
