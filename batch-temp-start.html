@@ -187,7 +187,7 @@
         <div class="container" style="margin-top:100px;">
             <div class="row">
                 <div v-show="!preType" class="col-md-12 text-center">
-                    <!-- <button  :disabled="doneBtn" class="btn btn-default">重复检查</button> -->
+                    <button class="btn btn-default" @click="takeBack">撤销</button>
                     <button @click="getStart" :disabled="doneBtn" class="btn btn-success">确认启用</button>
                 </div>
             </div>

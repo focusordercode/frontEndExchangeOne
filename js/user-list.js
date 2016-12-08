@@ -65,7 +65,7 @@ var userlist = new Vue({
     		var vm = this;
             var pageNow = this.pageNow;
             var search = this.search;
-    		layer.confirm('确定删除产品?',{
+    		layer.confirm('确定删除用户?',{
     			btn:['确定','取消']
     		},function(index){
     			layer.close(index);

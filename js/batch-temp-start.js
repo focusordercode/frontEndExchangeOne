@@ -134,6 +134,43 @@ var tempStart = new Vue({
                     }
                 })
             }
+        },
+        //返回上一步
+        takeBack:function(){
+            layer.confirm('返回上一步?',{
+                btn:['确定','取消']
+            },function(index){
+                layer.close(index);
+
+                $.ajax({
+                    type:'POST',
+                    url:serverUrl+'template_back',
+                    datatype:'json',
+                    data:{
+                        template_id:template_id,
+                        type_code:type_code
+                    },
+                    success:function(data){
+                        if(data.status==100){
+                            layer.msg('请求成功');
+
+                            //跳转函数
+                            function goNext() {
+                                var url = 'batch-temp-relate.html?id='+template_id;
+                                window.location.href = url;
+                            }
+
+                            setInterval(goNext,1000);
+
+                        }else{
+                            layer.msg(data.msg);
+                        }
+                    },
+                    error:function(jqXHR){
+                        layer.msg('向服务器请求撤销返回失败');
+                    }
+                })
+            })
         }
     }
 })

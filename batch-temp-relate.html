@@ -247,7 +247,7 @@
                                             <div class="form-group">
                                                 <label>产品资料表模板：</label>
                                                 <input type="text" v-model="MBselected" class="form-control selectedMB" readonly>
-                                                <button class="btn btn-default" :disabled="selectBtn" @click="openList">选择</button>
+                                                <button class="btn btn-default" @click="openList">选择</button>
                                             </div>
                                             <p></p>
                                             <div class="form-group">
@@ -370,7 +370,7 @@
         <hr>
         <div class="container">
             <div class="row">
-                <!-- <pre>{{$data|json}}</pre> -->
+                <pre>{{$data|json}}</pre>
             </div>
         </div>
 

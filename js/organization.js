@@ -190,10 +190,8 @@ var tree = new Vue({
         deleteOne: function() {
             var vm = this;
             var selectedData = this.selectedData;
-            if (selectedData.id == 1) {
-                layer.msg('顶级类目无法删除');
-            } else {
-                layer.confirm('确定删除该类目?', {
+            if (selectedData.id) {
+                layer.confirm('确定删除该机构?', {
                     btn: ['确定', '取消']
                 }, function(index) {
                     layer.close(index);

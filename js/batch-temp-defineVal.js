@@ -77,6 +77,7 @@ var tempDefine = new Vue({
                 layer.close(LoadIndex); //关闭遮罩层 
                 if(data.status==100){
                     tempDefine.tempData = data.value;
+                    console.log(data.value);
                 }
             },
             error: function(jqXHR){
@@ -264,6 +265,7 @@ var tempDefine = new Vue({
         }
     }
 })
+
 
 //数据类型框
 Vue.filter('dataTypeFilter',function(value){

@@ -238,7 +238,6 @@
                                                     <td>
                                                         <!-- 填写规则 -->
                                                         <select  class="form-control" v-model="table.value_requlation">
-                                                            <option value="" selected>请选择规则</option>
                                                             <option :value="writeRule" v-for="writeRule in table.rule_array">
                                                                 {{writeRule | ruleType}}
                                                             </option>
@@ -302,7 +301,6 @@
                                                     <td>
                                                         <!-- 填写规则 -->
                                                         <select  class="form-control" v-model="table.value_requlation">
-                                                            <option value="" selected>请选择规则</option>
                                                             <option :value="writeRule" v-for="writeRule in table.rule_array">
                                                                 {{writeRule | ruleType}}
                                                             </option>

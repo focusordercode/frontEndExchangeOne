@@ -185,6 +185,7 @@ $('#upload').on('click',function(){
     }else{
         var formData = new FormData();
         formData.append('file', $('#file')[0].files[0]);
+        var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层 
         $.ajax({
             url: serverUrl+'post/upc',
             type: 'POST',
@@ -193,6 +194,7 @@ $('#upload').on('click',function(){
             processData: false,
             contentType: false
         }).done(function(res) {
+            layer.close(LoadIndex); //关闭遮罩层
             if(res.status==100){
                 layer.alert('上传成功!'+'文件中已存在的UPC:'+res.value.same_upc+'&nbsp;添加成功的UPC:'+res.value.inserted+'', function(yes){
                     windowFresh();
@@ -207,6 +209,7 @@ $('#upload').on('click',function(){
                 layer.msg('文档upc格式不符合要求');
             }
         }).fail(function(res) {
+            layer.close(LoadIndex); //关闭遮罩层
             layer.msg('上传失败');
         });
     }
