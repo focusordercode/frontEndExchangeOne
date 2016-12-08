@@ -67,31 +67,9 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="well well-sm">
-                        <template v-for = "per in pers">
-                            <dl class="dl-horizontal">
-                                <dt class="clearfix">
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox" :value="per.id" v-model="per.have">
-                                            <b class="text-info">
-                                                {{per.name}}
-                                            </b>
-                                        </label>
-                                    </div>
-                                </dt>
-                                <template v-for="per_son in per.son">
-                                    <dd>
-                                        <div class="checkbox">
-                                            <label>
-                                                <input type="checkbox" :value="per_son.id" v-model="per_son.have">
-                                                {{per_son.name}}
-                                            </label>
-                                        </div>
-                                    </dd>
-                                </template>
-                            </dl>
-                            <hr>
-                        </template>
+                        <div class="row">
+                            <per :model="pers"></per>
+                        </div>
                         <div class="row">
                             <div class="col-md-12 text-center">
                                 <button class="btn btn-success" @click="addbtn">保存</button>
@@ -101,6 +79,33 @@
                 </div>
             </div>
         </div>
+        
+        <!-- 权限节点 template -->
+        <script type="text/x-template" id="per-template">
+            <div class="col-md-12" v-for = "per in model">
+                <dl class="dl-horizontal">
+                    <dt>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" :value="per.id">
+                                <b class="text-info">
+                                    {{per.name}}
+                                </b>
+                            </label>
+                        </div>
+                    </dt>
+                    <dd v-for="model_son in per.son">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" :value="model_son.id" v-model="model_son.have">
+                                {{model_son.name}}
+                            </label>
+                        </div>
+                    </dd>
+                </dl>
+            </div>
+            <hr>
+        </script>
 
         <div class="container">
             <div class="row">

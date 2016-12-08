@@ -18,16 +18,20 @@ function UrlSearch() {
     } 
 } 
 var Request=new UrlSearch();
-
 var role_id = Request.id;
 
-var role_name = Request.name;
-console.log(role_name);
+Vue.component('per', {
+    template: '#per-template',
+    props: {
+        model: Array
+    }
+})
+
 var permission = new Vue({
 	el:'body',
 	data:{
 		role_info:'',//角色信息
-		pers:'',//获取到的权限数据
+		pers:[],//获取到的权限数据
 		ids:[]
 	},
 	ready:function(){
@@ -67,9 +71,6 @@ var permission = new Vue({
 			}
 		})
 	},
-	computed:{
-
-	},
 	methods:{
 		//提交保存
 		addbtn:function(){
@@ -97,6 +98,25 @@ var permission = new Vue({
 		}
 	}
 })
+
+//Vue过滤器
+// Vue.filter('mainOpen',function(value){
+//     var per = value;
+//     var result;
+//     var arr = [];
+//     for(var i = 0; i<per.length; i++){
+//     	if(per[i].have){
+//     		arr.push(i);
+//     	}
+//     }
+//     if(arr.length){
+//     	result =  true
+//     }else{
+//     	result = false
+//     }
+//     return result
+// })
+
 function getIds(pers) {
 	var ids = [];
 	for(var i = 0;i<pers.length;i++){
