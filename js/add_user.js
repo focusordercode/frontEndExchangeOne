@@ -23,7 +23,8 @@ var adduse = new Vue ({
         al_pass:false,
         al_true:false,
         al_mobile:false,
-        al_email:false
+        al_email:false,
+        al_role:false
     },
 
     methods:{
@@ -55,12 +56,20 @@ var adduse = new Vue ({
                 vm.al_true = false;
                 vm.al_mobile = false;
                 vm.al_email = true;
-            } else {
+            } else if (vm.orgSelect.length == 0) {
                 vm.al_name = false;
                 vm.al_pass = false;
                 vm.al_true = false;
                 vm.al_mobile = false;
                 vm.al_email = false;
+                vm.al_role = true;
+            }else {
+                vm.al_name = false;
+                vm.al_pass = false;
+                vm.al_true = false;
+                vm.al_mobile = false;
+                vm.al_email = false;
+                vm.al_role = false;
 
                 $.ajax({
                     type: 'POST',
@@ -149,7 +158,7 @@ $('.searchCate').on('keyup',function(){
         url:serverUrl+'get/roles',
         datatype:'json',
         data:{
-            searchText:searchCusVal
+            vague:searchCusVal
         },
         success:function(data){
             if(data.status == 100){
