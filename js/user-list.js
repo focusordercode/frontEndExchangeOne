@@ -1,5 +1,4 @@
 console.log(serverUrl);
-serverUrl = 'http://192.168.1.40/canton/';
 
 var num = 25;//默认展示个数
 
@@ -11,7 +10,9 @@ var userlist = new Vue({
 		pageNow:'',
 		countPage:'',
 		jump:'',
-		search:''
+        enabled:'',//状态
+		search:'',//搜索关键字
+        searchResult:''
 	},
 	ready:function(){
 		$.ajax({
@@ -27,8 +28,13 @@ var userlist = new Vue({
 					userlist.count = data.countUser;
 					userlist.pageNow = data.pageNow;
 					userlist.countPage = data.countPage;
-				}
-			}
+				} else {
+                    layer.msg(data.msg)
+                }
+			},
+            error:function(jqXHR){
+                layer.msg('向服务器请求失败');
+            }
 		})
 	},
 	computed:{
@@ -60,7 +66,42 @@ var userlist = new Vue({
         },
     },
 	methods:{
-		//删除产品
+        //提交搜索
+        searchuse:function(){
+            var vm = this;
+            var enabled = userlist.enabled;
+            var search = userlist.search.trim();
+            if (!enabled&&!search) {
+                layer.msg('必须选择状态或者填写关键字');
+            } else{
+                $.ajax({
+                    type:'POST',
+                    url:serverUrl+'get/user',
+                    datatype:'',
+                    data:{
+                        enabled:enabled,
+                        search:search
+                    },
+                    success:function(data){
+                        if(data.status==100) {
+                            userlist.alluser = data.value;
+                            userlist.count = data.countUser;
+                            userlist.pageNow = data.pageNow;
+                            userlist.countPage = data.countPage;
+                            //搜索条件数据
+                            var newObj = $.extend(true, {}, vm.search);
+                            vm.searchResult = newObj;
+                        }else{
+                            layer.msg(data.msg);
+                        }
+                    },
+                    error:function(jqXHR){
+                        layer.msg('向服务器请求失败');
+                    }
+                })
+            }
+        },
+		//删除用户
     	deleteuse:function(use) {
     		var vm = this;
             var pageNow = this.pageNow;

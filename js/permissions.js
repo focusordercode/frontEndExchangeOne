@@ -67,9 +67,6 @@ var permission = new Vue({
 			}
 		})
 	},
-	computed:{
-
-	},
 	methods:{
 		//提交保存
 		addbtn:function(){

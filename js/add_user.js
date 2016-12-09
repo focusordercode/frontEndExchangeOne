@@ -1,6 +1,3 @@
-/**
- * Created by Administrator on 2016/11/29.
- */
 console.log(serverUrl);
 
 var adduse = new Vue ({
@@ -9,15 +6,12 @@ var adduse = new Vue ({
         id:'',
         user_name:'',
         password:'',
-        pwdsuffix:'',
         real_name:'',
         email:'',
         mobile:'',
         enabled:'',
         is_staff:'',
         is_head:'',
-        creator_id:'',
-        belong:'管理员',
         remark:'',
         roleid:[],
         orgSelect:[], //选择的角色
@@ -28,7 +22,6 @@ var adduse = new Vue ({
         al_name:false,
         al_pass:false,
         al_true:false,
-        al_belong:false,
         al_mobile:false,
         al_email:false
     },
@@ -62,18 +55,10 @@ var adduse = new Vue ({
                 vm.al_true = false;
                 vm.al_mobile = false;
                 vm.al_email = true;
-            } else if (!vm.belong) {
-                vm.al_name = false;
-                vm.al_pass = false;
-                vm.al_true = false;
-                vm.al_email = false;
-                vm.al_mobile = false;
-                vm.al_roleid = true;
             } else {
                 vm.al_name = false;
                 vm.al_pass = false;
                 vm.al_true = false;
-                vm.al_roleid = false;
                 vm.al_mobile = false;
                 vm.al_email = false;
 

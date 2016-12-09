@@ -72,7 +72,7 @@
                                 <dt class="clearfix">
                                     <div class="checkbox">
                                         <label>
-                                            <input type="checkbox" :value="per.id" v-model="per.have">
+                                            <input style='display: none;' type="checkbox" :value="per.id" v-model="per.have">
                                             <b class="text-info">
                                                 {{per.name}}
                                             </b>
@@ -105,7 +105,7 @@
         <div class="container">
             <div class="row">
                 <hr>
-                <pre>{{$data|json}}</pre>
+                <!-- <pre>{{$data|json}}</pre> -->
             </div>
         </div>
 

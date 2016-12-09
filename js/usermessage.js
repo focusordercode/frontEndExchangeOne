@@ -1,3 +1,5 @@
+console.log(serverUrl);
+
 //获取ID
 function UrlSearch() {
     var name,value; 
@@ -57,7 +59,7 @@ var amend = new Vue({
 	ready:function(){
 		$.ajax({
 			type:'POST',
-			url:'http://192.168.1.40/canton/get/userbyid',
+			url:serverUrl+'get/userbyid',
 			datatype:'json',
 			data:{
 				uid:cus_id
@@ -133,7 +135,7 @@ var amend = new Vue({
 
 				$.ajax({
 					type:'POST',
-					url:'http://192.168.1.40/canton/edit/user',
+					url:serverUrl+'edit/user',
 					datatype:'json',
 					data:{
 						uid:cus_id,
@@ -150,6 +152,7 @@ var amend = new Vue({
 
                         if (data.status==100) {
                             layer.msg('保存成功');
+                            setTimeout(location.reload(true),1000);
                         }else{
                             layer.msg(data.msg);
                         }
@@ -163,4 +166,7 @@ var amend = new Vue({
 
 	}
 })
-
+//刷新函数
+function windowFresh(){
+    location.reload(true);
+}
