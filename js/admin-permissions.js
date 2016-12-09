@@ -1,5 +1,4 @@
 console.log(serverUrl);
-serverUrl = 'http://192.168.1.40/canton/';
 
 Vue.component('per', {
     template: '#per-template',

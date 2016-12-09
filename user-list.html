@@ -55,22 +55,6 @@
             </div>
         </div>
 
-
-        <!-- <div class="container-fluid marginTop" v-show="searchResult">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="alert alert-info">
-                            <b class="text-danger">搜索结果</b>　
-                            表格数:<strong class="text-warning">{{count}}</strong>　
-                            当前页:<strong class="text-warning">{{pageNow}}</strong>　
-                            总页数:<strong class="text-warning">{{countPage}}</strong>　
-                            <button class="btn btn-info btn-sm" @click="Reflesh">返回</button>
-                    </div>
-                </div>
-            </div>
-        </div> -->
-
-
         <!-- 主内容区域 -->
         <div class="container-fluid marginTop">
             <div class="row">
@@ -78,11 +62,20 @@
                     <div class="panel panel-primary">
                         <div class="panel-heading"><h4><b>用户</b></h4></div>
                         <div class="panel-body">
-                            <div class="col-md-12">
+                            <div class="col-md-12" v-show="!searchResult">
                                 <div class="alert alert-info">
                                         用户数:<strong class="text-warning">{{count}}</strong>　
                                         当前页:<strong class="text-warning">{{pageNow}}</strong>　
                                         总页数:<strong class="text-warning">{{countPage}}</strong>　
+                                </div>
+                            </div>
+                            <div class="col-md-12" v-show="searchResult">
+                                <div class="alert alert-info">
+                                        <b class="text-danger">搜索结果</b>　
+                                        表格数:<strong class="text-warning">{{count}}</strong>　
+                                        当前页:<strong class="text-warning">{{pageNow}}</strong>　
+                                        总页数:<strong class="text-warning">{{countPage}}</strong>　
+                                        <button class="btn btn-info btn-sm" @click="Reflesh">返回</button>
                                 </div>
                             </div>
 
@@ -91,19 +84,16 @@
                                     <div class="form-group">
                                         <label class="col-md-1 control-label">选择搜索条件</label>
                                         <div class="col-md-1">
-                                            <select class="form-control">
-                                                <option value="" selected>用户角色</option>
-                                                <option value="">角色1</option>
-                                                <option value="">角色2</option>
-                                                <option value="">角色3</option>
-                                                <option value="">角色4</option>
+                                            <select class="form-control" v-model="enabled">
+                                                <option value="1" selected>启用</option>
+                                                <option value="0">停用</option>
                                             </select>
                                         </div>
                                         <div class="col-md-2">
-                                            <input type="text" placeholder="输入用户名" class="form-control">
+                                            <input v-model="search" type="text" placeholder="输入用户名" class="form-control">
                                         </div>
                                         <div class="col-md-1">
-                                            <button class="btn btn-default">搜索</button>
+                                            <button @click='searchuse' class="btn btn-default">搜索</button>
                                         </div>
                                         <div class="col-md-1">
                                             <a href="add_user.html" class="btn btn-success">增加用户</a>

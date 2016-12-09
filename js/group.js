@@ -1,5 +1,46 @@
 console.log(serverUrl);
 
+// 组织机构树形菜单的组件
+Vue.component('item', {
+    template: '#item-template',
+    props: {
+        model: Object,
+        rol:Object
+    },
+    data: function() {
+        return {
+            open: false
+        }
+    },
+    computed: {
+        isFolder: function() {
+            return this.model.son && this.model.son.length
+        },
+    },
+    methods: {
+        //点击展开子机构
+        toggle: function(model) {
+            if (this.isFolder) {
+                this.open = !this.open
+                console.log(this.open)
+            }
+        },
+        //点击机构
+        selected: function(model) {
+            var id = model.id,
+                name = model.name,
+                introduce = model.introduce,
+                sonLen = model.son.length;
+                
+            var selected = {
+                id,
+                name,
+                introduce,
+                sonLen,
+            };
+        }
+    }
+})
 //状态过滤
 Vue.filter('staFlilter',function(value){
     var str;
@@ -14,16 +55,20 @@ Vue.filter('staFlilter',function(value){
 var rolegroup = new Vue({
 	el:'body',
 	data:{
+		son:{},
 		roledata:{},
 		editOne:'',
-		//新增用户数据
+		//新增角色数据
 		addname:'',
 		orgSelect:[], //选择的机构
+		orgids:[],//选中机构的ID
 		addremark:'',
 		//搜索机构数据
-		oneList:''
+		oneList:'',
+		orgds:[]//修改信息时机构的数据
 	},
 	ready:function(){
+		//获取角色的列表
 		$.ajax({
 			type:'POST',
 			url:serverUrl+'get/roles',
@@ -40,6 +85,25 @@ var rolegroup = new Vue({
 				layer.msg('向服务器请求失败');
 			}
 		})
+		// 获取树形的数据
+		$.ajax({
+            type: 'POST',
+            url: serverUrl+'get/org',
+            datatype: 'json',
+            data:{
+                isGetRole:1
+            },
+            success: function(data) {
+                if(data.status==100){
+                    rolegroup.son = data.value[0];
+                }else if(data.status==101){
+                    layer.msg(data.msg);
+                }
+            },
+            error: function(jqXHR) {
+                layer.msg('向服务器请求组织机构失败');
+            }
+        })
 	},
 	computed:{
 
@@ -48,10 +112,11 @@ var rolegroup = new Vue({
 		//添加角色
 		addrole:function(){
 			var vm = this;
-			var orgid = [];
+			var sel = vm.orgSelect; 
+			var orgids = getroleid(sel);
 			name = vm.addname;
 			remark = vm.addremark;
-			org_id = vm.orgSelect;
+			org_id = orgids;
 			if (!name.trim()) {
 				layer.msg('请填写角色名称');
 			}else if (org_id=='') {
@@ -69,9 +134,9 @@ var rolegroup = new Vue({
 					},
 					success:function(data){
 						if (data.status == 100) {
-							layer.msg('操作成功');
+							layer.msg('添加成功');
 							//重新刷新
-                            
+                            setTimeout(windowFresh(),1000);
 						}else if (data.status == 101) {
 							layer.msg('操作失败');
 						}else if (data.status == 102) {
@@ -103,10 +168,34 @@ var rolegroup = new Vue({
 				vm.orgSelect.push(one);
 			}
 		},
+		//修改时选中机构
+		selectOned:function(one){
+			var vm = this;
+			var orgds = [];
+			var hasOne = [];
+			orgds = vm.editOne.org;
+			console.log(orgds)
+			for(var i = 0;i<orgds.length;i++){
+				if(orgds[i]==one){
+					hasOne.push(i);
+				}
+			}
+			console.log(hasOne)
+			if(hasOne.length){
+				layer.msg("已经选中了");
+			}else{
+				vm.orgds.push(one);
+			}
+		},
 		//删除选中机构
 		removeOrg:function(org){
 			var vm = this;
 			vm.orgSelect.$remove(org);
+		},
+		//修改时删除机构
+		removeOrgd:function(orgd){
+			var vm = this;
+			vm.editOne.org.$remove(orgd);
 		},
 		//修改角色信息
 		edit:function(role,index){
@@ -124,6 +213,7 @@ var rolegroup = new Vue({
 					success:function(data){
 						if (data.status == 100) {
 							rolegroup.editOne = data.value[0];
+							rolegroup.orgds = rolegroup.editOne.org;
 						}
 					},
 					error:function (jqXHR) {
@@ -144,6 +234,7 @@ var rolegroup = new Vue({
 			var name = vm.editOne.name;
 			var enabled = vm.editOne.enabled;
 			var remark = vm.editOne.remark;
+			var orgs = vm.orgds;
 
 			if (!vm.editOne.name.trim()) {
 				layer.msg('角色名称不能为空');
@@ -157,6 +248,7 @@ var rolegroup = new Vue({
 						name:name,
 						enabled:enabled,
 						remark:remark,
+						org_ids:orgs
 					},
 					success:function(data){
 						if (data.status == 100) {
@@ -189,11 +281,11 @@ var rolegroup = new Vue({
 				success:function(data){
 					if (data.status == 100) {
 						layer.msg('操作成功');
-						setTimeout(windowFresh(),1000);
+						setTimeout(getlist(),1000);
 					}else if (data.status == 101) {
 						layer.msg('操作失败');
 					}else if (data.status == 102) {
-						layer.msg('参数错误');
+						layer.msg(data.msg);
 					}else if (data.status == 103) {
 						layer.msg('角色有关联用户');
 					}
@@ -202,6 +294,24 @@ var rolegroup = new Vue({
 					layer.msg('向服务器请求失败');
 				}
 			})
+		},
+		getlist:function(){
+			$.ajax({
+			type:'POST',
+			url:serverUrl+'get/roles',
+			datatype:'json',
+			data:{
+				vague:''
+			},
+			success:function(data){
+				if (data.status == 100) {
+					rolegroup.roledata = data.value;
+				}
+			},
+			error:function (jqXHR) {
+				layer.msg('向服务器请求失败');
+			}
+		})
 		}
 	}
 })
@@ -227,7 +337,7 @@ $('.searchCate').on('keyup',function(){
 	var searchCusVal = $('.searchCate').val();
 	$.ajax({
 		type:'POST',
-		url:'http://192.168.1.40/canton/search/org',
+		url:serverUrl+'search/org',
 		datatype:'json',
 		data:{
 			searchText:searchCusVal
@@ -244,3 +354,57 @@ $('.searchCate').on('keyup',function(){
 		}
 	})
 });
+//获取树形分类函数
+function getTreeData(vm) {
+    $.ajax({
+        type: 'POST',
+        url: serverUrl+'get/org',
+        datatype: 'json',
+        data:{
+            isGetRole:0
+        },
+        success: function(data) {
+            if(data.status==100){
+                vm.son = data.value[0];
+            }else if(data.status==101){
+                layer.msg(data.msg);
+            }
+        },
+        error: function(jqXHR) {
+            layer.msg('向服务器请求组织机构失败');
+        }
+    })
+}
+
+//点击组织机构树形菜单
+$(document).on('click', '.tree .item .tree-node .selected', function() {
+    $('.tree .item .tree-node').removeClass('node-selected');
+    $(this).parent('.tree-node').addClass('node-selected');
+});
+//获取选中的机构的ID
+function getroleid(orgSelect){
+    var orgids = [];
+    for (var i = 0; i < orgSelect.length; i++) {
+        orgids.push(orgSelect[i].id);
+    }
+    return orgids
+}
+//重新获取角色的列表
+function getlist(){
+	$.ajax({
+			type:'POST',
+			url:serverUrl+'get/roles',
+			datatype:'json',
+			data:{
+				vague:''
+			},
+			success:function(data){
+				if (data.status == 100) {
+					rolegroup.roledata = data.value;
+				}
+			},
+			error:function (jqXHR) {
+				layer.msg('向服务器请求失败');
+			}
+		})
+}
