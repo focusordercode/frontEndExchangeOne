@@ -62,9 +62,6 @@ Vue.component('per', {
 			var p_id = per.id;
 			var address = vm.add_son.auth_address.trim();
 			var name = vm.add_son.name.trim();
-			console.log(p_id);
-			console.log(address);
-			console.log(name);
 			if(!address||!En.test(address)){
 				layer.msg('地址不能为空,且必须是英文');
 			}else if(!name){
@@ -73,35 +70,31 @@ Vue.component('per', {
 				addData(vm,p_id,address,name);
 			}
 		},
-		deleteOne:function(model_son){
+		//删除父节点
+		deleteBigOne:function(per){
 			var vm = this;
-			var id = model_son.id;
-			layer.confirm('确认删除?',function(){
-				$.ajax({
-					type:'POST',
-					url:serverUrl+'delete/rule',
-					datatype:'json',
-					data:{
-						rule_id:id
-					},
-					success:function(data){
-						if(data.status == 100){
-							layer.msg('删除成功');
-							//刷新
-							var enabled = 1;
-							getPers(enabled);
-						}else{
-							layer.msg(data.msg);
-						}
-					},
-					error:function(jqXHR){
-						layer.msg('向服务器请求失败');
-					}
-				})
+			var id = per.id;
+			layer.confirm('确认删除?',function(index){
+				layer.close(index);
+				deleteData(id);
 			})
 		},
-		//打开编辑
-		open_eidt:function(model_son){
+		//删除子节点
+		deleteSmallOne:function(model_son){
+			var vm = this;
+			var id = model_son.id;
+			layer.confirm('确认删除?',function(index){
+				layer.close(index);
+				deleteData(id);
+			})
+		},
+		//打开编辑父节点
+		open_big_eidt:function(per){
+			permission.edit_big =  $.extend(true, {}, per);
+			$('.editBig').modal('show');
+		},
+		//打开编辑子节点
+		open_small_eidt:function(model_son){
 			permission.editOne =  $.extend(true, {}, model_son);
 			$('.editTable').modal('show');
 		}
@@ -112,53 +105,42 @@ var permission = new Vue({
 	el:'body',
 	data:{
 		pers:[],//获取到的权限节点数据
-		editOne:''
+		editOne:'',//编辑子节点
+		edit_big:'' //编辑父节点
 	},
 	ready:function(){
 		var enabled = 1;
 		getPers(enabled);
 	},
 	methods:{
-		//提交编辑
+		//提交子节点编辑
 		save_edit:function(){
 			var vm = this;
 			var En = /^[A-z/]+$/;
 			var rule_id = vm.editOne.id;
 			var address = vm.editOne.auth_address.trim();
 			var name = vm.editOne.name.trim();
-			console.log(rule_id)
-			console.log(address)
-			console.log(name)
 			if(!address||!En.test(address)){
 				layer.msg('地址不能为空,且必须是英文');
 			}else if(!name){
 				layer.msg('名称不能为空');
 			}else{
-				$.ajax({
-					type:'POST',
-					url:serverUrl+'edit/rule',
-					datatype:'json',
-					data:{
-						rule_id:rule_id,
-						auth_address:address,
-						name:name,
-						enabled:1
-					},
-					success:function(data){
-						if(data.status == 100){
-							layer.msg('保存成功');
-							$('.editTable').modal('hide');
-							//刷新
-							var enabled = 1;
-							getPers(enabled);
-						}else{
-							layer.msg(data.msg);
-						}
-					},
-					error:function(jqXHR){
-						layer.msg('向服务器请求失败');
-					}
-				})
+				updateData(vm,rule_id,address,name);
+			}
+		},
+		//提交父节点编辑
+		save_big:function(){
+			var vm = this;
+			var En = /^[A-z/]+$/;
+			var rule_id = vm.edit_big.id;
+			var address = vm.edit_big.auth_address.trim();
+			var name = vm.edit_big.name.trim();
+			if(!address||!En.test(address)){
+				layer.msg('地址不能为空,且必须是英文');
+			}else if(!name){
+				layer.msg('名称不能为空');
+			}else{
+				updateData(vm,rule_id,address,name)
 			}
 		}
 	}
@@ -217,6 +199,60 @@ function addData(vm,p_id,address,name){
 	})
 }
 
+//提交编辑函数
+function updateData(vm,rule_id,address,name){
+	$.ajax({
+		type:'POST',
+		url:serverUrl+'edit/rule',
+		datatype:'json',
+		data:{
+			rule_id:rule_id,
+			auth_address:address,
+			name:name,
+			enabled:1
+		},
+		success:function(data){
+			if(data.status == 100){
+				layer.msg('保存成功');
+				$('.editTable').modal('hide');
+				$('.editBig').modal('hide');
+				//刷新
+				var enabled = 1;
+				getPers(enabled);
+			}else{
+				layer.msg(data.msg);
+			}
+		},
+		error:function(jqXHR){
+			layer.msg('向服务器请求失败');
+		}
+	})
+}
+
+//删除节点函数
+function deleteData(id){
+	$.ajax({
+		type:'POST',
+		url:serverUrl+'delete/rule',
+		datatype:'json',
+		data:{
+			rule_id:id
+		},
+		success:function(data){
+			if(data.status == 100){
+				layer.msg('删除成功');
+				//刷新
+				var enabled = 1;
+				getPers(enabled);
+			}else{
+				layer.msg(data.msg);
+			}
+		},
+		error:function(jqXHR){
+			layer.msg('向服务器请求失败');
+		}
+	})
+}
 
 $(document).ready(function(){
     //回到顶部

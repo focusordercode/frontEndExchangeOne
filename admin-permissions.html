@@ -86,7 +86,29 @@
             </div>
         </div>
         
-        
+        <!-- 回到顶部 -->
+        <div class="scrollToTop">
+            <i class="fa fa-3x fa-angle-up" aria-hidden="true"></i>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <hr>
+                <!-- <pre>{{$data|json}}</pre> -->
+            </div>
+        </div>
+
+        <!-- 页脚 -->
+        <div class="container-fluid footer-fluid">
+            <div class="contaier">
+                <div class="row">
+                    <div class="col-lg-12">
+                        © All rights reserved 深圳福克斯德信息咨询有限公司
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- 权限节点 template -->
         <script type="text/x-template" id="per-template">
             <!-- 添加节点按钮 -->
@@ -123,17 +145,27 @@
             <!-- 详细的节点 -->
             <div class="col-md-12" v-for = "per in model">
                 <dl class="dl">
+                    <!-- 父节点 -->
                     <dt>
-                        <h4 class="text-success"><b>{{per.name}}</b></h4>
+                        <h4 class="text-success">
+                            <b>{{per.name}}</b>
+                            <button class="btn btn-xs btn-default" @click="open_big_eidt(per)">
+                                <i class="fa fa-edit"></i>
+                            </button>
+                            <button class="btn btn-xs btn-default" @click="deleteBigOne(per)">
+                                <i class="fa fa-trash-o fa-fw"></i>
+                            </button>
+                        </h4>
                     </dt>
+                    <!-- 子节点 -->
                     <dd v-for="model_son in per.son">
                         <label class="label label-md label-primary">
                             {{model_son.name}}
                         </label>
-                        <button class="btn btn-xs btn-default" @click="open_eidt(model_son)">
+                        <button class="btn btn-xs btn-default" @click="open_small_eidt(model_son)">
                             <i class="fa fa-edit"></i>
                         </button>
-                        <button class="btn btn-xs btn-default" @click="deleteOne(model_son)">
+                        <button class="btn btn-xs btn-default" @click="deleteSmallOne(model_son)">
                             <i class="fa fa-trash-o fa-fw"></i>
                         </button>
                     </dd>
@@ -165,8 +197,8 @@
             <hr>
         </script>
 
-        <!-- 编辑节点 -->
-        <div class="modal editTable fade" data-backdrop="static">
+        <!-- 编辑子节点 -->
+        <div class="modal editTable fade">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header bg-primary">
@@ -190,15 +222,6 @@
                                                 <input type="text" v-model='editOne.name' placeholder="名称" class="form-control">
                                             </div>
                                         </div> 
-                                        <!-- <div class="form-group">
-                                            <label class="col-md-2 control-label">状态</label>
-                                            <div class="col-sm-3">
-                                                <select class="form-control" v-model="editOne.enabled">
-                                                    <option value="1">启用</option>
-                                                    <option value="0">停用</option>
-                                                </select>
-                                            </div>
-                                        </div> -->
                                     </div>
                                     <div class="col-md-2 col-md-offset-5">
                                         <button @click="save_edit" class="btn btn-success">保存</button>
@@ -210,25 +233,39 @@
                 </div>
             </div>
         </div>
-        
-        <!-- 回到顶部 -->
-        <div class="scrollToTop">
-            <i class="fa fa-3x fa-angle-up" aria-hidden="true"></i>
-        </div>
 
-        <div class="container">
-            <div class="row">
-                <hr>
-                <pre>{{$data|json}}</pre>
-            </div>
-        </div>
-
-        <!-- 页脚 -->
-        <div class="container-fluid footer-fluid">
-            <div class="contaier">
-                <div class="row">
-                    <div class="col-lg-12">
-                        © All rights reserved 深圳福克斯德信息咨询有限公司
+        <!-- 编辑父节点 -->
+        <div class="modal editBig fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header bg-primary">
+                        <h4 class="modal-title text-center">编辑节点</h4>
+                        <button type="button" class="close close-positon" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i class="fa fa-close"></i></span></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-horizontal">
+                                        <div class="form-group">
+                                            <label class="col-md-2 control-label">地址</label>
+                                            <div class="col-md-8">
+                                                <input type="text" v-model='edit_big.auth_address' placeholder="地址" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-2 control-label">名称</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" v-model='edit_big.name' placeholder="名称" class="form-control">
+                                            </div>
+                                        </div> 
+                                    </div>
+                                    <div class="col-md-2 col-md-offset-5">
+                                        <button @click="save_big" class="btn btn-success">保存</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

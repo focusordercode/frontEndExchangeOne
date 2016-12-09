@@ -123,14 +123,6 @@ var oTableInfo = new Vue({
 				})
 			})
 		},
-		//修改表格信息
-		infoXG:function(item){
-			var vm = this;
-			vm.infoCache = $.extend(true, {}, item);//复制数据
-			if(item.id){
-				$('.infoXG').modal('show');
-			}
-		},
 		//新建表格
 		creatTable:function(){
 			// var w = window.open();
@@ -261,6 +253,14 @@ var oTableInfo = new Vue({
 				vm.jump = '';
 			}
 		},
+		//修改表格信息
+		infoXG:function(item){
+			var vm = this;
+			vm.infoCache = $.extend(true, {}, item);//复制数据
+			if(item.id){
+				$('.infoXG').modal('show');
+			}
+		},
 		//提交修改
 		saveXG:function(){
 		    var infoCache = this.infoCache;
@@ -374,18 +374,6 @@ Vue.filter('deleteBtn',function(value){
         return str1
     }else {
         return str2
-    }
-})
-
-//修改按钮
-Vue.filter('xgBtn',function(value){
-    var value = value;
-    str1 = ''; //隐藏
-    str2 = 'yes'; //显示
-    if(value=='creating'||value=='editing'){
-        return str2
-    }else {
-        return str1
     }
 })
 

@@ -193,7 +193,7 @@
                                                 <td class="text-center">{{item.modified_time}}</td>
                                                 <td class="text-center">{{item.status_code|statusCode}}</td>
                                                 <td class="text-center">
-                                                    <button class="btn btn-info btn-xs" v-show="item.status_code | xgBtn" @click="infoXG(item)">修改</button>
+                                                    <button class="btn btn-info btn-xs" v-show="item.status_code" @click="infoXG(item)">修改</button>
                                                     <a class="btn btn-success btn-xs" target="_blank" :href="item | statusLink" >编辑</a>
                                                     <button v-show="item.status_code | deleteBtn" v-on:click="remove(item)" class="btn btn-danger btn-xs">    删除
                                                     </button>
@@ -212,7 +212,7 @@
                                                 <td class="text-center">{{item.modified_time}}</td>
                                                 <td class="text-center">{{item.status_code|statusCode}}</td>
                                                 <td class="text-center">
-                                                    <button class="btn btn-info btn-xs" v-show="item.status_code | xgBtn" @click="infoXG(item)">修改</button>
+                                                    <button class="btn btn-info btn-xs" v-show="item.status_code" @click="infoXG(item)">修改</button>
                                                     <a  class="btn btn-success btn-xs" target="_blank" :href="item | statusLink" >编辑</a>
                                                     <button v-show="item.status_code | deleteBtn" v-on:click="remove(item)" class="btn btn-danger btn-xs">    删除
                                                     </button>
@@ -271,14 +271,6 @@
                                             <label class="col-sm-2 label control-label">表格名称</label>
                                             <div class="col-sm-10">
                                                 <input type="text" v-model="infoCache.title" class="form-control">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-sm-2 label control-label">站点</label>
-                                            <div class="col-sm-10">
-                                                <select v-model="infoCache.site_name" class="form-control">
-                                                    <option v-for="op in sites">{{op}}</option>
-                                                </select>
                                             </div>
                                         </div>
                                     </div>
