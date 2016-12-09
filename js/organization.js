@@ -1,6 +1,5 @@
 console.log(serverUrl); //后端接口地址
 
-serverUrl = 'http://192.168.1.40/canton/'; //调试后删除
 // 组织机构树形菜单的组件
 Vue.component('item', {
     template: '#item-template',

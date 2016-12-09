@@ -2,7 +2,7 @@
  * Created by Administrator on 2016/11/29.
  */
 console.log(serverUrl);
-serverUrl = 'http://192.168.1.40/canton/';
+
 var adduse = new Vue ({
     el:"body",
     data:{
@@ -161,7 +161,7 @@ $('.searchCate').on('keyup',function(){
     var searchCusVal = $('.searchCate').val();
     $.ajax({
         type:'POST',
-        url:'http://192.168.1.42/canton/get/roles',
+        url:serverUrl+'get/roles',
         datatype:'json',
         data:{
             searchText:searchCusVal

@@ -39,7 +39,6 @@
             border-radius: 4px;
             max-width: 100%;
             line-height: 22px;
-            cursor: text;
         }
         .bootstrap-tagsinput .tag {
             margin-right: 2px;
@@ -91,6 +90,64 @@
         .height {
             min-height: 32px!important;
             overflow: hidden;
+            background-color: #ccc;
+        }
+        .tree {
+            margin-top: 20px;
+        }
+        .tree,.tree ul,.tree ul li {
+            list-style: none;
+        }
+        .item li {
+            position: relative;
+            padding-top: 10px;
+        }
+        .item li::before,.item li::after {
+            content: '';
+            left: -30px;
+            position: absolute;
+            right: auto
+        }
+        .item li::before {
+            border-left: 1px solid #cac8c8;
+            bottom: 50px;
+            height: 100%;
+            top: 0;
+            width: 1px
+        }
+        .item li::after {
+            border-top: 1px solid #cac8c8;
+            height: 20px;
+            top: 26px;
+            width: 26px
+        }
+        .tree .item .selected {
+            padding: 6px 0;
+        }
+        .text-white {
+            color: #fff;
+        }
+        .adminCate .modal-content {
+            border-radius: 0;
+            border: 0;
+        }
+        .adminCate .form-control {
+            border-radius: 0;
+        }
+        .caret-ii {
+            padding: 0 5px;
+        }
+        .item .tree-node {
+            margin-left: -2px;
+            line-height: 30px;
+            cursor: pointer;
+        }
+        .item .tree-node:hover {
+            background: #e5e9f2;
+        }
+        .item .node-selected  {
+            color: #454f75;
+            background: #e5e9f2;
         }
     </style>
 </head>
@@ -146,7 +203,7 @@
                         <li role="presentation">
                             <a href="#group" role="tab" id="group-tab" data-toggle="tab" aria-controls="group" aria-expanded="false">角色添加</a>
                         </li>
-                        <li role="presentation" class="active">
+                        <li @click='getlist' role="presentation" class="active">
                             <a href="#profile" role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="true">角色列表</a>
                         </li>
                     </ul>
@@ -160,13 +217,42 @@
                                     <div class="panel panel-default">
                                         <div class="panel-body">
                                             <div class="col-md-12">
-                                                <img src="images/tree.png" alt="">
+                                                <ul class="tree">
+                                                    <item
+                                                      class="item"
+                                                      :model="son">
+                                                    </item>
+                                                </ul>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <!-- 树形目录 -->
+                        <script type="text/x-template" id="item-template">
+                            <li>
+                                <div class="tree-node" :title="model.introduce">
+                                    <span v-show="isFolder">
+                                        <span class="fa fa-2x caret-ii fa-caret-right vertical" @click="toggle(model)" v-show="!open"></span>
+                                        <span class="fa fa-2x caret-ii fa-caret-down vertical" @click="toggle(model)" v-show="open"></span>
+                                    </span>
+                                    <span class="selected vertical" @click="selected(model)">
+                                        {{model.name}}
+                                    </span>
+                                    <span v-for="roll in model.roles" class="selected vertical text-primary" @click="selected(model)">
+                                        {{roll.rname}}
+                                    </span>
+                                </div>
+                                <ul v-show="open" v-if="isFolder">
+                                    <item
+                                        class="item"
+                                        v-for="model in model.son"
+                                        :model="model">
+                                    </item>
+                                </ul>
+                            </li>
+                        </script>
                         <!-- 角色添加 -->
                         <div role="tabpanel" class="tab-pane fade in" id="group" aria-labelledby="group-tab">
                             <div class="row">
@@ -186,7 +272,7 @@
                                                         <label class="col-sm-2 control-label"><span class="text-red">*</span>所属机构</label>
                                                         <div class="col-sm-4">
                                                             <div class="bootstrap-tagsinput height">
-                                                                <span class="tag label label-info" v-for="org in orgSelect">
+                                                                <span class="tag label label-info" readonly v-for="org in orgSelect">
                                                                     {{org.name}}<span data-role="remove" @click="removeOrg(org)"></span>
                                                                 </span>
                                                             </div>
@@ -256,7 +342,7 @@
                                                                 <td class="text-center">
                                                                     <button class="btn btn-info btn-xs" @click="edit(role,$index)" >修改</button>
                                                                     <a :href="'Permissions.html'+'?id='+role.id" class="btn btn-xs btn-info" target="_blank">权限</a>
-                                                                    <button @click="delerole" class="btn btn-danger btn-xs">删除</button>
+                                                                    <button @click="delerole(role)" class="btn btn-danger btn-xs">删除</button>
                                                                 </td>
                                                             </tr>
                                                         </template>
@@ -315,6 +401,36 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
+                                            <label class="col-sm-2 control-label"><span class="text-red">*</span>所属机构</label>
+                                            <div class="col-sm-8">
+                                                <div class="bootstrap-tagsinput height">
+                                                    <span class="tag label label-info" readonly v-for="orgd in orgds">
+                                                        {{orgd.name}}<span data-role="remove" @click="removeOrgd(orgd)"></span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <button class="btn btn-info btn-sm searchBtn">搜索</button>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-sm-8 pors searchCompent col-sm-offset-2">
+                                                <input type="text" class="form-control searchShadow searchCate " placeholder="输入关键字搜索类目">
+                                                <ul class="cate-list">
+                                                    <template v-for="one in oneList" v-if="$index<=9">
+                                                        <li @click="selectOned(one)">
+                                                            {{one.name}}
+                                                        </li>
+                                                    </template>
+                                                </ul>
+                                            </div>
+                                            <div class="col-sm-1 text-left paddingLeft searchCompent">
+                                                <button class="btn btn-default closeBtn searchShadow">
+                                                    <i class="fa fa-close"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
                                             <label class="col-md-2 control-label">角色备注</label>
                                             <div class="col-sm-8">
                                                 <textarea v-model="editOne.remark" class="form-control" cols="30" rows="5" ></textarea>
@@ -336,7 +452,7 @@
         <div class="container">
             <div class="row">
                 <hr>
-                <pre>{{$data|json}}</pre>
+                <!-- <pre>{{$data|json}}</pre> -->
             </div>
         </div>
 
