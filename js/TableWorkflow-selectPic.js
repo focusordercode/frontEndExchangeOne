@@ -18,6 +18,7 @@ function UrlSearch() {
 var Request=new UrlSearch();
 var Id = Request.id;
 var type_code = 'info';
+serverUrl = 'http://192.168.1.40/canton/';
 console.log(serverUrl);//后端接口地址
 
 var oUrl = serverUrl;//图片服务器地址
@@ -92,12 +93,22 @@ var selectPic = new Vue({
             url:serverUrl+'get/oneform',
             datatype:'json',
             data:{
+                key:oKey,
+                user_id:token,
                 id:Id,
                 type_code:type_code
             },
             success:function(data){
                 if(data.status==100){
                     selectPic.tableInfo = data.value[0];
+                }else if(data.status==1012){
+                    layer.msg('请先登录',{time:2000});
+
+                    setTimeout(function(){
+                        jumpLogin(loginUrl,NowUrl);
+                    },2000);
+                }else if(data.status==1011){
+                    layer.msg('权限不足,请跟管理员联系');
                 }
             },
             error:function(jqXHR){
@@ -163,6 +174,8 @@ var selectPic = new Vue({
                     url:serverUrl+'get/treeGallery',
                     datatype:'json',
                     data:{
+                        key:oKey,
+                        user_id:token,
                         category_id:cateId
                     },
                     success:function(data){
@@ -170,6 +183,14 @@ var selectPic = new Vue({
                             selectPic.pictree = data.value[0];
                         }else if(data.status==101){
                             selectPic.pictree = data.value;
+                        }else if(data.status==1012){
+                            layer.msg('请先登录',{time:2000});
+                            
+                            setTimeout(function(){
+                                jumpLogin(loginUrl,NowUrl);
+                            },2000);
+                        }else if(data.status==1011){
+                            layer.msg('权限不足,请跟管理员联系');
                         }
                     },
                     error:function(jqXHR){
@@ -212,6 +233,8 @@ var selectPic = new Vue({
                     url:serverUrl+'marry/image',
                     datatype:'json',
                     data:{
+                        key:oKey,
+                        user_id:token,
                         tableID:Id,
                         num:num,
                         v_num:v_num,
@@ -235,6 +258,14 @@ var selectPic = new Vue({
                             vm.tableHead = '';
                             vm.tableData = '';
                             vm.relateValList = [];
+                        }else if(data.status==1012){
+                            layer.msg('请先登录',{time:2000});
+                            
+                            setTimeout(function(){
+                                jumpLogin(loginUrl,NowUrl);
+                            },2000);
+                        }else if(data.status==1011){
+                            layer.msg('权限不足,请跟管理员联系');
                         }else{
                             layer.msg(data.msg);
                             vm.picData= '';
@@ -319,6 +350,8 @@ var selectPic = new Vue({
                     url:serverUrl+'receive/value',
                     datatype:'json',
                     data:{
+                        key:oKey,
+                        user_id:token,
                         form_no:vm.tableInfo.form_no,
                         category_id:vm.tableInfo.category_id,
                         picData:vm.picData,
@@ -337,6 +370,14 @@ var selectPic = new Vue({
 
                                 setInterval(goNext,1000);
                             }
+                        }else if(data.status==1012){
+                            layer.msg('请先登录',{time:2000});
+                            
+                            setTimeout(function(){
+                                jumpLogin(loginUrl,NowUrl);
+                            },2000);
+                        }else if(data.status==1011){
+                            layer.msg('权限不足,请跟管理员联系');
                         }else{
                             layer.msg(data.msg);
                         }
@@ -375,6 +416,8 @@ function dataSteam (num,idArr,picData,vm) {
             url:serverUrl+'get/good2centervalue',
             datatype:'json',
             data:{
+                key:oKey,
+                user_id:token,
                 good_id:arr,
                 num:num
             },
@@ -401,6 +444,14 @@ function dataSteam (num,idArr,picData,vm) {
                     }else{
                         layer.msg('匹配的词库数据有误');
                     }
+                }else if(data.status==1012){
+                    layer.msg('请先登录',{time:2000});
+                    
+                    setTimeout(function(){
+                        jumpLogin(loginUrl,NowUrl);
+                    },2000);
+                }else if(data.status==1011){
+                    layer.msg('权限不足,请跟管理员联系');
                 }else{
                     layer.msg(data.msg);
                 }
@@ -473,11 +524,21 @@ $('.searchCate').on('keyup',function(){
         url:search,
         datatype:'json',
         data:{
+            key:oKey,
+            user_id:token,
             text:searchCusVal
         },
         success:function(data){
             if(data.status==100){
                 selectPic.proList = data.value;
+            }else if(data.status==1012){
+                layer.msg('请先登录',{time:2000});
+                
+                setTimeout(function(){
+                    jumpLogin(loginUrl,NowUrl);
+                },2000);
+            }else if(data.status==1011){
+                layer.msg('权限不足,请跟管理员联系');
             }else{
                 selectPic.proList= '';
             }
@@ -500,6 +561,8 @@ $('.searchCate2').on('keyup',function(){
         url:serverUrl+'get/product2value',
         datatype:'json',
         data:{
+            key:oKey,
+            user_id:token,
             category_id:selectPic.pro.id,
             vague:searchCusVal
         },
@@ -507,6 +570,14 @@ $('.searchCate2').on('keyup',function(){
             console.log(data);
             if(data.status==100){
                 selectPic.relateList = data.value;
+            }else if(data.status==1012){
+                layer.msg('请先登录',{time:2000});
+                
+                setTimeout(function(){
+                    jumpLogin(loginUrl,NowUrl);
+                },2000);
+            }else if(data.status==1011){
+                layer.msg('权限不足,请跟管理员联系');
             }else{
                 selectPic.relateList= '';
             }

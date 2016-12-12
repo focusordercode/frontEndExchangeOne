@@ -17,6 +17,7 @@ function UrlSearch() {
 } 
 var Request=new UrlSearch();
 var type_code = 'info';
+serverUrl = 'http://192.168.1.40/canton/';
 console.log(serverUrl); //后端接口地址
 
 //英文正则,英文数字和空格
@@ -58,6 +59,8 @@ var tempCreat = new Vue({
                     url:serverUrl+'add/template',
                     datatype:'json',
                     data:{
+                        key:oKey,
+                        user_id:token,
                         en_name:vm.en_name,
                         cn_name:vm.cn_name,
                         remark:vm.remark,
@@ -76,6 +79,14 @@ var tempCreat = new Vue({
                             }
 
                             setInterval(goNext,1000);
+                        }else if(data.status==1012){
+                            layer.msg('请先登录',{time:2000});
+                            
+                            setTimeout(function(){
+                                jumpLogin(loginUrl,NowUrl);
+                            },2000);
+                        }else if(data.status==1011){
+                            layer.msg('权限不足,请跟管理员联系');
                         }else{
                             layer.msg(data.msg);
                         }
@@ -120,6 +131,8 @@ $('.searchCate').on('keyup',function(){
         url:serverUrl+'vague/name',
         datatype:'json',
         data:{
+            key:oKey,
+            user_id:token,
             text:searchCusVal
         },
         success:function(data){
@@ -127,6 +140,14 @@ $('.searchCate').on('keyup',function(){
 
             if(data.status==100){
                 vm.proList = data.value;
+            }else if(data.status==1012){
+                layer.msg('请先登录',{time:2000});
+                
+                setTimeout(function(){
+                    jumpLogin(loginUrl,NowUrl);
+                },2000);
+            }else if(data.status==1011){
+                layer.msg('权限不足,请跟管理员联系');
             }else{
                 vm.proList= '';
             }
