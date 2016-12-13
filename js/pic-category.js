@@ -317,7 +317,11 @@ var picGallery = new Vue({
 			en_name:'',
 			category_id:''
 		},
-		changeData:'' //修改图片目录缓存
+		changeData:'', //修改图片目录缓存
+		imgcheck:[],//选中的图片
+		aims_id:'',//移动图片的目标目录ID
+		aimkey:'',//搜索目录的关键字
+		aimlist:''//搜索出的目录列表
 	},
 	computed:{
 		//控制分页按钮
@@ -638,48 +642,69 @@ var picGallery = new Vue({
 					}
 				})
 			})
+		},
+		//获取目录列表
+		searchaim:function(){
+			var vm = picGallery;
+			var keyword = vm.aimkey;
 
-			//更新图片函数
-			function update(){
-				var gallery_id = picGallery.pictreeActive.id;
-				//显示加载按钮
-				var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
-				//获取图片数据
-				$.ajax({
-					type:'POST',
-					url:serverUrl+'get/image',
-					datatype:'json',
-					data:{
-						gallery_id:gallery_id
-					},
-					success:function(data){
-						layer.close(LoadIndex); //关闭遮罩层
-						if(data.status==100){
-							picGallery.picData = data.value;
-							picGallery.countPage = data.countPage;
-							picGallery.countImage = data.countImage;
-							picGallery.pageNow = data.pageNow;
-							//给图片数据每个条目加上个checkbox属性
-							var picData = picGallery.picData;
-							var picDataLength = picData.length;
-							var i = 0;
-							for(i;i<picDataLength;i++){
-								Vue.set(picGallery.picData[i], 'checked', false)
-							}
-						}else{
-							// layer.msg('没有获取到图片');  //没有图片不提示了
-							picGallery.picData = '';
-							picGallery.countPage = '';
-							picGallery.countImage = '';
-							picGallery.pageNow = '';
-						}
-					},
-					error:function(jqXHR){
-						layer.close(LoadIndex); //关闭遮罩层
-						layer.msg('向服务器请求图片失败');
+			$.ajax({
+				type:'POST',
+				url:serverUrl+'vague/gallery',
+				datatype:'json',
+				data:{
+					keyword:keyword
+				},
+				success:function(data){
+					if (data.status==100) {
+						vm.aimlist = data.value;
+					}else{
+						layer.msg(data.msg)
 					}
-				})
+				},
+				error:function(jqXHR){
+					layer.msg('向服务器请求目录失败')
+				}	
+			})
+		},
+		//选中图片
+		imgSelet:function(){
+			var picDataLength = this.picData.length;
+			var checked = new Array();
+			for(var i = 0;i<picDataLength;i++){
+				if(this.picData[i].checked){
+				   checked.push(this.picData[i].id);
+				}
 			}
+			picGallery.imgcheck = checked;
+		},
+		//移动图片
+		moveSelet:function(){
+			var vm = picGallery;
+			var gallery_id = vm.aims_id;
+			var pic_ids = vm.imgcheck;
+
+			$.ajax({
+				type:'POST',
+				url:serverUrl+'move/image',
+				datatype:'json',
+				data:{
+					gallery_id:gallery_id,
+					pic_ids:pic_ids
+				},
+				success:function(data){
+					if (data.status == 100) {
+						layer.msg('移动成功');
+						update(true);
+						$('#myModal').modal('hide');
+					}else{
+						layer.msg(data.msg)
+					}
+				},
+				error:function(){
+					layer.msg('向服务器请求失败')
+				}
+			});
 		},
 		//跳转
 		jumpTo:function(){
@@ -846,6 +871,71 @@ var picGallery = new Vue({
 	}
 })
 
+//实时更新移动功能中的搜索框填入数据
+$('.searchCate').on('keyup',function(){
+	var vm = picGallery;
+	var keyword = $('.searchCate').val();
+
+	$.ajax({
+		type:'POST',
+		url:serverUrl+'vague/gallery',
+		datatype:'json',
+		data:{
+			keyword:keyword
+		},
+		success:function(data){
+			if (data.status==100) {
+				vm.aimlist = data.value;
+			}else{
+				layer.msg(data.msg)
+			}
+		},
+		error:function(jqXHR){
+			layer.msg('向服务器请求目录失败')
+		}	
+	})
+});
+//更新图片函数
+function update(){
+	var gallery_id = picGallery.pictreeActive.id;
+	//显示加载按钮
+	var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
+	//获取图片数据
+	$.ajax({
+		type:'POST',
+		url:serverUrl+'get/image',
+		datatype:'json',
+		data:{
+			gallery_id:gallery_id
+		},
+		success:function(data){
+			layer.close(LoadIndex); //关闭遮罩层
+			if(data.status==100){
+				picGallery.picData = data.value;
+				picGallery.countPage = data.countPage;
+				picGallery.countImage = data.countImage;
+				picGallery.pageNow = data.pageNow;
+				//给图片数据每个条目加上个checkbox属性
+				var picData = picGallery.picData;
+				var picDataLength = picData.length;
+				var i = 0;
+				for(i;i<picDataLength;i++){
+					Vue.set(picGallery.picData[i], 'checked', false)
+				}
+			}else{
+				// layer.msg('没有获取到图片');  //没有图片不提示了
+				picGallery.picData = '';
+				picGallery.countPage = '';
+				picGallery.countImage = '';
+				picGallery.pageNow = '';
+			}
+		},
+		error:function(jqXHR){
+			layer.close(LoadIndex); //关闭遮罩层
+			layer.msg('向服务器请求图片失败');
+		}
+	})
+}
 
 //Vue过滤器
 Vue.filter('upLink',function(value){
