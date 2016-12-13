@@ -33,6 +33,8 @@ var tempList = new Vue({
             url: serverUrl+"get/temvalue", //添加请求地址
             dataType: "json",
             data:{
+                key:oKey,
+                user_id:token,
                 type_code:type_code,
                 num:num
             },
@@ -43,6 +45,13 @@ var tempList = new Vue({
                     tempList.count = data.count;
                     tempList.countPage = data.countPage;
                     tempList.pageNow = data.pageNow;
+                }else if(data.status==1012){
+                    layer.msg('请先登录',{time:2000});
+                    setTimeout(function(){
+                        jumpLogin(loginUrl,NowUrl);
+                    },2000);
+                }else if(data.status==1011){
+                    layer.msg('权限不足,请跟管理员联系');
                 }else{
                     layer.msg(data.msg);
                 }
@@ -114,6 +123,8 @@ var tempList = new Vue({
                     url:serverUrl+'get/temvalue',
                     dataType:'json',
                     data:{
+                        key:oKey,
+                        user_id:token,
                         type_code:type_code,
                         vague:name,
                         category_id:category_id,
@@ -132,6 +143,13 @@ var tempList = new Vue({
                             vm.searchResult = newObj;
                         }else if(data.status==101){
                             layer.msg('没有查询到数据');
+                        }else if(data.status==1012){
+                            layer.msg('请先登录',{time:2000});
+                            setTimeout(function(){
+                                jumpLogin(loginUrl,NowUrl);
+                            },2000);
+                        }else if(data.status==1011){
+                            layer.msg('权限不足,请跟管理员联系');
                         }
                     },  
                     error:function(jqXHR){
@@ -196,6 +214,8 @@ var tempList = new Vue({
                     url:serverUrl+'stop/template',
                     datatype:'json',
                     data:{
+                        key:oKey,
+                        user_id:token,
                         id:todo.id,
                         type_code:type_code
                     },
@@ -207,6 +227,13 @@ var tempList = new Vue({
                             layer.msg('停用失败');
                         }else if(data.status==102){
                             layer.msg('参数错误');
+                        }else if(data.status==1012){
+                            layer.msg('请先登录',{time:2000});
+                            setTimeout(function(){
+                                jumpLogin(loginUrl,NowUrl);
+                            },2000);
+                        }else if(data.status==1011){
+                            layer.msg('权限不足,请跟管理员联系');
                         }
                     },
                     error:function(jqXHR){
@@ -230,13 +257,22 @@ var tempList = new Vue({
                     url: serverUrl+"delete/template", //添加请求地址的参数
                     dataType: "json",
                     data:{
-                      id:todo.id,
-                      type_code:type_code
+                        key:oKey,
+                        user_id:token,
+                        id:todo.id,
+                        type_code:type_code
                     },
                     success: function(data){
                         if(data.status==100){
                             layer.msg('删除成功');
                             setTimeout(getPageData(vm,pageNow,search,num,type_code),1000);
+                        }else if(data.status==1012){
+                            layer.msg('请先登录',{time:2000});
+                            setTimeout(function(){
+                                jumpLogin(loginUrl,NowUrl);
+                            },2000);
+                        }else if(data.status==1011){
+                            layer.msg('权限不足,请跟管理员联系');
                         }else{
                             layer.msg(data.msg);
                         }
@@ -361,6 +397,8 @@ function getPageData (vm,pageNow,search,num,type_code) {
         url:serverUrl+'get/temvalue',
         datatype:'json',
         data:{
+            key:oKey,
+            user_id:token,
             type_code:type_code,
             next:pageNow,
             num:num,
@@ -379,6 +417,13 @@ function getPageData (vm,pageNow,search,num,type_code) {
                 layer.msg('操作失败');
             }else if(data.status==102){
                 layer.msg('参数错误');
+            }else if(data.status==1012){
+                layer.msg('请先登录',{time:2000});
+                setTimeout(function(){
+                    jumpLogin(loginUrl,NowUrl);
+                },2000);
+            }else if(data.status==1011){
+                layer.msg('权限不足,请跟管理员联系');
             }
         },
         error:function(jqXHR){
@@ -410,11 +455,20 @@ $(document).ready(function(){
                 url:search,
                 datatype:'json',
                 data:{
+                    key:oKey,
+                    user_id:token,
                     text:searchCusVal
                 },
                 success:function(data){
                     if(data.status==100){
                         tempList.proList = data.value;
+                    }else if(data.status==1012){
+                        layer.msg('请先登录',{time:2000});
+                        setTimeout(function(){
+                            jumpLogin(loginUrl,NowUrl);
+                        },2000);
+                    }else if(data.status==1011){
+                        layer.msg('权限不足,请跟管理员联系');
                     }else{
                         tempList.proList= '';
                     }

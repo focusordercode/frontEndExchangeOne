@@ -376,11 +376,6 @@ function getTreeData(vm) {
     })
 }
 
-//点击组织机构树形菜单
-$(document).on('click', '.tree .item .tree-node .selected', function() {
-    $('.tree .item .tree-node').removeClass('node-selected');
-    $(this).parent('.tree-node').addClass('node-selected');
-});
 //获取选中的机构的ID
 function getroleid(orgSelect){
     var orgids = [];
@@ -392,19 +387,19 @@ function getroleid(orgSelect){
 //重新获取角色的列表
 function getlist(){
 	$.ajax({
-			type:'POST',
-			url:serverUrl+'get/roles',
-			datatype:'json',
-			data:{
-				vague:''
-			},
-			success:function(data){
-				if (data.status == 100) {
-					rolegroup.roledata = data.value;
-				}
-			},
-			error:function (jqXHR) {
-				layer.msg('向服务器请求失败');
+		type:'POST',
+		url:serverUrl+'get/roles',
+		datatype:'json',
+		data:{
+			vague:''
+		},
+		success:function(data){
+			if (data.status == 100) {
+				rolegroup.roledata = data.value;
 			}
-		})
+		},
+		error:function (jqXHR) {
+			layer.msg('向服务器请求失败');
+		}
+	})
 }

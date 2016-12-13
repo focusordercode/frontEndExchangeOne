@@ -28,8 +28,8 @@
         }
         .bootstrap-tagsinput {
             width: 100%;
-            /*min-height: 32px;*/
-            background-color: #fff;
+            min-height: 32px;
+            background-color: #ccc;
             border: 1px solid #ccc;
             box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
             display: inline-block;
@@ -88,9 +88,7 @@
             display: none;
         }
         .height {
-            min-height: 32px!important;
-            overflow: hidden;
-            background-color: #ccc;
+            overflow: auto;
         }
         .tree {
             margin-top: 20px;
@@ -240,10 +238,10 @@
                                     <span class="selected vertical" @click="selected(model)">
                                         {{model.name}}
                                     </span>
-                                    <span v-for="roll in model.roles" class="selected vertical text-primary" @click="selected(model)">
-                                        {{roll.rname}}
-                                    </span>
                                 </div>
+                                <span v-for="roll in model.roles" class="selected vertical text-primary fa fa-user" @click="selected(model)">
+                                    {{roll.rname}}
+                                </span>
                                 <ul v-show="open" v-if="isFolder">
                                     <item
                                         class="item"
@@ -272,7 +270,7 @@
                                                         <label class="col-sm-2 control-label"><span class="text-red">*</span>所属机构</label>
                                                         <div class="col-sm-4">
                                                             <div class="bootstrap-tagsinput height">
-                                                                <span class="tag label label-info" readonly v-for="org in orgSelect">
+                                                                <span class="tag label label-info" v-for="org in orgSelect">
                                                                     {{org.name}}<span data-role="remove" @click="removeOrg(org)"></span>
                                                                 </span>
                                                             </div>
@@ -404,7 +402,7 @@
                                             <label class="col-sm-2 control-label"><span class="text-red">*</span>所属机构</label>
                                             <div class="col-sm-8">
                                                 <div class="bootstrap-tagsinput height">
-                                                    <span class="tag label label-info" readonly v-for="orgd in orgds">
+                                                    <span class="tag label label-info" v-for="orgd in orgds">
                                                         {{orgd.name}}<span data-role="remove" @click="removeOrgd(orgd)"></span>
                                                     </span>
                                                 </div>
@@ -447,7 +445,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="container">
             <div class="row">
                 <hr>

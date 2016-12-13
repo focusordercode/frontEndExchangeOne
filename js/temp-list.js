@@ -1,5 +1,5 @@
 console.log(serverUrl); //后端接口地址
-serverUrl = 'http://192.168.1.40/canton/';
+
 var search = serverUrl+"index.php/vague/name"; //模糊搜索地址
 
 var type_code = 'info'; //模板类型

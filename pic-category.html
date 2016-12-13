@@ -181,7 +181,58 @@
                     <div v-show="picData" class="col-md-2">
                         <button @click="deleteSelet" :disabled="delete" class="btn btn-danger">删除</button>
                     </div>
+                    <div v-show="picData" class="col-md-2">
+                        <button @click="imgSelet" :disabled="delete" data-toggle="modal" data-target="#myModal" class="btn btn-success">移动</button>
+                    </div>
                 </div>
+                <!-- 选择需要移动到的目录 -->
+                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"     aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                    &times;
+                                </button>
+                                <h4 class="modal-title" id="myModalLabel">
+                                    选择需要移动到的目录
+                                </h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-horizontal">
+                                                <div class="form-group">
+                                                    <label class="col-sm-2 ">需要移动到的目录</label>
+                                                    <div class="col-sm-8">
+                                                        <div class="bootstrap-tagsinput height">
+                                                            <input v-model='aimkey' type="text" class="form-control searchShadow searchCate " placeholder="点击搜索进行选择">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="col-sm-8 pors searchCompent col-sm-offset-2">
+                                                        <select class="form-control searchShadow searchCate " v-model='aims_id'>
+                                                            <option v-for='aim in aimlist' value={{aim.id}}>{{aim.cn_name}}{{aim.en_name}}</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                                </button>
+                                <button @click='moveSelet' type="button" class="btn btn-primary">
+                                    移动图片
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
 
                 <!-- 搜索 -->
                 <!-- <div class="col-lg-12 control-button">
@@ -219,7 +270,7 @@
                         <a v-show="pictreeActive.id" target="_blank" v-bind:href="pictreeActive.id | upLink" class="btn btn-success btn-sm">上传</a>
                     </div>
                     <div v-show="!picData" class="alert alert-warning" role="alert">当前图片目录没有图片</div>
-                </div>
+                </div>  
             </div>
 
             <div class="row pic-content">
@@ -264,7 +315,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
 
         <!-- 查看图片大图 -->
