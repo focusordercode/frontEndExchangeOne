@@ -23,6 +23,7 @@ var type_code = 'info';
 console.log(tableID);
 console.log(template_id);
 console.log(type_code);
+serverUrl = 'http://192.168.1.40/canton/';
 console.log(serverUrl);//后端接口地址
 
 Vue.filter('startBtn',function(value){
@@ -49,12 +50,22 @@ var oTableIn = new Vue({
             url:serverUrl+'get/oneform',
             datatype:'json',
             data:{
+                key:oKey,
+                user_id:token,
                 id:tableID,
                 type_code:type_code
             },
             success:function(data){
                 if(data.status==100){
                     oTableIn.info = data.value[0];
+                }else if(data.status==1012){
+                    layer.msg('请先登录',{time:2000});
+
+                    setTimeout(function(){
+                        jumpLogin(loginUrl,NowUrl);
+                    },2000);
+                }else if(data.status==1011){
+                    layer.msg('权限不足,请跟管理员联系');
                 }else{
                     layer.msg(data.msg);
                 }
@@ -90,6 +101,8 @@ var oTableIn = new Vue({
                     url:serverUrl+'use/infoform',
                     datatype:'json',
                     data:{
+                        key:oKey,
+                        user_id:token,
                         id:tableID,
                         type_code:type_code
                     },
@@ -97,6 +110,14 @@ var oTableIn = new Vue({
                         if(data.status==100){
                             layer.msg('启用成功');
                             oTableIn.info.status_code = 'enabled';
+                        }else if(data.status==1012){
+                            layer.msg('请先登录',{time:2000});
+
+                            setTimeout(function(){
+                                jumpLogin(loginUrl,NowUrl);
+                            },2000);
+                        }else if(data.status==1011){
+                            layer.msg('权限不足,请跟管理员联系');
                         }else{
                             layer.msg(data.msg);
                         }
@@ -120,6 +141,8 @@ var oTableIn = new Vue({
                     url:serverUrl+'rollback/checkinfo',
                     datatype:'json',
                     data:{
+                        key:oKey,
+                        user_id:token,
                         form_id:tableID
                     },
                     success:function(data){
@@ -134,6 +157,14 @@ var oTableIn = new Vue({
 
                             setInterval(goNext,1000);
 
+                        }else if(data.status==1012){
+                            layer.msg('请先登录',{time:2000});
+
+                            setTimeout(function(){
+                                jumpLogin(loginUrl,NowUrl);
+                            },2000);
+                        }else if(data.status==1011){
+                            layer.msg('权限不足,请跟管理员联系');
                         }else{
                             layer.msg(data.msg);
                         }
@@ -160,6 +191,8 @@ $(document).ready(function(){
             datatype:'json',
             async: false,
             data:{
+                key:oKey,
+                user_id:token,
                 template_id:template_id,
                 type_code:type_code
             },
@@ -191,6 +224,14 @@ $(document).ready(function(){
                         headers.unshift('parent_id');
                         headers.unshift('product_id');
                     }
+                }else if(data.status==1012){
+                    layer.msg('请先登录',{time:2000});
+
+                    setTimeout(function(){
+                        jumpLogin(loginUrl,NowUrl);
+                    },2000);
+                }else if(data.status==1011){
+                    layer.msg('权限不足,请跟管理员联系');
                 }else{
                     layer.msg(data.msg);
                 }
@@ -207,6 +248,8 @@ $(document).ready(function(){
             datatype:'json',
             async: false,
             data:{
+                key:oKey,
+                user_id:token,
                 form_id:tableID,
                 template_id:template_id,
                 type_code:type_code,
@@ -219,6 +262,14 @@ $(document).ready(function(){
                     gridData = data.value;
                     //赋值给vue示例
                     oTableIn.gridData = gridData;
+                }else if(data.status==1012){
+                    layer.msg('请先登录',{time:2000});
+
+                    setTimeout(function(){
+                        jumpLogin(loginUrl,NowUrl);
+                    },2000);
+                }else if(data.status==1011){
+                    layer.msg('权限不足,请跟管理员联系');
                 }else{
                     layer.msg(data.msg);
                 }

@@ -16,7 +16,7 @@ function UrlSearch() {
     } 
 } 
 var Request=new UrlSearch();
-
+serverUrl = 'http://192.168.1.40/canton/';
 console.log(serverUrl); //后端接口地址
 
 
@@ -44,16 +44,18 @@ var TableCreat = new Vue({
 	methods:{
 		//从搜索结果中选中一个类目
 		selectCate:function(pro){
-			TableCreat.proSelected = pro.cn_name;
-			TableCreat.proSelectedId = pro.id;
-			TableCreat.proList = '';
+			var vm = this;
+			vm.proSelected = pro.cn_name;
+			vm.proSelectedId = pro.id;
+			vm.proList = '';
 			//清空值，隐藏框
 			$('.searchCate').val('');
 			$('.searchCompent').hide();
 		},
 		//打开选择模板框
 		selectMB:function(){
-			var category_id = TableCreat.proSelectedId;
+			var vm = this;
+			var category_id = vm.proSelectedId;
 			if(!category_id){
 				layer.msg('请先选择类目');
 			}else{
@@ -65,17 +67,27 @@ var TableCreat = new Vue({
 					url:serverUrl+'get/template10',
 					datatype:'json',
 					data:{
+						key:oKey,
+						user_id:token,
 						type_code:'info',
 						category_id:category_id
 					},
 					success:function(data){
 						if(data.status==100){
-							TableCreat.MBlist = data.value;
-							var MBlistLen = TableCreat.MBlist.length;
+							vm.MBlist = data.value;
+							var MBlistLen = vm.MBlist.length;
 							for(var i = 0;i<MBlistLen;i++){
-								Vue.set(TableCreat.MBlist[i],'checked',false);
+								Vue.set(vm.MBlist[i],'checked',false);
 							}
-						}else{
+						}else if(data.status==1012){
+		                    layer.msg('请先登录',{time:2000});
+		                    
+		                    setTimeout(function(){
+		                        jumpLogin(loginUrl,NowUrl);
+		                    },2000);
+		                }else if(data.status==1011){
+		                    layer.msg('权限不足,请跟管理员联系');
+		                }else{
 							layer.msg(data.msg);
 						}
 					},
@@ -87,7 +99,8 @@ var TableCreat = new Vue({
 		},
 		//根据关键词搜索模板
 		searchMB:function(){
-			var MBkeyword = TableCreat.MBkeyword;
+			var vm = this;
+			var MBkeyword = vm.MBkeyword;
 			if(!MBkeyword){
 				layer.msg('请先输入关键词');
 			}else{
@@ -96,21 +109,31 @@ var TableCreat = new Vue({
 					url:serverUrl+'vague/templatename',
 					datatype:'json',
 					data:{
+						key:oKey,
+						user_id:token,
 						type_code:'info',
 						name:MBkeyword
 					},
 					success:function(data){
 						if(data.status==100){
-							TableCreat.MBlist = data.value;
-							var MBlistLen = TableCreat.MBlist.length;
+							vm.MBlist = data.value;
+							var MBlistLen = vm.MBlist.length;
 							for(var i = 0;i<MBlistLen;i++){
-								Vue.set(TableCreat.MBlist[i],'checked',false);
+								Vue.set(vm.MBlist[i],'checked',false);
 							}
-							TableCreat.MBkeyword = '';
+							vm.MBkeyword = '';
 						}else if(data.status==101){
-							TableCreat.MBkeyword = '';
+							vm.MBkeyword = '';
 							layer.msg('没有查找到数据');
-						}
+						}else if(data.status==1012){
+		                    layer.msg('请先登录',{time:2000});
+		                    
+		                    setTimeout(function(){
+		                        jumpLogin(loginUrl,NowUrl);
+		                    },2000);
+		                }else if(data.status==1011){
+		                    layer.msg('权限不足,请跟管理员联系');
+		                }
 					},
 					error:function(jqXHR){
 						layer.msg('向服务器请求失败');
@@ -120,29 +143,31 @@ var TableCreat = new Vue({
 		},
 		//确定选中一个模板
 		selectedMB:function(){
-			var MBlistLen = TableCreat.MBlist.length;
+			var vm = this;
+			var MBlistLen = vm.MBlist.length;
 			var MBarr = new Array ();
 
 			for(var i = 0;i<MBlistLen;i++){
-				if(TableCreat.MBlist[i].checked){
-					MBarr.push(TableCreat.MBlist[i]);
+				if(vm.MBlist[i].checked){
+					MBarr.push(vm.MBlist[i]);
 				}
 			}
 
 			if(MBarr.length==0){
 				layer.msg('请先选择一个模板');
 			}else{
-				TableCreat.MBselected = MBarr[0].cn_name;
-				TableCreat.MBselectedId = MBarr[0].id;
+				vm.MBselected = MBarr[0].cn_name;
+				vm.MBselectedId = MBarr[0].id;
 				$('.selectMB').modal('hide');
-				TableCreat.MBkeyword = '';
+				vm.MBkeyword = '';
 			}
 		},
 		//从搜索结果中选中一个客户
 		selectCus:function(cus){
-			TableCreat.CusSelect = cus.custom_name;
-			TableCreat.CusSelectId = cus.id;
-			TableCreat.CusList = '';
+			var vm = this;
+			vm.CusSelect = cus.custom_name;
+			vm.CusSelectId = cus.id;
+			vm.CusList = '';
 			//清除值,隐藏框
 			$('.searchCus').val('');
 			$('.searchCompent2').hide();
@@ -202,6 +227,8 @@ function submitTable (vm) {
 		url:serverUrl+'add/infoform',
 		datatype:'json',
 		data:{
+			key:oKey,
+			user_id:token,
 			type_code:'info',
 			form_no:vm.tableID,
 			category_id:vm.proSelectedId,
@@ -224,7 +251,15 @@ function submitTable (vm) {
 				}
 
 				setInterval(goNext,1000);
-			}else{
+			}else if(data.status==1012){
+                layer.msg('请先登录',{time:2000});
+                
+                setTimeout(function(){
+                    jumpLogin(loginUrl,NowUrl);
+                },2000);
+            }else if(data.status==1011){
+                layer.msg('权限不足,请跟管理员联系');
+            }else{
 				layer.msg(data.msg);
 			}
 		},
@@ -254,12 +289,22 @@ $('.searchCus').on('keyup',function(){
 		url:serverUrl+'vague/custom',
 		datatype:'json',
 		data:{
+			key:oKey,
+			user_id:token,
 			keyword:searchCusVal
 		},
 		success:function(data){
 			if(data.status==100){
 				TableCreat.CusList = data.value;
-			}else{
+			}else if(data.status==1012){
+                layer.msg('请先登录',{time:2000});
+                
+                setTimeout(function(){
+                    jumpLogin(loginUrl,NowUrl);
+                },2000);
+            }else if(data.status==1011){
+                layer.msg('权限不足,请跟管理员联系');
+            }else{
 				TableCreat.CusList= '';
 			}
 		},
@@ -290,12 +335,22 @@ $('.searchCate').on('keyup',function(){
 		url:serverUrl+'index.php/vague/name',
 		datatype:'json',
 		data:{
+			key:oKey,
+			user_id:token,
 			text:searchCusVal
 		},
 		success:function(data){
 			if(data.status==100){
 				TableCreat.proList = data.value;
-			}else{
+			}else if(data.status==1012){
+                layer.msg('请先登录',{time:2000});
+                
+                setTimeout(function(){
+                    jumpLogin(loginUrl,NowUrl);
+                },2000);
+            }else if(data.status==1011){
+                layer.msg('权限不足,请跟管理员联系');
+            }else{
 				TableCreat.proList= '';
 			}
 		},
@@ -304,18 +359,3 @@ $('.searchCate').on('keyup',function(){
 		}
 	})
 });
-
-
-//观察搜索框的变化，控制是否有客户
-TableCreat.$watch('CusSelect', function (val) {
-    if(!val){
-       TableCreat.CusSelectId = '';
-    }
-})
-
-//观察搜索框的变化，控制是否有类目
-TableCreat.$watch('proSelected', function (val) {
-    if(!val){
-       TableCreat.proSelectedId = '';
-    }
-})

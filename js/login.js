@@ -1,6 +1,10 @@
 serverUrl = 'http://192.168.1.40/';
 console.log(serverUrl); //后端接口地址
 
+//获取之前访问的地址和参数
+var curent = getNowUrl();
+console.log(curent);
+
 $(function(){
     var box = document.getElementById('box');
     $('.login-btn').on('click',function(){
@@ -27,12 +31,15 @@ $(function(){
                 datatype:'json',
                 success:function(data){
                     if(data.status==100){
-                        layer.msg('成功');
+                        layer.msg('登录成功');
                         var pens = data.value;
-                        console.log(pens);
-                        console.log(pens.user);
+                        // console.log(pens);
+                        // console.log(pens.user);
                         if(pens){
-                            setCookie(pens)
+                            setCookie(pens);
+                            setTimeout(function(){
+                                location.href = curent;
+                            },1000);
                         }
                     }else if(data.status==101){
                         //密码错误
@@ -56,9 +63,11 @@ $(function(){
             })
         }
     })
+
     $('.form-control').on('focus',function(){
         $('.form-control').popover('destroy');//隐藏提示框
     })
+
     //震动函数
     function Shake(box){
         var i = 20,
@@ -81,13 +90,21 @@ $(function(){
 
 //设置cookie函数
 function setCookie(pens) {
-    var username = pens.user.username;
-    var token = pens.user_id;
-    cookie.set({'token':token,'username':username},{  //批量设置
-    "expires": 7,
+    var username = pens.user.username,
+    token = pens.user_id,
+    oKey = pens.key;
+    cookie.set({'token':token,'username':username,'oKey':oKey},{  //批量设置
+    "expires": '',
     "path": '/',
     "domain":""
     });
-    console.log(cookie.get('username'));
-    console.log(cookie.get('token'));
+}
+
+//获取地址栏的路径和参数
+function getNowUrl() {
+    var name,value; 
+    var str = location.href;
+    var num = str.indexOf("?");
+    str = str.substr(num+1);
+    return str
 }

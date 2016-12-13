@@ -25,6 +25,7 @@ function windowFresh(){
 
 var template_id = Request.id;//模板ID
 var type_code = 'info';//批量表模板
+serverUrl = 'http://192.168.1.40/canton/';
 console.log(serverUrl); //后端接口地址
 
 //英文正则,英文数字和空格
@@ -47,12 +48,22 @@ var tempDefine = new Vue({
             url:serverUrl+'getById/template',
             datatype:'json',
             data:{
+                key:oKey,
+                user_id:token,
                 type_code:type_code,
                 id:template_id
             },
             success:function(data){
                 if(data.status==100){
                     tempDefine.temp = data.value[0];
+                }else if(data.status==1012){
+                    layer.msg('请先登录',{time:2000});
+                    
+                    setTimeout(function(){
+                        jumpLogin(loginUrl,NowUrl);
+                    },2000);
+                }else if(data.status==1011){
+                    layer.msg('权限不足,请跟管理员联系');
                 }else{
                     layer.msg(data.msg);
                 }
@@ -69,6 +80,8 @@ var tempDefine = new Vue({
             url: serverUrl+"get/title_valid", //添加请求地址的参数
             dataType: "json",
             data:{
+                key:oKey,
+                user_id:token,
                 template_id:template_id,
                 type_code:type_code
             },
@@ -77,6 +90,14 @@ var tempDefine = new Vue({
 
                 if(data.status==100){
                     tempDefine.tempData = data.value;
+                }else if(data.status==1012){
+                    layer.msg('请先登录',{time:2000});
+                    
+                    setTimeout(function(){
+                        jumpLogin(loginUrl,NowUrl);
+                    },2000);
+                }else if(data.status==1011){
+                    layer.msg('权限不足,请跟管理员联系');
                 }
             },
             error: function(jqXHR){
@@ -121,6 +142,8 @@ var tempDefine = new Vue({
                     formData.append('template_id', template_id);//参数
                     formData.append('type_code', type_code);//参数
                     formData.append('pageNumber', pageNumber);//参数
+                    formData.append('oKey', oKey);//参数
+                    formData.append('user_id', token);//参数
 
                     $.ajax({
                         url:serverUrl+'upload/item',
@@ -139,6 +162,14 @@ var tempDefine = new Vue({
 
                                 //刷新页面
                                 setInterval(windowFresh,1000);
+                            }else if(data.status==1012){
+                                layer.msg('请先登录',{time:2000});
+                                
+                                setTimeout(function(){
+                                    jumpLogin(loginUrl,NowUrl);
+                                },2000);
+                            }else if(data.status==1011){
+                                layer.msg('权限不足,请跟管理员联系');
                             }else{
                                 layer.msg(data.msg);
                             }
@@ -161,6 +192,8 @@ var tempDefine = new Vue({
                     url: serverUrl+"delete/templateitem", //添加请求地址的参数
                     dataType: "json",
                     data:{
+                        key:oKey,
+                        user_id:token,
                         id:table.id,
                         type_code:type_code
                     },
@@ -168,6 +201,14 @@ var tempDefine = new Vue({
                         if(data.status==100){
                             layer.msg('删除成功',{time:1000})
                             vm.tempData.$remove(table);
+                        }else if(data.status==1012){
+                            layer.msg('请先登录',{time:2000});
+                            
+                            setTimeout(function(){
+                                jumpLogin(loginUrl,NowUrl);
+                            },2000);
+                        }else if(data.status==1011){
+                            layer.msg('权限不足,请跟管理员联系');
                         }else{
                             layer.msg(data.msg);
                         }
@@ -195,6 +236,8 @@ var tempDefine = new Vue({
                     url:serverUrl+'update/templateitem',
                     datatype:'json',
                     data:{
+                        key:oKey,
+                        user_id:token,
                         type_code:type_code,
                         template_id:template_id,
                         item_num:tempDataLen,
@@ -203,9 +246,6 @@ var tempDefine = new Vue({
                     success:function(data){
                         layer.close(LoadIndex); //关闭遮罩层
                         if(data.status==100){
-                            //解除未提交内容提示
-                            $(window).unbind('beforeunload');
-
                             layer.msg('提交保存成功');
                             
                             //跳转函数
@@ -216,6 +256,14 @@ var tempDefine = new Vue({
 
                             setInterval(goNext,1000);
                             
+                        }else if(data.status==1012){
+                            layer.msg('请先登录',{time:2000});
+                            
+                            setTimeout(function(){
+                                jumpLogin(loginUrl,NowUrl);
+                            },2000);
+                        }else if(data.status==1011){
+                            layer.msg('权限不足,请跟管理员联系');
                         }else{
                             layer.msg(data.msg);
                         }
