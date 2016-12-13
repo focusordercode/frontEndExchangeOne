@@ -50,7 +50,7 @@ var amend = new Vue({
                 }
             },
             error:function(jqXHR){
-                layer.msg('向服务器获取表格信息失败');
+                layer.msg('向服务器获取个人信息失败');
             }
 		})
 	},
@@ -106,7 +106,7 @@ var amend = new Vue({
 
 				$.ajax({
 					type:'POST',
-					url:'http://192.168.1.40/canton/edit/personal',
+					url:serverUrl+'edit/personal',
 					datatype:'json',
 					data:{
 						uid:cus_id,
@@ -125,7 +125,7 @@ var amend = new Vue({
                         }
                     },
                     error:function(jqXHR){
-                        layer.msg('向服务器请求添加失败');
+                        layer.msg('向服务器请求保存失败');
                     }
 				})
 			}
