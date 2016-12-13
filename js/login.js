@@ -1,9 +1,17 @@
 serverUrl = 'http://192.168.1.40/';
 console.log(serverUrl); //后端接口地址
 
-//获取之前访问的地址和参数
-var curent = getNowUrl();
-console.log(curent);
+var token,
+username,
+oKey,
+curent,//之前访问的地址和参数
+defualtUrl = 'Table-info.html'; //默认跳转页面
+
+//检测是否已经登录
+getCookie();
+checkLogMsg();
+
+curent = getNowUrl();//获取之前访问的地址和参数
 
 $(function(){
     var box = document.getElementById('box');
@@ -38,7 +46,11 @@ $(function(){
                         if(pens){
                             setCookie(pens);
                             setTimeout(function(){
-                                location.href = curent;
+                                if(curent){
+                                    location.href = curent;
+                                }else{
+                                    location.href = defualtUrl;
+                                }
                             },1000);
                         }
                     }else if(data.status==101){
@@ -91,9 +103,10 @@ $(function(){
 //设置cookie函数
 function setCookie(pens) {
     var username = pens.user.username,
-    token = pens.user_id,
-    oKey = pens.key;
-    cookie.set({'token':token,'username':username,'oKey':oKey},{  //批量设置
+        token_cookie = pens.user_id,
+        oKey_cookie = pens.key,
+        ID = pens.user.uid;
+    cookie.set({'token':token_cookie,'username':username,'oKey':oKey_cookie,'id':ID},{  //批量设置
     "expires": '',
     "path": '/',
     "domain":""
@@ -105,6 +118,24 @@ function getNowUrl() {
     var name,value; 
     var str = location.href;
     var num = str.indexOf("?");
-    str = str.substr(num+1);
+    if(num<0){
+        str = '';
+    }else{
+        str = str.substr(num+1);
+    }
     return str
+}
+
+//检测登录信息
+function checkLogMsg() {
+    if(token&&username&&oKey){
+        location.href = defualtUrl;
+    }
+}
+
+//获取客户端cookie
+function getCookie() {
+    token = cookie.get('token');
+    username = cookie.get('username');
+    oKey = cookie.get('oKey');
 }

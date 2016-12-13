@@ -37,6 +37,21 @@ body,html {
 .nav-fluid-top .open > a {
 	background-color: #2C3E50!important;
 }
+.log-msg {
+    float: right;
+    margin-top: 14px;
+    color: #fff;
+}
+.log-msg > a {
+    color: #fff;
+}
+.log-msg > a:hover {
+    color: #b4c8da;
+}
+.log-msg > a+span {
+    cursor: pointer;
+    padding-left: 5px;
+}
 .set-breadcrumb {
 	margin-bottom: 15px;
     margin-top: 10px;
