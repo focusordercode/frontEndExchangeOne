@@ -1,6 +1,7 @@
 //creat by msh 2016.11.9 
-//公共导航组件
+//公共组件
 
+//导航组件
 var dataText = {
 	"navData":[
         {"nav_tab":"图片","nav_list":[{"link":"pic-category.html","link_name":"图片库"},{"link":"pic-trash.html","link_name":"回收站"}]},
@@ -18,6 +19,34 @@ var navTPL = Vue.extend({
 	}
 })
 Vue.component('nav-component', navTPL);
+
+//登录登出组件
+var oUid = cookie.get('id');
+var logHtml = '<div class="log-msg"><span @click="goUserInfo"><i class="fa fa-user fa-fw"></i>admin</span><div class="btn-group"><span class="dropdown-toggle"data-toggle="dropdown"><i class="fa fa-caret-down"></i></span><ul class="dropdown-menu"role="menu"><li @click="goUserInfo"><span><i class="fa fa-user fa-fw"></i>个人信息</span></li><li @click="goLogOut"><span><i class="fa fa-sign-out fa-fw"></i>登出</span></li></ul></div></div>';
+
+var logTPL = Vue.extend({
+    template: logHtml,
+    methods:{
+        goUserInfo:function(){
+            if(oUid){
+                location.href = 'personal.html?id='+ oUid;
+            }
+        },
+        goLogOut:function(){
+            $.ajax({
+                type:'POST',
+                url:serverUrl+'logout',
+                datatype:'json',
+                success:function(data){},
+                error:function(jqXHR){}
+            })
+            cookie.clear();
+            location.href = loginUrl;
+        }
+    }
+})
+Vue.component('log-component', logTPL);
+
 
 $(document).on('click','.dropdown',function(){
 	var hasClass = $(this).hasClass("open");

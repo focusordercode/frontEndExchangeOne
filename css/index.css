@@ -42,15 +42,27 @@ body,html {
     margin-top: 14px;
     color: #fff;
 }
-.log-msg > a {
+.log-msg > span {
     color: #fff;
-}
-.log-msg > a:hover {
-    color: #b4c8da;
-}
-.log-msg > a+span {
     cursor: pointer;
-    padding-left: 5px;
+}
+.log-msg > span:hover {
+    color: #9bacc1;
+}
+.log-msg .btn-group {
+    margin-left: 5px;
+}
+.log-msg .btn-group > span {
+    cursor: pointer;
+    padding: 5px;
+}
+.log-msg .btn-group .dropdown-menu li {
+    cursor: pointer;
+    padding-left: 12px;
+    line-height: 32px;
+}
+.log-msg .btn-group .dropdown-menu li:hover {
+    background-color: #2C3E50;
 }
 .set-breadcrumb {
 	margin-bottom: 15px;
