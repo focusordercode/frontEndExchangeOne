@@ -1,4 +1,4 @@
-serverUrl = 'http://192.168.1.40/';
+
 console.log(serverUrl); //后端接口地址
 
 var token,

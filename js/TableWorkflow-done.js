@@ -23,7 +23,7 @@ var type_code = 'info';
 console.log(tableID);
 console.log(template_id);
 console.log(type_code);
-serverUrl = 'http://192.168.1.40/canton/';
+
 console.log(serverUrl);//后端接口地址
 
 Vue.filter('startBtn',function(value){

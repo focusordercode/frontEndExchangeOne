@@ -39,12 +39,22 @@ var tempStart = new Vue({
             url:serverUrl+'getById/template',
             datatype:'json',
             data:{
+                key:oKey,
+                user_id:token,
                 type_code:type_code,
                 id:template_id
             },
             success:function(data){
                 if(data.status==100){
                     tempStart.temp = data.value[0];
+                }else if(data.status==1012){
+                    layer.msg('请先登录',{time:2000});
+                    
+                    setTimeout(function(){
+                        jumpLogin(loginUrl,NowUrl);
+                    },2000);
+                }else if(data.status==1011){
+                    layer.msg('权限不足,请跟管理员联系');
                 }else{
                     layer.msg(data.msg);
                 }
@@ -60,12 +70,22 @@ var tempStart = new Vue({
             url: serverUrl+"get/templateitem", //添加请求地址的参数
             dataType: "json",
             data:{
+                key:oKey,
+                user_id:token,
                 template_id:template_id,
                 type_code:type_code
             },
             success: function(data){
                 if(data.status==100){
                     tempStart.tempData = data.value;
+                }else if(data.status==1012){
+                    layer.msg('请先登录',{time:2000});
+                    
+                    setTimeout(function(){
+                        jumpLogin(loginUrl,NowUrl);
+                    },2000);
+                }else if(data.status==1011){
+                    layer.msg('权限不足,请跟管理员联系');
                 }
             },
             error: function(jqXHR){     
@@ -79,12 +99,22 @@ var tempStart = new Vue({
             dataType: "json",
             timeout:5000,
             data:{
+                key:oKey,
+                user_id:token,
                 template_id:template_id,
                 type_code:type_code
             },
             success: function(data){
                 if(data.status==100){
                     tempStart.temFormat = data.value;
+                }else if(data.status==1012){
+                    layer.msg('请先登录',{time:2000});
+                    
+                    setTimeout(function(){
+                        jumpLogin(loginUrl,NowUrl);
+                    },2000);
+                }else if(data.status==1011){
+                    layer.msg('权限不足,请跟管理员联系');
                 }
             },
             error: function(jqXHR){     
@@ -113,6 +143,8 @@ var tempStart = new Vue({
                     url:serverUrl+'use/template',
                     datatype:'json',
                     data:{
+                        key:oKey,
+                        user_id:token,
                         id:template_id,
                         type_code:type_code
                     },
@@ -127,6 +159,14 @@ var tempStart = new Vue({
                             }
 
                             setInterval(goNext,1000);
+                        }else if(data.status==1012){
+                            layer.msg('请先登录',{time:2000});
+                            
+                            setTimeout(function(){
+                                jumpLogin(loginUrl,NowUrl);
+                            },2000);
+                        }else if(data.status==1011){
+                            layer.msg('权限不足,请跟管理员联系');
                         }
                     },
                     error:function(jqXHR){
@@ -147,6 +187,8 @@ var tempStart = new Vue({
                     url:serverUrl+'template_back',
                     datatype:'json',
                     data:{
+                        key:oKey,
+                        user_id:token,
                         template_id:template_id,
                         type_code:type_code
                     },
@@ -162,6 +204,14 @@ var tempStart = new Vue({
 
                             setInterval(goNext,1000);
 
+                        }else if(data.status==1012){
+                            layer.msg('请先登录',{time:2000});
+                            
+                            setTimeout(function(){
+                                jumpLogin(loginUrl,NowUrl);
+                            },2000);
+                        }else if(data.status==1011){
+                            layer.msg('权限不足,请跟管理员联系');
                         }else{
                             layer.msg(data.msg);
                         }

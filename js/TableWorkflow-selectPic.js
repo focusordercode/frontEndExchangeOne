@@ -18,7 +18,7 @@ function UrlSearch() {
 var Request=new UrlSearch();
 var Id = Request.id;
 var type_code = 'info';
-serverUrl = 'http://192.168.1.40/canton/';
+
 console.log(serverUrl);//后端接口地址
 
 var oUrl = serverUrl;//图片服务器地址

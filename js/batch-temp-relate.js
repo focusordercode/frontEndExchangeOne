@@ -52,12 +52,22 @@ var tempRelate = new Vue({
             url:serverUrl+'getById/template',
             datatype:'json',
             data:{
+                key:oKey,
+                user_id:token,
                 type_code:type_code,
                 id:template_id
             },
             success:function(data){
                 if(data.status==100){
                     tempRelate.temp = data.value[0];
+                }else if(data.status==1012){
+                    layer.msg('请先登录',{time:2000});
+                    
+                    setTimeout(function(){
+                        jumpLogin(loginUrl,NowUrl);
+                    },2000);
+                }else if(data.status==1011){
+                    layer.msg('权限不足,请跟管理员联系');
                 }else{
                     layer.msg(data.msg);
                 }
@@ -73,12 +83,22 @@ var tempRelate = new Vue({
             url: serverUrl+"get/eliminateItem", //添加请求地址的参数
             dataType: "json",
             data:{
+                key:oKey,
+                user_id:token,
                 template_id:template_id,
                 type_code:type_code
             },
             success: function(data){
                 if(data.status==100){
                     tempRelate.tempData = data.value;
+                }else if(data.status==1012){
+                    layer.msg('请先登录',{time:2000});
+                    
+                    setTimeout(function(){
+                        jumpLogin(loginUrl,NowUrl);
+                    },2000);
+                }else if(data.status==1011){
+                    layer.msg('权限不足,请跟管理员联系');
                 }
             },
             error: function(jqXHR){     
@@ -92,6 +112,8 @@ var tempRelate = new Vue({
             url:serverUrl+'get/contact',
             datatype:'json',
             data:{
+                key:oKey,
+                user_id:token,
                 batch_template_id:template_id
             },
             success:function(data){
@@ -101,6 +123,14 @@ var tempRelate = new Vue({
                     tempRelate.relateData = data.value; //关联的数据
                     //获取选中的资料表模板数据
                     getProData(tempRelate);
+                }else if(data.status==1012){
+                    layer.msg('请先登录',{time:2000});
+                    
+                    setTimeout(function(){
+                        jumpLogin(loginUrl,NowUrl);
+                    },2000);
+                }else if(data.status==1011){
+                    layer.msg('权限不足,请跟管理员联系');
                 }
             },
             error:function(jqXHR){
@@ -149,6 +179,8 @@ var tempRelate = new Vue({
                     url:serverUrl+'get/template10',
                     datatype:'json',
                     data:{
+                        key:oKey,
+                        user_id:token,
                         type_code:'info',
                         category_id:vm.temp.category_id
                     },
@@ -159,6 +191,14 @@ var tempRelate = new Vue({
                             for(var i = 0;i<MBlistLen;i++){
                                 Vue.set(vm.MBlist[i],'checked',false);
                             }
+                        }else if(data.status==1012){
+                            layer.msg('请先登录',{time:2000});
+                            
+                            setTimeout(function(){
+                                jumpLogin(loginUrl,NowUrl);
+                            },2000);
+                        }else if(data.status==1011){
+                            layer.msg('权限不足,请跟管理员联系');
                         }else{
                             layer.msg(data.msg);
                         }
@@ -251,6 +291,8 @@ var tempRelate = new Vue({
                     url:serverUrl+'marry/item',
                     datatype:'json',
                     data:{
+                        key:oKey,
+                        user_id:token,
                         batch_template_id:batch_template_id,
                         template_id:template_id,
                         data:relateData
@@ -269,6 +311,14 @@ var tempRelate = new Vue({
 
                             setInterval(goNext,1000);
                             
+                        }else if(data.status==1012){
+                            layer.msg('请先登录',{time:2000});
+                            $(window).unbind('beforeunload');
+                            setTimeout(function(){
+                                jumpLogin(loginUrl,NowUrl);
+                            },2000);
+                        }else if(data.status==1011){
+                            layer.msg('权限不足,请跟管理员联系');
                         }else{
                             layer.msg(data.msg);
                         }
@@ -291,6 +341,8 @@ var tempRelate = new Vue({
                     url:serverUrl+'template_back',
                     datatype:'json',
                     data:{
+                        key:oKey,
+                        user_id:token,
                         template_id:template_id,
                         type_code:type_code
                     },
@@ -309,6 +361,14 @@ var tempRelate = new Vue({
 
                             setInterval(goNext,1000);
 
+                        }else if(data.status==1012){
+                            layer.msg('请先登录',{time:2000});
+                            $(window).unbind('beforeunload');
+                            setTimeout(function(){
+                                jumpLogin(loginUrl,NowUrl);
+                            },2000);
+                        }else if(data.status==1011){
+                            layer.msg('权限不足,请跟管理员联系');
                         }else{
                             layer.msg(data.msg);
                         }
@@ -329,12 +389,22 @@ function getProData(vm) {
         url: serverUrl+"get/templateitem", //添加请求地址的参数
         dataType: "json",
         data:{
+            key:oKey,
+            user_id:token,
             template_id:vm.MBselectedId,
             type_code:'info'
         },
         success: function(data){
             if(data.status==100){
                 vm.proData = data.value;
+            }else if(data.status==1012){
+                layer.msg('请先登录',{time:2000});
+                
+                setTimeout(function(){
+                    jumpLogin(loginUrl,NowUrl);
+                },2000);
+            }else if(data.status==1011){
+                layer.msg('权限不足,请跟管理员联系');
             }
         },
         error: function(jqXHR){     
@@ -350,12 +420,22 @@ function getBatchData(vm) {
         url: serverUrl+"get/eliminateItem", //添加请求地址的参数
         dataType: "json",
         data:{
+            key:oKey,
+            user_id:token,
             template_id:template_id,
             type_code:type_code
         },
         success: function(data){
             if(data.status==100){
                 vm.tempData = data.value;
+            }else if(data.status==1012){
+                layer.msg('请先登录',{time:2000});
+                
+                setTimeout(function(){
+                    jumpLogin(loginUrl,NowUrl);
+                },2000);
+            }else if(data.status==1011){
+                layer.msg('权限不足,请跟管理员联系');
             }
         },
         error: function(jqXHR){     
@@ -372,12 +452,22 @@ function defaultData (vm,batch_id,info_id) {
         url: serverUrl+"get/relationItem", //添加请求地址的参数
         dataType: "json",
         data:{
+            key:oKey,
+            user_id:token,
             template_id:info_id,
             batch_template_id:batch_id
         },
         success: function(data){
             if(data.status==100){
                 vm.relateData = data.value;
+            }else if(data.status==1012){
+                layer.msg('请先登录',{time:2000});
+                
+                setTimeout(function(){
+                    jumpLogin(loginUrl,NowUrl);
+                },2000);
+            }else if(data.status==1011){
+                layer.msg('权限不足,请跟管理员联系');
             }
         },
         error: function(jqXHR){     

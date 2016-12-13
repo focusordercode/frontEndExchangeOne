@@ -1,5 +1,5 @@
 var type_code = 'info';
-serverUrl = 'http://192.168.1.40/canton/';
+
 console.log(serverUrl); //后端接口地址
 var search = serverUrl+"index.php/vague/name"; //模糊搜索地址
 var num = 25;//每页展示个数

@@ -149,6 +149,8 @@ var tableCreat = new Vue({
 					url:serverUrl+'search/batchTel',
 					datatype:'json',
 					data:{
+						key:oKey,
+                		user_id:token,
 						form_id:vm.tableSelected.id
 					},
 					success:function(data){
@@ -160,7 +162,15 @@ var tableCreat = new Vue({
 								Vue.set(vm.MBList[i],'checked',false);
 							}
 
-						}else{
+						}else if(data.status==1012){
+		                    layer.msg('请先登录',{time:2000});
+		                    
+		                    setTimeout(function(){
+		                        jumpLogin(loginUrl,NowUrl);
+		                    },2000);
+		                }else if(data.status==1011){
+		                    layer.msg('权限不足,请跟管理员联系');
+		                }else{
 							vm.MBList = '';
 						}
 					},
@@ -217,6 +227,8 @@ var tableCreat = new Vue({
 					url:serverUrl+'add/infoform',
 					datatype:'json',
 					data:{
+						key:oKey,
+                		user_id:token,
 						type_code:type_code, 
 						category_id:vm.proSelectedId,//类目ID
 						template_id:vm.MBselected.id,//模板ID
@@ -244,7 +256,15 @@ var tableCreat = new Vue({
 
 							setInterval(goNext,1000);
 
-						}else{
+						}else if(data.status==1012){
+		                    layer.msg('请先登录',{time:2000});
+		                    
+		                    setTimeout(function(){
+		                        jumpLogin(loginUrl,NowUrl);
+		                    },2000);
+		                }else if(data.status==1011){
+		                    layer.msg('权限不足,请跟管理员联系');
+		                }else{
 							layer.msg(data.msg);
 						}
 					},
@@ -274,6 +294,8 @@ function getInfoTable(vm,num,keyword){
 		url:serverUrl+'search/form',
 		datatype:'json',
 		data:{
+			key:oKey,
+            user_id:token,
 			type_code:'info',
 			status_code:'enabled',
 			keyword:keyword,
@@ -289,7 +311,15 @@ function getInfoTable(vm,num,keyword){
 					Vue.set(vm.tableList[i],'checked',false);
 				}
 
-			}else{
+			}else if(data.status==1012){
+                layer.msg('请先登录',{time:2000});
+                
+                setTimeout(function(){
+                    jumpLogin(loginUrl,NowUrl);
+                },2000);
+            }else if(data.status==1011){
+                layer.msg('权限不足,请跟管理员联系');
+            }else{
 				vm.tableList = '';
 			}
 		},
@@ -321,6 +351,8 @@ $('.searchCate').on('keyup',function(){
 		url:serverUrl+'vague/name',
 		datatype:'json',
 		data:{
+			key:oKey,
+            user_id:token,
 			text:searchCusVal
 		},
 		success:function(data){
@@ -328,7 +360,15 @@ $('.searchCate').on('keyup',function(){
 
 			if(data.status==100){
 				vm.proList = data.value;
-			}else{
+			}else if(data.status==1012){
+                layer.msg('请先登录',{time:2000});
+                
+                setTimeout(function(){
+                    jumpLogin(loginUrl,NowUrl);
+                },2000);
+            }else if(data.status==1011){
+                layer.msg('权限不足,请跟管理员联系');
+            }else{
 				vm.proList= '';
 			}
 		},
