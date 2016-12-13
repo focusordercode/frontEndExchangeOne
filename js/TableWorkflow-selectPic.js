@@ -355,7 +355,7 @@ var selectPic = new Vue({
                         form_no:vm.tableInfo.form_no,
                         category_id:vm.tableInfo.category_id,
                         picData:vm.picData,
-                        data:vm.tableData,
+                        data:vm.tableData
                     },
                     success:function(data){
                         if(data.status==100){
