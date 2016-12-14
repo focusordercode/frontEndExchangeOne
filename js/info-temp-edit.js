@@ -25,7 +25,6 @@ function windowFresh(){
 
 var template_id = Request.id;//模板ID
 var type_code = 'info';//批量表模板
-serverUrl = 'http://192.168.1.40/canton/';
 console.log(serverUrl); //后端接口地址
 
 //英文正则,英文数字和空格
@@ -142,7 +141,7 @@ var tempDefine = new Vue({
                     formData.append('template_id', template_id);//参数
                     formData.append('type_code', type_code);//参数
                     formData.append('pageNumber', pageNumber);//参数
-                    formData.append('oKey', oKey);//参数
+                    formData.append('key', oKey);//参数
                     formData.append('user_id', token);//参数
 
                     $.ajax({

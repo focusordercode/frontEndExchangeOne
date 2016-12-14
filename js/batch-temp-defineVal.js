@@ -142,6 +142,8 @@ var tempDefine = new Vue({
                     formData.append('template_id', template_id);//参数
                     formData.append('type_code', type_code);//参数
                     formData.append('pageNumber', pageNumber);//参数
+                    formData.append('key', oKey);//参数
+                    formData.append('user_id', token);//参数
 
                     $.ajax({
                         url:serverUrl+'upload/item',
@@ -201,7 +203,7 @@ var tempDefine = new Vue({
                             vm.tempData.$remove(table);
                         }else if(data.status==1012){
                             layer.msg('请先登录',{time:2000});
-                            
+                            $(window).unbind('beforeunload');
                             setTimeout(function(){
                                 jumpLogin(loginUrl,NowUrl);
                             },2000);

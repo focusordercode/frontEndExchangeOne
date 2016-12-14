@@ -40,6 +40,8 @@ var oTableInfo = new Vue({
 		    url: serverUrl+"get/infoform", //添加请求地址的参数
 		    dataType: "json",
 		    data:{
+		    	key:oKey,
+                user_id:token,
 		        category_id:'',
 		        type_code:type_code,
 		        num:num
@@ -51,7 +53,15 @@ var oTableInfo = new Vue({
 		        	oTableInfo.count = data.count;
 		        	oTableInfo.countPage = data.countPage;
 		        	oTableInfo.pageNow = data.pageNow;
-		        }else{
+		        }else if(data.status==1012){
+                    layer.msg('请先登录',{time:2000});
+                    
+                    setTimeout(function(){
+                        jumpLogin(loginUrl,NowUrl);
+                    },2000);
+                }else if(data.status==1011){
+                    layer.msg('权限不足,请跟管理员联系');
+                }else{
 		        	layer.msg(data.msg);
 		        }
 		    },
@@ -105,6 +115,8 @@ var oTableInfo = new Vue({
 				    url: serverUrl+"index.php/del/infoform", //添加请求地址的参数
 				    dataType: "json",
 				    data:{
+				    	key:oKey,
+                		user_id:token,
 				        id:Id,
 				        type_code:type_code
 				    },
@@ -113,7 +125,15 @@ var oTableInfo = new Vue({
 				        	vm.tableInfo.$remove(item);
 				        	layer.msg('删除成功');
 				        	setTimeout(getPageData(vm,pageNow,search,num,type_code),1000);
-				        }else{
+				        }else if(data.status==1012){
+		                    layer.msg('请先登录',{time:2000});
+		                    
+		                    setTimeout(function(){
+		                        jumpLogin(loginUrl,NowUrl);
+		                    },2000);
+		                }else if(data.status==1011){
+		                    layer.msg('权限不足,请跟管理员联系');
+		                }else{
 				        	layer.msg(data.msg);
 				        }
 				    },
@@ -131,6 +151,8 @@ var oTableInfo = new Vue({
 				url:serverUrl+'set/businesscode',
 				datatype:'json',
 				data:{
+					key:oKey,
+            		user_id:token,
 					code:'TG'
 				},
 				success:function(data){
@@ -142,7 +164,15 @@ var oTableInfo = new Vue({
 						}
 					}else if(data.status==101){
 						layer.msg('请求失败，请重试');
-					}
+					}else if(data.status==1012){
+	                    layer.msg('请先登录',{time:2000});
+	                    
+	                    setTimeout(function(){
+	                        jumpLogin(loginUrl,NowUrl);
+	                    },2000);
+	                }else if(data.status==1011){
+	                    layer.msg('权限不足,请跟管理员联系');
+	                }
 				},
 				error:function(jqXHR){
 					layer.msg('向服务器请求创建表格失败');
@@ -184,6 +214,8 @@ var oTableInfo = new Vue({
 					url:serverUrl+'search/form',
 					datatype:'json',
 					data:{
+						key:oKey,
+                		user_id:token,
 						type_code:type_code,
 						status_code:status_code,
 						keyword:keyword,
@@ -200,7 +232,15 @@ var oTableInfo = new Vue({
 							//搜索条件数据
 							var newObj = $.extend(true, {}, vm.searchFeild);
     						vm.searchResult = newObj;
-						}else{
+						}else if(data.status==1012){
+		                    layer.msg('请先登录',{time:2000});
+		                    
+		                    setTimeout(function(){
+		                        jumpLogin(loginUrl,NowUrl);
+		                    },2000);
+		                }else if(data.status==1011){
+		                    layer.msg('权限不足,请跟管理员联系');
+		                }else{
 							layer.msg(data.msg);
 						}
 					},
@@ -274,6 +314,8 @@ var oTableInfo = new Vue({
 		        	url:serverUrl+'update/infoform',
 		        	datatype:'json',
 		        	data:{
+		        		key:oKey,
+                		user_id:token,
 		        		type_code:type_code,
 		        		id:infoCache.id,
 		        		category_id:infoCache.category_id,
@@ -289,7 +331,15 @@ var oTableInfo = new Vue({
 		        			$('.infoXG').modal('hide');
 
 		        			setTimeout(getPageData(vm,pageNow,search,num,type_code),1000);
-		        		}else {
+		        		}else if(data.status==1012){
+		                    layer.msg('请先登录',{time:2000});
+		                    
+		                    setTimeout(function(){
+		                        jumpLogin(loginUrl,NowUrl);
+		                    },2000);
+		                }else if(data.status==1011){
+		                    layer.msg('权限不足,请跟管理员联系');
+		                }else {
 		        			layer.msg(data.msg);
 		        		}
 		        	},
@@ -389,6 +439,8 @@ function getPageData (vm,pageNow,search,num,type_code) {
 		url:serverUrl+'get/infoform',
 		datatype:'json',
 		data:{
+			key:oKey,
+    		user_id:token,
 			next:pageNow,
 			type_code:type_code,
 			num:num,
@@ -407,7 +459,15 @@ function getPageData (vm,pageNow,search,num,type_code) {
 				layer.msg('操作失败');
 			}else if(data.status==102){
 				layer.msg('参数错误');
-			}
+			}else if(data.status==1012){
+	            layer.msg('请先登录',{time:2000});
+	            
+	            setTimeout(function(){
+	                jumpLogin(loginUrl,NowUrl);
+	            },2000);
+	        }else if(data.status==1011){
+	            layer.msg('权限不足,请跟管理员联系');
+	        }
 		},
 		error:function(jqXHR){
 			layer.close(LoadIndex); //关闭遮罩层
@@ -426,12 +486,22 @@ $(document).ready(function(){
 	    	    url:search,
 	    	    datatype:'json',
 	    	    data:{
+	    	    	key:oKey,
+            		user_id:token,
 	    	        text:searchCusVal
 	    	    },
 	    	    success:function(data){
 	    	        if(data.status==100){
 	    	            oTableInfo.proList = data.value;
-	    	        }else{
+	    	        }else if(data.status==1012){
+	                    layer.msg('请先登录',{time:2000});
+	                    
+	                    setTimeout(function(){
+	                        jumpLogin(loginUrl,NowUrl);
+	                    },2000);
+	                }else if(data.status==1011){
+	                    layer.msg('权限不足,请跟管理员联系');
+	                }else{
 	    	            oTableInfo.proList= '';
 	    	        }
 	    	    },

@@ -31,7 +31,7 @@ $(function(){
         }else{
             $.ajax({
                 type:'POST',
-                url:serverUrl+'canton/login',
+                url:serverUrl+'login',
                 data:{
                     username:username,
                     password:psw

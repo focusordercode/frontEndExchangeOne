@@ -72,7 +72,7 @@ var oTableIn = new Vue({
                     layer.msg('表格的id为空');
                 }else if(data.status==1012){
                     layer.msg('请先登录',{time:2000});
-                    
+                    $(window).unbind('beforeunload');
                     setTimeout(function(){
                         jumpLogin(loginUrl,NowUrl);
                     },2000);
@@ -103,7 +103,7 @@ var oTableIn = new Vue({
                     oTableIn.variantVal = data.value.variant;
                 }else if(data.status==1012){
                     layer.msg('请先登录',{time:2000});
-                    
+                    $(window).unbind('beforeunload');
                     setTimeout(function(){
                         jumpLogin(loginUrl,NowUrl);
                     },2000);
@@ -133,7 +133,7 @@ var oTableIn = new Vue({
                     oTableIn.checkData = data.value;
                 }else if(data.status==1012){
                     layer.msg('请先登录',{time:2000});
-                    
+                    $(window).unbind('beforeunload');
                     setTimeout(function(){
                         jumpLogin(loginUrl,NowUrl);
                     },2000);
@@ -238,7 +238,7 @@ var oTableIn = new Vue({
 
                         }else if(data.status==1012){
                             layer.msg('请先登录',{time:2000});
-                            
+                            $(window).unbind('beforeunload');
                             setTimeout(function(){
                                 jumpLogin(loginUrl,NowUrl);
                             },2000);
@@ -428,7 +428,7 @@ $(document).ready(function(){
                     }
                 }else if(data.status==1012){
                     layer.msg('请先登录',{time:2000});
-                    
+                    $(window).unbind('beforeunload');
                     setTimeout(function(){
                         jumpLogin(loginUrl,NowUrl);
                     },2000);
@@ -479,7 +479,7 @@ $(document).ready(function(){
                     layer.msg('表格没有数据');
                 }else if(data.status==1012){
                     layer.msg('请先登录',{time:2000});
-                    
+                    $(window).unbind('beforeunload');
                     setTimeout(function(){
                         jumpLogin(loginUrl,NowUrl);
                     },2000);
@@ -795,7 +795,7 @@ $(document).ready(function(){
                     layer.msg('操作失败');
                 }else if(data.status==1012){
                     layer.msg('请先登录',{time:2000});
-                    
+                    $(window).unbind('beforeunload');
                     setTimeout(function(){
                         jumpLogin(loginUrl,NowUrl);
                     },2000);
@@ -831,7 +831,7 @@ $(document).ready(function(){
                     a = 1;//删除成功
                 }else if(data.status==1012){
                     layer.msg('请先登录',{time:2000});
-                    
+                    $(window).unbind('beforeunload');
                     setTimeout(function(){
                         jumpLogin(loginUrl,NowUrl);
                     },2000);

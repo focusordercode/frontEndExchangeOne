@@ -48,7 +48,7 @@ var uploadPic = new Vue({
                     uploadPic.count = data.count;
                 }else if(data.status==1012){
                     layer.msg('请先登录',{time:2000});
-                    
+                    $(window).unbind('beforeunload');
                     setTimeout(function(){
                         jumpLogin(loginUrl,NowUrl);
                     },2000);
@@ -80,7 +80,7 @@ var uploadPic = new Vue({
                     uploadPic.info = data.value[0];
                 }else if(data.status==1012){
                     layer.msg('请先登录',{time:2000});
-                    
+                    $(window).unbind('beforeunload');
                     setTimeout(function(){
                         jumpLogin(loginUrl,NowUrl);
                     },2000);
@@ -171,6 +171,8 @@ var uploadPic = new Vue({
                         url:serverUrl+'upload/pic',
                         datatype:'json',
                         data:{
+                            key:oKey,
+                            user_id:token,
                             form_id:form_id,
                             picCount:picCount,
                             picArr:vm.picData
@@ -186,6 +188,14 @@ var uploadPic = new Vue({
                                 //更新上传结果
                                 var arr = vm.picData;
                                 vm.success_count = countPic(arr);
+                            }else if(data.status==1012){
+                                layer.msg('请先登录',{time:2000});
+                                $(window).unbind('beforeunload');
+                                setTimeout(function(){
+                                    jumpLogin(loginUrl,NowUrl);
+                                },2000);
+                            }else if(data.status==1011){
+                                layer.msg('权限不足,请跟管理员联系');
                             }else{
                                 layer.msg(data.msg);
                             }

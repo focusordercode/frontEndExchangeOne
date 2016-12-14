@@ -62,7 +62,7 @@ var tempRelate = new Vue({
                     tempRelate.temp = data.value[0];
                 }else if(data.status==1012){
                     layer.msg('请先登录',{time:2000});
-                    
+                    $(window).unbind('beforeunload');
                     setTimeout(function(){
                         jumpLogin(loginUrl,NowUrl);
                     },2000);
@@ -93,7 +93,7 @@ var tempRelate = new Vue({
                     tempRelate.tempData = data.value;
                 }else if(data.status==1012){
                     layer.msg('请先登录',{time:2000});
-                    
+                    $(window).unbind('beforeunload');
                     setTimeout(function(){
                         jumpLogin(loginUrl,NowUrl);
                     },2000);
@@ -125,7 +125,7 @@ var tempRelate = new Vue({
                     getProData(tempRelate);
                 }else if(data.status==1012){
                     layer.msg('请先登录',{time:2000});
-                    
+                    $(window).unbind('beforeunload');
                     setTimeout(function(){
                         jumpLogin(loginUrl,NowUrl);
                     },2000);
@@ -193,7 +193,7 @@ var tempRelate = new Vue({
                             }
                         }else if(data.status==1012){
                             layer.msg('请先登录',{time:2000});
-                            
+                            $(window).unbind('beforeunload');
                             setTimeout(function(){
                                 jumpLogin(loginUrl,NowUrl);
                             },2000);
@@ -399,7 +399,7 @@ function getProData(vm) {
                 vm.proData = data.value;
             }else if(data.status==1012){
                 layer.msg('请先登录',{time:2000});
-                
+                $(window).unbind('beforeunload');
                 setTimeout(function(){
                     jumpLogin(loginUrl,NowUrl);
                 },2000);
@@ -430,7 +430,7 @@ function getBatchData(vm) {
                 vm.tempData = data.value;
             }else if(data.status==1012){
                 layer.msg('请先登录',{time:2000});
-                
+                $(window).unbind('beforeunload');
                 setTimeout(function(){
                     jumpLogin(loginUrl,NowUrl);
                 },2000);
@@ -462,7 +462,7 @@ function defaultData (vm,batch_id,info_id) {
                 vm.relateData = data.value;
             }else if(data.status==1012){
                 layer.msg('请先登录',{time:2000});
-                
+                $(window).unbind('beforeunload');
                 setTimeout(function(){
                     jumpLogin(loginUrl,NowUrl);
                 },2000);

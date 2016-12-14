@@ -54,7 +54,7 @@ body,html {
 }
 .log-msg .btn-group > span {
     cursor: pointer;
-    padding: 5px;
+    padding: 8px;
 }
 .log-msg .btn-group .dropdown-menu li {
     cursor: pointer;

@@ -17,7 +17,6 @@ function UrlSearch() {
 } 
 var Request=new UrlSearch();
 var type_code = 'info';
-serverUrl = 'http://192.168.1.40/canton/';
 console.log(serverUrl); //后端接口地址
 
 //英文正则,英文数字和空格
