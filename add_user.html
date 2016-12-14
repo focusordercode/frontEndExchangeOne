@@ -94,7 +94,7 @@
         }
         .height {
             min-height: 32px!important;
-            overflow: hidden;
+            overflow: auto;
             background-color: #ccc;
         }
     </style>
@@ -231,7 +231,14 @@
                                                     <div class="col-sm-1">
                                                         <button class="btn btn-info btn-sm searchBtn">搜索</button>
                                                     </div>
-                                                    <div class="col-sm-3 pors searchCompent">
+                                                    
+                                                    <div class="col-sm-5">
+                                                        <div class="alert alert-danger new-alert" v-show="al_role" role="alert">请选择所属角色
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="col-sm-4 col-sm-offset-2 pors searchCompent">
                                                         <input type="text" class="form-control searchShadow searchCate " placeholder="输入关键字搜索类目">
                                                         <ul class="cate-list">
                                                             <template v-for="one in oneList" v-if="$index<=9">
@@ -246,11 +253,7 @@
                                                             <i class="fa fa-close"></i>
                                                         </button>
                                                     </div>
-                                                    <div class="col-sm-5">
-                                                        <div class="alert alert-danger new-alert" v-show="al_role" role="alert">请选择所属角色
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                </div>  
                                                 <div class="form-group">
                                                     <label class="col-sm-2 control-label">产品说明:</label>
                                                     <div class="col-sm-4">
