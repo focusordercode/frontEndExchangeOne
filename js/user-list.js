@@ -19,6 +19,8 @@ var userlist = new Vue({
 			type:'POST',
 			url:serverUrl+'get/user',
 			data:{
+                key:oKey,
+                user_id:token,
 				pagesize:num
 			},
 			datatype:'json',
@@ -28,7 +30,15 @@ var userlist = new Vue({
 					userlist.count = data.countUser;
 					userlist.pageNow = data.pageNow;
 					userlist.countPage = data.countPage;
-				} else {
+				}else if(data.status==1012){
+                    layer.msg('请先登录',{time:2000});
+                    
+                    setTimeout(function(){
+                        jumpLogin(loginUrl,NowUrl);
+                    },2000);
+                }else if(data.status==1011){
+                    layer.msg('权限不足,请跟管理员联系');
+                }else {
                     layer.msg(data.msg)
                 }
 			},
@@ -79,6 +89,8 @@ var userlist = new Vue({
                     url:serverUrl+'get/user',
                     datatype:'',
                     data:{
+                        key:oKey,
+                        user_id:token,
                         enabled:enabled,
                         search:search
                     },
@@ -91,6 +103,14 @@ var userlist = new Vue({
                             //搜索条件数据
                             var newObj = $.extend(true, {}, vm.search);
                             vm.searchResult = newObj;
+                        }else if(data.status==1012){
+                            layer.msg('请先登录',{time:2000});
+                            
+                            setTimeout(function(){
+                                jumpLogin(loginUrl,NowUrl);
+                            },2000);
+                        }else if(data.status==1011){
+                            layer.msg('权限不足,请跟管理员联系');
                         }else{
                             layer.msg(data.msg);
                         }
@@ -116,6 +136,8 @@ var userlist = new Vue({
     					url:serverUrl+'delete/user',
     					datatype:'json',
     					data:{
+                            key:oKey,
+                            user_id:token,
     						uid:use.id
     					},
     					success:function (data) {
@@ -124,7 +146,15 @@ var userlist = new Vue({
     							vm.alluser.$remove(use);
                                 //重新拉取数据
                                 setTimeout(getPageData (vm,pageNow,search,num),1000);
-    						}else{
+    						}else if(data.status==1012){
+                                layer.msg('请先登录',{time:2000});
+                                
+                                setTimeout(function(){
+                                    jumpLogin(loginUrl,NowUrl);
+                                },2000);
+                            }else if(data.status==1011){
+                                layer.msg('权限不足,请跟管理员联系');
+                            }else{
     							layer.msg(data.msg);
     						}
     					},
@@ -197,6 +227,8 @@ function getPageData (vm,pageNow,search,num) {
         url:serverUrl+'get/user',
         datatype:'json',
         data:{
+            key:oKey,
+            user_id:token,
             page:pageNow,
             pagesize:num
         },
@@ -211,6 +243,14 @@ function getPageData (vm,pageNow,search,num) {
                 layer.msg('操作失败');
             }else if(data.status==102){
                 layer.msg('参数错误');
+            }else if(data.status==1012){
+                layer.msg('请先登录',{time:2000});
+                
+                setTimeout(function(){
+                    jumpLogin(loginUrl,NowUrl);
+                },2000);
+            }else if(data.status==1011){
+                layer.msg('权限不足,请跟管理员联系');
             }
         },
         error:function(jqXHR){

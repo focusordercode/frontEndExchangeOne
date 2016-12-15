@@ -40,12 +40,22 @@ var permission = new Vue({
 			url:serverUrl+'get/rule2role',
 			datatype:'json',
 			data:{
+				key:oKey,
+        		user_id:token,
 				role_id:role_id
 			},
 			success:function(data){
 				if(data.status == 100){
 					permission.pers = data.value;
-				}else{
+				}else if(data.status==1012){
+                    layer.msg('请先登录',{time:2000});
+                    
+                    setTimeout(function(){
+                        jumpLogin(loginUrl,NowUrl);
+                    },2000);
+                }else if(data.status==1011){
+                    layer.msg('权限不足,请跟管理员联系');
+                }else{
 					layer.msg(data.msg);
 				}
 			},
@@ -59,12 +69,22 @@ var permission = new Vue({
 			url:serverUrl+'get/roles',
 			datatype:'json',
 			data:{
+				key:oKey,
+        		user_id:token,
 				id:role_id
 			},
 			success:function(data){
 				if (data.status == 100) {
 					permission.role_info = data.value[0];
-				}
+				}else if(data.status==1012){
+                    layer.msg('请先登录',{time:2000});
+                    
+                    setTimeout(function(){
+                        jumpLogin(loginUrl,NowUrl);
+                    },2000);
+                }else if(data.status==1011){
+                    layer.msg('权限不足,请跟管理员联系');
+                }
 			},
 			error:function (jqXHR) {
 				layer.msg('向服务器请求角色信息失败');
@@ -83,13 +103,23 @@ var permission = new Vue({
 				url:serverUrl+'allot/rule2role',
 				datatype:'json',
 				data:{
+					key:oKey,
+            		user_id:token,
 					role_id:role_id,
 					rule_ids:ids
 				},
 				success:function(data){
 					if (data.status == 100) {
 						layer.msg('提交成功');
-					}
+					}else if(data.status==1012){
+	                    layer.msg('请先登录',{time:2000});
+	                    
+	                    setTimeout(function(){
+	                        jumpLogin(loginUrl,NowUrl);
+	                    },2000);
+	                }else if(data.status==1011){
+	                    layer.msg('权限不足,请跟管理员联系');
+	                }
 				},
 				error:function(jqXHR){
 					layer.msg('向服务器请求角色信息失败');
