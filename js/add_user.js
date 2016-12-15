@@ -76,6 +76,8 @@ var adduse = new Vue ({
                     url: serverUrl+'add/user',
                     datatype: 'json',
                     data: {
+                        key:oKey,
+                        user_id:token,
                         username:vm.user_name,
                         password:vm.password,
                         real_name:vm.real_name,
@@ -91,6 +93,14 @@ var adduse = new Vue ({
                             layer.msg('添加成功');
 
                             setInterval(windowFresh,1000);
+                        }else if(data.status==1012){
+                            layer.msg('请先登录',{time:2000});
+                            
+                            setTimeout(function(){
+                                jumpLogin(loginUrl,NowUrl);
+                            },2000);
+                        }else if(data.status==1011){
+                            layer.msg('权限不足,请跟管理员联系');
                         }else{
                             layer.msg(data.msg);
                         }
@@ -158,11 +168,21 @@ $('.searchCate').on('keyup',function(){
         url:serverUrl+'get/roles',
         datatype:'json',
         data:{
+            key:oKey,
+            user_id:token,
             vague:searchCusVal
         },
         success:function(data){
             if(data.status == 100){
                 adduse.oneList = data.value;
+            }else if(data.status==1012){
+                layer.msg('请先登录',{time:2000});
+                
+                setTimeout(function(){
+                    jumpLogin(loginUrl,NowUrl);
+                },2000);
+            }else if(data.status==1011){
+                layer.msg('权限不足,请跟管理员联系');
             }else{
                 adduse.oneList = '';
             }

@@ -69,6 +69,8 @@ var tree = new Vue({
             url: serverUrl+'get/org',
             datatype: 'json',
             data:{
+                key:oKey,
+                user_id:token,
                 isGetRole:0
             },
             success: function(data) {
@@ -76,6 +78,14 @@ var tree = new Vue({
                     tree.son = data.value[0];
                 }else if(data.status==101){
                     layer.msg(data.msg);
+                }else if(data.status==1012){
+                    layer.msg('请先登录',{time:2000});
+                    
+                    setTimeout(function(){
+                        jumpLogin(loginUrl,NowUrl);
+                    },2000);
+                }else if(data.status==1011){
+                    layer.msg('权限不足,请跟管理员联系');
                 }
             },
             error: function(jqXHR) {
@@ -118,6 +128,8 @@ var tree = new Vue({
                     url: serverUrl+'add/org',
                     datatype: 'json',
                     data: {
+                        key:oKey,
+                        user_id:token,
                         name: addOne.name,
                         introduce:addOne.introduce,
                         p_id: selectedData.id,
@@ -130,7 +142,15 @@ var tree = new Vue({
                             vm.addOne.name = '';
                             vm.addOne.introduce = '';
                             setTimeout(getTreeData(vm),1000);
-                        } else {
+                        }else if(data.status==1012){
+                            layer.msg('请先登录',{time:2000});
+                            
+                            setTimeout(function(){
+                                jumpLogin(loginUrl,NowUrl);
+                            },2000);
+                        }else if(data.status==1011){
+                            layer.msg('权限不足,请跟管理员联系');
+                        }else {
                             layer.msg(data.msg);
                         }
                     },
@@ -165,6 +185,8 @@ var tree = new Vue({
                     url: serverUrl+'edit/org',
                     datatype: 'json',
                     data: {
+                        key:oKey,
+                        user_id:token,
                         org_id: cacheData.id,
                         name: cacheData.name,
                         enabled:1,
@@ -175,7 +197,15 @@ var tree = new Vue({
                             layer.msg('修改成功');
                             $('.changeCate').modal('hide');
                             setTimeout(getTreeData(vm),1000);
-                        } else {
+                        }else if(data.status==1012){
+                            layer.msg('请先登录',{time:2000});
+                            
+                            setTimeout(function(){
+                                jumpLogin(loginUrl,NowUrl);
+                            },2000);
+                        }else if(data.status==1011){
+                            layer.msg('权限不足,请跟管理员联系');
+                        }else {
                             layer.msg(data.msg);
                         }
                     },
@@ -198,6 +228,8 @@ var tree = new Vue({
                         url: serverUrl+'delete/org',
                         datatype: 'json',
                         data: {
+                            key:oKey,
+                            user_id:token,
                             org_id: selectedData.id
                         },
                         success: function(data) {
@@ -209,7 +241,15 @@ var tree = new Vue({
                                 selectedData.enabled = '',
                                 selectedData.sonLen = '',
                                 setTimeout(getTreeData(vm),1000);
-                            } else {
+                            }else if(data.status==1012){
+                                layer.msg('请先登录',{time:2000});
+                                
+                                setTimeout(function(){
+                                    jumpLogin(loginUrl,NowUrl);
+                                },2000);
+                            }else if(data.status==1011){
+                                layer.msg('权限不足,请跟管理员联系');
+                            }else {
                                 layer.msg(data.msg);
                             }
                         },
@@ -230,6 +270,8 @@ function getTreeData(vm) {
         url: serverUrl+'get/org',
         datatype: 'json',
         data:{
+            key:oKey,
+            user_id:token,
             isGetRole:0
         },
         success: function(data) {
@@ -237,6 +279,14 @@ function getTreeData(vm) {
                 vm.son = data.value[0];
             }else if(data.status==101){
                 layer.msg(data.msg);
+            }else if(data.status==1012){
+                layer.msg('请先登录',{time:2000});
+                
+                setTimeout(function(){
+                    jumpLogin(loginUrl,NowUrl);
+                },2000);
+            }else if(data.status==1011){
+                layer.msg('权限不足,请跟管理员联系');
             }
         },
         error: function(jqXHR) {

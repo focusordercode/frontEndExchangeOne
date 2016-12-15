@@ -31,12 +31,24 @@ var base = new Vue({
             type: "POST",
             url: serverUrl+"get/table",
             datatype: "json",
+            data:{
+                key:oKey,
+                user_id:token
+            },
             success: function (data) {
                 if (data.status == 100) {
                     base.list = data.values;
                 }
                 else if (data.status == 101) {
                     layer.msg('获取信息失败');
+                }else if(data.status==1012){
+                    layer.msg('请先登录',{time:2000});
+                    
+                    setTimeout(function(){
+                        jumpLogin(loginUrl,NowUrl);
+                    },2000);
+                }else if(data.status==1011){
+                    layer.msg('权限不足,请跟管理员联系');
                 }
             },
             error: function (jqXHR) {
@@ -54,6 +66,8 @@ var base = new Vue({
                     url:serverUrl+'get/fields',
                     datatype:'JSON',
                     data:{
+                        key:oKey,
+                        user_id:token,
                         tbl_name:selected
                     },
                     success:function(data){
@@ -62,6 +76,14 @@ var base = new Vue({
                         }
                         else if (data.status == 101) {
                             layer.msg('获取信息失败');
+                        }else if(data.status==1012){
+                            layer.msg('请先登录',{time:2000});
+                            
+                            setTimeout(function(){
+                                jumpLogin(loginUrl,NowUrl);
+                            },2000);
+                        }else if(data.status==1011){
+                            layer.msg('权限不足,请跟管理员联系');
                         }
                     },
                     error:function(jqXHR){
@@ -70,11 +92,6 @@ var base = new Vue({
                 })
             }
         },
-        /*第一部分检测是否可以提交按钮*/
-        /*/!*ttt:function(){
-            test1 = setInterval("testpar()",3000)
-            alert("111")*!/
-        },*/
         testpar:function(){
             var selected = base.selected11;
             if(selected == ""){
@@ -85,6 +102,8 @@ var base = new Vue({
                 url:serverUrl+'check',
                 datatype:'json',
                 data:{
+                    key:oKey,
+                    user_id:token,
                     tbl_name:selected,
                     operation:'s'
                 },
@@ -100,6 +119,14 @@ var base = new Vue({
                     }
                     else if(data.status == 101){
                         layer.msg('现在还不能提交');
+                    }else if(data.status==1012){
+                        layer.msg('请先登录',{time:2000});
+                        
+                        setTimeout(function(){
+                            jumpLogin(loginUrl,NowUrl);
+                        },2000);
+                    }else if(data.status==1011){
+                        layer.msg('权限不足,请跟管理员联系');
                     }
                 },
                 error:function(jqXHR){
@@ -124,6 +151,8 @@ var base = new Vue({
                 url:serverUrl+'establish/partition',
                 datatype:'json',
                 data:{
+                    key:oKey,
+                    user_id:token,
                     tbl_name:selected,
                     types:types,
                     type:type,
@@ -164,6 +193,14 @@ var base = new Vue({
                         alert(data.va);
                         alert('此表已经分区了');
                         location.reload();
+                    }else if(data.status==1012){
+                        layer.msg('请先登录',{time:2000});
+                        
+                        setTimeout(function(){
+                            jumpLogin(loginUrl,NowUrl);
+                        },2000);
+                    }else if(data.status==1011){
+                        layer.msg('权限不足,请跟管理员联系');
                     }
                 },
                 error:function(jqXHR){
@@ -177,12 +214,24 @@ var base = new Vue({
                 type: "POST",
                 url: serverUrl+"get/zone",
                 datatype: "json",
+                data:{
+                    key:oKey,
+                    user_id:token,
+                },
                 success: function (data) {
                     if (data.status == 100) {
                         base.list2 = data.values;
                     }
                     else if (data.status == 101) {
                         layer.msg('获取信息失败');
+                    }else if(data.status==1012){
+                        layer.msg('请先登录',{time:2000});
+                        
+                        setTimeout(function(){
+                            jumpLogin(loginUrl,NowUrl);
+                        },2000);
+                    }else if(data.status==1011){
+                        layer.msg('权限不足,请跟管理员联系');
                     }
                 },
                 error: function (jqXHR) {
@@ -199,6 +248,8 @@ var base = new Vue({
                     url:serverUrl+'get/fields',
                     datatype:'JSON',
                     data:{
+                        key:oKey,
+                        user_id:token,
                         id:selected
                     },
                     success:function(data){
@@ -207,6 +258,14 @@ var base = new Vue({
                         }
                         else if (data.status == 101) {
                             layer.msg('获取信息失败');
+                        }else if(data.status==1012){
+                            layer.msg('请先登录',{time:2000});
+                            
+                            setTimeout(function(){
+                                jumpLogin(loginUrl,NowUrl);
+                            },2000);
+                        }else if(data.status==1011){
+                            layer.msg('权限不足,请跟管理员联系');
                         }
                     },
                     error:function(jqXHR){
@@ -228,6 +287,8 @@ var base = new Vue({
                 url:serverUrl+'check',
                 datatype:'json',
                 data:{
+                    key:oKey,
+                    user_id:token,
                     tbl_name:selected,
                     operation:'u'
                 },
@@ -243,6 +304,14 @@ var base = new Vue({
                     }
                     else if(data.status == 101){
                         layer.msg('现在还不能提交');
+                    }else if(data.status==1012){
+                        layer.msg('请先登录',{time:2000});
+                        
+                        setTimeout(function(){
+                            jumpLogin(loginUrl,NowUrl);
+                        },2000);
+                    }else if(data.status==1011){
+                        layer.msg('权限不足,请跟管理员联系');
                     }
                 },
                 error:function(jqXHR){
@@ -267,6 +336,8 @@ var base = new Vue({
                 url:serverUrl+'update/partition',
                 datatype:'json',
                 data:{
+                    key:oKey,
+                    user_id:token,
                     id:selected,
                     tbl_name:selected,
                     types:types,
@@ -294,6 +365,14 @@ var base = new Vue({
                     }
                     if(data.status == 106){
                         layer.msg('请输入表的分区数量');
+                    }else if(data.status==1012){
+                        layer.msg('请先登录',{time:2000});
+                        
+                        setTimeout(function(){
+                            jumpLogin(loginUrl,NowUrl);
+                        },2000);
+                    }else if(data.status==1011){
+                        layer.msg('权限不足,请跟管理员联系');
                     }
                 },
                 error:function(jqXHR){
@@ -307,12 +386,24 @@ var base = new Vue({
                 type:'POST',
                 url:serverUrl+'get/zone',
                 datatype:'json',
+                data:{
+                    key:oKey,
+                    user_id:token,
+                },
                 success:function(data){
                     if(data.status == 100){
                         base.list3 = data.values
                     }
                     else if (data.status == 101) {
                         layer.msg('获取信息失败');
+                    }else if(data.status==1012){
+                        layer.msg('请先登录',{time:2000});
+                        
+                        setTimeout(function(){
+                            jumpLogin(loginUrl,NowUrl);
+                        },2000);
+                    }else if(data.status==1011){
+                        layer.msg('权限不足,请跟管理员联系');
                     }
                 },
                 error:function(jqXHR){
@@ -331,6 +422,8 @@ var base = new Vue({
                 url:serverUrl+'check',
                 datatype:'json',
                 data:{
+                    key:oKey,
+                    user_id:token,
                     tbl_name:selected,
                     operation:'d'
                 },
@@ -345,6 +438,14 @@ var base = new Vue({
                     }
                     else if(data.status == 101){
                         layer.msg('现在还不能提交');
+                    }else if(data.status==1012){
+                        layer.msg('请先登录',{time:2000});
+                        
+                        setTimeout(function(){
+                            jumpLogin(loginUrl,NowUrl);
+                        },2000);
+                    }else if(data.status==1011){
+                        layer.msg('权限不足,请跟管理员联系');
                     }
                 },
                 error:function(jqXHR){
@@ -363,6 +464,8 @@ var base = new Vue({
                 url:serverUrl+'dilatation/partition',
                 datatype:'json',
                 data:{
+                    key:oKey,
+                    user_id:token,
                     id:id,
                     num:num,
                     subnum:subnum,
@@ -375,7 +478,7 @@ var base = new Vue({
                     if(data.status == 101){
                         layer.msg('提交失败');
                     }
-                    else if(data.status == 103){
+                    if(data.status == 103){
                         layer.msg('操作正在进行中');
                         //layer.msg(data.status);
                     }
@@ -393,6 +496,14 @@ var base = new Vue({
                     }
                     if(data.status == 107){
                         layer.msg('请输入表的分区区间');
+                    }else if(data.status==1012){
+                        layer.msg('请先登录',{time:2000});
+                        
+                        setTimeout(function(){
+                            jumpLogin(loginUrl,NowUrl);
+                        },2000);
+                    }else if(data.status==1011){
+                        layer.msg('权限不足,请跟管理员联系');
                     }
                 },
                 error:function(jqXHR){
