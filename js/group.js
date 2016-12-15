@@ -74,12 +74,22 @@ var rolegroup = new Vue({
 			url:serverUrl+'get/roles',
 			datatype:'json',
 			data:{
+				key:oKey,
+        		user_id:token,
 				vague:''
 			},
 			success:function(data){
 				if (data.status == 100) {
 					rolegroup.roledata = data.value;
-				}
+				}else if(data.status==1012){
+                    layer.msg('请先登录',{time:2000});
+                    
+                    setTimeout(function(){
+                        jumpLogin(loginUrl,NowUrl);
+                    },2000);
+                }else if(data.status==1011){
+                    layer.msg('权限不足,请跟管理员联系');
+                }
 			},
 			error:function (jqXHR) {
 				layer.msg('向服务器请求失败');
@@ -91,6 +101,8 @@ var rolegroup = new Vue({
             url: serverUrl+'get/org',
             datatype: 'json',
             data:{
+            	key:oKey,
+        		user_id:token,
                 isGetRole:1
             },
             success: function(data) {
@@ -98,6 +110,14 @@ var rolegroup = new Vue({
                     rolegroup.son = data.value[0];
                 }else if(data.status==101){
                     layer.msg(data.msg);
+                }else if(data.status==1012){
+                    layer.msg('请先登录',{time:2000});
+                    
+                    setTimeout(function(){
+                        jumpLogin(loginUrl,NowUrl);
+                    },2000);
+                }else if(data.status==1011){
+                    layer.msg('权限不足,请跟管理员联系');
                 }
             },
             error: function(jqXHR) {
@@ -127,6 +147,8 @@ var rolegroup = new Vue({
 					url:serverUrl+'add/roles',
 					datatype:'json',
 					data:{
+						key:oKey,
+                		user_id:token,
 						name:name,
 						remark:remark,
 						enabled:1,
@@ -141,7 +163,15 @@ var rolegroup = new Vue({
 							layer.msg('操作失败');
 						}else if (data.status == 102) {
 							layer.msg('参数错误');
-						}
+						}else if(data.status==1012){
+		                    layer.msg('请先登录',{time:2000});
+		                    
+		                    setTimeout(function(){
+		                        jumpLogin(loginUrl,NowUrl);
+		                    },2000);
+		                }else if(data.status==1011){
+		                    layer.msg('权限不足,请跟管理员联系');
+		                }
 					},
 					error:function (jqXHR) {
 						layer.msg('向服务器请求失败');
@@ -208,13 +238,23 @@ var rolegroup = new Vue({
 					url:serverUrl+'get/roles',
 					datatype:'json',
 					data:{
+						key:oKey,
+                		user_id:token,
 						id:id
 					},
 					success:function(data){
 						if (data.status == 100) {
 							rolegroup.editOne = data.value[0];
 							rolegroup.orgds = rolegroup.editOne.org;
-						}
+						}else if(data.status==1012){
+		                    layer.msg('请先登录',{time:2000});
+		                    
+		                    setTimeout(function(){
+		                        jumpLogin(loginUrl,NowUrl);
+		                    },2000);
+		                }else if(data.status==1011){
+		                    layer.msg('权限不足,请跟管理员联系');
+		                }
 					},
 					error:function (jqXHR) {
 						layer.msg('向服务器请求失败');
@@ -244,6 +284,8 @@ var rolegroup = new Vue({
 					url:serverUrl+'update/roles',
 					datatype:'json',
 					data:{
+						key:oKey,
+                		user_id:token,
 						role_id:id,
 						name:name,
 						enabled:enabled,
@@ -259,7 +301,15 @@ var rolegroup = new Vue({
 							layer.msg('操作失败');
 						}else if (data.status == 102) {
 							layer.msg('参数错误');
-						}
+						}else if(data.status==1012){
+		                    layer.msg('请先登录',{time:2000});
+		                    
+		                    setTimeout(function(){
+		                        jumpLogin(loginUrl,NowUrl);
+		                    },2000);
+		                }else if(data.status==1011){
+		                    layer.msg('权限不足,请跟管理员联系');
+		                }
 					},
 					error:function (jqXHR) {
 						layer.msg('向服务器请求失败');
@@ -276,6 +326,8 @@ var rolegroup = new Vue({
 				url:serverUrl+'del/roles',
 				datatype:'json',
 				data:{
+					key:oKey,
+            		user_id:token,
 					role_id:id
 				},
 				success:function(data){
@@ -288,7 +340,15 @@ var rolegroup = new Vue({
 						layer.msg(data.msg);
 					}else if (data.status == 103) {
 						layer.msg('角色有关联用户');
-					}
+					}else if(data.status==1012){
+	                    layer.msg('请先登录',{time:2000});
+	                    
+	                    setTimeout(function(){
+	                        jumpLogin(loginUrl,NowUrl);
+	                    },2000);
+	                }else if(data.status==1011){
+	                    layer.msg('权限不足,请跟管理员联系');
+	                }
 				},
 				error:function (jqXHR) {
 					layer.msg('向服务器请求失败');
@@ -301,12 +361,22 @@ var rolegroup = new Vue({
 			url:serverUrl+'get/roles',
 			datatype:'json',
 			data:{
+				key:oKey,
+        		user_id:token,
 				vague:''
 			},
 			success:function(data){
 				if (data.status == 100) {
 					rolegroup.roledata = data.value;
-				}
+				}else if(data.status==1012){
+                    layer.msg('请先登录',{time:2000});
+                    
+                    setTimeout(function(){
+                        jumpLogin(loginUrl,NowUrl);
+                    },2000);
+                }else if(data.status==1011){
+                    layer.msg('权限不足,请跟管理员联系');
+                }
 			},
 			error:function (jqXHR) {
 				layer.msg('向服务器请求失败');
@@ -340,12 +410,22 @@ $('.searchCate').on('keyup',function(){
 		url:serverUrl+'search/org',
 		datatype:'json',
 		data:{
+			key:oKey,
+    		user_id:token,
 			searchText:searchCusVal
 		},
 		success:function(data){
 			if(data.status == 100){
 				rolegroup.oneList = data.value;
-			}else{
+			}else if(data.status==1012){
+                layer.msg('请先登录',{time:2000});
+                
+                setTimeout(function(){
+                    jumpLogin(loginUrl,NowUrl);
+                },2000);
+            }else if(data.status==1011){
+                layer.msg('权限不足,请跟管理员联系');
+            }else{
 				rolegroup.oneList = '';
 			}
 		},
@@ -361,6 +441,8 @@ function getTreeData(vm) {
         url: serverUrl+'get/org',
         datatype: 'json',
         data:{
+        	key:oKey,
+    		user_id:token,
             isGetRole:0
         },
         success: function(data) {
@@ -368,6 +450,14 @@ function getTreeData(vm) {
                 vm.son = data.value[0];
             }else if(data.status==101){
                 layer.msg(data.msg);
+            }else if(data.status==1012){
+                layer.msg('请先登录',{time:2000});
+                
+                setTimeout(function(){
+                    jumpLogin(loginUrl,NowUrl);
+                },2000);
+            }else if(data.status==1011){
+                layer.msg('权限不足,请跟管理员联系');
             }
         },
         error: function(jqXHR) {
@@ -391,12 +481,22 @@ function getlist(){
 		url:serverUrl+'get/roles',
 		datatype:'json',
 		data:{
+			key:oKey,
+    		user_id:token,
 			vague:''
 		},
 		success:function(data){
 			if (data.status == 100) {
 				rolegroup.roledata = data.value;
-			}
+			}else if(data.status==1012){
+                layer.msg('请先登录',{time:2000});
+                
+                setTimeout(function(){
+                    jumpLogin(loginUrl,NowUrl);
+                },2000);
+            }else if(data.status==1011){
+                layer.msg('权限不足,请跟管理员联系');
+            }
 		},
 		error:function (jqXHR) {
 			layer.msg('向服务器请求失败');

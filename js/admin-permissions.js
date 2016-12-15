@@ -152,12 +152,22 @@ function getPers(enabled) {
 		url:serverUrl+'get/rule',
 		datatype:'json',
 		data:{
+			key:oKey,
+    		user_id:token,
 			enabled:enabled
 		},
 		success:function(data){
 			if(data.status == 100){
 				permission.pers = data.value;
-			}else{
+			}else if(data.status==1012){
+                layer.msg('请先登录',{time:2000});
+                
+                setTimeout(function(){
+                    jumpLogin(loginUrl,NowUrl);
+                },2000);
+            }else if(data.status==1011){
+                layer.msg('权限不足,请跟管理员联系');
+            }else{
 				layer.msg(data.msg);
 			}
 		},
@@ -174,6 +184,8 @@ function addData(vm,p_id,address,name){
 		url:serverUrl+'add/rule',
 		datatype:'json',
 		data:{
+			key:oKey,
+    		user_id:token,
 			p_id:p_id,
 			auth_address:address,
 			name:name
@@ -188,7 +200,15 @@ function addData(vm,p_id,address,name){
 				//刷新
 				var enabled = 1;
 				getPers(enabled);
-			}else{
+			}else if(data.status==1012){
+                layer.msg('请先登录',{time:2000});
+                
+                setTimeout(function(){
+                    jumpLogin(loginUrl,NowUrl);
+                },2000);
+            }else if(data.status==1011){
+                layer.msg('权限不足,请跟管理员联系');
+            }else{
 				layer.msg(data.msg);
 			}
 		},
@@ -205,6 +225,8 @@ function updateData(vm,rule_id,address,name){
 		url:serverUrl+'edit/rule',
 		datatype:'json',
 		data:{
+			key:oKey,
+    		user_id:token,
 			rule_id:rule_id,
 			auth_address:address,
 			name:name,
@@ -218,7 +240,15 @@ function updateData(vm,rule_id,address,name){
 				//刷新
 				var enabled = 1;
 				getPers(enabled);
-			}else{
+			}else if(data.status==1012){
+                layer.msg('请先登录',{time:2000});
+                
+                setTimeout(function(){
+                    jumpLogin(loginUrl,NowUrl);
+                },2000);
+            }else if(data.status==1011){
+                layer.msg('权限不足,请跟管理员联系');
+            }else{
 				layer.msg(data.msg);
 			}
 		},
@@ -235,6 +265,8 @@ function deleteData(id){
 		url:serverUrl+'delete/rule',
 		datatype:'json',
 		data:{
+			key:oKey,
+    		user_id:token,
 			rule_id:id
 		},
 		success:function(data){
@@ -243,7 +275,15 @@ function deleteData(id){
 				//刷新
 				var enabled = 1;
 				getPers(enabled);
-			}else{
+			}else if(data.status==1012){
+                layer.msg('请先登录',{time:2000});
+                
+                setTimeout(function(){
+                    jumpLogin(loginUrl,NowUrl);
+                },2000);
+            }else if(data.status==1011){
+                layer.msg('权限不足,请跟管理员联系');
+            }else{
 				layer.msg(data.msg);
 			}
 		},

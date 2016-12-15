@@ -40,11 +40,21 @@ var amend = new Vue({
 			url:serverUrl+'get/userbyid',
 			datatype:'json',
 			data:{
+				key:oKey,
+        		user_id:token,
 				uid:cus_id
 			},
 			success:function(data){
                 if(data.status==100){
                 	amend.userdata = data.value;
+                }else if(data.status==1012){
+                    layer.msg('请先登录',{time:2000});
+                    
+                    setTimeout(function(){
+                        jumpLogin(loginUrl,NowUrl);
+                    },2000);
+                }else if(data.status==1011){
+                    layer.msg('权限不足,请跟管理员联系');
                 }else{
                     layer.msg(data.msg);
                 }
@@ -109,6 +119,8 @@ var amend = new Vue({
 					url:serverUrl+'edit/personal',
 					datatype:'json',
 					data:{
+						key:oKey,
+                		user_id:token,
 						uid:cus_id,
 						password:password,
 						mobile:mobile,
@@ -120,7 +132,15 @@ var amend = new Vue({
 
                         if (data.status==100) {
                             layer.msg('保存成功');
-                        }else{
+                        }else if(data.status==1012){
+		                    layer.msg('请先登录',{time:2000});
+		                    
+		                    setTimeout(function(){
+		                        jumpLogin(loginUrl,NowUrl);
+		                    },2000);
+		                }else if(data.status==1011){
+		                    layer.msg('权限不足,请跟管理员联系');
+		                }else{
                             layer.msg(data.msg);
                         }
                     },

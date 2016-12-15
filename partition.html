@@ -24,11 +24,6 @@
         .table td .btn {
             margin-bottom: 5px;
         }
-        /*.detail {
-            width: 100%;
-            height: 700px;
-            border: 1px solid black;
-        }*/
         .nav-tabs{
             border:none;
         }
@@ -74,6 +69,7 @@
                     <ul class="nav navbar-nav">
                         <nav-component></nav-component>
                     </ul>
+                    <log-component></log-component>
                 </div>
             </div>
         </div>
@@ -126,17 +122,6 @@
                                             <option value="COMPOSITE">COMPOSITE</option>
                                         </select>
                                     </div>
-                                    <!--<div class="col-lg-2">
-                                        <select class="form-control " id="types">
-                                            <option value=""></option>
-                                            <option value="types">types</option>
-                                            <option value="RANGE">RANGE</option>
-                                            <option value="HASH">HASH</option>
-                                            <option value="LINEAR HASH">LINEAR HASH</option>
-                                            <option value="KEY">KEY</option>
-                                            <option value="COMPOSITE">COMPOSITE</option>
-                                        </select>
-                                    </div>-->
                                     <div class="col-lg-2">
                                         <select class="form-control " id="subtype">
                                             <option value="">选择子分区类型</option>
@@ -158,9 +143,6 @@
                                             <option v-for="id in twoid" >{{id.column_name}}</option>
                                         </select>
                                     </div>
-                                    <!--<div class="col-lg-2">
-                                        <input id="base-subkey" class="form-control" type="text" placeholder="做子分区的列值">
-                                    </div>-->
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-4">
@@ -207,17 +189,6 @@
                                             <option value="COMPOSITE">COMPOSITE</option>
                                         </select>
                                     </div>
-                                    <!--<div class="col-lg-2">
-                                        <select class="form-control " id="types2">
-                                            <option value=""></option>
-                                            <option value="types">types</option>
-                                            <option value="RANGE">RANGE</option>
-                                            <option value="HASH">HASH</option>
-                                            <option value="LINEAR HASH">LINEAR HASH</option>
-                                            <option value="KEY">KEY</option>
-                                            <option value="COMPOSITE">COMPOSITE</option>
-                                        </select>
-                                    </div>-->
                                     <div class="col-lg-2">
                                         <select class="form-control " id="subtype2">
                                             <option value="">选择子分区类型</option>
@@ -273,12 +244,6 @@
                                 <button @click="subpar3" id="submit-partition3" class="btn btn-success btn-lg " disabled>提交</button>
                             </div>
                         </div>
-                        <!--<div class="tab-pane" id="tab4">
-                            <div class="col-lg-12 detail">
-                                内容4
-                            </div>
-                        </div>-->
-                    <!--</div>-->
                 </div>
             </div>
         </div>
@@ -308,9 +273,10 @@
         <!-- 包括所有bootstrap的js插件或者可以根据需要使用的js插件调用　-->
         <script src="js/bootstrap.min.js"></script>
         <script src='js/layer.js'></script>
+        <!-- 检测登录状态 -->
+        <script src='js/control.js'></script>
         <script src='js/serverUrl.js'></script>
         <script src='js/navTpl.js'></script>
-        <!--<script src='js/customer.js'></script>-->
         <script src="js/database.js"></script>
     </body>
 </html>
