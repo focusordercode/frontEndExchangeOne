@@ -30,6 +30,7 @@ function getCookie() {
 
 //跳转到登录函数
 function jumpLogin(loginUrl,NowUrl){
+	cookie.clear();//清除cookie
 	location.href = loginUrl+'?'+NowUrl;
 }
 
