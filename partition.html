@@ -34,6 +34,24 @@
         .btn{
             margin: 15px;
         }
+        .progress {
+            position: relative;
+            height: 25px;
+        }
+        .progress > .progress-type {
+            position: absolute;
+            left: 0px;
+            font-weight: 800;
+            padding: 3px 30px 2px 10px;
+            color: rgb(255, 255, 255);
+            background-color: rgba(25, 25, 25, 0.2);
+        }
+        .progress > .progress-completed {
+            position: absolute;
+            right: 0px;
+            font-weight: 800;
+            padding: 3px 10px 2px;
+        }
 
     </style>
 </head>
@@ -75,17 +93,85 @@
         </div>
 
         <!--功能选项卡-->
-        <div class="container">
+        <div class="container marginTop">
             <div class="row">
                 <div class="col-lg-12" id="data-tab">
                     <ul class="nav nav-tabs">
-                        <li class="active col-lg-2"><a href="#tab1" data-toggle="tab">创建分区</a></li>
+                        <li class="active col-lg-2"><a href="#tab4" data-toggle="tab">数据库数据统计</a></li>
+                        <li class="col-lg-2"><a href="#tab1" data-toggle="tab">创建分区</a></li>
                         <li class="col-lg-2"><a href="#tab2" data-toggle="tab">修改分区</a></li>
                         <li class="col-lg-2"><a href="#tab3" data-toggle="tab">分区扩容</a></li>
-                        <!--<li class="col-lg-2"><a href="#tab4" data-toggle="tab">还有</a></li>-->
                     </ul>
-                    <div class="tab-content col-lg-12">
-                        <div class="active tab-pane" id="tab1">
+                    <div class="tab-content col-lg-12 marginTop">
+                        <div class="active tab-pane" id="tab4">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="panel panel-defaault">
+                                        <div class="panel-heading">
+                                            <h4><b class="text-primary">数据库数据统计</b></h4>
+                                            <button class="btn btn-info btn-sm" @click="Reflesh">刷新</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="panel panel-default">
+                                        <div class="panel-body">
+                                            <div class="col-md-12">
+                                                <table class="table table-bordered">
+                                                    <tr class="info">
+                                                        <th class="text-center">序号</th>
+                                                        <th class="text-center">数据表的数据量</th>
+                                                        <th class="text-center">数据表的分区数量</th>
+                                                        <th class="text-center">数据表的子分区数量</th>
+                                                        <th class="text-center table-width">与警戒值的比例</th>
+                                                    </tr>
+                                                    <template v-for="table in dataList">
+                                                        <tr class="text-center">
+                                                            <td class="col-md-1 text-muted">{{$index+1}}</td>
+                                                            <td class="col-md-1">{{table.count}}</td>
+                                                            <td class="col-md-1">{{table.subarea_num}}</td>
+                                                            <td class="col-md-1">{{table.subarea_subnum}}</td>
+                                                            <td class="col-md-8">
+                                                                <template v-if="table.percentage < 50">
+                                                                    <div class="progress">
+                                                                        <div class="progress-bar progress-bar-success" :style="{width:table.percentage + '%'}" style="min-width: 10px;">
+                                                                            <span class="sr-only">{{table.percentage + '%'}}</span>
+                                                                        </div>
+                                                                        <span class="progress-type">{{table.table_name}}</span>
+                                                                        <span class="progress-completed">{{table.percentage + '%'}}</span>
+                                                                    </div>
+                                                                </template>
+                                                                <template v-else>
+                                                                    <template v-if="table.percentage < 70">
+                                                                        <div class="progress">
+                                                                            <div class="progress-bar progress-bar-warning" :style="{width:table.percentage + '%'}" style="min-width: 10px;">
+                                                                                <span class="sr-only">{{table.percentage + '%'}}</span>
+                                                                            </div>
+                                                                            <span class="progress-type">{{table.table_name}}</span>
+                                                                            <span class="progress-completed">{{table.percentage + '%'}}</span>
+                                                                        </div>
+                                                                    </template>
+                                                                    <template v-else>
+                                                                        <div class="progress">
+                                                                            <div class="progress-bar progress-bar-danger" :style="{width:table.percentage + '%'}" style="min-width: 10px;">
+                                                                                <span class="sr-only">{{table.percentage + '%'}}</span>
+                                                                            </div>
+                                                                            <span class="progress-type">{{table.table_name}}</span>
+                                                                            <span class="progress-completed">{{table.percentage + '%'}}</span>
+                                                                        </div>
+                                                                    </template>
+                                                                </template>
+                                                            </td>
+                                                        </tr>
+                                                    </template>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="tab1">
                             <div class="col-lg-12 detail">
                                 <div class="row">
                                     <div class="col-lg-4">
@@ -217,8 +303,7 @@
                                     <button @click="subpartwo" id="submit-partition2" class="btn btn-success btn-lg " disabled>提交</button>
                                 </div>
                             </div>
-
-                        </div>
+                            </div>
                         </div>
                         <div class="tab-pane" id="tab3" @click="getdata">
                             <div class="col-lg-12 detail">
@@ -244,9 +329,9 @@
                                 <button @click="subpar3" id="submit-partition3" class="btn btn-success btn-lg " disabled>提交</button>
                             </div>
                         </div>
+                    </div>
                 </div>
             </div>
-        </div>
         </div>
 
         <hr>
@@ -255,6 +340,7 @@
                 <pre>{{ $data | json }}</pre>
             </div>
         </div>-->
+
         <!-- 页脚 -->
         <div class="container-fluid footer-fluid">
             <div class="contaier">

@@ -17,7 +17,7 @@ $.ajax({
     success:function(data){
         if(data.status==100){
             dataText = data.value;
-            console.log(data.value)
+            // console.log(data.value)
         }else if(data.status==1012){
             layer.msg('请先登录',{time:2000});
             $(window).unbind('beforeunload');
