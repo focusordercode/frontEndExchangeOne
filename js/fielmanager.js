@@ -54,13 +54,22 @@ var fliemanage = new Vue({
             url:serverUrl+'get/folder',
             datatype:'json',
             data:{
+                key:oKey,
+                user_id:token,
                 type:fliemanage.type
             },
             success: function(data){
                 if(data.status==100){
                     fliemanage.fiel=data.value;
-                }
-                else{
+                }else if(data.status==1012){
+                    layer.msg('请先登录',{time:2000});
+                    
+                    setTimeout(function(){
+                        jumpLogin(loginUrl,NowUrl);
+                    },2000);
+                }else if(data.status==1011){
+                    layer.msg('权限不足,请跟管理员联系');
+                }else{
                 	fliemanage.fiel=null,
                 	layer.msg(data.msg)
                 }
@@ -79,14 +88,23 @@ var fliemanage = new Vue({
             url:serverUrl+'del/file',
             datatype:'json',
             data:{
+                key:oKey,
+                user_id:token,
                 url:item.url
             },
             success: function(data){
                 if(data.status==100){
                     layer.msg("删除成功")
                     vm.fiel.$remove(item);
-                }
-                else{
+                }else if(data.status==1012){
+                    layer.msg('请先登录',{time:2000});
+                    
+                    setTimeout(function(){
+                        jumpLogin(loginUrl,NowUrl);
+                    },2000);
+                }else if(data.status==1011){
+                    layer.msg('权限不足,请跟管理员联系');
+                }else{
 					layer.msg(data.msg)
                 }
             },
@@ -101,14 +119,23 @@ var fliemanage = new Vue({
             url:serverUrl+'del/file',
             datatype:'json',
             data:{
+                key:oKey,
+                user_id:token,
                 url:fliemanage.arrayurl
             },
             success: function(data){
                 if(data.status==100){
                     layer.msg("成功删除文件数："+data.success+",删除失败文件数："+data.fail)
 
-                }
-                else{
+                }else if(data.status==1012){
+                    layer.msg('请先登录',{time:2000});
+                    
+                    setTimeout(function(){
+                        jumpLogin(loginUrl,NowUrl);
+                    },2000);
+                }else if(data.status==1011){
+                    layer.msg('权限不足,请跟管理员联系');
+                }else{
 					layer.msg(data.msg)
                 }
             },
@@ -125,6 +152,8 @@ var fliemanage = new Vue({
             url:serverUrl+'get/file',
             datatype:'json',
             data:{
+                key:oKey,
+                user_id:token,
                 url:item.url
             },
             success: function(data){
@@ -134,8 +163,15 @@ var fliemanage = new Vue({
                     vm.countPage = data.countPage;
                     vm.pageNow = data.pageNow;
                     vm.u = item.url;
-                }
-                else{
+                }else if(data.status==1012){
+                    layer.msg('请先登录',{time:2000});
+                    
+                    setTimeout(function(){
+                        jumpLogin(loginUrl,NowUrl);
+                    },2000);
+                }else if(data.status==1011){
+                    layer.msg('权限不足,请跟管理员联系');
+                }else{
                 	vm.fiel=null,
 					layer.msg(data.msg)
                 }
@@ -161,6 +197,8 @@ goPrePage:function(){
             url:serverUrl+'get/file',
             datatype:'json',
             data:{
+                key:oKey,
+                user_id:token,
                 number:pageNow,
                 url:fliemanage.u
             },
@@ -171,6 +209,14 @@ goPrePage:function(){
                     fliemanage.count = data.count;
                     fliemanage.countPage = data.countPage;
                     fliemanage.pageNow = data.pageNow;
+                }else if(data.status==1012){
+                    layer.msg('请先登录',{time:2000});
+                    
+                    setTimeout(function(){
+                        jumpLogin(loginUrl,NowUrl);
+                    },2000);
+                }else if(data.status==1011){
+                    layer.msg('权限不足,请跟管理员联系');
                 }else {
                     layer.msg(data.msg);
                 }
@@ -196,8 +242,10 @@ goNextPage:function(){
             url:serverUrl+'get/file',
             datatype:'json',
             data:{
-               number:pageNow,
-               url:fliemanage.u
+                key:oKey,
+                user_id:token,
+                number:pageNow,
+                url:fliemanage.u
             },
             success:function(data){
                 layer.close(LoadIndex); //关闭遮罩层
@@ -206,6 +254,14 @@ goNextPage:function(){
                     fliemanage.count = data.count;
                     fliemanage.countPage = data.countPage;
                     fliemanage.pageNow = data.pageNow;
+                }else if(data.status==1012){
+                    layer.msg('请先登录',{time:2000});
+                    
+                    setTimeout(function(){
+                        jumpLogin(loginUrl,NowUrl);
+                    },2000);
+                }else if(data.status==1011){
+                    layer.msg('权限不足,请跟管理员联系');
                 }else{
                     layer.msg(data.msg);
                 }
@@ -231,6 +287,8 @@ goJump:function(){
             url:'',
             datatype:'json',
             data:{
+                key:oKey,
+                user_id:token,
                 number:pageNow,
                 url:fliemanage.u
             },
@@ -241,6 +299,14 @@ goJump:function(){
                     fliemanage.count = data.count;
                     fliemanage.countPage = data.countPage;
                     fliemanage.pageNow = data.pageNow;
+                }else if(data.status==1012){
+                    layer.msg('请先登录',{time:2000});
+                    
+                    setTimeout(function(){
+                        jumpLogin(loginUrl,NowUrl);
+                    },2000);
+                }else if(data.status==1011){
+                    layer.msg('权限不足,请跟管理员联系');
                 }else{
                     layer.msg(data.msg);
                 }
@@ -252,7 +318,5 @@ goJump:function(){
         })
     }
 }
-
-
 }
 })

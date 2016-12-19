@@ -41,6 +41,8 @@ var model = new Vue({
 					url:serverUrl+'add/businessmodel',
 					datatype:'json',
 					data:{
+						key:oKey,
+                		user_id:token,
 						cn_name:cn_name,
 						en_name:en_name,
 						remark:remark
@@ -53,7 +55,15 @@ var model = new Vue({
 							vm.remark = '';
 							//更新列表
 							updateData();
-						}else{
+						}else if(data.status==1012){
+		                    layer.msg('请先登录',{time:2000});
+		                    
+		                    setTimeout(function(){
+		                        jumpLogin(loginUrl,NowUrl);
+		                    },2000);
+		                }else if(data.status==1011){
+		                    layer.msg('权限不足,请跟管理员联系');
+		                }else{
 							layer.msg(data.msg);
 						}
 					},
@@ -77,6 +87,8 @@ var model = new Vue({
 					url:serverUrl+'delete/businessmodel',
 					datatype:'json',
 					data:{
+						key:oKey,
+                		user_id:token,
 						id:id
 					},
 					success:function (data) {
@@ -84,7 +96,15 @@ var model = new Vue({
 							layer.msg('删除成功');
 							
 							vm.valueList.$remove(table);
-						}else{
+						}else if(data.status==1012){
+		                    layer.msg('请先登录',{time:2000});
+		                    
+		                    setTimeout(function(){
+		                        jumpLogin(loginUrl,NowUrl);
+		                    },2000);
+		                }else if(data.status==1011){
+		                    layer.msg('权限不足,请跟管理员联系');
+		                }else{
 							layer.msg(data.msg);
 						}
 					},

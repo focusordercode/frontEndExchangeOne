@@ -28,7 +28,8 @@ var search = serverUrl+"index.php/vague/name"; //模糊搜索地址
 Vue.component('tree', {
   template: '#pic-template',
   props:{
-    pictree:Object
+    pictree:Object,
+    arr:Array//多选的类目
   },
   data: function () {
     return {
@@ -47,11 +48,21 @@ Vue.component('tree', {
       if (this.isFolderP) {
         this.open = !this.open
       }
+    },
+    selectOne:function(pictree){
+        var id = pictree.id;
+        var name = pictree.cn_name;
+        var addOne = {id,name};
 
-      //点击目录
-      selectPic.selectedPic = pictree.cn_name;
-      selectPic.selectedPicId = pictree.id;
-    }
+        var cataselect = selectPic.cataselect;
+        //查重
+        var oSame = getSame(id,cataselect);
+        if(oSame){
+            layer.msg('已经添加过了!',{time:1000});
+        }else{
+            cataselect.push(addOne);
+        }
+    },
   }
 })
 
@@ -84,6 +95,7 @@ var selectPic = new Vue({
         //整合了的表格数据
         tableHead:'',
         tableData:'',
+        cataselect:[],
         newData:''
     },
     ready:function(){
@@ -119,7 +131,7 @@ var selectPic = new Vue({
     computed:{
         //控制筛选图片按钮
         getPic:function(){
-            if(!this.selectedPicId){
+            if(this.cataselect.length==0){
                 return true
             }else{
                 return false
@@ -163,6 +175,7 @@ var selectPic = new Vue({
     methods:{
         //选择图片目录
         selectPicfolder:function(){
+            var vm = this;
             var cateId = this.tableInfo.category_id;
             if(!cateId){
                 layer.msg('没有获取到产品类目');
@@ -180,9 +193,9 @@ var selectPic = new Vue({
                     },
                     success:function(data){
                         if(data.status==100){
-                            selectPic.pictree = data.value[0];
+                            vm.pictree = data.value[0];
                         }else if(data.status==101){
-                            selectPic.pictree = data.value;
+                            vm.pictree = data.value;
                         }else if(data.status==1012){
                             layer.msg('请先登录',{time:2000});
                             
@@ -199,10 +212,15 @@ var selectPic = new Vue({
                 })
             }
         },
+        //删除选中目录
+        removecata:function(cata){
+            var vm = this;
+            vm.cataselect.$remove(cata);
+        },
         //重置条件
         resetData:function(){
             this.selectedPic = '';
-            this.selectedPicId = '';
+            this.cataselect = [];
             this.pic_rate = 5;
             this.pro_rate = 1;
             this.re_date = 3;
@@ -215,10 +233,11 @@ var selectPic = new Vue({
         //请求并获取筛选的图片
         searchPic:function(){
             var vm = this;
+            var cataselect = vm.cataselect;
             var num = vm.tableInfo.product_count;//产品个数
             var v_num = vm.tableInfo.variant_num;
             var category_id = vm.tableInfo.category_id;
-            var gallery_id = vm.selectedPicId;
+            var gallery_id = getcataid(cataselect);
             var pic_rate = vm.pic_rate;
             var pro_rate = vm.pro_rate;
             var re_date = vm.re_date;
@@ -464,6 +483,17 @@ function dataSteam (num,idArr,picData,vm) {
     }
 }
 
+//检查重复函数
+function getSame(id,arr) {
+    var a = false;
+    for(var i = 0;i<arr.length;i++){
+        if(id==arr[i].id){
+            a = true
+        }
+    }
+    return a
+}
+
 Vue.filter('sizeCounter',function(value){
     var str = value;
     str = Math.round(str/1024) + 'kb';
@@ -488,10 +518,10 @@ Vue.filter('imgUrl2',function(value){
 })
 
 //点击图片目录树形菜单
-$(document).on('click','.tree .item .label',function(){
-    $('.tree .item .label').removeClass('label-success').addClass('label-primary');
-    $(this).removeClass('label-primary').addClass('label-success');
-});
+// $(document).on('click','.tree .item .label',function(){
+//     $('.tree .item .label').removeClass('label-success').addClass('label-primary');
+//     $(this).removeClass('label-primary').addClass('label-success');
+// });
 
 $(function(){
     //搜索类目框
@@ -587,6 +617,14 @@ $('.searchCate2').on('keyup',function(){
         }
     })
 });
+//提取数组中的ID
+function getcataid(cataselect){
+    var cataid = [];
+    for (var i = 0; i < cataselect.length; i++) {
+        cataid.push(cataselect[i].id);
+    }
+    return cataid
+}
 
 $(function(){
     //回到顶部
