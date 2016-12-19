@@ -20,12 +20,23 @@ var searchlog = new Vue({
             type:'POST',
             url:serverUrl+'detection/debug',
             datatype:'json',
+            data:{
+                key:oKey,
+                user_id:token,
+            },
             success: function(data){
                 if(data.status==100){
                     searchlog.state=data.state
                     layer.msg('调试状态为：'+ searchlog.state)
-                }
-                else {
+                }else if(data.status==1012){
+                    layer.msg('请先登录',{time:2000});
+                    
+                    setTimeout(function(){
+                        jumpLogin(loginUrl,NowUrl);
+                    },2000);
+                }else if(data.status==1011){
+                    layer.msg('权限不足,请跟管理员联系');
+                }else {
                     layer.msg('获取状态失败')
                 }
             },
@@ -50,11 +61,21 @@ var searchlog = new Vue({
                 url:serverUrl+'debug',
                 datatype:'json',
                 data:{
+                    key:oKey,
+                    user_id:token,
                     state:state11
                 },
                 success: function(data){
                     if(data.status==100){
                         layer.msg('更改状态成功');
+                    }else if(data.status==1012){
+                        layer.msg('请先登录',{time:2000});
+                        
+                        setTimeout(function(){
+                            jumpLogin(loginUrl,NowUrl);
+                        },2000);
+                    }else if(data.status==1011){
+                        layer.msg('权限不足,请跟管理员联系');
                     }
                 },
                 error: function(jqXHR){
@@ -79,6 +100,8 @@ var searchlog = new Vue({
                 url:seaurl,
                 datatype:'json',
                 data:{
+                    key:oKey,
+                    user_id:token,
                     year:year,
                     month:month,
                     day:day
@@ -87,15 +110,17 @@ var searchlog = new Vue({
                     if (data.status==100){
                         layer.msg('获取日志成功');
                         searchlog.logdata=data.value
-                        /*var Len = searchlog.logdata.length;
-                        for(var i = 0;i<Len;i++){
-                            Vue.set(searchlog.logdata[i],'checked',false);
-                        }*/
-                    }
-                    else if(data.status==101){
+                    }else if(data.status==101){
                         layer.msg('没有数据');
-                    }
-                    else{
+                    }else if(data.status==1012){
+                        layer.msg('请先登录',{time:2000});
+                        
+                        setTimeout(function(){
+                            jumpLogin(loginUrl,NowUrl);
+                        },2000);
+                    }else if(data.status==1011){
+                        layer.msg('权限不足,请跟管理员联系');
+                    }else{
                         layer.msg('参数为空');
                     }
                 },
@@ -112,12 +137,22 @@ var searchlog = new Vue({
                 url:serverUrl+"delete/log",
                 datatype:'json',
                 data:{
+                    key:oKey,
+                    user_id:token,
                     url:url
                 },
                 success:function(data){
                     if (data.status==100){
                         searchlog.logdata=data.value
                         layer.msg('删除成功');
+                    }else if(data.status==1012){
+                        layer.msg('请先登录',{time:2000});
+                        
+                        setTimeout(function(){
+                            jumpLogin(loginUrl,NowUrl);
+                        },2000);
+                    }else if(data.status==1011){
+                        layer.msg('权限不足,请跟管理员联系');
                     }
                 },
                 error: function(jqXHR) {
@@ -134,18 +169,24 @@ var searchlog = new Vue({
                 url:serverUrl+'download/log',
                 datatype:"json",
                 data:{
+                    key:oKey,
+                    user_id:token,
                     url:dele
                 },
                 success:function(data){
-                    /*window.location=data*/
-                    /*window.open(data,"_blank");*/
                     var data =data;
-                    /*alert(data)*/
-                    //window.open(data,"_blank");
                     var oIframe = '<iframe src="'+data+'" frameborder="0" ></iframe>';
                     $('body').append(oIframe);
                     if (data.status==100){
 
+                    }else if(data.status==1012){
+                        layer.msg('请先登录',{time:2000});
+                        
+                        setTimeout(function(){
+                            jumpLogin(loginUrl,NowUrl);
+                        },2000);
+                    }else if(data.status==1011){
+                        layer.msg('权限不足,请跟管理员联系');
                     }
                 },
                 error: function(jqXHR) {
@@ -156,10 +197,6 @@ var searchlog = new Vue({
         }
 
     }
-
-
-
-
 })
 
 

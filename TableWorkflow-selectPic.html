@@ -108,6 +108,28 @@
         .searchCompent,.searchCompent2 {
             display: none;
         }
+        .bootstrap-tagsinput {
+            width: 100%;
+            min-height: 32px;
+            background-color: #ccc;
+            border: 1px solid #ccc;
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+            display: inline-block;
+            padding: 4px 6px;
+            color: #555;
+            vertical-align: middle;
+            border-radius: 4px;
+            max-width: 100%;
+            line-height: 22px;
+            cursor: text;
+            overflow: auto;
+        }
+        .hand {
+            cursor:pointer;
+        }
+        .marr {
+            margin: 0 4px;
+        }
     </style>
 </head>
     <body>
@@ -261,8 +283,12 @@
                                                     <div class="form-horizontal">
                                                         <div class="form-group">
                                                             <label class="col-sm-2 textLeft control-label text-primary">图片目录:</label>
-                                                            <div class="col-sm-2">
-                                                                <input type="text" v-model="selectedPic" class="form-control" placeholder="选择目录" readonly>
+                                                            <div class="col-sm-4">
+                                                                <div class="bootstrap-tagsinput hand">
+                                                                    <span class="tag label label-info marr" v-for="cata in cataselect">
+                                                                        {{cata.name}}
+                                                                    </span>
+                                                                </div>
                                                             </div>
                                                             <div class="col-sm-1">
                                                                 <button @click="selectPicfolder" class="btn btn-default btn-sm">选择目录</button>
@@ -274,7 +300,7 @@
                                                     <div class="form-horizontal">
                                                         <div class="form-group">
                                                             <label class="col-sm-2 textLeft control-label text-primary">图片标签(可选):</label>
-                                                            <div class="col-sm-2">
+                                                            <div class="col-sm-4">
                                                                 <input type="text" v-model="selectedTag" class="form-control" placeholder="选择标签" readonly>
                                                             </div>
                                                             <div class="col-sm-1">
@@ -614,17 +640,24 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header bg-primary">
-                        <h4 class="modal-title text-center">选择模板</h4>
+                        <h4 class="modal-title text-center">选择图片目录</h4>
                         <button type="button" class="close close-positon" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i class="fa fa-close"></i></span></button>
                     </div>
                     <div class="modal-body">
-                        <div class="container-fluid">
-                            <ul class="tree">
+                        <div class="container-fluid" >
+                            <ul class="tree" >
                                 <tree
                                     class="item"
                                     :pictree="pictree">
                                 </tree>
                             </ul>
+                        </div>
+                        <div><h5>已经选中的目录</h5>
+                            <div class="bootstrap-tagsinput hand">
+                            <span @click="removecata(cata)" class="tag label label-info marr" v-for="cata in cataselect">
+                                {{cata.name}}<span class="fa fa-remove" @click="removecata(cata)"></span>
+                            </span>
+                        </div>
                         </div>
                     </div>
                 </div>
@@ -646,9 +679,10 @@
                     <b v-show="pictree.id">图片数量:{{pictree.picture_count}}</b>
                     {{pictree.warning}}
                     <span class="text-white" v-if="isFolderP">[{{open ? '-' : '+'}}]</span>
+                    <span class="fa fa-arrow-circle-down marr" @click="selectOne(pictree)">点击选择</span>
                 </div>
                 <p v-show="!pictree.id">没有图片目录</p>
-                <ul class="tree2" v-show="open" v-if="isFolderP">
+                <ul class="tree2" v-show="open" v-if="isFolderP" >
                     <tree
                         class="item"
                         v-for="pictree in pictree.children"
