@@ -118,6 +118,7 @@ var tree = new Vue({
             var vm = this;
             var selectedData = this.selectedData;
             var addOne = this.addOne;
+            var creator_id = cookie.get('id');//创建者的ID
             var oIndex = selectedData.sonLen + 1; //排序,默认加到最后面
             //发起添加请求
             if (!addOne.name.trim()) {
@@ -130,6 +131,7 @@ var tree = new Vue({
                     data: {
                         key:oKey,
                         user_id:token,
+                        creator_id:creator_id,
                         name: addOne.name,
                         introduce:addOne.introduce,
                         p_id: selectedData.id,

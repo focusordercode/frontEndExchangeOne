@@ -19,6 +19,7 @@ var oCreat = new Vue({
     	//创建产品
     	creatProduct:function(){
     		var vm = oCreat;
+            var creator_id = cookie.get('id');
     		if(!(this.name.trim())){
     			this.en_alert = true;
     		}else{
@@ -29,6 +30,9 @@ var oCreat = new Vue({
     			    url:serverUrl+'add/centeritem',
     			    datatype:'json',
     			    data:{
+                        key:oKey,
+                        user_id:token,
+                        creator_id:creator_id,
     			        name:vm.name,
     			        remark:vm.remark,
     			        enabled:vm.enabled,
@@ -39,7 +43,15 @@ var oCreat = new Vue({
     			            layer.msg('保存成功');
     			            vm.name = '';
     			            vm.remark = '';
-    			        }else{
+    			        }else if(data.status==1012){
+                            layer.msg('请先登录',{time:2000});
+
+                            setTimeout(function(){
+                                jumpLogin(loginUrl,NowUrl);
+                            },2000);
+                        }else if(data.status==1011){
+                            layer.msg('权限不足,请跟管理员联系');
+                        }else{
     			            layer.msg(data.msg);
     			        }
     			    },
@@ -62,9 +74,13 @@ var oCreat = new Vue({
 
     			var vm = oCreat;
     			var state = 'many';//类型
+                var creator_id = cookie.get('id');
     			var formData = new FormData();
     			formData.append('file', $('#file')[0].files[0]);//文件
     			formData.append('state', state);//参数
+                formData.append('key', oKey);//参数
+                formData.append('user_id', token);//参数
+                formData.append('creator_id', creator_id);//创建者的ID
 
     			$.ajax({
     			    url:serverUrl+'add/centeritem',
@@ -78,7 +94,15 @@ var oCreat = new Vue({
     			        if(data.status==100){
     			            layer.msg('上传成功');
     			            vm.respons = data.value;
-    			        }else{
+    			        }else if(data.status==1012){
+                            layer.msg('请先登录',{time:2000});
+
+                            setTimeout(function(){
+                                jumpLogin(loginUrl,NowUrl);
+                            },2000);
+                        }else if(data.status==1011){
+                            layer.msg('权限不足,请跟管理员联系');
+                        }else{
     			            layer.msg(data.msg);
     			        }
     			    },

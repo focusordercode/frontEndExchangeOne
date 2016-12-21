@@ -21,6 +21,10 @@ console.log(serverUrl); //后端接口地址
                     type: "GET",    
                     url: serverUrl+"get/imageancestors", //添加请求地址的参数
                     dataType: "json",
+                    data:{
+                        key:oKey,
+                        user_id:token, 
+                    },
                     success: function(data){
                         if(data.status == 100){
                             for($i=0;$i<data.value.length;$i++){
@@ -43,6 +47,14 @@ console.log(serverUrl); //后端接口地址
                                 $oDelete.css('display','inline-block');
                             });
                             
+                        }else if(data.status==1012){
+                            layer.msg('请先登录',{time:2000});
+
+                            setTimeout(function(){
+                                jumpLogin(loginUrl,NowUrl);
+                            },2000);
+                        }else if(data.status==1011){
+                            layer.msg('权限不足,请跟管理员联系');
                         }
                              
                     },
@@ -62,6 +74,8 @@ console.log(serverUrl); //后端接口地址
                     url: serverUrl+"get/imagesub", //添加请求地址的参数
                     dataType: "json",
                     data:{
+                        key:oKey,
+                        user_id:token,
                         id:ids,
                         app_code:app_codes
                     },
@@ -81,6 +95,14 @@ console.log(serverUrl); //后端接口地址
                             $("li[name='"+ids+"']").find("ul").remove();
                             $("li[name='"+ids+"']").append($str);
                             // $('#level-content a[title="en"]').hide();//隐藏英文名
+                        }else if(data.status==1012){
+                            layer.msg('请先登录',{time:2000});
+
+                            setTimeout(function(){
+                                jumpLogin(loginUrl,NowUrl);
+                            },2000);
+                        }else if(data.status==1011){
+                            layer.msg('权限不足,请跟管理员联系');
                         }
                     },
                     error: function(jqXHR){     
@@ -115,22 +137,32 @@ console.log(serverUrl); //后端接口地址
                         url: serverUrl+"update/imagesub", //添加请求地址的参数
                         dataType: "json",
                         data:{
+                            key:oKey,
+                            user_id:token,
                             id:$oLiName,
                             cn_name:$oCn_name2,
                             en_name:$oEn_name2
                         },
                         success: function(data){
-                               if(data.status==100){
-                                    $('#level-content .li_selected > span  a[title="选择"]').text($oCn_name2);
-                                    $('#level-content .li_selected > span  a[title="en"]').text($oEn_name2);
-                                    layer.msg('修改成功');
-                               }else if(data.status==101){
-                                    layer.msg('操作失败，请重试');
-                               }else if (data.status==104) {
-                                    layer.msg('中文名称为空');
-                               }else if (data.status==105) {
-                                    layer.msg('英文名称为空');
-                               }
+                           if(data.status==100){
+                                $('#level-content .li_selected > span  a[title="选择"]').text($oCn_name2);
+                                $('#level-content .li_selected > span  a[title="en"]').text($oEn_name2);
+                                layer.msg('修改成功');
+                           }else if(data.status==101){
+                                layer.msg('操作失败，请重试');
+                           }else if (data.status==104) {
+                                layer.msg('中文名称为空');
+                           }else if (data.status==105) {
+                                layer.msg('英文名称为空');
+                           }else if(data.status==1012){
+                                layer.msg('请先登录',{time:2000});
+
+                                setTimeout(function(){
+                                    jumpLogin(loginUrl,NowUrl);
+                                },2000);
+                            }else if(data.status==1011){
+                                layer.msg('权限不足,请跟管理员联系');
+                            }
                         },
                         error: function(jqXHR){     
                             layer.msg('服务器请求错误');
@@ -151,6 +183,8 @@ console.log(serverUrl); //后端接口地址
                             url: serverUrl+"delete/imagesub", //添加请求地址的参数
                             dataType: "json",
                             data:{
+                                key:oKey,
+                                user_id:token,
                                 id:$oLiName,
                                 app_code:$oApp_code
                             },
@@ -162,6 +196,14 @@ console.log(serverUrl); //后端接口地址
                                     layer.msg('操作失败，检查分类是否已经被使用');
                                 }else if(data.status==112){
                                     layer.msg('顶级分类不能删除');
+                                }else if(data.status==1012){
+                                    layer.msg('请先登录',{time:2000});
+
+                                    setTimeout(function(){
+                                        jumpLogin(loginUrl,NowUrl);
+                                    },2000);
+                                }else if(data.status==1011){
+                                    layer.msg('权限不足,请跟管理员联系');
                                 }
                             },
                             error: function(jqXHR){     
@@ -203,6 +245,8 @@ console.log(serverUrl); //后端接口地址
                         url: serverUrl+"post/imagesub", //添加请求地址的参数
                         dataType: "json",
                         data:{
+                            key:oKey,
+                            user_id:token,
                             id:$oLiName,
                             app_code:$oLiAppcode,
                             cn_name:$oCn_name,
@@ -220,6 +264,14 @@ console.log(serverUrl); //后端接口地址
                                 layer.msg('中文名错误');
                             }else if(data.status==105){
                                 layer.msg('英文名错误');
+                            }else if(data.status==1012){
+                                layer.msg('请先登录',{time:2000});
+
+                                setTimeout(function(){
+                                    jumpLogin(loginUrl,NowUrl);
+                                },2000);
+                            }else if(data.status==1011){
+                                layer.msg('权限不足,请跟管理员联系');
                             }
                         },
                         error: function(jqXHR){     

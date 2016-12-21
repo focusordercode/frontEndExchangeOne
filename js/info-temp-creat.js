@@ -46,6 +46,7 @@ var tempCreat = new Vue({
         //保存模板信息
         sendMsg:function(){
             var vm = tempCreat;
+            var creator_id = cookie.get('id');
             if(!this.cn_name.trim()){
                 layer.msg('中文名不能为空');
             }else if(!this.en_name.trim()||!Entext.test(this.en_name)){
@@ -60,6 +61,7 @@ var tempCreat = new Vue({
                     data:{
                         key:oKey,
                         user_id:token,
+                        creator_id:creator_id,
                         en_name:vm.en_name,
                         cn_name:vm.cn_name,
                         remark:vm.remark,

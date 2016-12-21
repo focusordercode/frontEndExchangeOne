@@ -123,10 +123,22 @@ function updateData () {
 		type:'POST',
 		url:serverUrl+'get/businessmodel',
 		datatype:'json',
+		data:{
+			key:oKey,
+    		user_id:token,
+		},
 		success:function (data) {
 			if (data.status==100) {
 				model.valueList = data.value;
-			}else{
+			}else if(data.status==1012){
+                layer.msg('请先登录',{time:2000});
+                
+                setTimeout(function(){
+                    jumpLogin(loginUrl,NowUrl);
+                },2000);
+            }else if(data.status==1011){
+                layer.msg('权限不足,请跟管理员联系');
+            }else{
 				layer.msg(data.msg);
 			}
 		},

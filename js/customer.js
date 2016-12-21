@@ -39,6 +39,8 @@ var customer = new Vue({
 			url:serverUrl+'get/custom',
 			datatype:'json',
 			data:{
+				key:oKey,
+                user_id:token,
 				pageSize:num
 			},
 			success:function(data){
@@ -54,7 +56,15 @@ var customer = new Vue({
 					}
 				}else if(data.status==101){
 					layer.msg('获取失败，客户信息为空');
-				}
+				}else if(data.status==1012){
+                    layer.msg('请先登录',{time:2000});
+
+                    setTimeout(function(){
+                        jumpLogin(loginUrl,NowUrl);
+                    },2000);
+                }else if(data.status==1011){
+                    layer.msg('权限不足,请跟管理员联系');
+                }
 			},
 			error:function(jqXHR){
 				layer.close(LoadIndex); //关闭遮罩层
@@ -118,6 +128,8 @@ var customer = new Vue({
 						url:serverUrl+'delete/custom',
 						datatype:'json',
 						data:{
+							key:oKey,
+                			user_id:token,
 							id:checkedArr
 						},
 						success:function(data){
@@ -126,7 +138,15 @@ var customer = new Vue({
 								setInterval(windowFresh,1000);
 							}else if(data.status==101){
 								layer.msg('操作失败');
-							}else{
+							}else if(data.status==1012){
+			                    layer.msg('请先登录',{time:2000});
+
+			                    setTimeout(function(){
+			                        jumpLogin(loginUrl,NowUrl);
+			                    },2000);
+			                }else if(data.status==1011){
+			                    layer.msg('权限不足,请跟管理员联系');
+			                }else{
 								layer.msg(data.msg);
 							}
 						},
@@ -151,6 +171,8 @@ var customer = new Vue({
 					url:serverUrl+'delete/custom',
 					datatype:'json',
 					data:{
+						key:oKey,
+                		user_id:token,
 						id:table.id
 					},
 					success:function(data){
@@ -160,7 +182,15 @@ var customer = new Vue({
 							setTimeout(getPageData (vm,pageNow,num),1000);
 						}else if(data.status==101){
 							layer.msg('操作失败');
-						}else{
+						}else if(data.status==1012){
+		                    layer.msg('请先登录',{time:2000});
+
+		                    setTimeout(function(){
+		                        jumpLogin(loginUrl,NowUrl);
+		                    },2000);
+		                }else if(data.status==1011){
+		                    layer.msg('权限不足,请跟管理员联系');
+		                }else{
 							layer.msg(data.msg);
 						}
 					},
@@ -198,6 +228,8 @@ var customer = new Vue({
 					url:serverUrl+'post/custom',
 					datatype:'json',
 					data:{
+						key:oKey,
+                		user_id:token,
 						data:addNew
 					},
 					success:function(data){
@@ -208,7 +240,15 @@ var customer = new Vue({
 							layer.msg('操作失败');
 						}else if(data.status==102){
 							layer.msg('参数错误');
-						}else{
+						}else if(data.status==1012){
+		                    layer.msg('请先登录',{time:2000});
+
+		                    setTimeout(function(){
+		                        jumpLogin(loginUrl,NowUrl);
+		                    },2000);
+		                }else if(data.status==1011){
+		                    layer.msg('权限不足,请跟管理员联系');
+		                }else{
 							layer.msg(data.msg);
 						}
 					},
@@ -249,6 +289,8 @@ var customer = new Vue({
 					url:serverUrl+'update/custom',
 					datatype:'json',
 					data:{
+						key:oKey,
+                		user_id:token,
 						data:addNew
 					},
 					success:function(data){
@@ -260,7 +302,15 @@ var customer = new Vue({
 							layer.msg('操作失败,未作出任何修改');
 						}else if(data.status==102){
 							layer.msg('参数错误');
-						}else{
+						}else if(data.status==1012){
+		                    layer.msg('请先登录',{time:2000});
+
+		                    setTimeout(function(){
+		                        jumpLogin(loginUrl,NowUrl);
+		                    },2000);
+		                }else if(data.status==1011){
+		                    layer.msg('权限不足,请跟管理员联系');
+		                }else{
 							layer.msg(data.msg);
 						}
 					},
@@ -385,6 +435,8 @@ function getPageData (vm,pageNow,num) {
     	url:serverUrl+'get/custom',
     	datatype:'json',
     	data:{
+    		key:oKey,
+            user_id:token,
     		pageNow:pageNow,
     		pageSize:num
     	},
@@ -399,7 +451,15 @@ function getPageData (vm,pageNow,num) {
     			for(var i = 0;i<cusLen;i++){
     				Vue.set(vm.cusData[i],'checked',false);
     			}
-    		}else{
+    		}else if(data.status==1012){
+                layer.msg('请先登录',{time:2000});
+
+                setTimeout(function(){
+                    jumpLogin(loginUrl,NowUrl);
+                },2000);
+            }else if(data.status==1011){
+                layer.msg('权限不足,请跟管理员联系');
+            }else{
     			layer.msg(data.msg);
     		}
     	},

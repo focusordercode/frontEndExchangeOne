@@ -222,6 +222,7 @@ var TableCreat = new Vue({
 
 //提交表格信息函数
 function submitTable (vm) {
+	var creator_id = cookie.get('id');
 	$.ajax({
 		type:'POST',
 		url:serverUrl+'add/infoform',
@@ -229,6 +230,7 @@ function submitTable (vm) {
 		data:{
 			key:oKey,
 			user_id:token,
+			creator_id:creator_id,
 			type_code:'info',
 			form_no:vm.tableID,
 			category_id:vm.proSelectedId,
@@ -236,8 +238,8 @@ function submitTable (vm) {
 			client_id:vm.CusSelectId,
 			title:vm.tableName,
 			product_count:vm.product_count,
-			variant_num:vm.variant_num,
-			creator_id:vm.creator_id
+			variant_num:vm.variant_num
+			
 		},
 		success:function(data){
 			if(data.status==100){

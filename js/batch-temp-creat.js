@@ -45,7 +45,7 @@ var creatTemp = new Vue({
 
             //英文正则,英文数字和空格
             var Entext = /^[a-zA-Z_()\s]+[0-9]*$/;
-
+            var creator_id = cookie.get('id');
             if(!this.cn_name.trim()){
                 layer.msg('中文名不能为空');
             }else if(!Entext.test(this.en_name)||!this.en_name){
@@ -60,6 +60,7 @@ var creatTemp = new Vue({
                     data:{
                         key:oKey,
                         user_id:token,
+                        creator_id:creator_id,
                         cn_name:creatTemp.cn_name,
                         en_name:creatTemp.en_name,
                         remark:creatTemp.remark,

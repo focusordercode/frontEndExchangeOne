@@ -282,7 +282,7 @@ var tempRelate = new Vue({
             var batch_template_id = this.temp.id;
             var template_id = this.MBselectedId;
             var relateData = this.relateData;
-
+            var creator_id = cookie.get('id');
             if(this.relateData.length<=0){
                 layer.msg('请先添加数据');
             }else{
@@ -293,6 +293,7 @@ var tempRelate = new Vue({
                     data:{
                         key:oKey,
                         user_id:token,
+                        creator_id:creator_id,
                         batch_template_id:batch_template_id,
                         template_id:template_id,
                         data:relateData

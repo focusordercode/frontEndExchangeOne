@@ -24,6 +24,8 @@ var upcInfo = new Vue({
             url: serverUrl+"get/upc", //添加请求地址的参数
             dataType: "json",
             data:{
+                key:oKey,
+                user_id:token,
                 pageNum:pageNum
             },
             success: function(data){
@@ -42,6 +44,14 @@ var upcInfo = new Vue({
                     layer.msg('参数错误');
                 }else if(data.status==110){
                     layer.msg('没有UPC');
+                }else if(data.status==1012){
+                    layer.msg('请先登录',{time:2000});
+
+                    setTimeout(function(){
+                        jumpLogin(loginUrl,NowUrl);
+                    },2000);
+                }else if(data.status==1011){
+                    layer.msg('权限不足,请跟管理员联系');
                 }
             },
             error: function(jqXHR){
@@ -150,6 +160,8 @@ function getPageData(vm,pageNow) {
         url: serverUrl+"get/upc", //添加请求地址的参数
         dataType: "json",
         data:{
+            key:oKey,
+            user_id:token,
             pageNum:pageNow
         },
         success: function(data){
@@ -168,6 +180,14 @@ function getPageData(vm,pageNow) {
                 layer.msg('参数错误');
             }else if(data.status==110){
                 layer.msg('没有UPC');
+            }else if(data.status==1012){
+                layer.msg('请先登录',{time:2000});
+
+                setTimeout(function(){
+                    jumpLogin(loginUrl,NowUrl);
+                },2000);
+            }else if(data.status==1011){
+                layer.msg('权限不足,请跟管理员联系');
             }
         },
         error: function(jqXHR){
@@ -185,6 +205,8 @@ $('#upload').on('click',function(){
     }else{
         var formData = new FormData();
         formData.append('file', $('#file')[0].files[0]);
+        formData.append('key', oKey);//参数
+        formData.append('user_id', token);//参数
         var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层 
         $.ajax({
             url: serverUrl+'post/upc',
@@ -207,6 +229,14 @@ $('#upload').on('click',function(){
                 layer.msg('上传文件大小超过1M');
             }else if(res.status==105){
                 layer.msg('文档upc格式不符合要求');
+            }else if(data.status==1012){
+                layer.msg('请先登录',{time:2000});
+
+                setTimeout(function(){
+                    jumpLogin(loginUrl,NowUrl);
+                },2000);
+            }else if(data.status==1011){
+                layer.msg('权限不足,请跟管理员联系');
             }
         }).fail(function(res) {
             layer.close(LoadIndex); //关闭遮罩层

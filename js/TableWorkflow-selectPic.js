@@ -59,6 +59,8 @@ Vue.component('tree', {
         var oSame = getSame(id,cataselect);
         if(oSame){
             layer.msg('已经添加过了!',{time:1000});
+        }else if (cataselect.length>4) {
+            layer.msg('最多选取5个目录');
         }else{
             cataselect.push(addOne);
         }
@@ -74,6 +76,7 @@ var selectPic = new Vue({
         tableInfo:'',
         pictree:{},
         selectedPic:'',
+        selectedTag:'',//标签内容
         selectedPicId:'',
         pic_rate:'',
         pro_rate:'',
@@ -242,6 +245,7 @@ var selectPic = new Vue({
             var pro_rate = vm.pro_rate;
             var re_date = vm.re_date;
             var file_type = vm.file_type;
+            var selectedTag = vm.selectedTag;
             if(!gallery_id){
                 layer.msg('请先选择图片目录');
             }else{
@@ -262,7 +266,8 @@ var selectPic = new Vue({
                         pic_rate:pic_rate,
                         pro_rate:pro_rate,
                         re_date:re_date,
-                        file_type:file_type
+                        file_type:file_type,
+                        tag:selectedTag
                     },
                     success:function(data){
                         layer.close(LoadIndex); //关闭遮罩层
@@ -361,6 +366,7 @@ var selectPic = new Vue({
         //跳转到编辑步骤,发送数据
         NextStep:function () {
             var vm = this;
+            var creator_id = cookie.get('id');
             if (vm.tableData.length<1) {
                 layer.msg('请先选择图片匹配完成');
             }else{
@@ -371,6 +377,7 @@ var selectPic = new Vue({
                     data:{
                         key:oKey,
                         user_id:token,
+                        creator_id:creator_id,
                         form_no:vm.tableInfo.form_no,
                         category_id:vm.tableInfo.category_id,
                         picData:vm.picData,

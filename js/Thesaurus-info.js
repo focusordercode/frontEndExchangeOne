@@ -49,11 +49,21 @@ var oInfo = new Vue({
             url:serverUrl+'get/centeritem',
             datatype:'json',
             data:{
+                key:oKey,
+                user_id:token,
                 id:itemId
             },
             success:function(data){
                 if(data.status==100){
                     oInfo.info = data.value[0];
+                }else if(data.status==1012){
+                    layer.msg('请先登录',{time:2000});
+
+                    setTimeout(function(){
+                        jumpLogin(loginUrl,NowUrl);
+                    },2000);
+                }else if(data.status==1011){
+                    layer.msg('权限不足,请跟管理员联系');
                 }else{
                     layer.msg(data.msg);
                 }
@@ -69,6 +79,8 @@ var oInfo = new Vue({
             url:serverUrl+'get/centeritemvalue',
             datatype:'json',
             data:{
+                key:oKey,
+                user_id:token,
                 id:itemId
             },
             success:function(data){
@@ -80,6 +92,14 @@ var oInfo = new Vue({
                     }
                 }else if(data.status==101) {
                     
+                }else if(data.status==1012){
+                    layer.msg('请先登录',{time:2000});
+
+                    setTimeout(function(){
+                        jumpLogin(loginUrl,NowUrl);
+                    },2000);
+                }else if(data.status==1011){
+                    layer.msg('权限不足,请跟管理员联系');
                 }else{
                     layer.msg(data.msg);
                 }
@@ -95,6 +115,8 @@ var oInfo = new Vue({
             url:serverUrl+'get/center2good',
             datatype:'json',
             data:{
+                key:oKey,
+                user_id:token,
                 id:itemId
             },
             success:function(data){
@@ -103,6 +125,14 @@ var oInfo = new Vue({
                     oInfo.relateValList = data.value;
                 }else if(data.status==101) {
                     
+                }else if(data.status==1012){
+                    layer.msg('请先登录',{time:2000});
+
+                    setTimeout(function(){
+                        jumpLogin(loginUrl,NowUrl);
+                    },2000);
+                }else if(data.status==1011){
+                    layer.msg('权限不足,请跟管理员联系');
                 }else{
                     layer.msg(data.msg);
                 }
@@ -139,6 +169,8 @@ var oInfo = new Vue({
                         url:serverUrl+'delete/centeritem',
                         datatype:'json',
                         data:{
+                            key:oKey,
+                            user_id:token,
                             id:id
                         },
                         success:function (data) {
@@ -151,6 +183,14 @@ var oInfo = new Vue({
                                 }
 
                                 setInterval(goNext,1000);
+                            }else if(data.status==1012){
+                                layer.msg('请先登录',{time:2000});
+
+                                setTimeout(function(){
+                                    jumpLogin(loginUrl,NowUrl);
+                                },2000);
+                            }else if(data.status==1011){
+                                layer.msg('权限不足,请跟管理员联系');
                             }else{
                                 layer.msg(data.msg);
                             }

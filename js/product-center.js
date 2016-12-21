@@ -57,6 +57,8 @@ var oPCenter = new Vue({
     	    url:serverUrl+'get/allproductcenter',
     	    datatype:'json',
     	    data:{
+                key:oKey,
+                user_id:token,
     	    	num:num
     	    },
     	    success:function(data){
@@ -66,7 +68,15 @@ var oPCenter = new Vue({
     	            oPCenter.pageNow = data.nowpages;
     	            oPCenter.countPage = data.pages;
     	            oPCenter.count = data.count;
-    	        }else{
+    	        }else if(data.status==1012){
+                    layer.msg('请先登录',{time:2000});
+
+                    setTimeout(function(){
+                        jumpLogin(loginUrl,NowUrl);
+                    },2000);
+                }else if(data.status==1011){
+                    layer.msg('权限不足,请跟管理员联系');
+                }else{
     	            layer.msg(data.msg);
     	        }
     	    },
@@ -128,6 +138,8 @@ var oPCenter = new Vue({
     					url:serverUrl+'delete/productcenter',
     					datatype:'json',
     					data:{
+                            key:oKey,
+                            user_id:token,
     						id:item.id
     					},
     					success:function (data) {
@@ -136,7 +148,15 @@ var oPCenter = new Vue({
     							vm.list.$remove(item);
                                 //重新拉取数据
                                 setTimeout(getPageData (vm,pageNow,search,num),1000);
-    						}else{
+    						}else if(data.status==1012){
+                                layer.msg('请先登录',{time:2000});
+
+                                setTimeout(function(){
+                                    jumpLogin(loginUrl,NowUrl);
+                                },2000);
+                            }else if(data.status==1011){
+                                layer.msg('权限不足,请跟管理员联系');
+                            }else{
     							layer.msg(data.msg);
     						}
     					},
@@ -177,6 +197,8 @@ var oPCenter = new Vue({
     				url:serverUrl+'get/allproductcenter',
     				datatype:'json',
     				data:{
+                        key:oKey,
+                        user_id:token,
     					category_id:category_id,
     					enabled:enabled,
     					vague:vague,
@@ -194,7 +216,15 @@ var oPCenter = new Vue({
                             vm.searchResult = newObj;
     					}else if(data.status==101){
     						layer.msg('没有搜索到数据');
-    					}else{
+    					}else if(data.status==1012){
+                            layer.msg('请先登录',{time:2000});
+
+                            setTimeout(function(){
+                                jumpLogin(loginUrl,NowUrl);
+                            },2000);
+                        }else if(data.status==1011){
+                            layer.msg('权限不足,请跟管理员联系');
+                        }else{
     						layer.msg(data.msg);
     					}
     				},
@@ -267,6 +297,8 @@ function getPageData (vm,pageNow,search,num) {
         url:serverUrl+'get/allproductcenter',
         datatype:'json',
         data:{
+            key:oKey,
+            user_id:token,
             pages:pageNow,
             num:num,
             category_id:search.cateId,
@@ -284,6 +316,14 @@ function getPageData (vm,pageNow,search,num) {
                 layer.msg('操作失败');
             }else if(data.status==102){
                 layer.msg('参数错误');
+            }else if(data.status==1012){
+                layer.msg('请先登录',{time:2000});
+
+                setTimeout(function(){
+                    jumpLogin(loginUrl,NowUrl);
+                },2000);
+            }else if(data.status==1011){
+                layer.msg('权限不足,请跟管理员联系');
             }
         },
         error:function(jqXHR){
@@ -303,12 +343,22 @@ $(document).ready(function(){
 	    	    url:search,
 	    	    datatype:'json',
 	    	    data:{
+                    key:oKey,
+                    user_id:token,
 	    	        text:searchCusVal
 	    	    },
 	    	    success:function(data){
 	    	        if(data.status==100){
 	    	            oPCenter.proList = data.value;
-	    	        }else{
+	    	        }else if(data.status==1012){
+                        layer.msg('请先登录',{time:2000});
+
+                        setTimeout(function(){
+                            jumpLogin(loginUrl,NowUrl);
+                        },2000);
+                    }else if(data.status==1011){
+                        layer.msg('权限不足,请跟管理员联系');
+                    }else{
 	    	            oPCenter.proList= '';
 	    	        }
 	    	    },

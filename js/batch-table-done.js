@@ -97,6 +97,7 @@ var oTableIn = new Vue({
         //生成表格
         makeExcel:function(){
             var vm = this;
+            var creator_id = cookie.get('id');
             layer.confirm('生成表格需要较长时间请耐心等待',{
                 btn:['确定','取消']
             },function(index){
@@ -111,6 +112,7 @@ var oTableIn = new Vue({
                     data:{
                         key:oKey,
                         user_id:token,
+                        creator_id:creator_id,
                         form_id:tableID,
                         productSelect:vm.productSelect,
                         template_id:template_id

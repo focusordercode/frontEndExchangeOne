@@ -203,6 +203,7 @@ var tableCreat = new Vue({
 		saveTable:function(){
 			var vm = this;
 			var product_num = vm.product_num.trim();//产品数量
+			var creator_id = cookie.get('id');
 			var numTest= /^[0-9]*[1-9][0-9]*$/;//正整数正则
 			vm.file_name = vm.tableSelected.company_name + "-" + vm.tableName;
 			var file_name = $.trim( vm.file_name );
@@ -229,6 +230,7 @@ var tableCreat = new Vue({
 					data:{
 						key:oKey,
                 		user_id:token,
+                		creator_id:creator_id,
 						type_code:type_code, 
 						category_id:vm.proSelectedId,//类目ID
 						template_id:vm.MBselected.id,//模板ID

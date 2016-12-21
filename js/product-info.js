@@ -62,12 +62,22 @@ var oInfo = new Vue({
 		    url:serverUrl+'get/productcenter',
 		    datatype:'json',
 		    data:{
+		    	key:oKey,
+                user_id:token,
 		        id:itemId
 		    },
 		    success:function(data){
 		        if(data.status==100){
 		            oInfo.info = data.value[0];
-		        }else{
+		        }else if(data.status==1012){
+                    layer.msg('请先登录',{time:2000});
+
+                    setTimeout(function(){
+                        jumpLogin(loginUrl,NowUrl);
+                    },2000);
+                }else if(data.status==1011){
+                    layer.msg('权限不足,请跟管理员联系');
+                }else{
 		            layer.msg(data.msg);
 		        }
 		    },
@@ -103,6 +113,8 @@ var oInfo = new Vue({
 						url:serverUrl+'delete/productcenter',
 						datatype:'json',
 						data:{
+							key:oKey,
+                			user_id:token,
 							id:item.id
 						},
 						success:function (data) {
@@ -115,7 +127,15 @@ var oInfo = new Vue({
 								}
 
 								setInterval(goNext,1000);
-							}else{
+							}else if(data.status==1012){
+			                    layer.msg('请先登录',{time:2000});
+
+			                    setTimeout(function(){
+			                        jumpLogin(loginUrl,NowUrl);
+			                    },2000);
+			                }else if(data.status==1011){
+			                    layer.msg('权限不足,请跟管理员联系');
+			                }else{
 								layer.msg(data.msg);
 							}
 						},
@@ -157,6 +177,7 @@ var oInfo = new Vue({
 				info = vm.info;
 			//英文正则,英文数字和空格
 			var Entext = /^[a-zA-Z_()\s]+[0-9]*$/;
+			var creator_id = cookie.get('id');
 			if(!(info.cn_name.trim())){
 				this.cn_alert = true;
 			}else if(!Entext.test(info.en_name)||!(info.en_name.trim())){
@@ -176,6 +197,9 @@ var oInfo = new Vue({
 				    url:serverUrl+'set/productcenter',
 				    datatype:'json',
 				    data:{
+				    	key:oKey,
+                		user_id:token,
+                		creator_id:creator_id,
 				    	id:info.id,
 				        cn_name:info.cn_name,
 				        en_name:info.en_name,
@@ -197,7 +221,15 @@ var oInfo = new Vue({
 				            }
 				            setInterval(goNext,1000);
 
-				        }else{
+				        }else if(data.status==1012){
+		                    layer.msg('请先登录',{time:2000});
+
+		                    setTimeout(function(){
+		                        jumpLogin(loginUrl,NowUrl);
+		                    },2000);
+		                }else if(data.status==1011){
+		                    layer.msg('权限不足,请跟管理员联系');
+		                }else{
 				            layer.msg(data.msg);
 				        }
 				    },
@@ -232,11 +264,21 @@ $('.searchCate').on('keyup',function(){
         url:search,
         datatype:'json',
         data:{
+        	key:oKey,
+            user_id:token,
             text:searchCusVal
         },
         success:function(data){
             if(data.status==100){
                 oInfo.proList = data.value;
+            }else if(data.status==1012){
+                layer.msg('请先登录',{time:2000});
+
+                setTimeout(function(){
+                    jumpLogin(loginUrl,NowUrl);
+                },2000);
+            }else if(data.status==1011){
+                layer.msg('权限不足,请跟管理员联系');
             }else{
                 oInfo.proList= '';
             }

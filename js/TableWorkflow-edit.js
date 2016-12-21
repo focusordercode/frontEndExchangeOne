@@ -262,6 +262,7 @@ var oTableIn = new Vue({
             var vm = this;
             var DefaultData = vm.defaultVal;
             var VariantData = vm.variantVal;
+            var creator_id = cookie.get('id');
 
             //检查录入项是否为空
             var checkArr1 = [];
@@ -305,6 +306,7 @@ var oTableIn = new Vue({
                     data:{
                         key:oKey,
                         user_id:token,
+                        creator_id:creator_id,
                         table_info:vm.info,
                         getdata:getdata,
                         reludata:vm.fillRule

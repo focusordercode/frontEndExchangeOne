@@ -42,6 +42,8 @@ var picGallery = new Vue({
             url:serverUrl+'get/image',
             datatype:'json',
             data:{
+                key:oKey,
+                user_id:token,
                 rubbish:1
             },
             success:function(data){
@@ -62,6 +64,14 @@ var picGallery = new Vue({
                     layer.msg('没有获取到图片,回收站没有图片');  //没有图片不提示了
                 }else if(data.status==102){
                     layer.msg('参数错误');
+                }else if(data.status==1012){
+                    layer.msg('请先登录',{time:2000});
+
+                    setTimeout(function(){
+                        jumpLogin(loginUrl,NowUrl);
+                    },2000);
+                }else if(data.status==1011){
+                    layer.msg('权限不足,请跟管理员联系');
                 }
             },
             error:function(jqXHR){
@@ -113,6 +123,8 @@ var picGallery = new Vue({
                     url:serverUrl+'delete/image',
                     datatype:'json',
                     data:{
+                        key:oKey,
+                        user_id:token,
                         id:pic.id,
                         delete_type:2 //传个1以外的值彻底删除图片
                     },
@@ -120,6 +132,14 @@ var picGallery = new Vue({
                         if(data.status==100){
                             layer.msg('删除成功');
                             update(pic);
+                        }else if(data.status==1012){
+                            layer.msg('请先登录',{time:2000});
+
+                            setTimeout(function(){
+                                jumpLogin(loginUrl,NowUrl);
+                            },2000);
+                        }else if(data.status==1011){
+                            layer.msg('权限不足,请跟管理员联系');
                         }else{
                             layer.msg(data.msg);
                         }
@@ -139,6 +159,8 @@ var picGallery = new Vue({
                     url:serverUrl+'get/image',
                     datatype:'json',
                     data:{
+                        key:oKey,
+                        user_id:token,
                         rubbish:1,
                         pageNum:picGallery.pageNow
                     },
@@ -160,6 +182,14 @@ var picGallery = new Vue({
                             // layer.msg('没有获取到图片');  //没有图片不提示了
                         }else if(data.status==102){
                             layer.msg('参数错误');
+                        }else if(data.status==1012){
+                            layer.msg('请先登录',{time:2000});
+
+                            setTimeout(function(){
+                                jumpLogin(loginUrl,NowUrl);
+                            },2000);
+                        }else if(data.status==1011){
+                            layer.msg('权限不足,请跟管理员联系');
                         }
                     },
                     error:function(jqXHR){
@@ -187,6 +217,8 @@ var picGallery = new Vue({
                     url:serverUrl+'get/image',
                     datatype:'json',
                     data:{
+                        key:oKey,
+                        user_id:token,
                         rubbish:1,
                         pageNum:page
                     },
@@ -208,6 +240,14 @@ var picGallery = new Vue({
                             // layer.msg('没有获取到图片');  //没有图片不提示了
                         }else if(data.status==102){
                             layer.msg('参数错误');
+                        }else if(data.status==1012){
+                            layer.msg('请先登录',{time:2000});
+
+                            setTimeout(function(){
+                                jumpLogin(loginUrl,NowUrl);
+                            },2000);
+                        }else if(data.status==1011){
+                            layer.msg('权限不足,请跟管理员联系');
                         }
                     },
                     error:function(jqXHR){
@@ -235,6 +275,8 @@ var picGallery = new Vue({
                     url:serverUrl+'get/image',
                     datatype:'json',
                     data:{
+                        key:oKey,
+                        user_id:token,
                         rubbish:1,
                         pageNum:page
                     },
@@ -256,6 +298,14 @@ var picGallery = new Vue({
                             // layer.msg('没有获取到图片');  //没有图片不提示了
                         }else if(data.status==102){
                             layer.msg('参数错误');
+                        }else if(data.status==1012){
+                            layer.msg('请先登录',{time:2000});
+
+                            setTimeout(function(){
+                                jumpLogin(loginUrl,NowUrl);
+                            },2000);
+                        }else if(data.status==1011){
+                            layer.msg('权限不足,请跟管理员联系');
                         }
                     },
                     error:function(jqXHR){
@@ -283,6 +333,8 @@ var picGallery = new Vue({
                     url:serverUrl+'get/image',
                     datatype:'json',
                     data:{
+                        key:oKey,
+                        user_id:token,
                         rubbish:1,
                         pageNum:jumpPage
                     },
@@ -305,6 +357,14 @@ var picGallery = new Vue({
                             // layer.msg('没有获取到图片');  //没有图片不提示了
                         }else if(data.status==102){
                             layer.msg('参数错误');
+                        }else if(data.status==1012){
+                            layer.msg('请先登录',{time:2000});
+
+                            setTimeout(function(){
+                                jumpLogin(loginUrl,NowUrl);
+                            },2000);
+                        }else if(data.status==1011){
+                            layer.msg('权限不足,请跟管理员联系');
                         }
                     },
                     error:function(jqXHR){
@@ -341,6 +401,8 @@ var picGallery = new Vue({
                     url:serverUrl+'recover/image',
                     datatype:'json',
                     data:{
+                        key:oKey,
+                        user_id:token,
                         id:picArray,
                         gallery_id:gallery_id
                     },
@@ -352,6 +414,14 @@ var picGallery = new Vue({
                             // layer.msg('没有获取到图片');  //没有图片不提示了
                         }else if(data.status==102){
                             layer.msg('参数错误');
+                        }else if(data.status==1012){
+                            layer.msg('请先登录',{time:2000});
+
+                            setTimeout(function(){
+                                jumpLogin(loginUrl,NowUrl);
+                            },2000);
+                        }else if(data.status==1011){
+                            layer.msg('权限不足,请跟管理员联系');
                         }else{
                             layer.msg(data.msg);
                         }
@@ -396,6 +466,8 @@ var picGallery = new Vue({
                     url:serverUrl+'delete/image',
                     datatype:'json',
                     data:{
+                        key:oKey,
+                        user_id:token,
                         id:checked,
                         delete_type:2  //传1以外的参数删除图片
                     },
@@ -407,6 +479,14 @@ var picGallery = new Vue({
                             layer.msg('操作失败');
                         }else if(data.status==102){
                             layer.msg('参数错误');
+                        }else if(data.status==1012){
+                            layer.msg('请先登录',{time:2000});
+
+                            setTimeout(function(){
+                                jumpLogin(loginUrl,NowUrl);
+                            },2000);
+                        }else if(data.status==1011){
+                            layer.msg('权限不足,请跟管理员联系');
                         }
                     },
                     error:function(jqXHR){
@@ -424,10 +504,22 @@ var picGallery = new Vue({
                     type:'POST',
                     url:serverUrl+'clear/image',
                     datatype:'json',
+                    data:{
+                        key:oKey,
+                        user_id:token,
+                    },
                     success:function(data){
                         if(data.status==100){
                             layer.msg('操作成功');
                             setInterval(windowFresh,1000);
+                        }else if(data.status==1012){
+                            layer.msg('请先登录',{time:2000});
+
+                            setTimeout(function(){
+                                jumpLogin(loginUrl,NowUrl);
+                            },2000);
+                        }else if(data.status==1011){
+                            layer.msg('权限不足,请跟管理员联系');
                         }else{
                             layer.msg(data.msg);
                         }
@@ -448,11 +540,21 @@ $(document).on('keyup','.pors .form-control',function(){
         url:serverUrl+'vague/gallery',
         datatype:'json',
         data:{
+            key:oKey,
+            user_id:token,
             keyword:picGallery.keyword
         },
         success:function(data){
             if(data.status){
                 picGallery.recoverList = data.value;
+            }else if(data.status==1012){
+                layer.msg('请先登录',{time:2000});
+
+                setTimeout(function(){
+                    jumpLogin(loginUrl,NowUrl);
+                },2000);
+            }else if(data.status==1011){
+                layer.msg('权限不足,请跟管理员联系');
             }
         },
         error:function(jqXHR){

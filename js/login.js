@@ -15,11 +15,31 @@ curent = getNowUrl();//获取之前访问的地址和参数
 
 $(function(){
     var box = document.getElementById('box');
+
     $('.login-btn').on('click',function(){
         var userInput = $('.user-input');
         var pswInput = $('.psw-input');
         var username = $('.user-input').val().trim();//用户名
         var psw = $('.psw-input').val().trim();//密码
+        submitData(userInput,pswInput,username,psw,box);
+    })
+
+    $(document).keyup(function(event){
+        var userInput = $('.user-input');
+        var pswInput = $('.psw-input');
+        var username = $('.user-input').val().trim();//用户名
+        var psw = $('.psw-input').val().trim();//密码
+        if(event.keyCode ==13){
+        submitData(userInput,pswInput,username,psw,box);
+      }
+    });
+
+    $('.form-control').on('focus',function(){
+        $('.form-control').popover('destroy');//隐藏提示框
+    })
+
+    //提交登录
+    function submitData(userInput,pswInput,username,psw,box) {
         if(!username){
             userInput.attr('data-content','请输入用户名');
             userInput.popover('show');
@@ -74,11 +94,7 @@ $(function(){
                 }
             })
         }
-    })
-
-    $('.form-control').on('focus',function(){
-        $('.form-control').popover('destroy');//隐藏提示框
-    })
+    }
 
     //震动函数
     function Shake(box){

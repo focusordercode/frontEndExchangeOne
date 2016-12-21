@@ -134,6 +134,7 @@ var rolegroup = new Vue({
 			var vm = this;
 			var sel = vm.orgSelect; 
 			var orgids = getroleid(sel);
+			var creator_id = cookie.get('id');
 			name = vm.addname;
 			remark = vm.addremark;
 			org_id = orgids;
@@ -149,6 +150,7 @@ var rolegroup = new Vue({
 					data:{
 						key:oKey,
                 		user_id:token,
+                		creator_id:creator_id,
 						name:name,
 						remark:remark,
 						enabled:1,

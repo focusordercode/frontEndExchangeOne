@@ -25,6 +25,7 @@ var oCreat = new Vue({
     	//创建产品
     	creatProduct:function(){
     		var vm = oCreat;
+            var creator_id = cookie.get('id');
     		//英文正则,英文数字和空格
     		var Entext = /^[a-zA-Z_()\s]+[0-9]*$/;
     		if(!(this.cn_name.trim())){
@@ -46,6 +47,9 @@ var oCreat = new Vue({
     			    url:serverUrl+'set/productcenter',
     			    datatype:'json',
     			    data:{
+                        key:oKey,
+                        user_id:token,
+                        creator_id:creator_id,
     			        cn_name:vm.cn_name,
     			        en_name:vm.en_name,
     			        category_id:vm.cateId,
@@ -61,7 +65,15 @@ var oCreat = new Vue({
     			            vm.cateId = '';
     			            vm.cate_name = '';
     			            vm.remark = '';
-    			        }else{
+    			        }else if(data.status==1012){
+                            layer.msg('请先登录',{time:2000});
+
+                            setTimeout(function(){
+                                jumpLogin(loginUrl,NowUrl);
+                            },2000);
+                        }else if(data.status==1011){
+                            layer.msg('权限不足,请跟管理员联系');
+                        }else{
     			            layer.msg(data.msg);
     			        }
     			    },
@@ -96,12 +108,16 @@ var oCreat = new Vue({
     			var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
 
     			var vm = oCreat;
+                var creator_id = cookie.get('id');
     			var category_id = vm.cateId;//类目
     			var state = 'many';//类型
     			var formData = new FormData();
     			formData.append('file', $('#file')[0].files[0]);//文件
     			formData.append('category_id', category_id);//参数
     			formData.append('state', state);//参数
+                formData.append('key', oKey);//参数
+                formData.append('user_id', token);//参数
+                formData.append('creator_id', creator_id);//参数
 
     			$.ajax({
     			    url:serverUrl+'set/productcenter',
@@ -115,7 +131,15 @@ var oCreat = new Vue({
     			        if(data.status==100){
     			            layer.msg('上传成功');
     			            vm.respons = data.value;
-    			        }else{
+    			        }else if(data.status==1012){
+                            layer.msg('请先登录',{time:2000});
+
+                            setTimeout(function(){
+                                jumpLogin(loginUrl,NowUrl);
+                            },2000);
+                        }else if(data.status==1011){
+                            layer.msg('权限不足,请跟管理员联系');
+                        }else{
     			            layer.msg(data.msg);
     			        }
     			    },
@@ -160,11 +184,21 @@ $('.searchCate').on('keyup',function(){
         url:search,
         datatype:'json',
         data:{
+            key:oKey,
+            user_id:token,
             text:searchCusVal
         },
         success:function(data){
             if(data.status==100){
                 oCreat.proList = data.value;
+            }else if(data.status==1012){
+                layer.msg('请先登录',{time:2000});
+
+                setTimeout(function(){
+                    jumpLogin(loginUrl,NowUrl);
+                },2000);
+            }else if(data.status==1011){
+                layer.msg('权限不足,请跟管理员联系');
             }else{
                 oCreat.proList= '';
             }
@@ -186,11 +220,21 @@ $('.searchCate2').on('keyup',function(){
         url:search,
         datatype:'json',
         data:{
+            key:oKey,
+            user_id:token,
             text:searchCusVal
         },
         success:function(data){
             if(data.status==100){
                 oCreat.proList = data.value;
+            }else if(data.status==1012){
+                layer.msg('请先登录',{time:2000});
+
+                setTimeout(function(){
+                    jumpLogin(loginUrl,NowUrl);
+                },2000);
+            }else if(data.status==1011){
+                layer.msg('权限不足,请跟管理员联系');
             }else{
                 oCreat.proList= '';
             }

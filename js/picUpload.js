@@ -31,11 +31,21 @@ var picUpload = new Vue({
             url:serverUrl+'get/imagegallery',
             datatype:'json',
             data:{
+                key:oKey,
+                user_id:token,
                 id:Request.id
             },
             success:function(data){
                 if(data.status==100){
                     picUpload.picCate = data.value[0];
+                }else if(data.status==1012){
+                    layer.msg('请先登录',{time:2000});
+
+                    setTimeout(function(){
+                        jumpLogin(loginUrl,NowUrl);
+                    },2000);
+                }else if(data.status==1011){
+                    layer.msg('权限不足,请跟管理员联系');
                 }
             },
             error:function(jqXHR){
@@ -52,11 +62,12 @@ var picUpload = new Vue({
 
 
 //上传功能
+var creator_id = cookie.get('id');//创建者的ID
 var uploader = new plupload.Uploader({
     runtimes : 'html5,html4',
     browse_button : 'pickfiles', 
     container: document.getElementById('container'), 
-    url : serverUrl+'Picture/upload/gallery_id/'+Request.id,
+    url : serverUrl+'Picture/upload',
     
     filters : {
         max_file_size : '5mb',
@@ -66,6 +77,12 @@ var uploader = new plupload.Uploader({
         ]
     },
 
+    multipart_params:{
+        key:oKey,
+        user_id:token,
+        gallery_id:Request.id,
+        creator_id:creator_id
+    },
     init: {
         PostInit: function() {
             $('.panel-body .alert').hide();
@@ -141,6 +158,10 @@ function updateData () {
         type:'POST',
         url:serverUrl+'ImageCategory/updateGalleryCache',
         datatype:'json',
+        data:{
+            key:oKey,
+            user_id:token,
+        },
         success:function(data){
             console.log('请求成功');
         },

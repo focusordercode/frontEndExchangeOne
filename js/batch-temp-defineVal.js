@@ -122,6 +122,7 @@ var tempDefine = new Vue({
             var fileData = $('#file').val();//文件数据
             var vm = this;
             var pageNumber = vm.pageNumber;
+            var creator_id = cookie.get('id');
             if(vm.pageNumber){
                pageNumber = $.trim(vm.pageNumber); 
             }
@@ -144,6 +145,7 @@ var tempDefine = new Vue({
                     formData.append('pageNumber', pageNumber);//参数
                     formData.append('key', oKey);//参数
                     formData.append('user_id', token);//参数
+                    formData.append('creator_id', creator_id);//参数
 
                     $.ajax({
                         url:serverUrl+'upload/item',

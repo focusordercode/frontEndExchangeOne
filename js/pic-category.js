@@ -50,6 +50,7 @@ Vue.component('my-additem', {
 			//增加图片目录
 			var item1 = picGallery.active;
 			var item2 = picGallery.pictreeActive;
+			var creator_id = cookie.get('id');
 			var cn_name = this.cn_name;
 			var en_name = this.en_name;
 				en_name = $.trim(  en_name  );
@@ -64,6 +65,9 @@ Vue.component('my-additem', {
 					url:serverUrl+'post/imagesub',
 					datatype:'json',
 					data:{
+						key:oKey,
+                		user_id:token,
+                		creator_id:creator_id,
 						category_id:item1.id,
 						id:item2.id,
 						cn_name:cn_name,
@@ -74,7 +78,15 @@ Vue.component('my-additem', {
 							layer.msg('添加成功');
 							setInterval(updatePictree(item1),1000);
 							$('.addItem').modal('hide');
-						}else{
+						}else if(data.status==1012){
+		                    layer.msg('请先登录',{time:2000});
+
+		                    setTimeout(function(){
+		                        jumpLogin(loginUrl,NowUrl);
+		                    },2000);
+		                }else if(data.status==1011){
+		                    layer.msg('权限不足,请跟管理员联系');
+		                }else{
 							layer.msg(data.msg);
 						}
 					},
@@ -91,6 +103,8 @@ Vue.component('my-additem', {
 					url:serverUrl+'get/treeGallery',
 					datatype:'json',
 					data:{
+						key:oKey,
+                		user_id:token,
 						category_id:cateId
 					},
 					success:function(data){
@@ -102,7 +116,15 @@ Vue.component('my-additem', {
 							picGallery.pictreeActive.cn_name = '';
 							picGallery.pictreeActive.en_name = '';
 							picGallery.pictreeActive.category_id = '';
-						}
+						}else if(data.status==1012){
+		                    layer.msg('请先登录',{time:2000});
+
+		                    setTimeout(function(){
+		                        jumpLogin(loginUrl,NowUrl);
+		                    },2000);
+		                }else if(data.status==1011){
+		                    layer.msg('权限不足,请跟管理员联系');
+		                }
 					},
 					error:function(jqXHR){
 						layer.msg('向服务器请求图片目录失败');
@@ -164,6 +186,8 @@ Vue.component('item', {
 				url:serverUrl+'get/treeGallery',
 				datatype:'json',
 				data:{
+					key:oKey,
+                	user_id:token,
 					category_id:cateId
 				},
 				success:function(data){
@@ -173,7 +197,15 @@ Vue.component('item', {
 					}else if(data.status==101){
 						picGallery.pictree = data.value;
 						clear();
-					}
+					}else if(data.status==1012){
+	                    layer.msg('请先登录',{time:2000});
+
+	                    setTimeout(function(){
+	                        jumpLogin(loginUrl,NowUrl);
+	                    },2000);
+	                }else if(data.status==1011){
+	                    layer.msg('权限不足,请跟管理员联系');
+	                }
 				},
 				error:function(jqXHR){
 					layer.close(LoadIndex); //关闭遮罩层
@@ -223,6 +255,8 @@ Vue.component('tree', {
 			url:serverUrl+'get/image',
 			datatype:'json',
 			data:{
+				key:oKey,
+                user_id:token,
 				gallery_id:picId
 			},
 			success:function(data){
@@ -245,7 +279,15 @@ Vue.component('tree', {
 					picGallery.pageNow = '';
 				}else if(data.status==102){
 					layer.msg('参数错误');
-				}
+				}else if(data.status==1012){
+                    layer.msg('请先登录',{time:2000});
+
+                    setTimeout(function(){
+                        jumpLogin(loginUrl,NowUrl);
+                    },2000);
+                }else if(data.status==1011){
+                    layer.msg('权限不足,请跟管理员联系');
+                }
 			},
 			error:function(jqXHR){
 				layer.msg('向服务器请求图片失败');
@@ -269,14 +311,24 @@ var tree = new Vue({
 			url:serverUrl+'get/treeCategory',
 			datatype:'json',
 			data:{
-				key:'category'
+				key:oKey,
+                user_id:token,
+				ckey:'category'
 			},
 			success:function(data){
 				tree.treeData = data;
 				
 				if(data.status==101){
 					layer.msg(data.msg);
-				}
+				}else if(data.status==1012){
+                    layer.msg('请先登录',{time:2000});
+
+                    setTimeout(function(){
+                        jumpLogin(loginUrl,NowUrl);
+                    },2000);
+                }else if(data.status==1011){
+                    layer.msg('权限不足,请跟管理员联系');
+                }
 			},
 			error:function(jqXHR){
 				layer.msg('向服务器请求产品目录失败');
@@ -383,6 +435,43 @@ var picGallery = new Vue({
 					this.newTags = ''
 			   }
 		},
+		//批量添加标签
+		addnumtags:function(){
+			var vm = picGallery;
+			var pic_ids = vm.imgcheck;
+			var tag = vm.newTags;
+			$.ajax({
+				type:'POST',
+				url:serverUrl+'add/tags',
+				datatype:'json',
+				data:{
+					key:oKey,
+                	user_id:token,
+					pic_ids:pic_ids,
+					tag:tag,
+				},
+				success:function(data){
+					if (data.status==100) {
+						layer.msg('添加成功');
+						update();
+						$('#addtags').modal('hide');
+					}else if(data.status==1012){
+	                    layer.msg('请先登录',{time:2000});
+
+	                    setTimeout(function(){
+	                        jumpLogin(loginUrl,NowUrl);
+	                    },2000);
+	                }else if(data.status==1011){
+	                    layer.msg('权限不足,请跟管理员联系');
+	                }else{
+						layer.msg(data.msg)
+					}
+				},
+				error:function(jqXHR){
+					layer.msg('向服务器请求添加标签失败')
+				}
+			})
+		},
 		//删除标签
 		removeTags:function(index){
 			this.changepic.tags.splice(index, 1);
@@ -399,13 +488,23 @@ var picGallery = new Vue({
 					url:serverUrl+'update/image',
 					datatype:'json',
 					data:{
+						key:oKey,
+                		user_id:token,
 						data:changepic
 					},
 					success:function(data){
 						if(data.status==100){
 							layer.msg('修改成功');
 							$('.picchange').modal('hide');
-						}else{
+						}else if(data.status==1012){
+		                    layer.msg('请先登录',{time:2000});
+
+		                    setTimeout(function(){
+		                        jumpLogin(loginUrl,NowUrl);
+		                    },2000);
+		                }else if(data.status==1011){
+		                    layer.msg('权限不足,请跟管理员联系');
+		                }else{
 							layer.msg(data.msg);
 						}
 					},
@@ -434,6 +533,8 @@ var picGallery = new Vue({
 					url:serverUrl+'delete/image',
 					datatype:'json',
 					data:{
+						key:oKey,
+                		user_id:token,
 						id:pic.id
 					},
 					success:function(data){
@@ -442,7 +543,15 @@ var picGallery = new Vue({
 							update(pic);
 						}else if(data.status==101){
 							layer.msg('删除图片操作失败');
-						}
+						}else if(data.status==1012){
+		                    layer.msg('请先登录',{time:2000});
+
+		                    setTimeout(function(){
+		                        jumpLogin(loginUrl,NowUrl);
+		                    },2000);
+		                }else if(data.status==1011){
+		                    layer.msg('权限不足,请跟管理员联系');
+		                }
 					},
 					error:function(jqXHR){
 						layer.msg('向服务器请求删除失败');
@@ -459,6 +568,8 @@ var picGallery = new Vue({
 					url:serverUrl+'get/image',
 					datatype:'json',
 					data:{
+						key:oKey,
+                		user_id:token,
 						gallery_id:pic.gallery_id,
 						pageNum:picGallery.pageNow
 					},
@@ -476,7 +587,15 @@ var picGallery = new Vue({
 							for(i;i<picDataLength;i++){
 								Vue.set(picGallery.picData[i], 'checked', false)
 							}
-						}else{
+						}else if(data.status==1012){
+		                    layer.msg('请先登录',{time:2000});
+
+		                    setTimeout(function(){
+		                        jumpLogin(loginUrl,NowUrl);
+		                    },2000);
+		                }else if(data.status==1011){
+		                    layer.msg('权限不足,请跟管理员联系');
+		                }else{
 							// layer.msg('没有获取到图片');  //没有图片不提示了
 							picGallery.picData = '';
 							picGallery.countPage = '';
@@ -510,6 +629,8 @@ var picGallery = new Vue({
 					url:serverUrl+'get/image',
 					datatype:'json',
 					data:{
+						key:oKey,
+                		user_id:token,
 						gallery_id:cateId,
 						pageNum:page
 					},
@@ -531,7 +652,15 @@ var picGallery = new Vue({
 							// layer.msg('没有获取到图片');  //没有图片不提示了
 						}else if(data.status==102){
 							layer.msg('参数错误');
-						}
+						}else if(data.status==1012){
+		                    layer.msg('请先登录',{time:2000});
+
+		                    setTimeout(function(){
+		                        jumpLogin(loginUrl,NowUrl);
+		                    },2000);
+		                }else if(data.status==1011){
+		                    layer.msg('权限不足,请跟管理员联系');
+		                }
 					},
 					error:function(jqXHR){
 						layer.close(LoadIndex); //关闭遮罩层
@@ -559,6 +688,8 @@ var picGallery = new Vue({
 					url:serverUrl+'get/image',
 					datatype:'json',
 					data:{
+						key:oKey,
+                		user_id:token,
 						gallery_id:cateId,
 						pageNum:page
 					},
@@ -580,7 +711,15 @@ var picGallery = new Vue({
 							// layer.msg('没有获取到图片');  //没有图片不提示了
 						}else if(data.status==102){
 							layer.msg('参数错误');
-						}
+						}else if(data.status==1012){
+		                    layer.msg('请先登录',{time:2000});
+
+		                    setTimeout(function(){
+		                        jumpLogin(loginUrl,NowUrl);
+		                    },2000);
+		                }else if(data.status==1011){
+		                    layer.msg('权限不足,请跟管理员联系');
+		                }
 					},
 					error:function(jqXHR){
 						layer.close(LoadIndex); //关闭遮罩层
@@ -625,6 +764,8 @@ var picGallery = new Vue({
 					url:serverUrl+'delete/image',
 					datatype:'json',
 					data:{
+						key:oKey,
+                		user_id:token,
 						id:checked
 					},
 					success:function(data){
@@ -635,7 +776,17 @@ var picGallery = new Vue({
 							layer.msg('操作失败');
 						}else if(data.status==102){
 							layer.msg('参数错误');
-						}
+						}else if(data.status==103){
+							layer.msg('图片已被使用，不能删除');
+						}else if(data.status==1012){
+		                    layer.msg('请先登录',{time:2000});
+
+		                    setTimeout(function(){
+		                        jumpLogin(loginUrl,NowUrl);
+		                    },2000);
+		                }else if(data.status==1011){
+		                    layer.msg('权限不足,请跟管理员联系');
+		                }
 					},
 					error:function(jqXHR){
 						layer.msg('向服务器请求删除图片失败');
@@ -653,12 +804,22 @@ var picGallery = new Vue({
 				url:serverUrl+'vague/gallery',
 				datatype:'json',
 				data:{
+					key:oKey,
+                	user_id:token,
 					keyword:keyword
 				},
 				success:function(data){
 					if (data.status==100) {
 						vm.aimlist = data.value;
-					}else{
+					}else if(data.status==1012){
+	                    layer.msg('请先登录',{time:2000});
+
+	                    setTimeout(function(){
+	                        jumpLogin(loginUrl,NowUrl);
+	                    },2000);
+	                }else if(data.status==1011){
+	                    layer.msg('权限不足,请跟管理员联系');
+	                }else{
 						layer.msg(data.msg)
 					}
 				},
@@ -685,24 +846,35 @@ var picGallery = new Vue({
 			var pic_ids = vm.imgcheck;
 
 			$.ajax({
+
 				type:'POST',
 				url:serverUrl+'move/image',
 				datatype:'json',
 				data:{
+					key:oKey,
+                	user_id:token,
 					gallery_id:gallery_id,
 					pic_ids:pic_ids
 				},
 				success:function(data){
 					if (data.status == 100) {
 						layer.msg('移动成功');
-						update(true);
+						update();
 						$('#myModal').modal('hide');
-					}else{
+					}else if(data.status==1012){
+	                    layer.msg('请先登录',{time:2000});
+
+	                    setTimeout(function(){
+	                        jumpLogin(loginUrl,NowUrl);
+	                    },2000);
+	                }else if(data.status==1011){
+	                    layer.msg('权限不足,请跟管理员联系');
+	                }else{
 						layer.msg(data.msg)
 					}
 				},
 				error:function(){
-					layer.msg('向服务器请求失败')
+					layer.msg('向服务器请求失败');
 				}
 			});
 		},
@@ -725,6 +897,8 @@ var picGallery = new Vue({
 					url:serverUrl+'get/image',
 					datatype:'json',
 					data:{
+						key:oKey,
+                		user_id:token,
 						gallery_id:cateId,
 						pageNum:jumpPage
 					},
@@ -741,19 +915,27 @@ var picGallery = new Vue({
 							var picDataLength = picData.length;
 							var i = 0;
 							for(i;i<picDataLength;i++){
-								Vue.set(picGallery.picData[i], 'checked', false)
+								Vue.set(picGallery.picData[i], 'checked', false);
 							}
 						}else if(data.status==101){
 							// layer.msg('没有获取到图片');  //没有图片不提示了
 						}else if(data.status==102){
 							layer.msg('参数错误');
-						}
+						}else if(data.status==1012){
+		                    layer.msg('请先登录',{time:2000});
+
+		                    setTimeout(function(){
+		                        jumpLogin(loginUrl,NowUrl);
+		                    },2000);
+		                }else if(data.status==1011){
+		                    layer.msg('权限不足,请跟管理员联系');
+		                }
 					},
 					error:function(jqXHR){
 						layer.close(LoadIndex); //关闭遮罩层
 						layer.msg('向服务器请求图片失败');
 					}
-				})
+				});
 			}
 		},
 		//增加图片目录
@@ -782,6 +964,8 @@ var picGallery = new Vue({
 					url:serverUrl+'get/treeGallery',
 					datatype:'json',
 					data:{
+						key:oKey,
+                		user_id:token,
 						category_id:cateId
 					},
 					success:function(data){
@@ -793,12 +977,20 @@ var picGallery = new Vue({
 							picGallery.pictreeActive.cn_name = '';
 							picGallery.pictreeActive.en_name = '';
 							picGallery.pictreeActive.category_id = '';
-						}
+						}else if(data.status==1012){
+		                    layer.msg('请先登录',{time:2000});
+
+		                    setTimeout(function(){
+		                        jumpLogin(loginUrl,NowUrl);
+		                    },2000);
+		                }else if(data.status==1011){
+		                    layer.msg('权限不足,请跟管理员联系');
+		                }
 					},
 					error:function(jqXHR){
 						layer.msg('向服务器请求图片目录失败');
 					}
-				})
+				});
 			}
 
 			var en_name = $.trim(  item.en_name  );
@@ -815,6 +1007,8 @@ var picGallery = new Vue({
 					url:serverUrl+'update/imagesub',
 					datatype:'json',
 					data:{
+						key:oKey,
+                		user_id:token,
 						id:item.id,
 						cn_name:item.cn_name,
 						en_name:en_name
@@ -828,12 +1022,20 @@ var picGallery = new Vue({
 							layer.msg('英文名不符合要求');
 						}else if(data.status==106){
 							layer.msg('目录英文名有重复');
-						}
+						}else if(data.status==1012){
+		                    layer.msg('请先登录',{time:2000});
+
+		                    setTimeout(function(){
+		                        jumpLogin(loginUrl,NowUrl);
+		                    },2000);
+		                }else if(data.status==1011){
+		                    layer.msg('权限不足,请跟管理员联系');
+		                }
 					},
 					error:function(jqXHR){
 						layer.msg('向服务器请求修改图片目录失败');
 					}
-				})
+				});
 			}
 		},
 		//删除图片目录
@@ -847,6 +1049,8 @@ var picGallery = new Vue({
 					url:serverUrl+'delete/imagesub',
 					datatype:'json',
 					data:{
+						key:oKey,
+                		user_id:token,
 						id:item.id
 					},
 					success:function(data){
@@ -860,16 +1064,24 @@ var picGallery = new Vue({
 							layer.msg('该相册下还有子目录，请先删除子目录');
 						}else if(data.status==114){
 							layer.msg('删除图片移动到回收站失败');
-						}
+						}else if(data.status==1012){
+		                    layer.msg('请先登录',{time:2000});
+
+		                    setTimeout(function(){
+		                        jumpLogin(loginUrl,NowUrl);
+		                    },2000);
+		                }else if(data.status==1011){
+		                    layer.msg('权限不足,请跟管理员联系');
+		                }
 					},
 					error:function(jqXHR){
 						layer.msg('向服务器请求删除失败');
 					}
-				})
-			})
+				});
+			});
 		}
 	}
-})
+});
 
 //实时更新移动功能中的搜索框填入数据
 $('.searchCate').on('keyup',function(){
@@ -881,23 +1093,35 @@ $('.searchCate').on('keyup',function(){
 		url:serverUrl+'vague/gallery',
 		datatype:'json',
 		data:{
+			key:oKey,
+            user_id:token,
 			keyword:keyword
 		},
 		success:function(data){
 			if (data.status==100) {
 				vm.aimlist = data.value;
-			}else{
-				layer.msg(data.msg)
+			}else if(data.status==1012){
+                layer.msg('请先登录',{time:2000});
+
+                setTimeout(function(){
+                    jumpLogin(loginUrl,NowUrl);
+                },2000);
+            }else if(data.status==1011){
+                layer.msg('权限不足,请跟管理员联系');
+            }else{
+				layer.msg(data.msg);
 			}
 		},
 		error:function(jqXHR){
-			layer.msg('向服务器请求目录失败')
+			layer.msg('向服务器请求目录失败');
 		}	
-	})
+	});
 });
 //更新图片函数
 function update(){
+	var vm = picGallery;
 	var gallery_id = picGallery.pictreeActive.id;
+	var pageNum = vm.pageNow;
 	//显示加载按钮
 	var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
 	//获取图片数据
@@ -906,7 +1130,10 @@ function update(){
 		url:serverUrl+'get/image',
 		datatype:'json',
 		data:{
-			gallery_id:gallery_id
+			key:oKey,
+            user_id:token,
+			gallery_id:gallery_id,
+			pageNum:pageNum
 		},
 		success:function(data){
 			layer.close(LoadIndex); //关闭遮罩层
@@ -920,9 +1147,17 @@ function update(){
 				var picDataLength = picData.length;
 				var i = 0;
 				for(i;i<picDataLength;i++){
-					Vue.set(picGallery.picData[i], 'checked', false)
+					Vue.set(picGallery.picData[i], 'checked', false);
 				}
-			}else{
+			}else if(data.status==1012){
+                layer.msg('请先登录',{time:2000});
+
+                setTimeout(function(){
+                    jumpLogin(loginUrl,NowUrl);
+                },2000);
+            }else if(data.status==1011){
+                layer.msg('权限不足,请跟管理员联系');
+            }else{
 				// layer.msg('没有获取到图片');  //没有图片不提示了
 				picGallery.picData = '';
 				picGallery.countPage = '';
@@ -934,7 +1169,7 @@ function update(){
 			layer.close(LoadIndex); //关闭遮罩层
 			layer.msg('向服务器请求图片失败');
 		}
-	})
+	});
 }
 
 //Vue过滤器

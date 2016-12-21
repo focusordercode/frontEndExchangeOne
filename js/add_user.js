@@ -32,6 +32,7 @@ var adduse = new Vue ({
         adduserbtn:function () {
             var vm = adduse;
             var Select = vm.orgSelect;
+            var creator_id = cookie.get('id');
             var roleid = getroleid(Select);
             var tel = /((\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$)/;
             var word =/^[A-Za-z0-9]+$/;
@@ -78,6 +79,7 @@ var adduse = new Vue ({
                     data: {
                         key:oKey,
                         user_id:token,
+                        creator_id:creator_id,
                         username:vm.user_name,
                         password:vm.password,
                         real_name:vm.real_name,

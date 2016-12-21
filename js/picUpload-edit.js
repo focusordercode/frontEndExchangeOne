@@ -33,6 +33,8 @@ var picEdit = new Vue({
 			url:serverUrl+'get/imageInfo',
 			datatype:'json',
 			data:{
+				key:oKey,
+                user_id:token,
 				num:Request.id
 			},
 			success:function(data){
@@ -42,7 +44,15 @@ var picEdit = new Vue({
 					for(var i = 0;i<picInfoLen;i++){
 						Vue.set(picEdit.picInfo[i],'tag','');
 					}
-				}
+				}else if(data.status==1012){
+                    layer.msg('请先登录',{time:2000});
+
+                    setTimeout(function(){
+                        jumpLogin(loginUrl,NowUrl);
+                    },2000);
+                }else if(data.status==1011){
+                    layer.msg('权限不足,请跟管理员联系');
+                }
 			},
 			error:function(jqXHR){
 				layer.msg('向服务器请求上传成功图片的信息失败');
@@ -64,6 +74,8 @@ var picEdit = new Vue({
 				url:serverUrl+'update/imageInfo',
 				datatype:'json',
 				data:{
+					key:oKey,
+                	user_id:token,
 					data:picEdit.picInfo
 				},
 				success:function(data){
@@ -71,7 +83,15 @@ var picEdit = new Vue({
 						layer.msg('保存成功');
 					}else if(data.status==101){
 						layer.msg('保存失败，数据为空或者未作出修改');
-					}
+					}else if(data.status==1012){
+	                    layer.msg('请先登录',{time:2000});
+
+	                    setTimeout(function(){
+	                        jumpLogin(loginUrl,NowUrl);
+	                    },2000);
+	                }else if(data.status==1011){
+	                    layer.msg('权限不足,请跟管理员联系');
+	                }
 				},
 				error:function(jqXHR){
 					layer.msg('向服务器请求保存数据失败');
