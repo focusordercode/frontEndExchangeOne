@@ -645,7 +645,7 @@ var picGallery = new Vue({
 		},
 		//获取目录列表
 		searchaim:function(){
-			var vm = picGallery;
+			var vm = this;
 			var keyword = vm.aimkey;
 
 			$.ajax({
@@ -680,7 +680,7 @@ var picGallery = new Vue({
 		},
 		//移动图片
 		moveSelet:function(){
-			var vm = picGallery;
+			var vm = this;
 			var gallery_id = vm.aims_id;
 			var pic_ids = vm.imgcheck;
 
