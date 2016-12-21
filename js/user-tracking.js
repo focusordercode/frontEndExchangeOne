@@ -1,4 +1,5 @@
 console.log(serverUrl);
+var num = 35;//默认显示数量
 
 var userlist = new Vue({
 	el:'body',
@@ -8,12 +9,14 @@ var userlist = new Vue({
         countPage:'',
         pageNow:'',
         jump:'',
+        users:'',//用户列表
         searchFeild:{
-            status_code:'',
-            keyword:'',
-            cate_name:'',
-            cateId:''
-        }
+            startdate:'',
+            enddate:'',
+            uid:'',
+            uidName:''
+        },
+        searchResult:'' //搜索成功后的条件
 	},
     ready:function(){
         var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
@@ -23,7 +26,8 @@ var userlist = new Vue({
             datatype:'json',
             data:{
                 key:oKey,
-                user_id:token
+                user_id:token,
+                pagesize:num
             },
             success:function(data){
                 layer.close(LoadIndex); //关闭遮罩层
@@ -43,7 +47,6 @@ var userlist = new Vue({
         })
     },
     computed:{
-        //三个按钮状态
         jumpBtn:function(){
             var jump = this.jump;
             if(!jump){
@@ -95,7 +98,7 @@ var userlist = new Vue({
                         if(data.status==100){
                             vm.list.$remove(info);
                             layer.msg('删除成功');
-                            setTimeout(getPageData(vm,pageNow,search),1000);
+                            setTimeout(getPageData(vm,pageNow,search,num),1000);
                         }else if(data.status==1012){
                             layer.msg('请先登录',{time:2000});
                             
@@ -127,7 +130,7 @@ var userlist = new Vue({
                 layer.msg('没有上一页啦');
             }else{
                 pageNow--
-                getPageData (vm,pageNow,search);
+                getPageData (vm,pageNow,search,num);
             }
         },
         //下一页
@@ -140,7 +143,7 @@ var userlist = new Vue({
                 layer.msg('没有下一页啦');
             }else{
                 pageNow++
-                getPageData (vm,pageNow,search);
+                getPageData (vm,pageNow,search,num);
             }
         },
         //页面跳转
@@ -156,8 +159,72 @@ var userlist = new Vue({
                 layer.msg('页码错误');
                 vm.jump = '';
             }else{
-                getPageData (vm,jump,search);
+                getPageData (vm,jump,search,num);
                 vm.jump = '';
+            }
+        },
+        //选择一个用户
+        selectusr:function(usr){
+            this.searchFeild.uid = usr.id;
+            this.searchFeild.uidName = usr.username;
+            this.users = '';
+            $('.searchCompent').hide();
+            $('.search-usrbtn').show();
+        },
+        //搜索
+        searchInfo:function(){
+            var vm = this;
+            var startdate = this.searchFeild.startdate.trim();
+            var enddate = this.searchFeild.enddate.trim();
+            var searchFeild = this.searchFeild;
+
+            if(!startdate&&!enddate&&!searchFeild.uid){
+                layer.msg('时间和用户为必选其一');
+            }else if(startdate&&!enddate){
+                layer.msg('开始时间和结束时间都必须选');
+            }else if(!startdate&&enddate){
+                layer.msg('开始时间和结束时间都必须选');
+            }else{
+                var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层 
+                $.ajax({
+                    type:'POST',
+                    url:serverUrl+'get/track',
+                    datatype:'json',
+                    data:{
+                        key:oKey,
+                        user_id:token,
+                        uid:searchFeild.uid,
+                        startdate:startdate,
+                        enddate:enddate,
+                        pagesize:num
+                    },
+                    success:function(data){
+                        layer.close(LoadIndex); //关闭遮罩层
+                        if(data.status==100){
+                            vm.list = data.value;
+                            vm.count = data.countTrack;
+                            vm.pageNow = data.pageNow;
+                            vm.countPage = data.countPage;
+                            //搜索条件数据
+                            var newObj = $.extend(true, {}, vm.searchFeild);
+                            vm.searchResult = newObj;
+                        }else if(data.status==1012){
+                            layer.msg('请先登录',{time:2000});
+                            
+                            setTimeout(function(){
+                                jumpLogin(loginUrl,NowUrl);
+                            },2000);
+                        }else if(data.status==1011){
+                            layer.msg('权限不足,请跟管理员联系');
+                        }else{
+                            layer.msg(data.msg);
+                        }
+                    },
+                    error:function(jqXHR){
+                        layer.close(LoadIndex); //关闭遮罩层
+                        layer.msg('向服务器请求搜索失败');
+                    }
+                })
             }
         }
     }
@@ -165,7 +232,7 @@ var userlist = new Vue({
 
 
 //获取数据函数,分页
-function getPageData (vm,pageNow,search) {
+function getPageData (vm,pageNow,search,num) {
     var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
     $.ajax({
         type:'POST',
@@ -174,7 +241,11 @@ function getPageData (vm,pageNow,search) {
         data:{
             key:oKey,
             user_id:token,
-            page:pageNow
+            uid:search.uid,
+            startdate:search.startdate,
+            enddate:search.enddate,
+            page:pageNow,
+            pagesize:num
         },
         success:function(data){
             layer.close(LoadIndex); //关闭遮罩层
@@ -198,10 +269,61 @@ function getPageData (vm,pageNow,search) {
 $(function(){
     $('.searchBtn').on('click',function(){
         $('.searchCompent').show();
+        $('.search-usrbtn').hide();
     })
     $('.closeBtn').on('click',function(){
         $('.searchCompent').hide();
+        $('.search-usrbtn').show();
     })
+
+    //用户
+    $('.searchCate').on('keyup',function(){
+        var getWidth = $('.pors .cate-list').prev('.form-control').innerWidth();
+        $('.pors .cate-list').css('width',getWidth);
+        var searchCusVal = $('.searchCate').val();
+
+        $.ajax({
+            type:'POST',
+            url:serverUrl+'get/user',
+            datatype:'json',
+            data:{
+                key:oKey,
+                user_id:token,
+                search:searchCusVal
+            },
+            success:function(data){
+                var vm = userlist;
+
+                if(data.status==100){
+                    vm.users = data.value;
+                }else if(data.status==1012){
+                    layer.msg('请先登录',{time:2000});
+                    
+                    setTimeout(function(){
+                        jumpLogin(loginUrl,NowUrl);
+                    },2000);
+                }else if(data.status==1011){
+                    layer.msg('权限不足,请跟管理员联系');
+                }else{
+                    vm.users= '';
+                }
+            },
+            error:function(jqXHR){
+                layer.msg('向服务器请求失败');
+            }
+        })
+    });
+
+    //时间选择框控件
+    $(".date").datetimepicker({
+        format: 'yyyy-mm-dd',
+        minView: "month"
+    });
+
+    //回到顶部
+    $('.scrollToTop').click(function(){
+        $("html,body").animate({scrollTop:0},300);
+    });
 })
 
 //刷新函数

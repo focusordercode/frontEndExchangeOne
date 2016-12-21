@@ -98,7 +98,7 @@
         </div>
 
         <!-- 主内容区域 -->
-        <!-- <div class="container marginTop">
+        <div class="container marginTop" v-show="!searchResult">
             <div class="row">
                 <div class="panel panel-default">
                     <div class="panel-heading">
@@ -106,29 +106,29 @@
                     </div>
                     <div class="panel-body">
                         <div class="col-md-2">
-                            <input size="16" type="text" value="2012-05-15" readonly="" class="form-control date date1">
+                            <input size="16" type="text" v-model="searchFeild.startdate" readonly="" class="form-control date date1">
                         </div>
                         <div class="col-md-1 middle-col">
                             <b>到</b>
                         </div>
                         <div class="col-md-2">
-                            <input size="16" type="text" value="2012-05-15" readonly="" class="form-control date date1">
+                            <input size="16" type="text" v-model="searchFeild.enddate" readonly="" class="form-control date date2">
                         </div>
                         <div class="col-md-6">
                             <div class="form-horizontal">
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label text-muted">选择用户</label>
                                     <div class="col-sm-4">
-                                        <input type="text" v-model="proSelected" placeholder="选择用户" class="form-control" readonly>
+                                        <input type="text" v-model="searchFeild.uidName" placeholder="选择用户" class="form-control" readonly>
                                     </div>
-                                    <div class="col-sm-1">
-                                        <button class="btn btn-info btn-sm searchBtn">搜索</button>
+                                    <div class="col-sm-1 search-usrbtn">
+                                        <button class="btn btn-info btn-sm searchBtn">搜索用户</button>
                                     </div>
                                     <div class="col-sm-3 pors searchCompent">
-                                        <input type="text" class="form-control searchShadow searchCate" placeholder="输入关键字搜索用户">
+                                        <input type="text" class="form-control searchShadow searchCate" placeholder="搜索用户">
                                         <ul class="cate-list">
-                                            <li @click="selectCate(pro)" v-for="pro in proList">
-                                                {{pro.cn_name}} {{pro.en_name}}
+                                            <li @click="selectusr(usr)" v-for="usr in users">
+                                                {{usr.username}}
                                             </li>
                                         </ul>
                                     </div>
@@ -140,26 +140,42 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-md-1">
+                            <button class="btn btn-default" @click="searchInfo">搜索</button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div> -->
+        </div>
+
+        <div class="container marginTop" v-show="searchResult">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="alert alert-info">
+                            <b class="text-danger">搜索结果</b>　
+                            表格数:<strong class="text-warning">{{count}}</strong>　
+                            当前页:<strong class="text-warning">{{pageNow}}</strong>　
+                            总页数:<strong class="text-warning">{{countPage}}</strong>　
+                            <button class="btn btn-info btn-sm" @click="Reflesh">返回</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!-- 用户行为列表 -->
-        <div class="container marginTop">
+        <div class="container">
             <div class="row">
                 <div class="col-md-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h4><b class="text-info">用户行为跟踪</b></h4>
-                            <button class="btn btn-info btn-sm" @click="Reflesh">刷新</button>
                         </div>
                         <div class="panel-body">
                             <table class="table">
                                 <tr>
-                                    <th>选择</th>
+                                    <!-- <th>选择</th> -->
                                     <th>用户名</th>
-                                    <th>真是姓名</th>
+                                    <th>真实姓名</th>
                                     <th>地址名称</th>
                                     <th>访问时间</th>
                                     <th>访问ip</th>
@@ -168,10 +184,10 @@
                                 </tr>
                                 <template v-for = "info in list">
                                     <template v-if = "$index%2==0">
-                                        <tr class="info">
-                                            <td>
+                                        <tr>
+                                            <!-- <td>
                                                 <input type="checkbox" v-model="selectedArr">
-                                            </td>
+                                            </td> -->
                                             <td>{{info.username}}</td>
                                             <td>{{info.real_name}}</td>
                                             <td>{{info.title}}</td>
@@ -184,10 +200,10 @@
                                         </tr>
                                     </template>
                                     <template v-else>
-                                        <tr>
-                                            <td>
+                                        <tr class="info">
+                                            <!-- <td>
                                                 <input type="checkbox" v-model="selectedArr">
-                                            </td>
+                                            </td> -->
                                             <td>{{info.username}}</td>
                                             <td>{{info.real_name}}</td>
                                             <td>{{info.title}}</td>
@@ -223,6 +239,11 @@
             </div>
         </div>
 
+        <!-- 回到顶部 -->
+        <div class="scrollToTop">
+            <i class="fa fa-3x fa-angle-up" aria-hidden="true"></i>
+        </div>
+        
         <div class="container">
             <div class="row">
                 <hr>
@@ -254,8 +275,5 @@
         <script src='js/serverUrl.js'></script>
         <script src='js/navTpl.js'></script>
         <script src='js/user-tracking.js'></script>
-        <script type="text/javascript">
-            $(".date").datetimepicker({format: 'yyyy-mm-dd',minView: "month"});
-        </script> 
     </body>
 </html>
