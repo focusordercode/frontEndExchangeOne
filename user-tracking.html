@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>用户行为跟踪</title>
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!--你自己的样式文件 -->
+    <link href="css/index.css" rel="stylesheet">
+    <link href="css/bootstrap-datetimepicker.css" rel="stylesheet">
+    <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">        
+    <!-- 以下两个插件用于在IE8以及以下版本浏览器支持HTML5元素和媒体查询，如果不需要用可以移除 -->
+    <!--[if lt IE 9]>
+    <script src="http://apps.bdimg.com/libs/html5shiv/3.7/html5shiv.js"></script>
+    <script src="http://apps.bdimg.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        .middle-col {
+            max-width: 20px;
+            line-height: 34px;
+            padding-left: 0;
+            padding-right: 0;
+        }
+        .pors .input-list,.pors .cate-list {
+            top: 34px;
+            left: 15px;
+            position: absolute;
+            z-index: 666;
+            list-style: none;
+            padding-left: 0;
+            border: 1px solid #ccc;
+            border-top: transparent;
+            background-color: #fff;
+        }
+        .pors .input-list li,.pors .cate-list li {
+            line-height: 32px;
+            text-indent: 12px;
+            border-bottom: 1px solid #ddd;
+            color: #8a6d3b;
+            font-size: 12px;
+        }
+        .pors .input-list li:hover,.pors .cate-list li:hover {
+            background-color: #ECF0F1;
+            cursor: pointer;
+        }
+        .paddingLeft {
+            padding-left: 0;
+        }
+        .searchShadow {
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .searchShadow:focus {
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            border-color: #ccc;
+        }
+        .searchCompent {
+            display: none;
+        }
+    </style>
+</head>
+    <body>
+        <!-- 顶部区域 -->
+        <div class="container-fluid header-fluid-top">
+            <div class="row">
+                <div class="container header-top">
+                    <div class="row">
+                        <div class="col-lg-3 col-md-3 col-sm-12">
+                            <a href="#">
+                                <img src="images/logo.png" alt="">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 导航 -->
+        <div class="navbar navbar-inverse nav-fluid-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand hidden-sm" href="javascript:">福克斯德</a>
+                </div>
+                <div class="navbar-collapse collapse" role="navigation">
+                    <ul class="nav navbar-nav">
+                        <nav-component></nav-component>
+                    </ul>
+                    <log-component></log-component>
+                </div>
+            </div>
+        </div>
+
+        <!-- 主内容区域 -->
+        <!-- <div class="container marginTop">
+            <div class="row">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4><b class="text-info">操作</b></h4>
+                    </div>
+                    <div class="panel-body">
+                        <div class="col-md-2">
+                            <input size="16" type="text" value="2012-05-15" readonly="" class="form-control date date1">
+                        </div>
+                        <div class="col-md-1 middle-col">
+                            <b>到</b>
+                        </div>
+                        <div class="col-md-2">
+                            <input size="16" type="text" value="2012-05-15" readonly="" class="form-control date date1">
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-horizontal">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label text-muted">选择用户</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" v-model="proSelected" placeholder="选择用户" class="form-control" readonly>
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <button class="btn btn-info btn-sm searchBtn">搜索</button>
+                                    </div>
+                                    <div class="col-sm-3 pors searchCompent">
+                                        <input type="text" class="form-control searchShadow searchCate" placeholder="输入关键字搜索用户">
+                                        <ul class="cate-list">
+                                            <li @click="selectCate(pro)" v-for="pro in proList">
+                                                {{pro.cn_name}} {{pro.en_name}}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-sm-1 text-left paddingLeft searchCompent">
+                                        <button class="btn btn-default closeBtn searchShadow">
+                                            <i class="fa fa-close"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+
+        <!-- 用户行为列表 -->
+        <div class="container marginTop">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4><b class="text-info">用户行为跟踪</b></h4>
+                            <button class="btn btn-info btn-sm" @click="Reflesh">刷新</button>
+                        </div>
+                        <div class="panel-body">
+                            <table class="table">
+                                <tr>
+                                    <th>选择</th>
+                                    <th>用户名</th>
+                                    <th>真是姓名</th>
+                                    <th>地址名称</th>
+                                    <th>访问时间</th>
+                                    <th>访问ip</th>
+                                    <th>请求控制器里的方法</th>
+                                    <th>操作</th>
+                                </tr>
+                                <template v-for = "info in list">
+                                    <template v-if = "$index%2==0">
+                                        <tr class="info">
+                                            <td>
+                                                <input type="checkbox" v-model="selectedArr">
+                                            </td>
+                                            <td>{{info.username}}</td>
+                                            <td>{{info.real_name}}</td>
+                                            <td>{{info.title}}</td>
+                                            <td>{{info.request_time}}</td>
+                                            <td>{{info.request_ip}}</td>
+                                            <td>{{info.request_address}}</td>
+                                            <td>
+                                                <button @click="remove(info)" class="btn btn-xs btn-danger">删除</button>
+                                            </td>
+                                        </tr>
+                                    </template>
+                                    <template v-else>
+                                        <tr>
+                                            <td>
+                                                <input type="checkbox" v-model="selectedArr">
+                                            </td>
+                                            <td>{{info.username}}</td>
+                                            <td>{{info.real_name}}</td>
+                                            <td>{{info.title}}</td>
+                                            <td>{{info.request_time}}</td>
+                                            <td>{{info.request_ip}}</td>
+                                            <td>{{info.request_address}}</td>
+                                            <td>
+                                                <button @click="remove(info)" class="btn btn-xs btn-danger">删除</button>
+                                            </td>
+                                        </tr>
+                                    </template>
+                                </template>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 分页 -->
+        <div  class="container-fluid">
+            <div class="row">
+                <div class="col-md-4 col-md-offset-4 text-center">
+                    <div class="form-inline">
+                        <button @click="goPrePage" :disabled="prePageBtn" class="btn btn-default">上一页</button>
+                        <button @click="goNextPage" :disabled="nextPageBtn" class="btn btn-default">下一页</button>
+                        <input type="number" v-model="jump" placeholder="页码" min="1" class="form-control" style="width:80px;">
+                        <button class="btn btn-info" @click="goJump" :disabled="jumpBtn">跳转</button>
+                        总页数:<strong class="text-warning">{{countPage}}</strong>　
+                        当前页:<strong class="text-warning">{{pageNow}}</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <hr>
+                <!-- <pre>{{$data|json}}</pre> -->
+            </div>
+        </div>
+
+        <!-- 页脚 -->
+        <div class="container-fluid footer-fluid">
+            <div class="contaier">
+                <div class="row">
+                    <div class="col-lg-12">
+                        © All rights reserved 深圳福克斯德信息咨询有限公司
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 如果要使用Bootstrap的js插件，必须先调入jQuery -->
+        <script src="js/jquery.js"></script>
+        <script src="js/vue.js"></script>
+        <script src="js/cookie.js"></script>
+        <!-- 包括所有bootstrap的js插件或者可以根据需要使用的js插件调用　-->
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/bootstrap-datetimepicker.min.js"></script>
+        <script src='js/layer.js'></script>
+        <!-- 检测登录状态 -->
+        <script src='js/control.js'></script>
+        <script src='js/serverUrl.js'></script>
+        <script src='js/navTpl.js'></script>
+        <script src='js/user-tracking.js'></script>
+        <script type="text/javascript">
+            $(".date").datetimepicker({format: 'yyyy-mm-dd',minView: "month"});
+        </script> 
+    </body>
+</html>
