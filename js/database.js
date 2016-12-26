@@ -24,7 +24,6 @@ var base = new Vue({
         twoid2:'',
         type2:'',
         subkey2:'',
-        selected3:'',
         basenum1:'',
     },
     ready: function () {
@@ -194,7 +193,7 @@ var base = new Vue({
                     num:num,
                     interval:interval,
                     subtype:subtype,
-                    key:key,
+                    ckey:key,
                     subnum:subnum,
                     subkey:subkey,
                 },
@@ -380,7 +379,7 @@ var base = new Vue({
                     num:num,
                     interval:interval,
                     subtype:subtype,
-                    key:key,
+                    ckey:key,
                     subnum:subnum,
                     subkey:subkey,
                 },
@@ -486,14 +485,14 @@ var base = new Vue({
                 error:function(jqXHR){
                     layer.msg('向服务器请求失败');
                 }
-            })
+            });
         },
         /*第三部分的提交按钮*/
         subpar3:function(){
-            var id = this.selected3
-            var num = $("#base-num3").val()
-            var subnum = $("#base-subnum3").val()
-            console.log(id)
+            var id = this.selected3;
+            var num = $("#base-num3").val();
+            var subnum = $("#base-subnum3").val();
+            console.log(id);
             $.ajax({
                 type:'POST',
                 url:serverUrl+'dilatation/partition',
@@ -507,8 +506,8 @@ var base = new Vue({
                 },
                 success:function(data){
                     if(data.status == 100){
-                        layer.msg('提交成功')
-                        $("#submit-partition3").attr("disabled",true)
+                        layer.msg('提交成功');
+                        $("#submit-partition3").attr("disabled",true);
                     }
                     if(data.status == 101){
                         layer.msg('提交失败');
@@ -544,10 +543,10 @@ var base = new Vue({
                 error:function(jqXHR){
                     layer.msg('向服务器请求失败');
                 }
-            })
+            });
         }
     }
-})
+});
 
 
 

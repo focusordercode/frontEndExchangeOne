@@ -4,6 +4,13 @@
 
 console.log(serverUrl); //后端接口地址
 
+$(document).ready(function() {  
+    $("#onoffswitch").on('click', function(){  
+        clickSwitch();
+        togglesw();  
+    });  
+});
+
 var searchlog = new Vue({
     el:'body',
     data:{
@@ -16,79 +23,17 @@ var searchlog = new Vue({
         urlarr:[]
     },
     ready:function(){
-        $.ajax({
-            type:'POST',
-            url:serverUrl+'detection/debug',
-            datatype:'json',
-            data:{
-                key:oKey,
-                user_id:token,
-            },
-            success: function(data){
-                if(data.status==100){
-                    searchlog.state=data.state
-                    layer.msg('调试状态为：'+ searchlog.state)
-                }else if(data.status==1012){
-                    layer.msg('请先登录',{time:2000});
-                    
-                    setTimeout(function(){
-                        jumpLogin(loginUrl,NowUrl);
-                    },2000);
-                }else if(data.status==1011){
-                    layer.msg('权限不足,请跟管理员联系');
-                }else {
-                    layer.msg('获取状态失败')
-                }
-            },
-            error: function(jqXHR){
-                layer.msg('向服务器获取信息失败');
-            }
-        })
+
+        getnewstatus();
     },
     methods:{
-        /*切换调试模式状态*/
-        switchste:function(){
-            var state11 = ""
-            if (this.state=="open"){
-                state11="close"
-            }else{
-                state11="open"
-            }
-            $("#swibtn").toggleClass("active");
-            console.log(state11);
-            $.ajax({
-                type:'post',
-                url:serverUrl+'debug',
-                datatype:'json',
-                data:{
-                    key:oKey,
-                    user_id:token,
-                    state:state11
-                },
-                success: function(data){
-                    if(data.status==100){
-                        layer.msg('更改状态成功');
-                    }else if(data.status==1012){
-                        layer.msg('请先登录',{time:2000});
-                        
-                        setTimeout(function(){
-                            jumpLogin(loginUrl,NowUrl);
-                        },2000);
-                    }else if(data.status==1011){
-                        layer.msg('权限不足,请跟管理员联系');
-                    }
-                },
-                error: function(jqXHR){
-                    layer.msg('向服务器获取信息失败');
-                }
-            })
-        },
         /*获取日志*/
         searchday:function(){
+            var vm = this;
             var seaurl = "";
-            var year = this.year;
-            var month = this.month;
-            var day = this.day;
+            var year = vm.year;
+            var month = vm.month;
+            var day = vm.day;
             if (day==""&&year==""&&month==""){
                 seaurl = serverUrl+"get/nowlog"
             }
@@ -197,7 +142,80 @@ var searchlog = new Vue({
         }
 
     }
-})
+});
+//更改调试的状态
+function togglesw(){
+    var vm = searchlog;
+    var state11 = "";
+    if (vm.state=="open"){
+        state11="close"
+    }else{
+        state11="open"
+    }
+    console.log(state11);
+    $.ajax({
+        type:'post',
+        url:serverUrl+'debug',
+        datatype:'json',
+        data:{
+            key:oKey,
+            user_id:token,
+            state:state11
+        },
+        success: function(data){
+            if(data.status==100){
+                getnewstatus();//重新拉取调试状态数据
+            }else if(data.status==1012){
+                layer.msg('请先登录',{time:2000});
+                
+                setTimeout(function(){
+                    jumpLogin(loginUrl,NowUrl);
+                },2000);
+            }else if(data.status==1011){
+                layer.msg('权限不足,请跟管理员联系');
+            }
+        },
+        error: function(jqXHR){
+            layer.msg('向服务器获取信息失败');
+        }
+    })
+};
+//重新获取调试状态函数
+function getnewstatus(){
+    $.ajax({
+        type:'POST',
+        url:serverUrl+'detection/debug',
+        datatype:'json',
+        data:{
+            key:oKey,
+            user_id:token,
+        },
+        success: function(data){
+            if(data.status==100){
+                searchlog.state=data.state
+                layer.msg('调试状态为：'+ searchlog.state);
+                if (searchlog.state == 'open') {
+                    $("#onoffswitch").attr("checked",true);
+                }else if (searchlog.state == 'close'){
+                    $("#onoffswitch").attr("checked",false);
+                }
+            }else if(data.status==1012){
+                layer.msg('请先登录',{time:2000});
+                
+                setTimeout(function(){
+                    jumpLogin(loginUrl,NowUrl);
+                },2000);
+            }else if(data.status==1011){
+                layer.msg('权限不足,请跟管理员联系');
+            }else {
+                layer.msg('获取状态失败')
+            }
+        },
+        error: function(jqXHR){
+            layer.msg('向服务器获取信息失败');
+        }
+    })
+}
 
 
 

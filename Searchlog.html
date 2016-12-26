@@ -34,7 +34,90 @@
         .form-height{
             height: 35px;
             line-height: 35px;
+            margin-right: 10px;
         }
+        .testswitch {  
+            position: relative;  
+            float: left;   
+            width: 90px;  
+            margin: 0;  
+            -webkit-user-select:none;   
+            -moz-user-select:none;   
+            -ms-user-select: none;
+            margin-top: 12px;  
+        }  
+          
+        .testswitch-checkbox {  
+            display: none;  
+        }  
+          
+        .testswitch-label {  
+            display: block;   
+            overflow: hidden;   
+            cursor: pointer;  
+            border: 2px solid #999999;   
+            border-radius: 20px;  
+        }  
+          
+        .testswitch-inner {  
+            display: block;   
+            width: 200%;   
+            margin-left: -100%;  
+            transition: margin 0.3s ease-in 0s;  
+        }  
+          
+        .testswitch-inner::before, .testswitch-inner::after {  
+            display: block;   
+            float: right;   
+            width: 50%;   
+            height: 30px;   
+            padding: 0;   
+            line-height: 30px;  
+            font-size: 14px;   
+            color: white;   
+            font-family:   
+            Trebuchet, Arial, sans-serif;   
+            font-weight: bold;  
+            box-sizing: border-box;  
+        }  
+          
+        .testswitch-inner::after {  
+            content: attr(data-on);  
+            padding-left: 10px;  
+            background-color: #00e500;   
+            color: #FFFFFF;  
+        }  
+          
+        .testswitch-inner::before {  
+            content: attr(data-off);  
+            padding-right: 10px;  
+            background-color: #EEEEEE;   
+            color: #999999;  
+            text-align: right;  
+        }  
+          
+        .testswitch-switch {  
+            position: absolute;   
+            display: block;   
+            width: 22px;  
+            height: 22px;  
+            margin: 4px;  
+            background: #FFFFFF;  
+            top: 0;   
+            bottom: 0;  
+            right: 56px;  
+            border: 2px solid #999999;   
+            border-radius: 20px;  
+            transition: all 0.3s ease-in 0s;  
+        }  
+          
+        .testswitch-checkbox:checked + .testswitch-label .testswitch-inner {  
+            margin-left: 0;  
+        }  
+          
+        .testswitch-checkbox:checked + .testswitch-label .testswitch-switch {  
+            right: 0px;   
+        }  
 
     </style>
 </head>
@@ -80,74 +163,19 @@
     <div class="row">
         <div class="col-md-12">
             <form class="bg-success form-horizontal">
-                <!--<div class="form-group form-horizontal form-left">
-                    <select v-model="year" class="form-height col-md-1">
-                        <option>2016</option>
-                        <option>2017</option>
-                        <option>2018</option>
-                    </select>
-                    <select v-model="month" class="form-height col-md-1">
-                        <option>01</option>
-                        <option>02</option>
-                        <option>03</option>
-                        <option>04</option>
-                        <option>05</option>
-                        <option>06</option>
-                        <option>07</option>
-                        <option>08</option>
-                        <option>09</option>
-                        <option>10</option>
-                        <option>11</option>
-                        <option>12</option>
-                    </select>
-                    <select v-model="day" class="form-height col-md-1">
-                        <option></option>
-                        <option>01</option>
-                        <option>02</option>
-                        <option>03</option>
-                        <option>04</option>
-                        <option>05</option>
-                        <option>06</option>
-                        <option>07</option>
-                        <option>08</option>
-                        <option>09</option>
-                        <option>10</option>
-                        <option>11</option>
-                        <option>12</option>
-                        <option>13</option>
-                        <option>14</option>
-                        <option>15</option>
-                        <option>16</option>
-                        <option>17</option>
-                        <option>18</option>
-                        <option>19</option>
-                        <option>20</option>
-                        <option>21</option>
-                        <option>22</option>
-                        <option>23</option>
-                        <option>24</option>
-                        <option>25</option>
-                        <option>26</option>
-                        <option>27</option>
-                        <option>28</option>
-                        <option>29</option>
-                        <option>30</option>
-                        <option>31</option>
-                    </select>
-                    <button v-on:click="searchday" class="btn btn-success">搜索</button>
-                </div>-->
-
                 <div class="col-md-offset-8">
                     <div class="form-group ">
                         <label class="col-md-2 text-center"><h4>调试模式</h4></label>
-                        <button id="swibtn" v-on:click="switchste" class="btn btn-lg">{{state}}</button>
-                        <!--<span class="col-md-2 text-center">现在是{{state}}模式</span>-->
-
+                        <div class="testswitch">  
+                            <input class="testswitch-checkbox" id="onoffswitch" type="checkbox">  
+                            <label class="testswitch-label" for="onoffswitch">  
+                                <span class="testswitch-inner" data-on="ON" data-off="OFF"></span>  
+                                <span class="testswitch-switch"></span>  
+                            </label>  
+                        </div>
                     </div>
                 </div>
-
             </form>
-
         </div>
     </div>
     <div class="row">
@@ -230,11 +258,11 @@
 
 
 <hr>
-<!--<div class="container">
+<div class="container">
     <div class="row">
-        <pre>{{ $data | json }}</pre>
+        <!-- <pre>{{ $data | json }}</pre> -->
     </div>
-</div>-->
+</div>
 <!-- 页脚 -->
 <div class="container-fluid footer-fluid">
     <div class="contaier">

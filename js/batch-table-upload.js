@@ -118,8 +118,8 @@ var uploadPic = new Vue({
         //开始上传
         startUpload:function(){
             var vm = this;
-            var picCount = this.picData.length,
-                form_id = this.info.id;
+            var picCount = vm.picData.length;
+            var form_id = parseInt(vm.info.id);
             if(picCount&&form_id){
                 layer.confirm('上传图片到外网服务器需要5-6分钟(取决于网速和图片大小)',function(index){
                     layer.close(index);
@@ -134,7 +134,7 @@ var uploadPic = new Vue({
                             data:{
                                 key:oKey,
                                 user_id:token,
-                                form_id:tableID
+                                form_id:form_id
                             },
                             success:function(data){
                                 if(data.status==100){

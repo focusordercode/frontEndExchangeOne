@@ -196,7 +196,7 @@ var oTableIn = new Vue({
         }
     },
     methods:{
-        //返回上一步
+        //返回上一步，撤销功能
         takeBack:function(){
             var vm = this;
             layer.confirm('返回上一步，此步骤的数据将不保存,上一步骤的数据也将被删除',{
@@ -718,7 +718,7 @@ $(document).ready(function(){
             data:{
                 key:oKey,
                 user_id:token,
-                type:'submit',
+                save_type:'submit',
                 category_id:vm.info.category_id,
                 template_id:vm.info.template_id,
                 form_id:vm.info.id,
