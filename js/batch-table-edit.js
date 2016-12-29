@@ -182,7 +182,7 @@ var oTableIn = new Vue({
                 btn:['确定','取消']
 
             },function(index){
-            var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
+            var LoadInd = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
                 layer.close(index);
                 
                 $.ajax({
@@ -202,42 +202,41 @@ var oTableIn = new Vue({
                             layer.msg('请求成功');
                             //跳转函数
                             function goNext() {
-                                var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
+                                var LoadInd = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
                                 $.ajax({
                                     type:'POST',
-                                    url:serverUrl+'get/formNumber',
+                                    url:serverUrl+'set/businesscode',
                                     datatype:'json',
                                     data:{
                                         key:oKey,
                                         user_id:token,
-                                        type_code:type_code
+                                        code:'TG'
                                     },
                                     success:function(data){
                                         layer.close(LoadInd); //关闭遮罩层
                                         if(data.status==100){
-                                            
                                             //解除未提交内容提示
                                             $(window).unbind('beforeunload');
-
-                                            var id = data.value;
+                                            var id = data.code;
                                             var url = 'batch-table-creat.html?tableID='+id;
                                             if(id){
                                                 window.location.href = url;
                                             }
+                                        }else if(data.status==101){
+                                            layer.msg('请求失败，请重试');
                                         }else if(data.status==1012){
                                             layer.msg('请先登录',{time:2000});
-                                            $(window).unbind('beforeunload');
+                                            
                                             setTimeout(function(){
                                                 jumpLogin(loginUrl,NowUrl);
                                             },2000);
                                         }else if(data.status==1011){
                                             layer.msg('权限不足,请跟管理员联系');
-                                        }else{
-                                            layer.msg('返回失败，请重试');
                                         }
                                     },
                                     error:function(jqXHR){
-                                        layer.msg('返回失败，请重试');
+                                        layer.close(LoadInd); //关闭遮罩层
+                                        layer.msg('向服务器请求创建表格失败');
                                     }
                                 })
                             }
