@@ -226,7 +226,8 @@ var oTableIn = new Vue({
                                             layer.msg('请求失败，请重试');
                                         }else if(data.status==1012){
                                             layer.msg('请先登录',{time:2000});
-                                            
+                                            //解除未提交内容提示
+                                            $(window).unbind('beforeunload');
                                             setTimeout(function(){
                                                 jumpLogin(loginUrl,NowUrl);
                                             },2000);
@@ -236,7 +237,7 @@ var oTableIn = new Vue({
                                     },
                                     error:function(jqXHR){
                                         layer.close(LoadInd); //关闭遮罩层
-                                        layer.msg('向服务器请求创建表格失败');
+                                        layer.msg('返回失败，请重试');
                                     }
                                 })
                             }
