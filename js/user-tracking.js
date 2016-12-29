@@ -16,6 +16,7 @@ var userlist = new Vue({
             uid:'',
             uidName:''
         },
+        selectedArr:[],
         searchResult:'' //搜索成功后的条件
 	},
     ready:function(){
@@ -71,7 +72,26 @@ var userlist = new Vue({
             }else{
                 return false
             }
-        }
+        },
+        allChecked: {
+            get: function() {
+                return this.checkedCount == this.list.length;
+            },
+            set: function(value) {
+                if (value) {
+                  this.selectedArr = this.list.map(function(info) {
+                    return info.id
+                  })
+                } else {
+                  this.selectedArr = []
+                }
+            }
+        },
+        checkedCount: {
+            get: function() {
+                return this.selectedArr.length;
+            }
+        },
     },
     methods:{
         //删除
@@ -171,6 +191,19 @@ var userlist = new Vue({
             $('.searchCompent').hide();
             $('.search-usrbtn').show();
         },
+        //全选删除的条目
+        
+        // selectall:function(){
+        //     // var all = $('.table td input');
+        //     // for (var i = 0; i < all.length; i++) {
+        //     //     if (all[i].is(':checked')) {
+        //     //         all[i].attr('checked',false)
+        //     //     }else{
+        //     //         all[i].attr('checked',trues)
+        //     //     }
+        //     // }
+        //     $('input[type="checkbox"]').prop("checked",true);
+        // },
         //搜索
         searchInfo:function(){
             var vm = this;

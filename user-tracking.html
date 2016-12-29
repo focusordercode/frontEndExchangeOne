@@ -173,7 +173,7 @@
                         <div class="panel-body">
                             <table class="table">
                                 <tr>
-                                    <!-- <th>选择</th> -->
+                                    <th><input type="checkbox" v-model="allChecked">全选</th>
                                     <th>用户名</th>
                                     <th>真实姓名</th>
                                     <th>地址名称</th>
@@ -185,9 +185,9 @@
                                 <template v-for = "info in list">
                                     <template v-if = "$index%2==0">
                                         <tr>
-                                            <!-- <td>
-                                                <input type="checkbox" v-model="selectedArr">
-                                            </td> -->
+                                            <td>
+                                                <input type="checkbox" v-model="selectedArr" :value="info.id">
+                                            </td>
                                             <td>{{info.username}}</td>
                                             <td>{{info.real_name}}</td>
                                             <td>{{info.title}}</td>
@@ -201,9 +201,9 @@
                                     </template>
                                     <template v-else>
                                         <tr class="info">
-                                            <!-- <td>
-                                                <input type="checkbox" v-model="selectedArr">
-                                            </td> -->
+                                            <td>
+                                                <input type="checkbox" v-model="selectedArr" :value="info.id">
+                                            </td>
                                             <td>{{info.username}}</td>
                                             <td>{{info.real_name}}</td>
                                             <td>{{info.title}}</td>
@@ -247,7 +247,7 @@
         <div class="container">
             <div class="row">
                 <hr>
-                <!-- <pre>{{$data|json}}</pre> -->
+                <pre>{{$data|json}}</pre>
             </div>
         </div>
 

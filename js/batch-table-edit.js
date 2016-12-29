@@ -1,3 +1,4 @@
+//批量表第二步
 //获取ID
 function UrlSearch() {
     var name,value; 
@@ -174,14 +175,16 @@ var oTableIn = new Vue({
         }
     },
     methods:{
-        //返回上一步
+        //返回上一步、撤销
         takeBack:function(){
             var vm = oTableIn;
             layer.confirm('返回上一步，此步骤的数据将不保存,上一步骤的数据也将被删除',{
                 btn:['确定','取消']
-            },function(index){
-                layer.close(index);
 
+            },function(index){
+            var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
+                layer.close(index);
+                
                 $.ajax({
                     type:'POST',
                     url:serverUrl+'back',
@@ -192,11 +195,14 @@ var oTableIn = new Vue({
                         form_id:tableID,
                         type_code:type_code
                     },
+
                     success:function(data){
+                        layer.close(LoadInd); //关闭遮罩层
                         if(data.status==100){
                             layer.msg('请求成功');
                             //跳转函数
                             function goNext() {
+                                var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
                                 $.ajax({
                                     type:'POST',
                                     url:serverUrl+'get/formNumber',
@@ -207,7 +213,9 @@ var oTableIn = new Vue({
                                         type_code:type_code
                                     },
                                     success:function(data){
+                                        layer.close(LoadInd); //关闭遮罩层
                                         if(data.status==100){
+                                            
                                             //解除未提交内容提示
                                             $(window).unbind('beforeunload');
 
@@ -249,6 +257,7 @@ var oTableIn = new Vue({
                         }
                     },
                     error:function(jqXHR){
+                        layer.close(LoadInd); //关闭遮罩层
                         layer.msg('向服务器请求撤销返回失败');
                     }
                 })
