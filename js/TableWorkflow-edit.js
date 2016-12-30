@@ -202,8 +202,9 @@ var oTableIn = new Vue({
             layer.confirm('返回上一步，此步骤的数据将不保存,上一步骤的数据也将被删除',{
                 btn:['确定','取消']
             },function(index){
+                var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
                 layer.close(index);
-
+                
                 $.ajax({
                     type:'POST',
                     url:serverUrl+'rollback/checkinfo',
@@ -214,6 +215,7 @@ var oTableIn = new Vue({
                         form_id:tableID
                     },
                     success:function(data){
+                        layer.close(LoadIndex); //关闭遮罩层
                         if(data.status==100){
                             layer.msg('请求成功');
 
@@ -242,6 +244,7 @@ var oTableIn = new Vue({
                         }
                     },
                     error:function(jqXHR){
+                        layer.close(LoadIndex); //关闭遮罩层
                         layer.msg('向服务器请求撤销返回失败');
                     }
                 })

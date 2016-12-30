@@ -187,7 +187,7 @@
                             </table>
                             <div class="row">
                                 <div class="col-md-4 col-md-offset-5">
-                                    <button @click="startUpload" v-show="!uploadDoneStatus" class="btn start btn-info">
+                                    <button @click="startUpload" v-show="!uploadDoneStatus" onclick="getPropress()" class="btn start btn-info">
                                         开始上传
                                     </button>
                                 </div>
@@ -245,7 +245,7 @@
 
         <div class="container">
             <div class="row">
-                <!-- <pre>{{$data|json}}</pre> -->
+                <pre>{{$data|json}}</pre>
             </div>
         </div>
 

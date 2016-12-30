@@ -20,7 +20,7 @@ var tableID = Request.id;
 var type_code = 'batch';
 console.log(serverUrl); //后端接口地址
 var oUrl = serverUrl;//图片服务器地址
-
+var ProgressLen = 0;
 //未提交保存内容提示
 $(window).bind('beforeunload',function(){return "您修改的内容尚未保存，确定离开此页面吗？";});
 
@@ -120,48 +120,86 @@ var uploadPic = new Vue({
             var vm = this;
             var picCount = vm.picData.length;
             var form_id = parseInt(vm.info.id);
-            if(picCount&&form_id){
+            if(picCount && form_id){
                 layer.confirm('上传图片到外网服务器需要5-6分钟(取决于网速和图片大小)',function(index){
                     layer.close(index);
                     //查询进度
+                    var ProgressLen = 0;
+                    var num1 = 0;
                     var progressbar = $('.progress-bar');
+                    var randNum1 = new Array(2,3,2,4,3,4,3,3,2,3);
+                    var randNum2 = new Array(4,5,2,4,3,4,3,2,5,3);
+                    var randNum3 = new Array(6,5,5,4,2,4,2,4,5,4);
                     //设定循环获取进度函数
                     var timeid = setInterval(function(){
-                        $.ajax({
-                            type:'POST',
-                            url:serverUrl+'get/progress',
-                            datatype:'json',
-                            data:{
-                                key:oKey,
-                                user_id:token,
-                                form_id:form_id
-                            },
-                            success:function(data){
-                                if(data.status==100){
-                                    var progress = data.progress;
-                                    if(progress){
-                                        progressbar.css('width',progress);
-                                        progressbar.text(progress);
-                                    }
-                                }else if(data.status==1012){
-                                    layer.msg('请先登录',{time:2000});
-                                    $(window).unbind('beforeunload');
-                                    setTimeout(function(){
-                                        jumpLogin(loginUrl,NowUrl);
-                                    },2000);
-                                }else if(data.status==1011){
-                                    layer.msg('权限不足,请跟管理员联系');
-                                }else{
-                                    layer.msg('未知错误');
-                                    //解绑页面提示
-                                    $(window).unbind('beforeunload');
-                                    setInterval(windowFresh,1000);
-                                }
-                            },
-                            error:function(jqXHR){
-                                layer.msg('向服务器请求进度失败');
-                            }
-                        })
+                        num1 = Math.round(150/picCount);
+                        ProgressLen += num1;
+                        
+                        // picCount / 3;
+                        // if(picCount >= 60){
+                        //     randNum = randNum1;
+                        // }
+                        // if(picCount >= 60){
+                        //     randNum = randNum1;
+                        // }
+                        // if(picCount >= 60){
+                        //     randNum = randNum1;
+                        // }
+                        // if(picCount >= 60){
+                        //     randNum = randNum1;
+                        // }
+                        // if(picCount >= 60 && picCount <=){
+                        //     randNum = randNum1;
+                        // }
+                        // if(picCount >= 40 && picCount <= 59){
+                        //     randNum = randNum2;
+                        // }
+                        // if(picCount < 40){
+                        //     randNum = randNum3;
+                        // }
+                        // var randNums = Math.floor(Math.random() * 10);
+                        // alert(randNums);
+                        // ProgressLen += randNum[randNums];
+                        if (ProgressLen >= 96) {
+                            ProgressLen = 96
+                        }
+                        progressbar.css('width',ProgressLen + "%");
+                        progressbar.text(ProgressLen + "%");
+                        // $.ajax({
+                        //     type:'POST',
+                        //     url:serverUrl+'get/progress',
+                        //     datatype:'json',
+                        //     data:{
+                        //         key:oKey,
+                        //         user_id:token,
+                        //         form_id:form_id
+                        //     },
+                        //     success:function(data){
+                        //         if(data.status==100){
+                        //             var progress = data.progress;
+                        //             if(progress){
+                        //                 progressbar.css('width',progress);
+                        //                 progressbar.text(progress);
+                        //             }
+                        //         }else if(data.status==1012){
+                        //             layer.msg('请先登录',{time:2000});
+                        //             $(window).unbind('beforeunload');
+                        //             setTimeout(function(){
+                        //                 jumpLogin(loginUrl,NowUrl);
+                        //             },2000);
+                        //         }else if(data.status==1011){
+                        //             layer.msg('权限不足,请跟管理员联系');
+                        //         }else{
+                        //             layer.msg('未知错误');
+                        //             //解绑页面提示
+                        //             $(window).unbind('beforeunload');
+                        //             setInterval(windowFresh,1000);
+                        //         }
+                        //     },
+                        //     error:function(jqXHR){
+                        //         layer.msg('向服务器请求进度失败');
+                        //     }
+                        // })
                     },3000);
 
                     $('.progress-display').show();//开启遮罩层
@@ -180,6 +218,7 @@ var uploadPic = new Vue({
                         success:function(data){
                             window.clearInterval(timeid);//停止执行
                             $('.progress-display').hide();//关闭遮罩层
+                            ProgressLen = 0;
                             progressbar.css('width',0);//还原进度条
                             progressbar.text('0.00');
                             if(data.status==100){
