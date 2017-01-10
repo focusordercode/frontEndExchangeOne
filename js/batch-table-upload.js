@@ -29,7 +29,8 @@ var uploadPic = new Vue({
     data:{
         info:'',//表格数据
         picData:'',//图片数据
-        success_count:0 //成功上传个数,默认为0
+        success_count:0, //成功上传个数,默认为0
+        again:[]
     },
     ready:function(){
         //获取图片
@@ -251,6 +252,43 @@ var uploadPic = new Vue({
             }else{
                 layer.msg('没有检测到图片数据和表格信息');
             }
+        },
+        //重新上传
+        uploadagain:function(index,list){
+            var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
+            var vm= this;
+            var lis = index;
+            var arr = vm.picData;
+            vm.again.push(list);
+            var form_id = parseInt(vm.info.id);
+            $.ajax({
+                type:'POST',
+                url:serverUrl+'upload/pic',
+                datatype:'json',
+                data:{
+                    key:oKey,
+                    user_id:token,
+                    form_id:form_id,
+                    picCount:1,
+                    picArr:vm.again
+                },
+                success:function(data){
+                    layer.close(LoadIndex); //关闭遮罩层
+                    vm.again = [];
+                    if (data.status == 100) {
+                        vm.picData.$remove(list);
+                        vm.picData.splice(lis,0,data.value[0]);
+                        vm.success_count = countPic(arr);
+                        layer.msg("上传成功")
+                    }else if (data.status == 101) {
+                        layer.msg("上传失败，请重新上传")
+                    }
+                },
+                error:function(jqXHR){
+                    layer.close(LoadIndex); //关闭遮罩层
+                    layer.msg("链接服务器失败")
+                }
+            })
         },
         //上传已经成功上传的图片数据给后端
         uploadDone:function(){
