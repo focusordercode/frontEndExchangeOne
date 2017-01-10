@@ -30,7 +30,7 @@ var uploadPic = new Vue({
         info:'',//表格数据
         picData:'',//图片数据
         success_count:0, //成功上传个数,默认为0
-        again:[]
+        again:[] //单独重新上传的数据
     },
     ready:function(){
         //获取图片
@@ -128,44 +128,17 @@ var uploadPic = new Vue({
                     var ProgressLen = 0;
                     var num1 = 0;
                     var progressbar = $('.progress-bar');
-                    var randNum1 = new Array(2,3,2,4,3,4,3,3,2,3);
-                    var randNum2 = new Array(4,5,2,4,3,4,3,2,5,3);
-                    var randNum3 = new Array(6,5,5,4,2,4,2,4,5,4);
                     //设定循环获取进度函数
                     var timeid = setInterval(function(){
+                        //手动进度条
                         num1 = Math.round(150/picCount);
                         ProgressLen += num1;
-                        
-                        // picCount / 3;
-                        // if(picCount >= 60){
-                        //     randNum = randNum1;
-                        // }
-                        // if(picCount >= 60){
-                        //     randNum = randNum1;
-                        // }
-                        // if(picCount >= 60){
-                        //     randNum = randNum1;
-                        // }
-                        // if(picCount >= 60){
-                        //     randNum = randNum1;
-                        // }
-                        // if(picCount >= 60 && picCount <=){
-                        //     randNum = randNum1;
-                        // }
-                        // if(picCount >= 40 && picCount <= 59){
-                        //     randNum = randNum2;
-                        // }
-                        // if(picCount < 40){
-                        //     randNum = randNum3;
-                        // }
-                        // var randNums = Math.floor(Math.random() * 10);
-                        // alert(randNums);
-                        // ProgressLen += randNum[randNums];
                         if (ProgressLen >= 96) {
                             ProgressLen = 96
                         }
                         progressbar.css('width',ProgressLen + "%");
                         progressbar.text(ProgressLen + "%");
+                        //自动获取进度条
                         // $.ajax({
                         //     type:'POST',
                         //     url:serverUrl+'get/progress',
@@ -257,9 +230,9 @@ var uploadPic = new Vue({
         uploadagain:function(index,list){
             var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
             var vm= this;
-            var lis = index;
+            var lis = index;  //当前选择的序号
             var arr = vm.picData;
-            vm.again.push(list);
+            vm.again.push(list);  //把当前的选择放入数组内
             var form_id = parseInt(vm.info.id);
             $.ajax({
                 type:'POST',
@@ -276,9 +249,9 @@ var uploadPic = new Vue({
                     layer.close(LoadIndex); //关闭遮罩层
                     vm.again = [];
                     if (data.status == 100) {
-                        vm.picData.$remove(list);
-                        vm.picData.splice(lis,0,data.value[0]);
-                        vm.success_count = countPic(arr);
+                        vm.picData.$remove(list);  //先移除当前的选择
+                        vm.picData.splice(lis,0,data.value[0]);  //把新的数据填入到原来的位置
+                        vm.success_count = countPic(arr);  //重新计算上传成功的数量
                         layer.msg("上传成功")
                     }else if (data.status == 101) {
                         layer.msg("上传失败，请重新上传")
