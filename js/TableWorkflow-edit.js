@@ -304,7 +304,7 @@ var oTableIn = new Vue({
                     getdata.variant = VariantData;
                 $.ajax({
                     type:'POST',
-                    url:serverUrl+'autofill/product',
+                    url:serverUrl+'table/automatic',
                     datatype:'json',
                     data:{
                         key:oKey,
