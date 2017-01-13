@@ -137,6 +137,48 @@ var userlist = new Vue({
                 })
             })
         },
+        //删除所选
+        removeall:function(){
+            var vm = this;
+            var Id = vm.selectedArr;
+            var search = vm.searchResult;
+            var pageNow = vm.pageNow;
+
+            layer.confirm('是否确认删除?', {
+              btn: ['确定','关闭'] //按钮
+            },function(index){
+                layer.close(index);
+                $.ajax({
+                    type: "POST",
+                    url: serverUrl+"delete/track", 
+                    dataType: "json",
+                    data:{
+                        key:oKey,
+                        user_id:token,
+                        id:Id
+                    },
+                    success: function(data){
+                        if(data.status==100){
+                            layer.msg('删除成功');
+                            setTimeout(getPageData(vm,pageNow,search,num),1000);
+                        }else if(data.status==1012){
+                            layer.msg('请先登录',{time:2000});
+                            
+                            setTimeout(function(){
+                                jumpLogin(loginUrl,NowUrl);
+                            },2000);
+                        }else if(data.status==1011){
+                            layer.msg('权限不足,请跟管理员联系');
+                        }else{
+                            layer.msg(data.msg);
+                        }
+                    },
+                    error: function(jqXHR){     
+                        layer.msg('向服务器请求失败');
+                    }
+                })
+            })
+        },
         //刷新
         Reflesh:function(){
             location.reload(true);
