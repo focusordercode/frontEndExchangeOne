@@ -17,6 +17,7 @@ function UrlSearch() {
 } 
 var Request=new UrlSearch();
 var Id = Request.id;
+
 var type_code = 'info';
 
 console.log(serverUrl);//后端接口地址
@@ -359,6 +360,59 @@ var selectPic = new Vue({
                 layer.msg('请先选择产品');
             }
         },
+        //返回上一步，撤销功能
+        takeBack:function(){
+            var vm = this;
+            layer.confirm('返回上一步，此步骤的数据将不保存,上一步骤的数据也将被删除',{
+                btn:['确定','取消']
+            },function(index){
+                var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
+                layer.close(index);
+                
+                $.ajax({
+                    type:'POST',
+                    url:serverUrl+'rollback/checkinfo',
+                    datatype:'json',
+                    data:{
+                        key:oKey,
+                        user_id:token,
+                        form_id:Id
+                    },
+                    success:function(data){
+                        layer.close(LoadIndex); //关闭遮罩层
+                        if(data.status==100){
+                            layer.msg('请求成功');
+
+                            //解除未提交内容提示
+                            $(window).unbind('beforeunload');
+
+                            //跳转函数
+                            function goNext() {
+                                creatTable();
+                            }
+
+                            setInterval(goNext,1000);
+
+                        }else if(data.status==1012){
+                            layer.msg('请先登录',{time:2000});
+                            //解除未提交内容提示
+                            $(window).unbind('beforeunload');
+                            setTimeout(function(){
+                                jumpLogin(loginUrl,NowUrl);
+                            },2000);
+                        }else if(data.status==1011){
+                            layer.msg('权限不足,请跟管理员联系');
+                        }else{
+                            layer.msg(data.msg);
+                        }
+                    },
+                    error:function(jqXHR){
+                        layer.close(LoadIndex); //关闭遮罩层
+                        layer.msg('向服务器请求撤销返回失败');
+                    }
+                })
+            })
+        },
         //删除关联
         deleteRelate:function (rList) {
             this.relateValList.$remove(rList);
@@ -624,6 +678,41 @@ $('.searchCate2').on('keyup',function(){
         }
     })
 });
+//新建表格
+function creatTable(){
+    $.ajax({
+        type:'POST',
+        url:serverUrl+'set/businesscode',
+        datatype:'json',
+        data:{
+            key:oKey,
+            user_id:token,
+            code:'1D'
+        },
+        success:function(data){
+            if(data.status==100){
+                var id = data.code;
+                var url = 'TableWorkflow-creat.html?tableID='+id;
+                if(id){
+                    window.location.href = url;
+                }
+            }else if(data.status==101){
+                layer.msg('请求失败，请重试');
+            }else if(data.status==1012){
+                layer.msg('请先登录',{time:2000});
+                
+                setTimeout(function(){
+                    jumpLogin(loginUrl,NowUrl);
+                },2000);
+            }else if(data.status==1011){
+                layer.msg('权限不足,请跟管理员联系');
+            }
+        },
+        error:function(jqXHR){
+            layer.msg('向服务器请求创建表格失败');
+        }
+    })
+}
 //提取数组中的ID
 function getcataid(cataselect){
     var cataid = [];

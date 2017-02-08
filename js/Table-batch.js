@@ -21,6 +21,9 @@ var oTableInfo = new Vue({
 			cate_name:'',
 			cateId:''
 		},
+		alluser:[],//供选择的用户
+		chooseuser:'',//选择的用户
+		selectedArr:[],//选择的表格
 		//交互数据
 		searchResult:'', //搜索成功后的条件
         infoCache:'',//信息修改暂存
@@ -97,7 +100,26 @@ var oTableInfo = new Vue({
 			}else{
 				return false
 			}
-		}
+		},
+		allChecked: {
+            get: function() {
+                return this.checkedCount == this.tableInfo.length;
+            },
+            set: function(value) {
+                if (value) {
+                  this.selectedArr = this.tableInfo.map(function(item) {
+                    return item.id
+                  })
+                } else {
+                  this.selectedArr = []
+                }
+            }
+        },
+        checkedCount: {
+            get: function() {
+                return this.selectedArr.length;
+            }
+        },
 	},
 	methods:{
 		//删除
@@ -182,6 +204,77 @@ var oTableInfo = new Vue({
 		//刷新
 		Reflesh:function(){
 			location.reload(true);
+		},
+		//移交前选择被移交人
+		choose:function(){
+			var vm = this;
+			$.ajax({
+				type:'POST',
+				url:serverUrl+'transearch/custom',
+				datatype:'json',
+				data:{
+					key:oKey,
+					user_id:token,
+				},
+				success:function(data){
+					if (data.status == 100) {
+						$('.transfer').modal('show');
+						vm.alluser=data.value;
+					}else if(data.status==1012){
+	                    layer.msg('请先登录',{time:2000});
+	                    
+	                    setTimeout(function(){
+	                        jumpLogin(loginUrl,NowUrl);
+	                    },2000);
+	                }else if(data.status==1011){
+	                    layer.msg('权限不足,请跟管理员联系');
+	                }else{
+						layer.msg(data.msg);
+					}
+				},
+				error:function(jqXHR){
+					layer.msg('向服务器请求搜索失败');
+				}
+			})
+		},
+		//确定移交表格
+		Subtran:function(){
+			var vm = this;
+			var uid = vm.chooseuser;
+			var form_id = vm.selectedArr;
+			var pageNow = this.pageNow;
+			var search = this.searchResult;
+			$.ajax({
+				type:'POST',
+				url:serverUrl+'transfer/form',
+				datatype:'json',
+				data:{
+					key:oKey,
+	        		user_id:token,
+	        		uid:uid,
+	        		form_id:form_id,
+	        		type_code:'batch'
+				},
+				success:function(data){
+					if (data.status==100) {
+						$('.transfer').modal('hide');
+						layer.msg('移交成功');
+						setTimeout(getPageData(vm,pageNow,search,num,type_code),1000);
+					}else if(data.status==1012){
+	                    layer.msg('请先登录',{time:2000});
+	                    setTimeout(function(){
+	                        jumpLogin(loginUrl,NowUrl);
+	                    },2000);
+	                }else if(data.status==1011){
+	                    layer.msg('权限不足,请跟管理员联系');
+	                }else{
+						layer.msg(data.msg);
+					}
+				},
+				error:function(jqXHR){
+					layer.msg('向服务器请求移交失败');
+				}
+			})
 		},
 		//从搜索结果中选中一个类目
 		selectCate:function(pro){
