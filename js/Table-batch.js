@@ -549,7 +549,8 @@ function getPageData (vm,pageNow,search,num,type_code) {
 				vm.countPage = data.countPage;
 				vm.pageNow = data.pageNow;
 			}else if(data.status==101){
-				layer.msg('操作失败');
+				layer.msg('暂无相关信息');
+				location.reload(true);
 			}else if(data.status==102){
 				layer.msg('参数错误');
 			}else if(data.status==1012){

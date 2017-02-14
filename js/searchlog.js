@@ -8,7 +8,7 @@ $(document).ready(function() {
     $("#onoffswitch").on('click', function(){  
         clickSwitch();
         togglesw();  
-    });  
+    });
 });
 
 var searchlog = new Vue({
@@ -20,13 +20,68 @@ var searchlog = new Vue({
         day:'',
         logdata:'',
         logurl:'',
-        urlarr:[]
+        urlarr:[],
+        months:[01,02,03,04,05,06,07,08,09,10,11,12],
+        days:[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]
     },
     ready:function(){
 
         getnewstatus();
+        var vm = this;
+        var nowDate = new Date();
+        var nowdays = nowDate.getDate();
+        var nowmonthes = nowDate.getMonth();
+        var nowyears = nowDate.getFullYear();
+        vm.year = nowyears;
+        vm.month = nowmonthes<10?'0'+(nowmonthes + 1):nowmonthes + 1;
+        vm.day = nowdays;
+    },
+    computed:{
+        /*获取时间，并展示在月份、日期选项*/
+        nowtimemonth:function(){
+            var vm = this;
+            var nowDate = new Date();
+            var nowdays = nowDate.getDate();
+            var nowmonthes = nowDate.getMonth();
+            var nowyears = nowDate.getFullYear();
+            var nowyear = vm.year;
+            if (nowyear == 2016) {
+                return vm.months.filter(function (number) {
+                    return number >= 10;
+                });
+            }else if (nowyear == nowyears) {
+                return vm.months.filter(function (number) {
+                    return number <= nowmonthes+1;
+                });
+            }else {
+                return vm.months;
+            }
+        },
+        nowtimeday:function(){
+            var vm = this;
+            var nowDate = new Date();
+            var nowdays = nowDate.getDate();
+            var nowmonthes = nowDate.getMonth();
+            var nowyears = nowDate.getFullYear();
+            if (vm.year == nowyears && vm.month == (nowmonthes+1)) {
+                return vm.days.filter(function (number) {
+                    return number <= nowdays;
+                })
+            }else{
+                return vm.days;
+            }
+        },
+        nowtimeyear:function(){
+            var vm = this;
+            var nowDate = new Date();
+            var nowdays = nowDate.getDate();
+            var nowmonthes = nowDate.getMonth();
+            var nowyears = nowDate.getFullYear();
+            return parseInt(nowyears - 2015);
+        }
     },
     methods:{
+
         /*获取日志*/
         searchday:function(){
             var vm = this;
@@ -34,11 +89,11 @@ var searchlog = new Vue({
             var year = vm.year;
             var month = vm.month;
             var day = vm.day;
-            if (day==""&&year==""&&month==""){
-                seaurl = serverUrl+"get/nowlog"
+            if (day ==""&&year ==""&&month ==""){
+                seaurl = serverUrl+"get/nowlog";
             }
             else {
-                seaurl = serverUrl+"get/fixlog"
+                seaurl = serverUrl+"get/fixlog";
             }
             $.ajax({
                 type:"POST",
