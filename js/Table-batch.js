@@ -21,6 +21,8 @@ var oTableInfo = new Vue({
 			cate_name:'',
 			cateId:''
 		},
+		nowsort:'asc',//初始的状态
+    	nowname:'',//目前选择的排序模块
 		alluser:[],//供选择的用户
 		chooseuser:'',//选择的用户
 		selectedArr:[],//选择的表格
@@ -163,6 +165,66 @@ var oTableInfo = new Vue({
 				        layer.msg('向服务器请求失败');
 				    }
 				})
+			})
+		},
+		//排序功能
+		sort:function(message){
+			var vm = this;
+			var name = message;
+			vm.nowname = message;
+			console.log(name);
+			var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层 
+			var sort = oTableInfo.nowsort;
+			switch(sort){
+				case "asc":
+					sort='desc';
+					oTableInfo.nowsort = 'desc';
+					oTableInfo.arrowup = true;
+					oTableInfo.arrowdw = false;
+					break;
+				case "desc":
+					sort='asc';
+					oTableInfo.nowsort = 'asc';
+					oTableInfo.arrowdw = true;
+					oTableInfo.arrowup = false;
+					break;
+			}
+			$.ajax({
+			    type: "POST",
+			    url: serverUrl+"search/form", //添加请求地址的参数
+			    dataType: "json",
+			    data:{
+			    	key:oKey,
+			    	user_id:token,
+			        category_id:'',
+			        type_code:type_code,
+			        num:num,
+			        orderKey:name,
+			        sort:sort
+			    },
+			    success: function(data){
+			    	layer.close(LoadIndex); //关闭遮罩层
+			        if(data.status==100){
+			        	oTableInfo.tableInfo = data.value;
+			        	oTableInfo.count = data.count;
+			        	oTableInfo.countPage = data.countPage;
+			        	oTableInfo.pageNow = data.pageNow;
+			        }else if(data.status==1012){
+		                layer.msg('请先登录',{time:2000});
+		                
+		                setTimeout(function(){
+		                    jumpLogin(loginUrl,NowUrl);
+		                },2000);
+		            }else if(data.status==1011){
+		                layer.msg('权限不足,请跟管理员联系');
+		            }else{
+			        	layer.msg(data.msg);
+			        }
+			    },
+			    error: function(jqXHR){
+			    	layer.close(LoadIndex); //关闭遮罩层     
+			        layer.msg('向服务器获取信息失败');
+			    }
 			})
 		},
 		//新建表格
@@ -527,6 +589,8 @@ function windowFresh(){
 
 function getPageData (vm,pageNow,search,num,type_code) {
 	var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
+	var name = oTableInfo.nowname;
+    var sort = oTableInfo.nowsort;
 	$.ajax({
 		type:'POST',
 		url:serverUrl+'get/infoform',
@@ -539,7 +603,9 @@ function getPageData (vm,pageNow,search,num,type_code) {
 			num:num,
 			status_code:search.status_code,
 			category_id:search.cateId,
-			keyword:search.keyword
+			keyword:search.keyword,
+			orderKey:name,
+	        sort:sort
 		},
 		success:function(data){
 			layer.close(LoadIndex); //关闭遮罩层

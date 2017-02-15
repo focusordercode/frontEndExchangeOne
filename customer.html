@@ -27,6 +27,9 @@
         .modal-content .form-control {
             border-radius: 0;
         }
+        .sort-bg{
+        	background-color: #d9edf7;
+        }
     </style>
 </head>
     <body>
@@ -93,13 +96,13 @@
                                         <tr class="info">
                                             <th>序号</th>
                                             <th>选择</th>
-                                            <th>客户名</th>
-                                            <th>英文名</th>
-                                            <th>公司</th>
-                                            <th>电话</th>
-                                            <th>邮箱</th>
-                                            <th>地址</th>
-                                            <th>客户编号</th>
+                                            <th><button @click="sort('A')" class="btn sort-bg">客户名</th>
+                                            <th><button @click="sort('B')" class="btn sort-bg">英文名</th>
+                                            <th><button @click="sort('C')" class="btn sort-bg">公司</th>
+                                            <th><button @click="sort('D')" class="btn sort-bg">电话</th>
+                                            <th><button @click="sort('E')" class="btn sort-bg">邮箱</th>
+                                            <th><button @click="sort('F')" class="btn sort-bg">地址</th>
+                                            <th><button @click="sort('G')" class="btn sort-bg">客户编号</th>
                                             <th>操作</th>
                                         </tr>
                                         <template v-for="table in cusData">

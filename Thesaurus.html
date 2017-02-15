@@ -33,6 +33,9 @@
             overflow: hidden;
             text-overflow: ellipsis;
         }
+        .sort-bg{
+        	background-color: #dff0d8;
+        }
     </style>
 </head>
     <body>
@@ -149,11 +152,11 @@
                                 <table class="table table-bordered">
                                     <tr class="success text-success">
                                         <th class="text-center">序号</th>
-                                        <th class="text-center">名称</th>
-                                        <th class="text-center td-remark">描述</th>
-                                        <th class="text-center">创建时间</th>
-                                        <th class="text-center">更新时间</th>
-                                        <th class="text-center">状态</th>
+                                        <th class="text-center"><button @click="sort('A')" class="btn sort-bg">名称</th>
+                                        <th class="text-center td-remark"><button @click="sort('B')" class="btn sort-bg">描述</th>
+                                        <th class="text-center"><button @click="sort('C')" class="btn sort-bg">创建时间</th>
+                                        <th class="text-center"><button @click="sort('D')" class="btn sort-bg">更新时间</th>
+                                        <th class="text-center"><button @click="sort('E')" class="btn sort-bg">状态</th>
                                         <th class="text-center">操作</th>
                                     </tr>
                                     <!-- template渲染 -->

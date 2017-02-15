@@ -15,6 +15,8 @@ var customer = new Vue({
 		jumpBtn:'',
 		//控制删除全部和全选按钮
 		deleteAll:'',
+		nowsort:'asc',//初始的状态
+		nowname:'',//目前选择的排序模块
 		selectAllBtn:{
 			checked:false
 		},
@@ -203,6 +205,66 @@ var customer = new Vue({
 		addTable:function(){
 			$('.addTable').modal('show');
 			$('.addTable').css('margin-top','200px');
+		},
+		//排序功能
+		sort:function(message){
+			var vm = this;
+			var name = message;
+			vm.nowname = message;
+			console.log(name);
+			var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层 
+			var sort = customer.nowsort;
+			switch(sort){
+				case "asc":
+					sort='desc';
+					customer.nowsort = 'desc';
+					
+					break;
+				case "desc":
+					sort='asc';
+					customer.nowsort = 'asc';
+					
+					break;
+			}
+			$.ajax({
+				type:'POST',
+				url:serverUrl+'get/custom',
+				datatype:'json',
+				data:{
+					key:oKey,
+	                user_id:token,
+					pageSize:num,
+					orderKey:name,
+			        sort:sort
+				},
+				success:function(data){
+					layer.close(LoadIndex); //关闭遮罩层
+					if(data.status==100){
+						customer.cus_count = data.cus_count;
+						customer.pageNow = data.pageNow;
+						customer.countPage = data.countPage;
+						customer.cusData = data.value;
+						var cusLen = customer.cusData.length;
+						for(var i = 0;i<cusLen;i++){
+							Vue.set(customer.cusData[i],'checked',false);
+						}
+					}else if(data.status==101){
+						layer.msg('获取失败，客户信息为空');
+					}else if(data.status==1012){
+	                    layer.msg('请先登录',{time:2000});
+	
+	                    setTimeout(function(){
+	                        jumpLogin(loginUrl,NowUrl);
+	                    },2000);
+	                }else if(data.status==1011){
+	                    layer.msg('权限不足,请跟管理员联系');
+	                }
+				},
+				error:function(jqXHR){
+					layer.close(LoadIndex); //关闭遮罩层
+					layer.msg('向服务器请求客户信息失败');
+				}
+			})
 		},
 		//提交新增客户
 		subTable:function(){
@@ -430,6 +492,8 @@ function windowFresh(){
 //获取数据函数,翻页
 function getPageData (vm,pageNow,num) {
     var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
+    var name = customer.nowname;
+    var sort = customer.nowsort;
     $.ajax({
     	type:'POST',
     	url:serverUrl+'get/custom',
@@ -438,7 +502,9 @@ function getPageData (vm,pageNow,num) {
     		key:oKey,
             user_id:token,
     		pageNow:pageNow,
-    		pageSize:num
+    		pageSize:num,
+    		orderKey:name,
+	        sort:sort
     	},
     	success:function(data){
     		layer.close(LoadIndex); //关闭遮罩层

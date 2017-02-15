@@ -44,6 +44,8 @@ var oPCenter = new Vue({
     	pageNow:'',
     	countPage:'',
     	count:'',
+    	nowsort:'asc',//初始的状态
+    	nowname:'',//目前选择的排序模块
     	jump:'',
     	// 搜索类目
     	proList:'',
@@ -167,6 +169,74 @@ var oPCenter = new Vue({
     			}
     		})
     	},
+    	//排序功能
+		sort:function(message){
+			var vm = this;
+			var name = message;
+			vm.nowname = message;
+    		category_id = vm.search.cateId;
+			var name = message;
+			console.log(name);
+			var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层 
+			var sort = oPCenter.nowsort;
+			switch(sort){
+				case "asc":
+					sort='desc';
+					oPCenter.nowsort = 'desc';
+					oPCenter.arrowup = true;
+					oPCenter.arrowdw = false;
+					break;
+				case "desc":
+					sort='asc';
+					oPCenter.nowsort = 'asc';
+					oPCenter.arrowdw = true;
+					oPCenter.arrowup = false;
+					break;
+			}
+			$.ajax({
+				type:'POST',
+				url:serverUrl+'get/allproductcenter',
+				datatype:'json',
+				data:{
+                    key:oKey,
+                    user_id:token,
+					category_id:category_id,
+//					enabled:enabled,
+//					vague:vague,
+					num:num,
+					orderKey:name,
+			        sort:sort
+				},
+				success:function(data){
+					layer.close(LoadIndex); //关闭遮罩层
+					if(data.status==100){
+						vm.list = data.value;
+						vm.pageNow = data.nowpages;
+						vm.countPage = data.pages;
+						vm.count = data.count;
+						//搜索条件数据
+						var newObj = $.extend(true, {}, vm.search);
+                        vm.searchResult = newObj;
+					}else if(data.status==101){
+						layer.msg('没有搜索到数据');
+					}else if(data.status==1012){
+                        layer.msg('请先登录',{time:2000});
+
+                        setTimeout(function(){
+                            jumpLogin(loginUrl,NowUrl);
+                        },2000);
+                    }else if(data.status==1011){
+                        layer.msg('权限不足,请跟管理员联系');
+                    }else{
+						layer.msg(data.msg);
+					}
+				},
+				error:function(jqXHR){
+					layer.close(LoadIndex); //关闭遮罩层
+					layer.msg('向服务器请求失败');
+				}
+			})
+		},
     	//从搜索结果中选中一个类目
     	selectCate:function(pro){
     	    this.search.cate_name = pro.cn_name;
@@ -292,6 +362,8 @@ function windowFresh(){
 //获取数据函数,翻页
 function getPageData (vm,pageNow,search,num) {
     var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
+    var name = oPCenter.nowname;
+    var sort = oPCenter.nowsort;
     $.ajax({
         type:'POST',
         url:serverUrl+'get/allproductcenter',
@@ -303,7 +375,9 @@ function getPageData (vm,pageNow,search,num) {
             num:num,
             category_id:search.cateId,
             enabled:search.status,
-            vague:search.keyword
+            vague:search.keyword,
+            orderKey:name,
+	        sort:sort
         },
         success:function(data){
             layer.close(LoadIndex); //关闭遮罩层

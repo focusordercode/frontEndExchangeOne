@@ -27,6 +27,9 @@
         .changTable .form-control {
             border-radius: 0;
         }
+        .sort-bg{
+        	background-color: #dff0d8;
+        }
     </style>
 </head>
     <body>
@@ -176,13 +179,13 @@
                                 <table class="table table-bordered">
                                     <tr class="success text-success">
                                         <th class="text-center"><input type="checkbox" v-model="allChecked">     全选</th>
-                                        <th class="text-center">名称</th>
-                                        <th class="text-center">所属类目</th>
-                                        <th class="text-center">所属模板</th>
-                                        <th class="text-center">所属客户</th>
-                                        <th class="text-center">创建时间</th>
-                                        <th class="text-center">修改时间</th>
-                                        <th class="text-center">状态</th>
+                                        <th class="text-center"><button @click="sort('A')" class="btn sort-bg">名称 <!-- <i class="fa" v-bind:class="{'fa-caret-down':arrowdw,'fa-caret-up':arrowup}"></i>-->  </button></th>
+                                        <th class="text-center"><button @click="sort('B')" class="btn sort-bg">所属类目</th>
+                                        <th class="text-center"><button @click="sort('C')" class="btn sort-bg">所属模板</th>
+                                        <th class="text-center"><button @click="sort('D')" class="btn sort-bg">所属客户</th>
+                                        <th class="text-center"><button @click="sort('E')" class="btn sort-bg">创建时间</th>
+                                        <th class="text-center"><button @click="sort('F')" class="btn sort-bg">修改时间</th>
+                                        <th class="text-center"><button @click="sort('G')" class="btn sort-bg">状态</th>
                                         <th class="text-center">操作</th>
                                     </tr>
                                     <!-- template渲染 -->
