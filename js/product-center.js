@@ -216,7 +216,7 @@ var oPCenter = new Vue({
 						vm.count = data.count;
 						//搜索条件数据
 						var newObj = $.extend(true, {}, vm.search);
-                        vm.searchResult = newObj;
+//                      vm.searchResult = newObj;
 					}else if(data.status==101){
 						layer.msg('没有搜索到数据');
 					}else if(data.status==1012){
