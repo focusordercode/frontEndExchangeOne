@@ -29,6 +29,7 @@ var customer = new Vue({
 			email:'',
 			address:''
 		},
+		searchcus:'',
 		//编辑客户
 		editOne:''
 	},
@@ -107,6 +108,55 @@ var customer = new Vue({
 		}
 	},
 	methods:{
+		//模糊搜索客户
+		searchcustom:function(){
+			var vm = this;
+			var pageNow = vm.pageNow;
+			var vague = vm.searchcus;
+			var name = vm.nowname;
+    		var sort = vm.nowsort;
+			$.ajax({
+				type:"POST",
+				url:serverUrl+'get/custom',
+				datatype:'json',
+				data:{
+					key:oKey,
+        			user_id:token,
+					vague:vague,
+					pageNow:pageNow,
+		    		pageSize:num,
+		    		orderKey:name,
+			        sort:sort
+				},
+				success:function(data){
+					if(data.status==100){
+						customer.cus_count = data.cus_count;
+						customer.pageNow = data.pageNow;
+						customer.countPage = data.countPage;
+						customer.cusData = data.value;
+						var cusLen = customer.cusData.length;
+						for(var i = 0;i<cusLen;i++){
+							Vue.set(customer.cusData[i],'checked',false);
+						}
+					}else if(data.status==101){
+						layer.msg('操作失败');
+					}else if(data.status==1012){
+	                    layer.msg('请先登录',{time:2000});
+
+	                    setTimeout(function(){
+	                        jumpLogin(loginUrl,NowUrl);
+	                    },2000);
+	                }else if(data.status==1011){
+	                    layer.msg('权限不足,请跟管理员联系');
+	                }else{
+						layer.msg(data.msg);
+					}
+				},
+				error:function(jqXHR){
+					layer.msg('向服务器请求删除失败');
+				}
+			})
+		},
 		//删除选中按钮
 		removeSelect:function(){
 			var vm = this,
@@ -494,6 +544,7 @@ function getPageData (vm,pageNow,num) {
     var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
     var name = customer.nowname;
     var sort = customer.nowsort;
+    var vague = vm.searchcus;
     $.ajax({
     	type:'POST',
     	url:serverUrl+'get/custom',
@@ -504,7 +555,9 @@ function getPageData (vm,pageNow,num) {
     		pageNow:pageNow,
     		pageSize:num,
     		orderKey:name,
-	        sort:sort
+	        sort:sort,
+	        vague:vague
+
     	},
     	success:function(data){
     		layer.close(LoadIndex); //关闭遮罩层

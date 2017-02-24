@@ -144,8 +144,9 @@
             </div>
 
             <!-- 详细的节点 -->
-            <div class="col-md-12" v-for = "per in model">
-                <dl class="dl">
+            <div class="tieh" >
+                <div class="col-md-3 " v-for = "per in model">
+                <dl class="dl" style="height: auto; min-height: 220px; border: 2px solid #e3e3e3;padding: 20px 0 0 30px;border-radius: 5px">
                     <!-- 父节点 -->
                     <dt>
                         <h4 class="text-success">
@@ -194,6 +195,7 @@
                         </button>
                     </dd>
                 </dl>
+            </div>
             </div>
             <hr>
         </script>

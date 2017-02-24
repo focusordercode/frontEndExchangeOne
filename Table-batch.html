@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="css/Table-info.css">
     <!--你自己的样式文件 -->
+    <link href="css/bootstrap-datetimepicker.css" rel="stylesheet">
     <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
     <!-- 以下两个插件用于在IE8以及以下版本浏览器支持HTML5元素和媒体查询，如果不需要用可以移除 -->
     <!--[if lt IE 9]>
@@ -29,6 +30,12 @@
         }
         .sort-bg{
         	background-color: #dff0d8;
+        }
+        .middle-col {
+            max-width: 20px;
+            line-height: 34px;
+            padding-left: 0;
+            padding-right: 0;
         }
     </style>
 </head>
@@ -81,6 +88,9 @@
                             <div class="form-horizontal control-panel">
                                 <div class="form-group">
                                     <label class="col-md-1 control-label">选择搜索条件</label>
+                                    <div class="col-md-2">
+                                        <input type="text" v-model="searchFeild.keyword" placeholder="输入表格名称、客户名称" class="form-control">
+                                    </div>
                                     <div class="col-md-1">
                                         <div class="form-group">
                                             <div class="input-group">
@@ -92,6 +102,21 @@
                                         </div>
                                     </div>
                                     <div class="col-md-1">
+                                        <select @click="searchalltem" class="form-control" v-model="temid">
+                                            <option  value="" selected>所属模板</option>
+                                            <option :value="tem.id" v-for="tem in alltem">{{tem.cn_name}}</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <input size="16" type="text" v-model="searchFeild.startdate" readonly="" class="form-control date date1">
+                                    </div>
+                                    <div class="col-sm-1 middle-col">
+                                        <b>到</b>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <input size="16" type="text" v-model="searchFeild.enddate" readonly="" class="form-control date date2">
+                                    </div>
+                                    <div class="col-md-1">
                                         <select v-model="searchFeild.status_code" class="form-control">
                                             <option value="" selected>表格状态</option>
                                             <option value="creating">创建</option>
@@ -100,9 +125,6 @@
                                             <option value="finished">完成</option>
                                             <option value="halt">终止</option>
                                         </select>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <input type="text" v-model="searchFeild.keyword" placeholder="输入表格名" class="form-control">
                                     </div>
                                     <div class="col-md-1">
                                         <button @click="searchTable" class="btn btn-default">搜索</button>
@@ -171,14 +193,14 @@
                                 <table class="table table-bordered">
                                     <tr class="success text-success">
                                         <th class="text-center"><input type="checkbox" v-model="allChecked">     全选</th>
-                                        <th class="text-center"><button @click="sort('A')" class="btn sort-bg">名称</th>
-                                        <th class="text-center"><button @click="sort('B')" class="btn sort-bg">所属类目</th>
-                                        <th class="text-center"><button @click="sort('C')" class="btn sort-bg">所属模板</th>
-                                        <th class="text-center"><button @click="sort('D')" class="btn sort-bg">所属客户</th>
-                                        <th class="text-center"><button @click="sort('E')" class="btn sort-bg">站点</th>
-                                        <th class="text-center"><button @click="sort('F')" class="btn sort-bg">创建时间</th>
-                                        <th class="text-center"><button @click="sort('G')" class="btn sort-bg">修改时间</th>
-                                        <th class="text-center"><button @click="sort('H')" class="btn sort-bg">状态</th>
+                                        <th class="text-center"><button @click="sort('A')" :disabled="tableInfo == ''" class="btn sort-bg">名称</th>
+                                        <th class="text-center"><button @click="sort('B')" :disabled="tableInfo == ''" class="btn sort-bg">所属类目</th>
+                                        <th class="text-center"><button @click="sort('C')" :disabled="tableInfo == ''" class="btn sort-bg">所属模板</th>
+                                        <th class="text-center"><button @click="sort('D')" :disabled="tableInfo == ''" class="btn sort-bg">所属客户</th>
+                                        <th class="text-center"><button @click="sort('E')" :disabled="tableInfo == ''" class="btn sort-bg">站点</th>
+                                        <th class="text-center"><button @click="sort('F')" :disabled="tableInfo == ''" class="btn sort-bg">创建时间</th>
+                                        <th class="text-center"><button @click="sort('G')" :disabled="tableInfo == ''" class="btn sort-bg">修改时间</th>
+                                        <th class="text-center"><button @click="sort('H')" :disabled="tableInfo == ''" class="btn sort-bg">状态</th>
                                         <th class="text-center">操作</th>
                                     </tr>
                                     <!-- template渲染 -->
@@ -188,13 +210,13 @@
                                         <template v-if="$index%2==1">
                                             <tr class="warning">
                                                 <td class="text-center"><input type="checkbox" v-model="selectedArr" :value="item.id">     {{$index | ListNum}}</td>
-                                                <td class="text-center">{{item.title}}</td>
+                                                <td class="text-left">{{item.title}}</td>
                                                 <td class="text-center">{{item.name}}</td>
                                                 <td class="text-center">{{item.tempname}}</td>
-                                                <td class="text-center">{{item.client_name}}</td>
+                                                <td class="text-left">{{item.client_name}}</td>
                                                 <td class="text-center">{{item.site_name}}</td>
-                                                <td class="text-center">{{item.created_time}}</td>
-                                                <td class="text-center">{{item.modified_time}}</td>
+                                                <td class="text-center" style="width:176px">{{item.created_time}}</td>
+                                                <td class="text-center" style="width: 176px">{{item.modified_time}}</td>
                                                 <td class="text-center">{{item.status_code|statusCode}}</td>
                                                 <td class="text-center">
                                                     <button class="btn btn-info btn-xs" v-show="item.status_code" @click="infoXG(item)">修改</button>
@@ -207,10 +229,10 @@
                                         <template v-else>
                                             <tr>
                                                 <td class="text-center"><input type="checkbox" v-model="selectedArr" :value="item.id">     {{$index | ListNum}}</td>
-                                                <td class="text-center">{{item.title}}</td>
+                                                <td class="text-left">{{item.title}}</td>
                                                 <td class="text-center">{{item.name}}</td>
                                                 <td class="text-center">{{item.tempname}}</td>
-                                                <td class="text-center">{{item.client_name}}</td>
+                                                <td class="text-left">{{item.client_name}}</td>
                                                 <td class="text-center">{{item.site_name}}</td>
                                                 <td class="text-center">{{item.created_time}}</td>
                                                 <td class="text-center">{{item.modified_time}}</td>
@@ -226,7 +248,7 @@
                                     </template>
                                 </table>
                             </div>
-                            <div class="col-md-offset-11"><button @click="choose" class="btn btn-success btn-md">移交</button></div>
+                            <div class="col-md-offset-11"><button @click="choose" :disabled="tableInfo == ''" class="btn btn-success btn-md">移交</button></div>
                         </div>
                     </div>
                 </div>
@@ -339,6 +361,7 @@
         <script src="js/cookie.js"></script>
         <!-- 包括所有bootstrap的js插件或者可以根据需要使用的js插件调用　-->
         <script src="js/bootstrap.min.js"></script>
+        <script src="js/bootstrap-datetimepicker.min.js"></script>
         <script src='js/layer.js'></script>
         <!-- 检测登录状态 -->
         <script src='js/control.js'></script>

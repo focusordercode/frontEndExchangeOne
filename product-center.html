@@ -78,10 +78,13 @@
                             <div class="form-horizontal control-panel">
                                 <div class="form-group">
                                     <label class="col-md-1 control-label">选择搜索条件</label>
+                                    <div class="col-md-2">
+                                        <input type="text" v-model="search.keyword" placeholder="输入中文、英文名称" class="form-control">
+                                    </div>
                                     <div class="col-md-1">
                                         <div class="form-group">
                                             <div class="input-group">
-                                                  <input type="text" v-model="search.cate_name" placeholder="选择类目" class="form-control goSearch" readonly>
+                                                  <input type="text" v-model="search.cate_name" placeholder="所属类目" class="form-control goSearch" readonly>
                                                   <div class="input-group-addon" v-show="search.cateId" @click="cancelCate">
                                                       <i class="fa fa-close"></i>
                                                   </div>
@@ -95,9 +98,7 @@
                                             </option>
                                         </select>
                                     </div>
-                                    <div class="col-md-2">
-                                        <input type="text" v-model="search.keyword" placeholder="输入关键字搜索" class="form-control">
-                                    </div>
+                                    
                                     <div class="col-md-1">
                                         <button @click="searchItem" class="btn btn-default" :disabled="searchBtn">搜索</button>
                                     </div>
@@ -172,9 +173,10 @@
                                         <th class="text-center"><button @click="sort('A')" class="btn sort-bg">中文名</th>
                                         <th class="text-center"><button @click="sort('B')" class="btn sort-bg">英文名</th>
                                         <th class="text-center"><button @click="sort('C')" class="btn sort-bg">所属类目</th>
-                                        <th class="text-center"><button @click="sort('D')" class="btn sort-bg">更新时间</th>
-                                        <th class="text-center"><button @click="sort('E')" class="btn sort-bg">状态</th>
-                                        <th class="text-center">操作</th>
+                                        <th class="text-center" style="width: 176px"><button @click="sort('F')" class="btn sort-bg">创建时间</th>
+                                        <th class="text-center" style="width: 176px"><button @click="sort('D')" class="btn sort-bg">更新时间</th>
+                                        <th class="text-center" style="width: 80px"><button @click="sort('E')" class="btn sort-bg">状态</th>
+                                        <th class="text-center" style="width: 120px">操作</th>
                                     </tr>
                                     <!-- template渲染 -->
                                     <template v-for="item in list">
@@ -186,6 +188,7 @@
                                                 <td class="text-center">{{item.cn_name}}</td>
                                                 <td class="text-center">{{item.en_name}}</td>
                                                 <td class="text-center">{{item.category_name}}</td>
+                                                <td class="text-center">{{item.created_time}}</td>
                                                 <td class="text-center">{{item.modified_time}}</td>
                                                 <td class="text-center">{{item.enabled | statusFlilter}}</td>
                                                 <td class="text-center">
@@ -200,6 +203,7 @@
                                                 <td class="text-center">{{item.cn_name}}</td>
                                                 <td class="text-center">{{item.en_name}}</td>
                                                 <td class="text-center">{{item.category_name}}</td>
+                                                <td class="text-center">{{item.created_time}}</td>
                                                 <td class="text-center">{{item.modified_time}}</td>
                                                 <td class="text-center">{{item.enabled | statusFlilter}}</td>
                                                 <td class="text-center">

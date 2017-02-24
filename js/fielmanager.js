@@ -50,6 +50,7 @@ var fliemanage = new Vue({
 	methods:{
     //搜索接口函数
 	searchfiel:function(){
+        var vm = this;
 		$.ajax({
             type:'post',
             url:serverUrl+'get/folder',
@@ -62,6 +63,9 @@ var fliemanage = new Vue({
             success: function(data){
                 if(data.status==100){
                     fliemanage.fiel=data.value;
+                    vm.count = data.count;
+                    vm.countPage = data.countPage;
+                    vm.pageNow = data.pageNow;
                 }else if(data.status==1012){
                     layer.msg('请先登录',{time:2000});
                     
@@ -96,8 +100,9 @@ var fliemanage = new Vue({
             },
             success: function(data){
                 if(data.status==100){
-                    layer.msg("删除成功")
+                    layer.msg("删除成功");
                     vm.fiel.$remove(item);
+
                 }else if(data.status==1012){
                     layer.msg('请先登录',{time:2000});
                     
@@ -188,6 +193,7 @@ var fliemanage = new Vue({
 
     //上一页
     goPrePage:function(){
+        var vm = this;
         var pageNow = this.pageNow;
         if(pageNow<=1){
             layer.msg('没有上一页啦');
@@ -202,7 +208,8 @@ var fliemanage = new Vue({
                     key:oKey,
                     user_id:token,
                     number:pageNow,
-                    url:fliemanage.u
+                    // url:fliemanage.u,
+                    type:vm.type
                 },
                 success:function(data){
                     layer.close(LoadIndex); //关闭遮罩层
@@ -232,6 +239,7 @@ var fliemanage = new Vue({
     },
     //下一页
     goNextPage:function(){
+        var vm = this;
         var pageNow = this.pageNow;
         var countPage = this.countPage;
         if(pageNow==countPage){
@@ -247,7 +255,8 @@ var fliemanage = new Vue({
                     key:oKey,
                     user_id:token,
                     number:pageNow,
-                    url:fliemanage.u
+                    // url:fliemanage.u,
+                    type:vm.type
                 },
                 success:function(data){
                     layer.close(LoadIndex); //关闭遮罩层
@@ -277,8 +286,10 @@ var fliemanage = new Vue({
     },
     //页面跳转
     goJump:function(){
+        var vm = this;
         var jump = this.jump;
         var countPage = this.countPage;
+        var pageNow = this.pageNow;
         if(jump>countPage){
             layer.msg('大于总页数啦');
             fliemanage.jump = '';
@@ -286,13 +297,14 @@ var fliemanage = new Vue({
             var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
             $.ajax({
                 type:'POST',
-                url:'',
+                url:serverUrl+'get/file',
                 datatype:'json',
                 data:{
                     key:oKey,
                     user_id:token,
-                    number:pageNow,
-                    url:fliemanage.u
+                    number:jump,
+                    // url:fliemanage.u,
+                    type:vm.type
                 },
                 success:function(data){
                     layer.close(LoadIndex); //关闭遮罩层

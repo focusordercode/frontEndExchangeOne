@@ -153,7 +153,7 @@
                 <div class="col-md-12">
                     <div class="alert alert-info">
                             <b class="text-danger">搜索结果</b>　
-                            表格数:<strong class="text-warning">{{count}}</strong>　
+                            信息数:<strong class="text-warning">{{count}}</strong>　
                             当前页:<strong class="text-warning">{{pageNow}}</strong>　
                             总页数:<strong class="text-warning">{{countPage}}</strong>　
                             <button class="btn btn-info btn-sm" @click="Reflesh">返回</button>
@@ -219,7 +219,7 @@
                             </table>
                             <div class="row">
                                 <div class="col-md-offset-11">
-                                    <button @click="removeall" class="btn btn-danger btn-md">删除所选</button>
+                                    <button @click="removeall" :disabled="selectedArr.length==0" class="btn btn-danger btn-md">删除所选</button>
                                 </div>
                             </div>
                         </div>

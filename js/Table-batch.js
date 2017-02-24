@@ -19,8 +19,13 @@ var oTableInfo = new Vue({
 			status_code:'',
 			keyword:'',
 			cate_name:'',
-			cateId:''
+			cateId:'',
+			startdate:'',
+            enddate:'',
+            belongtem:''
 		},
+		temid:'',//模板ID
+		alltem:'',//所有的模板
 		nowsort:'asc',//初始的状态
     	nowname:'',//目前选择的排序模块
 		alluser:[],//供选择的用户
@@ -105,7 +110,7 @@ var oTableInfo = new Vue({
 		},
 		allChecked: {
             get: function() {
-                return this.checkedCount == this.tableInfo.length;
+                return this.checkedCount == this.tableInfo.length && this.tableInfo.length!=0;
             },
             set: function(value) {
                 if (value) {
@@ -172,6 +177,9 @@ var oTableInfo = new Vue({
 			var vm = this;
 			var name = message;
 			vm.nowname = message;
+			var startdate = vm.searchFeild.startdate.trim();
+            var enddate = vm.searchFeild.enddate.trim();
+            var belongtem = vm.temid;
 			console.log(name);
 			var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层 
 			var sort = oTableInfo.nowsort;
@@ -191,7 +199,7 @@ var oTableInfo = new Vue({
 			}
 			$.ajax({
 			    type: "POST",
-			    url: serverUrl+"search/form", //添加请求地址的参数
+			    url: serverUrl+"get/frominfo", //添加请求地址的参数
 			    dataType: "json",
 			    data:{
 			    	key:oKey,
@@ -200,6 +208,9 @@ var oTableInfo = new Vue({
 			        type_code:type_code,
 			        num:num,
 			        orderKey:name,
+			        start_time:startdate,
+					end_time:enddate,
+					template_id:belongtem,
 			        sort:sort
 			    },
 			    success: function(data){
@@ -225,6 +236,40 @@ var oTableInfo = new Vue({
 			    	layer.close(LoadIndex); //关闭遮罩层     
 			        layer.msg('向服务器获取信息失败');
 			    }
+			})
+		},
+		//列出所有模板
+		searchalltem:function(){
+			var vm = this;
+			$.ajax({
+				type:'POST',
+				url:serverUrl+'vague/templatename',
+				datatype:'json',
+				data:{
+					key:oKey,
+					user_id:token,
+					type_code:'batch',
+					is_paging:'yes'
+
+				},
+				success:function(data){
+					if (data.status==100) {
+						vm.alltem = data.value;
+					}else if(data.status==1012){
+	                    layer.msg('请先登录',{time:2000});
+	                    
+	                    setTimeout(function(){
+	                        jumpLogin(loginUrl,NowUrl);
+	                    },2000);
+	                }else if(data.status==1011){
+	                    layer.msg('权限不足,请跟管理员联系');
+	                }else{
+						layer.msg(data.msg);
+					}
+				},
+				error:function(jqXHR){
+					layer.msg('向服务器请求模板失败');
+				}
 			})
 		},
 		//新建表格
@@ -355,18 +400,22 @@ var oTableInfo = new Vue({
 		},
 		//搜索
 		searchTable:function(){
-			var keyword = this.searchFeild.keyword.trim();
-			var status_code = this.searchFeild.status_code;
-			var category_id = this.searchFeild.cateId;
-			var searchFeild = this.searchFeild;
 			var vm = this;
-			if(!keyword&&!status_code&&!category_id){
-				layer.msg('必须输入关键词,选择类目或者选择表格状态');
+			var keyword = vm.searchFeild.keyword.trim();
+			var status_code = vm.searchFeild.status_code;
+			var category_id = vm.searchFeild.cateId;
+			var startdate = vm.searchFeild.startdate.trim();
+            var enddate = vm.searchFeild.enddate.trim();
+            var belongtem = vm.temid;
+			var searchFeild = vm.searchFeild;
+			
+			if(!keyword&&!status_code&&!category_id&&!belongtem&&!(startdate&&enddate)){
+				layer.msg('必须输入关键词,选择类目,选择模板，选择时间或选择表格状态');
 			}else{
 				var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
 				$.ajax({
 					type:'POST',
-					url:serverUrl+'search/form',
+					url:serverUrl+'get/frominfo',
 					datatype:'json',
 					data:{
 						key:oKey,
@@ -375,6 +424,9 @@ var oTableInfo = new Vue({
 						status_code:status_code,
 						keyword:keyword,
 						category_id:category_id,
+						start_time:startdate,
+						end_time:enddate,
+						template_id:belongtem,
 						num:num
 					},
 					success:function(data){
@@ -581,6 +633,11 @@ Vue.filter('deleteBtn',function(value){
         return str2
     }
 })
+//时间选择框控件
+$(".date").datetimepicker({
+    format: 'yyyy-mm-dd',
+    minView: "month"
+});
 
 //刷新函数
 function windowFresh(){

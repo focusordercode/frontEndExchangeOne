@@ -84,18 +84,18 @@
                         <div class="panel-body">
                             <div class="form-horizontal control-panel">
                                 <div class="form-group">
-                                    <label class="col-md-2 control-label">选择搜索条件</label>
-                                    
+                                    <label class="col-md-1 control-label">选择搜索条件</label>
                                     <div class="col-md-2">
+                                        <input type="text" v-model="search.keyword" placeholder="输入名称、描述" class="form-control">
+                                    </div>
+                                    <div class="col-md-1">
                                         <select class="form-control" v-model="search.status">
                                             <option value="" selected>所有状态</option>
                                             <option :value="st" v-for="st in search.statusList">                   {{st | statusFlilter}}
                                             </option>
                                         </select>
                                     </div>
-                                    <div class="col-md-2">
-                                        <input type="text" v-model="search.keyword" placeholder="输入关键字搜索" class="form-control">
-                                    </div>
+                                    
                                     <div class="col-md-1">
                                         <button @click="searchItem" class="btn btn-default" :disabled="searchBtn">搜索</button>
                                     </div>
@@ -154,8 +154,8 @@
                                         <th class="text-center">序号</th>
                                         <th class="text-center"><button @click="sort('A')" class="btn sort-bg">名称</th>
                                         <th class="text-center td-remark"><button @click="sort('B')" class="btn sort-bg">描述</th>
-                                        <th class="text-center"><button @click="sort('C')" class="btn sort-bg">创建时间</th>
-                                        <th class="text-center"><button @click="sort('D')" class="btn sort-bg">更新时间</th>
+                                        <th class="text-center" style="width: 176px"><button @click="sort('C')" class="btn sort-bg">创建时间</th>
+                                        <th class="text-center" style="width: 176px"><button @click="sort('D')" class="btn sort-bg">更新时间</th>
                                         <th class="text-center"><button @click="sort('E')" class="btn sort-bg">状态</th>
                                         <th class="text-center">操作</th>
                                     </tr>
@@ -166,8 +166,8 @@
                                         <template v-if="$index%2==1">
                                             <tr class="warning">
                                                 <td class="text-center">{{$index | ListNum}}</td>
-                                                <td class="text-center">{{item.name}}</td>
-                                                <td class="text-center td-remark">{{item.remark}}</td>
+                                                <td class="text-left">{{item.name}}</td>
+                                                <td class="text-left td-remark">{{item.remark}}</td>
                                                 <td class="text-center">{{item.created_time}}</td>
                                                 <td class="text-center">{{item.modified_time}}</td>
                                                 <td class="text-center">{{item.enabled | statusFlilter}}</td>
@@ -180,10 +180,10 @@
                                         <template v-else>
                                             <tr>
                                                 <td class="text-center">{{$index | ListNum}}</td>
-                                                <td class="text-center">{{item.name}}</td>
-                                                <td class="text-center td-remark">{{item.remark}}</td>
-                                                <td class="text-center">{{item.created_time}}</td>
-                                                <td class="text-center">{{item.modified_time}}</td>
+                                                <td class="text-left">{{item.name}}</td>
+                                                <td class="text-left td-remark">{{item.remark}}</td>
+                                                <td class="text-center" style="width: 176px">{{item.created_time}}</td>
+                                                <td class="text-center" style="width: 176px">{{item.modified_time}}</td>
                                                 <td class="text-center">{{item.enabled | statusFlilter}}</td>
                                                 <td class="text-center">
                                                     <a :href="'Thesaurus-info.html'+'?id='+item.id" target="_blank" class="btn btn-success btn-xs">详情</a>
