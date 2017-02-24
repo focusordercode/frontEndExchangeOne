@@ -21,6 +21,7 @@ var type_code = 'batch';
 console.log(serverUrl); //后端接口地址
 var oUrl = serverUrl;//图片服务器地址
 var ProgressLen = 0;
+var i = 0
 //未提交保存内容提示
 $(window).bind('beforeunload',function(){return "您修改的内容尚未保存，确定离开此页面吗？";});
 
@@ -31,7 +32,8 @@ var uploadPic = new Vue({
         picData:'',//图片数据
         oneimg:[],//单张图片的数据
         success_count:0, //成功上传个数,默认为0
-        again:[] //单独重新上传的数据
+        again:[], //单独重新上传的数据
+        nowspeed:''//目前的速度
     },
     ready:function(){
         //获取图片
@@ -121,63 +123,71 @@ var uploadPic = new Vue({
         startUpload:function(){
             var vm = this;
             var picCount = vm.picData.length;
+            var anum = "6"
             var form_id = parseInt(vm.info.id);
             var ProgressLen = 0;
             var progressbar = $('.progress-bar');
+//          var speed = vm.nowspeed;
             if(picCount && form_id){
                 layer.confirm('上传图片到外网服务器需要5-6分钟(取决于网速和图片大小)',function(index){
                     layer.close(index);
                     var onlyimg = vm.oneimg;
                     var imgdata = vm.picData;
                     var lens = vm.picData.length;
+                    var i = 0 ;
                     $('.progress-display').show();//开启遮罩层
-                    for (var i = 0; i < lens; i++) {
-                        onlyimg.push(imgdata[i]);
-                        $.ajax({
-                            type:'POST',
-                            url:serverUrl+'upload/pic',
-                            datatype:'json',
-                            data:{
-                                key:oKey,
-                                user_id:token,
-                                form_id:form_id,
-                                picCount:1,
-                                nums:i,
-                                count:picCount,
-                                picArr:onlyimg    
-                            },
-                            success:function(data){
+                    // for (var i = 0; i < lens; i++) {
+                    //     onlyimg.push(imgdata[i]);
+                    //     $.ajax({
+                    //         type:'POST',
+                    //         url:serverUrl+'upload/pic',
+                    //         datatype:'json',
+                    //         data:{
+                    //             key:oKey,
+                    //             user_id:token,
+                    //             form_id:form_id,
+                    //             picCount:1,
+                    //             nums:i,
+                    //             count:picCount,
+                    //             picArr:onlyimg    
+                    //         },
+                    //         success:function(data){
                                 
-                                var progress = data.progress;
-                                if (data.status==100) {
-                                    progressbar.css('width',progress+'%');
-                                    progressbar.text(progress+'%');
-                                    imgdata.shift();
-                                    imgdata.push(data.value[0]);
-                                    vm.success_count = countPic(imgdata);  //重新计算上传成功的数量
-                                    if (progress == 100) {
-                                        $('.progress-display').hide();//关闭遮罩层
-                                        layer.msg('上传完毕');
-                                    }
-                                }else if(data.status==1012){
-                                    layer.msg('请先登录',{time:2000});
-                                    $(window).unbind('beforeunload');
-                                    setTimeout(function(){
-                                        jumpLogin(loginUrl,NowUrl);
-                                    },2000);
-                                }else if(data.status==1011){
-                                    layer.msg('权限不足,请跟管理员联系');
-                                }else{
-                                    layer.msg(data.msg);
-                                }
-                            },
-                            error:function(jqXHR){
-                                layer.close(LoadIndex); //关闭遮罩层
-                                layer.msg("链接服务器失败")
-                            }
-                        })
-                        onlyimg = [];
-                    }
+                    //             var progress = data.progress;
+                    //             if (data.status==100) {
+                    //             	if (progress > anum) {
+                    //             		anum = progress;
+                    //             	}                
+                                	
+                    //                 progressbar.css('width',anum+'%');
+                    //                 progressbar.text(anum+'%');
+                    //                 imgdata.shift();
+                    //                 imgdata.push(data.value[0]);
+                    //                 vm.success_count = countPic(imgdata);  //重新计算上传成功的数量
+                    //                 if (progress == 100) {
+                    //                     $('.progress-display').hide();//关闭遮罩层
+                    //                     layer.msg('上传完毕');
+                    //                 }
+                    //             }else if(data.status==1012){
+                    //                 layer.msg('请先登录',{time:2000});
+                    //                 $(window).unbind('beforeunload');
+                    //                 setTimeout(function(){
+                    //                     jumpLogin(loginUrl,NowUrl);
+                    //                 },2000);
+                    //             }else if(data.status==1011){
+                    //                 layer.msg('权限不足,请跟管理员联系');
+                    //             }else{
+                    //                 layer.msg(data.msg);
+                    //             }
+                    //         },
+                    //         error:function(jqXHR){
+                    //             layer.close(LoadIndex); //关闭遮罩层
+                    //             layer.msg("链接服务器失败")
+                    //         }
+                    //     })
+                    //     onlyimg = [];
+                    // }
+                    uploadimgdata(i);
                 })
             }else{
                 layer.msg('没有检测到图片数据和表格信息');
@@ -332,6 +342,68 @@ var uploadPic = new Vue({
         }
     }
 })
+
+//单个上传函数
+function uploadimgdata(i) {
+    var lens = uploadPic.length;
+    var picCount = uploadPic.picData.length;
+    var form_id = parseInt(uploadPic.info.id);
+    var progressbar = $('.progress-bar');
+    var onlyimg = uploadPic.oneimg;
+    var imgdata = uploadPic.picData;
+    var lens = uploadPic.picData.length;
+
+    if (i >= lens) {
+        return;
+    }
+    onlyimg = [];
+    onlyimg.push(imgdata[i]);
+    $.ajax({
+        type:'POST',
+        url:serverUrl+'upload/pic',
+        datatype:'json',
+        data:{
+            key:oKey,
+            user_id:token,
+            form_id:form_id,
+            picCount:5,
+            nums:i,
+            count:picCount,
+            picArr:onlyimg    
+        },
+        success:function(data){
+            
+            var progress = ((i+1)/picCount*100);
+                progress = Math.ceil(progress);
+            if (data.status==100) {
+                progressbar.css('width',progress+'%');
+                progressbar.text(progress+'%');
+                imgdata.splice(i,1,data.value[0]);
+                uploadPic.success_count = countPic(imgdata);  //重新计算上传成功的数量
+                if (progress == 100) {
+                    $('.progress-display').hide();//关闭遮罩层
+                    layer.msg('上传完毕');
+                }
+                i=i+1;
+                uploadimgdata(i);
+            }else if(data.status==1012){
+                layer.msg('请先登录',{time:2000});
+                $(window).unbind('beforeunload');
+                setTimeout(function(){
+                    jumpLogin(loginUrl,NowUrl);
+                },2000);
+            }else if(data.status==1011){
+                layer.msg('权限不足,请跟管理员联系');
+            }else{
+                layer.msg(data.msg);
+            }
+        },
+        error:function(jqXHR){
+            layer.close(LoadIndex); //关闭遮罩层
+            layer.msg("链接服务器失败")
+        }
+    })
+}
 
 //计算成功上传个数函数
 function countPic(arr) {
