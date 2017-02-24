@@ -44,6 +44,7 @@ var oTableInfo = new Vue({
 		]
 	},
 	ready:function(){
+		var vm = this;
 		var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
 		$.ajax({
 		    type: "POST",
@@ -79,6 +80,36 @@ var oTableInfo = new Vue({
 		    	layer.close(LoadIndex); //关闭遮罩层
 		        layer.msg('向服务器获取信息失败');
 		    }
+		})
+		$.ajax({
+			type:'POST',
+			url:serverUrl+'vague/templatename',
+			datatype:'json',
+			data:{
+				key:oKey,
+				user_id:token,
+				type_code:'batch',
+				is_paging:'yes'
+
+			},
+			success:function(data){
+				if (data.status==100) {
+					vm.alltem = data.value;
+				}else if(data.status==1012){
+                    layer.msg('请先登录',{time:2000});
+                    
+                    setTimeout(function(){
+                        jumpLogin(loginUrl,NowUrl);
+                    },2000);
+                }else if(data.status==1011){
+                    layer.msg('权限不足,请跟管理员联系');
+                }else{
+					layer.msg(data.msg);
+				}
+			},
+			error:function(jqXHR){
+				layer.msg('向服务器请求模板失败');
+			}
 		})
 	},
 	computed:{
@@ -241,36 +272,7 @@ var oTableInfo = new Vue({
 		//列出所有模板
 		searchalltem:function(){
 			var vm = this;
-			$.ajax({
-				type:'POST',
-				url:serverUrl+'vague/templatename',
-				datatype:'json',
-				data:{
-					key:oKey,
-					user_id:token,
-					type_code:'batch',
-					is_paging:'yes'
-
-				},
-				success:function(data){
-					if (data.status==100) {
-						vm.alltem = data.value;
-					}else if(data.status==1012){
-	                    layer.msg('请先登录',{time:2000});
-	                    
-	                    setTimeout(function(){
-	                        jumpLogin(loginUrl,NowUrl);
-	                    },2000);
-	                }else if(data.status==1011){
-	                    layer.msg('权限不足,请跟管理员联系');
-	                }else{
-						layer.msg(data.msg);
-					}
-				},
-				error:function(jqXHR){
-					layer.msg('向服务器请求模板失败');
-				}
-			})
+			
 		},
 		//新建表格
 		creatTable:function(){
@@ -422,7 +424,7 @@ var oTableInfo = new Vue({
                 		user_id:token,
 						type_code:type_code,
 						status_code:status_code,
-						keyword:keyword,
+						title:keyword,
 						category_id:category_id,
 						start_time:startdate,
 						end_time:enddate,

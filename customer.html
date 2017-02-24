@@ -17,7 +17,7 @@
     <![endif]-->
     <style>
         .table th,.table td {
-            text-align: center;
+            /*text-align: center;*/
             vertical-align: middle!important;
             min-width: 45px;
         }
@@ -112,10 +112,10 @@
                                     </div>
                                     <div class="col-md-2 pull-right">
                                         <div class="">
-                                            <button class="btn btn-danger btn-sm" @click="removeSelect" :disabled="!deleteAll">删除</button>
-                                            <div class="checkboxFour2 form-control">
+                                            <button class="btn btn-danger btn-sm" @click="removeSelect" :disabled="!deleteAll">删除所选</button>
+                                            <!-- <div class="checkboxFour2 form-control">
                                                 <label @click="selectAll" v-bind:class="selectAllBtn"></label>
-                                            </div>
+                                            </div> -->
                                         </div>
                                     </div>
                                 </div>
@@ -124,48 +124,41 @@
                                 <div class="table-responsive">
                                     <table class="table table-bordered">
                                         <tr class="success">
-                                            <th>序号</th>
-                                            <th>选择</th>
-                                            <th><button @click="sort('A')" class="btn sort-bg">客户名</th>
-                                            <th><button @click="sort('B')" class="btn sort-bg">英文名</th>
-                                            <th><button @click="sort('C')" class="btn sort-bg">公司</th>
-                                            <th><button @click="sort('D')" class="btn sort-bg">电话</th>
-                                            <th><button @click="sort('E')" class="btn sort-bg">邮箱</th>
-                                            <th><button @click="sort('F')" class="btn sort-bg">地址</th>
-                                            <th><button @click="sort('G')" class="btn sort-bg">客户编号</th>
-                                            <th>操作</th>
+                                            <th class="text-center"><input type="checkbox" @click="selectAll">    全选</th>
+                                            <th class="text-center"><button @click="sort('A')" class="btn sort-bg">客户名</th>
+                                            <th class="text-center"><button @click="sort('B')" class="btn sort-bg">英文名</th>
+                                            <th class="text-center"><button @click="sort('C')" class="btn sort-bg">公司</th>
+                                            <th class="text-center"><button @click="sort('D')" class="btn sort-bg">电话</th>
+                                            <th class="text-center"><button @click="sort('E')" class="btn sort-bg">邮箱</th>
+                                            <th class="text-center"><button @click="sort('F')" class="btn sort-bg">地址</th>
+                                            <th class="text-center"><button @click="sort('G')" class="btn sort-bg">客户编号</th>
+                                            <th class="text-center">操作</th>
                                         </tr>
                                         <template v-for="table in cusData">
                                             <tr v-if="$index%2==0" class="warning">
-                                                <td>{{$index | ListNum}}</td>
-                                                <td>
-                                                    <input type="checkbox" v-model="table.checked" class="form-control">
-                                                </td>
-                                                <td>{{table.custom_name}}</td>
-                                                <td>{{table.en_name}}</td>
-                                                <td>{{table.company}}</td>
-                                                <td>{{table.mobile}}</td>
-                                                <td>{{table.email}}</td>
-                                                <td>{{table.address}}</td>
-                                                <td>{{table.custom_number}}</td>
-                                                <td>
+                                                <td class="text-center"><input type="checkbox" v-model="table.checked">    {{$index | ListNum}}</td>
+                                                <td class="text-left">{{table.custom_name}}</td>
+                                                <td class="text-left">{{table.en_name}}</td>
+                                                <td class="text-left">{{table.company}}</td>
+                                                <td class="text-left">{{table.mobile}}</td>
+                                                <td class="text-left">{{table.email}}</td>
+                                                <td class="text-left">{{table.address}}</td>
+                                                <td class="text-center">{{table.custom_number}}</td>
+                                                <td class="text-center">
                                                     <button class="btn btn-info btn-xs" @click="edit(table,$index)" >编辑</button>
                                                     <button class="btn btn-danger btn-xs" @click="removeThis(table)">删除</button>
                                                 </td>
                                             </tr>
                                             <tr v-else>
-                                                <td>{{$index | ListNum}}</td>
-                                                <td>
-                                                    <input type="checkbox" v-model="table.checked" class="form-control">
-                                                </td>
-                                                <td>{{table.custom_name}}</td>
-                                                <td>{{table.en_name}}</td>
-                                                <td>{{table.company}}</td>
-                                                <td>{{table.mobile}}</td>
-                                                <td>{{table.email}}</td>
-                                                <td>{{table.address}}</td>
-                                                <td>{{table.custom_number}}</td>
-                                                <td>
+                                                <td class="text-center"><input type="checkbox" v-model="table.checked">    {{$index | ListNum}}</td>
+                                                <td class="text-left">{{table.custom_name}}</td>
+                                                <td class="text-left">{{table.en_name}}</td>
+                                                <td class="text-left">{{table.company}}</td>
+                                                <td class="text-left">{{table.mobile}}</td>
+                                                <td class="text-left">{{table.email}}</td>
+                                                <td class="text-left">{{table.address}}</td>
+                                                <td class="text-center">{{table.custom_number}}</td>
+                                                <td class="text-center">
                                                     <button class="btn btn-info btn-xs" @click="edit(table,$index)" >编辑</button>
                                                     <button class="btn btn-danger btn-xs" @click="removeThis(table)">删除</button>
                                                 </td>

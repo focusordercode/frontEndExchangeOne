@@ -102,7 +102,7 @@
                                         </div>
                                     </div>
                                     <div class="col-md-1">
-                                        <select @click="searchalltem" class="form-control" v-model="temid">
+                                        <select class="form-control" v-model="temid">
                                             <option  value="" selected>所属模板</option>
                                             <option :value="tem.id" v-for="tem in alltem">{{tem.cn_name}}</option>
                                         </select>
@@ -118,7 +118,7 @@
                                     </div>
                                     <div class="col-md-1">
                                         <select v-model="searchFeild.status_code" class="form-control">
-                                            <option value="" selected>表格状态</option>
+                                            <option value="" selected>所有状态</option>
                                             <option value="creating">创建</option>
                                             <option value="editing">编辑产品</option>
                                             <option value="uploading">上传图片</option>

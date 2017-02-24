@@ -105,7 +105,26 @@ var customer = new Vue({
 			}else{
 				return false
 			}
-		}
+		},
+		// allChecked: {
+  //           get: function() {
+  //               return this.checkedCount == this.cusData.length && this.cusData.length!=0;
+  //           },
+  //           set: function(value) {
+  //               if (value) {
+  //                 this.selectedArr = this.cusData.map(function(item) {
+  //                   return item.id
+  //                 })
+  //               } else {
+  //                 this.selectedArr = []
+  //               }
+  //           }
+  //       },
+  //       checkedCount: {
+  //           get: function() {
+  //               return this.selectedArr.length;
+  //           }
+  //       },
 	},
 	methods:{
 		//模糊搜索客户
@@ -189,7 +208,7 @@ var customer = new Vue({
 								layer.msg('删除成功');
 								setInterval(windowFresh,1000);
 							}else if(data.status==101){
-								layer.msg('操作失败');
+								layer.msg('删除失败，可能信息被占用');
 							}else if(data.status==1012){
 			                    layer.msg('请先登录',{time:2000});
 
