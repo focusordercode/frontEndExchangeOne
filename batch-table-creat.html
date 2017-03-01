@@ -165,6 +165,12 @@
             padding-left: 5px;
             padding-right: 5px;
         }
+        .new-alert {
+            line-height: 24px!important;
+            padding-top: 5px!important;
+            padding-bottom: 5px!important;
+            margin-bottom: 0!important;
+        }
     </style>
 </head>
     <body>
@@ -267,6 +273,11 @@
                                 <div class="col-sm-4">
                                     <input type="text" class="form-control" v-model="tableID" readonly>
                                 </div>
+                                <!--  提示框-->
+                                <div class="col-sm-6 col-md-6 col-lg-6 " >
+                                    <div class="alert alert-danger new-alert" v-show="tablenNmber_alert">没有检测到表格编码</div>
+                                </div>
+                                <!--提示框-->
                             </div>
                         </div>
                         <!-- 选择类目 -->
@@ -292,6 +303,11 @@
                                         <i class="fa fa-close"></i>
                                     </button>
                                 </div>
+                               <!-- 提示框-->
+                                <div class="col-sm-5 col-md-5 col-lg-5 " id="catename_alert">
+                                    <div class="alert alert-danger new-alert" v-show="catename_alert">请先选择类目</div>
+                                </div>
+                                <!-- 提示框-->
                             </div>
                         </div>
                         <!-- 选择产品资料表 -->
@@ -304,6 +320,11 @@
                                 <div class="col-sm-2">
                                     <button @click="selectTable" :disabled="selecteTableBtn" class="btn btn-default btn-sm">选择</button>
                                 </div>
+                                <!-- 提示框-->
+                                <div class="col-sm-4 col-md-5 col-lg-4 " id="pname_alert">
+                                    <div class="alert alert-danger new-alert" v-show="pname_alert">类名不能为空</div>
+                                </div>
+                                <!-- 提示框-->
                             </div>
                         </div>
                         <!-- 选择批量表模板 -->
@@ -316,6 +337,11 @@
                                 <div class="col-sm-2">
                                     <button @click="selectMB" :disabled="selectMBBtn" class="btn btn-default btn-sm">选择</button>
                                 </div>
+                                <!--  提示框-->
+                                <div class="col-sm-4 col-md-4 col-lg-4 " id="tempname_alert">
+                                    <div class="alert alert-danger new-alert" v-show="tempname_alert">模板不能为空</div>
+                                </div>
+                                <!--提示框-->
                             </div>
                         </div>
                         <!-- 客户名称 -->
@@ -325,6 +351,11 @@
                                 <div class="col-sm-4" style="margin-top:5px;">
                                     <label class="label label-info">{{tableSelected.client_name}}</label>
                                 </div>
+                                <!--  提示框-->
+                                <div class="col-sm-6 col-md-5 col-lg-6 " id="clientname_alert">
+                                    <div class="alert alert-danger new-alert" v-show="clientname_alert">客户名称不能为空</div>
+                                </div>
+                                <!--提示框-->
                             </div>
                         </div>
                         <!-- 选择站点 -->
@@ -337,6 +368,11 @@
                                         <option v-for="site in sites">{{site}}</option>
                                     </select>
                                 </div>
+                                <!--  提示框-->
+                                <div class="col-sm-6 col-md-5 col-lg-6 " id="sitetname_alert">
+                                    <div class="alert alert-danger new-alert" v-show="sitename_alert">没有选择站点</div>
+                                </div>
+                                <!--提示框-->
                             </div>
                         </div>
                         <!-- 表格名称 -->
@@ -346,6 +382,11 @@
                                 <div class="col-sm-4">
                                     <input type="text" placeholder="输入表格名称" v-model="tableName" class="form-control">
                                 </div>
+                                <!--  提示框-->
+                                <div class="col-sm-6 col-md-6 col-lg-6 " id="tablename_alert">
+                                    <div class="alert alert-danger new-alert" v-show="tablename_alert">表格名称不能为空</div>
+                                </div>
+                                <!--提示框-->
                             </div>
                         </div>
                         <!-- 导出文件名字 -->
@@ -370,6 +411,11 @@
                                 <div class="col-sm-4">
                                     <input type="number" min="1" placeholder="输入需要产品数量，为空则是全部资料表数据" v-model="product_num" class="form-control">
                                 </div>
+                                <!--  提示框-->
+                                <div class="col-sm-6 col-md-6 col-lg-6 " id="number_alert">
+                                    <div class="alert alert-danger new-alert" v-show="pnumber_alert">产品数量必须是正整数</div>
+                                </div>
+                                <!--提示框-->
                             </div>
                         </div>
                         <!-- 表格状态 -->

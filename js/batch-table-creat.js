@@ -50,7 +50,14 @@ var tableCreat = new Vue({
 		tableName:'',
 		file_name:'',
 		//产品数量
-		product_num:''
+		product_num:'',
+        tablenNmber_alert:false,//控制表格编码为空出现提示
+        catename_alert:false,//控制类目为空出现提示
+        pname_alert:false,//控制资料为空出现提示
+        tempname_alert:false,//控制批量表模板为空出现提示
+		sitename_alert:false,//站点
+		tablename_alert:false,//表格名称
+		pnumber_alert:false//产品数量
 	},
 	computed:{
 		// 选择产品资料表按钮
@@ -128,6 +135,7 @@ var tableCreat = new Vue({
 			}
 
 			if(tableArr.length==0){
+
 				layer.msg('请先选择一个资料表');
 			}else{
 				vm.tableSelected = tableArr[0];
@@ -208,19 +216,49 @@ var tableCreat = new Vue({
 			vm.file_name = vm.tableSelected.company_name + "-" + vm.tableName;
 			var file_name = $.trim( vm.file_name );
 			if(!vm.tableID){
-				layer.msg('没有检测到表格编码');
+				/*layer.msg('没有检测到表格编码');*/
+                vm.tablenNmber_alert = true;
 			}else if(!vm.proSelectedId){
-				layer.msg('请先选择类目');
+                vm.tablenNmber_alert = false;
+                vm.catename_alert = true;
+                $('.searchCompent').hide();
+                $('#catename_alert').show();
+				/*layer.msg('请先选择类目');*/
 			}else if(!vm.tableSelected.id){
-				layer.msg('没有选择资料表');
+                vm.tablenNmber_alert = false;
+                vm.catename_alert = false;
+                vm.pname_alert = true;
+				/*layer.msg('没有选择资料表');*/
 			}else if(!vm.MBselected.id){
-				layer.msg('没有选择批量表模板');
+                vm.tablenNmber_alert = false;
+                vm.catename_alert = false;
+                vm.pname_alert = false;
+                vm.tempname_alert = true;
+				/*layer.msg('没有选择批量表模板');*/
 			}else if(!vm.siteSelect){
-				layer.msg('没有选择站点');
+                vm.tablenNmber_alert = false;
+                vm.catename_alert = false;
+                vm.pname_alert = false;
+                vm.tempname_alert = false;
+				vm.sitename_alert = true;
+				/*layer.msg('没有选择站点');*/
 			}else if(!vm.tableName.trim()){
-				layer.msg('表格名称不能为空');
-			}else if(!numTest.test(product_num)&&product_num){
-				layer.msg('产品数量必须是正整数');
+                vm.tablenNmber_alert = false;
+                vm.catename_alert = false;
+                vm.pname_alert = false;
+                vm.tempname_alert = false;
+                vm.sitename_alert = false;
+				vm.tablename_alert = true;
+				/*layer.msg('表格名称不能为空');*/
+			}else if(numTest.test(product_num)&&!product_num){
+                vm.tablenNmber_alert = false;
+                vm.catename_alert = false;
+                vm.pname_alert = false;
+                vm.tempname_alert = false;
+                vm.sitename_alert = false;
+                vm.tablename_alert = false;
+				vm.pnumber_alert =true;
+			/*	layer.msg('产品数量必须是正整数');*/
 			}else{
 				var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
 				$.ajax({
@@ -336,7 +374,8 @@ function getInfoTable(vm,num,keyword){
 $(function(){
 	$('.searchBtn').on('click',function(){
 		$('.searchCompent').show();
-	})
+		$('#catename_alert').hide();
+	});
 	$('.closeBtn').on('click',function(){
 		$('.searchCompent').hide();
 	})

@@ -39,7 +39,13 @@ var TableCreat = new Vue({
 		creator_id:0,
 		tableType:'', //主体变体
 		product_count:'', //主体个数
-		variant_num:'' //变体个数
+		variant_num:'', //变体个数
+        catename_alert:false,  //控制类目为空出现提示
+        tempname_alert:false, //控制模板为空出现提示
+        clientname_alert:false, //控制客户名为空出现提示
+        number_alert:false, //控制数量为空出现提示
+        tablename_alert:false, //控制表格名为空出现提示
+        change_number:false // 控制变体数量为空出现提示
 	},
 	methods:{
 		//从搜索结果中选中一个类目
@@ -184,25 +190,55 @@ var TableCreat = new Vue({
 				variant_num = vm.variant_num;
 
 			if(!category_id){
-				layer.msg('没有选择类目');
+				/*layer.msg('没有选择类目');*/
+                vm.catename_alert = true;
+                $('#catename_alert').show();
+                $('.searchCompent').hide();
 			}else if(!template_id){
-				layer.msg('没有选择模板');
+				vm.catename_alert = false;
+                vm.tempname_alert = true;
+				/*layer.msg('没有选择模板');*/
 			}else if(!client_id){
-				layer.msg('没有选择客户');
+                vm.catename_alert = false;
+                vm.tempname_alert = false;
+                vm.clientname_alert = true;
+                $('#clientname_alert').show();
+                $('.searchCompent2').hide();
+				/*layer.msg('没有选择客户');*/
 			}else if(!title){
-				layer.msg('没有填写表格名');
+                vm.catename_alert = false;
+                vm.tempname_alert = false;
+                vm.clientname_alert = false;
+                vm.tablename_alert = true;
+				/*layer.msg('没有填写表格名');*/
 			}else if(vm.tableType=='option2'){ //选择有变体时
 				if(!product_count){
-					layer.msg('产品数量不能为空');
+                    vm.catename_alert = false;
+                    vm.tempname_alert = false;
+                    vm.clientname_alert = false;
+                    vm.tablename_alert = false;
+                    vm.number = true;
+					/*layer.msg('产品数量不能为空');*/
 				}else if(!variant_num){
-					layer.msg('变体数量不能为空');
+					/*layer.msg('变体数量不能为空');*/
+                    vm.catename_alert = false;
+                    vm.tempname_alert = false;
+                    vm.clientname_alert = false;
+                    vm.tablename_alert = false;
+                    vm.number_alert = false;
+                    vm.change_number = true;
 				}else{
 					submitTable(vm);
 				}
 			}else if(vm.tableType=='option1'){ //选择常规时
 				vm.variant_num = '';
 				if(!product_count){
-					layer.msg('产品数量不能为空');
+                    vm.catename_alert = false;
+                    vm.tempname_alert = false;
+                    vm.clientname_alert = false;
+                    vm.tablename_alert = false;
+                    vm.number_alert = true;
+					/*layer.msg('产品数量不能为空');*/
 				}else{
 					submitTable(vm);
 				}
@@ -275,7 +311,8 @@ function submitTable (vm) {
 $(function(){
     $('.searchBtn2').on('click',function(){
         $('.searchCompent2').show();
-    })
+        $('#clientname_alert').hide();
+    });
     $('.closeBtn2').on('click',function(){
         $('.searchCompent2').hide();
     })
@@ -320,6 +357,7 @@ $('.searchCus').on('keyup',function(){
 $(function(){
     $('.searchBtn').on('click',function(){
         $('.searchCompent').show();
+        $('#catename_alert').hide();
     })
     $('.closeBtn').on('click',function(){
         $('.searchCompent').hide();

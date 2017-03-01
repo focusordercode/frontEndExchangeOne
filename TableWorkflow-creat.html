@@ -162,6 +162,12 @@
         .expand-transition {
           transition: all .3s ease;
         }
+        .new-alert {
+            line-height: 24px!important;
+            padding-top: 5px!important;
+            padding-bottom: 5px!important;
+            margin-bottom: 0!important;
+        }
     </style>
 </head>
     <body>
@@ -288,6 +294,11 @@
                                         <i class="fa fa-close"></i>
                                     </button>
                                 </div>
+                                <!--  提示框-->
+                                <div class="col-sm-5 col-md-5 col-lg-5 " id="catename_alert">
+                                    <div class="alert alert-danger new-alert" v-show="catename_alert">类目不能为空</div>
+                                </div>
+                                <!--提示框-->
                             </div>
                         </div>
                         <div class="temp-info-xg form-horizontal">
@@ -299,6 +310,11 @@
                                 <div class="col-sm-2">
                                     <button @click="selectMB" class="btn btn-default btn-sm">选择模板</button>
                                 </div>
+                                <!--  提示框-->
+                                <div class="col-sm-4 col-md-4 col-lg-4 " id="tempname_alert">
+                                    <div class="alert alert-danger new-alert" v-show="tempname_alert">模板不能为空</div>
+                                </div>
+                                <!--提示框-->
                             </div>
                         </div>
                         <div class="form-horizontal">
@@ -323,6 +339,11 @@
                                         <i class="fa fa-close"></i>
                                     </button>
                                 </div>
+                                <!--  提示框-->
+                                <div class="col-sm-5 col-md-5 col-lg-5 " id="clientname_alert">
+                                    <div class="alert alert-danger new-alert" v-show="clientname_alert">客户名称不能为空</div>
+                                </div>
+                                <!--提示框-->
                             </div>
                         </div>
                         <div class="form-horizontal">
@@ -331,6 +352,11 @@
                                 <div class="col-sm-4">
                                     <input type="text" v-model="tableName" class="form-control table-title" placeholder="表格名称">
                                 </div>
+                                <!--  提示框-->
+                                <div class="col-sm-5 col-md-5 col-lg-5 " id="tablename_alert">
+                                    <div class="alert alert-danger new-alert" v-show="tablename_alert">表格名称不能为空</div>
+                                </div>
+                                <!--提示框-->
                             </div>
                         </div>
                         <div class="form-horizontal">
@@ -356,6 +382,11 @@
                                 <div class="col-sm-4">
                                     <input type="number" min="1" v-model="product_count" class="form-control table-title" placeholder="产品数量">
                                 </div>
+                                <!--  提示框-->
+                                <div class="col-sm-5 col-md-5 col-lg-5 " id="number_alert">
+                                    <div class="alert alert-danger new-alert" v-show="number_alert">产品数量不能为空</div>
+                                </div>
+                                <!--提示框-->
                             </div>
                         </div>
                         <div class="form-horizontal" v-show="tableType=='option2'">
@@ -364,6 +395,11 @@
                                 <div class="col-sm-4">
                                     <input type="number" min="1" v-model="variant_num" class="form-control table-title" placeholder="变体数量">
                                 </div>
+                                <!--  提示框-->
+                                <div class="col-sm-5 col-md-5 col-lg-5 " id="change_number">
+                                    <div class="alert alert-danger new-alert" v-show="change_number">变体数量不能为空</div>
+                                </div>
+                                <!--提示框-->
                             </div>
                         </div>
                         <div class="form-horizontal">

@@ -28,7 +28,10 @@ var creatTemp = new Vue({
         remark:'',
         proList:'',
         proName:'',
-        proId:''
+        proId:'',
+        cn_alert:false,//中文名字为空，出现提示
+        en_alert:false,//英文名字为空，出现提示
+        name_alert:false//类目为空，出现提示
     },
     methods:{
         //从搜索结果中选中一个类目
@@ -47,11 +50,19 @@ var creatTemp = new Vue({
             var Entext = /^[a-zA-Z_()\s]+[0-9]*$/;
             var creator_id = cookie.get('id');
             if(!this.cn_name.trim()){
-                layer.msg('中文名不能为空');
+               /* layer.msg('中文名不能为空');*/
+                this.cn_alert = true;
             }else if(!Entext.test(this.en_name)||!this.en_name){
-                layer.msg('英文名不能为空，且英文名只能是英文数字和空格');
+                this.cn_alert = false;
+                this.en_alert = true;
+                /*layer.msg('英文名不能为空，且英文名只能是英文数字和空格');*/
             }else if(!this.proId){
-                layer.msg('必须选择类目');
+                $('.searchCompent').hide();
+                $('#name_alert').show();
+                this.cn_alert = false;
+                this.en_alert = false;
+                this.name_alert = true;
+               /* layer.msg('必须选择类目');*/
             }else{
                 $.ajax({
                     type:'POST',
@@ -114,7 +125,8 @@ var creatTemp = new Vue({
 $(function(){
     $('.searchBtn').on('click',function(){
         $('.searchCompent').show();
-    })
+        $('#name_alert').hide();
+    });
     $('.closeBtn').on('click',function(){
         $('.searchCompent').hide();
     })
