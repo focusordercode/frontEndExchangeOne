@@ -59,7 +59,8 @@ var tempCreat = new Vue({
                 vm.tempen_alert = true;
                 vm.tempcn_alert = false;
             }else if(!this.proSelectedId){
-                /*layer.msg('必须选择类目');*/
+
+                $('.searchCompent').hide();
                 $('#tempname_alert').show();
                 vm.tempname_alert = true;
                 vm.tempen_alert = false;
@@ -119,7 +120,7 @@ var tempCreat = new Vue({
             });
         }
     }
-})
+});
 
 
 //搜索类目框
@@ -127,7 +128,7 @@ $(function(){
     $('.searchBtn').on('click',function(){
         $('.searchCompent').show();
         $('#tempname_alert').hide();
-    })
+    });
     $('.closeBtn').on('click',function(){
         $('.searchCompent').hide();
     })
