@@ -16,6 +16,11 @@
     <script src="http://apps.bdimg.com/libs/html5shiv/3.7/html5shiv.js"></script>
     <script src="http://apps.bdimg.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <style>
+        [v-cloak]{
+            display:none;
+        }
+    </style>
 </head>
     <body>
         <!-- 顶部区域 -->
@@ -112,7 +117,7 @@
                 </div>
             </div>
     
-            <div class="alert alert-success">
+            <div class="alert alert-success" v-cloak>
                 模板总数:<strong class="text-warning">{{count}}</strong>　
                 当前页:<strong class="text-warning">{{pageNow}}</strong>　
                 总页数:<strong class="text-warning">{{countPage}}</strong>　
@@ -129,7 +134,7 @@
                 </div>    
             </div>
             <div class="row">
-                <div class="alert alert-info">
+                <div class="alert alert-info" v-cloak>
                     <b class="text-danger">搜索结果</b>　
                     模板总数:<strong class="text-warning">{{count}}</strong>　
                     当前页:<strong class="text-warning">{{pageNow}}</strong>　
@@ -142,7 +147,7 @@
         <div class="container temp-list">
             <div class="row">
                 <!-- 模板item -->
-                <div v-for="todo in temp" class="col-sm-6 col-xs-12 col-md-4 temp">
+                <div v-for="todo in temp" class="col-sm-6 col-xs-12 col-md-4 temp" v-cloak>
                     <div class="well">
                         <h3 class="text-muted text-break">{{todo.cn_name}} <small :title="todo.en_name">{{todo.en_name}}</small></h3>
                         <p>
@@ -176,7 +181,7 @@
         
         <div v-show="countPage>1" class="container-fluid marginTop">
             <div class="row">
-                <div class="col-md-4 col-md-offset-4 text-center">
+                <div class="col-md-4 col-md-offset-4 text-center" v-cloak>
                     <div class="form-inline">
                         <button @click="goPrePage" :disabled="prePageBtn" class="btn btn-default">上一页</button>
                         <button @click="goNextPage" :disabled="nextPageBtn" class="btn btn-default">下一页</button>
@@ -196,7 +201,7 @@
                     <input type="text" class="searchField">
                     <label for="search" class="glyphicon glyphicon-search" rel="tooltip" title="search"></label>
                     <ul>
-                        <li @click="selectCate(pro)" v-for="pro in proList">
+                        <li @click="selectCate(pro)" v-for="pro in proList" v-cloak>
                             {{pro.cn_name}} {{pro.en_name}}
                         </li>
                     </ul>

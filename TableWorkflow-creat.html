@@ -168,6 +168,9 @@
             padding-bottom: 5px!important;
             margin-bottom: 0!important;
         }
+        [v-cloak] {
+            display: none;
+        }
     </style>
 </head>
     <body>
@@ -198,7 +201,7 @@
                     </button>
                     <a class="navbar-brand hidden-sm" href="Table-info.html" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'navbar-首页'])">资料表首页</a>
                 </div>
-                <div class="navbar-collapse collapse" role="navigation">
+                <div class="navbar-collapse collapse" role="navigation" v-cloak>
                     <ul class="nav navbar-nav">
                         
                     </ul>
@@ -449,7 +452,7 @@
                                         <div class="funkyradio">
                                             <div v-for="MB in MBlist" class="funkyradio-primary">
                                                 <input type="radio" v-model="MB.checked" name="radio" id="radio{{$index}}"/>
-                                                <label for="radio{{$index}}">
+                                                <label for="radio{{$index}}" v-cloak>
                                                     {{MB.cn_name}} {{MB.en_name}} <b class="text-warning">所属类目:</b>{{MB.category_name}}
                                                 </label>
                                             </div>

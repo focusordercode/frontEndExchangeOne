@@ -37,6 +37,9 @@
             padding-left: 0;
             padding-right: 0;
         }
+        [v-cloak] {
+            display: none;
+        }
     </style>
 </head>
     <body>
@@ -150,7 +153,7 @@
                     <input type="text" class="searchField">
                     <label for="search" class="glyphicon glyphicon-search" rel="tooltip" title="search"></label>
                     <ul>
-                        <li @click="selectCate(pro)" v-for="pro in proList">
+                        <li @click="selectCate(pro)" v-for="pro in proList" v-cloak>
                             {{pro.cn_name}} {{pro.en_name}}
                         </li>
                     </ul>
@@ -159,7 +162,7 @@
         </div>
 
         <div class="container-fluid" v-show="!searchResult">
-            <div class="alert alert-success">
+            <div class="alert alert-success" v-cloak>
                 表格数:<strong class="text-warning">{{count}}</strong>　
                 当前页:<strong class="text-warning">{{pageNow}}</strong>　
                 总页数:<strong class="text-warning">{{countPage}}</strong>　
@@ -169,7 +172,7 @@
         <div class="container-fluid marginTop" v-show="searchResult">
             <div class="row">
                 <div class="col-md-12">
-                    <div class="alert alert-info">
+                    <div class="alert alert-info" v-cloak>
                             <b class="text-danger">搜索结果</b>　
                             表格数:<strong class="text-warning">{{count}}</strong>　
                             当前页:<strong class="text-warning">{{pageNow}}</strong>　
@@ -207,7 +210,7 @@
                                     <template v-for="item in tableInfo">
 
                                         <!-- 条件渲染 -->
-                                        <template v-if="$index%2==1">
+                                        <template v-if="$index%2==1" v-cloak>
                                             <tr class="warning">
                                                 <td class="text-center"><input type="checkbox" v-model="selectedArr" :value="item.id">     {{$index | ListNum}}</td>
                                                 <td class="text-left">{{item.title}}</td>
@@ -263,8 +266,8 @@
                             <button @click="goNextPage" :disabled="nextPageBtn" class="btn btn-default">下一页</button>
                             <input type="number" v-model="jump" placeholder="页码" min="1" class="form-control" style="width:80px;">
                             <button class="btn btn-info" @click="goJump" :disabled="jumpBtn">跳转</button>
-                            总页数:<strong class="text-warning">{{countPage}}</strong>　
-                            当前页:<strong class="text-warning">{{pageNow}}</strong>
+                            总页数:<strong class="text-warning" v-cloak>{{countPage}}</strong>　
+                            当前页:<strong class="text-warning" v-cloak>{{pageNow}}</strong>
                         </div>
                     </div>
                 </div>
@@ -329,7 +332,7 @@
                                             <label class="text-primary col-sm-2 control-label">选择接收人</label>
                                             <div class="col-sm-10">
                                                 <select v-model="chooseuser" class="form-control">
-                                                    <option v-for="user in alluser" :value="user.id">{{user.username}}---{{user.real_name}}</option>
+                                                    <option v-for="user in alluser" :value="user.id" v-cloak>{{user.username}}---{{user.real_name}}</option>
                                                 </select>
                                             </div>
                                         </div>

@@ -105,6 +105,10 @@
             padding-bottom: 5px!important;
             margin-bottom: 0!important;
         }
+        [v-cloak] {
+            display: none;
+        }
+
     </style>
 </head>
     <body>
@@ -207,7 +211,7 @@
                                     <div class="col-sm-3 pors searchCompent">
                                         <input type="text" class="form-control searchShadow searchCate" placeholder="输入关键字搜索类目">
                                         <ul class="cate-list">
-                                            <li @click="selectCate(pro)" v-for="pro in proList">
+                                            <li @click="selectCate(pro)" v-for="pro in proList" v-cloak>
                                                 {{pro.cn_name}} {{pro.en_name}}
                                             </li>
                                         </ul>

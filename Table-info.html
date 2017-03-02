@@ -37,6 +37,9 @@
             padding-left: 0;
             padding-right: 0;
         }
+        [v-cloak] {
+            display: none;
+        }
     </style>
 </head>
     <body>
@@ -65,10 +68,10 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand hidden-sm" href="javascript:">福克斯德</a>
+                    <a class="navbar-brand hidden-sm" href="javascript:"><福克斯德></福克斯德></a>
                 </div>
                 <div class="navbar-collapse collapse" role="navigation">
-                    <ul class="nav navbar-nav">
+                    <ul class="nav navbar-nav " v-cloak>
                         <nav-component></nav-component>
                     </ul>
                     <log-component></log-component>
@@ -104,7 +107,7 @@
                                         <div class="col-md-1">
                                             <select class="form-control" v-model="temid">
                                                 <option value="" selected>所属模板</option>
-                                                <option :value="tem.id" v-for="tem in alltem">{{tem.cn_name}}</option>
+                                                <option :value="tem.id" v-for="tem in alltem" v-cloak>{{tem.cn_name}}</option>
                                             </select>
                                         </div>
                                         <div class="col-md-1">
@@ -152,7 +155,7 @@
                     <input type="text" class="searchField">
                     <label for="search" class="glyphicon glyphicon-search" rel="tooltip" title="search"></label>
                     <ul>
-                        <li @click="selectCate(pro)" v-for="pro in proList">
+                        <li @click="selectCate(pro)" v-for="pro in proList" v-cloak>
                             {{pro.cn_name}} {{pro.en_name}}
                         </li>
                     </ul>
@@ -163,7 +166,7 @@
         <div class="container-fluid" v-show="!searchResult">
             <div class="row">
                 <div class="col-md-12">
-                    <div class="alert alert-success">
+                    <div class="alert alert-success" v-cloak>
                             表格数:<strong class="text-warning">{{count}}</strong>　
                             当前页:<strong class="text-warning">{{pageNow}}</strong>　
                             总页数:<strong class="text-warning">{{countPage}}</strong>　
@@ -175,7 +178,7 @@
         <div class="container-fluid marginTop" v-show="searchResult">
             <div class="row">
                 <div class="col-md-12">
-                    <div class="alert alert-info">
+                    <div class="alert alert-info" v-cloak>
                             <b class="text-danger">搜索结果</b>　
                             表格数:<strong class="text-warning">{{count}}</strong>　
                             当前页:<strong class="text-warning">{{pageNow}}</strong>　
@@ -216,7 +219,7 @@
 
                                         <!-- 条件渲染 -->
                                         <template v-if="$index%2==1">
-                                            <tr class="warning">
+                                            <tr class="warning" v-cloak>
                                                 <td class="text-center"><input type="checkbox" v-model="selectedArr" :value="item.id">     {{$index | ListNum}}</td>
                                                 <td class="text-left">{{item.title}}</td>
                                                 <td class="text-center">{{item.name}}</td>
@@ -237,7 +240,7 @@
                                             </tr>
                                         </template>
                                         <template v-else>
-                                            <tr>
+                                            <tr v-cloak>
                                                 <td class="text-center"><input type="checkbox" v-model="selectedArr" :value="item.id">     {{$index | ListNum}}</td>
                                                 <td class="text-left">{{item.title}}</td>
                                                 <td class="text-center">{{item.name}}</td>
@@ -339,7 +342,7 @@
                                         <div class="form-group">
                                             <label class="text-primary col-sm-2 control-label">选择接收人</label>
                                             <div class="col-sm-10">
-                                                <select v-model="chooseuser" class="form-control">
+                                                <select v-model="chooseuser" class="form-control" v-cloak>
                                                     <option v-for="user in alluser" :value="user.id">{{user.username}}---{{user.real_name}}</option>
                                                 </select>
                                             </div>
