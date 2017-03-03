@@ -97,6 +97,9 @@
             overflow: auto;
             background-color: #ccc;
         }
+        [v-cloak] {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -224,7 +227,7 @@
                                                     <label class="col-sm-2 control-label"><span class="text-red">*</span>所属角色</label>
                                                     <div class="col-sm-4">
                                                         <div class="bootstrap-tagsinput height">
-                                                            <span class="tag label label-info" v-for="org in orgSelect">
+                                                            <span class="tag label label-info" v-for="org in orgSelect" v-cloak>
                                                                 {{org.name}}<span data-role="remove" @click="removeOrg(org)"></span>
                                                             </span>
                                                         </div>
@@ -242,7 +245,7 @@
                                                     <div class="col-sm-4 col-sm-offset-2 pors searchCompent">
                                                         <input type="text" class="form-control searchShadow searchCate " placeholder="输入关键字搜索类目">
                                                         <ul class="cate-list">
-                                                            <template v-for="one in oneList" v-if="$index<=9">
+                                                            <template v-for="one in oneList" v-if="$index<=9" v-cloak>
                                                                 <li @click="selectOne(one)">
                                                                     {{one.name}}
                                                                 </li>

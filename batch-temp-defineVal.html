@@ -194,7 +194,7 @@
                                             </th>
                                             <th class="text-center">操作</th>
                                         </tr>
-                                        <template v-for="table in tempData">
+                                        <template v-for="table in tempData" v-cloak>
                                             <template v-if="$index%2==1">
                                                 <tr class="warning">
                                                     <td class="text-center">

@@ -166,10 +166,13 @@
             padding-right: 5px;
         }
         .new-alert {
-            line-height: 24px!important;
-            padding-top: 5px!important;
+            line-height: 21px!important;
+            padding-top: 4px!important;
             padding-bottom: 5px!important;
             margin-bottom: 0!important;
+        }
+        [v-cloak]{
+            display: none;
         }
     </style>
 </head>
@@ -275,7 +278,7 @@
                                 </div>
                                 <!--  提示框-->
                                 <div class="col-sm-6 col-md-6 col-lg-6 " >
-                                    <div class="alert alert-danger new-alert" v-show="tablenNmber_alert">没有检测到表格编码</div>
+                                    <div class="alert alert-danger new-alert" style="display:none" v-show="tablenNmber_alert">没有检测到表格编码</div>
                                 </div>
                                 <!--提示框-->
                             </div>
@@ -305,7 +308,7 @@
                                 </div>
                                <!-- 提示框-->
                                 <div class="col-sm-5 col-md-5 col-lg-5 " id="catename_alert">
-                                    <div class="alert alert-danger new-alert" v-show="catename_alert">请先选择类目</div>
+                                    <div class="alert alert-danger new-alert" style="display:none" v-show="catename_alert">请先选择类目</div>
                                 </div>
                                 <!-- 提示框-->
                             </div>
@@ -322,7 +325,7 @@
                                 </div>
                                 <!-- 提示框-->
                                 <div class="col-sm-4 col-md-5 col-lg-4 " id="pname_alert">
-                                    <div class="alert alert-danger new-alert" v-show="pname_alert">类名不能为空</div>
+                                    <div class="alert alert-danger new-alert" style="display:none" v-show="pname_alert">类名不能为空</div>
                                 </div>
                                 <!-- 提示框-->
                             </div>
@@ -339,7 +342,7 @@
                                 </div>
                                 <!--  提示框-->
                                 <div class="col-sm-4 col-md-4 col-lg-4 " id="tempname_alert">
-                                    <div class="alert alert-danger new-alert" v-show="tempname_alert">模板不能为空</div>
+                                    <div class="alert alert-danger new-alert" style="display:none" v-show="tempname_alert">模板不能为空</div>
                                 </div>
                                 <!--提示框-->
                             </div>
@@ -349,11 +352,11 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label text-muted">客户名称</label>
                                 <div class="col-sm-4" style="margin-top:5px;">
-                                    <label class="label label-info">{{tableSelected.client_name}}</label>
+                                    <label class="label label-info" v-cloak>{{tableSelected.client_name}}</label>
                                 </div>
                                 <!--  提示框-->
                                 <div class="col-sm-6 col-md-5 col-lg-6 " id="clientname_alert">
-                                    <div class="alert alert-danger new-alert" v-show="clientname_alert">客户名称不能为空</div>
+                                    <div class="alert alert-danger new-alert" style="display:none" v-show="clientname_alert">客户名称不能为空</div>
                                 </div>
                                 <!--提示框-->
                             </div>
@@ -365,12 +368,12 @@
                                 <div class="col-sm-2">
                                     <select class="form-control" v-model="siteSelect" >
                                         <option value="">选择站点</option>
-                                        <option v-for="site in sites">{{site}}</option>
+                                        <option v-for="site in sites"  v-cloak>{{site}}</option>
                                     </select>
                                 </div>
                                 <!--  提示框-->
                                 <div class="col-sm-6 col-md-5 col-lg-6 " id="sitetname_alert">
-                                    <div class="alert alert-danger new-alert" v-show="sitename_alert">没有选择站点</div>
+                                    <div class="alert alert-danger new-alert" style="display:none" v-show="sitename_alert">没有选择站点</div>
                                 </div>
                                 <!--提示框-->
                             </div>
@@ -479,7 +482,7 @@
                                         <div class="funkyradio">
                                             <div v-for="table in tableList" class="funkyradio-primary">
                                                 <input type="radio" v-model="table.checked" name="radio" id="radio{{$index}}"/>
-                                                <label for="radio{{$index}}">
+                                                <label for="radio{{$index}}"  v-cloak>
                                                     <b class="text-warning">名称:</b>
                                                     {{table.title}} 
                                                     <b class="text-warning">所属类目:</b>
@@ -522,7 +525,7 @@
 
                                     <div class="funkyradio">
                                         <div class="funkyradio">
-                                            <div v-for="MB in MBList" class="funkyradio-primary">
+                                            <div v-for="MB in MBList" class="funkyradio-primary"  v-cloak>
                                                 <input type="radio" v-model="MB.checked" name="radio" id="Nradio{{$index+1}}"/>
                                                 <label for="Nradio{{$index+1}}">
                                                     <b class="text-warning">名称:</b>

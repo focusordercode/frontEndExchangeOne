@@ -261,7 +261,7 @@
                                 <hr>
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <div v-show="!proData" class="alert alert-danger" role="alert">请先选择资料表模板</div>
+                                        <div style="display:none" v-show="!proData" class="alert alert-danger" role="alert">请先选择资料表模板</div>
 
                                         <div class="form">
                                             <div class="col-md-4 col-md-offset-1">
@@ -302,7 +302,7 @@
                                                 <th class="text-center">状态</th>
                                                 <th class="text-center">操作</th>
                                             </tr>
-                                            <template v-for="relate in relateData">
+                                            <template v-for="relate in relateData" v-cloak>
                                                 <tr>
                                                     <td>{{$index+1}}</td>
                                                     <td>{{relate.info}}</td>
@@ -350,7 +350,7 @@
                                         <div class="funkyradio">
                                             <div v-for="MB in MBlist" class="funkyradio-primary">
                                                 <input type="radio" v-model="MB.checked" name="radio" id="radio{{$index+1}}"/>
-                                                <label for="radio{{$index+1}}">
+                                                <label for="radio{{$index+1}}" v-cloak>
                                                     <b class="text-warning">名称:</b>{{MB.cn_name}} {{MB.en_name}} 　
                                                     <b class="text-warning">所属类目:</b>{{MB.category_name}}　
                                                     <b class="text-warning">修改时间:</b>{{MB.modified_time}}

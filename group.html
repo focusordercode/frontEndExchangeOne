@@ -236,11 +236,11 @@
                                         <span class="fa fa-2x caret-ii fa-caret-right vertical" @click="toggle(model)" v-show="!open"></span>
                                         <span class="fa fa-2x caret-ii fa-caret-down vertical" @click="toggle(model)" v-show="open"></span>
                                     </span>
-                                    <span class="selected vertical" @click="selected(model)">
+                                    <span class="selected vertical" @click="selected(model)" v-cloak>
                                         {{model.name}}
                                     </span>
                                 </div>
-                                <span v-for="roll in model.roles" class="selected vertical text-primary fa fa-user" @click="selected(model)">
+                                <span v-for="roll in model.roles" class="selected vertical text-primary fa fa-user" @click="selected(model)" v-cloak>
                                     {{roll.rname}}
                                 </span>
                                 <ul v-show="open" v-if="isFolder">
@@ -271,7 +271,7 @@
                                                         <label class="col-sm-2 control-label"><span class="text-red">*</span>所属机构</label>
                                                         <div class="col-sm-4">
                                                             <div class="bootstrap-tagsinput height">
-                                                                <span class="tag label label-info" v-for="org in orgSelect">
+                                                                <span class="tag label label-info" v-for="org in orgSelect" v-cloak>
                                                                     {{org.name}}<span data-role="remove" @click="removeOrg(org)"></span>
                                                                 </span>
                                                             </div>
@@ -283,7 +283,7 @@
                                                             <input type="text" class="form-control searchShadow searchCate " placeholder="输入关键字搜索类目">
                                                             <ul class="cate-list">
                                                                 <template v-for="one in oneList" v-if="$index<=9">
-                                                                    <li @click="selectOne(one)">
+                                                                    <li @click="selectOne(one)" v-cloak>
                                                                         {{one.name}}
                                                                     </li>
                                                                 </template>
@@ -328,7 +328,7 @@
                                                         <th class="text-center">角色状态</th>
                                                         <th class="text-center">操作</th>
                                                     </tr>
-                                                    <template v-for="role in roledata">
+                                                    <template v-for="role in roledata" v-cloak>
 
                                                         <!-- 条件渲染 -->
                                                         <template v-if="$index%2==1">
@@ -403,7 +403,7 @@
                                             <label class="col-sm-2 control-label"><span class="text-red">*</span>所属机构</label>
                                             <div class="col-sm-8">
                                                 <div class="bootstrap-tagsinput height">
-                                                    <span class="tag label label-info" v-for="orgd in orgds">
+                                                    <span class="tag label label-info" v-for="orgd in orgds" v-cloak>
                                                         {{orgd.name}}<span data-role="remove" @click="removeOrgd(orgd)"></span>
                                                     </span>
                                                 </div>

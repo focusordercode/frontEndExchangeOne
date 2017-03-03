@@ -99,6 +99,7 @@ var oCreat = new Vue({
     		var fileData = $('#file').val();//文件数据
     		if(!this.cateId){
     			this.cate_alert = true;
+                $('.searchCompent2').hide();
     		}else if(!fileData){
     			this.cate_alert = false;
     			layer.msg('请先选择文件');
@@ -156,9 +157,9 @@ var oCreat = new Vue({
 //搜索类目框
 $(function(){
     $('.searchBtn').on('click',function(){
-        $('.searchCompent').show();
         oCreat.cate_alert = false;
-    })
+        $('.searchCompent').show();
+    });
     $('.closeBtn').on('click',function(){
         $('.searchCompent').hide();
     })

@@ -215,7 +215,7 @@
                                             <input type="text" v-model="cn_name" placeholder="输入中文名" class="form-control">
                                         </div>
                                         <div class="col-sm-6 col-md-6 col-lg-6 ">
-                                            <div class="alert alert-danger new-alert" v-show="cn_alert">中文名不能为空</div>
+                                            <div class="alert alert-danger new-alert" style="display:none" v-show="cn_alert">中文名不能为空</div>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -224,7 +224,7 @@
                                             <input type="text" v-model="en_name" placeholder="输入英文名" class="form-control">
                                         </div>
                                         <div class="col-sm-6 col-md-6 col-lg-6 ">
-                                            <div class="alert alert-danger new-alert" v-show="en_alert">请输入英文</div>
+                                            <div class="alert alert-danger new-alert" style="display:none" v-show="en_alert">请输入英文</div>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -250,7 +250,7 @@
                                         </div>
                                         <!--提示框-->
                                         <div class="col-sm-5 col-md-5 col-lg-5 " id="name_alert">
-                                            <div class="alert alert-danger new-alert" v-show="name_alert">类目名不能为空</div>
+                                            <div class="alert alert-danger new-alert" style="display:none" v-show="name_alert">类目名不能为空</div>
                                         </div>
                                         <!--提示框-->
                                     </div>

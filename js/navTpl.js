@@ -1,7 +1,7 @@
 //creat by msh 2016.11.9 
 //公共组件
 
-console.log(serverUrl)
+console.log(serverUrl);
 
 //导航组件
 var dataText;
@@ -33,7 +33,7 @@ $.ajax({
     error:function(jqXHR){
         layer.msg('向服务器请求导航数据失败');
     }
-})
+});
 
 var navHtml = '<template v-for="tab in dataText.navData"><li class="dropdown"><a href="javascript:" class="dropdown-toggle">{{tab.nav_tab}}<span class="caret"></span></a><ul class="dropdown-menu"><template v-for="link in tab.nav_list"><li><a :href="link.link">{{link.link_name}}</a></li></template></ul></li></template>';
 
@@ -42,7 +42,7 @@ var navTPL = Vue.extend({
     data: function () {
     	return { dataText }
 	}
-})
+});
 Vue.component('nav-component', navTPL);
 
 //登录登出组件

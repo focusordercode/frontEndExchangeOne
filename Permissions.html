@@ -60,7 +60,7 @@
                     <div class="panel panel-defaault">
                         <div class="panel-heading"><h4><b class="text-primary">权限设置</b></h4></div>
                         <div class="panel-body">
-                            当前编辑的角色: <b class="text-info">{{role_info.name}}</b>
+                            当前编辑的角色: <b class="text-info" v-cloak>{{role_info.name}}</b>
                         </div>
                     </div>
                 </div>
@@ -89,7 +89,7 @@
                         <div class="checkbox">
                             <label>
                                 <input style='display: none;' type="checkbox" :value="per.id">
-                                <b class="text-info">
+                                <b class="text-info" v-cloak>
                                     {{per.name}}
                                 </b>
                             </label>
@@ -97,7 +97,7 @@
                     </dt>
                     <dd v-for="model_son in per.son">
                         <div class="checkbox">
-                            <label>
+                            <label v-cloak>
                                 <input type="checkbox" :value="model_son.id" v-model="model_son.have">
                                 {{model_son.name}}
                             </label>

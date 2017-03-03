@@ -110,10 +110,10 @@
                                         <th class="text-center">操作</th>
                                     </tr>
                                     <tr class="text-center" v-for="table in valueList">
-                                        <td>{{table.cn_name}}</td>
-                                        <td> {{table.en_name}}</td>
-                                        <td>{{table.code}}</td>
-                                        <td class="text-break">{{table.remark}}</td>
+                                        <td v-cloak>{{table.cn_name}}</td>
+                                        <td v-cloak> {{table.en_name}}</td>
+                                        <td v-cloak>{{table.code}}</td>
+                                        <td class="text-break" v-cloak>{{table.remark}}</td>
                                         <td>
                                             <button @click="deleteOne(table)" class="btn btn-danger btn-xs">删除</button>
                                         </td>

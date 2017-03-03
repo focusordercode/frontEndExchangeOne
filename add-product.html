@@ -70,6 +70,9 @@
             margin-left: 15px;
             margin-top: 5px;
         }
+        [v-cloak] {
+            display: none;
+        }
     </style>
 </head>
     <body>
@@ -100,7 +103,7 @@
                     </button>
                     <a class="navbar-brand hidden-sm" href="product-center.html" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'navbar-首页'])">产品中心首页</a>
                 </div>
-                <div class="navbar-collapse collapse" role="navigation">
+                <div class="navbar-collapse collapse" role="navigation" v-cloak>
                     <ul class="nav navbar-nav">
                         
                     </ul>
@@ -139,7 +142,7 @@
                                                             <input type="text" v-model="cn_name" placeholder="输入中文名" class="form-control">
                                                         </div>
                                                         <div class="col-sm-6">
-                                                            <div class="alert alert-danger new-alert" v-show="cn_alert" role="alert"> 请输入产品的中文名称
+                                                            <div class="alert alert-danger new-alert" style="display:none;" v-show="cn_alert" role="alert" v-cloak > 请输入产品的中文名称
                                                             </div>
                                                         </div>
                                                     </div>
@@ -149,7 +152,7 @@
                                                             <input type="text" v-model="en_name" placeholder="输入英文名" class="form-control">
                                                         </div>
                                                         <div class="col-sm-6">
-                                                            <div class="alert alert-danger new-alert" v-show="en_alert" role="alert"> 请输入产品的英文名称,英文名只能是英文数字和空格
+                                                            <div class="alert alert-danger new-alert" style="display:none;" v-show="en_alert" role="alert"> 请输入产品的英文名称,英文名只能是英文数字和空格
                                                             </div>
                                                         </div>
                                                     </div>
@@ -169,21 +172,21 @@
                                                         <div class="col-sm-1">
                                                             <button class="btn btn-info btn-sm searchBtn">搜索</button>
                                                         </div>
-                                                        <div class="col-sm-3 pors searchCompent">
+                                                        <div  v-show="!cate_alert" class="col-sm-3 pors searchCompent">
                                                             <input type="text" class="form-control searchShadow searchCate" placeholder="输入关键字搜索类目">
                                                             <ul class="cate-list">
-                                                                <li @click="selectCate(pro)" v-for="pro in proList">
+                                                                <li @click="selectCate(pro)" v-for="pro in proList" v-cloak>
                                                                     {{pro.cn_name}} {{pro.en_name}}
                                                                 </li>
                                                             </ul>
                                                         </div>
-                                                        <div class="col-sm-1 text-left paddingLeft searchCompent">
+                                                        <div v-show="!cate_alert" class="col-sm-1 text-left paddingLeft searchCompent">
                                                             <button class="btn btn-default closeBtn searchShadow">
                                                                 <i class="fa fa-close"></i>
                                                             </button>
                                                         </div>
-                                                        <div class="col-sm-3">
-                                                            <div class="alert alert-danger new-alert"  role="alert" v-show="cate_alert"> 请选择类目
+                                                        <div class="col-sm-3 cate_alert1" id="cate_alert1" style="display:none;" v-show="cate_alert">
+                                                            <div class="alert alert-danger new-alert"  role="alert" > 请选择类目
                                                             </div>
                                                         </div>
                                                     </div>
@@ -231,7 +234,7 @@
                                                         <div class="col-sm-3 pors searchCompent2">
                                                             <input type="text" class="form-control searchShadow searchCate2" placeholder="输入关键字搜索类目">
                                                             <ul class="cate-list">
-                                                                <li @click="selectCate(pro)" v-for="pro in proList">
+                                                                <li @click="selectCate(pro)" v-for="pro in proList" v-cloak>
                                                                     {{pro.cn_name}} {{pro.en_name}}
                                                                 </li>
                                                             </ul>
@@ -241,8 +244,8 @@
                                                                 <i class="fa fa-close"></i>
                                                             </button>
                                                         </div>
-                                                        <div class="col-sm-3">
-                                                            <div class="alert alert-danger new-alert"  role="alert" v-show="cate_alert"> 请选择类目
+                                                        <div class="col-sm-3" id="cate_alert" >
+                                                            <div class="alert alert-danger new-alert"  role="alert" style="display:none;" v-show="cate_alert" > 请选择类目
                                                             </div>
                                                         </div>
                                                     </div>
@@ -262,11 +265,11 @@
                                                             <div class="alert alert-info new-alert" role="alert">
                                                                 <dl class="dl-horizontal">
                                                                      <dt>总共上传个数：</dt>
-                                                                     <dd>{{respons.count}}</dd>
+                                                                     <dd v-cloak>{{respons.count}}</dd>
                                                                      <dt>成功个数:</dt>    
-                                                                     <dd>{{respons.success}}</dd>
+                                                                     <dd v-cloak>{{respons.success}}</dd>
                                                                      <dt>失败个数:</dt>
-                                                                     <dd>{{respons.fail}}</dd>
+                                                                     <dd v-cloak>{{respons.fail}}</dd>
                                                                 </dl>
                                                             </div>
                                                         </div>

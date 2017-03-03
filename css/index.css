@@ -559,6 +559,10 @@ body,html {
     color: #d21511;
 }
 
+[v-cloak]{
+    display: none;
+}
+
 /* 全屏搜索类目样式 */
 .searchField {
     width: 1146px;

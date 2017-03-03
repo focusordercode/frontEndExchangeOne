@@ -28,6 +28,9 @@
         .input-width {
             width: 200px;
         }
+        [v-cloak] {
+            display:noen;
+        }
     </style>
 </head>
     <body>
@@ -161,7 +164,7 @@
                     </dt>
                     <!-- 子节点 -->
                     <dd v-for="model_son in per.son">
-                        <label class="label label-md label-primary">
+                        <label class="label label-md label-primary" v-cloak>
                             {{model_son.name}}
                         </label>
                         <button class="btn btn-xs btn-default" @click="open_small_eidt(model_son)">

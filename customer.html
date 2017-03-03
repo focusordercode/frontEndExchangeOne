@@ -134,7 +134,7 @@
                                             <th class="text-center"><button @click="sort('G')" class="btn sort-bg">客户编号</th>
                                             <th class="text-center">操作</th>
                                         </tr>
-                                        <template v-for="table in cusData">
+                                        <template v-for="table in cusData" v-cloak>
                                             <tr v-if="$index%2==0" class="warning">
                                                 <td class="text-center"><input type="checkbox" v-model="table.checked">    {{$index | ListNum}}</td>
                                                 <td class="text-left">{{table.custom_name}}</td>
@@ -174,9 +174,9 @@
                                         <button class="btn btn-default" @click="nextP" :disabled="nextPage">下一页</button>
                                         <input type="number" min="1" v-model="jumpPage" placeholder="页码" class="form-control" style="width: 80px;">
                                         <button @click="jumpP" class="btn btn-info" :disabled="jumpBtn" >跳转</button>　　
-                                        <label class="text-warning">当前页数:{{pageNow}}</label>　
-                                        <label class="text-warning">总页数:{{countPage}}</label>　
-                                        <label class="text-warning">总客户数:{{cus_count}}</label>　
+                                        <label class="text-warning" v-cloak>当前页数:{{pageNow}}</label>　
+                                        <label class="text-warning" v-cloak>总页数:{{countPage}}</label>　
+                                        <label class="text-warning" v-cloak>总客户数:{{cus_count}}</label>　
                                     </div>
                                 </div>
                             </div>

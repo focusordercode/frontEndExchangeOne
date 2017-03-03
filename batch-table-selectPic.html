@@ -41,6 +41,9 @@
         .bordered {
             border-right: 1px solid #14714f;
         }
+        [v-cloak]{
+            display:none;
+        }
     </style>
 </head>
     <body>
@@ -156,37 +159,37 @@
                                     <div class="col-md-6">
                                         <p>
                                             <label class="text-primary">表格编号：</label>
-                                            <span class="text-muted">{{tableInfo.form_no}}</span>
+                                            <span class="text-muted" v-cloak>{{tableInfo.form_no}}</span>
                                         </p>
                                     </div>
                                     <div class="col-md-6">
                                         <p>
                                             <label class="text-primary">产品类目：</label>
-                                            <span class="text-muted">{{tableInfo.name}}</span>
+                                            <span class="text-muted" v-cloak>{{tableInfo.name}}</span>
                                         </p>
                                     </div>
                                     <div class="col-md-6">
                                         <p>
                                             <label class="text-primary">使用模板:</label>
-                                            <span class="text-muted">{{tableInfo.tempname}}</span>
+                                            <span class="text-muted" v-cloak>{{tableInfo.tempname}}</span>
                                         </p>
                                     </div>
                                     <div class="col-md-6">
                                         <p>
                                             <label class="text-primary">站点:</label>
-                                            <span class="text-muted">{{tableInfo.productCount}}</span>
+                                            <span class="text-muted" v-cloak>{{tableInfo.productCount}}</span>
                                         </p>
                                     </div>
                                     <div class="col-md-6">
                                         <p>
                                             <label class="text-primary">客户名称:</label>
-                                            <span class="text-muted">{{tableInfo.client_name}}</span>
+                                            <span class="text-muted" v-cloak>{{tableInfo.client_name}}</span>
                                         </p>
                                     </div>
                                     <div class="col-md-12">
                                         <p>
                                             <label class="text-primary">产品数量统计:</label>
-                                            <span class="text-muted">{{tableInfo.productCount}}</span>
+                                            <span class="text-muted" v-cloak>{{tableInfo.productCount}}</span>
                                         </p>
                                     </div>
                                 </div>
@@ -294,15 +297,15 @@
                         <div class="col-md-10 col-md-offset-1">
                             <div class="col-md-2">
                                 <label class="label label-primary">图片需求量:</label>
-                                <span class="text-muted">{{count}}</span>
+                                <span class="text-muted" v-cloak>{{count}}</span>
                             </div>
                             <div class="col-md-2">
                                 <label class="label label-primary">可用图片量:</label>
-                                <span class="text-muted">{{num_now}}</span>
+                                <span class="text-muted" v-cloak>{{num_now}}</span>
                             </div>
                             <div class="col-md-2">
                                 <label class="label label-warning">图片不足数:</label>
-                                <span class="text-warning">{{not_enough}}</span>
+                                <span class="text-warning" v-cloak>{{not_enough}}</span>
                             </div>
                         </div>
                     </div>
@@ -327,7 +330,7 @@
                                     <th>图片尺寸(宽X高)</th>
                                     <!-- <th>操作</th> -->
                                 </tr>
-                                <template v-for="list in picData">
+                                <template v-for="list in picData" v-cloak>
                                     <tr v-if="$index <= 9">
                                         <td>{{$index+1}}</td>
                                         <td>{{list.file_name}}</td>
@@ -389,7 +392,7 @@
                     class="label label-primary"
                     :class="{bold: isFolderP}"
                     v-show="pictree.id"
-                    @click="toggle(pictree)">
+                    @click="toggle(pictree)" v-cloak>
                     <span class="glyphicon glyphicon-folder-close" v-show="isFolderP"></span>
                     <span class="glyphicon glyphicon-file" v-show="!isFolderP"></span>
                     {{pictree.cn_name}}

@@ -118,7 +118,7 @@
                                     <td class="text-center">
                                         <input type="checkbox" v-model="arrayurl" value="{{fiels.url}}" />
                                     </td>
-                                    <td class="text-center" v-bind:href="fiels.url" >{{fiels.name}}
+                                    <td class="text-center" v-bind:href="fiels.url" v-cloak>{{fiels.name}}
                                     </td>
                                     <td>
                                         <button @click="openfolder(fiels)" class="btn btn-success"><i class="fa  fa-folder-open" aria-hidden="true"></i>打开目录</button>
@@ -162,8 +162,8 @@
                 <button @click="goNextPage" :disabled="nextPageBtn" class="btn btn-default">下一页</button>
                 <input type="number" v-model="jump" placeholder="页码" min="1" class="form-control" style="width:80px;">
                 <button class="btn btn-info" @click="goJump" :disabled="jumpBtn">跳转</button>
-                总页数:<strong class="text-warning">{{countPage}}</strong>　
-                当前页:<strong class="text-warning">{{pageNow}}</strong>
+                总页数:<strong class="text-warning" v-cloak>{{countPage}}</strong>　
+                当前页:<strong class="text-warning" v-cloak>{{pageNow}}</strong>
             </div>
         </div>
     </div>

@@ -55,6 +55,9 @@
         .progress-display {
             display: none;
         }
+        [v-cloak]{
+            display: none;
+        }
     </style>
 </head>
     <body>
@@ -204,15 +207,15 @@
                         <div class="col-md-10 col-md-offset-1">
                             <div class="col-md-2">
                                 <label class="label label-primary">计划上传:</label>
-                                <span class="text-muted">{{picData.length}}</span>
+                                <span class="text-muted" v-cloak>{{picData.length}}</span>
                             </div>
                             <div class="col-md-2">
                                 <label class="label label-primary">成功上传:</label>
-                                <span class="text-muted">{{success_count}}</span>
+                                <span class="text-muted" v-cloak>{{success_count}}</span>
                             </div>
                             <div class="col-md-2">
                                 <label class="label label-primary">失败上传:</label>
-                                <span class="text-muted">{{picData.length - success_count}}</span>
+                                <span class="text-muted" v-cloak>{{picData.length - success_count}}</span>
                             </div>
                         </div>
                         <hr>

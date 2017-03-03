@@ -137,7 +137,7 @@
                                                         <th class="text-center">数据表的子分区数量</th>
                                                         <th class="text-center table-width">与警戒值的比例</th>
                                                     </tr>
-                                                    <template v-for="table in dataList">
+                                                    <template v-for="table in dataList" v-cloak>
                                                         <tr class="text-center">
                                                             <td class="col-md-1 text-muted">{{$index+1}}</td>
                                                             <td class="col-md-1">{{table.count}}</td>

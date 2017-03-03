@@ -71,6 +71,9 @@
         .adminCate .form-control {
             border-radius: 0;
         }
+        [v-cloak] {
+            display: none;
+        }
     </style>
 </head>
     <body>
@@ -160,7 +163,7 @@
                     :class="{bold: isFolder}">
                     <span class="glyphicon glyphicon-folder-close" @click="toggle(model)" v-show="isFolder"></span>
                     <span class="glyphicon glyphicon-file" v-show="!isFolder"></span>
-                    <span class="selected" @click="selected(model)">
+                    <span class="selected" @click="selected(model)" v-cloak>
                         {{model.cn_name}}
                         {{model.en_name}}
                     </span>
@@ -170,7 +173,7 @@
                     <item
                         class="item"
                         v-for="model in model.children"
-                        :model="model">
+                        :model="model" v-cloak>
                     </item>
                 </ul>
             </li>

@@ -31,6 +31,9 @@
             margin-left: 15px;
             margin-top: 5px;
         }
+        [v-cloak] {
+            display: none;
+        }
     </style>
 </head>
     <body>
@@ -161,11 +164,11 @@
                                                             <div class="alert alert-info new-alert" role="alert">
                                                                 <dl class="dl-horizontal">
                                                                      <dt>总共上传个数：</dt>
-                                                                     <dd>{{respons.count}}</dd>
+                                                                     <dd v-cloak>{{respons.count}}</dd>
                                                                      <dt>成功个数:</dt>    
-                                                                     <dd>{{respons.success}}</dd>
+                                                                     <dd v-cloak>{{respons.success}}</dd>
                                                                      <dt>失败个数:</dt>
-                                                                     <dd>{{respons.fail}}</dd>
+                                                                     <dd v-cloak>{{respons.fail}}</dd>
                                                                 </dl>
                                                             </div>
                                                         </div>
