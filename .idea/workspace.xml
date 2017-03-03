@@ -3,36 +3,16 @@
   <component name="ChangeListManager">
     <list default="true" id="57f4b822-3711-47c0-8cae-aadd8c62ed7d" name="默认的" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FileManager.html" afterPath="$PROJECT_DIR$/FileManager.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Permissions.html" afterPath="$PROJECT_DIR$/Permissions.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TableWorkflow-creat.html" afterPath="$PROJECT_DIR$/TableWorkflow-creat.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/add-Thesaurus.html" afterPath="$PROJECT_DIR$/add-Thesaurus.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/add-product.html" afterPath="$PROJECT_DIR$/add-product.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/add_user.html" afterPath="$PROJECT_DIR$/add_user.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/admin-category.html" afterPath="$PROJECT_DIR$/admin-category.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/admin-permissions.html" afterPath="$PROJECT_DIR$/admin-permissions.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TableWorkflow-done.html" afterPath="$PROJECT_DIR$/TableWorkflow-done.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TableWorkflow-edit.html" afterPath="$PROJECT_DIR$/TableWorkflow-edit.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TableWorkflow-selectPic.html" afterPath="$PROJECT_DIR$/TableWorkflow-selectPic.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/batch-table-creat.html" afterPath="$PROJECT_DIR$/batch-table-creat.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/batch-table-done.html" afterPath="$PROJECT_DIR$/batch-table-done.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/batch-table-edit.html" afterPath="$PROJECT_DIR$/batch-table-edit.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/batch-table-selectPic.html" afterPath="$PROJECT_DIR$/batch-table-selectPic.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/batch-table-upload.html" afterPath="$PROJECT_DIR$/batch-table-upload.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/batch-temp-creat.html" afterPath="$PROJECT_DIR$/batch-temp-creat.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/batch-temp-defineVal.html" afterPath="$PROJECT_DIR$/batch-temp-defineVal.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/batch-temp-relate.html" afterPath="$PROJECT_DIR$/batch-temp-relate.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/batch-temp-start.html" afterPath="$PROJECT_DIR$/batch-temp-start.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/css/index.css" afterPath="$PROJECT_DIR$/css/index.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/customer.html" afterPath="$PROJECT_DIR$/customer.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/group.html" afterPath="$PROJECT_DIR$/group.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/info-temp-creat.html" afterPath="$PROJECT_DIR$/info-temp-creat.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/info-temp-done.html" afterPath="$PROJECT_DIR$/info-temp-done.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/info-temp-edit.html" afterPath="$PROJECT_DIR$/info-temp-edit.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/add-product.js" afterPath="$PROJECT_DIR$/js/add-product.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/navTpl.js" afterPath="$PROJECT_DIR$/js/navTpl.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/pic-category.js" afterPath="$PROJECT_DIR$/js/pic-category.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/serverUrl.js" afterPath="$PROJECT_DIR$/js/serverUrl.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/model.html" afterPath="$PROJECT_DIR$/model.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/partition.html" afterPath="$PROJECT_DIR$/partition.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/personal.html" afterPath="$PROJECT_DIR$/personal.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/TableWorkflow-selectPic.js" afterPath="$PROJECT_DIR$/js/TableWorkflow-selectPic.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pic-category.html" afterPath="$PROJECT_DIR$/pic-category.html" />
     </list>
     <ignored path="kaifa.iws" />
@@ -53,45 +33,137 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="serverUrl.js" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/js/serverUrl.js">
+      <file leaf-file-name="TableWorkflow-edit.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/TableWorkflow-edit.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="49" lean-forward="false" selection-start-line="0" selection-start-column="49" selection-end-line="0" selection-end-column="49" />
+            <state relative-caret-position="-6949">
+              <caret line="240" column="85" lean-forward="false" selection-start-line="240" selection-start-column="85" selection-end-line="240" selection-end-column="85" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="pic-category.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/js/pic-category.js">
+      <file leaf-file-name="TableWorkflow-done.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/TableWorkflow-done.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="286">
-              <caret line="339" column="6" lean-forward="false" selection-start-line="339" selection-start-column="4" selection-end-line="339" selection-end-column="6" />
+            <state relative-caret-position="3483">
+              <caret line="129" column="76" lean-forward="false" selection-start-line="129" selection-start-column="76" selection-end-line="129" selection-end-column="76" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.css" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/css/index.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="557">
+              <caret line="571" column="8" lean-forward="false" selection-start-line="571" selection-start-column="0" selection-end-line="571" selection-end-column="8" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="batch-table-creat.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/batch-table-creat.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="364">
+              <caret line="507" column="24" lean-forward="true" selection-start-line="507" selection-start-column="24" selection-end-line="507" selection-end-column="24" />
               <folding>
-                <element signature="n#!!doc" expanded="true" />
-                <element signature="e#36445#37999#0" expanded="false" />
+                <element signature="n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
+                <element signature="n#div#1;n#body#0;n#html#0;n#!!top" expanded="false" />
+                <element signature="n#div#2;n#body#0;n#html#0;n#!!top" expanded="false" />
+                <element signature="n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="false" />
+                <element signature="n#div#1;n#div#0;n#div#1;n#div#1;n#div#0;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="false" />
+                <element signature="n#div#2;n#div#0;n#div#1;n#div#1;n#div#0;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="false" />
+                <element signature="n#div#3;n#div#0;n#div#1;n#div#1;n#div#0;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="false" />
+                <element signature="n#style#0;n#label#0;n#div#0;n#div#0;n#div#2;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#4;n#body#0;n#html#0;n#!!top" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="navTpl.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/js/navTpl.js">
+      <file leaf-file-name="info-temp-creat.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/info-temp-creat.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1161">
-              <caret line="44" column="3" lean-forward="false" selection-start-line="44" selection-start-column="3" selection-end-line="44" selection-end-column="3" />
-              <folding />
+            <state relative-caret-position="287">
+              <caret line="179" column="93" lean-forward="false" selection-start-line="179" selection-start-column="36" selection-end-line="179" selection-end-column="93" />
+              <folding>
+                <element signature="n#style#0;n#div#0;n#div#1;n#div#1;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Table-info.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/js/Table-info.js">
+      <file leaf-file-name="batch-temp-creat.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/batch-temp-creat.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-5994">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
+            <state relative-caret-position="3280">
+              <caret line="259" column="83" lean-forward="false" selection-start-line="259" selection-start-column="81" selection-end-line="259" selection-end-column="83" />
+              <folding>
+                <element signature="n#div#2;n#div#2;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="false" />
+                <element signature="n#div#3;n#div#2;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TableWorkflow-creat.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/TableWorkflow-creat.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1489">
+              <caret line="342" column="70" lean-forward="false" selection-start-line="342" selection-start-column="70" selection-end-line="342" selection-end-column="70" />
+              <folding>
+                <element signature="n#div#2;n#body#0;n#html#0;n#!!top" expanded="false" />
+                <element signature="n#div#2;n#div#1;n#div#0;n#div#1;n#div#0;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="false" />
+                <element signature="n#div#3;n#div#1;n#div#0;n#div#1;n#div#0;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="false" />
+                <element signature="n#style#0;n#div#0;n#div#4;n#div#1;n#div#0;n#div#1;n#div#0;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#2;n#div#2;n#div#0;n#div#1;n#div#0;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#div#2;n#div#3;n#div#0;n#div#1;n#div#0;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="false" />
+                <element signature="n#div#3;n#div#3;n#div#0;n#div#1;n#div#0;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="false" />
+                <element signature="n#style#0;n#div#0;n#div#4;n#div#3;n#div#0;n#div#1;n#div#0;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#1;n#div#4;n#div#0;n#div#1;n#div#0;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#1;n#div#6;n#div#0;n#div#1;n#div#0;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#1;n#div#7;n#div#0;n#div#1;n#div#0;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="batch-table-edit.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/batch-table-edit.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="597">
+              <caret line="240" column="86" lean-forward="false" selection-start-line="240" selection-start-column="86" selection-end-line="240" selection-end-column="86" />
+              <folding>
+                <element signature="n#div#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="false" />
+                <element signature="n#div#2;n#div#1;n#body#0;n#html#0;n#!!top" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="batch-temp-defineVal.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/batch-temp-defineVal.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="486">
+              <caret line="342" column="67" lean-forward="true" selection-start-line="342" selection-start-column="67" selection-end-line="342" selection-end-column="67" />
+              <folding>
+                <element signature="n#tr#0;n#table#0;n#div#0;n#div#1;n#div#1;n#div#0;n#div#0;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="false" />
+                <element signature="n#template#0;n#table#0;n#div#0;n#div#1;n#div#1;n#div#0;n#div#0;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="batch-temp-relate.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/batch-temp-relate.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="391">
+              <caret line="363" column="127" lean-forward="false" selection-start-line="363" selection-start-column="127" selection-end-line="363" selection-end-column="127" />
+              <folding>
+                <element signature="n#style#0;n#div#0;n#div#0;n#div#1;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#button#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#4;n#body#0;n#html#0;n#!!top" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -100,36 +172,36 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>v-if</find>
-      <find>creatProduct</find>
-      <find>searchCompent</find>
-      <find>v-cloak</find>
-      <find>v-show</find>
-      <find>modal-title</find>
-      <find>Close</find>
-      <find>attention</find>
-      <find>script</find>
-      <find>modal-dialog</find>
-      <find>picinfo</find>
-      <find>my-component</find>
-      <find>sizeCounter</find>
-      <find>中文</find>
-      <find>cn_name</find>
-      <find>Vue(</find>
-      <find>addItem</find>
-      <find>vue({</find>
-      <find>修改图片目录</find>
-      <find>changge_ename</find>
-      <find>addpicItem</find>
-      <find>$('.changeItem').modal(</find>
-      <find>closedelog</find>
-      <find>modal</find>
       <find>disabledn</find>
       <find>additem</find>
       <find>cname</find>
       <find>alert</find>
       <find>btns</find>
       <find>修改</find>
+      <find>按回车</find>
+      <find>goRelate</find>
+      <find>所属类目</find>
+      <find>panel-heading</find>
+      <find>searchBtn</find>
+      <find>relate</find>
+      <find>new-alert</find>
+      <find>proList</find>
+      <find>gor</find>
+      <find>selectPic</find>
+      <find>selectPic.pro</find>
+      <find>proName_alert</find>
+      <find>searchBtn2</find>
+      <find>gore</find>
+      <find>mb-md</find>
+      <find>pro</find>
+      <find>relName_alert</find>
+      <find>{{</find>
+      <find>选择模板</find>
+      <find>选择产</find>
+      <find>产品资料表</find>
+      <find>批量表</find>
+      <find>批量表模板</find>
+      <find>保存</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -157,10 +229,7 @@
         <option value="$PROJECT_DIR$/batch-table-edit.html" />
         <option value="$PROJECT_DIR$/batch-table-selectPic.html" />
         <option value="$PROJECT_DIR$/batch-table-upload.html" />
-        <option value="$PROJECT_DIR$/css/index.css" />
-        <option value="$PROJECT_DIR$/batch-temp-creat.html" />
         <option value="$PROJECT_DIR$/batch-temp-defineVal.html" />
-        <option value="$PROJECT_DIR$/batch-temp-relate.html" />
         <option value="$PROJECT_DIR$/batch-temp-start.html" />
         <option value="$PROJECT_DIR$/customer.html" />
         <option value="$PROJECT_DIR$/FileManager.html" />
@@ -173,11 +242,18 @@
         <option value="$PROJECT_DIR$/personal.html" />
         <option value="$PROJECT_DIR$/js/navTpl.js" />
         <option value="$PROJECT_DIR$/js/pic-category.js" />
-        <option value="$PROJECT_DIR$/pic-category.html" />
-        <option value="$PROJECT_DIR$/info-temp-creat.html" />
-        <option value="$PROJECT_DIR$/TableWorkflow-creat.html" />
-        <option value="$PROJECT_DIR$/batch-table-creat.html" />
         <option value="$PROJECT_DIR$/js/serverUrl.js" />
+        <option value="$PROJECT_DIR$/TableWorkflow-creat.html" />
+        <option value="$PROJECT_DIR$/pic-category.html" />
+        <option value="$PROJECT_DIR$/js/TableWorkflow-selectPic.js" />
+        <option value="$PROJECT_DIR$/TableWorkflow-selectPic.html" />
+        <option value="$PROJECT_DIR$/TableWorkflow-edit.html" />
+        <option value="$PROJECT_DIR$/TableWorkflow-done.html" />
+        <option value="$PROJECT_DIR$/batch-temp-creat.html" />
+        <option value="$PROJECT_DIR$/batch-temp-relate.html" />
+        <option value="$PROJECT_DIR$/info-temp-creat.html" />
+        <option value="$PROJECT_DIR$/css/index.css" />
+        <option value="$PROJECT_DIR$/batch-table-creat.html" />
       </list>
     </option>
   </component>
@@ -231,7 +307,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="js" />
+              <option name="myItemId" value="css" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -350,12 +426,12 @@
       <workItem from="1488337798734" duration="243000" />
       <workItem from="1488348487687" duration="13563000" />
       <workItem from="1488418012322" duration="26112000" />
-      <workItem from="1488500858820" duration="15646000" />
+      <workItem from="1488500858820" duration="30617000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="56395000" />
+    <option name="totallyTimeSpent" value="71366000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-36" y="106" width="1936" height="1056" extended-state="1" />
@@ -424,45 +500,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/js/control.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/batch-temp-start.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="459">
-          <caret line="17" column="0" lean-forward="false" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/batch-table-creat.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5778">
-          <caret line="214" column="54" lean-forward="false" selection-start-line="214" selection-start-column="54" selection-end-line="214" selection-end-column="54" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/info-temp-creat.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1674">
-          <caret line="62" column="43" lean-forward="false" selection-start-line="62" selection-start-column="43" selection-end-line="62" selection-end-column="43" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/batch-temp-creat.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1620">
-          <caret line="60" column="30" lean-forward="false" selection-start-line="60" selection-start-column="20" selection-end-line="60" selection-end-column="30" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/template.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-351">
@@ -530,6 +567,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3212">
           <caret line="170" column="80" lean-forward="false" selection-start-line="170" selection-start-column="80" selection-end-line="170" selection-end-column="80" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -580,17 +618,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/batch-table-edit.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-4425">
-          <caret line="240" column="86" lean-forward="false" selection-start-line="240" selection-start-column="86" selection-end-line="240" selection-end-column="86" />
-          <folding>
-            <element signature="n#div#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="n#div#2;n#div#1;n#body#0;n#html#0;n#!!top" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/batch-table-upload.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="405">
@@ -610,38 +637,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="10574">
           <caret line="394" column="52" lean-forward="false" selection-start-line="394" selection-start-column="52" selection-end-line="394" selection-end-column="52" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/batch-temp-creat.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1377">
-          <caret line="217" column="113" lean-forward="false" selection-start-line="217" selection-start-column="107" selection-end-line="217" selection-end-column="113" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="n#style#0;n#div#0;n#div#1;n#div#1;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="n#div#2;n#div#2;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="n#div#3;n#div#2;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="n#style#0;n#div#0;n#div#4;n#div#2;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/batch-temp-defineVal.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-645">
-          <caret line="196" column="83" lean-forward="false" selection-start-line="196" selection-start-column="83" selection-end-line="196" selection-end-column="83" />
-          <folding>
-            <element signature="n#tr#0;n#table#0;n#div#0;n#div#1;n#div#1;n#div#0;n#div#0;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="n#template#0;n#table#0;n#div#0;n#div#1;n#div#1;n#div#0;n#div#0;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/batch-temp-relate.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-618">
-          <caret line="352" column="86" lean-forward="false" selection-start-line="352" selection-start-column="79" selection-end-line="352" selection-end-column="86" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -649,6 +645,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-294">
           <caret line="179" column="101" lean-forward="false" selection-start-line="179" selection-start-column="101" selection-end-line="179" selection-end-column="101" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -761,67 +758,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/TableWorkflow-creat.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="395">
-          <caret line="166" column="26" lean-forward="false" selection-start-line="166" selection-start-column="26" selection-end-line="166" selection-end-column="26" />
-          <folding>
-            <element signature="n#div#2;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="n#div#3;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="n#div#2;n#div#0;n#div#3;n#div#0;n#div#0;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="n#div#3;n#div#0;n#div#3;n#div#0;n#div#0;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/batch-table-creat.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="432">
-          <caret line="174" column="26" lean-forward="true" selection-start-line="174" selection-start-column="26" selection-end-line="174" selection-end-column="26" />
-          <folding>
-            <element signature="n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="n#div#1;n#body#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="n#div#2;n#body#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="n#div#1;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="n#div#2;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="n#div#3;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pic-category.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="554">
-          <caret line="69" column="39" lean-forward="false" selection-start-line="69" selection-start-column="39" selection-end-line="69" selection-end-column="39" />
-          <folding>
-            <element signature="e#7219#7226#0" expanded="true" />
-            <element signature="e#9897#9904#0" expanded="true" />
-            <element signature="n#style#0;n#button#0;n#div#2;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#6;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/info-temp-creat.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="243">
-          <caret line="102" column="27" lean-forward="false" selection-start-line="102" selection-start-column="27" selection-end-line="102" selection-end-column="27" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$APPLICATION_HOME_DIR$/lib/webstorm.jar!/resources/html5-schema/html5/block.rnc">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="4644">
           <caret line="172" column="0" lean-forward="true" selection-start-line="172" selection-start-column="0" selection-end-line="172" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/css/index.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="665">
-          <caret line="563" column="1" lean-forward="false" selection-start-line="563" selection-start-column="1" selection-end-line="563" selection-end-column="1" />
           <folding />
         </state>
       </provider>
@@ -831,25 +771,6 @@
         <state relative-caret-position="436">
           <caret line="154" column="49" lean-forward="false" selection-start-line="154" selection-start-column="49" selection-end-line="154" selection-end-column="49" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/Table-info.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-5994">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/pic-category.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="286">
-          <caret line="339" column="6" lean-forward="false" selection-start-line="339" selection-start-column="4" selection-end-line="339" selection-end-column="6" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-            <element signature="e#36445#37999#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -866,6 +787,185 @@
         <state relative-caret-position="0">
           <caret line="0" column="49" lean-forward="false" selection-start-line="0" selection-start-column="49" selection-end-line="0" selection-end-column="49" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/Table-info.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1620">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/info-temp-creat.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1025">
+          <caret line="62" column="43" lean-forward="false" selection-start-line="62" selection-start-column="43" selection-end-line="62" selection-end-column="43" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/pic-category.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="286">
+          <caret line="339" column="6" lean-forward="false" selection-start-line="339" selection-start-column="4" selection-end-line="339" selection-end-column="6" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+            <element signature="e#36445#37999#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pic-category.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="10911">
+          <caret line="482" column="65" lean-forward="false" selection-start-line="482" selection-start-column="65" selection-end-line="482" selection-end-column="65" />
+          <folding>
+            <element signature="e#7278#7285#0" expanded="true" />
+            <element signature="e#9956#9963#0" expanded="true" />
+            <element signature="e#19802#20169#0" expanded="false" />
+            <element signature="n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#5;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#style#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#5;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#button#0;n#div#2;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#6;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/TableWorkflow-selectPic.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="339" column="41" lean-forward="false" selection-start-line="339" selection-start-column="41" selection-end-line="339" selection-end-column="41" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/TableWorkflow-selectPic.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="756">
+          <caret line="595" column="31" lean-forward="true" selection-start-line="595" selection-start-column="31" selection-end-line="595" selection-end-column="31" />
+          <folding>
+            <element signature="n#div#1;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#div#2;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#div#3;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#style#0;n#div#0;n#div#4;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#4;n#div#1;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/batch-temp-relate.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="363" column="127" lean-forward="false" selection-start-line="363" selection-start-column="127" selection-end-line="363" selection-end-column="127" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#1;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#button#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#4;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/TableWorkflow-edit.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-6949">
+          <caret line="240" column="85" lean-forward="false" selection-start-line="240" selection-start-column="85" selection-end-line="240" selection-end-column="85" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/TableWorkflow-done.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3483">
+          <caret line="129" column="76" lean-forward="false" selection-start-line="129" selection-start-column="76" selection-end-line="129" selection-end-column="76" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/css/index.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="557">
+          <caret line="571" column="8" lean-forward="false" selection-start-line="571" selection-start-column="0" selection-end-line="571" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/batch-table-creat.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="364">
+          <caret line="507" column="24" lean-forward="true" selection-start-line="507" selection-start-column="24" selection-end-line="507" selection-end-column="24" />
+          <folding>
+            <element signature="n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#div#1;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#div#2;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#div#1;n#div#0;n#div#1;n#div#1;n#div#0;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#div#2;n#div#0;n#div#1;n#div#1;n#div#0;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#div#3;n#div#0;n#div#1;n#div#1;n#div#0;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#style#0;n#label#0;n#div#0;n#div#0;n#div#2;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#4;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/info-temp-creat.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="287">
+          <caret line="179" column="93" lean-forward="false" selection-start-line="179" selection-start-column="36" selection-end-line="179" selection-end-column="93" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#div#1;n#div#1;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/batch-temp-creat.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3280">
+          <caret line="259" column="83" lean-forward="false" selection-start-line="259" selection-start-column="81" selection-end-line="259" selection-end-column="83" />
+          <folding>
+            <element signature="n#div#2;n#div#2;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#div#3;n#div#2;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/TableWorkflow-creat.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1489">
+          <caret line="342" column="70" lean-forward="false" selection-start-line="342" selection-start-column="70" selection-end-line="342" selection-end-column="70" />
+          <folding>
+            <element signature="n#div#2;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#div#2;n#div#1;n#div#0;n#div#1;n#div#0;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#div#3;n#div#1;n#div#0;n#div#1;n#div#0;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#style#0;n#div#0;n#div#4;n#div#1;n#div#0;n#div#1;n#div#0;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#2;n#div#2;n#div#0;n#div#1;n#div#0;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#div#2;n#div#3;n#div#0;n#div#1;n#div#0;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#div#3;n#div#3;n#div#0;n#div#1;n#div#0;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#style#0;n#div#0;n#div#4;n#div#3;n#div#0;n#div#1;n#div#0;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#1;n#div#4;n#div#0;n#div#1;n#div#0;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#1;n#div#6;n#div#0;n#div#1;n#div#0;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#1;n#div#7;n#div#0;n#div#1;n#div#0;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/batch-table-edit.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="597">
+          <caret line="240" column="86" lean-forward="false" selection-start-line="240" selection-start-column="86" selection-end-line="240" selection-end-column="86" />
+          <folding>
+            <element signature="n#div#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#div#2;n#div#1;n#body#0;n#html#0;n#!!top" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/batch-temp-defineVal.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="486">
+          <caret line="342" column="67" lean-forward="true" selection-start-line="342" selection-start-column="67" selection-end-line="342" selection-end-column="67" />
+          <folding>
+            <element signature="n#tr#0;n#table#0;n#div#0;n#div#1;n#div#1;n#div#0;n#div#0;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#template#0;n#table#0;n#div#0;n#div#1;n#div#1;n#div#0;n#div#0;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>

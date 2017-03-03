@@ -359,7 +359,11 @@
                                         </div>
                                     </div>
                                     <hr>
-                                    <button @click="selectedMB" v-show="MBlist.length>0" class="btn btn-primary">确定</button>
+                                    <div class="text-center">
+                                        <button @click="selectedMB" v-show="MBlist.length>0" class="btn btn-primary" style="margin-right:10px;">确定</button>
+                                        <button @click="" v-show="MBlist.length>0" class="btn btn-primary" data-dismiss="modal">取消</button>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>

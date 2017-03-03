@@ -93,6 +93,8 @@ var selectPic = new Vue({
         //产品
         proList:'', //类目
         relateList:'', //产品
+        proName_alert:false,//控制类目为空出现提示
+        relName_alert:false,//控制产品为空出现提示
         pro:'',
         relate:'',
         relateValList:[],
@@ -101,6 +103,8 @@ var selectPic = new Vue({
         tableData:'',
         cataselect:[],
         newData:''
+
+
     },
     ready:function(){
         //获取表格信息
@@ -332,9 +336,25 @@ var selectPic = new Vue({
         //添加关联
         goRelate:function () {
             var vm = this;
-            if (!(this.relate.id)) {
+            var proipt = $('#pro_input');
+            var relipt = $('#rel_input');
+            /*if (!(this.relate.id)) {
+                console.log(vm.proList);
+                console.log(vm.relate);
                 layer.msg('类目和产品必须要都选择');
+            }else{*/
+            if(!(proipt.val())){
+                this.proName_alert = true;
+                $('.searchCompent').hide();
+                $('#proName_alert').show();
+            }else if(!(relipt.val())){
+                this.proName_alert = false;
+                this.relName_alert = true;
+                $('.searchCompent2').hide();
+                $('#relName_alert').show();
             }else{
+                this.proName_alert = false;
+                this.relName_alert = false;
                 var obj = {};
                 obj.category_cn = vm.pro.cn_name;
                 obj.category_en = vm.pro.en_name;
@@ -588,16 +608,18 @@ $(function(){
     //搜索类目框
     $('.searchBtn').on('click',function(){
         $('.searchCompent').show();
+        $('#proName_alert').hide();
         $('.searchCompent2').hide();
     })
     $('.closeBtn').on('click',function(){
         $('.searchCompent').hide();
-    })
+    });
 
     //搜索产品框
     $('.searchBtn2').on('click',function(){
         $('.searchCompent2').show();
         $('.searchCompent').hide();
+        $('#relName_alert').hide();
     })
     $('.closeBtn2').on('click',function(){
         $('.searchCompent2').hide();

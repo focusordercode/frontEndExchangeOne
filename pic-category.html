@@ -69,6 +69,9 @@
             padding-top: 10px;
             border-top: 1px solid #ccc;
         }
+        #mb-md{
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body class="modalPic">
@@ -448,18 +451,38 @@
                         <div class="col-md-12">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label>标题</label>
+                                    <!--<label>标题</label>
                                     <input type="text" v-model="changepic.title" class="form-control">
                                     <label>标签 <span class="text-success">按回车添加标签</span></label>
-                                    <input type="text" placeholder="按回车添加标签" v-model="newTags" v-on:keyup.enter="addTags" class="form-control">
-                                    <ul>
+                                    <input type="text" placeholder="按回车添加标签" v-model="newTags" v-on:keyup.enter="addTags" class="form-control">-->
+                                    <div class="form-horizontal">
+                                        <div class="form-group ">
+                                            <label class="col-sm-4 control-label text-muted">标题</label>
+                                            <div class="col-sm-8 col-md-8 col-lg-8">
+                                                <input type="text" min="1" v-model="changepic.title" class="form-control table-title" placeholder="请输入标题">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-horizontal">
+                                        <div class="col-sm-12 col-sm-12 col-sm-12 control-label text-muted" id="mb-md" style="text-align: left;">标签 <span class="text-success">按回车添加标签</span></div>
+                                        <div class="form-group mT-md ">
+                                            <div class="col-sm-8 col-sm-offset-4">
+                                                <input type="text" min="1" v-model="newTags" v-on:keyup.enter="addTags" class="form-control table-title" placeholder="按回车添加标签">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <ul class="col-sm-12">
                                         <li v-for="label in changepic.tags">
                                             <span class="label label-info">{{label}}</span>
                                             <i class="fa fa-close" @click="removeTags($index)"></i>
                                         </li>
                                     </ul>
                                 </div>
-                                <button class="btn btn-default" @click="saveChangePic">保存</button>
+                                <div class="text-center">
+                                    <button class="btn btn-info" @click="saveChangePic">保存</button>
+                                    <button class="btn btn-danger " @click="closeChange">取消</button>
+                                </div>
+
                             </div>
                         </div>
                     </div>

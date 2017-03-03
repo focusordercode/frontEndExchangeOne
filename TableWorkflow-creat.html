@@ -264,20 +264,21 @@
 
         <div class="container">
             <div class="row">
-                <div class="col-lg-12 col-md-12">
-                    <div class="well">
-                        <h3 class="text-primary col-sm-11 col-sm-offset-1 text-left">资料表信息</h3>
-                        <div class="form-horizontal">
+                <div class="col-sm-12 col-lg-12 col-md-12 panel-primary">
+                    <div class="panel-heading">
+                        <h4><b>资料表信息</b></h4>
+                    </div>
+                    <div class="well ">
+                        <!-- <h3 class="text-primary col-sm-11 col-sm-offset-1 text-left">资料表信息</h3>-->
+                        <div class="form-horizontal row">
                             <div class="form-group">
-                                <label class="col-sm-2 control-label text-muted">表格编号</label>
+                                <label class="col-sm-3 col-lg-3 col-md-3 control-label text-muted">表格编号</label>
                                 <div class="col-sm-4">
                                     <input type="text" class="form-control" v-model="tableID" readonly>
                                 </div>
                             </div>
-                        </div>
-                        <div class="form-horizontal">
                             <div class="form-group">
-                                <label class="col-sm-2 control-label text-muted">选择类目</label>
+                                <label class="col-sm-3 col-lg-3 col-md-3 control-label text-muted">选择类目</label>
                                 <div class="col-sm-4 pors">
                                     <input type="text" v-model="proSelected" class="form-control" placeholder="输入关键字搜索类目" readonly>
                                 </div>
@@ -298,35 +299,31 @@
                                     </button>
                                 </div>
                                 <!--  提示框-->
-                                <div class="col-sm-5 col-md-5 col-lg-5 " id="catename_alert">
-                                    <div class="alert alert-danger new-alert" v-show="catename_alert">类目不能为空</div>
+                                <div class="col-sm-4 col-md-4 col-lg-4 " id="catename_alert">
+                                    <div class="alert alert-danger new-alert" style="display: none" v-show="catename_alert">类目不能为空</div>
                                 </div>
                                 <!--提示框-->
                             </div>
-                        </div>
-                        <div class="temp-info-xg form-horizontal">
                             <div class="form-group">
-                                <label class="col-sm-2 control-label text-muted">选择模板</label>
+                                <label class="col-sm-3 col-lg-3 col-md-3 control-label text-muted">选择模板</label>
                                 <div class="col-sm-4">
                                     <input type="text"  v-model="MBselected" class="form-control" placeholder="选择模板" readonly>
                                 </div>
-                                <div class="col-sm-2">
+                                <div class="col-sm-1 col-md-1 col-lg-1">
                                     <button @click="selectMB" class="btn btn-default btn-sm">选择模板</button>
                                 </div>
                                 <!--  提示框-->
                                 <div class="col-sm-4 col-md-4 col-lg-4 " id="tempname_alert">
-                                    <div class="alert alert-danger new-alert" v-show="tempname_alert">模板不能为空</div>
+                                    <div class="alert alert-danger new-alert" style="display: none" v-show="tempname_alert">模板不能为空</div>
                                 </div>
                                 <!--提示框-->
                             </div>
-                        </div>
-                        <div class="form-horizontal">
                             <div class="form-group pors">
-                                <label class="col-sm-2 control-label text-muted">客户名称</label>
+                                <label class="col-sm-3 col-lg-3 col-md-3 control-label text-muted">客户名称</label>
                                 <div class="col-sm-4">
                                     <input type="text" v-model="CusSelect" class="form-control" placeholder="输入关键字搜索客户" readonly>
                                 </div>
-                                <div class="col-sm-1">
+                                <div class="col-sm-1 col-md-1 col-md-1">
                                     <button class="btn btn-info btn-sm searchBtn2">搜索</button>
                                 </div>
                                 <div class="col-sm-3 pors searchCompent2">
@@ -343,84 +340,72 @@
                                     </button>
                                 </div>
                                 <!--  提示框-->
-                                <div class="col-sm-5 col-md-5 col-lg-5 " id="clientname_alert">
-                                    <div class="alert alert-danger new-alert" v-show="clientname_alert">客户名称不能为空</div>
+                                <div class="col-sm-4 col-md-4 col-lg-4 " id="clientname_alert">
+                                    <div class="alert alert-danger new-alert" style="display: none" v-show="clientname_alert">客户名称不能为空</div>
                                 </div>
                                 <!--提示框-->
                             </div>
-                        </div>
-                        <div class="form-horizontal">
                             <div class="form-group">
-                                <label class="col-sm-2 control-label text-muted">表格名称</label>
+                                <label class="col-sm-3 col-lg-3 col-md-3 control-label text-muted">表格名称</label>
                                 <div class="col-sm-4">
                                     <input type="text" v-model="tableName" class="form-control table-title" placeholder="表格名称">
                                 </div>
                                 <!--  提示框-->
                                 <div class="col-sm-5 col-md-5 col-lg-5 " id="tablename_alert">
-                                    <div class="alert alert-danger new-alert" v-show="tablename_alert">表格名称不能为空</div>
+                                    <div class="alert alert-danger new-alert" style="display: none" v-show="tablename_alert">表格名称不能为空</div>
                                 </div>
                                 <!--提示框-->
                             </div>
-                        </div>
-                        <div class="form-horizontal">
                             <div class="form-group">
-                                <label class="col-sm-2 control-label text-muted">产品类型</label>
+                                <label class="col-sm-3 col-lg-3 col-md-3 control-label text-muted">产品类型</label>
                                 <div class="radio col-sm-1">
                                     <label>
                                         <input type="radio" v-model="tableType" name="optionsRadios" id="optionsRadios1" value="option1" checked>
-                                    常规
+                                        常规
                                     </label>
                                 </div>
                                 <div class="radio col-sm-1">
                                     <label>
                                         <input type="radio" v-model="tableType" name="optionsRadios" id="optionsRadios1" value="option2">
-                                    变体
+                                        变体
                                     </label>
                                 </div>
                             </div>
-                        </div>
-                        <div class="form-horizontal">
                             <div class="form-group">
-                                <label class="col-sm-2 control-label text-muted">产品数量</label>
+                                <label class="col-sm-3 col-lg-3 col-md-3 control-label text-muted">产品数量</label>
                                 <div class="col-sm-4">
                                     <input type="number" min="1" v-model="product_count" class="form-control table-title" placeholder="产品数量">
                                 </div>
                                 <!--  提示框-->
                                 <div class="col-sm-5 col-md-5 col-lg-5 " id="number_alert">
-                                    <div class="alert alert-danger new-alert" v-show="number_alert">产品数量不能为空</div>
+                                    <div class="alert alert-danger new-alert" style="display: none" v-show="number_alert">产品数量不能为空</div>
                                 </div>
                                 <!--提示框-->
                             </div>
-                        </div>
-                        <div class="form-horizontal" v-show="tableType=='option2'">
-                            <div class="form-group">
+                            <div class="form-group" v-show="tableType=='option2'">
                                 <label class="col-sm-2 control-label text-muted">变体数量</label>
                                 <div class="col-sm-4">
                                     <input type="number" min="1" v-model="variant_num" class="form-control table-title" placeholder="变体数量">
                                 </div>
                                 <!--  提示框-->
                                 <div class="col-sm-5 col-md-5 col-lg-5 " id="change_number">
-                                    <div class="alert alert-danger new-alert" v-show="change_number">变体数量不能为空</div>
+                                    <div class="alert alert-danger new-alert" style="display: none" v-show="change_number">变体数量不能为空</div>
                                 </div>
                                 <!--提示框-->
                             </div>
-                        </div>
-                        <div class="form-horizontal">
                             <div class="form-group">
-                                <label class="col-sm-2 control-label text-muted">状态</label>
-                                <div class="col-sm-4">
+                                <label class="col-sm-3 col-lg-3 col-md-3 control-label text-muted">状态</label>
+                                <div class="col-sm-4 col-lg-4 col-md-4">
                                     <select class="form-control" readonly>
                                         <option value="creat" selected>创建</option>
                                     </select>
                                 </div>
                             </div>
-                        </div>
-                        <div class="form-horizontal">
-                            <div class="form-group">
-                                <div class="col-sm-2 col-sm-offset-2">
+                            <div class="form-group text-center marginTop">
+                                <div class="col-sm-5 col-lg-5 col-md-5 col-sm-offset-2">
                                     <button @click="saveTable" class="btn btn-primary">保存</button>
                                     <!-- 如果不是初次创建取消按钮将隐藏 -->
-                                    <button @click="cancel" class="btn btn-default" >取消</button>
+                                    <button @click="cancel" class="btn btn-default col-sm-offset-1" >取消</button>
                                 </div>
                             </div>
                         </div>

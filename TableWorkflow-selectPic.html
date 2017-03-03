@@ -132,28 +132,28 @@
                                             <div class="col-md-4">
                                                 <dl class="dl-horizontal">
                                                      <dt>表格编号:</dt>
-                                                     <dd>{{tableInfo.form_no}}</dd>
+                                                     <dd v-cloak>{{tableInfo.form_no}}</dd>
                                                      <dt>所属类目:</dt>    
-                                                     <dd>{{tableInfo.name}}</dd>
-                                                     <dt>所属客户:</dt>
-                                                     <dd>{{tableInfo.client_name}}</dd>
+                                                     <dd v-cloak>{{tableInfo.name}}</dd>
+                                                     <dt >所属客户:</dt>
+                                                     <dd v-cloak>{{tableInfo.client_name}}</dd>
                                                      <dt>产品数量:</dt>
-                                                     <dd>{{tableInfo.product_count}}</dd>
+                                                     <dd v-cloak>{{tableInfo.product_count}}</dd>
                                                      <dt>状态:</dt>
-                                                     <dd>{{tableInfo.status_code}}</dd>
+                                                     <dd v-cloak>{{tableInfo.status_code}}</dd>
                                                 </dl>
                                             </div>
                                             <div class="col-md-4">
                                                 <dl class="dl-horizontal">
                                                      <dt>表格名称:</dt>
-                                                     <dd>{{tableInfo.title}}</dd>
+                                                     <dd v-cloak>{{tableInfo.title}}</dd>
                                                      <dt>使用模板:</dt>    
-                                                     <dd>{{tableInfo.tempname}}</dd>
+                                                     <dd v-cloak>{{tableInfo.tempname}}</dd>
                                                      <dt>产品类型:</dt>
                                                      <dd v-show="tableInfo.variant_num!=0">变体</dd>
                                                      <dd v-show="tableInfo.variant_num==0">主体</dd>
                                                      <dt>变体数量:</dt>
-                                                     <dd v-show="tableInfo.variant_num!=0">
+                                                     <dd v-show="tableInfo.variant_num!=0" v-cloak>
                                                         {{tableInfo.variant_num}}
                                                      </dd>
                                                 </dl>
@@ -280,7 +280,7 @@
                                                             <div class="form-group">
                                                                 <label class="col-sm-2 control-label">所属类目:</label>
                                                                 <div class="col-sm-4">
-                                                                    <input type="text" v-model="pro.cn_name" placeholder="选择类目" class="form-control" readonly>
+                                                                    <input id="pro_input" type="text" v-model="pro.cn_name" placeholder="选择类目" class="form-control" readonly>
                                                                 </div>
                                                                 <div class="col-sm-1">
                                                                     <button class="btn btn-info btn-sm searchBtn">搜索</button>
@@ -288,7 +288,7 @@
                                                                 <div class="col-sm-3 pors searchCompent">
                                                                     <input type="text" class="form-control searchShadow searchCate" placeholder="输入关键字搜索类目">
                                                                     <ul class="cate-list">
-                                                                        <li @click="selectCate(pro)" v-for="pro in proList">
+                                                                        <li @click="selectCate(pro)" v-for="pro in proList" v-cloak>
                                                                             {{pro.cn_name}} {{pro.en_name}}
                                                                         </li>
                                                                     </ul>
@@ -298,11 +298,16 @@
                                                                         <i class="fa fa-close"></i>
                                                                     </button>
                                                                 </div>
+                                                                    <!--提示-->
+                                                                <div class="col-sm-4 col-md-4 col-lg-4" id="proName_alert">
+                                                                    <div class="alert alert-danger new-alert cName_alert" style="display:none" v-show="proName_alert">类目不能为空</div>
+                                                                </div>
+                                                                <!--提示-->
                                                             </div>
                                                             <div class="form-group">
                                                                 <label class="col-sm-2 control-label">所属产品:</label>
                                                                 <div class="col-sm-4">
-                                                                    <input type="text" v-model="relate.cn_name" placeholder="选择产品" class="form-control" readonly>
+                                                                    <input id="rel_input" type="text" z v-model="relate.cn_name" placeholder="选择产品" class="form-control" readonly>
                                                                 </div>
                                                                 <div class="col-sm-1">
                                                                     <button class="btn btn-info btn-sm searchBtn2" :disabled="relateable"> 搜索
@@ -311,7 +316,7 @@
                                                                 <div class="col-sm-3 pors searchCompent2">
                                                                     <input type="text" class="form-control searchShadow searchCate2" placeholder="输入关键字搜索产品">
                                                                     <ul class="cate-list">
-                                                                        <li @click="selectRelate(relate)" v-for="relate in relateList">
+                                                                        <li @click="selectRelate(relate)" v-for="relate in relateList" v-cloak>
                                                                             {{relate.cn_name}} {{relate.en_name}}
                                                                         </li>
                                                                     </ul>
@@ -321,6 +326,11 @@
                                                                         <i class="fa fa-close"></i>
                                                                     </button>
                                                                 </div>
+                                                                <!--提示-->
+                                                                <div class="col-sm-4 col-md-4 col-lg-4" id="relName_alert">
+                                                                    <div class="alert alert-danger new-alert cName_alert" style="display:none" v-show="relName_alert">产品不能为空</div>
+                                                                </div>
+                                                                <!--提示-->
                                                             </div>
                                                         </div>
                                                         <div class="col-md-1 col-md-offset-3">
@@ -336,8 +346,8 @@
                                                         <th class="text-center">操作</th>
                                                     </tr>
                                                     <tr class="text-center" v-for="rList in relateValList">
-                                                        <td>{{rList.category_cn}} {{rList.category_en}}</td>
-                                                        <td>{{rList.cn_name}} {{rList.en_name}}</td>
+                                                        <td v-cloak>{{rList.category_cn}} {{rList.category_en}}</td>
+                                                        <td v-cloak>{{rList.cn_name}} {{rList.en_name}}</td>
                                                         <td>
                                                             <button @click="deleteRelate(rList)" class="btn btn-danger">删除</button>
                                                         </td>
@@ -367,15 +377,15 @@
                         <div class="col-md-10 col-md-offset-1">
                             <div class="col-md-2">
                                 <label class="label label-primary">图片需求量:</label>
-                                <span class="text-muted">{{count}}</span>
+                                <span class="text-muted" v-cloak>{{count}}</span>
                             </div>
                             <div class="col-md-2">
                                 <label class="label label-primary">可用图片量:</label>
-                                <span class="text-muted">{{num_now}}</span>
+                                <span class="text-muted" v-cloak>{{num_now}}</span>
                             </div>
                             <div class="col-md-2">
                                 <label class="label label-warning">图片不足数:</label>
-                                <span class="text-warning">{{not_enough}}</span>
+                                <span class="text-warning" v-cloak>{{not_enough}}</span>
                             </div>
                         </div>
                     </div>
@@ -410,7 +420,7 @@
                                 <template v-for="list in picData">
                                     <template v-if="$index<10">
                                         <tr>
-                                            <td>{{$index+1}}</td>
+                                            <td v-cloak>{{$index+1}}</td>
                                             <td>
                                                 <div class="img-col">
                                                     <img :src="list | imgUrl" alt="" width="80" height="80">
@@ -419,15 +429,15 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td>{{list.title}}</td>
-                                            <td>{{list.file_type}}</td>
-                                            <td>{{list.file_size | sizeCounter}}</td>
-                                            <td>{{list.width}}X{{list.height}}</td>
+                                            <td v-cloak>{{list.title}}</td>
+                                            <td v-cloak>{{list.file_type}}</td>
+                                            <td v-cloak>{{list.file_size | sizeCounter}}</td>
+                                            <td v-cloak>{{list.width}}X{{list.height}}</td>
                                         </tr>
                                     </template>
                                     <template v-else>
                                         <tr v-show="seeMore">
-                                            <td>{{$index+1}}</td>
+                                            <td v-cloak>{{$index+1}}</td>
                                             <td>
                                                 <div class="img-col">
                                                     <img :src="list | imgUrl" alt="" width="80" height="80">
@@ -436,10 +446,10 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td>{{list.title}}</td>
-                                            <td>{{list.file_type}}</td>
-                                            <td>{{list.file_size | sizeCounter}}</td>
-                                            <td>{{list.width}}X{{list.height}}</td>
+                                            <td v-cloak>{{list.title}}</td>
+                                            <td v-cloak>{{list.file_type}}</td>
+                                            <td v-cloak>{{list.file_size | sizeCounter}}</td>
+                                            <td v-cloak>{{list.width}}X{{list.height}}</td>
                                         </tr>
                                     </template>
                                 </template>
@@ -475,7 +485,7 @@
                                 <template v-for="allData in tableData">
                                     <template v-if="$index%2==0">
                                         <tr>
-                                            <td>{{$index+1}}</td>
+                                            <td v-cloak>{{$index+1}}</td>
                                             <td v-for="key in tableHead">
                                                 <template v-if="key == 'photo'">
                                                     <div class="img-col">
@@ -493,7 +503,7 @@
                                     </template>
                                     <template v-else>
                                         <tr class="info">
-                                            <td>{{$index+1}}</td>
+                                            <td v-cloak>{{$index+1}}</td>
                                             <td v-for="key in tableHead">
                                                 <template v-if="key == 'photo'">
                                                     <div class="img-col">
@@ -559,10 +569,10 @@
                     v-show="pictree.id"
                     @click="toggle(pictree)">
                     <span class="glyphicon glyphicon-folder-close" v-show="isFolderP"></span>
-                    <span class="glyphicon glyphicon-file" v-show="!isFolderP"></span>
+                    <span class="glyphicon glyphicon-file" v-show="!isFolderP" v-cloak></span>
                     {{pictree.cn_name}}
                     {{pictree.en_name}}
-                    <b v-show="pictree.id">图片数量:{{pictree.picture_count}}</b>
+                    <b v-show="pictree.id" v-cloak>图片数量:{{pictree.picture_count}}</b>
                     {{pictree.warning}}
                     <span class="text-white" v-if="isFolderP">[{{open ? '-' : '+'}}]</span>
                     <span class="fa fa-arrow-circle-down marr" @click="selectOne(pictree)">点击选择</span>

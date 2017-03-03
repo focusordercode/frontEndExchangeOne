@@ -563,6 +563,16 @@ body,html {
     display: none;
 }
 
+.new-alert {
+    line-height: 21px!important;
+    padding-top: 4px!important;
+    padding-bottom: 5px!important;
+    margin-bottom: 0!important;
+}
+dis-none{
+    display: none;
+}
+
 /* 全屏搜索类目样式 */
 .searchField {
     width: 1146px;
