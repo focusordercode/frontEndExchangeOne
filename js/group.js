@@ -65,7 +65,9 @@ var rolegroup = new Vue({
 		addremark:'',
 		//搜索机构数据
 		oneList:'',
-		orgds:[]//修改信息时机构的数据
+		orgds:[],//修改信息时机构的数据
+		addname_alert:false,
+		org_alert:false
 	},
 	ready:function(){
 		//获取角色的列表
@@ -139,10 +141,18 @@ var rolegroup = new Vue({
 			remark = vm.addremark;
 			org_id = orgids;
 			if (!name.trim()) {
-				layer.msg('请填写角色名称');
+                this.addname_alert = true;
+                this.org_alert = false;
+				/*layer.msg('请填写角色名称');*/
 			}else if (org_id=='') {
-				layer.msg('请选择组织机构');
+                this.addname_alert = false;
+                this.org_alert = true;
+                $('.searchCompent').hide();
+                $('#org_alert').show();
+				/*layer.msg('请选择组织机构');*/
 			}else {
+                this.addname_alert = false;
+                this.org_alert = false;
 				$.ajax({
 					type:'POST',
 					url:serverUrl+'add/roles',
@@ -396,6 +406,7 @@ function windowFresh(){
 $(function(){
     $('.searchBtn').on('click',function(){
         $('.searchCompent').show();
+        $('#org_alert').hide();
     })
     $('.closeBtn').on('click',function(){
         $('.searchCompent').hide();

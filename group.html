@@ -262,14 +262,17 @@
                                             <div class="col-md-12">
                                                 <div class="form-horizontal">
                                                     <div class="form-group">
-                                                        <label class="col-sm-2 control-label"><span class="text-red">*</span>角色名称:</label>
-                                                        <div class="col-sm-4">
+                                                        <label class="col-sm-3 col-md-3 col-lg-3 control-label"><span class="text-red">*</span>角色名称:</label>
+                                                        <div class="col-sm-5 col-md-5 col-lg-5">
                                                             <input type="text" v-model='addname' placeholder="输入中文名" class="form-control">
+                                                        </div>
+                                                        <div class="col-sm-4 col-md-4 col-lg-4">
+                                                            <div class="alert alert-danger new-alert form-control" style="display: none;" v-show="addname_alert" role="alert"> 请输入中文名</div>
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label class="col-sm-2 control-label"><span class="text-red">*</span>所属机构</label>
-                                                        <div class="col-sm-4">
+                                                        <label class="col-sm-3 col-md-3 col-lg-3 control-label"><span class="text-red">*</span>所属机构</label>
+                                                        <div class="col-sm-5 col-md-5 col-lg-5">
                                                             <div class="bootstrap-tagsinput height">
                                                                 <span class="tag label label-info" v-for="org in orgSelect" v-cloak>
                                                                     {{org.name}}<span data-role="remove" @click="removeOrg(org)"></span>
@@ -279,7 +282,7 @@
                                                         <div class="col-sm-1">
                                                             <button class="btn btn-info btn-sm searchBtn">搜索</button>
                                                         </div>
-                                                        <div class="col-sm-3 pors searchCompent">
+                                                        <div class="col-sm-2 pors searchCompent">
                                                             <input type="text" class="form-control searchShadow searchCate " placeholder="输入关键字搜索类目">
                                                             <ul class="cate-list">
                                                                 <template v-for="one in oneList" v-if="$index<=9">
@@ -294,14 +297,18 @@
                                                                 <i class="fa fa-close"></i>
                                                             </button>
                                                         </div>
+                                                        <!--提示-->
+                                                        <div class="col-sm-3 col-md-3 col-lg-3" id="org_alert">
+                                                            <div class="alert alert-danger new-alert form-control" style="display:none" v-show="org_alert"  role="alert"> 请选择机构</div>
+                                                        </div>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label class="col-sm-2 control-label">角色说明:</label>
-                                                        <div class="col-sm-4">
+                                                        <label class="col-sm-3 col-md-3 col-lg-3  control-label">角色说明:</label>
+                                                        <div class="col-sm-5 col-md-5 col-lg-5">
                                                             <textarea v-model='addremark' class="form-control" cols="30" rows="5"></textarea>
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-1 col-md-offset-2">
+                                                    <div class="col-sm-12 col-md-12 col-lg-12 text-center">
                                                         <button @click="addrole" class="btn btn-success">添加</button>
                                                     </div>
                                                 </div>
@@ -436,8 +443,9 @@
                                             </div>
                                         </div>  
                                     </div>
-                                    <div class="col-md-2 col-md-offset-5">
+                                    <div class="col-sm-12 col-md-12 col-lg-12 text-center mT-footer">
                                         <button @click="subrole" class="btn btn-success">保存</button>
+                                        <button @click="cancel" class="btn btn-default col-sm-offset-1 col-md-offset-1 col-lg-offset-1">取消</button>
                                     </div>
                                 </div>
                             </div>

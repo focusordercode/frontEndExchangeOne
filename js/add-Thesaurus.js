@@ -12,6 +12,7 @@ var oCreat = new Vue({
 		// 下面的是交互用的数据
 		en_alert:false,
 		// 批量
+        file_name:false,
 		download:temp,
 		respons:''
     },
@@ -66,10 +67,11 @@ var oCreat = new Vue({
     		var fileData = $('#file').val();//文件数据
             if(!fileData){
     			this.cate_alert = false;
-    			layer.msg('请先选择文件');
+    			this.file_name = true;
+    			/*layer.msg('请先选择文件');*/
     		}else{
     			this.cate_alert = false;
-
+				this.file_name = false;
     			var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
 
     			var vm = oCreat;

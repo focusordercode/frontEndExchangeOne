@@ -7,7 +7,9 @@ var model = new Vue({
 		cn_name:'',
 		en_name:'',
 		remark:'',
-		valueList:''
+		valueList:'',
+		cName_alert:false,
+		eName_alert:false
 	},
 	ready:function () {
 		updateData();
@@ -32,10 +34,15 @@ var model = new Vue({
 			//英文正则,英文数字和空格
 			var Entext = /^[a-zA-Z_()\s]+[0-9]*$/;
 			if (!cn_name.trim()) {
-				layer.msg('中文名不能为空');
+                this.cName_alert = true;
+                this.eName_alert = false;
 			}else if (!en_name.trim()||!Entext.test(en_name)) {
-				layer.msg('英文名不能为空,英文名只能是大小写字母和空格');
+                this.cName_alert = false;
+                this.eName_alert = true;
+				/*layer.msg('英文名不能为空,英文名只能是大小写字母和空格');*/
 			}else{
+                this.cName_alert = false;
+                this.eName_alert = false;
 				$.ajax({
 					type:'POST',
 					url:serverUrl+'add/businessmodel',

@@ -572,6 +572,11 @@ body,html {
 dis-none{
     display: none;
 }
+.mT-footer{
+     margin-top: 10px;
+     padding-top: 10px;
+     border-top: 1px solid #ccc;
+ }
 
 /* 全屏搜索类目样式 */
 .searchField {

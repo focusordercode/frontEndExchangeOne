@@ -64,6 +64,8 @@ var adduse = new Vue ({
                 vm.al_mobile = false;
                 vm.al_email = false;
                 vm.al_role = true;
+                $('.searchCompent').hide();
+                $('#al_role').show();
             }else {
                 vm.al_name = false;
                 vm.al_pass = false;
@@ -154,6 +156,7 @@ function windowFresh(){
 $(function(){
     $('.searchBtn').on('click',function(){
         $('.searchCompent').show();
+        $('#al_role').hide();
     })
     $('.closeBtn').on('click',function(){
         $('.searchCompent').hide();

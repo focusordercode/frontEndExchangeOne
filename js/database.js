@@ -25,6 +25,21 @@ var base = new Vue({
         type2:'',
         subkey2:'',
         basenum1:'',
+        status:'',
+        statusA:'',
+        //创建分区验证提示
+        pTable_alert:false,//分区的表
+        pTable_field:false,//分区区间
+        pTable_number:false,//分区数
+        pTable_numbera:false,//分区键值
+        pTable_type: false,//分区类型
+        //创建分区验证提示
+        pTablea_alert:false,//分区的表
+        pTablea_field:false,//分区区间
+        pTablea_number:false,//分区数
+        pTablea_numbera:false,//分区键值
+        pTablea_type: false//分区类型
+
     },
     ready: function () {
         var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
@@ -129,8 +144,10 @@ var base = new Vue({
         testpar:function(){
             var selected = base.selected11;
             if(selected == ""){
-                layer.msg('请选择需要分区的表');
+                this.pTable_alert = true;
+              /*  layer.msg('请选择需要分区的表');*/
             }
+
             $.ajax({
                 type:'POST',
                 url:serverUrl+'check',
@@ -143,15 +160,23 @@ var base = new Vue({
                 },
                 success:function(data){
                     //alert(data)
+
                     if(data.status == 110){
+                        base.pTable_alert = false;
                         layer.msg('可以提交');
                         $("#submit-partition").removeAttr("disabled")
                     }
                     if(data.status == 100){
-                        alert('提交成功');
+                        base.pTable_alert = false;
+                        base.pTable_numbera = false;
+                        base.pTable_type = false;
+                        base.pTable_number = false;
+                        base.pTable_field = false;
+
                         location.reload()
                     }
                     else if(data.status == 101){
+
                         layer.msg('现在还不能提交');
                     }else if(data.status==1012){
                         layer.msg('请先登录',{time:2000});
@@ -170,16 +195,17 @@ var base = new Vue({
         },
         /*第一部分提交按钮程序*/
         subpar:function(){
-            var selected = base.selected11
-            var types = $("#types").val()
-            var type = this.type1
-            var num = base.basenum1
-            var interval = $("#base-interval").val()
-            var subtype = $("#subtype").val()
-            var key = base.selected12
-            var subnum = $("#base-subnum").val()
-            var subkey = this.subkey1
-            console.log(types)
+
+            var selected = base.selected11;
+            var types = $("#types").val();
+            var type = this.type1;
+            var num = base.basenum1;
+            var interval = $("#base-interval").val();
+            var subtype = $("#subtype").val();
+            var key = base.selected12;
+            var subnum = $("#base-subnum").val();
+            var subkey = this.subkey1;
+            console.log(types);
             $.ajax({
                 type:'POST',
                 url:serverUrl+'establish/partition',
@@ -195,11 +221,13 @@ var base = new Vue({
                     subtype:subtype,
                     ckey:key,
                     subnum:subnum,
-                    subkey:subkey,
+                    subkey:subkey
                 },
                 success:function(data){
+                    console.log(data.status);
                     if(data.status == 100){
-                        layer.msg('提交成功')
+
+                        layer.msg('提交成功');
                         $("#submit-partition").attr("disabled",true)
                     }
                     if(data.status == 101){
@@ -209,19 +237,40 @@ var base = new Vue({
                         layer.msg('操作正在进行中');
                     }
                     if(data.status == 102){
-                        layer.msg('请选择表');
+                        base.pTable_alert = true;
                     }
                     if(data.status == 104){
-                        layer.msg('请选择表的分区类型');
+                        console.log(subtype);
+                        base.pTable_alert = false;
+                        base.pTable_type = true;
+                        base.pTable_number = false;
+                        base.pTable_numbera = false;
+                        base.pTable_field = false;
+                        /*layer.msg('请选择表的分区类型');*/
                     }
                     if(data.status == 105){
-                        layer.msg('请选择表的分区列值');
+                        base.pTable_alert = false;
+                        base.pTable_numbera = true;
+                        base.pTable_type = false;
+                        base.pTable_number = false;
+                        base.pTable_field = false;
+                      /*  layer.msg('请选择表的分区列值');*/
                     }
                     if(data.status == 106){
-                        layer.msg('请输入表的分区数量');
+                        base.pTable_alert = false;
+                        base.pTable_numbera = false;
+                        base.pTable_type = false;
+                        base.pTable_number = true;
+                        base.pTable_field = false;
+                      /*  layer.msg('请输入表的分区数量');*/
                     }
                     if(data.status == 107){
-                        layer.msg('请输入表的分区区间');
+                        base.pTable_alert = false;
+                        base.pTable_numbera = false;
+                        base.pTable_type = false;
+                        base.pTable_number = false;
+                        base.pTable_field = true;
+                       /* layer.msg('请输入表的分区区间');*/
                     }
                     if(data.status == 109){
                         alert(data.va);
@@ -314,7 +363,8 @@ var base = new Vue({
         testpar2:function(){
             var selected = base.selected21;
             if(selected == ""){
-                layer.msg('请选择需要分区的表');
+                this.pTablea_alert = true;
+                /*layer.msg('请选择需要分区的表');*/
             }
             $.ajax({
                 type:'POST',
@@ -355,16 +405,16 @@ var base = new Vue({
         },
         /*第二部分提交按钮*/
         subpartwo:function(){
-            var selected = base.selected21
-            var types = $("#types2").val()
-            var type = this.type2
-            var num = $("#base-num2").val()
-            var interval = $("#base-interval2").val()
-            var subtype = $("#subtype2").val()
-            var key = base.selected22
-            var subnum = $("#base-subnum2").val()
-            var subkey = this.subkey2
-            console.log(types)
+            var selected = base.selected21;
+            var types = $("#types2").val();
+            var type = this.type2;
+            var num = $("#base-num2").val();
+            var interval = $("#base-interval2").val();
+            var subtype = $("#subtype2").val();
+            var key = base.selected22;
+            var subnum = $("#base-subnum2").val();
+            var subkey = this.subkey2;
+            console.log(types);
             $.ajax({
                 type:'POST',
                 url:serverUrl+'update/partition',
@@ -384,6 +434,7 @@ var base = new Vue({
                     subkey:subkey,
                 },
                 success:function(data){
+                    var status = data.status;
                     if(data.status == 100){
                         layer.msg('提交成功')
                         $("#submit-partition2").attr("disabled",true)
@@ -395,9 +446,13 @@ var base = new Vue({
                         layer.msg('操作正在进行中');
                     }
                     if(data.status == 102){
+                        base.pTablea_alert = true;
+                        base.pTablea_number = false;
                         layer.msg('请选择表');
                     }
                     if(data.status == 106){
+                        base.pTablea_number = true;
+                        base.pTablea_alert = false;
                         layer.msg('请输入表的分区数量');
                     }else if(data.status==1012){
                         layer.msg('请先登录',{time:2000});

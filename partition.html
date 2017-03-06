@@ -189,38 +189,52 @@
                                     <div class="col-lg-12">
                                         <div class="form-horizontal control-panel">
                                             <div class="form-group">
-                                                <label class="col-md-2 control-label text-cent">选择分区的表</label>
-                                                <div class="col-lg-4">
+                                                <label class="col-sm-4 col-md-4 col-md-4 control-label text-cent">选择分区的表</label>
+                                                <div class="col-sm-4 col-md-4 col-md-4">
                                                     <select v-model="selected11" class="form-control" @click="choice">
                                                         <option value="">请选择分区的表</option>
                                                         <option v-for="op in list">{{op}}</option>
                                                     </select>
                                                 </div>
+                                                <div class="col-sm-4 col-md-4 col-md-4 " id="al_role">
+                                                    <div class="alert alert-danger form-control" v-show="pTable_alert"  role="alert">请选择分区的表
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-lg-12">
                                         <div class="form-horizontal control-panel">
                                             <div class="form-group">
-                                                <label class="col-md-2 control-label text-cent">选择分区的字段</label>
-                                                <div class="col-lg-4 ">
+                                                <label class="col-sm-4 col-md-4 col-md-4 control-label text-cent">选择分区的字段</label>
+                                                <div class="col-sm-4 col-md-4 col-md-4 ">
                                                     <select v-model="selected12" class="form-control" >
                                                         <option value="">请选择做分区的字段</option>
                                                         <option v-for="id in twoid" >{{id.column_name}}</option>
                                                     </select>
                                                 </div>
+                                                <div class="col-sm-4 col-md-4 col-md-4" >
+                                                    <div class="alert alert-danger form-control" v-show="pTable_numbera"  role="alert">请选择分区的键值
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-lg-12">
                                         <div class="form-horizontal control-panel">
                                             <div class="form-group">
-                                                <label class="col-md-2 control-label text-cent">填入数据</label>
-                                                <div class="col-lg-2">
+                                                <label class="col-sm-4 col-md-4 col-md-4 control-label text-cent">填入数据</label>
+                                                <div class="col-sm-2 col-md-2 col-md-2">
                                                     <input id="base-num" v-model="basenum1" class="form-control" type="text" value="" placeholder="分区数">
                                                 </div>
-                                                <div class="col-lg-2">
+                                                <div class="col-sm-2 col-md-2 col-md-2">
                                                     <input id="base-interval" class="form-control" type="text" placeholder="分区区间">
+                                                </div>
+                                                <div class="col-sm-4 col-md-4 col-md-4" >
+                                                    <div class="alert alert-danger new-alert" v-if="pTable_number"  role="alert">请输入表的分区数量
+                                                    </div>
+                                                    <div class="alert alert-danger new-alert" v-if="pTable_field"  role="alert">请输入表的分区区间
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -228,8 +242,8 @@
                                     <div class="col-lg-12">
                                         <div class="form-horizontal control-panel">
                                             <div class="form-group">
-                                                <label class="col-md-2 control-label text-cent">选择分区的类型</label>
-                                                <div class="col-lg-4">
+                                                <label class="col-sm-4 col-md-4 col-md-4 control-label text-cent">选择分区的类型</label>
+                                                <div class="col-sm-4 col-md-4 col-md-4">
                                                     <select class="form-control " id="type" v-model="type1">
                                                         <option value="">请选择分区类型</option>
                                                         <option value="RANGE">RANGE</option>
@@ -239,14 +253,18 @@
                                                         <option value="COMPOSITE">COMPOSITE</option>
                                                     </select>
                                                 </div>
+                                                <div class="col-sm-4 col-md-4 col-md-4" >
+                                                    <div class="alert alert-danger new-alert form-control"  v-show="pTable_type" role="alert">请选择分区类型
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-lg-12">
                                         <div class="form-horizontal control-panel">
                                             <div class="form-group">
-                                                <label class="col-md-2 control-label text-cent">选择分区的类型</label>
-                                                <div class="col-lg-4">
+                                                <label class="col-sm-4 col-md-4 col-md-4 control-label text-cent">选择分区的类型</label>
+                                                <div class="col-sm-4 col-md-4 col-md-4">
                                                     <select class="form-control " id="subtype">
                                                         <option value="">选择子分区类型</option>
                                                         <option value="HASH">HASH</option>
@@ -260,11 +278,11 @@
                                     <div class="col-lg-12">
                                         <div class="form-horizontal control-panel">
                                             <div class="form-group">
-                                                <label class="col-md-2 control-label text-cent">填入数据</label>
-                                                <div class="col-lg-2">
+                                                <label class="col-sm-4 col-md-4 col-md-4 control-label text-cent">填入数据</label>
+                                                <div class="col-sm-2 col-md-2 col-md-2">
                                                     <input id="base-subnum" class="form-control" type="text" placeholder="子分区数量">
                                                 </div>
-                                                <div class="col-lg-2">
+                                                <div class="col-sm-2 col-md-2 col-md-2">
                                                     <select v-model="subkey1" class="form-control" >
                                                         <option value="">选择子分区字段</option>
                                                         <option v-for="id in twoid" >{{id.column_name}}</option>
@@ -274,9 +292,9 @@
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-lg-4 col-sm-offset-1">
+                                        <div class="col-sm-12 col-md-12 col-md-12 text-center">
                                             <button @click="testpar"id="Testing-partition" class="btn btn-success btn-lg">检测</button>
-                                            <button @click="subpar" id="submit-partition" class="btn btn-success btn-lg " disabled>提交</button>
+                                            <button @click="subpar" id="submit-partition" class="btn btn-success btn-lgcol-sm-offset-1 btn-lg" disabled>提交</button>
                                         </div>
                                     </div>
                                 </div>
@@ -288,38 +306,52 @@
                                     <div class="col-lg-12">
                                         <div class="form-horizontal control-panel">
                                             <div class="form-group">
-                                                <label class="col-md-2 control-label text-cent">选择分区的表</label>
-                                                <div class="col-lg-4">
+                                                <label class="col-sm-4 col-md-4 col-md-4 control-label text-cent">选择分区的表</label>
+                                                <div class="col-sm-4 col-md-4 col-md-4">
                                                     <select v-model="selected21" class="form-control" @click="choice2">
                                                         <option value="">请选择分区的表</option>
                                                         <option v-for="op in list2" v-bind:value="op.id">{{op.tbl_name}}</option>
                                                     </select>
                                                 </div>
+                                                <div class="col-sm-4 col-md-4 col-md-4 ">
+                                                    <div class="alert alert-danger form-control" v-show="pTablea_alert"  role="alert">请选择分区的表
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-lg-12">
                                         <div class="form-horizontal control-panel">
                                             <div class="form-group">
-                                                <label class="col-md-2 control-label text-cent">选择分区的字段</label>
-                                                <div class="col-lg-4">
+                                                <label class="col-sm-4 col-md-4 col-md-4 control-label text-cent">选择分区的字段</label>
+                                                <div class="col-sm-4 col-md-4 col-md-4">
                                                     <select v-model="selected22" class="form-control" >
                                                         <option value="">请选择做分区的字段</option>
                                                         <option v-for="id in twoid2" >{{id.column_name}}</option>
                                                     </select>
                                                 </div>
+                                                <div class="col-sm-4 col-md-4 col-md-4" >
+                                                    <div class="alert alert-danger form-control" v-show="pTablea_numbera"  role="alert">请选择分区的键值
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-lg-12">
                                         <div class="form-horizontal control-panel">
                                             <div class="form-group">
-                                                <label class="col-md-2 control-label text-cent">填入数据</label>
-                                                <div class="col-lg-2">
+                                                <label class="col-sm-4 col-md-4 col-md-4 control-label text-cent">填入数据</label>
+                                                <div class="col-sm-2 col-md-2 col-md-2">
                                                     <input id="base-num2" class="form-control" type="text" value="" placeholder="分区数">
                                                 </div>
-                                                <div class="col-lg-2">
+                                                <div class="col-sm-2 col-md-2 col-md-2">
                                                     <input id="base-interval2" class="form-control" type="text" placeholder="分区区间">
+                                                </div>
+                                                <div class="col-sm-4 col-md-4 col-md-4" >
+                                                    <div class="alert alert-danger form-control" v-if="pTablea_number"  role="alert">请输入表的分区数量
+                                                    </div>
+                                                    <div class="alert alert-danger form-control" v-if="pTablea_field"  role="alert">请输入表的分区区间
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -327,8 +359,8 @@
                                     <div class="col-lg-12">
                                         <div class="form-horizontal control-panel">
                                             <div class="form-group">
-                                                <label class="col-md-2 control-label text-cent">选择分区的类型</label>
-                                                <div class="col-lg-2">
+                                                <label class="col-sm-4 col-md-4 col-md-4 control-label text-cent">选择分区的类型</label>
+                                                <div class="col-sm-4 col-md-4 col-md-4">
                                                     <select class="form-control " id="type2" v-model="type2">
                                                         <option value="">请选择分区类型</option>
                                                         <option value="RANGE">RANGE</option>
@@ -338,14 +370,18 @@
                                                         <option value="COMPOSITE">COMPOSITE</option>
                                                     </select>
                                                 </div>
+                                                <div class="col-sm-4 col-md-4 col-md-4" >
+                                                    <div class="alert alert-danger form-control"  v-show="pTable_type" role="alert">请选择分区类型
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-lg-12">
                                         <div class="form-horizontal control-panel">
                                             <div class="form-group">
-                                                <label class="col-md-2 control-label text-cent">选择分区的类型</label>
-                                                <div class="col-lg-2">
+                                                <label class="col-sm-4 col-md-4 col-md-4 control-label text-cent">选择分区的类型</label>
+                                                <div class="col-sm-4 col-md-4 col-md-4">
                                                     <select class="form-control " id="subtype2">
                                                         <option value="">选择子分区类型</option>
                                                         <option value="HASH">HASH</option>
@@ -359,11 +395,11 @@
                                     <div class="col-lg-12">
                                         <div class="form-horizontal control-panel">
                                             <div class="form-group">
-                                                <label class="col-md-2 control-label text-cent">填入数据</label>
-                                                <div class="col-lg-2">
+                                                <label class="col-sm-4 col-md-4 col-md-4 control-label text-cent">填入数据</label>
+                                                <div class="col-sm-2 col-md-2 col-md-2">
                                                     <input id="base-subnum2" class="form-control" type="text" placeholder="子分区数量">
                                                 </div>
-                                                <div class="col-lg-2">
+                                                <div class="col-sm-2 col-md-2 col-md-2">
                                                     <select v-model="subkey2" class="form-control" >
                                                         <option value="">选择子分区字段</option>
                                                         <option v-for="id in twoid2" >{{id.column_name}}</option>
@@ -373,9 +409,9 @@
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-lg-4 col-lg-offset-1">
-                                            <button @click="testpar2" id="Testing-partition2" class="btn btn-success btn-lg">检测</button>
-                                            <button @click="subpartwo" id="submit-partition2" class="btn btn-success btn-lg " disabled>提交</button>
+                                        <div class="col-sm-12 col-md-12 col-md-12 text-center">
+                                            <button @click="testpar2" id="Testing-partition2" class="btn btn-success ">检测</button>
+                                            <button @click="subpartwo" id="submit-partition2" class="btn btn-success btn-lgcol-lg-offset-1" disabled>提交</button>
                                         </div>
                                     </div>
                                 </div>

@@ -20,7 +20,7 @@ Vue.component('item', {
         //点击展开子机构
         toggle: function(model) {
             if (this.isFolder) {
-                this.open = !this.open
+                this.open = !this.open;
                 console.log(this.open)
             }
         },

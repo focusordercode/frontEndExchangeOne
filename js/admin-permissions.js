@@ -19,7 +19,9 @@ Vue.component('per', {
             	p_id:'',
             	auth_address:'',
             	name:''
-            }
+            },
+            ads_alert:false,
+            name_alert:false
         }
     },
 	methods:{
@@ -39,10 +41,16 @@ Vue.component('per', {
 			var address = vm.add_father.auth_address.trim();
 			var name = vm.add_father.name.trim();
 			if(!address||!En.test(address)){
-				layer.msg('地址不能为空,且必须是英文');
+                this.ads_alert = true;
+                this.name_alert = false;
+			/*	layer.msg('地址不能为空,且必须是英文');*/
 			}else if(!name){
-				layer.msg('名称不能为空');
+                this.ads_alert = false;
+                this.name_alert = true;
+				/*layer.msg('名称不能为空');*/
 			}else{
+                this.ads_alert = false;
+                this.name_alert = false;
 				addData(vm,p_id,address,name);
 			}
 		},
@@ -67,6 +75,7 @@ Vue.component('per', {
 				layer.msg('名称不能为空');
 			}else{
 				addData(vm,p_id,address,name);
+
 			}
 		},
 		//删除父节点
@@ -106,6 +115,7 @@ var permission = new Vue({
 		pers:[],//获取到的权限节点数据
 		editOne:'',//编辑子节点
 		edit_big:'' //编辑父节点
+
 	},
 	ready:function(){
 		var enabled = 1;
@@ -120,10 +130,16 @@ var permission = new Vue({
 			var address = vm.editOne.auth_address.trim();
 			var name = vm.editOne.name.trim();
 			if(!address||!En.test(address)){
+				/*this.ads_alert = true;
+				this.name_alert = false;*/
 				layer.msg('地址不能为空,且必须是英文');
 			}else if(!name){
+                /*this.ads_alert = false;
+                this.name_alert = true;*/
 				layer.msg('名称不能为空');
 			}else{
+                this.ads_alert = false;
+                this.name_alert = false;
 				updateData(vm,rule_id,address,name);
 			}
 		},
