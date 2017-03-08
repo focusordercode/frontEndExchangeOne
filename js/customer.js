@@ -349,9 +349,9 @@ var customer = new Vue({
 				layer.msg('英文名不能为空,英文名只能是大小写字母和空格');
 			}else if (!(addNew.company.trim())) {
 				layer.msg('公司名不能为空');
-			}else if(!tel.test(addNew.mobile)&&addNew.mobile.trim()){
+			}else if(!tel.test(addNew.mobile)){
 				layer.msg('电话格式要填写正确');
-			}else if(!Email.test(addNew.email)&&addNew.email.trim()){
+			}else if(!Email.test(addNew.email)){
 				layer.msg('邮箱格式要填写正确');
 			}else{
 				$.ajax({
@@ -410,9 +410,9 @@ var customer = new Vue({
 				layer.msg('英文名不能为空,英文名只能是大小写字母和空格');
 			}else if (!(addNew.company.trim())) {
 				layer.msg('公司名不能为空');
-			}else if(!tel.test(addNew.mobile)&&addNew.mobile.trim()){
+			}else if(!tel.test(addNew.mobile)){
 				layer.msg('电话格式要填写正确');
-			}else if(!Email.test(addNew.email)&&addNew.email.trim()){
+			}else if(!Email.test(addNew.email)){
 				layer.msg('邮箱格式要填写正确');
 			}else{
 				$.ajax({

@@ -189,9 +189,9 @@
             <div class="modal-dialog modal-sm">
                 <div class="modal-content">
                     <div class="modal-header bg-primary">
-                        <h4 class="modal-title">增加分类</h4>
+                        <h4 class="modal-title ft-16">增加分类</h4>
                         <button type="button" class="close close-positon" data-dismiss="modal">
-                            <span><i class="fa fa-close"></i></span>
+                            <span><i class="fa fa-close text-red"></i></span>
                         </button>
                     </div>
                     <div class="modal-body">
@@ -199,29 +199,42 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-horizontal">
-                                        <div class="form-group">
-                                            <label class="control-label col-md-4">中文名</label>
-                                            <div class="col-md-8">
-                                                <input v-model="addOne.cn_name" type="text" class="form-control">
+                                        <!--<div class="form-group">-->
+                                            <!--<label class="control-label col-md-4">中文名</label>-->
+                                            <!--<div class="col-md-8">-->
+                                                <!--<input v-model="addOne.cn_name" type="text" class="form-control">-->
+                                            <!--</div>-->
+                                        <!--</div>-->
+                                        <div class="form-group text-right line-height-34">
+                                            <label class="col-sm-3 col-md-3 col-lg-3 ft-14">中文名 <i class="text-red">*</i></label>
+                                            <div class="col-sm-8 col-md-8 col-lg-8 ">
+                                                <div class="bootstrap-tagsinput height">
+                                                    <input type="text" class="form-control ft-14" v-model='addOne.cn_name' placeholder="请输入中文">
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group text-right line-height-34">
+                                            <label class="col-sm-3 col-md-3 col-lg-3 ft-14">英文名 <i class="text-red">*</i></label>
+                                            <div class="col-sm-8 col-md-8 col-lg-8 ">
+                                                <div class="bootstrap-tagsinput height">
+                                                    <input type="text" class="form-control ft-14" v-model='addOne.en_name' placeholder="请输入英文字母">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--<div class="form-group">
                                             <label class="control-label col-md-4">英文名</label>
                                             <div class="col-md-8">
                                                 <input v-model="addOne.en_name" type="text" class="form-control">
                                             </div>
-                                        </div>
-                                        <p></p>
-                                        <div class="form-group text-center">
-                                            <div class="col-sm-12 col-md-12 col-lg-12 mT-footer">
-                                                <button @click="subOne" class="btn btn-primary">提交</button>
-                                                <button data-dismiss="modal" class="btn btn-default col-sm-offset-1 col-md-offset-1 col-lg-offset-1">取消</button>
-                                            </div>
-                                        </div>
+                                        </div>-->
                                     </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <div class="modal-footer text-center">
+                        <button @click="subOne" class="btn btn-info">提交</button>
+                        <button data-dismiss="modal" class="btn btn-default">取消</button>
                     </div>
                 </div>
             </div>
@@ -232,9 +245,9 @@
             <div class="modal-dialog modal-sm">
                 <div class="modal-content">
                     <div class="modal-header bg-primary">
-                        <h4 class="modal-title">修改分类</h4>
+                        <h4 class="modal-title ft-16">修改分类</h4>
                         <button type="button" class="close close-positon" data-dismiss="modal">
-                            <span><i class="fa fa-close"></i></span>
+                            <span><i class="fa fa-close text-red"></i></span>
                         </button>
                     </div>
                     <div class="modal-body">
@@ -242,29 +255,42 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-horizontal">
-                                        <div class="form-group">
+                                        <!--<div class="form-group">
                                             <label class="control-label col-md-4">中文名</label>
                                             <div class="col-md-8">
                                                 <input v-model="cacheData.cn_name" type="text" class="form-control">
                                             </div>
+                                        </div>-->
+                                        <div class="form-group text-right line-height-34">
+                                            <label class="col-sm-3 col-md-3 col-lg-3 ft-14">中文名 <i class="text-red">*</i></label>
+                                            <div class="col-sm-8 col-md-8 col-lg-8 ">
+                                                <div class="bootstrap-tagsinput height">
+                                                    <input type="text" class="form-control ft-14" v-model='cacheData.cn_name' placeholder="请输入中文">
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group text-right line-height-34">
+                                            <label class="col-sm-3 col-md-3 col-lg-3 ft-14">英文名 <i class="text-red">*</i></label>
+                                            <div class="col-sm-8 col-md-8 col-lg-8 ">
+                                                <div class="bootstrap-tagsinput height">
+                                                    <input type="text" class="form-control ft-14" v-model='cacheData.en_name' placeholder="请输入英文字母">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--<div class="form-group">
                                             <label class="control-label col-md-4">英文名</label>
                                             <div class="col-md-8">
                                                 <input v-model="cacheData.en_name" type="text" class="form-control">
                                             </div>
-                                        </div>
-                                        <p></p>
-                                        <div class="form-group text-center mT-footer">
-                                            <div class="col-md-12 col-sm-12 col-lg-12">
-                                                <button @click="subChange" class="btn btn-primary">保存</button>
-                                                <button data-dismiss="modal" class="btn btn-default col-sm-offset-1 col-md-offset-1 col-lg-offset-1">取消</button>
-                                            </div>
-                                        </div>
+                                        </div>-->
                                     </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <div class="modal-footer text-center">
+                        <button @click="subChange" class="btn btn-info">保存</button>
+                        <button data-dismiss="modal" class="btn btn-default">取消</button>
                     </div>
                 </div>
             </div>

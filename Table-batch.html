@@ -40,6 +40,9 @@
         [v-cloak] {
             display: none;
         }
+        #text-cneter{
+            text-align: center;
+        }
     </style>
 </head>
     <body>
@@ -289,28 +292,30 @@
             <div class="modal-dialog modal-md">
                 <div class="modal-content">
                     <div class="modal-header bg-success">
-                        <h5 class="modal-title text-center"><b>表格信息修改</b></h5>
-                        <button type="button" class="close close-positon" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i class="fa fa-close"></i></span></button>
+                        <h5 class="modal-title ft-16"><b>表格信息修改</b></h5>
+                        <button type="button" class="close close-positon" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i class="text-red fa fa-close"></i></span></button>
                     </div>
                     <div class="modal-body">
                         <div class="container-fluid">
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-horizontal">
-                                        <div class="form-group ">
-                                            <label class="text-primary col-sm-2 control-label ">表格名称</label>
-                                            <div class="col-sm-10">
-                                                <input type="text" v-model="infoCache.title" class="form-control">
+                                        <div class="form-group text-right line-height-34">
+                                            <label class="col-sm-3 col-md-3 col-lg-3 ft-14">表格名称 <i class="text-red">*</i></label>
+                                            <div class="col-sm-8 col-md-8 col-lg-8 ">
+                                                <div class="bootstrap-tagsinput height">
+                                                    <input type="text" class="form-control ft-14" v-model="infoCache.title" placeholder="请输入表格名称">
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <hr>
-                                <div class="col-md-3 col-md-offset-2">
-                                    <button class="btn btn-success" @click="saveXG">保存</button>
-                                </div>
                             </div>
                         </div>
+                    </div>
+                    <div class="modal-footer text-center" id="text-cneter">
+                        <button class="btn btn-info" @click="saveXG">保存</button>
+                        <button class="btn btn-default" data-dismiss="modal">取消</button>
                     </div>
                 </div>
             </div>

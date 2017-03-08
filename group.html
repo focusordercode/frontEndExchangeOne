@@ -383,15 +383,74 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header bg-primary">
-                        <h4 class="modal-title text-center">编辑角色</h4>
-                        <button type="button" @click="cancel" class="close close-positon"><span aria-hidden="true"><i class="fa fa-close"></i></span></button>
+                        <h4 class="modal-title ft-16">编辑角色</h4>
+                        <button type="button" @click="cancel" class="close close-positon"><span aria-hidden="true"><i class="fa fa-close text-red"></i></span></button>
                     </div>
                     <div class="modal-body">
                         <div class="container-fluid">
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-horizontal">
+                                        <div class="form-group text-right line-height-34">
+                                            <label class="col-sm-3 col-md-3 col-lg-3 ft-14 line-height-34">角色名称 <i class="text-red">*</i></label>
+                                            <div class="col-sm-8 col-md-8 col-lg-8 ">
+                                                <div class=" height">
+                                                    <input type="text" class="form-control ft-14" v-model="editOne.name" placeholder="请输入角色名称">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group text-right line-height-34">
+                                            <label class="col-sm-3 col-md-3 col-lg-3 ft-14 line-height-34">角色状态 <i class="text-red">*</i></label>
+                                            <div class="col-sm-8 col-md-8 col-lg-8 ">
+                                                <div class=" height">
+                                                    <select class="form-control" v-model="editOne.enabled">
+                                                        <option value="1">启用</option>
+                                                        <option value="0">停用</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group text-right line-height-34">
+                                            <label class="col-sm-3 col-md-3 col-lg-3 ft-14 line-height-34">所属机构 <i class="text-red">*</i></label>
+                                            <div class="col-sm-6 col-md-6 col-lg-6 ">
+                                                <div class="bootstrap-tagsinput height text-left">
+                                                    <span class="tag label label-info" v-for="orgd in orgds" v-cloak>
+                                                        {{orgd.name}}<span data-role="remove" @click="removeOrgd(orgd)"></span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-2 col-md-2 col-lg-2">
+                                                <button class="btn btn-info btn-sm searchBtn">搜索</button>
+                                            </div>
+                                        </div>
+                                      <!--  搜索框-->
                                         <div class="form-group">
+                                            <div class="col-sm-6 col-md-6 col-lg-6 pors searchCompent col-sm-offset-3 col-md-offset-3 col-lg-offset-3">
+                                                <input type="text" class="form-control searchShadow searchCate " placeholder="输入关键字搜索类目">
+                                                <ul class="cate-list">
+                                                    <template v-for="one in oneList" v-if="$index<=9">
+                                                        <li @click="selectOned(one)">
+                                                            {{one.name}}
+                                                        </li>
+                                                    </template>
+                                                </ul>
+                                            </div>
+                                            <div class="col-sm-2 col-md-2 col-lg-2 text-left paddingLeft searchCompent">
+                                                <button class="btn btn-default closeBtn searchShadow">
+                                                    <i class="fa fa-close"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <!--  搜索框-->
+                                        <div class="form-group text-right line-height-34">
+                                            <label class="col-sm-3 col-md-3 col-lg-3 ft-14 line-height-34">角色备注 <i class="text-red"></i></label>
+                                            <div class="col-sm-8 col-md-8 col-lg-8 ">
+                                                <div class=" height">
+                                                    <textarea v-model="editOne.remark" class="form-control" cols="30" rows="5" ></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--<div class="form-group">
                                             <label class="col-md-2 control-label">角色名称</label>
                                             <div class="col-md-8">
                                                 <input type="text" v-model='editOne.name' placeholder="角色名称" class="form-control">
@@ -405,8 +464,8 @@
                                                     <option value="0">停用</option>
                                                 </select>
                                             </div>
-                                        </div>
-                                        <div class="form-group">
+                                        </div>-->
+                                     <!--   <div class="form-group">
                                             <label class="col-sm-2 control-label"><span class="text-red">*</span>所属机构</label>
                                             <div class="col-sm-8">
                                                 <div class="bootstrap-tagsinput height">
@@ -441,15 +500,20 @@
                                             <div class="col-sm-8">
                                                 <textarea v-model="editOne.remark" class="form-control" cols="30" rows="5" ></textarea>
                                             </div>
-                                        </div>  
+                                        </div>  -->
+
                                     </div>
-                                    <div class="col-sm-12 col-md-12 col-lg-12 text-center mT-footer">
-                                        <button @click="subrole" class="btn btn-success">保存</button>
-                                        <button @click="cancel" class="btn btn-default col-sm-offset-1 col-md-offset-1 col-lg-offset-1">取消</button>
-                                    </div>
+                                  <!--  <div class="col-sm-12 col-md-12 col-lg-12 text-center mT-footer">
+                                        <button @click="subrole" class="btn btn-info">保存</button>
+                                        <button @click="cancel" class="btn btn-default">取消</button>
+                                    </div>-->
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button @click="subrole" class="btn btn-info">保存</button>
+                        <button @click="cancel" class="btn btn-default">取消</button>
                     </div>
                 </div>
             </div>

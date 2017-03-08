@@ -431,7 +431,7 @@ var picGallery = new Vue({
             if (sameArr.length>0){
                 layer.msg('标签重复');
             }else if(text){
-                this.changepic.tags.push(text)
+                this.changepic.tags.push(text);
                 this.newTags = ''
             }
         },
@@ -440,37 +440,43 @@ var picGallery = new Vue({
             var vm = picGallery;
             var pic_ids = vm.imgcheck;
             var tag = vm.newTags;
-            $.ajax({
-                type:'POST',
-                url:serverUrl+'add/tags',
-                datatype:'json',
-                data:{
-                    key:oKey,
-                    user_id:token,
-                    pic_ids:pic_ids,
-                    tag:tag,
-                },
-                success:function(data){
-                    if (data.status==100) {
-                        layer.msg('添加成功');
-                        update();
-                        $('#addtags').modal('hide');
-                    }else if(data.status==1012){
-                        layer.msg('请先登录',{time:2000});
+            if(!tag){
+                layer.msg('请填入需要添加的标签')
+            }else {
+                $.ajax({
+                    type:'POST',
+                    url:serverUrl+'add/tags',
+                    datatype:'json',
+                    data:{
+                        key:oKey,
+                        user_id:token,
+                        pic_ids:pic_ids,
+                        tag:tag
+                    },
+                    success:function(data){
+                        if (data.status==100) {
+                            vm.newTags = '';//清空填写的标签
+                            layer.msg('添加成功');
+                            update();
+                            $('#addtags').modal('hide');
+                        }else if(data.status==1012){
+                            layer.msg('请先登录',{time:2000});
 
-                        setTimeout(function(){
-                            jumpLogin(loginUrl,NowUrl);
-                        },2000);
-                    }else if(data.status==1011){
-                        layer.msg('权限不足,请跟管理员联系');
-                    }else{
-                        layer.msg(data.msg)
+                            setTimeout(function(){
+                                jumpLogin(loginUrl,NowUrl);
+                            },2000);
+                        }else if(data.status==1011){
+                            layer.msg('权限不足,请跟管理员联系');
+                        }else{
+                            layer.msg(data.msg)
+                        }
+                    },
+                    error:function(jqXHR){
+                        layer.msg('向服务器请求添加标签失败')
                     }
-                },
-                error:function(jqXHR){
-                    layer.msg('向服务器请求添加标签失败')
-                }
-            })
+                })
+            }
+
         },
         //删除标签
         removeTags:function(index){

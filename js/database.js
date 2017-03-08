@@ -238,6 +238,10 @@ var base = new Vue({
                     }
                     if(data.status == 102){
                         base.pTable_alert = true;
+                        base.pTable_type = false;
+                        base.pTable_number = false;
+                        base.pTable_numbera = false;
+                        base.pTable_field = false;
                     }
                     if(data.status == 104){
                         console.log(subtype);
@@ -431,7 +435,7 @@ var base = new Vue({
                     subtype:subtype,
                     ckey:key,
                     subnum:subnum,
-                    subkey:subkey,
+                    subkey:subkey
                 },
                 success:function(data){
                     var status = data.status;
@@ -446,9 +450,19 @@ var base = new Vue({
                         layer.msg('操作正在进行中');
                     }
                     if(data.status == 102){
-                        base.pTablea_alert = true;
-                        base.pTablea_number = false;
+                        base.pTablea_alert = false;
+                        base.pTablea_numbera = true;
                         layer.msg('请选择表');
+                    }
+                    if(data.status == 106){
+                        base.pTablea_number = true;
+                        base.pTablea_alert = false;
+                        layer.msg('请输入表的分区数量');
+                    }
+                    if(data.status == 106){
+                        base.pTablea_number = true;
+                        base.pTablea_alert = false;
+                        layer.msg('请输入表的分区数量');
                     }
                     if(data.status == 106){
                         base.pTablea_number = true;

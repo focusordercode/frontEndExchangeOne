@@ -229,34 +229,38 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header bg-primary">
-                        <h4 class="modal-title text-center">编辑节点</h4>
-                        <button type="button" class="close close-positon" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i class="fa fa-close"></i></span></button>
+                        <h4 class="modal-title ft-16">编辑节点</h4>
+                        <button type="button" class="close close-positon text-red" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i class="fa fa-close"></i></span></button>
                     </div>
                     <div class="modal-body">
                         <div class="container-fluid">
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-horizontal">
-                                        <div class="form-group">
-                                            <label class="col-md-3 col-sm-3 col-lg-3 control-label">地址</label>
-                                            <div class="col-md-9 col-sm-9 col-lg-9">
-                                                <input type="text" v-model='editOne.auth_address' placeholder="地址" class="form-control">
+                                        <div class="form-group text-right line-height-34">
+                                            <label class="col-sm-3 col-md-3 col-lg-3 ft-14">地址 <i class="text-red">*</i></label>
+                                            <div class="col-sm-8 col-md-8 col-lg-8 ">
+                                                <div class="bootstrap-tagsinput height">
+                                                    <input type="text" class="form-control ft-14" v-model="editOne.auth_address" placeholder="请输入地址">
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="form-group">
-                                            <label class="col-sm-3 col-md-3 col-lg-3 control-label">名称</label>
-                                            <div class="col-sm-9 col-md-9 col-lg-9">
-                                                <input type="text" v-model='editOne.name' placeholder="名称" class="form-control">
+                                        <div class="form-group text-right line-height-34">
+                                            <label class="col-sm-3 col-md-3 col-lg-3 ft-14">名称 <i class="text-red">*</i></label>
+                                            <div class="col-sm-8 col-md-8 col-lg-8 ">
+                                                <div class="bootstrap-tagsinput height">
+                                                    <input type="text" class="form-control ft-14" v-model="editOne.name" placeholder="请输入名称">
+                                                </div>
                                             </div>
-                                        </div> 
-                                    </div>
-                                    <div class="col-sm-12 col-md-12 col-lg-12 mT-footer text-center">
-                                        <button @click="save_edit" class="btn btn-success">保存</button>
-                                        <button  class="btn btn-default col-md-offset-1 col-sm-offset-1 col-lg-offset-1" data-dismiss="modal">取消</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button @click="save_edit" class="btn btn-info">保存</button>
+                        <button  class="btn btn-default " data-dismiss="modal">取消</button>
                     </div>
                 </div>
             </div>
@@ -267,34 +271,38 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header bg-primary">
-                        <h4 class="modal-title text-center">编辑节点</h4>
-                        <button type="button" class="close close-positon" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i class="fa fa-close"></i></span></button>
+                        <h4 class="modal-title ft-16">编辑节点</h4>
+                        <button type="button" class="close close-positon text-red" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i class="fa fa-close"></i></span></button>
                     </div>
                     <div class="modal-body">
                         <div class="container-fluid">
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-horizontal">
-                                        <div class="form-group">
-                                            <label class="col-md-3 col-sm-3 col-lg-3 control-label">地址</label>
-                                            <div class="col-sm-8 col-md-8 col-lg-8">
-                                                <input type="text" v-model='edit_big.auth_address' placeholder="地址" class="form-control">
+                                        <div class="form-group text-right line-height-34">
+                                            <label class="col-sm-3 col-md-3 col-lg-3 ft-14">地址 <i class="text-red">*</i></label>
+                                            <div class="col-sm-8 col-md-8 col-lg-8 ">
+                                                <div class="bootstrap-tagsinput height">
+                                                    <input type="text" class="form-control ft-14" v-model="edit_big.auth_address" placeholder="请输入地址">
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="form-group">
-                                            <label class="col-md-3 col-sm-3 col-lg-3 control-label">名称</label>
-                                            <div class="col-sm-8 col-md-8 col-lg-8">
-                                                <input type="text" v-model='edit_big.name' placeholder="名称" class="form-control">
+                                        <div class="form-group text-right line-height-34">
+                                            <label class="col-sm-3 col-md-3 col-lg-3 ft-14">名称 <i class="text-red">*</i></label>
+                                            <div class="col-sm-8 col-md-8 col-lg-8 ">
+                                                <div class="bootstrap-tagsinput height">
+                                                    <input type="text" class="form-control ft-14" v-model="edit_big.name" placeholder="请输入地址">
+                                                </div>
                                             </div>
-                                        </div> 
-                                    </div>
-                                    <div class="col-md-12 col-sm-12 col-lg-12 text-center mT-footer">
-                                        <button @click="save_big" class="btn btn-success">保存</button>
-                                        <button data-dismiss="modal" class="btn btn-default col-sm-offset-1 col-md-offset-1 col-lg-offset-1">取消</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button @click="save_big" class="btn btn-info">保存</button>
+                        <button data-dismiss="modal" class="btn btn-default">取消</button>
                     </div>
                 </div>
             </div>

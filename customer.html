@@ -205,58 +205,58 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header bg-primary">
-                        <h4 class="modal-title text-center">添加客户</h4>
-                        <button type="button" class="close close-positon white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i class="fa fa-close"></i></span></button>
+                        <h4 class="modal-title ft-16">添加客户</h4>
+                        <button type="button" class="close close-positon text-red" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i class="fa fa-close"></i></span></button>
                     </div>
-                    <div class="modal-body">
+                    <div class="modal-body ft-14">
                         <div class="container-fluid">
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-horizontal">
                                         <div class="form-group">
-                                            <label class="col-md-2 control-label">客户名<span class="text-red">*</span></label>
+                                            <label class="col-md-3 col-sm-3 col-lg-3 control-label">客户名<span class="text-red">*</span></label>
                                             <div class="col-md-8">
                                                 <input type="text" v-model="addNew.custom_name" placeholder="客户名" class="form-control">
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-md-2 control-label">英文名<span class="text-red">*</span></label>
-                                            <div class="col-md-8">
+                                            <label class="col-md-3 col-sm-3 col-lg-3 control-label">英文名<span class="text-red">*</span></label>
+                                            <div class="col-md-8 col-sm-8 col-lg-8">
                                                 <input type="text" v-model="addNew.en_name" placeholder="英文名" class="form-control">
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-md-2 control-label">公司<span class="text-red">*</span></label>
-                                            <div class="col-md-8">
+                                            <label class="col-md-3 col-sm-3 col-lg-3 control-label">公司<span class="text-red">*</span></label>
+                                            <div class="col-md-8 col-sm-8 col-lg-8">
                                                 <input type="text" v-model="addNew.company" placeholder="公司名称" class="form-control">
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-md-2 control-label">电话</label>
-                                            <div class="col-md-8">
+                                            <label class="col-md-3 col-sm-3 col-lg-3 control-label">电话</label>
+                                            <div class="col-md-8 col-sm-8 col-lg-8">
                                                 <input type="text" v-model="addNew.mobile"  placeholder="电话或手机号" class="form-control">
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-md-2 control-label">邮箱</label>
-                                            <div class="col-md-8">
+                                            <label class="col-md-3 col-sm-3 col-lg-3 control-label">邮箱</label>
+                                            <div class="col-md-8 col-sm-8 col-lg-8">
                                                 <input type="text" v-model="addNew.email" placeholder="邮箱地址" class="form-control">
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-md-2 control-label">地址</label>
-                                            <div class="col-md-8">
+                                            <label class="col-md-3 col-sm-3 col-lg-3 control-label">地址</label>
+                                            <div class="col-md-8 col-sm-8 col-lg-8">
                                                 <input type="text" v-model="addNew.address" placeholder="地址" class="form-control">
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-12 text-center mT-footer">
-                                        <button @click="subTable" class="btn btn-success">提交</button>
-                                        <button data-dismiss="modal" class="btn btn-default col-sm-offset-1 col-md-offse-1 col-lg-offse-1">取消</button>
-                                    </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <div class="modal-footer ft-14">
+                        <button @click="subTable" class="btn btn-info">提交</button>
+                        <button data-dismiss="modal" class="btn btn-default">取消</button>
                     </div>
                 </div>
             </div>
@@ -267,57 +267,58 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header bg-primary">
-                        <h4 class="modal-title text-center">编辑客户</h4>
+                        <h4 class="modal-title ft-16">编辑客户</h4>
                         <button type="button" @click="cancel" class="close close-positon"><span aria-hidden="true"><i class="fa fa-close"></i></span></button>
                     </div>
-                    <div class="modal-body">
+                    <div class="modal-body ft-14">
                         <div class="container-fluid">
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-horizontal">
                                         <div class="form-group">
-                                            <label class="col-md-2 control-label">客户名<span class="text-red">*</span></label>
-                                            <div class="col-md-8">
+                                            <label class="col-md-3 col-sm-3 col-lg-3 control-label">客户名<span class="text-red">*</span></label>
+                                            <div class="col-md-8 col-sm-8 col-lg-8">
                                                 <input type="text" v-model="editOne.custom_name" placeholder="客户名" class="form-control">
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-md-2 control-label">英文名<span class="text-red">*</span></label>
-                                            <div class="col-md-8">
+                                            <label class="col-md-3 col-sm-3 col-lg-3 control-label">英文名<span class="text-red">*</span></label>
+                                            <div class="col-md-8 col-sm-8 col-lg-8">
                                                 <input type="text" v-model="editOne.en_name" placeholder="英文名" class="form-control">
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-md-2 control-label">公司<span class="text-red">*</span></label>
-                                            <div class="col-md-8">
+                                            <label class="col-md-3 col-sm-3 col-lg-3 control-label">公司<span class="text-red">*</span></label>
+                                            <div class="col-md-8 col-sm-8 col-lg-8">
                                                 <input type="text" v-model="editOne.company" placeholder="公司名称" class="form-control">
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-md-2 control-label">电话</label>
-                                            <div class="col-md-8">
+                                            <label class="col-md-3 col-sm-3 col-lg-3 control-label">电话</label>
+                                            <div class="col-md-8 col-sm-8 col-lg-8">
                                                 <input type="text" v-model="editOne.mobile"  placeholder="电话或手机号" class="form-control">
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-md-2 control-label">邮箱</label>
-                                            <div class="col-md-8">
+                                            <label class="col-md-3 col-sm-3 col-lg-3 control-label">邮箱</label>
+                                            <div class="col-md-8 col-sm-8 col-lg-8">
                                                 <input type="text" v-model="editOne.email" placeholder="邮箱地址" class="form-control">
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-md-2 control-label">地址</label>
-                                            <div class="col-md-8">
+                                            <label class="col-md-3 col-sm-3 col-lg-3 control-label">地址</label>
+                                            <div class="col-md-8 col-sm-8 col-lg-8">
                                                 <input type="text" v-model="editOne.address" placeholder="地址" class="form-control">
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-2 col-md-offset-5">
-                                        <button @click="subEdit" class="btn btn-success">保存</button>
-                                    </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button @click="subEdit" class="btn btn-info">保存</button>
+                        <button @click="cancel" class="btn btn-default">取消</button>
                     </div>
                 </div>
             </div>
