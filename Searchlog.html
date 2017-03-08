@@ -180,11 +180,11 @@
     </div>
     <div class="row">
         <div class="form-group form-horizontal form-left">
-            <select v-model="year" class="form-height col-md-2">
+            <select v-model="year" class="form-height col-md-1">
                 <option value="">选择年份</option>
                 <option v-for="n in nowtimeyear" >{{n+2016}}</option>
             </select>
-            <select v-model="month" class="form-height col-md-2">
+            <select v-model="month" class="form-height col-md-1">
                 <option value="">选择月份</option>
                 <template v-for="h in nowtimemonth">
                     <template v-if="h<10">
@@ -196,7 +196,7 @@
                 </template>
                 <!-- <option v-for="h in nowtimes">{{h}}</option> -->
             </select>
-            <select v-model="day" class="form-height col-md-2">
+            <select v-model="day" class="form-height col-md-1">
                 <option value="">选择日期</option>
                 <template v-for="h in nowtimeday">
                     <template v-if="h<10">

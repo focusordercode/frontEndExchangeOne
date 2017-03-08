@@ -95,6 +95,10 @@
         [v-cloak] {
             display: none;
         }
+        #add .bg-primary{
+            color: #fff;
+            background-color: #337ab7;
+        }
     </style>
 </head>
 <body>
@@ -142,14 +146,14 @@
                     <!-- 手工录入 -->
                     <div role="tabpanel" class="tab-pane fade active in" id="home" aria-labelledby="home-tab">
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-12" id="add">
                                 <div class="panel panel-default">
-                                    <div class="panel-heading">添加用户</div>
+                                    <div class="panel-heading bg-primary ft-16">添加用户</div>
                                     <div class="panel-body">
                                         <div class="col-md-12">
                                             <div class="form-horizontal">
                                                 <div class="form-group">
-                                                    <label class="col-sm-4 col-md-4 col-lg-4 control-label"><span class="text-red">*</span>用户名:</label>
+                                                    <label class="col-sm-4 col-md-4 col-lg-4 control-label">用户名<i class="text-red">*</i> </label>
                                                     <div class="col-sm-4 col-md-4 col-lg-4">
                                                         <input type="text" v-model="user_name" placeholder="请输入用户名" class="form-control">
                                                     </div>
@@ -159,7 +163,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label class="col-sm-4 col-md-4 col-lg-4 control-label"><span class="text-red">*</span>密码:</label>
+                                                    <label class="col-sm-4 col-md-4 col-lg-4 control-label">密码<i class="text-red">*</i></label>
                                                     <div class="col-sm-4 col-md-4 col-lg-4">
                                                         <input type="text" v-model="password" placeholder="输入密码" class="form-control">
                                                     </div>
@@ -169,7 +173,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label class="col-sm-4 col-md-4 col-lg-4 control-label"><span class="text-red">*</span>真实用户名：</label>
+                                                    <label class="col-sm-4 col-md-4 col-lg-4 control-label">真实用户名<i class="text-red">*</i></label>
                                                     <div class="col-sm-4 col-md-4 col-lg-4">
                                                         <input type="text" v-model="real_name" placeholder="请输入真实名字" class="form-control">
                                                     </div>
@@ -202,14 +206,14 @@
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <label class="col-sm-4 col-md-4 col-lg-4 control-label"><span class="text-red">*</span>是否员工</label>
+                                                    <label class="col-sm-4 col-md-4 col-lg-4 control-label">是否员工<i class="text-red">*</i></label>
                                                     <div class="col-sm-1">
                                                         <select class="form-control" v-model="is_staff">
                                                             <option value="1">是</option>
                                                             <option value="0" selected>否</option>
                                                         </select>
                                                     </div>
-                                                    <label class="col-sm-2 control-label"><span class="text-red">*</span>是否领导</label>
+                                                    <label class="col-sm-2 control-label">是否领导<i class="text-red">*</i></label>
                                                     <div class="col-sm-1">
                                                         <select class="form-control" v-model="is_head">
                                                             <option value="1">是</option>
@@ -219,19 +223,25 @@
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <label class="col-sm-4 col-md-4 col-lg-4 control-label"><span class="text-red">*</span>所属角色</label>
-                                                    <div class="col-sm-4 col-md-4 col-lg-4">
+                                                    <label class="col-sm-4 col-md-4 col-lg-4 control-label">所属角色 <i class="text-red">*</i> </label>
+                                                    <div class="col-sm-3 col-md-3 col-lg-3">
                                                         <div class="bootstrap-tagsinput height">
                                                             <span class="tag label label-info" v-for="org in orgSelect" v-cloak>
                                                                 {{org.name}}<span data-role="remove" @click="removeOrg(org)"></span>
                                                             </span>
                                                         </div>
                                                     </div>
-                                                    <div class="col-sm-1 col-md-1 col-lg-1">
+                                                    <div class="col-sm-1 col-md-1 col-lg-1 text-right">
                                                         <button class="btn btn-info btn-sm searchBtn">搜索</button>
                                                     </div>
-                                                    <div class=" col-sm-3 col-md-3 col-lg-3">
-                                                        <div class=" pors searchCompent col-sm-10 col-md-10 col-lg-10">
+                                                    <div class="col-sm-3 col-md-3 col-lg-3" id="al_role">
+                                                        <div class="alert alert-danger new-alert" style="display: none" v-show="al_role" role="alert">请选择所属角色
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="  col-md-offset-4 col-sm-offset-4 col-lg-offset-4">
+                                                        <div class=" pors searchCompent col-sm-5 col-md-5 col-lg-5 ">
                                                             <input type="text" class="form-control searchShadow searchCate " placeholder="输入关键字搜索类目">
                                                             <ul class="cate-list">
                                                                 <template v-for="one in oneList" v-if="$index<=9" v-cloak>
@@ -241,20 +251,16 @@
                                                                 </template>
                                                             </ul>
                                                         </div>
-                                                        <div class="col-sm-1 text-left paddingLeft searchCompent">
+                                                        <div class="col-sm-1 text-right paddingLeft searchCompent">
                                                             <button class="btn btn-default closeBtn searchShadow">
                                                                 <i class="fa fa-close"></i>
                                                             </button>
                                                         </div>
                                                     </div>
-                                                    <div class="col-sm-3 col-md-3 col-lg-3" id="al_role">
-                                                        <div class="alert alert-danger new-alert" style="display: none" v-show="al_role" role="alert">请选择所属角色
-                                                        </div>
-                                                    </div>
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <label class="col-sm-4 col-md-4 col-lg-4 control-label">备注:</label>
+                                                    <label class="col-sm-4 col-md-4 col-lg-4 control-label">备注</label>
                                                     <div class="col-sm-4 col-md-4 col-lg-4">
                                                         <textarea v-model="remark" cols="30" rows="5" class="form-control"></textarea>
                                                     </div>
@@ -263,8 +269,8 @@
                                         </div>
                                         <!-- 按钮 -->
                                         <div class="col-sm-12 col-md-12 col-lg-12  text-center">
-                                            <button @click="adduserbtn" class="btn btn-success ">添加</button>
-                                            <a href="user-list.html" class="btn btn-default col-md-offset-1">返回</a>
+                                            <button @click="adduserbtn" class="btn btn-primary">添加</button>
+                                            <a href="user-list.html" class="btn btn-default mL-15">返回</a>
                                         </div>
                                     </div>
                                 </div>

@@ -30,9 +30,12 @@ var oCreat = new Vue({
     		var Entext = /^[a-zA-Z_()\s]+[0-9]*$/;
     		if(!(this.cn_name.trim())){
     			this.cn_alert = true;
+                this.en_alert = false;
+                this.cate_alert = false;
     		}else if(!Entext.test(this.en_name)||!(this.en_name.trim())){
     			this.cn_alert = false;
     			this.en_alert = true;
+                this.cate_alert = false;
     		}else if(!this.cateId){
     			this.cn_alert = false;
     			this.en_alert = false;

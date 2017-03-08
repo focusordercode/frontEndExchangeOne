@@ -159,7 +159,10 @@
                 <div class="modal-dialog modal-sm">
                     <div class="modal-content">
                         <div class="modal-header bg-primary">
-                            <h4 class="modal-title">图片信息</h4>
+                            <h4 class="modal-title ft-16">图片信息</h4>
+                            <button type="button" class="close close-positon" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true"><i class="fa fa-close text-red"></i></span>
+                            </button>
                         </div>
                         <div class="modal-body">
                             <div class="container-fluid">
@@ -188,7 +191,7 @@
                                                 图片尺寸(宽X高):{{data.width}}X{{data.height}}
                                             </li>
                                             <li class="list-group-item list-group-item-success">
-                                                创建人:{{data.creator_id}}
+                                                创建人:{{data.username}}
                                             </li>
                                         </ul>
                                     </div>

@@ -36,6 +36,9 @@
             margin-right: 0px;
             padding-top: 10px;
         }
+        .pr-none {
+            padding-right: 0px;
+        }
     </style>
 </head>
     <body>
@@ -132,7 +135,7 @@
             <div class="col-md-12" v-show="open_father">
                 <div class="form-horizontal">
                     <div class="form-group">
-                        <label class="col-md-4 col-sm-4 col-lg-4 control-label">地址</label>
+                        <label class="col-md-4 col-sm-4 col-lg-4 control-label">地址 <i class="text-red">*</i></label>
                         <div class="col-md-4 col-sm-4 col-lg-4">
                             <input type="text" v-model="add_father.auth_address" placeholder="地址" class="form-control">
                         </div>
@@ -141,7 +144,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-md-4 col-sm-4 col-lg-4 control-label">名称</label>
+                        <label class="col-md-4 col-sm-4 col-lg-4 control-label">名称 <i class="text-red">*</i></label>
                         <div class="col-md-4 col-sm-4 col-lg-4">
                             <input type="text" v-model="add_father.name" placeholder="名称" class="form-control">
                         </div>
@@ -151,7 +154,7 @@
                     </div>
                     <div class="form-group text-center">
                         <div class="col-md-12 col-sm-12 col-lg-12">
-                            <button class="btn btn-md btn-info" @click="add_big">添加</button>
+                            <button class="btn btn-md btn-primary" @click="add_big">添加</button>
                             <button class="btn btn-md btn-default col-md-offset-1 col-sm-offset-1 col-lg-offset-1" @click="open_big">取消</button>
                         </div>
                     </div>
@@ -191,21 +194,21 @@
                         <div class="form container-fluid ">
                             <div class="row add-table" >
                                 <div class="form-group col-sm-12 col-md-12 col-lg-12">
-                                    <label class="col-sm-4 col-md-4 col-lg-4 control-label">地址</label>
+                                    <label class="col-sm-4 col-md-4 col-lg-4 control-label pr-none">地址 <i class="text-red">*</i></label>
                                     <div class="col-sm-8 col-md-8 col-lg-8">
                                         <input type="text" v-model="add_son.auth_address" placeholder="地址" class="form-control">
                                     </div>
 
                                 </div>
                                 <div class="form-group col-sm-12 col-md-12 col-lg-12">
-                                    <label class="col-sm-4 col-md-4 col-lg-4">名称</label>
+                                    <label class="col-sm-4 col-md-4 col-lg-4 pr-none">名称 <i class="text-red">*</i></label>
                                     <div class="col-sm-8 col-md-8 col-lg-8">
                                         <input type="text" v-model="add_son.name" placeholder="名称" class="form-control ">
                                     </div>
 
                                 </div>
                                 <div class="form-group col-sm-12 col-md-12 col-lg-12 text-center">
-                                    <button class="btn btn-success btn-sm" @click="add_small(per)">添加</button>
+                                    <button class="btn btn-primary btn-sm" @click="add_small(per)">添加</button>
                                     <button class="btn btn-default btn-sm col-md-offset-1 col-sm-offset-1 col-lg-offset-1" @click="open_small(per)">取消</button>
                                 </div>
                             </div>
@@ -259,7 +262,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button @click="save_edit" class="btn btn-info">保存</button>
+                        <button @click="save_edit" class="btn btn-primary">保存</button>
                         <button  class="btn btn-default " data-dismiss="modal">取消</button>
                     </div>
                 </div>
@@ -301,7 +304,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button @click="save_big" class="btn btn-info">保存</button>
+                        <button @click="save_big" class="btn btn-primary">保存</button>
                         <button data-dismiss="modal" class="btn btn-default">取消</button>
                     </div>
                 </div>

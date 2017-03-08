@@ -68,7 +68,7 @@
             <div class="col-md-12">
                 <!-- 用户详情 -->
                 <div class="panel panel-primary" style="display: none;" v-show="!visitType">
-                    <div class="panel-heading"><b>用户详情</b></div>
+                    <div class="panel-heading ft-16">用户详情</div>
                     <div class="panel-body">
                         <div class="col-md-12">
                             <div class="col-md-12">
@@ -118,7 +118,8 @@
                                     <div class="form-group">
                                         <label class="col-sm-5 control-label">备注说明:</label>
                                         <div class="col-sm-4">
-                                            <textarea cols="30" rows="5" class="form-control" v-cloak readonly style="resize: none;">{{userdata.remark}}</textarea>
+                                            <p>{{userdata.remark}}</p>
+                                          <!--  <textarea cols="30" rows="5" class="form-control" v-cloak readonly style="resize: none;"></textarea>-->
                                         </div>
                                     </div>
                                 </div>
@@ -126,19 +127,19 @@
                             <!-- 按钮 -->
                             <div class="col-md-12 text-center" style="margin-top: 10px;">
                                 <button @click="goXG" class="btn btn-primary">修改</button>
-                                <a href="user-list.html" class="btn btn-default col-md-offset-1">返回</a>
+                                <a href="user-list.html" class="btn btn-default mL-15">返回</a>
                             </div>
                         </div>
                     </div>
                 </div>
                 <!-- 用户信息修改 -->
                 <div class="panel panel-primary" style="display: none;" v-show="visitType">
-                    <div class="panel-heading"><b>用户信息修改</b></div>
+                    <div class="panel-heading ft-16">用户信息修改</div>
                     <div class="panel-body">
                         <div class="col-md-12">
                             <div class="form-horizontal">
                                 <div class="form-group">
-                                    <label class="col-sm-4 col-md-4 col-lg-4 control-label">新的密码:</label>
+                                    <label class="col-sm-4 col-md-4 col-lg-4 control-label">新的密码 <i class="text-red">*</i> </label>
                                     <div class="col-sm-4 col-md-4 col-lg-4">
                                         <input type="text" v-model="userdata.password" placeholder="请输入新的密码" class="form-control">
                                     </div>
@@ -148,7 +149,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-sm-4 col-md-4 col-lg-4 control-label">真实用户名：</label>
+                                    <label class="col-sm-4 col-md-4 col-lg-4 control-label">真实用户名 <i class="text-red"></i> </label>
                                     <div class="col-sm-4 col-md-4 col-lg-4">
                                         <input type="text" v-model="userdata.real_name" value={{userdata.real_name}} placeholder="" class="form-control">
                                     </div>
@@ -216,8 +217,8 @@
                         </div>
                         <!-- 按钮 -->
                         <div class="col-sm-12 col-md-12 col-lg-12  text-center">
-                            <button @click="save" class="btn btn-success">保存</button>
-                            <button @click="goInfo" class="btn btn-default col-md-offset-1">返回</button>
+                            <button @click="save" class="btn btn-primary">保存</button>
+                            <button @click="goInfo" class="btn btn-default mL-15">返回</button>
                         </div>
                     </div>
                 </div>

@@ -103,6 +103,9 @@
             border: 1px solid #ddd;
             display: none;
         }
+        .font-b{
+            font-weight: bold;
+        }
     </style>
 </head>
     <body>
@@ -227,11 +230,11 @@
                                                 <div class="col-md-12">
                                                     <div class="row">
                                                         <div class="col-md-12">
-                                                            <p class="underLine">表格信息</p>
+                                                            <h5 class="underLine font-b">表格信息</h5>
                                                         </div>
                                                     </div>
                                                     <div class="row">
-                                                        <div class="col-md-5" v-cloak>
+                                                        <div class="col-md-5 col-md-offset-2" v-cloak>
                                                             <p>表格编号：{{info.form_no}}</p>
                                                             <p>所属类目：{{info.name}}</p>
                                                             <p>使用模板：{{info.tempname}}</p>
@@ -247,8 +250,8 @@
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-md-12">
-                                                            <p class="underLine">信息提示</p>
-                                                            <p class="text-warning" style="margin-bottom: 20px">
+                                                            <p class="underLine font-b">信息提示</p>
+                                                            <p class="text-warning" style="margin-bottom: 20px;text-indent: 2em;">
                                                                 如果您对表格当前页进行过修改，请一定点击“暂存”按钮，保存修改结果后再离开(包括刷新)。否则，修改内容会丢失。
                                                             </p>
                                                         </div>
@@ -353,7 +356,7 @@
                                     <div class="col-md-12">
                                         <div class="panel panel-default infoPanel">
                                             <div class="panel-body">
-                                                <div class="col-md-12">
+                                                <div class="col-md-10 col-md-offset-2">
                                                     <div class="form-horizontal">
                                                         <div class="form-group">
                                                             <label class="col-sm-2 control-label text-muted">SKU前缀</label>
@@ -397,10 +400,7 @@
                                                             <div class="col-sm-2">
                                                                 <input type="number" min="0" v-model="fillRule.priceUsd2" class="form-control">
                                                             </div>
-                                                            <div class="col-sm-4 text-lineheigt">随机小数(会自动添加小数,这里填写整数区间)</div>
-                                                            <div class="col-sm-3 text-danger text-lineheigt">
-                                                                <!-- <b>填写错误</b> -->
-                                                            </div>
+                                                            <div class="col-sm-5 text-lineheigt">随机小数(会自动添加小数,这里填写整数区间)</div>
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="col-sm-2 control-label text-muted">Weight  (ounce)</label>
@@ -432,7 +432,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-1 col-md-offset-3">
+                                                <div class="col-md-11 col-sm-11 col-lg-11 text-center">
                                                     <button @click="fillTable" class="btn btn-success">自动填表</button>
                                                 </div>
                                             </div>

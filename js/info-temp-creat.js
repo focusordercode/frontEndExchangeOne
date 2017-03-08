@@ -54,10 +54,13 @@ var tempCreat = new Vue({
                /* layer.msg('中文名不能为空');*/
                console.log(this.cn_name);
                 vm.tempcn_alert = true;
+                vm.tempen_alert = false;
+                vm.tempname_alert = false;
             }else if(!this.en_name.trim()||!Entext.test(this.en_name)){
                /* layer.msg('英文名不能为空，且只能是字母数字和空格');*/
                 vm.tempen_alert = true;
                 vm.tempcn_alert = false;
+                vm.tempname_alert = false;
             }else if(!this.proSelectedId){
 
                 $('.searchCompent').hide();

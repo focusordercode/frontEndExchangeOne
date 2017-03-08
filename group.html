@@ -147,6 +147,10 @@
             color: #454f75;
             background: #e5e9f2;
         }
+        .content{
+            width: 1170px;
+            margin: auto;
+        }
     </style>
 </head>
     <body>
@@ -187,7 +191,7 @@
         </div>
 
         <!-- 主内容区域 -->
-        <div class="container-fluid marginTop">
+        <div class="container-fluid marginTop content">
             <div class="row">
                 <div class="col-md-12">
                     <div class="panel panel-defaault">
@@ -257,12 +261,12 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="panel panel-primary">
-                                        <div class="panel-heading"><h4><b>角色添加</b></h4></div>
+                                        <div class="panel-heading "><h4 class="ft-16">角色添加</h4></div>
                                         <div class="panel-body">
                                             <div class="col-md-12">
                                                 <div class="form-horizontal">
                                                     <div class="form-group">
-                                                        <label class="col-sm-3 col-md-3 col-lg-3 control-label"><span class="text-red">*</span>角色名称:</label>
+                                                        <label class="col-sm-3 col-md-3 col-lg-3 control-label">角色名称 <i class="text-red">*</i></label>
                                                         <div class="col-sm-5 col-md-5 col-lg-5">
                                                             <input type="text" v-model='addname' placeholder="输入中文名" class="form-control">
                                                         </div>
@@ -271,18 +275,24 @@
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label class="col-sm-3 col-md-3 col-lg-3 control-label"><span class="text-red">*</span>所属机构</label>
-                                                        <div class="col-sm-5 col-md-5 col-lg-5">
+                                                        <label class="col-sm-3 col-md-3 col-lg-3 control-label">所属机构 <i class="text-red">*</i></label>
+                                                        <div class="col-sm-4 col-md-4 col-lg-4">
                                                             <div class="bootstrap-tagsinput height">
                                                                 <span class="tag label label-info" v-for="org in orgSelect" v-cloak>
                                                                     {{org.name}}<span data-role="remove" @click="removeOrg(org)"></span>
                                                                 </span>
                                                             </div>
                                                         </div>
-                                                        <div class="col-sm-1">
+                                                        <div class="col-sm-1 text-right">
                                                             <button class="btn btn-info btn-sm searchBtn">搜索</button>
                                                         </div>
-                                                        <div class="col-sm-2 pors searchCompent">
+                                                        <!--提示-->
+                                                        <div class="col-sm-3 col-md-3 col-lg-3" id="org_alert">
+                                                            <div class="alert alert-danger new-alert form-control" style="display:none" v-show="org_alert"  role="alert"> 请选择机构</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="col-sm-4 col-md-offset-3 pors searchCompent">
                                                             <input type="text" class="form-control searchShadow searchCate " placeholder="输入关键字搜索类目">
                                                             <ul class="cate-list">
                                                                 <template v-for="one in oneList" v-if="$index<=9">
@@ -292,14 +302,10 @@
                                                                 </template>
                                                             </ul>
                                                         </div>
-                                                        <div class="col-sm-1 text-left paddingLeft searchCompent">
+                                                        <div class="col-sm-1 text-right paddingLeft searchCompent">
                                                             <button class="btn btn-default closeBtn searchShadow">
                                                                 <i class="fa fa-close"></i>
                                                             </button>
-                                                        </div>
-                                                        <!--提示-->
-                                                        <div class="col-sm-3 col-md-3 col-lg-3" id="org_alert">
-                                                            <div class="alert alert-danger new-alert form-control" style="display:none" v-show="org_alert"  role="alert"> 请选择机构</div>
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
@@ -309,7 +315,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-12 col-md-12 col-lg-12 text-center">
-                                                        <button @click="addrole" class="btn btn-success">添加</button>
+                                                        <button @click="addrole" class="btn btn-primary">添加</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -323,7 +329,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="panel panel-primary">
-                                        <div class="panel-heading"><h4><b>角色列表</b></h4></div>
+                                        <div class="panel-heading"><h4 class="ft-16 ">角色列表</h4></div>
                                         <div class="panel-body">
                                             <div class="col-md-12">
                                                 <table class="table table-bordered">
@@ -512,7 +518,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button @click="subrole" class="btn btn-info">保存</button>
+                        <button @click="subrole" class="btn btn-primary">保存</button>
                         <button @click="cancel" class="btn btn-default">取消</button>
                     </div>
                 </div>

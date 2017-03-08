@@ -52,9 +52,12 @@ var creatTemp = new Vue({
             if(!this.cn_name.trim()){
                /* layer.msg('中文名不能为空');*/
                 this.cn_alert = true;
+                this.en_alert = false;
+                this.name_alert = false;
             }else if(!Entext.test(this.en_name)||!this.en_name){
                 this.cn_alert = false;
                 this.en_alert = true;
+                this.name_alert = false;
                 /*layer.msg('英文名不能为空，且英文名只能是英文数字和空格');*/
             }else if(!this.proId){
                 $('.searchCompent').hide();

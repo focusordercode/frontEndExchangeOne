@@ -21,7 +21,12 @@
             background-color: #428bca!important;
             color: #fff!important;
         }
-        .dl-horizontal  dt,.dl-horizontal  dd {
+        .dl-horizontal  div {
+            margin-bottom: 20px;
+        }
+        .underline{
+            border-bottom: 1px solid #ccc;
+            font-weight: bold;
             margin-bottom: 20px;
         }
     </style>
@@ -87,17 +92,13 @@
                                 <div class="col-md-12">
                                     <div class="panel panel-default">
                                         <div class="panel-body">
-                                            <div class="col-md-12">
-                                                <dl class="dl-horizontal">
-                                                     <dt>项目名称：</dt>
-                                                     <dd>{{info.name}}</dd>
-                                                     <dt>状态:</dt>    
-                                                     <dd>{{enabled}}</dd>
-                                                     <dt>项目描述:</dt>
-                                                     <dd>
-                                                         {{info.remark}}
-                                                     </dd>
-                                                </dl>
+                                            <div class="col-md-12 ">
+                                                <div class="underline">项目信息</div>
+                                                <div class="dl-horizontal col-md-4 col-md-offset-4">
+                                                    <div>项目名称：{{info.name}}</div>
+                                                    <div> 状态：enabled</div>
+                                                    <div>项目描述：{{info.remark}}</div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

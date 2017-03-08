@@ -174,13 +174,13 @@
             <div class="row">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
-                        <h4><b>输入资料表模板信息</b></h4>
+                        <h4 class="ft-16">输入资料表模板信息</h4>
                     </div>
                     <div class="panel-body">
                         <div class="col-md-10 col-sm-offset-2 col-md-offset-2 col-lg-offset-2">
                             <div class="form-horizontal  ">
                                 <div class="form-group">
-                                    <label class="col-sm-2 control-label">中文名:</label>
+                                    <label class="col-sm-2 control-label">中文名 <i class="text-red">*</i> </label>
                                     <div class="col-sm-5">
                                         <input type="text" v-model="cn_name" placeholder="输入中文名" class="form-control">
                                     </div>
@@ -189,23 +189,28 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-sm-2 control-label">英文名:</label>
+                                    <label class="col-sm-2 control-label">英文名 <i class="text-red">*</i> </label>
                                     <div class="col-sm-5">
                                         <input type="text" v-model="en_name" placeholder="输入英文名" class="form-control">
                                     </div>
                                     <div class="col-sm-5 col-md-5 col-lg-5">
-                                        <div class="alert alert-danger new-alert" style="display:none" v-show="tempen_alert">英文名不能为空或者请正确填写英文名</div>
+                                        <div class="alert alert-danger new-alert" style="display:none" v-show="tempen_alert">请输入英文名</div>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-sm-2 control-label">选择类目:</label>
-                                    <div class="col-sm-5">
+                                    <label class="col-sm-2 control-label">选择类目 <i class="text-red">*</i> </label>
+                                    <div class="col-sm-4">
                                         <input type="text" v-model="proSelected" placeholder="选择类目" class="form-control" readonly>
                                     </div>
                                     <div class="col-sm-1">
                                         <button class="btn btn-info btn-sm searchBtn">搜索</button>
                                     </div>
-                                    <div class="col-sm-3 pors searchCompent">
+                                    <div class="col-sm-4 col-md-4 col-lg-4 " id="tempname_alert">
+                                        <div class="alert alert-danger new-alert" style="display:none" v-show="tempname_alert">类名不能为空</div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-4 col-sm-offset-2 pors searchCompent">
                                         <input type="text" class="form-control searchShadow searchCate" placeholder="输入关键字搜索类目">
                                         <ul class="cate-list">
                                             <li @click="selectCate(pro)" v-for="pro in proList" v-cloak>
@@ -213,17 +218,14 @@
                                             </li>
                                         </ul>
                                     </div>
-                                    <div class="col-sm-1 text-left paddingLeft searchCompent">
+                                    <div class="col-sm-1 text-center paddingLeft searchCompent">
                                         <button class="btn btn-default closeBtn searchShadow">
                                             <i class="fa fa-close"></i>
                                         </button>
                                     </div>
-                                    <div class="col-sm-4 col-md-4 col-lg-4 " id="tempname_alert">
-                                        <div class="alert alert-danger new-alert" style="display:none" v-show="tempname_alert">类名不能为空</div>
-                                    </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-sm-2 control-label">模板说明:</label>
+                                    <label class="col-sm-2 control-label">模板说明</label>
                                     <div class="col-sm-5">
                                         <textarea rows="6" v-model="remark" placeholder="说明" class="form-control"></textarea>  
                                     </div>
@@ -232,7 +234,7 @@
                         </div>
                         <div class="col-md-7 col-sm-7 col-lg-7 col-md-offset-2 col-md-offset-2 col-sm-offset-2 col-lg-offset-2 text-center btn_footer">
                             <button @click="sendMsg" class="btn btn-primary ">保存</button>
-                            <button @click="cancel" class="btn btn-default col-md-offset-1">取消</button>
+                            <button @click="cancel" class="btn btn-default mL-15">取消</button>
                         </div>
                     </div>
                 </div>

@@ -569,7 +569,7 @@ body,html {
     padding-bottom: 5px!important;
     margin-bottom: 0!important;
 }
-dis-none{
+.dis-none{
     display: none;
 }
 .mT-footer{
@@ -577,6 +577,12 @@ dis-none{
      padding-top: 10px;
      border-top: 1px solid #ccc;
  }
+.mL-15{
+    margin-left: 15px;
+}
+.font-b{
+    font-weight: bold;
+}
 /*标准窗口样式*/
 .ft-14{
     font-size: 14px;

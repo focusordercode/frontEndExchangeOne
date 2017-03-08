@@ -38,7 +38,11 @@ var base = new Vue({
         pTablea_field:false,//分区区间
         pTablea_number:false,//分区数
         pTablea_numbera:false,//分区键值
-        pTablea_type: false//分区类型
+        pTablea_type: false,//分区类型
+        //分区扩容
+        pTable_type3:false,
+        pTablea_number3:false
+
 
     },
     ready: function () {
@@ -491,9 +495,10 @@ var base = new Vue({
                 datatype:'json',
                 data:{
                     key:oKey,
-                    user_id:token,
+                    user_id:token
                 },
                 success:function(data){
+
                     if(data.status == 100){
                         base.list3 = data.values
                     }
@@ -518,7 +523,8 @@ var base = new Vue({
         testpar3:function(){
             var selected = base.selected3;
             if(selected == ""){
-                layer.msg('请选择需要分区的表');
+                this.pTable_type3 = true;
+              /*  layer.msg('请选择需要分区的表');*/
             }
             $.ajax({
                 type:'POST',
@@ -532,6 +538,7 @@ var base = new Vue({
                 },
                 success:function(data){
                     if(data.status == 110){
+                        base.pTable_type3 = false;
                         layer.msg('可以提交');
                         $("#submit-partition3").removeAttr("disabled")
                     }
@@ -571,7 +578,7 @@ var base = new Vue({
                     user_id:token,
                     id:id,
                     num:num,
-                    subnum:subnum,
+                    subnum:subnum
                 },
                 success:function(data){
                     if(data.status == 100){
@@ -595,7 +602,8 @@ var base = new Vue({
                         layer.msg('请选择表的分区列值');
                     }
                     if(data.status == 106){
-                        layer.msg('请输入表的分区数量');
+                        base.pTablea_number3 = true;
+                       /* layer.msg('请输入表的分区数量');*/
                     }
                     if(data.status == 107){
                         layer.msg('请输入表的分区区间');

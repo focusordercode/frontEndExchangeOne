@@ -47,6 +47,7 @@ var picGallery = new Vue({
                 rubbish:1
             },
             success:function(data){
+                console.log(data);
                 layer.close(LoadIndex); //关闭遮罩层
                 if(data.status==100){
                     picGallery.picData = data.value;

@@ -170,9 +170,7 @@
                 <div class="col-md-12">
                     <div class="panel panel-primary">
                         <div class="panel-heading">
-                            <h4>
-                                <b>创建批量表模板</b>
-                            </h4>
+                            <h4 class="ft-16">创建批量表模板</h4>
                         </div>
                         <!-- <div class="panel-body">
                             <div class="col-md-6 col-md-offset-3">
@@ -201,46 +199,33 @@
                             </div>
                         </div> -->
                         <div class="panel-body">
-                            <div class="col-md-12">
+                            <div class="col-md-10 col-md-offset-2 col-sm-10 col-sm-offset-2 col-lg-10 col-lg-offset-2">
                                 <div class="form-horizontal">
                                     <div class="form-group">
-                                        <label class="col-sm-2 control-label">中文名:</label>
+                                        <label class="col-sm-2 control-label">中文名<i class="text-red">*</i> </label>
                                         <div class="col-sm-4">
                                             <input type="text" v-model="cn_name" placeholder="输入中文名" class="form-control">
                                         </div>
-                                        <div class="col-sm-6 col-md-6 col-lg-6 ">
+                                        <div class="col-sm-4 col-md-4 col-lg-4 ">
                                             <div class="alert alert-danger new-alert" style="display:none" v-show="cn_alert">中文名不能为空</div>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-sm-2 control-label">英文名:</label>
+                                        <label class="col-sm-2 control-label">英文名<i class="text-red">*</i> </label>
                                         <div class="col-sm-4">
                                             <input type="text" v-model="en_name" placeholder="输入英文名" class="form-control">
                                         </div>
-                                        <div class="col-sm-6 col-md-6 col-lg-6 ">
+                                        <div class="col-sm-4 col-md-4 col-lg-4 ">
                                             <div class="alert alert-danger new-alert" style="display:none" v-show="en_alert">请输入英文</div>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-sm-2 control-label">选择类目:</label>
-                                        <div class="col-sm-4">
-                                            <input type="text" v-model="proName" placeholder="选择类目" class="form-control" readonly>
+                                        <label class="col-sm-2 control-label">选择类目<i class="text-red">*</i> </label>
+                                        <div class="col-sm-3">
+                                            <input type="text" v-model="proName" placeholder="点击搜索选择类目" class="form-control" readonly>
                                         </div>
                                         <div class="col-sm-1">
                                             <button class="btn btn-info btn-sm searchBtn">搜索</button>
-                                        </div>
-                                        <div class="col-sm-3 pors searchCompent">
-                                            <input type="text" class="form-control searchShadow searchCate" placeholder="输入关键字搜索类目">
-                                            <ul class="cate-list">
-                                                <li v-for="pro in proList" @click="selectCate(pro)">
-                                                    {{pro.cn_name}}　{{pro.en_name}}
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="col-sm-1 text-left paddingLeft searchCompent">
-                                            <button class="btn btn-default closeBtn searchShadow">
-                                                <i class="fa fa-close"></i>
-                                            </button>
                                         </div>
                                         <!--提示框-->
                                         <div class="col-sm-5 col-md-5 col-lg-5 " id="name_alert">
@@ -249,16 +234,31 @@
                                         <!--提示框-->
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-sm-2 control-label">模板说明:</label>
+                                        <div class="col-sm-3 col-md-offset-2 pors searchCompent">
+                                            <input type="text" class="form-control searchShadow searchCate" placeholder="输入关键字搜索类目">
+                                            <ul class="cate-list">
+                                                <li v-for="pro in proList" @click="selectCate(pro)">
+                                                    {{pro.cn_name}}　{{pro.en_name}}
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-sm-1 text-right paddingLeft searchCompent">
+                                            <button class="btn btn-default closeBtn searchShadow">
+                                                <i class="fa fa-close"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">模板说明</label>
                                         <div class="col-sm-4">
                                             <textarea rows="6" v-model="remark" placeholder="说明" class="form-control"></textarea>  
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-3 col-md-offset-2 text-center">
+                            <div class="col-md-10   text-center">
                                 <button @click="tempSub" class="btn btn-primary">保存</button>
-                                <button @click="cancel" class="btn btn-default">取消</button>
+                                <button @click="cancel" class="btn btn-default mL-15">取消</button>
                             </div>
                         </div>
                     </div>

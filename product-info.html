@@ -110,26 +110,26 @@
             <div class="row">
                 <div class="col-md-12">
                     <!-- 产品详情 -->
-                    <div class="panel panel-primary" v-show="!visitType">
-                        <div class="panel-heading"><b>产品详情</b></div>
+                    <div class="panel panel-primary " v-show="!visitType">
+                        <div class="panel-heading ft-16">产品详情</div>
                         <div class="panel-body">
                             <div class="col-md-12">
-                                <div class="col-md-12">
+                                <div class="col-md-12 col-md-offset-2">
                                     <div class="form-horizontal">
                                         <div class="form-group">
-                                            <label class="col-sm-2 control-label">中文名:</label>
+                                            <label class="col-sm-2 control-label">中文名<i class="text-red">*</i> </label>
                                             <div class="col-sm-4">
                                                 <input type="text" v-model="info.cn_name" placeholder="输入中文名" class="form-control" readonly>
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-sm-2 control-label">英文名:</label>
+                                            <label class="col-sm-2 control-label">英文名<i class="text-red">*</i> </label>
                                             <div class="col-sm-4">
                                                 <input type="text" v-model="info.en_name" placeholder="输入英文名" class="form-control" readonly>
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-sm-2 control-label">状态:</label>
+                                            <label class="col-sm-2 control-label">状态<i class="text-red">*</i> </label>
                                             <div class="col-sm-4">
                                                 <select class="form-control" readonly>
                                                     <option>{{enabled}}</option>
@@ -137,13 +137,13 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-sm-2 control-label">所属类目:</label>
+                                            <label class="col-sm-2 control-label">所属类目<i class="text-red">*</i> </label>
                                             <div class="col-sm-4">
                                                 <input type="text" v-model="info.category_name" placeholder="选择类目" class="form-control" readonly>
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-sm-2 control-label">产品说明:</label>
+                                            <label class="col-sm-2 control-label">产品说明</label>
                                             <div class="col-sm-4">
                                                 <textarea v-model="info.remark" cols="30" rows="5" class="form-control" readonly style="resize: none;"></textarea>
                                             </div>
@@ -151,7 +151,7 @@
                                     </div>
                                 </div>
                                 <!-- 按钮 -->
-                                <div class="col-md-3 col-md-offset-2 text-center">
+                                <div class="col-md-12 text-center">
                                     <button @click="goXG" class="btn btn-primary">修改</button>
                                     <button @click="deleteItem" class="btn btn-danger">删除</button>
                                     <a href="product-center.html" class="btn btn-default">返回</a>
@@ -160,14 +160,14 @@
                         </div>
                     </div>
                     <!-- 产品修改 -->
-                    <div class="panel panel-primary" v-show="visitType">
-                        <div class="panel-heading"><b>产品修改</b></div>
+                    <div class="panel panel-primary" style="display: none" v-show="visitType">
+                        <div class="panel-heading ft-16">产品修改</div>
                         <div class="panel-body">
                             <div class="col-md-12">
-                                <div class="col-md-12">
+                                <div class="col-md-12 col-md-offset-2">
                                     <div class="form-horizontal">
                                         <div class="form-group">
-                                            <label class="col-sm-2 control-label">中文名:</label>
+                                            <label class="col-sm-2 control-label">中文名<i class="text-red">*</i> </label>
                                             <div class="col-sm-4">
                                                 <input type="text" v-model="info.cn_name" placeholder="输入中文名" class="form-control">
                                             </div>
@@ -177,17 +177,17 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-sm-2 control-label">英文名:</label>
+                                            <label class="col-sm-2 control-label">英文名<i class="text-red">*</i> </label>
                                             <div class="col-sm-4">
                                                 <input type="text" v-model="info.en_name" placeholder="输入英文名" class="form-control">
                                             </div>
-                                            <div class="col-sm-6">
+                                            <div class="col-sm-4">
                                                 <div class="alert alert-danger new-alert" v-show="en_alert" role="alert"> 请输入产品的英文名称,英文名只能是英文数字和空格
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-sm-2 control-label">状态:</label>
+                                            <label class="col-sm-2 control-label">状态<i class="text-red">*</i> </label>
                                             <div class="col-sm-4">
                                                 <select class="form-control" v-model="info.enabled">
                                                     <option :value="st" v-for="st in statusList">
@@ -197,14 +197,20 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-sm-2 control-label">所属类目:</label>
-                                            <div class="col-sm-4">
+                                            <label class="col-sm-2 control-label">所属类目<i class="text-red">*</i> </label>
+                                            <div class="col-sm-3">
                                                 <input type="text" v-model="info.category_name" placeholder="选择类目" class="form-control" readonly>
                                             </div>
-                                            <div class="col-sm-1">
+                                            <div class="col-sm-1 text-right">
                                                 <button class="btn btn-info btn-sm searchBtn">搜索</button>
                                             </div>
-                                            <div class="col-sm-3 pors searchCompent">
+                                            <div class="col-sm-4">
+                                                <div class="alert alert-danger new-alert"  role="alert" v-show="cate_alert"> 请选择类目
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-sm-3 col-md-offset-2 pors searchCompent">
                                                 <input type="text" class="form-control searchShadow searchCate" placeholder="输入关键字搜索类目">
                                                 <ul class="cate-list">
                                                     <li @click="selectCate(pro)" v-for="pro in proList">
@@ -212,18 +218,14 @@
                                                     </li>
                                                 </ul>
                                             </div>
-                                            <div class="col-sm-1 text-left paddingLeft searchCompent">
+                                            <div class="col-sm-1 text-right paddingLeft searchCompent">
                                                 <button class="btn btn-default closeBtn searchShadow">
                                                     <i class="fa fa-close"></i>
                                                 </button>
                                             </div>
-                                            <div class="col-sm-3">
-                                                <div class="alert alert-danger new-alert"  role="alert" v-show="cate_alert"> 请选择类目
-                                                </div>
-                                            </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-sm-2 control-label">产品说明:</label>
+                                            <label class="col-sm-2 control-label">产品说明</label>
                                             <div class="col-sm-4">
                                                 <textarea v-model="info.remark" cols="30" rows="5" class="form-control"></textarea>
                                             </div>
@@ -231,9 +233,9 @@
                                     </div>
                                 </div>
                                 <!-- 按钮 -->
-                                <div class="col-md-3 col-md-offset-2 text-center">
+                                <div class="col-md-12 text-center">
                                     <button @click="update" class="btn btn-primary">保存</button>
-                                    <button @click="goInfo" class="btn btn-default">返回</button>
+                                    <button @click="goInfo" class="btn btn-default mL-15">返回</button>
                                 </div>
                             </div>
                         </div>

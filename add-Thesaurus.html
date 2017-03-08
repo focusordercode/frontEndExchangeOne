@@ -28,6 +28,14 @@
         [v-cloak] {
             display: none;
         }
+        #myTabContent .bg-primary{
+            color: #fff;
+            background-color: #337ab7;
+        }
+        #pldr .bg-primary{
+            color: #fff;
+            background-color: #337ab7;
+        }
     </style>
 </head>
     <body>
@@ -87,22 +95,22 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="panel panel-default">
-                                        <div class="panel-heading">添加项目</div>
+                                        <div class="panel-heading bg-primary ft-16">添加项目</div>
                                         <div class="panel-body">
                                             <div class="col-md-12">
                                                 <div class="form-horizontal">
                                                     <div class="form-group">
-                                                        <label class="col-md-4 col-sm-4 col-lg-4 control-label">项目名称:</label>
+                                                        <label class="col-md-4 col-sm-4 col-lg-4 control-label">项目名称<i class="text-red">*</i></label>
                                                         <div class="col-sm-4 col-lg-4 col-md-4">
                                                             <input type="text" v-model="name" placeholder="输入名称" class="form-control">
                                                         </div>
                                                         <div class="col-sm-4 col-md-4 col-lg-4">
-                                                            <div class="alert alert-danger new-alert dis-none"  v-show="en_alert" role="alert"> 请输入说明的项目名称，建议使用唯一性的简短英文字符
+                                                            <div class="alert alert-danger new-alert" style="display: none;font-size: 12px;"  v-show="en_alert" role="alert"> 请输入说明的项目名称，建议使用唯一性的简短英文字符
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label class="col-md-4 col-sm-4 col-lg-4 control-label">状态:</label>
+                                                        <label class="col-md-4 col-sm-4 col-lg-4 control-label">状态<i class="text-red">*</i></label>
                                                         <div class="col-md-4 col-sm-4 col-lg-4">
                                                             <select class="form-control" readonly>
                                                                 <option value="">启用</option>
@@ -110,7 +118,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label class="col-md-4 col-sm-4 col-lg-4 control-label">项目描述:</label>
+                                                        <label class="col-md-4 col-sm-4 col-lg-4 control-label">项目描述  </label>
                                                         <div class="col-md-4 col-sm-4 col-lg-4">
                                                             <textarea v-model="remark" cols="30" rows="5" class="form-control"></textarea>
                                                         </div>
@@ -120,7 +128,7 @@
                                             <!-- 按钮 -->
                                             <div class="col-md-8 col-sm-8 col-lg-8 col-md-offset-2 col-sm-offset-2 col-lg-offset-2 text-center">
                                                 <button @click="creatProduct" class="btn btn-primary">保存</button>
-                                                <a href="Thesaurus.html" class="btn btn-default col-sm-offset-1 col-md-offset-1 col-lg-offset-1">返回</a>
+                                                <a href="Thesaurus.html" class="btn btn-default mL-15">返回</a>
                                             </div>
                                         </div>
                                     </div>
@@ -130,20 +138,20 @@
                         <!-- 批量导入 -->
                         <div role="tabpanel" class="tab-pane fade" id="profile" aria-labelledby="profile-tab">
                             <div class="row">
-                                <div class="col-md-12">
+                                <div class="col-md-12" id="pldr">
                                     <div class="panel panel-default">
-                                        <div class="panel-heading">添加项目</div>
+                                        <div class="panel-heading bg-primary ft-16">添加项目</div>
                                         <div class="panel-body">
                                             <div class="col-md-12">
                                                 <div class="form-horizontal">
                                                     <div class="form-group">
-                                                        <label class="col-md-4 col-sm-4 col-lg-4 control-label">模板文件:</label>
+                                                        <label class="col-md-4 col-sm-4 col-lg-4 control-label">模板文件 <i class="text-red">*</i> </label>
                                                         <div class="col-md-4 col-sm-4 col-lg-4">
                                                             <a :href="download" class="btn btn-link">点击下载</a>
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label class="col-md-4 col-sm-4 col-lg-4 control-label">上传文件:</label>
+                                                        <label class="col-md-4 col-sm-4 col-lg-4 control-label">上传文件<i class="text-red">*</i></label>
                                                         <div class="col-md-4 col-sm-4 col-lg-4">
                                                             <div id="uploadForm">
                                                                 <div class="form-group">
@@ -176,7 +184,7 @@
                                             <div class="col-md-8 col-sm-8 col-lg-8 col-md-offset-2 col-sm-offset-2 col-md-offset-2 text-center">
                                                 <button @click="upload" class="btn btn-primary">导入</button>
                                                 <!-- <button class="btn btn-primary">保存</button> -->
-                                                <a href="Thesaurus.html" class="btn btn-default col-md-offset-1 col-sm-offset-1 col-md-offset-1">返回</a>
+                                                <a href="Thesaurus.html" class="btn btn-default mL-15">返回</a>
                                             </div>
                                         </div>
                                     </div>

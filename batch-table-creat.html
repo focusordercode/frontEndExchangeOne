@@ -263,12 +263,12 @@
             <div class="row">
                 <div class="col-lg-12 col-md-12 panel-primary">
                     <div class="panel-heading">
-                        <h4><b>批量表信息</b></h4>
+                        <h4 class="ft-16">批量表信息</h4>
                     </div>
                     <div class="well">
                         <div class="form-horizontal">
                             <div class="form-group">
-                                <label class="col-sm-3 col-md-3 col-lg-3 control-label text-muted">表格编号</label>
+                                <label class="col-sm-3 col-md-3 col-lg-3 col-sm-offset-1 col-md-offset-1 col-lg-offset-1 control-label text-muted">表格编号<i class="text-red">*</i> </label>
                                 <div class="col-sm-4">
                                     <input type="text" class="form-control" v-model="tableID" readonly>
                                 </div>
@@ -282,14 +282,21 @@
                         <!-- 选择类目 -->
                         <div class="form-horizontal">
                             <div class="form-group">
-                                <label class="col-sm-3 col-md-3 col-lg-3 control-label text-muted">选择类目</label>
-                                <div class="col-sm-4">
-                                    <input type="text" v-model="proSelected" placeholder="选择类目" class="form-control" readonly>
+                                <label class="col-sm-3 col-md-3 col-lg-3 col-sm-offset-1 col-md-offset-1 col-lg-offset-1 control-label text-muted">选择类目<i class="text-red">*</i> </label>
+                                <div class="col-sm-3">
+                                    <input type="text" v-model="proSelected" placeholder="点击搜索选择类目" class="form-control" readonly>
                                 </div>
                                 <div class="col-sm-1">
                                     <button class="btn btn-info btn-sm searchBtn">搜索</button>
                                 </div>
-                                <div class="col-sm-3 pors searchCompent">
+                               <!-- 提示框-->
+                                <div class="col-sm-3 col-md-3 col-lg-3 " id="catename_alert">
+                                    <div class="alert alert-danger new-alert" style="display:none" v-show="catename_alert">请点击搜索选择类目</div>
+                                </div>
+                                <!-- 提示框-->
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-3 col-sm-offset-4 col-md-offset-4 col-lg-offset-4 pors searchCompent">
                                     <input type="text" class="form-control searchShadow searchCate" placeholder="输入关键字搜索类目">
                                     <ul class="cate-list">
                                         <li @click="selectCate(pro)" v-for="pro in proList">
@@ -297,23 +304,18 @@
                                         </li>
                                     </ul>
                                 </div>
-                                <div class="col-sm-1 text-left paddingLeft searchCompent">
+                                <div class="col-sm-1 text-right paddingLeft searchCompent">
                                     <button class="btn btn-default closeBtn searchShadow">
                                         <i class="fa fa-close"></i>
                                     </button>
                                 </div>
-                               <!-- 提示框-->
-                                <div class="col-sm-4 col-md-4 col-lg-4 " id="catename_alert">
-                                    <div class="alert alert-danger new-alert" style="display:none" v-show="catename_alert">请先选择类目</div>
-                                </div>
-                                <!-- 提示框-->
                             </div>
                         </div>
                         <!-- 选择产品资料表 -->
                         <div class="temp-info-xg form-horizontal">
                             <div class="form-group">
-                                <label class="col-sm-3 col-md-3 col-lg-3 control-label text-muted">选择产品资料表</label>
-                                <div class="col-sm-4">
+                                <label class="col-sm-3 col-md-3 col-lg-3 col-sm-offset-1 col-md-offset-1 col-lg-offset-1 control-label text-muted">选择产品资料表<i class="text-red">*</i> </label>
+                                <div class="col-sm-3">
                                     <input type="text"  v-model="tableSelected.title" class="form-control" placeholder="选择产品资料表" readonly>
                                 </div>
                                 <div class="col-sm-1 col-md-1 col-lg-1">
@@ -329,11 +331,11 @@
                         <!-- 选择批量表模板 -->
                         <div class="form-horizontal">
                             <div class="form-group">
-                                <label class="col-sm-3 col-md-3 col-lg-3 control-label text-muted">选择批量表模板</label>
-                                <div class="col-sm-4">
+                                <label class="col-sm-3 col-md-3 col-lg-3 col-sm-offset-1 col-md-offset-1 col-lg-offset-1 control-label text-muted">选择批量表模板<i class="text-red">*</i> </label>
+                                <div class="col-sm-3">
                                     <input type="text"  v-model="MBselected.cn_name" class="form-control" placeholder="选择批量表模板" readonly>
                                 </div>
-                                <div class="col-sm-2">
+                                <div class="col-sm-1">
                                     <button @click="selectMB" :disabled="selectMBBtn" class="btn btn-default btn-sm">选择</button>
                                 </div>
                                 <!--  提示框-->
@@ -346,12 +348,12 @@
                         <!-- 客户名称 -->
                         <div class="form-horizontal">
                             <div class="form-group">
-                                <label class="col-sm-3 col-md-3 col-lg-3 control-label text-muted">客户名称</label>
+                                <label class="col-sm-3 col-md-3 col-lg-3 col-sm-offset-1 col-md-offset-1 col-lg-offset-1 control-label text-muted">客户名称<i class="text-red">*</i> </label>
                                 <div class="col-sm-4 col-md-4 col-lg-4" style="margin-top:5px;">
                                     <label class="label label-info" v-cloak>{{tableSelected.client_name}}</label>
                                 </div>
                                 <!--  提示框-->
-                                <div class="col-sm-5 col-md-5 col-lg-5 " id="clientname_alert">
+                                <div class="col-sm-3 col-md-3 col-lg-3 " id="clientname_alert">
                                     <div class="alert alert-danger new-alert dis-none"  v-show="clientname_alert">客户名称不能为空</div>
                                 </div>
                                 <!--提示框-->
@@ -360,15 +362,15 @@
                         <!-- 选择站点 -->
                         <div class="form-horizontal">
                             <div class="form-group">
-                                <label class="col-sm-3 col-md-3 col-lg-3 control-label text-muted">站点</label>
-                                <div class="col-sm-3 col-md-3 col-lg-3">
+                                <label class="col-sm-3 col-md-3 col-lg-3 col-sm-offset-1 col-md-offset-1 col-lg-offset-1 control-label text-muted">站点<i class="text-red">*</i> </label>
+                                <div class="col-sm-4 col-md-4 col-lg-4">
                                     <select class="form-control" v-model="siteSelect" >
                                         <option value="">选择站点</option>
                                         <option v-for="site in sites"  v-cloak>{{site}}</option>
                                     </select>
                                 </div>
                                 <!--  提示框-->
-                                <div class="col-sm-6 col-md-6 col-lg-6 " id="sitetname_alert">
+                                <div class="col-sm-3 col-md-3 col-lg-3 " id="sitetname_alert">
                                     <div class="alert alert-danger new-alert dis-none" v-show="sitename_alert">没有选择站点</div>
                                 </div>
                                 <!--提示框-->
@@ -377,13 +379,13 @@
                         <!-- 表格名称 -->
                         <div class="form-horizontal">
                             <div class="form-group">
-                                <label class="col-sm-3 col-md-3 col-lg-3 control-label text-muted">表格名称</label>
+                                <label class="col-sm-3 col-md-3 col-lg-3 col-sm-offset-1 col-md-offset-1 col-lg-offset-1 control-label text-muted">表格名称<i class="text-red">*</i> </label>
                                 <div class="col-sm-4 col-md-4 col-lg-4">
                                     <input type="text" placeholder="输入表格名称" v-model="tableName" class="form-control">
                                 </div>
                                 <!--  提示框-->
-                                <div class="col-sm-5 col-md-5 col-lg-5 " id="tablename_alert">
-                                    <div class="alert alert-danger new-alert dis-none" v-show="tablename_alert">表格名称不能为空</div>
+                                <div class="col-sm-3 col-md-3 col-lg-3 " id="tablename_alert">
+                                    <div class="alert alert-danger new-alert dis-none" v-show="tablename_alert">请输入表格名称</div>
                                 </div>
                                 <!--提示框-->
                             </div>
@@ -391,8 +393,8 @@
                         <!-- 导出文件名字 -->
                         <div class="form-horizontal">
                             <div class="form-group">
-                                <label class="col-sm-3 col-md-3 col-lg-3 control-label text-muted">导出文件名称</label>
-                                <div class="col-sm-3 col-md-3 col-lg-3">
+                                <label class="col-sm-3 col-md-3 col-lg-3 col-sm-offset-1 col-md-offset-1 col-lg-offset-1 control-label text-muted">导出文件名称<i class="text-red">*</i> </label>
+                                <div class="col-sm-2 col-md-2 col-lg-2">
                                     <input type="text" readonly class="form-control table-title" placeholder={{tableSelected.company_name}}>
                                 </div>
                                 <div class="col-sm-1 col-md-1 col-lg-1 plus-center text-center">
@@ -406,7 +408,7 @@
                         <!-- 选择数量 -->
                         <div class="form-horizontal">
                             <div class="form-group">
-                                <label class="col-sm-3 col-md-3 col-lg-3 control-label text-muted">产品数量</label>
+                                <label class="col-sm-3 col-md-3 col-lg-3 col-sm-offset-1 col-md-offset-1 col-lg-offset-1 control-label text-muted">产品数量<i class="text-red">*</i> </label>
                                 <div class="col-sm-4 col-md-4 col-lg-4">
                                     <input type="number" min="1" placeholder="输入需要产品数量，为空则是全部资料表数据" v-model="product_num" class="form-control">
                                 </div>
@@ -420,8 +422,8 @@
                         <!-- 表格状态 -->
                         <div class="form-horizontal">
                             <div class="form-group">
-                                <label class="col-sm-3 col-md-3 col-lg-3 control-label text-muted">状态</label>
-                                <div class="col-sm-3 col-md-3 col-lg-3">
+                                <label class="col-sm-3 col-md-3 col-lg-3 col-sm-offset-1 col-md-offset-1 col-lg-offset-1 control-label text-muted">状态</label>
+                                <div class="col-sm-4 col-md-4 col-lg-4">
                                     <select class="form-control" readonly>
                                         <option value="">创建</option>
                                     </select>
@@ -430,10 +432,10 @@
                         </div>
                         <div class="form-horizontal marginTop">
                             <div class="form-group text-center">
-                                <div class="col-sm-6 col-md-6 col-lg-6 col-sm-offset-2">
+                                <div class="col-sm-12 col-md-12 col-lg-12 text-center">
                                     <button @click="saveTable" class="btn btn-primary">保存</button>
                                     <!-- 如果不是初次创建取消按钮将隐藏 -->
-                                    <button @click="cancel" class="btn btn-default col-sm-offset-1" >取消</button>
+                                    <button @click="cancel" class="btn btn-default mL-15" >取消</button>
                                 </div>
                             </div>
                         </div>
@@ -447,7 +449,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header bg-primary">
-                        <h4 class="modal-title text-center">产品资料表</h4>
+                        <h4 class="modal-title ft-16">产品资料表</h4>
                         <button type="button" class="close close-positon" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i class="fa fa-close"></i></span></button>
                     </div>
                     <div class="modal-body">
@@ -476,7 +478,7 @@
                                     
                                     <div class="funkyradio">
                                         <div class="funkyradio">
-                                            <div v-for="table in tableList" class="funkyradio-primary">
+                                            <div v-for="table in tableList" class="funkyradio-primary" >
                                                 <input type="radio" v-model="table.checked" name="radio" id="radio{{$index}}"/>
                                                 <label for="radio{{$index}}"  v-cloak style="line-height: 1.5em">
                                                     <b class="text-warning">名称:</b>
@@ -493,8 +495,8 @@
                                     </div>
                                     <hr>
                                     <div class="text-center col-sm-12 col-md-12 col-lg-12">
-                                        <button @click="confirmTable" v-show="tableList.length>0" class="btn btn-primary">确定</button>
-                                        <button  v-show="tableList.length>0" class="btn btn-primary col-md-offset-1 col-sm-offset-1 col-lg-offset-1" data-dismiss="modal">取消</button>
+                                        <button @click="confirmTable" v-show="tableList.length>0" class="btn btn-info">确定</button>
+                                        <button  v-show="tableList.length>0" class="btn btn-default mL-15" data-dismiss="modal">取消</button>
                                     </div>
 
                                 </div>
@@ -538,8 +540,8 @@
                                     </div>
                                     <hr>
                                     <div class="text-center col-sm-12 col-md-12 col-lg-12">
-                                        <button @click="confirmMB" v-show="MBList.length>0" class="btn btn-primary">确定</button>
-                                        <button @click="" v-show="MBList.length>0" class="btn btn-primary col-sm-offset-1 col-md-offset-1 col-lg-offset-1">取消</button>
+                                        <button @click="confirmMB" v-show="MBList.length>0" class="btn btn-info">确定</button>
+                                        <button data-dismiss="modal" v-show="MBList.length>0" class="btn btn-default mL-15">取消</button>
                                     </div>
 
                                 </div>

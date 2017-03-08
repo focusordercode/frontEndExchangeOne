@@ -266,37 +266,24 @@
             <div class="row">
                 <div class="col-sm-12 col-lg-12 col-md-12 panel-primary">
                     <div class="panel-heading">
-                        <h4><b>资料表信息</b></h4>
+                        <h4 class="ft-16">资料表信息</h4>
                     </div>
                     <div class="well ">
                         <!-- <h3 class="text-primary col-sm-11 col-sm-offset-1 text-left">资料表信息</h3>-->
-                        <div class="form-horizontal row">
+                        <div class="form-horizontal row ">
                             <div class="form-group">
-                                <label class="col-sm-3 col-lg-3 col-md-3 control-label text-muted">表格编号</label>
+                                <label class="col-sm-2 col-lg-2 col-md-2 col-sm-offset-2 col-lg-offset-2 col-md-offset-2 control-label text-muted">表格编号<i class="text-red">*</i>  </label>
                                 <div class="col-sm-4">
                                     <input type="text" class="form-control" v-model="tableID" readonly>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-3 col-lg-3 col-md-3 control-label text-muted">选择类目</label>
-                                <div class="col-sm-4 pors">
-                                    <input type="text" v-model="proSelected" class="form-control" placeholder="输入关键字搜索类目" readonly>
+                                <label class="col-sm-2 col-lg-2 col-md-2 col-sm-offset-2 col-lg-offset-2 col-md-offset-2 control-label text-muted">选择类目<i class="text-red">*</i> </label>
+                                <div class="col-sm-3 pors">
+                                    <input type="text" v-model="proSelected" class="form-control" placeholder="点击搜索搜索类目" readonly>
                                 </div>
-                                <div class="col-sm-1">
+                                <div class="col-sm-1 text-right">
                                     <button class="btn btn-info btn-sm searchBtn">搜索</button>
-                                </div>
-                                <div class="col-sm-3 pors searchCompent">
-                                    <input type="text" class="form-control searchShadow searchCate" placeholder="输入关键字搜索类目">
-                                    <ul class="cate-list">
-                                        <li @click="selectCate(pro)" v-for="pro in proList">
-                                            {{pro.cn_name}} {{pro.en_name}}
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="col-sm-1 text-left paddingLeft searchCompent">
-                                    <button class="btn btn-default closeBtn searchShadow">
-                                        <i class="fa fa-close"></i>
-                                    </button>
                                 </div>
                                 <!--  提示框-->
                                 <div class="col-sm-4 col-md-4 col-lg-4 " id="catename_alert">
@@ -305,12 +292,27 @@
                                 <!--提示框-->
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-3 col-lg-3 col-md-3 control-label text-muted">选择模板</label>
-                                <div class="col-sm-4">
+                                <div class="col-sm-3 col-lg-3 col-md-3 col-sm-offset-3 col-lg-offset-4 col-md-offset-4 pors searchCompent">
+                                    <input type="text" class="form-control searchShadow searchCate" placeholder="输入关键字搜索类目">
+                                    <ul class="cate-list">
+                                        <li @click="selectCate(pro)" v-for="pro in proList">
+                                            {{pro.cn_name}} {{pro.en_name}}
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="col-sm-1 text-right paddingLeft searchCompent">
+                                    <button class="btn btn-default closeBtn searchShadow">
+                                        <i class="fa fa-close"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 col-lg-2 col-md-2 col-sm-offset-2 col-lg-offset-2 col-md-offset-2 control-label text-muted">选择模板</label>
+                                <div class="col-sm-3">
                                     <input type="text"  v-model="MBselected" class="form-control" placeholder="选择模板" readonly>
                                 </div>
                                 <div class="col-sm-1 col-md-1 col-lg-1">
-                                    <button @click="selectMB" class="btn btn-default btn-sm">选择模板</button>
+                                    <button @click="selectMB" class="btn btn-default btn-sm">选择模板<i class="text-red">*</i> </button>
                                 </div>
                                 <!--  提示框-->
                                 <div class="col-sm-4 col-md-4 col-lg-4 " id="tempname_alert">
@@ -319,25 +321,12 @@
                                 <!--提示框-->
                             </div>
                             <div class="form-group pors">
-                                <label class="col-sm-3 col-lg-3 col-md-3 control-label text-muted">客户名称</label>
-                                <div class="col-sm-4">
-                                    <input type="text" v-model="CusSelect" class="form-control" placeholder="输入关键字搜索客户" readonly>
+                                <label class="col-sm-2 col-lg-2 col-md-2 col-sm-offset-2 col-lg-offset-2 col-md-offset-2 control-label text-muted">客户名称<i class="text-red">*</i> </label>
+                                <div class="col-sm-3">
+                                    <input type="text" v-model="CusSelect" class="form-control" placeholder="点击搜索搜索客户" readonly>
                                 </div>
-                                <div class="col-sm-1 col-md-1 col-md-1">
+                                <div class="col-sm-1 col-md-1 col-md-1 text-right">
                                     <button class="btn btn-info btn-sm searchBtn2">搜索</button>
-                                </div>
-                                <div class="col-sm-3 pors searchCompent2">
-                                    <input type="text" class="form-control searchShadow searchCus" placeholder="输入关键字搜索客户">
-                                    <ul class="input-list">
-                                        <li @click="selectCus(cus)" v-for="cus in CusList">
-                                            {{cus.custom_name}} {{cus.en_name}}
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="col-sm-1 text-left paddingLeft searchCompent2">
-                                    <button class="btn btn-default closeBtn2 searchShadow">
-                                        <i class="fa fa-close"></i>
-                                    </button>
                                 </div>
                                 <!--  提示框-->
                                 <div class="col-sm-4 col-md-4 col-lg-4 " id="clientname_alert">
@@ -346,7 +335,22 @@
                                 <!--提示框-->
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-3 col-lg-3 col-md-3 control-label text-muted">表格名称</label>
+                                <div class="col-sm-3 col-sm-offset-4 col-md-3 col-md-offset-4 col-lg-3 col-lg-offset-4 pors searchCompent2">
+                                    <input type="text" class="form-control searchShadow searchCus" placeholder="输入关键字搜索客户">
+                                    <ul class="input-list">
+                                        <li @click="selectCus(cus)" v-for="cus in CusList">
+                                            {{cus.custom_name}} {{cus.en_name}}
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="col-sm-1 text-right paddingLeft searchCompent2">
+                                    <button class="btn btn-default closeBtn2 searchShadow">
+                                        <i class="fa fa-close"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 col-lg-2 col-md-2 col-sm-offset-2 col-lg-offset-2 col-md-offset-2 control-label text-muted">表格名称<i class="text-red">*</i> </label>
                                 <div class="col-sm-4">
                                     <input type="text" v-model="tableName" class="form-control table-title" placeholder="表格名称">
                                 </div>
@@ -357,7 +361,7 @@
                                 <!--提示框-->
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-3 col-lg-3 col-md-3 control-label text-muted">产品类型</label>
+                                <label class="col-sm-2 col-lg-2 col-md-2 col-sm-offset-2 col-lg-offset-2 col-md-offset-2 control-label text-muted">产品类型<i class="text-red">*</i> </label>
                                 <div class="radio col-sm-1">
                                     <label>
                                         <input type="radio" v-model="tableType" name="optionsRadios" id="optionsRadios1" value="option1" checked>
@@ -372,7 +376,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-3 col-lg-3 col-md-3 control-label text-muted">产品数量</label>
+                                <label class="col-sm-2 col-lg-2 col-md-2 col-sm-offset-2 col-lg-offset-2 col-md-offset-2 control-label text-muted">产品数量<i class="text-red">*</i> </label>
                                 <div class="col-sm-4">
                                     <input type="number" min="1" v-model="product_count" class="form-control table-title" placeholder="产品数量">
                                 </div>
@@ -383,7 +387,7 @@
                                 <!--提示框-->
                             </div>
                             <div class="form-group" v-show="tableType=='option2'">
-                                <label class="col-sm-2 control-label text-muted">变体数量</label>
+                                <label class="ccol-sm-2 col-lg-2 col-md-2 col-sm-offset-2 col-lg-offset-2 col-md-offset-2 control-label text-muted">变体数量</label>
                                 <div class="col-sm-4">
                                     <input type="number" min="1" v-model="variant_num" class="form-control table-title" placeholder="变体数量">
                                 </div>
@@ -394,7 +398,7 @@
                                 <!--提示框-->
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-3 col-lg-3 col-md-3 control-label text-muted">状态</label>
+                                <label class="col-sm-2 col-lg-2 col-md-2 col-sm-offset-2 col-lg-offset-2 col-md-offset-2 control-label text-muted">状态</label>
                                 <div class="col-sm-4 col-lg-4 col-md-4">
                                     <select class="form-control" readonly>
                                         <option value="creat" selected>创建</option>
@@ -402,10 +406,10 @@
                                 </div>
                             </div>
                             <div class="form-group text-center marginTop">
-                                <div class="col-sm-5 col-lg-5 col-md-5 col-sm-offset-2">
+                                <div class="col-sm-12 col-lg-12 col-md-12">
                                     <button @click="saveTable" class="btn btn-primary">保存</button>
                                     <!-- 如果不是初次创建取消按钮将隐藏 -->
-                                    <button @click="cancel" class="btn btn-default col-sm-offset-1" >取消</button>
+                                    <button @click="cancel" class="btn btn-default mL-15" >取消</button>
                                 </div>
                             </div>
                         </div>

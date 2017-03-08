@@ -234,13 +234,13 @@
                                             <label class="col-sm-4 col-md-4 col-lg-4 ft-14">需要移动到的目录 <i class="text-red">*</i></label>
                                             <div class="col-sm-8 col-md-8 col-lg-8">
                                                 <div class="bootstrap-tagsinput height">
-                                                    <input type="text" class="form-control ft-14 searchShadow searchCate" v-model='aimkey' placeholder="点击搜索进行选择">
+                                                    <input type="text" class="form-control ft-14 searchShadow searchCate" v-model='aimkey' placeholder="输入关键字搜索点击下方输入框进行选择">
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <div class="col-sm-8 col-md-8 col-lg-8 pors searchCompent col-sm-offset-4 col-md-offset-4 col-lg-offset-4">
-                                                <select class="form-control searchShadow searchCate " v-model='aims_id'>
+                                                <select class="form-control searchShadow searchCate " v-model='aims_id' placeholder="点击进行选择">
                                                     <option v-for='aim in aimlist' value={{aim.id}}>{{aim.cn_name}}{{aim.en_name}}</option>
                                                 </select>
                                             </div>
@@ -252,7 +252,7 @@
                     </div>
                     <div class="modal-footer text-center">
                         <button @click='moveSelet' type="button" class="btn btn-primary">确定</button>
-                        <button type="button" class="btn btn-default ml-30" data-dismiss="modal">取消</button>
+                        <button type="button" class="btn btn-default mL-15" data-dismiss="modal">取消</button>
                     </div>
                 </div>
             </div>
@@ -341,10 +341,10 @@
                         </div>
                     </div>
                     <div class="modal-footer text-center" id="modal-footer-btn">
-                        <button @click='addnumtags' type="button" class="btn btn-info btn-md ft-12">
-                            确&nbsp;&nbsp;定
+                        <button @click='addnumtags' type="button" class="btn btn-primary btn-md ft-12">
+                            确定
                         </button>
-                        <button type="button" class="btn btn-default ml-15 btn-md ft-12" data-dismiss="modal">取&nbsp;&nbsp;消
+                        <button type="button" class="btn btn-default ml-15 btn-md ft-12" data-dismiss="modal">取消
                         </button>
                     </div>
                 </div>
@@ -482,7 +482,7 @@
                                         图片尺寸(宽X高):{{data.width}}X{{data.height}}
                                     </li>
                                     <li class="list-group-item list-group-item-success">
-                                        创建人:{{data.creator_id}}
+                                        创建人:{{data.username}}
                                     </li>
                                 </ul>
                             </div>
@@ -569,7 +569,9 @@
             <div class="modal-content">
                 <div class="modal-header bg-primary">
                     <h5 class="modal-title ft-16">增加图片目录</h5>
-                    <button type="button" class="close close-positon" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i class="fa fa-close text-red"></i></span></button>
+                    <button type="button" class="close close-positon" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"><i class="fa fa-close text-red"></i></span>
+                    </button>
                 </div>
                 <div class="modal-body">
                     <div class="container-fluid">
@@ -577,7 +579,7 @@
                             <div class="col-sm-12 col-md-12 col-lg-12">
                                 <div class="form-horizontal">
                                     <div class="form-group text-right line-height-34">
-                                        <label class="col-sm-3 ft-14">添加标签 <i class="text-red">*</i></label>
+                                        <label class="col-sm-3 ft-14">中文名 <i class="text-red">*</i></label>
                                         <div class="col-sm-8 ">
                                             <div class="bootstrap-tagsinput height">
                                                 <input type="text" class="form-control ft-14" v-model='cn_name' placeholder="请输入目录中文名">
@@ -587,10 +589,10 @@
                                 </div>
                                 <div class="form-horizontal">
                                     <div class="form-group text-right line-height-34">
-                                        <label class="col-sm-3 ft-14">添加标签 <i class="text-red">*</i></label>
+                                        <label class="col-sm-3 ft-14">英文名 <i class="text-red">*</i></label>
                                         <div class="col-sm-8 ">
                                             <div class="bootstrap-tagsinput height">
-                                                <input type="text" class="form-control ft-14" v-model='en_name' placeholder="请输入目录中文名">
+                                                <input type="text" class="form-control ft-14" v-model='en_name' placeholder="请输入目录英文名">
                                             </div>
                                         </div>
                                     </div>
@@ -600,7 +602,7 @@
                     </div>
                 </div>
                 <div class="modal-footer text-center">
-                    <button @click="addpicItem" class="btn btn-info ft-12" >提交</button>
+                    <button @click="addpicItem" class="btn btn-primary ft-12" >提交</button>
                     <button  class="btn btn-default ml-15 ft-12" data-dismiss="modal">取消</button>
                 </div>
             </div>
@@ -647,7 +649,7 @@
                 </div>
             </div>
             <div class="modal-footer text-center">
-                <button @click="changeItemAction" class="btn btn-info">保存</button>
+                <button @click="changeItemAction" class="btn btn-primary">保存</button>
                 <button  class="btn btn-default" data-dismiss="modal">取消</button>
             </div>
         </div>
