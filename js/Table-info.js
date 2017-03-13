@@ -681,6 +681,10 @@ var oTableInfo = new Vue({
         },
         //取消选择
         cancelTemp:function () {
+            var lis = $('#lists div');
+            for (var i = 0; i < lis.length; i++) {
+                lis[i].style.backgroundColor = "";
+            }
             this.temid = '';
             this.temp_name = '';
         }
@@ -844,8 +848,6 @@ function getPageData (vm,pageNow,search,num,type_code) {
 }
 //获取模板分页数据函数
 function getTempData (vm,pageNow,search,num_temp,type_code) {
-	console.log(pageNow);
-	console.log(num_temp);
     var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
     $.ajax({
         type:'POST',
