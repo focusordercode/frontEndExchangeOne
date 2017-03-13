@@ -232,7 +232,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-1 col-md-1 col-lg-1 text-right">
-                                                        <button class="btn btn-info btn-sm searchBtn">搜索</button>
+                                                        <button class="btn btn-info btn-sm searchBtn" id="blurInput">搜索</button>
                                                     </div>
                                                     <div class="col-sm-3 col-md-3 col-lg-3" id="al_role">
                                                         <div class="alert alert-danger new-alert" style="display: none" v-show="al_role" role="alert">请选择所属角色
@@ -242,8 +242,8 @@
                                                 <div class="form-group">
                                                     <div class="  col-md-offset-4 col-sm-offset-4 col-lg-offset-4">
                                                         <div class=" pors searchCompent col-sm-5 col-md-5 col-lg-5 ">
-                                                            <input type="text" class="form-control searchShadow searchCate " placeholder="输入关键字搜索类目">
-                                                            <ul class="cate-list">
+                                                            <input type="text" class="form-control searchShadow searchCate goSearch" id="searchField" placeholder="输入关键字搜索类目">
+                                                            <ul class="cate-list" id="searchInput">
                                                                 <template v-for="one in oneList" v-if="$index<=9" v-cloak>
                                                                     <li @click="selectOne(one)">
                                                                         {{one.name}}

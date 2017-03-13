@@ -2,27 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="57f4b822-3711-47c0-8cae-aadd8c62ed7d" name="默认的" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Table-batch.html" afterPath="$PROJECT_DIR$/Table-batch.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Table-info.html" afterPath="$PROJECT_DIR$/Table-info.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/batch-temp-creat.html" afterPath="$PROJECT_DIR$/batch-temp-creat.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/group.html" afterPath="$PROJECT_DIR$/group.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/info-temp-creat.html" afterPath="$PROJECT_DIR$/info-temp-creat.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/Table-batch.js" afterPath="$PROJECT_DIR$/js/Table-batch.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/Table-info.js" afterPath="$PROJECT_DIR$/js/Table-info.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/batch-temp-creat.js" afterPath="$PROJECT_DIR$/js/batch-temp-creat.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/database.js" afterPath="$PROJECT_DIR$/js/database.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/add_user.html" afterPath="$PROJECT_DIR$/add_user.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/add_user.js" afterPath="$PROJECT_DIR$/js/add_user.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/group.js" afterPath="$PROJECT_DIR$/js/group.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/info-temp-creat.js" afterPath="$PROJECT_DIR$/js/info-temp-creat.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/product-center.js" afterPath="$PROJECT_DIR$/js/product-center.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/serverUrl.js" afterPath="$PROJECT_DIR$/js/serverUrl.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/temp-batch-list.js" afterPath="$PROJECT_DIR$/js/temp-batch-list.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/temp-list.js" afterPath="$PROJECT_DIR$/js/temp-list.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/user-tracking.js" afterPath="$PROJECT_DIR$/js/user-tracking.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/product-center.html" afterPath="$PROJECT_DIR$/product-center.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/template-batch-list.html" afterPath="$PROJECT_DIR$/template-batch-list.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/template.html" afterPath="$PROJECT_DIR$/template.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/user-tracking.html" afterPath="$PROJECT_DIR$/user-tracking.html" />
     </list>
     <ignored path="kaifa.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -45,21 +27,9 @@
       <file leaf-file-name="temp-list.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/temp-list.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="512">
-              <caret line="486" column="7" lean-forward="true" selection-start-line="483" selection-start-column="4" selection-end-line="486" selection-end-column="7" />
+            <state relative-caret-position="728">
+              <caret line="494" column="7" lean-forward="true" selection-start-line="483" selection-start-column="3" selection-end-line="494" selection-end-column="7" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="user-tracking.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/js/user-tracking.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1214">
-              <caret line="399" column="7" lean-forward="true" selection-start-line="392" selection-start-column="4" selection-end-line="399" selection-end-column="7" />
-              <folding>
-                <element signature="e#11381#12485#0" expanded="false" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -101,8 +71,8 @@
       <file leaf-file-name="group.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/group.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="40">
-              <caret line="295" column="132" lean-forward="false" selection-start-line="295" selection-start-column="132" selection-end-line="295" selection-end-column="132" />
+            <state relative-caret-position="688">
+              <caret line="434" column="119" lean-forward="true" selection-start-line="434" selection-start-column="119" selection-end-line="434" selection-end-column="119" />
               <folding>
                 <element signature="n#style#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#div#2;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#div#2;n#div#0;n#div#2;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="false" />
@@ -131,29 +101,40 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="serverUrl.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/js/serverUrl.js">
+      <file leaf-file-name="group.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/group.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="54">
-              <caret line="2" column="0" lean-forward="false" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
+            <state relative-caret-position="889">
+              <caret line="481" column="38" lean-forward="false" selection-start-line="481" selection-start-column="38" selection-end-line="481" selection-end-column="38" />
+              <folding>
+                <element signature="e#62#940#0" expanded="false" />
+                <element signature="e#1138#9536#0" expanded="false" />
+                <element signature="e#9620#9826#0" expanded="false" />
+                <element signature="e#10932#11887#0" expanded="false" />
+                <element signature="e#11928#12745#0" expanded="false" />
+                <element signature="n#!!block;n#getroleid#0" expanded="false" />
+                <element signature="n#!!block;n#getlist#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="add_user.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/js/add_user.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="917">
+              <caret line="179" column="6" lean-forward="false" selection-start-line="179" selection-start-column="2" selection-end-line="179" selection-end-column="6" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="group.js" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/js/group.js">
+      <file leaf-file-name="add_user.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/add_user.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-621">
-              <caret line="484" column="26" lean-forward="false" selection-start-line="484" selection-start-column="26" selection-end-line="484" selection-end-column="26" />
-              <folding>
-                <element signature="e#62#940#0" expanded="false" />
-                <element signature="e#1138#9536#0" expanded="false" />
-                <element signature="e#9620#9826#0" expanded="false" />
-                <element signature="e#10952#12030#0" expanded="false" />
-                <element signature="n#!!block;n#getroleid#0" expanded="false" />
-                <element signature="n#!!block;n#getlist#0" expanded="false" />
-              </folding>
+            <state relative-caret-position="566">
+              <caret line="244" column="131" lean-forward="false" selection-start-line="244" selection-start-column="131" selection-end-line="244" selection-end-column="131" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -218,8 +199,6 @@
         <option value="$PROJECT_DIR$/js/organization.js" />
         <option value="$PROJECT_DIR$/js/admin-permissions.js" />
         <option value="$PROJECT_DIR$/Permissions.html" />
-        <option value="$PROJECT_DIR$/add_user.html" />
-        <option value="$PROJECT_DIR$/js/add_user.js" />
         <option value="$PROJECT_DIR$/usermessage.html" />
         <option value="$PROJECT_DIR$/partition.html" />
         <option value="$PROJECT_DIR$/js/pic-category.js" />
@@ -251,6 +230,8 @@
         <option value="$PROJECT_DIR$/batch-temp-creat.html" />
         <option value="$PROJECT_DIR$/js/group.js" />
         <option value="$PROJECT_DIR$/group.html" />
+        <option value="$PROJECT_DIR$/js/add_user.js" />
+        <option value="$PROJECT_DIR$/add_user.html" />
       </list>
     </option>
   </component>
@@ -292,20 +273,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="frontEndExchangeOne" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="kaifa" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="frontEndExchangeOne" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="js" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -431,7 +398,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="139739000" />
+    <option name="totallyTimeSpent" value="141198000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -439,7 +406,7 @@
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.125" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32980973" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -581,20 +548,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1917">
           <caret line="134" column="71" lean-forward="false" selection-start-line="134" selection-start-column="71" selection-end-line="134" selection-end-column="71" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/add_user.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4266">
-          <caret line="158" column="26" lean-forward="false" selection-start-line="158" selection-start-column="26" selection-end-line="158" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/add_user.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6723">
-          <caret line="249" column="52" lean-forward="false" selection-start-line="249" selection-start-column="52" selection-end-line="252" selection-end-column="58" />
         </state>
       </provider>
     </entry>
@@ -858,22 +811,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/temp-list.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="512">
-          <caret line="486" column="7" lean-forward="true" selection-start-line="483" selection-start-column="4" selection-end-line="486" selection-end-column="7" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/control.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="727">
-          <caret line="43" column="1" lean-forward="true" selection-start-line="43" selection-start-column="1" selection-end-line="43" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/batch-temp-creat.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="674">
@@ -912,8 +849,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/group.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="40">
-          <caret line="295" column="132" lean-forward="false" selection-start-line="295" selection-start-column="132" selection-end-line="295" selection-end-column="132" />
+        <state relative-caret-position="688">
+          <caret line="434" column="119" lean-forward="true" selection-start-line="434" selection-start-column="119" selection-end-line="434" selection-end-column="119" />
           <folding>
             <element signature="n#style#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#div#2;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#div#2;n#div#0;n#div#2;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="false" />
@@ -923,16 +860,49 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/group.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-621">
-          <caret line="484" column="26" lean-forward="false" selection-start-line="484" selection-start-column="26" selection-end-line="484" selection-end-column="26" />
+        <state relative-caret-position="889">
+          <caret line="481" column="38" lean-forward="false" selection-start-line="481" selection-start-column="38" selection-end-line="481" selection-end-column="38" />
           <folding>
             <element signature="e#62#940#0" expanded="false" />
             <element signature="e#1138#9536#0" expanded="false" />
             <element signature="e#9620#9826#0" expanded="false" />
-            <element signature="e#10952#12030#0" expanded="false" />
+            <element signature="e#10932#11887#0" expanded="false" />
+            <element signature="e#11928#12745#0" expanded="false" />
             <element signature="n#!!block;n#getroleid#0" expanded="false" />
             <element signature="n#!!block;n#getlist#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/control.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="727">
+          <caret line="43" column="1" lean-forward="true" selection-start-line="43" selection-start-column="1" selection-end-line="43" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/temp-list.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="728">
+          <caret line="494" column="7" lean-forward="true" selection-start-line="483" selection-start-column="3" selection-end-line="494" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/add_user.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="566">
+          <caret line="244" column="131" lean-forward="false" selection-start-line="244" selection-start-column="131" selection-end-line="244" selection-end-column="131" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/add_user.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="917">
+          <caret line="179" column="6" lean-forward="false" selection-start-line="179" selection-start-column="2" selection-end-line="179" selection-end-column="6" />
+          <folding />
         </state>
       </provider>
     </entry>
