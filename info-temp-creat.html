@@ -178,7 +178,7 @@
                     </div>
                     <div class="panel-body">
                         <div class="col-md-10 col-sm-offset-2 col-md-offset-2 col-lg-offset-2">
-                            <div class="form-horizontal  ">
+                            <div class="form-horizontal ">
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">中文名 <i class="text-red">*</i> </label>
                                     <div class="col-sm-5">
@@ -203,7 +203,7 @@
                                         <input type="text" v-model="proSelected" placeholder="点击搜索选择类目" class="form-control" readonly>
                                     </div>
                                     <div class="col-sm-1">
-                                        <button class="btn btn-info btn-sm searchBtn">搜索</button>
+                                        <button class="btn btn-info btn-sm searchBtn" id="blurInput">搜索</button>
                                     </div>
                                     <div class="col-sm-4 col-md-4 col-lg-4 " id="tempname_alert">
                                         <div class="alert alert-danger new-alert" style="display:none" v-show="tempname_alert">类名不能为空</div>
@@ -211,8 +211,8 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="col-sm-4 col-sm-offset-2 pors searchCompent">
-                                        <input type="text" class="form-control searchShadow searchCate" placeholder="输入关键字搜索类目">
-                                        <ul class="cate-list">
+                                        <input type="text" class="form-control searchShadow searchCate goSearch" placeholder="输入关键字搜索类目" id="searchField">
+                                        <ul class="cate-list" id="searchInput">
                                             <li @click="selectCate(pro)" v-for="pro in proList" v-cloak>
                                                 {{pro.cn_name}} {{pro.en_name}}
                                             </li>

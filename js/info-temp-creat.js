@@ -131,12 +131,25 @@ $(function(){
     $('.searchBtn').on('click',function(){
         $('.searchCompent').show();
         $('#tempname_alert').hide();
+        $('#searchInputa').show();
     });
     $('.closeBtn').on('click',function(){
         $('.searchCompent').hide();
     })
-})
-
+});
+//搜索类目列表隐藏
+$('.goSearch').on('click',function(){
+    $('#searchInput').show();
+    $('#searchField').focus();
+});
+$('body').bind('click', function(event) {
+    // IE支持 event.srcElement ， FF支持 event.target
+    var evt = event.srcElement ? event.srcElement : event.target;
+    if(evt.id == 'blurInput'|| evt.id == 'searchInput'||evt.id == 'searchField') return; // 如果是元素本身，则返回
+    else {
+        $('#searchInput').hide(); // 如不是则隐藏元素
+    }
+});
 //搜索类目
 $('.searchCate').on('keyup',function(){
     var getWidth = $('.pors .cate-list').prev('.form-control').innerWidth();
@@ -174,3 +187,4 @@ $('.searchCate').on('keyup',function(){
         }
     })
 });
+

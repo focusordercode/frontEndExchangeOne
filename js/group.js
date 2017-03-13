@@ -50,7 +50,7 @@ Vue.filter('staFlilter',function(value){
     	str = "启用";
     }
     return str;
-})
+});
 
 var rolegroup = new Vue({
 	el:'body',
@@ -396,7 +396,7 @@ var rolegroup = new Vue({
 		})
 		}
 	}
-})
+});
 //刷新函数
 function windowFresh(){
     location.reload(true);
@@ -411,9 +411,75 @@ $(function(){
     $('.closeBtn').on('click',function(){
         $('.searchCompent').hide();
     })
-})
+});
+
+//搜索列表隐藏
+$('.goSearch').on('click',function(){
+    $('#searchInput').show();
+    $('#searchField').focus();
+});
+$('.goSearcha').on('click',function(){
+    $('#searchInputa').show();
+    $('#searchFielda').focus();
+});
+$('body').bind('click', function(event) {
+    // IE支持 event.srcElement ， FF支持 event.target
+    var evt = event.srcElement ? event.srcElement : event.target;
+    if(evt.id == 'blurInput'|| evt.id == 'searchInput'||evt.id == 'searchField') return; // 如果是元素本身，则返回
+    else {
+        $('#searchInput').hide(); // 如不是则隐藏元素
+    }
+    if(evt.id == 'blurInputa'|| evt.id == 'searchInputa'||evt.id == 'searchFielda') return; // 如果是元素本身，则返回
+    else {
+        $('#searchInputa').hide(); // 如不是则隐藏元素
+    }
+});
+/*$('body').bind('click', function(event) {
+    // IE支持 event.srcElement ， FF支持 event.target
+    var evt = event.srcElement ? event.srcElement : event.target;
+    if(evt.id == 'blurInputa'|| evt.id == 'searchInputa'||evt.id == 'searchFielda') return; // 如果是元素本身，则返回
+    else {
+        $('#searchInputa').hide(); // 如不是则隐藏元素
+    }
+});*/
 
 //搜索机构
+
+function searchCate(id) {
+    $('.id').on('keyup',function(){
+        var getWidth = $('.pors .cate-list').prev('.form-control').innerWidth();
+        $('.pors .cate-list').css('width',getWidth);
+        var searchCusVal = $('.searchCate').val();
+        $.ajax({
+            type:'POST',
+            url:serverUrl+'search/org',
+            datatype:'json',
+            data:{
+                key:oKey,
+                user_id:token,
+                searchText:searchCusVal
+            },
+            success:function(data){
+                if(data.status == 100){
+                    rolegroup.oneList = data.value;
+                }else if(data.status==1012){
+                    layer.msg('请先登录',{time:2000});
+
+                    setTimeout(function(){
+                        jumpLogin(loginUrl,NowUrl);
+                    },2000);
+                }else if(data.status==1011){
+                    layer.msg('权限不足,请跟管理员联系');
+                }else{
+                    rolegroup.oneList = '';
+                }
+            },
+            error:function(jqXHR){
+                layer.msg('向服务器请求搜索机构失败');
+            }
+        })
+    });
+}
 $('.searchCate').on('keyup',function(){
 	var getWidth = $('.pors .cate-list').prev('.form-control').innerWidth();
 	$('.pors .cate-list').css('width',getWidth);

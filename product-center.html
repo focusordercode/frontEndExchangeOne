@@ -82,7 +82,7 @@
                                         <input type="text" v-model="search.keyword" placeholder="输入中文、英文名称" class="form-control">
                                     </div>
                                     <div class="col-md-1">
-                                        <div class="form-group seachListFa">
+                                        <div class="form-group seachListFa" id="blurInput">
                                             <div class="input-group">
                                                   <input type="text" v-model="search.cate_name" placeholder="输入关键字选择类目" class="form-control goSearch" id="searchField">
                                                   <div class="input-group-addon" v-show="search.cateId" @click="cancelCate">
@@ -90,7 +90,7 @@
                                                   </div>
                                             </div>
                                             <div class="container">
-                                                <div class="row seachList">
+                                                <div class="row seachList" id="searchInput">
                                                     <ul class=" col-md-12 col-lg-12">
                                                         <li @click="selectCate(pro)" v-for="pro in proList">
                                                             {{pro.cn_name}} {{pro.en_name}}

@@ -284,7 +284,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-1 text-right">
-                                                            <button class="btn btn-info btn-sm searchBtn">搜索</button>
+                                                            <button class="btn btn-info btn-sm searchBtn" id="blurInputa">搜索</button>
                                                         </div>
                                                         <!--提示-->
                                                         <div class="col-sm-3 col-md-3 col-lg-3" id="org_alert">
@@ -293,8 +293,8 @@
                                                     </div>
                                                     <div class="form-group">
                                                         <div class="col-sm-4 col-md-offset-3 pors searchCompent">
-                                                            <input type="text" class="form-control searchShadow searchCate " placeholder="输入关键字搜索类目">
-                                                            <ul class="cate-list">
+                                                            <input type="text" class="form-control searchShadow searchCate goSearcha" id="searchFielda" placeholder="输入关键字搜索类目">
+                                                            <ul class="cate-list" id="searchInputa">
                                                                 <template v-for="one in oneList" v-if="$index<=9">
                                                                     <li @click="selectOne(one)" v-cloak>
                                                                         {{one.name}}
@@ -426,14 +426,14 @@
                                                 </div>
                                             </div>
                                             <div class="col-sm-2 col-md-2 col-lg-2">
-                                                <button class="btn btn-info btn-sm searchBtn">搜索</button>
+                                                <button class="btn btn-info btn-sm searchBtn" id="blurInput">搜索</button>
                                             </div>
                                         </div>
                                       <!--  搜索框-->
                                         <div class="form-group">
                                             <div class="col-sm-6 col-md-6 col-lg-6 pors searchCompent col-sm-offset-3 col-md-offset-3 col-lg-offset-3">
-                                                <input type="text" class="form-control searchShadow searchCate " placeholder="输入关键字搜索类目">
-                                                <ul class="cate-list">
+                                                <input type="text" class="form-control searchShadow searchCate goSearch" placeholder="输入关键字搜索类目" id="searchField">
+                                                <ul class="cate-list" id="searchInput">
                                                     <template v-for="one in oneList" v-if="$index<=9">
                                                         <li @click="selectOned(one)">
                                                             {{one.name}}

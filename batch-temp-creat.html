@@ -225,7 +225,7 @@
                                             <input type="text" v-model="proName" placeholder="点击搜索选择类目" class="form-control" readonly>
                                         </div>
                                         <div class="col-sm-1">
-                                            <button class="btn btn-info btn-sm searchBtn">搜索</button>
+                                            <button class="btn btn-info btn-sm searchBtn" id="blurInput">搜索</button>
                                         </div>
                                         <!--提示框-->
                                         <div class="col-sm-5 col-md-5 col-lg-5 " id="name_alert">
@@ -235,8 +235,8 @@
                                     </div>
                                     <div class="form-group">
                                         <div class="col-sm-3 col-md-offset-2 pors searchCompent">
-                                            <input type="text" class="form-control searchShadow searchCate" placeholder="输入关键字搜索类目">
-                                            <ul class="cate-list">
+                                            <input type="text" class="form-control searchShadow searchCate goSearch" placeholder="输入关键字搜索类目" id="searchField">
+                                            <ul class="cate-list" id="searchInput">
                                                 <li v-for="pro in proList" @click="selectCate(pro)">
                                                     {{pro.cn_name}}　{{pro.en_name}}
                                                 </li>

@@ -121,12 +121,12 @@
                                     <div class="col-sm-4">
                                         <input type="text" v-model="searchFeild.uidName" placeholder="选择用户" class="form-control" readonly>
                                     </div>
-                                    <div class="col-sm-1 search-usrbtn">
-                                        <button class="btn btn-info btn-sm searchBtn">搜索用户</button>
+                                    <div class="col-sm-1 search-usrbtn" >
+                                        <button class="btn btn-info btn-sm searchBtn" id="blurInput">搜索用户</button>
                                     </div>
-                                    <div class="col-sm-3 pors searchCompent">
-                                        <input type="text" class="form-control searchShadow searchCate" placeholder="搜索用户">
-                                        <ul class="cate-list">
+                                    <div class="col-sm-3 pors searchCompent" >
+                                        <input type="text" class="form-control searchShadow searchCate" placeholder="搜索用户" id="searchField">
+                                        <ul class="cate-list" id="searchInput">
                                             <li @click="selectusr(usr)" v-for="usr in users">
                                                 {{usr.username}}
                                             </li>
