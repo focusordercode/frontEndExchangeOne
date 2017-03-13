@@ -37,7 +37,7 @@
         .funkyradio input[type="checkbox"]:empty ~ label {
           position: relative;
           line-height: 2.5em;
-          text-indent: 3.25em;
+          text-indent: 2.25em;
           margin-top: 0.5em;
           cursor: pointer;
           -webkit-user-select: none;
@@ -286,7 +286,7 @@
                                     <button class="btn btn-info btn-sm searchBtn">搜索</button>
                                 </div>
                                 <!--  提示框-->
-                                <div class="col-sm-4 col-md-4 col-lg-4 " id="catename_alert">
+                                <div class="col-sm-3 col-md-3 col-lg-3 " id="catename_alert">
                                     <div class="alert alert-danger new-alert" style="display: none" v-show="catename_alert">类目不能为空</div>
                                 </div>
                                 <!--提示框-->
@@ -307,15 +307,15 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-2 col-lg-2 col-md-2 col-sm-offset-2 col-lg-offset-2 col-md-offset-2 control-label text-muted">选择模板</label>
+                                <label class="col-sm-2 col-lg-2 col-md-2 col-sm-offset-2 col-lg-offset-2 col-md-offset-2 control-label text-muted">选择模板<i class="text-red">*</i></label>
                                 <div class="col-sm-3">
                                     <input type="text"  v-model="MBselected" class="form-control" placeholder="选择模板" readonly>
                                 </div>
                                 <div class="col-sm-1 col-md-1 col-lg-1">
-                                    <button @click="selectMB" class="btn btn-default btn-sm">选择模板<i class="text-red">*</i> </button>
+                                    <button @click="selectMB" class="btn btn-default btn-sm">选择模板 </button>
                                 </div>
                                 <!--  提示框-->
-                                <div class="col-sm-4 col-md-4 col-lg-4 " id="tempname_alert">
+                                <div class="col-sm-3 col-md-3 col-lg-3 " id="tempname_alert">
                                     <div class="alert alert-danger new-alert" style="display: none" v-show="tempname_alert">模板不能为空</div>
                                 </div>
                                 <!--提示框-->
@@ -329,7 +329,7 @@
                                     <button class="btn btn-info btn-sm searchBtn2">搜索</button>
                                 </div>
                                 <!--  提示框-->
-                                <div class="col-sm-4 col-md-4 col-lg-4 " id="clientname_alert">
+                                <div class="col-sm-3 col-md-3 col-lg-3 " id="clientname_alert">
                                     <div class="alert alert-danger new-alert" style="display: none" v-show="clientname_alert">客户名称不能为空</div>
                                 </div>
                                 <!--提示框-->
@@ -355,7 +355,7 @@
                                     <input type="text" v-model="tableName" class="form-control table-title" placeholder="表格名称">
                                 </div>
                                 <!--  提示框-->
-                                <div class="col-sm-5 col-md-5 col-lg-5 " id="tablename_alert">
+                                <div class="col-sm-3 col-md-3 col-lg-3 " id="tablename_alert">
                                     <div class="alert alert-danger new-alert" style="display: none" v-show="tablename_alert">表格名称不能为空</div>
                                 </div>
                                 <!--提示框-->
@@ -381,7 +381,7 @@
                                     <input type="number" min="1" v-model="product_count" class="form-control table-title" placeholder="产品数量">
                                 </div>
                                 <!--  提示框-->
-                                <div class="col-sm-5 col-md-5 col-lg-5 " id="number_alert">
+                                <div class="col-sm-3 col-md-3 col-lg-3 " id="number_alert">
                                     <div class="alert alert-danger new-alert" style="display: none" v-show="number_alert">产品数量不能为空</div>
                                 </div>
                                 <!--提示框-->
@@ -423,19 +423,19 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header bg-primary">
-                        <h4 class="modal-title text-center">选择模板</h4>
+                        <h4 class="modal-title ft-16">选择模板</h4>
                         <button type="button" class="close close-positon" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i class="fa fa-close"></i></span></button>
                     </div>
                     <div class="modal-body">
                         <div class="container-fluid">
                             <div class="row">
                                 <div class="col-md-10 col-md-offset-1">
-                                    <!-- <div class="col-md-6">
+                                     <div class="col-md-10">
                                         <div class="form-group">
                                             <input type="text" v-model="MBkeyword" placeholder="输入关键字搜索模板" class="form-control">
                                         </div>
                                     </div>
-                                    <button @click="searchMB" class="btn btn-primary">搜索</button> -->
+                                    <button @click="searchMB" class="btn btn-primary">搜索</button>
                                     
                                     <div class="funkyradio">
                                         <div class="funkyradio">
@@ -447,12 +447,15 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <hr>
-                                    <button @click="selectedMB" class="btn btn-primary">确定</button>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <div class="modal-footer">
+                        <button @click="selectedMB" class="btn btn-primary">确定</button>
+                        <button data-dismiss="modal" class="btn btn-default">取消</button>
+                    </div>
+
                 </div>
             </div>
         </div>

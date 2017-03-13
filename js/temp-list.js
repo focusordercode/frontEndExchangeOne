@@ -40,6 +40,7 @@ var tempList = new Vue({
                 num:num
             },
             success: function(data){
+                console.log(data);
                 layer.close(LoadIndex); //关闭遮罩层
                 if(data.status==100){
                     tempList.temp = data.value;
@@ -100,8 +101,8 @@ var tempList = new Vue({
             this.search.cateId = pro.id;
             this.proList = '';
             //清除值，隐藏框
-            $('.searchField').val('');
-            $('.searchInput').hide();
+            $('#searchField').val('');
+            $('#searchInput').hide();
             $('.modal-backdrop').hide();
         },
         // 取消选中类目
@@ -169,7 +170,7 @@ var tempList = new Vue({
             if(pageNow<=1){
                 layer.msg('没有上一页啦');
             }else{
-                pageNow--
+                pageNow--;
                 var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
                 getPageData (vm,pageNow,search,num,type_code);
             }
@@ -183,7 +184,7 @@ var tempList = new Vue({
             if(pageNow==countPage){
                 layer.msg('没有下一页啦');
             }else{
-                pageNow++
+                pageNow++;
                 getPageData (vm,pageNow,search,num,type_code);
             }
         },
@@ -445,8 +446,8 @@ $('.temp-list .creatMB').click(function(){
 
 $(document).ready(function(){
     //模糊搜索类目
-    $('.searchField').on('keyup',function(){
-        var searchCusVal = $('.searchField').val();
+    $('#searchField').on('keyup',function(){
+        var searchCusVal = $('#searchField').val();
         if(searchCusVal){
             $.ajax({
                 type:'POST',
@@ -483,8 +484,8 @@ $(document).ready(function(){
     $('.goSearch').on('click',function(){
         $('.searchInput').show();
         $('.modal-backdrop').show();
-        $('.searchField').focus();
-    })
+        $('#searchField').focus();
+    });
     $('.modal-backdrop').on('click',function(){
         $('.searchInput').hide();
         $('.modal-backdrop').hide();

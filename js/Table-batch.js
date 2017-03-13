@@ -1,6 +1,7 @@
 console.log(serverUrl); //后端接口地址
 var search = serverUrl+"index.php/vague/name"; //模糊搜索地址
 var num = 25;//每页展示个数
+var num_temp = 12; //模板每页展示个数
 
 var type_code = 'batch';
 
@@ -26,6 +27,10 @@ var oTableInfo = new Vue({
 		},
 		temid:'',//模板ID
 		alltem:'',//所有的模板
+        allTemp:'',//所有模板分页
+        count_temp:'' ,//模板页数
+        countPage_temp:'' ,//总页数
+        pageNow_temp:'' ,//当前页
 		nowsort:'asc',//初始的状态
     	nowname:'',//目前选择的排序模块
 		alluser:[],//供选择的用户
@@ -80,7 +85,7 @@ var oTableInfo = new Vue({
 		    	layer.close(LoadIndex); //关闭遮罩层
 		        layer.msg('向服务器获取信息失败');
 		    }
-		})
+		});
 		$.ajax({
 			type:'POST',
 			url:serverUrl+'vague/templatename',
@@ -110,7 +115,44 @@ var oTableInfo = new Vue({
 			error:function(jqXHR){
 				layer.msg('向服务器请求模板失败');
 			}
-		})
+		});
+        //模板列表-分页
+        $.ajax({
+            type: "POST",
+            url: serverUrl+"get/temvalue", //添加请求地址
+            dataType: "json",
+            data:{
+                key:oKey,
+                user_id:token,
+                type_code:type_code,
+                num:num_temp
+            },
+            success: function(data){
+                console.log(data);
+                oTableInfo.allTemp = data.value;
+                oTableInfo.count_temp = data.count;
+                oTableInfo.countPage_temp = data.countPage;
+                oTableInfo.pageNow_temp = data.pageNow;
+                layer.close(LoadIndex); //关闭遮罩层
+                if(data.status==100){
+                    vm.allTemp = data.value;
+                    console.log( vm.allTemp);
+                }else if(data.status==1012){
+                    layer.msg('请先登录',{time:2000});
+                    setTimeout(function(){
+                        jumpLogin(loginUrl,NowUrl);
+                    },2000);
+                }else if(data.status==1011){
+                    layer.msg('权限不足,请跟管理员联系');
+                }else{
+                    layer.msg(data.msg);
+                }
+            },
+            error: function(jqXHR){
+                layer.close(LoadIndex); //关闭遮罩层
+                layer.msg('从服务器获取模板列表信息失败');
+            }
+        })
 	},
 	computed:{
 		//三个按钮状态
@@ -157,7 +199,7 @@ var oTableInfo = new Vue({
             get: function() {
                 return this.selectedArr.length;
             }
-        },
+        }
 	},
 	methods:{
 		//删除
@@ -391,7 +433,7 @@ var oTableInfo = new Vue({
 		    this.searchFeild.cateId = pro.id;
 		    this.proList = '';
 		    //清除值，隐藏框
-		    $('.searchField').val('');
+		    $('#searchField').val('');
 		    $('.searchInput').hide();
 		    $('.modal-backdrop').hide();
 		},
@@ -559,9 +601,67 @@ var oTableInfo = new Vue({
 		    }else{
 		    	layer.msg('不能为空');
 		    }
-		}
+		},
+        goJump: function () {
+            var jump = this.jump;
+            var countPage = this.countPage;
+            var search = this.searchResult;
+            var vm = this;
+            if (jump > countPage) {
+                layer.msg('大于总页数啦');
+                vm.jump = '';
+            } else if (jump <= 0) {
+                layer.msg('页码错误');
+                vm.jump = '';
+            } else {
+                getPageData(vm, jump, search, num, type_code);
+                vm.jump = '';
+            }
+        },
+        //模板列表上一页
+        goPrePageTemp: function () {
+            var pageNow = this.pageNow_temp;
+            var search = this.searchResult;
+            var vm = this;
+            if (pageNow <= 1) {
+                layer.msg('没有上一页啦');
+            } else {
+                pageNow--;
+                var LoadIndex = layer.load(3, {shade: [0.3, '#000']}); //开启遮罩层
+                getTempData(vm, pageNow, search, num_temp, type_code);
+            }
+        },
+        //模板列表下一页
+        goNextPageTemp: function () {
+            var pageNow = this.pageNow_temp;
+            var countPage = this.countPage_temp;
+            var search = this.searchResult;
+            var vm = this;
+            if (pageNow == countPage) {
+                layer.msg('没有下一页啦');
+            } else {
+                pageNow++;
+                getTempData(vm, pageNow, search, num_temp, type_code);
+            }
+        },
+        selectTemp: function (event,id,name) {
+            var vm = this;
+            var lis = $('#lists div');
+            for (var i = 0; i < lis.length; i++) {
+                lis[i].style.backgroundColor = "";
+            }
+            event.target.style.backgroundColor = "#dff0d8";
+            vm.temid = id;
+            vm.temp_name = name;
+            console.log(vm.temid);
+        },
+		cancelTemp:function () {
+                this.temid = '';
+                this.temp_name = '';
+        }
+
 	}
-})
+});
 
 //Vue过滤器
 Vue.filter('statusCode', function (value) {
@@ -574,7 +674,7 @@ Vue.filter('statusCode', function (value) {
         case "halt": str = "终止";break;
     }
     return str;
-})
+});
 
 
 //Vue过滤器
@@ -610,7 +710,7 @@ Vue.filter('statusLink',function(value){
 		var str = 'javascript:'
 		return str
 	}
-})
+});
 
 //序号过滤器
 Vue.filter('ListNum',function(value){
@@ -622,7 +722,7 @@ Vue.filter('ListNum',function(value){
     	str = (pageNow-1)*num+str+1;
     }
     return str
-})
+});
 
 //删除按钮
 Vue.filter('deleteBtn',function(value){
@@ -634,7 +734,7 @@ Vue.filter('deleteBtn',function(value){
     }else {
         return str2
     }
-})
+});
 //时间选择框控件
 $(".date").datetimepicker({
     format: 'yyyy-mm-dd',
@@ -695,10 +795,58 @@ function getPageData (vm,pageNow,search,num,type_code) {
 	})
 }
 
+//获取模板分页数据函数
+function getTempData (vm,pageNow,search,num_temp,type_code) {
+    console.log(pageNow);
+    console.log(num_temp);
+    var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
+    $.ajax({
+        type:'POST',
+        url:serverUrl+'get/temvalue',
+        datatype:'json',
+        data:{
+            key:oKey,
+            user_id:token,
+            type_code:type_code,
+            next:pageNow,
+            num:num_temp,
+            vague:search.name,
+            category_id:search.cateId,
+            enabled:search.searchStatus
+        },
+        success:function(data){
+            console.log(data.value);
+            layer.close(LoadIndex); //关闭遮罩层
+            if(data.status==100){
+                vm.allTemp = data.value;
+                vm.count_temp = data.count;
+                vm.countPage_temp = data.countPage;
+                vm.pageNow_temp = data.pageNow;
+            }else if(data.status==101){
+                layer.msg('操作失败');
+            }else if(data.status==102){
+                layer.msg('参数错误');
+            }else if(data.status==1012){
+                layer.msg('请先登录',{time:2000});
+
+                setTimeout(function(){
+                    jumpLogin(loginUrl,NowUrl);
+                },2000);
+            }else if(data.status==1011){
+                layer.msg('权限不足,请跟管理员联系');
+            }
+        },
+        error:function(jqXHR){
+            layer.close(LoadIndex); //关闭遮罩层
+            layer.msg('向服务器请求失败');
+        }
+    })
+}
+
 $(document).ready(function(){
 	//模糊搜索类目
-	$('.searchField').on('keyup',function(){
-	    var searchCusVal = $('.searchField').val();
+	$('#searchField').on('keyup',function(){
+	    var searchCusVal = $('#searchField').val();
 	    if(searchCusVal){
 	    	$.ajax({
 	    	    type:'POST',
@@ -731,6 +879,18 @@ $(document).ready(function(){
 	    }
 	});
 
+
+    //打开模板弹窗
+    $('#searchtemp').on('click',function() {
+        $('.selectMB').modal('show');
+        $('.selectMB').css('margin-top','150px');
+    });
+
+	//打开模板选择
+    $('#searchtemp').on('click',function() {
+        $('.selectMB').modal('show');
+        $('.selectMB').css('margin-top','150px');
+    });
 	//打开关闭搜索
 	$('.goSearch').on('click',function(){
 	    $('.searchInput').show();

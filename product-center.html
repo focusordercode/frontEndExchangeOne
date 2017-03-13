@@ -82,13 +82,23 @@
                                         <input type="text" v-model="search.keyword" placeholder="输入中文、英文名称" class="form-control">
                                     </div>
                                     <div class="col-md-1">
-                                        <div class="form-group">
+                                        <div class="form-group seachListFa">
                                             <div class="input-group">
-                                                  <input type="text" v-model="search.cate_name" placeholder="所属类目" class="form-control goSearch" readonly>
+                                                  <input type="text" v-model="search.cate_name" placeholder="输入关键字选择类目" class="form-control goSearch" id="searchField">
                                                   <div class="input-group-addon" v-show="search.cateId" @click="cancelCate">
                                                       <i class="fa fa-close"></i>
                                                   </div>
                                             </div>
+                                            <div class="container">
+                                                <div class="row seachList">
+                                                    <ul class=" col-md-12 col-lg-12">
+                                                        <li @click="selectCate(pro)" v-for="pro in proList">
+                                                            {{pro.cn_name}} {{pro.en_name}}
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+
                                         </div>
                                     </div>
                                     <div class="col-md-1">
@@ -117,7 +127,7 @@
         </div>
         
         <!-- 搜索类目功能 -->
-        <div class="container">
+      <!--  <div class="container">
             <div class="row">
                 <div class="searchInput">
                     <input type="text" class="searchField">
@@ -129,7 +139,7 @@
                     </ul>
                 </div>
             </div>
-        </div>
+        </div>-->
         
         <div class="container-fluid">
             <div class="row">
@@ -237,7 +247,7 @@
             </div>
         </div>
 
-        <div class="modal-backdrop modal-backdrop-search fade in"></div>
+
 
         <div class="container">
             <div class="row">

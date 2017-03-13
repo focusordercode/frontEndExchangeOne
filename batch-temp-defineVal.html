@@ -68,6 +68,10 @@
         .table .form-control {
             border-radius: 0;
         }
+        .main-width {
+            width: 1200px;
+            margin: auto;
+        }
     </style>
 </head>
     <body>
@@ -137,13 +141,11 @@
         
         <!-- 主内容区域 -->
         <div class="container-fluid">
-            <div class="row">
+            <div class="row main-width">
                 <div class="col-md-12">
                     <div class="panel panel-primary">
                         <div class="panel-heading">
-                            <h4>
-                                <b>定义批量表模板格式</b>
-                            </h4>
+                            <h4 class="ft-16">定义批量表模板格式</h4>
                         </div>
                         <div class="panel-body">
                             <div class="col-md-12">
@@ -330,7 +332,7 @@
                             <hr>
                             <div class="col-md-4 col-md-offset-4 text-center">
                                 <button @click="sendData" class="btn btn-primary">保存</button>
-                                <button class="btn btn-default" @click="takeBack">撤回</button>
+                                <button class="btn btn-default mL-15" @click="takeBack">撤回</button>
                             </div>
                         </div>
                     </div>

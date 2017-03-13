@@ -15,7 +15,7 @@ Vue.component('item', {
     computed: {
         isFolder: function() {
             return this.model.son && this.model.son.length
-        },
+        }
     },
     methods: {
         //点击展开子机构
@@ -36,7 +36,7 @@ Vue.component('item', {
                 id,
                 name,
                 introduce,
-                sonLen,
+                sonLen
             };
         }
     }

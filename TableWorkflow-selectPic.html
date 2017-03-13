@@ -163,11 +163,11 @@
                                     <!-- 图片 -->
                                     <div role="tabpanel" class="tab-pane fade" id="profile" aria-labelledby="profile-tab">
                                         <div class="row">
-                                            <div class="col-md-12">
+                                            <div class="col-md-10 col-md-offset-2">
                                                 <p class="clearfix">
                                                     <div class="form-horizontal">
                                                         <div class="form-group">
-                                                            <label class="col-sm-2 textLeft control-label text-primary">图片目录:</label>
+                                                            <label class="col-sm-2 text-right control-label text-primary">图片目录 <i class="text-red">*</i> </label>
                                                             <div class="col-sm-4">
                                                                 <div class="bootstrap-tagsinput hand">
                                                                     <span class="tag label label-info marr" v-for="cata in cataselect">
@@ -184,8 +184,8 @@
                                                 <p class="clearfix">
                                                     <div class="form-horizontal">
                                                         <div class="form-group">
-                                                            <label class="col-sm-2 textLeft control-label text-primary">图片标签(可选填):</label>
-                                                            <div class="col-sm-4">
+                                                            <label class="col-sm-2  control-label text-primary">图片标签(可选填)</label>
+                                                            <div class="col-sm-5">
                                                                 <input type="text" v-model="selectedTag" class="form-control" placeholder="输入标签，多个标签以“,”号隔开" >
                                                             </div>
                                                             <!-- <div class="col-sm-1">
@@ -197,8 +197,8 @@
                                                 <p class="clearfix">
                                                     <div class="form-horizontal">
                                                         <div class="form-group">
-                                                            <label class="col-sm-2 textLeft control-label text-primary">图片、产品重用比:</label>
-                                                            <div class="col-sm-1">
+                                                            <label class="col-sm-2 textLeft control-label text-primary">图片、产品重用比<i class="text-red">*</i> </label>
+                                                            <div class="col-sm-2">
                                                                 <select v-model="pic_rate" class="form-control">
                                                                     <option selected>1</option>
                                                                     <option >2</option>
@@ -212,7 +212,7 @@
                                                                     <option >10</option>
                                                                 </select>
                                                             </div>
-                                                            <div class="col-sm-1">
+                                                            <div class="col-sm-2 col-sm-offset-1 col-md-offset-1">
                                                                 <select v-model="pro_rate" class="form-control">
                                                                     <option selected>1</option>
                                                                     <option >2</option>
@@ -228,9 +228,9 @@
                                                     <div class="form-horizontal">
                                                         <div class="form-group">
                                                             <label class="col-sm-2 textLeft control-label text-primary">
-                                                                图片重用周期(月):
+                                                                图片重用周期(月) <i class="text-red">*</i>
                                                             </label>
-                                                            <div class="col-sm-1">
+                                                            <div class="col-sm-5 col-md-5">
                                                                 <select v-model="re_date" class="form-control">
                                                                     <option >1</option>
                                                                     <option >2</option>
@@ -245,7 +245,7 @@
                                                 <p class="clearfix">
                                                     <div class="form-horizontal">
                                                         <div class="form-group">
-                                                            <label class="col-sm-2 textLeft control-label text-primary">图片类型:</label>
+                                                            <label class="col-sm-2 control-label text-primary">图片类型<i class="text-red">*</i> </label>
                                                             <div class="col-sm-2">
                                                                 <select v-model="file_type" class="form-control">
                                                                     <option value="jpg" selected>jpg</option>
@@ -257,11 +257,11 @@
                                                         </div>
                                                     </div>
                                                 </p>
-                                                <p class="text-center">
-                                                    <div class="col-sm-3 col-sm-offset-2">
+                                                <p class="text-center" >
+                                                    <div class="col-sm-10 col-sm-offset-2" style="margin-top: 10px;">
                                                         <button @click="searchPic" :disabled="getPic" class="btn btn-info">自动选图</button>
-                                                        <button @click="resetData" class="btn btn-default">重置</button>
-                                                        <button @click="takeBack" class="btn btn-danger">撤销</button>
+                                                        <button @click="resetData" class="btn btn-default mL-15">重置</button>
+                                                        <button @click="takeBack" class="btn btn-danger mL-15">撤销</button>
                                                     </div>
                                                 </p>
                                             </div>
@@ -276,27 +276,14 @@
                                                         <div class="alert alert-warning" v-show="pro_zone">
                                                             请先补全图片
                                                         </div>
-                                                        <div class="form-horizontal">
+                                                        <div class="form-horizontal col-md-offset-1">
                                                             <div class="form-group">
-                                                                <label class="col-sm-2 control-label">所属类目:</label>
+                                                                <label class="col-sm-2 control-label">所属类目<i class="text-red">*</i> </label>
                                                                 <div class="col-sm-4">
-                                                                    <input id="pro_input" type="text" v-model="pro.cn_name" placeholder="选择类目" class="form-control" readonly>
+                                                                    <input id="pro_input" type="text" v-model="pro.cn_name" placeholder="点击搜索选择类目" class="form-control" readonly>
                                                                 </div>
                                                                 <div class="col-sm-1">
                                                                     <button class="btn btn-info btn-sm searchBtn">搜索</button>
-                                                                </div>
-                                                                <div class="col-sm-3 pors searchCompent">
-                                                                    <input type="text" class="form-control searchShadow searchCate" placeholder="输入关键字搜索类目">
-                                                                    <ul class="cate-list">
-                                                                        <li @click="selectCate(pro)" v-for="pro in proList" v-cloak>
-                                                                            {{pro.cn_name}} {{pro.en_name}}
-                                                                        </li>
-                                                                    </ul>
-                                                                </div>
-                                                                <div class="col-sm-1 text-left paddingLeft searchCompent">
-                                                                    <button class="btn btn-default closeBtn searchShadow">
-                                                                        <i class="fa fa-close"></i>
-                                                                    </button>
                                                                 </div>
                                                                     <!--提示-->
                                                                 <div class="col-sm-4 col-md-4 col-lg-4" id="proName_alert">
@@ -305,25 +292,27 @@
                                                                 <!--提示-->
                                                             </div>
                                                             <div class="form-group">
-                                                                <label class="col-sm-2 control-label">所属产品:</label>
-                                                                <div class="col-sm-4">
-                                                                    <input id="rel_input" type="text" z v-model="relate.cn_name" placeholder="选择产品" class="form-control" readonly>
-                                                                </div>
-                                                                <div class="col-sm-1">
-                                                                    <button class="btn btn-info btn-sm searchBtn2" :disabled="relateable"> 搜索
-                                                                    </button>
-                                                                </div>
-                                                                <div class="col-sm-3 pors searchCompent2">
-                                                                    <input type="text" class="form-control searchShadow searchCate2" placeholder="输入关键字搜索产品">
+                                                                <div class="col-sm-4 col-md-4 col-sm-offset-2 col-md-offset-2 pors searchCompent">
+                                                                    <input type="text" class="form-control searchShadow searchCate" placeholder="输入关键字搜索类目">
                                                                     <ul class="cate-list">
-                                                                        <li @click="selectRelate(relate)" v-for="relate in relateList" v-cloak>
-                                                                            {{relate.cn_name}} {{relate.en_name}}
+                                                                        <li @click="selectCate(pro)" v-for="pro in proList" v-cloak>
+                                                                            {{pro.cn_name}} {{pro.en_name}}
                                                                         </li>
                                                                     </ul>
                                                                 </div>
-                                                                <div class="col-sm-1 text-left paddingLeft searchCompent2">
-                                                                    <button class="btn btn-default closeBtn2 searchShadow">
+                                                                <div class="col-sm-1 text-right paddingLeft searchCompent">
+                                                                    <button class="btn btn-default closeBtn searchShadow">
                                                                         <i class="fa fa-close"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-sm-2 control-label">所属产品 <i class="text-red">*</i> </label>
+                                                                <div class="col-sm-4">
+                                                                    <input id="rel_input" type="text" v-model="relate.cn_name" placeholder="点击搜索选择产品" class="form-control" readonly>
+                                                                </div>
+                                                                <div class="col-sm-1">
+                                                                    <button class="btn btn-info btn-sm searchBtn2" :disabled="relateable"> 搜索
                                                                     </button>
                                                                 </div>
                                                                 <!--提示-->
@@ -332,8 +321,23 @@
                                                                 </div>
                                                                 <!--提示-->
                                                             </div>
+                                                            <div class="form-group">
+                                                                <div class="col-sm-4 col-sm-offset-2 col-md-4 col-md-offset-2 pors searchCompent2">
+                                                                    <input type="text" class="form-control searchShadow searchCate2" placeholder="输入关键字搜索产品">
+                                                                    <ul class="cate-list">
+                                                                        <li @click="selectRelate(relate)" v-for="relate in relateList" v-cloak>
+                                                                            {{relate.cn_name}} {{relate.en_name}}
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                                <div class="col-sm-1 text-right paddingLeft searchCompent2">
+                                                                    <button class="btn btn-default closeBtn2 searchShadow">
+                                                                        <i class="fa fa-close"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
                                                         </div>
-                                                        <div class="col-md-1 col-md-offset-3">
+                                                        <div class="col-md-10 text-center ">
                                                             <button @click="goRelate" class="btn btn-default" :disabled="pro_zone">关联</button>
                                                         </div>
                                                     </div>
@@ -536,7 +540,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header bg-primary">
-                        <h4 class="modal-title text-center">选择图片目录</h4>
+                        <h4 class="modal-title ft-16">选择图片目录</h4>
                         <button type="button" class="close close-positon" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i class="fa fa-close"></i></span></button>
                     </div>
                     <div class="modal-body">
@@ -555,6 +559,11 @@
                             </span>
                         </div>
                         </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" data-dismiss="modal" >确定</button>
+                        <button class="btn btn-default" data-dismiss="modal" >取消</button>
+
                     </div>
                 </div>
             </div>

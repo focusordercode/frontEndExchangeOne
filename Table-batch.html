@@ -43,6 +43,38 @@
         #text-cneter{
             text-align: center;
         }
+        .seachListFa .seachList{
+            position: absolute;
+            left: 15px;
+            padding-left: 0;
+            z-index: 10;
+            border-top: 1px solid #ccc;
+            border-right: 1px solid #ccc;
+            background-color: #fff;
+            border-left: 1px solid #ccc;
+            width: 100%;
+        }
+        .seachList ul{
+            list-style: none;
+            padding-left: 0px;
+            padding-right: 0px;
+            margin-bottom: 0px;
+
+
+        }
+        .seachList li{
+            padding-left: 15px;
+            padding-top: 5px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #ccc;
+        }
+        /*选择模板*/
+        .tempList{
+            text-align: center;
+            padding: 5px;
+            border: 1px solid #ccc;
+            margin-bottom: 5px;
+        }
     </style>
 </head>
     <body>
@@ -98,20 +130,32 @@
                                         <input type="text" v-model="searchFeild.keyword" placeholder="输入表格名称、客户名称" class="form-control">
                                     </div>
                                     <div class="col-md-1">
-                                        <div class="form-group">
-                                            <div class="input-group">
-                                                  <input type="text" v-model="searchFeild.cate_name" placeholder="选择类目" class="form-control goSearch" readonly>
+                                        <div class="form-group seachListFa" id="form-group">
+                                            <div class="input-group" >
+                                                  <input type="text" v-model="searchFeild.cate_name" placeholder="输入关键字选择类目" class="form-control goSearch" id="searchField">
                                                   <div class="input-group-addon" v-show="searchFeild.cateId" @click="cancelCate">
                                                       <i class="fa fa-close"></i>
                                                   </div>
                                             </div>
+                                            <div class="container">
+                                                <div class="row seachList">
+                                                    <ul class="col-md-12 col-lg-12" id="searchInput">
+                                                        <li @click="selectCate(pro)" v-for="pro in proList" v-cloak>
+                                                            {{pro.cn_name}} {{pro.en_name}}
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-md-1">
-                                        <select class="form-control" v-model="temid">
+                                        <div class="form-group text-center">
+                                            <input type="text" v-model="temp_name" placeholder="点击选择模板" class="form-control goSearch " id="searchtemp" readonly>
+                                        </div>
+                                       <!-- <select class="form-control" v-model="temid">
                                             <option  value="" selected>所属模板</option>
                                             <option :value="tem.id" v-for="tem in alltem">{{tem.cn_name}}</option>
-                                        </select>
+                                        </select>-->
                                     </div>
                                     <div class="col-md-1">
                                         <input size="16" type="text" v-model="searchFeild.startdate" readonly="" class="form-control date date1">
@@ -150,7 +194,7 @@
         </div>
 
         <!-- 搜索类目功能 -->
-        <div class="container">
+       <!-- <div class="container">
             <div class="row">
                 <div class="searchInput">
                     <input type="text" class="searchField">
@@ -160,6 +204,53 @@
                             {{pro.cn_name}} {{pro.en_name}}
                         </li>
                     </ul>
+                </div>
+            </div>
+        </div>-->
+
+        <!--选择模板-->
+        <div class="modal selectMB fade" >
+            <div class="modal-dialog" >
+                <div class="modal-content" >
+                    <div class="modal-header bg-primary" >
+                        <h4 class="modal-title ft-16">选择模板</h4>
+                        <button type="button" class="close close-positon" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i class="fa fa-close"></i></span></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="col-md-12">
+                            总页数:<strong class="text-warning">{{countPage_temp}}</strong>　
+                            当前页:<strong class="text-warning">{{pageNow_temp}}</strong>　
+                        </div>
+                        <div class="container-fluid">
+                            <div class="row ">
+                                <div class="col-md-10 col-md-offset-1" id="lists">
+
+                                    <div  v-for="tem in allTemp" @click.stop="selectTemp($event,tem.id,tem.cn_name)" class="col-md-6 tempList">
+                                        {{tem.cn_name}}
+                                    </div>
+
+                                </div>
+                                <div v-show="countPage_temp>1" class="container-fluid marginTop">
+                                    <div class="row">
+                                        <div class="col-md-12  text-center" v-cloak>
+                                            <div class="form-inline">
+                                                <div class="col-md-6">
+                                                    <button @click="goPrePageTemp"  class="btn btn-info">上一页</button>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <button @click="goNextPageTemp"  class="btn btn-success">下一页</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button data-dismiss="modal" class="btn btn-primary">确定</button>
+                        <button @click="cancelTemp" data-dismiss="modal" class="btn btn-default">取消</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -277,7 +368,7 @@
             </div>
         </div>
 
-        <div class="modal-backdrop modal-backdrop-search fade in"></div>
+       <!-- <div class="modal-backdrop modal-backdrop-search fade in"></div>-->
         
         <div class="container">
             <div class="row">

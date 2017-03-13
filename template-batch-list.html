@@ -20,6 +20,42 @@
         [v-cloak] {
             display: none;
         }
+        .seachListFa{
+            position: relative;
+        }
+        .seachListFa .seachList{
+            position: absolute;
+            left: 15px;
+            padding-left: 0;
+            z-index: 10;
+            border-top: 1px solid #ccc;
+            border-right: 1px solid #ccc;
+            background-color: #fff;
+            border-left: 1px solid #ccc;
+            width: 100%;
+        }
+        .seachList ul{
+            list-style: none;
+            padding-left: 0px;
+            padding-right: 0px;
+            margin-bottom: 0px;
+
+
+        }
+        .seachList li{
+            padding-left: 15px;
+
+            padding-top: 5px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #ccc;
+        }
+        #form-group{
+            border: 1px solid #ccc;
+        }
+        #searchField{
+            border: none;
+        }
+
     </style>
 </head>
     <body>
@@ -79,13 +115,23 @@
                         <div class="form-horizontal">
                             <div class="form-group">
                                 <label class="col-md-2 control-label">选择搜索条件</label>
-                                <div class="col-md-2">
-                                    <div class="form-group">
+                                <div class="col-md-2 seachListFa">
+                                    <div class="form-group seachListFa" id="form-group">
                                         <div class="input-group">
-                                              <input type="text" v-model="search.cate_name" placeholder="选择类目" class="form-control goSearch" readonly>
+                                              <input type="text" v-model="search.cate_name" placeholder="输入关键字选择类目" class="form-control goSearch" id="searchField">
                                               <div class="input-group-addon" v-show="search.cateId" @click="cancelCate">
                                                   <i class="fa fa-close"></i>
                                               </div>
+                                        </div>
+                                        <div class="container">
+                                            <div class="row seachList">
+                                                    <ul class="col-sm-12 col-md-12" id="searchInput">
+                                                        <li @click="selectCate(pro)" v-for="pro in proList" v-cloak>
+                                                            {{pro.cn_name}} {{pro.en_name}}
+                                                        </li>
+                                                    </ul>
+
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -197,7 +243,7 @@
         </div>
         
         <!-- 搜索类目功能 -->
-        <div class="container">
+        <!--<div class="container">
             <div class="row">
                 <div class="searchInput">
                     <input type="text" class="searchField">
@@ -209,9 +255,9 @@
                     </ul>
                 </div>
             </div>
-        </div>
+        </div>-->
 
-        <div class="modal-backdrop modal-backdrop-search fade in"></div>
+      <!--  <div class="modal-backdrop modal-backdrop-search fade in"></div>-->
 
         <hr>
         <div class="container">

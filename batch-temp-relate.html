@@ -163,6 +163,9 @@
           color: #fff;
           background-color: #5bc0de;
         }
+        #alert .padding-8{
+            padding: 8px;
+        }
     </style>
 </head>
     <body>
@@ -236,14 +239,12 @@
                 <div class="col-md-12">
                     <div class="panel panel-primary">
                         <div class="panel-heading">
-                            <h4>
-                                <b>关联资料模板项目</b>
-                            </h4>
+                            <h4 class="ft-16">关联资料模板项目</h4>
                         </div>
                         <div class="panel-body">
                             <div class="col-md-12">
                                 <div class="row">
-                                    <div class="col-md-6 col-md-offset-3">
+                                    <div class="col-md-5 col-md-offset-3">
                                         <div class="form-inline">
                                             <div class="form-group">
                                                 <label>产品资料表模板：</label>
@@ -257,11 +258,14 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="col-md-3" id="alert">
+                                        <div style="display:none" v-show="!proData" class="alert alert-danger padding-8" role="alert">请先选择资料表模板</div>
+                                    </div>
                                 </div>
                                 <hr>
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <div style="display:none" v-show="!proData" class="alert alert-danger" role="alert">请先选择资料表模板</div>
+                                      <!--  <div style="display:none" v-show="!proData" class="alert alert-danger" role="alert">请先选择资料表模板</div>-->
 
                                         <div class="form">
                                             <div class="col-md-4 col-md-offset-1">
@@ -323,7 +327,7 @@
                                     <div class="col-md-4 col-md-offset-4 text-center">
                                         <!-- <button class="btn btn-default">匹配检查</button> -->
                                         <button @click="sendData" :disabled="sendBtn" class="btn btn-success">保存</button>
-                                        <button class="btn btn-default" @click="takeBack">撤回</button>
+                                        <button class="btn btn-default mL-15" @click="takeBack">撤回</button>
                                     </div>
                                 </div>
                             </div>
@@ -338,7 +342,7 @@
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header bg-primary">
-                        <h4 class="modal-title text-center">选择模板</h4>
+                        <h4 class="modal-title ft-16">选择模板</h4>
                         <button type="button" class="close close-positon" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i class="fa fa-close"></i></span></button>
                     </div>
                     <div class="modal-body">
@@ -358,14 +362,14 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <hr>
-                                    <div class="text-center">
-                                        <button @click="selectedMB" v-show="MBlist.length>0" class="btn btn-primary" style="margin-right:10px;">确定</button>
-                                        <button @click="" v-show="MBlist.length>0" class="btn btn-primary" data-dismiss="modal">取消</button>
-                                    </div>
-
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="text-center">
+                            <button @click="selectedMB" v-show="MBlist.length>0" class="btn btn-primary">确定</button>
+                            <button v-show="MBlist.length>0" class="btn btn-default mL-15" data-dismiss="modal">取消</button>
                         </div>
                     </div>
                 </div>
