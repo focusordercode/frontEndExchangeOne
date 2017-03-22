@@ -129,7 +129,7 @@
                                     <!-- 常规信息 -->
                                     <div role="tabpanel" class="tab-pane fade active in" id="home" aria-labelledby="home-tab">
                                         <div class="row">
-                                            <div class="col-md-4">
+                                            <div class="col-md-5 col-md-offset-1">
                                                 <dl class="dl-horizontal">
                                                      <dt>表格编号:</dt>
                                                      <dd v-cloak>{{tableInfo.form_no}}</dd>
@@ -139,11 +139,11 @@
                                                      <dd v-cloak>{{tableInfo.client_name}}</dd>
                                                      <dt>产品数量:</dt>
                                                      <dd v-cloak>{{tableInfo.product_count}}</dd>
-                                                     <dt>状态:</dt>
+                                                     <dt>状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;态:</dt>
                                                      <dd v-cloak>{{tableInfo.status_code}}</dd>
                                                 </dl>
                                             </div>
-                                            <div class="col-md-4">
+                                            <div class="col-md-5">
                                                 <dl class="dl-horizontal">
                                                      <dt>表格名称:</dt>
                                                      <dd v-cloak>{{tableInfo.title}}</dd>
@@ -167,7 +167,7 @@
                                                 <p class="clearfix">
                                                     <div class="form-horizontal">
                                                         <div class="form-group">
-                                                            <label class="col-sm-2 text-right control-label text-primary">图片目录 <i class="text-red">*</i> </label>
+                                                            <label class="col-sm-2 text-right control-label text-primary" style="letter-spacing: 0.6em">图片目录 <i class="text-red">*</i> </label>
                                                             <div class="col-sm-4">
                                                                 <div class="bootstrap-tagsinput hand">
                                                                     <span class="tag label label-info marr" v-for="cata in cataselect">
@@ -184,7 +184,7 @@
                                                 <p class="clearfix">
                                                     <div class="form-horizontal">
                                                         <div class="form-group">
-                                                            <label class="col-sm-2  control-label text-primary">图片标签(可选填)</label>
+                                                            <label class="col-sm-2  control-label text-primary" style="letter-spacing: 0.1em;">图片标签(可选填)</label>
                                                             <div class="col-sm-5">
                                                                 <input type="text" v-model="selectedTag" class="form-control" placeholder="输入标签，多个标签以“,”号隔开" >
                                                             </div>
@@ -245,7 +245,7 @@
                                                 <p class="clearfix">
                                                     <div class="form-horizontal">
                                                         <div class="form-group">
-                                                            <label class="col-sm-2 control-label text-primary">图片类型<i class="text-red">*</i> </label>
+                                                            <label class="col-sm-2 control-label text-primary" style="letter-spacing:0.8em">图片类型<i class="text-red">*</i> </label>
                                                             <div class="col-sm-2">
                                                                 <select v-model="file_type" class="form-control">
                                                                     <option value="jpg" selected>jpg</option>

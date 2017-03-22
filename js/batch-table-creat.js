@@ -375,6 +375,7 @@ $(function(){
 	$('.searchBtn').on('click',function(){
 		$('.searchCompent').show();
 		$('#catename_alert').hide();
+        $('#searchInput').show();
 	});
 	$('.closeBtn').on('click',function(){
 		$('.searchCompent').hide();
@@ -418,3 +419,14 @@ $('.searchCate').on('keyup',function(){
 		}
 	})
 });
+
+//搜索列表显示隐藏
+/*
+$('body').bind('click', function(event) {
+    // IE支持 event.srcElement ， FF支持 event.target
+    var evt = event.srcElement ? event.srcElement : event.target;
+    if(evt.id == 'blurInput'|| evt.id == 'searchInput'||evt.id == 'searchField'||evt.id == 'btnsearch') return; // 如果是元素本身，则返回
+    else {
+        $('#searchInput').hide(); // 如不是则隐藏元素
+    }
+});*/

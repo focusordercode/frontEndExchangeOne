@@ -477,7 +477,7 @@ body,html {
     -moz-transform: scale(0.1);
     -ms-transform: scale(0.1);
     transform: scale(0.1);
-    top: 100px;
+    top: 40%;
     opacity: 0;
     -webkit-transition: all 0.3s;
     -moz-transition: all 0.3s;
@@ -701,4 +701,10 @@ body .modal-footer {
 }
 .modal-backdrop-search,.searchInput {
     display: none;
+}
+
+/*搜索列表*/
+.pros .cate-list{
+    max-height: 210px;
+    overflow: auto;
 }

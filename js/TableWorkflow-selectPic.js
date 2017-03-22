@@ -620,11 +620,22 @@ $(function(){
         $('.searchCompent2').show();
         $('.searchCompent').hide();
         $('#relName_alert').hide();
+        $('#searchInput').hide()
     })
     $('.closeBtn2').on('click',function(){
         $('.searchCompent2').hide();
     })
-})
+});
+
+$('body').bind('click', function(event) {
+    console.log(event.id);
+    // IE支持 event.srcElement ， FF支持 event.target
+    var evt = event.srcElement ? event.srcElement : event.target;
+    if(evt.id == 'blurInput'|| evt.id == 'searchInput'||evt.id == 'searchField') return; // 如果是元素本身，则返回
+    else {
+        $('#searchInput').hide(); // 如不是则隐藏元素
+    }
+});
 
 //模糊搜索类目
 $('.searchCate').on('keyup',function(){
@@ -749,4 +760,4 @@ $(function(){
     $('.scrollToTop').click(function(){
         $("html,body").animate({scrollTop:0},300);
     });
-})
+});

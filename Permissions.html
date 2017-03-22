@@ -83,10 +83,10 @@
         
         <!-- 权限节点 template -->
         <script type="text/x-template" id="per-template">
-            <div class="col-md-4" v-for = "per in model" style="height: 250px;overflow:auto;">
-                <dl class="dl-horizontal">
-                    <dt>
-                        <div class="checkbox">
+            <div class="col-md-4 " v-for = "per in model" style="height: 250px;margin-bottom: 10px;">
+                <dl class="dl-horizontal" style="height: 250px;border: 2px solid #e3e3e3;padding: 20px 0 0 30px;border-radius: 5px;">
+                    <dt style="width: 100px;">
+                        <div class="checkbox" style="width: 100px;">
                             <label>
                                 <input style='display: none;' type="checkbox" :value="per.id">
                                 <b class="text-info" v-cloak>
@@ -95,7 +95,7 @@
                             </label>
                         </div>
                     </dt>
-                    <dd v-for="model_son in per.son">
+                    <dd v-for="model_son in per.son" style="margin-left: 130px;">
                         <div class="checkbox">
                             <label v-cloak>
                                 <input type="checkbox" :value="model_son.id" v-model="model_son.have">

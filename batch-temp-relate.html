@@ -166,6 +166,16 @@
         #alert .padding-8{
             padding: 8px;
         }
+        .modal .temp-wraper {
+            font-size: 1em;
+            padding-left: 3em;
+            margin-left: 0px;
+            text-indent: 0;
+            line-height: 2em;
+        }
+        .temp-wraper span{
+            display: inline-block;
+        }
     </style>
 </head>
     <body>
@@ -355,9 +365,11 @@
                                             <div v-for="MB in MBlist" class="funkyradio-primary">
                                                 <input type="radio" v-model="MB.checked" name="radio" id="radio{{$index+1}}"/>
                                                 <label for="radio{{$index+1}}" v-cloak>
-                                                    <b class="text-warning">名称:</b>{{MB.cn_name}} {{MB.en_name}} 　
-                                                    <b class="text-warning">所属类目:</b>{{MB.category_name}}　
-                                                    <b class="text-warning">修改时间:</b>{{MB.modified_time}}
+                                                    <div class="temp-wraper">
+                                                        <span><b class="text-warning">名称:</b>{{MB.cn_name}} {{MB.en_name}}</span> 　
+                                                        <span><b class="text-warning">所属类目:</b>{{MB.category_name}}</span>　
+                                                        <span><b class="text-warning">修改时间:</b>{{MB.modified_time}}</span>
+                                                    </div>
                                                 </label>
                                             </div>
                                         </div>
