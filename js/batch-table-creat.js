@@ -375,12 +375,25 @@ $(function(){
 	$('.searchBtn').on('click',function(){
 		$('.searchCompent').show();
 		$('#catename_alert').hide();
-        $('#searchInput').show();
+        $('#searchInput0').show();
 	});
 	$('.closeBtn').on('click',function(){
 		$('.searchCompent').hide();
 	})
-})
+});
+searchListTog(0);
+function searchListTog(num) {
+    $('body').bind('click', function(event) {
+        // IE支持 event.srcElement ， FF支持 event.target
+        var evt = event.srcElement ? event.srcElement : event.target;
+        if(evt.id == 'blurInput'+num|| evt.id == 'searchInput'+num||evt.id == 'searchField'+num||evt.id == 'searchBtn'+num) {
+            $('#searchInput'+num).show();
+        } // 如果是元素本身，则返回
+        else {
+            $('#searchInput'+num).hide(); // 如不是则隐藏元素
+        }
+    });
+}
 
 //搜索类目
 $('.searchCate').on('keyup',function(){

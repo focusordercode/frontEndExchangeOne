@@ -76,3 +76,7 @@
 .tableSelect .btn-group i {
 	padding-right: 5px;
 }
+.modal.fade .modal-dialog {
+	top: 50%;
+	margin-top: -26px;
+}

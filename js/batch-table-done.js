@@ -183,7 +183,7 @@ var oTableIn = new Vue({
                     }
                 })
             }
-        },
+        }
 
     }
 })
