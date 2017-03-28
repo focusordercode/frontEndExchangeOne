@@ -2,48 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="57f4b822-3711-47c0-8cae-aadd8c62ed7d" name="默认的" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Searchlog.html" afterPath="$PROJECT_DIR$/Searchlog.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Table-batch.html" afterPath="$PROJECT_DIR$/Table-batch.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Table-info.html" afterPath="$PROJECT_DIR$/Table-info.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TableWorkflow-creat.html" afterPath="$PROJECT_DIR$/TableWorkflow-creat.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TableWorkflow-done.html" afterPath="$PROJECT_DIR$/TableWorkflow-done.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TableWorkflow-edit.html" afterPath="$PROJECT_DIR$/TableWorkflow-edit.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Thesaurus-info.html" afterPath="$PROJECT_DIR$/Thesaurus-info.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/add-Thesaurus.html" afterPath="$PROJECT_DIR$/add-Thesaurus.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/add-product.html" afterPath="$PROJECT_DIR$/add-product.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/add_user.html" afterPath="$PROJECT_DIR$/add_user.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/admin-category.html" afterPath="$PROJECT_DIR$/admin-category.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/batch-table-creat.html" afterPath="$PROJECT_DIR$/batch-table-creat.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/batch-table-done.html" afterPath="$PROJECT_DIR$/batch-table-done.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/batch-table-edit.html" afterPath="$PROJECT_DIR$/batch-table-edit.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/batch-table-selectPic.html" afterPath="$PROJECT_DIR$/batch-table-selectPic.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/batch-table-upload.html" afterPath="$PROJECT_DIR$/batch-table-upload.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/batch-temp-creat.html" afterPath="$PROJECT_DIR$/batch-temp-creat.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/batch-temp-defineVal.html" afterPath="$PROJECT_DIR$/batch-temp-defineVal.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/batch-temp-relate.html" afterPath="$PROJECT_DIR$/batch-temp-relate.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/batch-temp-start.html" afterPath="$PROJECT_DIR$/batch-temp-start.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/css/Table-info.css" afterPath="$PROJECT_DIR$/css/Table-info.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/css/picUpload.css" afterPath="$PROJECT_DIR$/css/picUpload.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/css/temp.css" afterPath="$PROJECT_DIR$/css/temp.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/customer.html" afterPath="$PROJECT_DIR$/customer.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/group.html" afterPath="$PROJECT_DIR$/group.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/info-temp-creat.html" afterPath="$PROJECT_DIR$/info-temp-creat.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/info-temp-done.html" afterPath="$PROJECT_DIR$/info-temp-done.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/info-temp-edit.html" afterPath="$PROJECT_DIR$/info-temp-edit.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/add-product.js" afterPath="$PROJECT_DIR$/js/add-product.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/admin-permissions.js" afterPath="$PROJECT_DIR$/js/admin-permissions.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/control.js" afterPath="$PROJECT_DIR$/js/control.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/info-temp-creat.js" afterPath="$PROJECT_DIR$/js/info-temp-creat.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/user-tracking.js" afterPath="$PROJECT_DIR$/js/user-tracking.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/model.html" afterPath="$PROJECT_DIR$/model.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/organization.html" afterPath="$PROJECT_DIR$/organization.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pic-category.html" afterPath="$PROJECT_DIR$/pic-category.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/product-info.html" afterPath="$PROJECT_DIR$/product-info.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/template-batch-list.html" afterPath="$PROJECT_DIR$/template-batch-list.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/user-list.html" afterPath="$PROJECT_DIR$/user-list.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/user-tracking.html" afterPath="$PROJECT_DIR$/user-tracking.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/usermessage.html" afterPath="$PROJECT_DIR$/usermessage.html" />
     </list>
     <ignored path="kaifa.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -103,11 +63,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="product-center.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="product-center.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/product-center.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state relative-caret-position="-2457">
+              <caret line="35" column="54" lean-forward="true" selection-start-line="35" selection-start-column="54" selection-end-line="35" selection-end-column="54" />
               <folding />
             </state>
           </provider>
@@ -123,26 +83,22 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Table-info.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Table-info.html">
+      <file leaf-file-name="Table-info.css" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/css/Table-info.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-2295">
-              <caret line="18" column="16" lean-forward="false" selection-start-line="18" selection-start-column="16" selection-end-line="18" selection-end-column="16" />
+            <state relative-caret-position="637">
+              <caret line="80" column="20" lean-forward="false" selection-start-line="80" selection-start-column="20" selection-end-line="80" selection-end-column="20" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Table-info.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/js/Table-info.js">
+      <file leaf-file-name="Table-info.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Table-info.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-918">
-              <caret line="292" column="34" lean-forward="true" selection-start-line="292" selection-start-column="34" selection-end-line="292" selection-end-column="34" />
-              <folding>
-                <element signature="e#914#4312#0" expanded="false" />
-                <element signature="e#4324#5352#0" expanded="false" />
-                <element signature="e#5567#7159#0" expanded="false" />
-              </folding>
+            <state relative-caret-position="283">
+              <caret line="157" column="62" lean-forward="false" selection-start-line="157" selection-start-column="58" selection-end-line="157" selection-end-column="62" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -178,7 +134,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>deleteItem</find>
       <find>删除</find>
       <find>图片信息修改</find>
       <find>编辑节点</find>
@@ -208,6 +163,7 @@
       <find>white</find>
       <find>cons</find>
       <find>Request</find>
+      <find>选择模板</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -251,7 +207,6 @@
         <option value="$PROJECT_DIR$/Searchlog.html" />
         <option value="$PROJECT_DIR$/css/table-batch.css" />
         <option value="$PROJECT_DIR$/Table-batch.html" />
-        <option value="$PROJECT_DIR$/Table-info.html" />
         <option value="$PROJECT_DIR$/css/tableWorkflow-creat.css" />
         <option value="$PROJECT_DIR$/usermessage.html" />
         <option value="$PROJECT_DIR$/TableWorkflow-creat.html" />
@@ -264,9 +219,10 @@
         <option value="$PROJECT_DIR$/user-list.html" />
         <option value="$PROJECT_DIR$/Thesaurus-info.html" />
         <option value="$PROJECT_DIR$/css/picUpload.css" />
-        <option value="$PROJECT_DIR$/css/Table-info.css" />
         <option value="$PROJECT_DIR$/info-temp-creat.html" />
         <option value="$PROJECT_DIR$/js/info-temp-creat.js" />
+        <option value="$PROJECT_DIR$/css/Table-info.css" />
+        <option value="$PROJECT_DIR$/Table-info.html" />
       </list>
     </option>
   </component>
@@ -306,6 +262,20 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="frontEndExchangeOne" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="kaifa" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="frontEndExchangeOne" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="css" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -435,12 +405,12 @@
       <workItem from="1490230554915" duration="7833000" />
       <workItem from="1490318110133" duration="7804000" />
       <workItem from="1490581576968" duration="16517000" />
-      <workItem from="1490665312206" duration="20561000" />
+      <workItem from="1490665312206" duration="22077000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="207810000" />
+    <option name="totallyTimeSpent" value="209326000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="1" />
@@ -793,14 +763,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/css/Table-info.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="745">
-          <caret line="312" column="11" lean-forward="false" selection-start-line="312" selection-start-column="11" selection-end-line="312" selection-end-column="11" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/css/picUpload.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="665">
@@ -815,7 +777,7 @@
           <caret line="205" column="113" lean-forward="false" selection-start-line="205" selection-start-column="113" selection-end-line="205" selection-end-column="113" />
           <folding>
             <element signature="n#style#0;n#head#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="n#style#0;n#li#0;n#ul#0;n#div#0;n#div#3;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#li#0;n#ul#0;n#div#0;n#div#3;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -831,18 +793,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Table-info.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2295">
-          <caret line="18" column="16" lean-forward="false" selection-start-line="18" selection-start-column="16" selection-end-line="18" selection-end-column="16" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/Table-info.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-918">
-          <caret line="292" column="34" lean-forward="true" selection-start-line="292" selection-start-column="34" selection-end-line="292" selection-end-column="34" />
+          <caret line="292" column="34" lean-forward="false" selection-start-line="292" selection-start-column="34" selection-end-line="292" selection-end-column="34" />
           <folding>
             <element signature="e#914#4312#0" expanded="false" />
             <element signature="e#4324#5352#0" expanded="false" />
@@ -909,8 +863,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/product-center.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state relative-caret-position="-2457">
+          <caret line="35" column="54" lean-forward="true" selection-start-line="35" selection-start-column="54" selection-end-line="35" selection-end-column="54" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/css/Table-info.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="637">
+          <caret line="80" column="20" lean-forward="false" selection-start-line="80" selection-start-column="20" selection-end-line="80" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Table-info.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="283">
+          <caret line="157" column="62" lean-forward="false" selection-start-line="157" selection-start-column="58" selection-end-line="157" selection-end-column="62" />
           <folding />
         </state>
       </provider>
