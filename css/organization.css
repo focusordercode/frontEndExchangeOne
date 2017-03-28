@@ -1,0 +1,62 @@
+.tree {
+    margin-top: 20px;
+}
+.tree,.tree ul,.tree ul li {
+    list-style: none;
+}
+.item li {
+    position: relative;
+    padding-top: 10px;
+}
+.item li::before,.item li::after {
+    content: '';
+    left: -30px;
+    position: absolute;
+    right: auto
+}
+.item li::before {
+    border-left: 1px solid #cac8c8;
+    bottom: 50px;
+    height: 100%;
+    top: 0;
+    width: 1px
+}
+.item li::after {
+    border-top: 1px solid #cac8c8;
+    height: 20px;
+    top: 26px;
+    width: 26px
+}
+.tree .item .selected {
+    padding: 6px 0;
+}
+.text-white {
+    color: #fff;
+}
+.adminCate .modal-content {
+    border-radius: 0;
+    border: 0;
+}
+.adminCate .form-control {
+    border-radius: 0;
+}
+.caret-ii {
+    padding: 0 5px;
+}
+.item .tree-node {
+    margin-left: -2px;
+    line-height: 30px;
+    cursor: pointer;
+}
+.item .tree-node:hover {
+    background: #e5e9f2;
+}
+.item .node-selected  {
+    color: #454f75;
+    background: #e5e9f2;
+}
+.mT-footer{
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid #ccc;
+}

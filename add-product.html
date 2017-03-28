@@ -17,11 +17,11 @@
     <script src="http://apps.bdimg.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
     <style>
-        .nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
+        /*.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
             background-color: #428bca!important;
             color: #fff!important;
-        }
-        .pors .input-list,.pors .cate-list {
+        }*/
+        /*.pors .input-list,.pors .cate-list {
             top: 34px;
             left: 15px;
             position: absolute;
@@ -46,8 +46,8 @@
         .pors .input-list li:hover,.pors .cate-list li:hover {
             background-color: #ECF0F1;
             cursor: pointer;
-        }
-        .paddingLeft {
+        }*/
+      /*  .paddingLeft {
             padding-left: 0;
         }
         .searchShadow {
@@ -66,11 +66,11 @@
         }
         [v-cloak] {
             display: none;
-        }
-        #myTabContent .bg-primary{
+        }*/
+        /*#myTabContent .bg-primary{
             color: #fff;
             background-color: #337ab7;
-        }
+        }*/
     </style>
 </head>
     <body>
@@ -168,16 +168,16 @@
                                                             <input type="text" v-model="cate_name" placeholder="选择类目" class="form-control" readonly>
                                                         </div>
                                                         <div class="col-sm-1">
-                                                            <button class="btn btn-info btn-sm searchBtn">搜索</button>
+                                                            <button class="btn btn-info btn-sm searchBtn" id="searchBtn0">搜索</button>
                                                         </div>
                                                         <div class="col-sm-3 cate_alert1" id="cate_alert1" style="display:none;" v-show="cate_alert">
                                                             <div class="alert alert-danger new-alert"  role="alert" > 点击搜索选择类目</div>
                                                         </div>
                                                     </div>
-                                                    <div class="form-group">
+                                                    <div class="form-group" id="blurInput0">
                                                         <div  v-show="!cate_alert" class="col-sm-4 col-md-offset-3 pors searchCompent">
-                                                            <input type="text" class="form-control searchShadow searchCate" placeholder="输入关键字搜索类目">
-                                                            <ul class="cate-list">
+                                                            <input type="text" class="form-control searchShadow searchCate" id="searchField0" placeholder="输入关键字搜索类目">
+                                                            <ul class="cate-list" id="searchInput0">
                                                                 <li @click="selectCate(pro)" v-for="pro in proList" v-cloak>
                                                                     {{pro.cn_name}} {{pro.en_name}}
                                                                 </li>
@@ -228,17 +228,17 @@
                                                             <input type="text" v-model="cate_name" placeholder="选择类目" class="form-control" readonly>
                                                         </div>
                                                         <div class="col-sm-1 text-right ">
-                                                            <button class="btn btn-info btn-sm searchBtn2">搜索</button>
+                                                            <button class="btn btn-info btn-sm searchBtn2" id="searchBtn1">搜索</button>
                                                         </div>
                                                         <div class="col-sm-3" id="cate_alert" >
                                                             <div class="alert alert-danger new-alert"  role="alert" style="display:none;" v-show="cate_alert" > 请选择类目
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="form-group">
+                                                    <div class="form-group" id="blurInput1">
                                                         <div class="col-sm-4 col-md-offset-3 pors searchCompent2">
-                                                            <input type="text" class="form-control searchShadow searchCate2" placeholder="输入关键字搜索类目">
-                                                            <ul class="cate-list">
+                                                            <input type="text" class="form-control searchShadow searchCate2" id="searchField1" placeholder="输入关键字搜索类目">
+                                                            <ul class="cate-list" id="searchInput1">
                                                                 <li @click="selectCate(pro)" v-for="pro in proList" v-cloak>
                                                                     {{pro.cn_name}} {{pro.en_name}}
                                                                 </li>

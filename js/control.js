@@ -42,3 +42,17 @@ function getNowUrl() {
     str = str.substr(num+1);
     return str
 }
+
+//搜索列表显示隐藏
+function searchListTog(num) {
+    $('body').bind('click', function(event) {
+        // IE支持 event.srcElement ， FF支持 event.target
+        var evt = event.srcElement ? event.srcElement : event.target;
+        if(evt.id == 'blurInput'+num|| evt.id == 'searchInput'+num||evt.id == 'searchField'+num||evt.id == 'searchBtn'+num) {
+            $('#searchInput'+num).show();
+        } // 如果是元素本身，则返回
+        else {
+            $('#searchInput'+num).hide(); // 如不是则隐藏元素
+        }
+    });
+}

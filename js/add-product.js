@@ -1,6 +1,6 @@
 // Creat by msh at 2016.10.13
 var search = serverUrl+"index.php/vague/name"; //模糊搜索地址
-var temp = serverUrl+"Public/file/ProductTemplate.xlsx"  //模板地址
+var temp = serverUrl+"Public/file/ProductTemplate.xlsx";  //模板地址
 console.log(serverUrl); //后端接口地址
 
 var oCreat = new Vue({
@@ -155,27 +155,37 @@ var oCreat = new Vue({
     		}
     	}
     }
-})
+});
 
 //搜索类目框
 $(function(){
     $('.searchBtn').on('click',function(){
         oCreat.cate_alert = false;
         $('.searchCompent').show();
+        $('#searchInput1').hide();
+        $('#searchInput0').show();
     });
     $('.closeBtn').on('click',function(){
         $('.searchCompent').hide();
-    })
+    });
 
     //批量上传的搜索
     $('.searchBtn2').on('click',function(){
         $('.searchCompent2').show();
+        $('#searchInput0').hide();
+        $('#searchInput1').show();
         oCreat.cate_alert = false;
-    })
+
+    });
     $('.closeBtn2').on('click',function(){
         $('.searchCompent2').hide();
     })
-})
+});
+//搜索列表显示隐藏的函数提取到control.js
+searchListTog(0);
+searchListTog(1);
+
+
 
 //模糊搜索类目
 $('.searchCate').on('keyup',function(){

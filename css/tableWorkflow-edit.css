@@ -1,0 +1,89 @@
+.panel-top {
+    position: relative;
+}
+.pullUP {
+    color: #777;
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    margin-left: -20px;
+    width: 40px;
+    height: 26px;
+    background-color: rgba(221, 221, 221, .8);
+    text-align: center;
+    line-height: 34px;
+    cursor: pointer;
+}
+.pullDown {
+    color: #777;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    margin-left: -20px;
+    width: 40px;
+    height: 26px;
+    background-color: rgba(221, 221, 221, .8);
+    text-align: center;
+    line-height: 34px;
+    cursor: pointer;
+    z-index: 5;
+    display: none;
+}
+.dl-horizontal dt {
+    color: #337ab7;
+}
+.dl-horizontal dd {
+    color: #333;
+}
+#table {
+    margin-top: 50px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.underLine {
+    border-bottom: 1px solid #ddd;
+}
+.infoPanel {
+    max-height: 420px;
+    overflow-y: auto;
+}
+.infoPanel-botton {
+    margin-top: 2px;
+}
+.text-lineheigt {
+    line-height: 34px;
+    margin-left: -15px;
+    margin-right: -15px;
+}
+.handsontable table .btn {
+    margin: 5px
+}
+.handsontable td {
+    max-width: 250px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap !important;
+}
+.img-show-content {
+    width: 1400px;
+    height: 1px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.img-show {
+    position: absolute;
+    z-index: 100001;
+    top: 100px;
+    left: 800px;
+    width: 240px;
+    height: 240px;
+    max-width: 220px;
+    max-height: 220px;
+    height: auto;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    display: none;
+}
+.font-b{
+    font-weight: bold;
+}

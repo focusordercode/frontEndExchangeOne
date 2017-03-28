@@ -107,7 +107,7 @@ Vue.component('per', {
 			$('.editTable').modal('show');
 		}
 	}
-})
+});
 
 var permission = new Vue({
 	el:'body',

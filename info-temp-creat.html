@@ -17,7 +17,7 @@
     <script src="http://apps.bdimg.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
     <style>
-        .stepwizard-step p {
+      /*  .stepwizard-step p {
             margin-top: 10px;
         }
         .stepwizard-row {
@@ -105,7 +105,7 @@
         .btn_footer{
             margin-top: 10px;
             margin-top: 10px;
-        }
+        }*/
     </style>
 </head>
     <body>
@@ -203,13 +203,38 @@
                                         <input type="text" v-model="proSelected" placeholder="点击搜索选择类目" class="form-control" readonly>
                                     </div>
                                     <div class="col-sm-1">
-                                        <button class="btn btn-info btn-sm searchBtn" id="blurInput">搜索</button>
+                                        <button class="btn btn-info btn-sm searchBtn" id="blurInput" @click="show">搜索</button>
                                     </div>
                                     <div class="col-sm-4 col-md-4 col-lg-4 " id="tempname_alert">
                                         <div class="alert alert-danger new-alert" style="display:none" v-show="tempname_alert">类名不能为空</div>
                                     </div>
                                 </div>
-                                <div class="form-group">
+                                <!-- 搜索和下拉列表 -->
+                                <div class="form-group" v-show="ishsow_SelectList">
+                                    <div class="col-sm-4 col-md-4 col-sm-offset-2 pors searchCompent">
+                                        <input
+                                                type="text"
+                                                class="form-control searchShadow searchCate goSearch col-sm-12 col-md-12"
+                                                placeholder="输入关键字搜索类目"
+                                                id="searchField"
+                                                v-model="proSelectFor"
+                                                @keyup="get($event)"
+                                                @keydown.down="changeDown()"
+                                                @keydown.up.prevent="changeUp()"
+                                        >
+                                        <ul class="cate-list " id="searchInput"  >
+                                            <li @click="selectCate(pro)"  style="width: 286px;"  v-for="pro in proList" v-cloak :class="{gray:$index==now}">
+                                                {{pro.cn_name}} {{pro.en_name}}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-sm-1 text-center paddingLeft searchCompent">
+                                        <button class="btn btn-default closeBtn searchShadow">
+                                            <i class="fa fa-close"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <!--<div class="form-group">
                                     <div class="col-sm-4 col-sm-offset-2 pors searchCompent">
                                         <input type="text" class="form-control searchShadow searchCate goSearch" placeholder="输入关键字搜索类目" id="searchField">
                                         <ul class="cate-list" id="searchInput">
@@ -223,7 +248,7 @@
                                             <i class="fa fa-close"></i>
                                         </button>
                                     </div>
-                                </div>
+                                </div>-->
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">模板说明</label>
                                     <div class="col-sm-5">

@@ -1,0 +1,135 @@
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
+    background-color: #428bca!important;
+    color: #fff!important;
+}
+.new-alert {
+    line-height: 24px!important;
+    padding-top: 5px!important;
+    padding-bottom: 5px!important;
+    margin-bottom: 0!important;
+}
+.bootstrap-tagsinput {
+    width: 100%;
+    min-height: 32px;
+    background-color: #ccc;
+    border: 1px solid #ccc;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    display: inline-block;
+    padding: 4px 6px;
+    color: #555;
+    vertical-align: middle;
+    border-radius: 4px;
+    max-width: 100%;
+    line-height: 22px;
+}
+.bootstrap-tagsinput .tag {
+    margin-right: 2px;
+    color: white;
+}
+.bootstrap-tagsinput .tag [data-role="remove"] {
+    margin-left: 8px;
+    cursor: pointer;
+}
+.bootstrap-tagsinput .tag [data-role="remove"]:after {
+    content: "x";
+    padding: 0px 2px;
+}
+.pors .input-list,.pors .cate-list {
+    top: 34px;
+    left: 15px;
+    position: absolute;
+    z-index: 666;
+    list-style: none;
+    padding-left: 0;
+    border: 1px solid #ccc;
+    border-top: transparent;
+    background-color: #fff;
+}
+.pors .cate-list li {
+    line-height: 32px;
+    text-indent: 12px;
+    border-bottom: 1px solid #ddd;
+    color: #8a6d3b;
+    font-size: 12px;
+}
+.pors .cate-list li:hover {
+    background-color: #ECF0F1;
+    cursor: pointer;
+}
+.paddingLeft {
+    padding-left: 0;
+}
+.searchShadow {
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+.searchShadow:focus {
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    border-color: #ccc;
+}
+.searchCompent {
+    display: none;
+}
+.height {
+    overflow: auto;
+}
+.tree {
+    margin-top: 20px;
+}
+.tree,.tree ul,.tree ul li {
+    list-style: none;
+}
+.item li {
+    position: relative;
+    padding-top: 10px;
+}
+.item li::before,.item li::after {
+    content: '';
+    left: -30px;
+    position: absolute;
+    right: auto
+}
+.item li::before {
+    border-left: 1px solid #cac8c8;
+    bottom: 50px;
+    height: 100%;
+    top: 0;
+    width: 1px
+}
+.item li::after {
+    border-top: 1px solid #cac8c8;
+    height: 20px;
+    top: 26px;
+    width: 26px
+}
+.tree .item .selected {
+    padding: 6px 0;
+}
+.text-white {
+    color: #fff;
+}
+.adminCate .modal-content {
+    border-radius: 0;
+    border: 0;
+}
+.adminCate .form-control {
+    border-radius: 0;
+}
+.caret-ii {
+    padding: 0 5px;
+}
+.item .tree-node {
+    margin-left: -2px;
+    line-height: 30px;
+    cursor: pointer;
+}
+.item .tree-node:hover {
+    background: #e5e9f2;
+}
+.item .node-selected  {
+    color: #454f75;
+    background: #e5e9f2;
+}
+.content{
+    width: 1170px;
+    margin: auto;
+}

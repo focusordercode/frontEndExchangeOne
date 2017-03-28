@@ -1,0 +1,57 @@
+.control-panel .form-control {
+    border-radius: 0;
+}
+.changTable .modal-content {
+    border-radius: 0;
+    border: 0;
+}
+.changTable .form-control {
+    border-radius: 0;
+}
+.sort-bg{
+    background-color: #dff0d8;
+}
+.middle-col {
+    max-width: 20px;
+    line-height: 34px;
+    padding-left: 0;
+    padding-right: 0;
+}
+[v-cloak] {
+    display: none;
+}
+#text-cneter{
+    text-align: center;
+}
+.seachListFa .seachList{
+    position: absolute;
+    left: 15px;
+    padding-left: 0;
+    z-index: 10;
+    border-top: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    background-color: #fff;
+    border-left: 1px solid #ccc;
+    width: 100%;
+}
+.seachList ul{
+    list-style: none;
+    padding-left: 0px;
+    padding-right: 0px;
+    margin-bottom: 0px;
+
+
+}
+.seachList li{
+    padding-left: 15px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #ccc;
+}
+/*选择模板*/
+.tempList{
+    text-align: center;
+    padding: 5px;
+    border: 1px solid #ccc;
+    margin-bottom: 5px;
+}

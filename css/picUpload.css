@@ -109,13 +109,8 @@
 .paddingLeft {
     padding-left: 0;
 }
-.searchShadow {
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-}
-.searchShadow:focus {
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-    border-color: #ccc;
-}
+
+
 .searchCompent,.searchCompent2 {
     display: none;
 }
@@ -140,4 +135,153 @@
 }
 .marr {
     margin: 0 4px;
+}
+
+/* add-product页面样式 */
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
+    background-color: #428bca!important;
+    color: #fff!important;
+}
+.paddingLeft {
+    padding-left: 0;
+}
+#uploadForm {
+    margin-left: 15px;
+    margin-top: 5px;
+}
+[v-cloak] {
+    display: none;
+}
+#myTabContent .bg-primary{
+    color: #fff;
+    background-color: #337ab7;
+}
+
+/*添加用户*/
+.alert{
+    padding: 0;
+}
+.add_userA .bootstrap-tagsinput {
+    background-color: #ccc;
+}
+.bootstrap-tagsinput .tag {
+    margin-right: 2px;
+    color: white;
+}
+.bootstrap-tagsinput .tag [data-role="remove"] {
+    margin-left: 8px;
+    cursor: pointer;
+}
+.bootstrap-tagsinput .tag [data-role="remove"]:after {
+    content: "x";
+    padding: 0px 2px;
+}
+.paddingLeft {
+    padding-left: 0;
+}
+.searchShadow {
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+.searchShadow:focus {
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    border-color: #ccc;
+}
+
+.height {
+    min-height: 32px!important;
+    overflow: auto;
+    background-color: #ccc;
+}
+[v-cloak] {
+    display: none;
+}
+
+/* batch-table-edit 批量表编辑产品 */
+
+#batchTableSelectpic .textLeft {
+    text-align: left!important;
+}
+#batchTableSelectpic .table th,.table td {
+    text-align: center;
+    vertical-align: middle!important;
+}
+#batchTableSelectpic .item {
+    margin-bottom: 5px;
+}
+#batchTableSelectpic .item .label {
+    padding: .4em .6em .4em;
+    line-height: 24px;
+    cursor: pointer;
+}
+#batchTableSelectpic .tree2 {
+    margin-top: 5px;
+}
+#batchTableSelectpic .text-white {
+    color: #fff;
+}
+#batchTableSelectpic .bordered {
+    border-right: 1px solid #14714f;
+}
+
+/* batch-table-upload  */
+
+#batchTableUpload .textLeft {
+    text-align: left!important;
+}
+#batchTableUpload .table th,.table td {
+    text-align: center;
+    vertical-align: middle!important;
+}
+#batchTableUpload .img-col {
+    position: relative;
+}
+#batchTableUpload .img-hover {
+    display: none;
+    position: absolute;
+    top: 20px;
+    left: 200px;
+    z-index: 6666;
+}
+#batchTableUpload .img-hover {
+    max-width: 220px;
+    max-height: 250px;
+    height: auto;
+    border: 1px solid #ddd;
+}
+#batchTableUpload .img-col:hover .img-hover {
+    display: block;
+}
+#batchTableUpload .bar-content {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin-left: -300px;
+    margin-top: -50px;
+    z-index: 1500;
+    width: 600px;
+}
+#batchTableUpload .progress-display {
+    display: none;
+}
+
+/* user-tracking */
+#userTracking .middle-col {
+    max-width: 20px;
+    line-height: 34px;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+/* thesaurus-info 词库信息 */
+.thesaurus-info .nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
+    background-color: #428bca!important;
+    color: #fff!important;
+}
+.thesaurus-info .dl-horizontal  div {
+    margin-bottom: 20px;
+}
+.thesaurus-info .underline{
+    border-bottom: 1px solid #ccc;
+    font-weight: bold;
+    margin-bottom: 20px;
 }

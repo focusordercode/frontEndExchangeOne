@@ -110,6 +110,45 @@
   background-color: #ccc;
 }
 
+[v-cloak] {
+    display: none;
+}
+.seachListFa{
+    position: relative;
+}
+.seachListFa .seachList{
+    position: absolute;
+    left: 15px;
+    padding-left: 0;
+    z-index: 10;
+    border-top: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    background-color: #fff;
+    border-left: 1px solid #ccc;
+    width: 100%;
+}
+.seachList ul{
+    list-style: none;
+    padding-left: 0px;
+    padding-right: 0px;
+    margin-bottom: 0px;
+
+
+}
+.seachList li{
+    padding-left: 15px;
+
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #ccc;
+}
+#form-group{
+    border: 1px solid #ccc;
+}
+#searchField{
+    border: none;
+}
+
 
 
 

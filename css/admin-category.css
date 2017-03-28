@@ -1,0 +1,58 @@
+.tree {
+    margin-top: 20px;
+}
+.tree,.tree ul,.tree ul li {
+    list-style: none;
+}
+.item li {
+    position: relative;
+    padding-top: 10px;
+}
+.item li::before,.item li::after {
+    content: '';
+    left: -30px;
+    position: absolute;
+    right: auto
+}
+.item li::before {
+    border-left: 1px solid #3c763d;
+    bottom: 50px;
+    height: 100%;
+    top: 0;
+    width: 1px
+}
+.item li::after {
+    border-top: 1px solid #3c763d;
+    height: 20px;
+    top: 22px;
+    width: 30px
+}
+.item .label {
+    padding: .4em .6em .4em;
+    line-height: 24px;
+    font-size: 90%;
+    cursor: pointer;
+}
+.tree .item .label > .glyphicon {
+    padding: 5px;
+    margin-left: -5px;
+}
+.tree .item .label .selected {
+    padding: 5px 0;
+}
+.text-white {
+    color: #fff;
+}
+.bordered {
+    border-right: 1px solid #14714f;
+}
+.adminCate .modal-content {
+    border-radius: 0;
+    border: 0;
+}
+.adminCate .form-control {
+    border-radius: 0;
+}
+[v-cloak] {
+    display: none;
+}

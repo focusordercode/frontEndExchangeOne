@@ -346,11 +346,11 @@ $(function(){
         $('.searchCompent').show();
         $('.search-usrbtn').hide();
         $('#searchInput').show();
-    })
+    });
     $('.closeBtn').on('click',function(){
         $('.searchCompent').hide();
         $('.search-usrbtn').show();
-    })
+    });
 
     //用户
     $('.searchCate').on('keyup',function(){
@@ -409,6 +409,12 @@ $(function(){
         $("html,body").animate({scrollTop:0},300);
     });
 });
+$('#searchField').on('click',function(){
+    $('.searchCompent').show();
+    $('.search-usrbtn').hide();
+    $('#searchInput').show();
+});
+
 
 //刷新函数
 function windowFresh(){
