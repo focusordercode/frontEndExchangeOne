@@ -293,9 +293,16 @@
                                                             </div>
                                                             <div class="form-group">
                                                                 <div class="col-sm-4 col-md-4 col-sm-offset-2 col-md-offset-2 pors searchCompent">
-                                                                    <input type="text" class="form-control searchShadow searchCate" placeholder="输入关键字搜索类目">
+                                                                    <input
+                                                                            type="text"
+                                                                            class="form-control searchShadow searchCate"
+                                                                            placeholder="输入关键字搜索类目"
+                                                                            v-model="pro.cn_name"
+                                                                            @keyup="getdata($event)"
+                                                                            @keydown.down="changeDown()"
+                                                                            @keydown.up.prevent="changeUp()">
                                                                     <ul class="cate-list">
-                                                                        <li @click="selectCate(pro)" v-for="pro in proList" v-cloak>
+                                                                        <li @click="selectCate(pro)" v-for="pro in proList"  :class="{gray:$index==now}" v-cloak>
                                                                             {{pro.cn_name}} {{pro.en_name}}
                                                                         </li>
                                                                     </ul>

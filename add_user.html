@@ -242,13 +242,21 @@
                                                 <div class="form-group">
                                                     <div class="  col-md-offset-4 col-sm-offset-4 col-lg-offset-4">
                                                         <div class=" pors searchCompent col-sm-5 col-md-5 col-lg-5 ">
-                                                            <input type="text" class="form-control searchShadow searchCate goSearch" id="searchField" placeholder="输入关键字搜索类目">
-                                                            <ul class="cate-list" id="searchInput">
+                                                            <input
+                                                                    type="text"
+                                                                    class="form-control searchShadow searchCate goSearch"
+                                                                    id="searchField"
+                                                                    placeholder="输入关键字搜索类目"
+                                                                    @keyup="get($event)"
+                                                                    @keydown.down="changeDown()"
+                                                                    @keydown.up.prevent="changeUp()">
+                                                            <ul class="cate-list hah" id="searchInput">
                                                                 <template v-for="one in oneList" v-if="$index<=9" v-cloak>
                                                                     <li @click="selectOne(one)">
                                                                         {{one.name}}
                                                                     </li>
                                                                 </template>
+                                                                <div >查询不到数据</div>
                                                             </ul>
                                                         </div>
                                                         <div class="col-sm-1 text-right paddingLeft searchCompent">

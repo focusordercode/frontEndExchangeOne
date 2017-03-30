@@ -131,7 +131,7 @@
                                     <input type="text" v-model="proSelected" class="form-control" placeholder="点击搜索搜索类目" readonly>
                                 </div>
                                 <div class="col-sm-1 text-right">
-                                    <button class="btn btn-info btn-sm searchBtn" id="searchBtn0">搜索</button>
+                                    <button class="btn btn-info btn-sm searchBtn" id="searchBtn0" @click="show()">搜索</button>
                                 </div>
                                 <!--  提示框-->
                                 <div class="col-sm-3 col-md-3 col-lg-3 " id="catename_alert">
@@ -139,11 +139,19 @@
                                 </div>
                                 <!--提示框-->
                             </div>
-                            <div class="form-group" id="blurInput0">
+                            <div class="form-group" id="blurInput0" v-show="is_cate">
                                 <div class="col-sm-3 col-lg-3 col-md-3 col-sm-offset-3 col-lg-offset-4 col-md-offset-4 pors searchCompent">
-                                    <input type="text" class="form-control searchShadow searchCate" placeholder="输入关键字搜索类目" id="searchField0">
+                                    <input
+                                            type="text"
+                                            class="form-control searchShadow searchCate"
+                                            v-model="searchCate"
+                                            placeholder="输入关键字搜索类目"
+                                            id="searchField0"
+                                            @keyup="getdata($event)"
+                                            @keydown.down="changeDown()"
+                                            @keydown.up.prevent="changeUp()">
                                     <ul class="cate-list" id="searchInput0">
-                                        <li @click="selectCate(pro)" v-for="pro in proList">
+                                        <li @click="selectCate(pro)" v-for="pro in proList" :class="{gray:$index==now}">
                                             {{pro.cn_name}} {{pro.en_name}}
                                         </li>
                                     </ul>
@@ -174,7 +182,7 @@
                                     <input type="text" v-model="CusSelect" class="form-control" placeholder="点击搜索搜索客户" readonly>
                                 </div>
                                 <div class="col-sm-1 col-md-1 col-md-1 text-right" >
-                                    <button class="btn btn-info btn-sm searchBtn2" id="searchBtn1">搜索</button>
+                                    <button class="btn btn-info btn-sm searchBtn2" id="searchBtn1" @click="showCus">搜索</button>
                                 </div>
                                 <!--  提示框-->
                                 <div class="col-sm-3 col-md-3 col-lg-3 " id="clientname_alert">
@@ -182,11 +190,19 @@
                                 </div>
                                 <!--提示框-->
                             </div>
-                            <div class="form-group" id="blurInput1">
+                            <div class="form-group" id="blurInput1" v-show="is_Cus">
                                 <div class="col-sm-3 col-sm-offset-4 col-md-3 col-md-offset-4 col-lg-3 col-lg-offset-4 pors searchCompent2">
-                                    <input type="text" class="form-control searchShadow searchCus" placeholder="输入关键字搜索客户" id="searchField1">
-                                    <ul class="input-list" id="searchInput1">
-                                        <li @click="selectCus(cus)" v-for="cus in CusList">
+                                    <input
+                                            type="text"
+                                            class="form-control searchShadow searchCus"
+                                            placeholder="输入关键字搜索客户"
+                                            v-model="Cus"
+                                            id="searchField1"
+                                            @keyup="getCusData($event)"
+                                            @keydown.down="changeDownCus()"
+                                            @keydown.up.prevent="changeUpCus()">
+                                    <ul class="input-list" id="searchInput1" >
+                                        <li @click="selectCus(cus)" v-for="cus in CusList" :class="{gray:$index==nowCus}">
                                             <div style="font-size: 1.2em">{{cus.custom_name}}</div>
                                             <div class=""> {{cus.en_name}}</div>
                                         </li>

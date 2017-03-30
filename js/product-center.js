@@ -13,7 +13,7 @@ Vue.filter('statusFlilter',function(value){
         case 2: str = "停用";break;
     }
     return str;
-})
+});
 
 //序号过滤器
 Vue.filter('ListNum',function(value){
@@ -25,7 +25,7 @@ Vue.filter('ListNum',function(value){
     	str = (pageNow-1)*num+str+1;
     }
     return str
-})
+});
 
 var oPCenter = new Vue({
     el:'body',
@@ -40,6 +40,7 @@ var oPCenter = new Vue({
     		cate_name:'',
     		keyword:''
     	},
+		now: -1,//搜索列表序号
     	list:'',
     	pageNow:'',
     	countPage:'',
@@ -350,9 +351,81 @@ var oPCenter = new Vue({
     			getPageData (vm,jump,search,num);
                 vm.jump = '';
     		}
-    	}
+    	},
+        //输入关键字获取下拉列表数据
+        getdata:function (ev) {
+            if(ev.keyCode == 8){
+                this.now = -1
+            }
+            if(ev.keyCode == 38 || ev.keyCode == 40){
+                return;
+            }else if(ev.keyCode == 13){
+				/*window.open('https://www.baidu.com/s?wd='+this.t1);*/
+                this.search.cate_name = this.proList[this.now].cn_name;
+                this.search.cateId = this.proList[this.now].id;
+            }
+            var searchCusVal = $('#searchField').val();
+            if(searchCusVal){
+                $.ajax({
+                    type:'POST',
+                    url:search,
+                    datatype:'json',
+                    data:{
+                        key:oKey,
+                        user_id:token,
+                        text:searchCusVal
+
+                    },
+                    success:function(data){
+                        if(data.status==100){
+                            oPCenter.proList = data.value;
+                        }else if(data.status==1012){
+                            layer.msg('请先登录',{time:2000});
+
+                            setTimeout(function(){
+                                jumpLogin(loginUrl,NowUrl);
+                            },2000);
+                        }else if(data.status==1011){
+                            layer.msg('权限不足,请跟管理员联系');
+                        }else{
+                            oTableInfo.proList= '';
+                        }
+                    },
+                    error:function(jqXHR){
+                        layer.msg('向服务器请求客户信息失败');
+                    }
+                })
+            }
+        },
+        //下方向键
+        changeDown:function() {//键盘下方向选择下拉
+			/* if (this.proList.length == 0 || this.proList.length == -1)return;*/
+
+            this.now++;
+            if(this.now == this.proList.length){
+                this.now = -1;
+            }else{
+                $('#searchInput').animate({scrollTop:this.now*31},100);
+                this.search.cate_name = this.proList[this.now].cn_name;
+                this.search.cateId = this.proList[this.now].id;
+            }
+        },
+        //上方向键
+        changeUp:function(){//键盘上方向选择下拉
+			/* if (this.proList.length == 0 || this.proList.length == -1)return;*/
+            this.now--;
+            if(this.now == -2){
+                this.now = this.proList.length-1;
+            }else if(this.now == -1){
+                this.now = this.proList.length
+            }else {
+                $('#searchInput').animate({scrollTop:this.now*31},100);
+                this.search.cate_name = this.proList[this.now].cn_name;
+                this.search.cateId = this.proList[this.now].id;
+            }
+        }
     }
-})
+});
 
 //刷新函数
 function windowFresh(){
@@ -409,7 +482,7 @@ function getPageData (vm,pageNow,search,num) {
 
 $(document).ready(function(){
 	//模糊搜索类目
-	$('#searchField').on('keyup',function(){
+	/*$('#searchField').on('keyup',function(){
 	    var searchCusVal = $('#searchField').val();
 	    if(searchCusVal){
 	    	$.ajax({
@@ -441,7 +514,7 @@ $(document).ready(function(){
 	    	    }
 	    	})
 	    }
-	});
+	});*/
 
 	//打开关闭搜索
 	$('.goSearch').on('click',function(){

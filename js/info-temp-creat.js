@@ -154,6 +154,9 @@ var tempCreat = new Vue({
 
                     if(data.status==100){
                         vm.proList = data.value;
+                        var getWidth = $('#searchField').outerWidth();
+                        $('#searchInput').css('width',getWidth);
+                        console.log(getWidth);
                     }else if(data.status==1012){
                         layer.msg('请先登录',{time:2000});
 
@@ -173,10 +176,12 @@ var tempCreat = new Vue({
         },
         changeDown:function () {//键盘下方向选择下拉
            /* if (this.proList.length == 0 || this.proList.length == -1)return;*/
+
             this.now++;
             if(this.now == this.proList.length){
                 this.now = -1;
             }else{
+                $('#searchInput').animate({scrollTop:this.now*33},100);
                 this.proSelectedId = this.proList[this.now].id;
                 this.proSelected = this.proList[this.now].cn_name +' '+ this.proList[this.now].en_name;
                 this.proSelectFor = this.proList[this.now].cn_name +' '+ this.proList[this.now].en_name;
@@ -189,8 +194,9 @@ var tempCreat = new Vue({
             if(this.now == -2){
                 this.now = this.proList.length-1;
             }else if(this.now == -1){
-                this.now = -1
+                this.now = this.proList.length
             }else {
+            $('#searchInput').animate({scrollTop:this.now*33},100);
                 this.proSelectedId = this.proList[this.now].id;
                 this.proSelected = this.proList[this.now].cn_name +' '+ this.proList[this.now].en_name;
                 this.proSelectFor = this.proList[this.now].cn_name +' '+ this.proList[this.now].en_name;

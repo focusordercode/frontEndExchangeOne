@@ -145,8 +145,47 @@ var adduse = new Vue ({
             this.editOne = '';
             $('.editTable').modal('hide');
         },
+        get:function () {
+            var getWidth = $('.pors .cate-list').prev('.form-control').innerWidth();
+            $('.pors .cate-list').css('width',getWidth);
+            var searchCusVal = $('.searchCate').val();
+            $.ajax({
+                type:'POST',
+                url:serverUrl+'get/roles',
+                datatype:'json',
+                data:{
+                    key:oKey,
+                    user_id:token,
+                    vague:searchCusVal
+                },
+                success:function(data){
+                    if(data.status == 100){
+                        adduse.oneList = data.value;
+
+                    }else if(data.status==1012){
+                        layer.msg('请先登录',{time:2000});
+                        setTimeout(function(){
+                            jumpLogin(loginUrl,NowUrl);
+                        },2000);
+                    }else if(data.status==1011){
+                        layer.msg('权限不足,请跟管理员联系');
+                    }else{
+                        adduse.oneList = '';
+                    }
+                },
+                error:function(jqXHR){
+                    layer.msg('向服务器请求搜索角色失败');
+                }
+            })
+        },
+        changeDown: function () {
+
+        },
+        changeUp: function () {
+
+        }
     }
-})
+});
 
 //刷新函数
 function windowFresh(){
@@ -157,7 +196,7 @@ $(function(){
     $('.searchBtn').on('click',function(){
         $('.searchCompent').show();
         $('#al_role').hide();
-    })
+    });
     $('.closeBtn').on('click',function(){
         $('.searchCompent').hide();
     })
@@ -178,7 +217,7 @@ $('body').bind('click', function(event) {
 });
 
 //搜索角色
-$('.searchCate').on('keyup',function(){
+/*$('.searchCate').on('keyup',function(){
     var getWidth = $('.pors .cate-list').prev('.form-control').innerWidth();
     $('.pors .cate-list').css('width',getWidth);
     var searchCusVal = $('.searchCate').val();
@@ -210,7 +249,7 @@ $('.searchCate').on('keyup',function(){
             layer.msg('向服务器请求搜索角色失败');
         }
     })
-}); 
+}); */
 function getroleid(orgSelect){
     var roleid = [];
     for (var i = 0; i < orgSelect.length; i++) {

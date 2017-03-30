@@ -64,32 +64,41 @@
                         <div class="panel panel-success">
                             <div class="panel-heading"><h4><b>操作</b></h4></div>
                             <div class="panel-body">
-                                <div class="form-horizontal control-panel">
+                                <div class="form-horizontal control-panel row">
                                     <div class="form-group" >
-                                        <label class="col-md-1 control-label">选择搜索条件</label>
-                                        <div class="col-md-2">
-                                            <input type="text" v-model="searchFeild.keyword" placeholder="输入表格名称、客户名称" class="form-control">
+                                        <label class="col-md-1 col-sm-1 control-label" >选择搜索条件</label>
+                                        <div class="col-md-2 col-sm-2">
+                                            <input type="text" v-model="searchFeild.keyword" placeholder="输入表格名称、客户名称" class="form-control col-md-6 col-sm-6">
                                         </div>
-                                        <div class="col-md-1 seachListFa" id="blurInput">
-                                            <div class="form-group">
-                                                <div class="input-group">
-                                                      <input type="text" v-model="searchFeild.cate_name" placeholder="输入关键字搜索类目" class="form-control goSearch " id="searchField" >
-                                                      <div class="input-group-addon" v-show="searchFeild.cateId" @click="cancelCate">
-                                                          <i class="fa fa-close"></i>
-                                                      </div>
+                                        <div class="col-md-2 col-sm-2 seachListFa" id="blurInput">
+                                                <div class="form-group">
+                                                    <div class="input-group input-width">
+                                                        <input
+                                                                type="text"
+                                                                v-model="searchFeild.cate_name"
+                                                                placeholder="输入关键字搜索类目"
+                                                                class=" form-control goSearch "
+                                                                id="searchField"
+                                                                @keyup="getdata($event)"
+                                                                @keydown.down="changeDown()"
+                                                                @keydown.up.prevent="changeUp()" >
+
+                                                        <div class="input-group-addon" v-show="searchFeild.cateId" @click="cancelCate">
+                                                            <i class="fa fa-close"></i>
+                                                        </div>
+                                                    </div>
+                                                    <!-- 搜索列表-->
+                                                    <div class="seachList row" id="seachList" >
+                                                        <ul class="col-sm-12 col-md-12 searchLi" id="searchInput">
+                                                            <li @click="selectCate(pro)" v-for="pro in proList" :class="{gray:$index==now}" v-cloak >
+                                                                {{pro.cn_name}} {{pro.en_name}}
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                    <!-- 搜索列表-->
                                                 </div>
-                                               <!-- 搜索列表-->
-                                                <div class="seachList row">
-                                                    <ul class="col-sm-12 col-md-12" id="searchInput">
-                                                        <li @click="selectCate(pro)" v-for="pro in proList" v-cloak >
-                                                            {{pro.cn_name}} {{pro.en_name}}
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                                <!-- 搜索列表-->
                                             </div>
-                                        </div>
-                                        <div class="col-md-1">
+                                        <div class="col-md-1 col-sm-1">
                                             <div class="form-group text-center">
                                                 <input type="text" v-model="temp_name" placeholder="点击选择模板" class="form-control goSearch " id="searchtemp" readonly>
                                             </div>
@@ -98,16 +107,16 @@
                                                 <option :value="tem.id" v-for="tem in alltem" v-cloak>{{tem.cn_name}}</option>
                                             </select>-->
                                         </div>
-                                        <div class="col-md-1">
-                                            <input size="16" type="text" v-model="searchFeild.startdate" readonly="" class="form-control date date1">
+                                        <div class="col-md-1 col-sm-1">
+                                            <input size="16" type="text" v-model="searchFeild.startdate" readonly="" class="col-sm-11 col-md-11 form-control date date1">
                                         </div>
-                                        <div class="col-sm-1 middle-col">
+                                        <div class="col-sm-1 col-md-1 middle-col">
                                             <b>到</b>
                                         </div>
-                                        <div class="col-md-1">
-                                            <input size="16" type="text" v-model="searchFeild.enddate" readonly="" class="form-control date date2">
-                                        </div>
-                                        <div class="col-md-1">
+                                        <div class="col-md-1 col-sm-1">
+                                                <input size="16" type="text" v-model="searchFeild.enddate" readonly="" class="form-control date date2">
+                                            </div>
+                                        <div class="col-md-1 col-sm-1">
                                             <select v-model="searchFeild.status_code" class="form-control">
                                                 <option value="" selected>所有状态</option>
                                                 <option value="creating">创建</option>
@@ -118,15 +127,16 @@
                                                 <option value="halt">终止</option>
                                             </select>
                                         </div>
-                                        
-                                        <div class="col-md-1">
-                                            <button @click="searchTable" class="btn btn-default">搜索</button>
-                                        </div>
-                                        <div class="col-md-1">
-                                            <button @click="creatTable" class="btn btn-success btn-sm pull-right">创建表格</button>
-                                        </div>
-                                        <div class="col-md-1 pull-right">
-                                            <button class="btn btn-info btn-sm" @click="Reflesh">刷新</button>
+                                        <div class="col-md-2 col-sm-2">
+                                            <div class="col-md-4 col-sm-4">
+                                                <button @click="searchTable" class="btn btn-default">搜索</button>
+                                            </div>
+                                            <div class="col-md-4 col-sm-4 ">
+                                                <button @click="creatTable" class="btn btn-success btn-sm pull-right">创建表格</button>
+                                            </div>
+                                            <div class="col-md-4 col-sm-4 ">
+                                                <button class="btn btn-info btn-sm" @click="Reflesh">刷新</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

@@ -25,16 +25,22 @@ var TableCreat = new Vue({
 	data:{
 		tableID:Request.tableID,
 		TableCreat:'',
-		proList:'',
-		proSelected:'',
-		proSelectedId:'',
+		proList:'',//类目搜索列表
+		proSelected:'',//搜索列表显示的
+		proSelectedId:'',//搜索列表id
+        searchCate:'',//搜索框隐藏的
+        is_cate:false,//搜索显示隐藏
+		now:-1,
 		MBlist:'',
 		MBkeyword:'',
 		MBselected:'',
 		MBselectedId:'',
-		CusList:'',
+		CusList:'',//客户搜索列表
 		CusSelect:'',
 		CusSelectId:'',
+		Cus:'',
+        is_Cus:false,
+        nowCus:-1,
 		tableName:'',
 		creator_id:0,
 		tableType:'', //主体变体
@@ -252,9 +258,163 @@ var TableCreat = new Vue({
 				var url = 'Table-info.html';
 				window.location.href = url;
 			});
-		}
+		},
+		//类目搜索
+		getdata:function (ev) {
+            if(ev.keyCode == 8){
+                this.now = -1
+            }
+            if(ev.keyCode == 38 || ev.keyCode == 40){
+                return;
+            }else if(ev.keyCode == 13){
+				/*window.open('https://www.baidu.com/s?wd='+this.t1);*/
+                this.proSelected = this.proList[this.now].cn_name;
+                this.searchCate = this.proList[this.now].cn_name;
+                this.proSelectedId = this.proList[this.now].id;
+                this.is_cate = !this.is_cate
+            }
+            var getWidth = $('.pors .cate-list').prev('.form-control').innerWidth();
+            $('.pors .cate-list').css('width',getWidth);
+            var searchCusVal = $('.searchCate').val();
+            $.ajax({
+                type:'POST',
+                url:serverUrl+'index.php/vague/name',
+                datatype:'json',
+                data:{
+                    key:oKey,
+                    user_id:token,
+                    text:searchCusVal
+                },
+                success:function(data){
+                    if(data.status==100){
+                        TableCreat.proList = data.value;
+                    }else if(data.status==1012){
+                        layer.msg('请先登录',{time:2000});
+
+                        setTimeout(function(){
+                            jumpLogin(loginUrl,NowUrl);
+                        },2000);
+                    }else if(data.status==1011){
+                        layer.msg('权限不足,请跟管理员联系');
+                    }else{
+                        TableCreat.proList= '';
+                    }
+                },
+                error:function(jqXHR){
+                    layer.msg('向服务器请求客户信息失败');
+                }
+        })
+	},
+        changeDown:function() {//键盘下方向选择下拉
+			/* if (this.proList.length == 0 || this.proList.length == -1)return;*/
+            this.now++;
+            if(this.now == this.proList.length){
+                this.now = -1;
+            }else{
+                $('#searchInput0').animate({scrollTop:this.now*31},100);
+                this.proSelected = this.proList[this.now].cn_name;
+                this.searchCate = this.proList[this.now].cn_name;
+                this.proSelectedId = this.proList[this.now].id;
+            }
+        },
+        //上方向键
+        changeUp:function(){//键盘上方向选择下拉
+			/* if (this.proList.length == 0 || this.proList.length == -1)return;*/
+            this.now--;
+            if(this.now == -2){
+                this.now = this.proList.length-1;
+            }else if(this.now == -1){
+                this.now = this.proList.length
+            }else {
+                $('#searchInput0').animate({scrollTop:this.now*31},100);
+                this.proSelected = this.proList[this.now].cn_name;
+                this.searchCate = this.proList[this.now].cn_name;
+                this.proSelectedId = this.proList[this.now].id;
+            }
+        },
+		show: function () {
+				this.is_cate = !this.is_cate
+        },
+		getCusData: function (ev) {
+            if(ev.keyCode == 8){
+                this.now = -1
+            }
+            if(ev.keyCode == 38 || ev.keyCode == 40){
+                return;
+            }else if(ev.keyCode == 13){
+				/*window.open('https://www.baidu.com/s?wd='+this.t1);*/
+                this.CusSelect = this.CusList[this.nowCus].custom_name;
+                this.Cus = this.CusList[this.nowCus].custom_name;
+                this.CusSelectId = this.CusList[this.nowCus].id;
+                this.is_Cus = !this.is_Cus
+            }
+            var getWidth = $('.pors .input-list').prev('.form-control').innerWidth();
+            $('.pors .input-list').css('width',getWidth);
+            var searchCusVal = $('.searchCus').val();
+            $.ajax({
+                type:'POST',
+                url:serverUrl+'vague/custom',
+                datatype:'json',
+                data:{
+                    key:oKey,
+                    user_id:token,
+                    keyword:searchCusVal
+                },
+                success:function(data){
+                    if(data.status==100){
+                        TableCreat.CusList = data.value;
+                        console.log(data.value[0].custom_name);
+                    }else if(data.status==1012){
+                        layer.msg('请先登录',{time:2000});
+
+                        setTimeout(function(){
+                            jumpLogin(loginUrl,NowUrl);
+                        },2000);
+                    }else if(data.status==1011){
+                        layer.msg('权限不足,请跟管理员联系');
+                    }else{
+                        TableCreat.CusList= '';
+                    }
+                },
+                error:function(jqXHR){
+                    layer.msg('向服务器请求客户信息失败');
+                }
+            })
+        },
+        changeDownCus:function() {//键盘下方向选择下拉
+			/* if (this.proList.length == 0 || this.proList.length == -1)return;*/
+            this.nowCus++;
+            if(this.nowCus == this.CusList.length){
+                this.nowCus = -1;
+            }else{
+                $('#searchInput1').animate({scrollTop:this.nowCus*49},100);
+                this.CusSelect = this.CusList[this.nowCus].custom_name;
+                this.Cus = this.CusList[this.nowCus].custom_name;
+                this.CusSelectId = this.CusList[this.nowCus].id;
+            }
+        },
+        changeUpCus:function(){//键盘上方向选择下拉
+			/* if (this.proList.length == 0 || this.proList.length == -1)return;*/
+            this.nowCus--;
+            if(this.nowCus == -2){
+                this.nowCus = this.CusList.length-1;
+            }else if(this.nowCus == -1){
+                this.nowCus = this.CusList.length
+            }else {
+                $('#searchInput1').animate({scrollTop:this.nowCus*49},100);
+                this.CusSelect = this.CusList[this.nowCus].custom_name;
+                this.Cus = this.CusList[this.nowCus].custom_name;
+                this.CusSelectId = this.CusList[this.nowCus].id;
+            }
+        },
+        show: function () {
+            this.is_cate = !this.is_cate
+        },
+        showCus:function () {
+			this.is_Cus = !this.is_Cus;
+        }
 	}
-}) 
+});
 
 //提交表格信息函数
 function submitTable (vm) {
@@ -320,7 +480,7 @@ $(function(){
 });
 searchListTog(1);
 //搜索客户
-$('.searchCus').on('keyup',function(){
+/*$('.searchCus').on('keyup',function(){
 	var getWidth = $('.pors .input-list').prev('.form-control').innerWidth();
 	$('.pors .input-list').css('width',getWidth);
 	var searchCusVal = $('.searchCus').val();
@@ -352,7 +512,7 @@ $('.searchCus').on('keyup',function(){
 			layer.msg('向服务器请求客户信息失败');
 		}
 	})
-});
+});*/
 
 //搜索类目框
 $(function(){
@@ -369,11 +529,10 @@ $(function(){
 searchListTog(0);
 
 //搜索类目
-$('.searchCate').on('keyup',function(){
+/*$('.searchCate').on('keyup',function(){
 	var getWidth = $('.pors .cate-list').prev('.form-control').innerWidth();
 	$('.pors .cate-list').css('width',getWidth);
 	var searchCusVal = $('.searchCate').val();
-
 	$.ajax({
 		type:'POST',
 		url:serverUrl+'index.php/vague/name',
@@ -402,7 +561,7 @@ $('.searchCate').on('keyup',function(){
 			layer.msg('向服务器请求客户信息失败');
 		}
 	})
-});
+});*/
 
 
 function searchListTog(num) {

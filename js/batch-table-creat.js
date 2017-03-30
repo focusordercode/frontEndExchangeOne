@@ -30,6 +30,9 @@ var tableCreat = new Vue({
 		proSelected:'',
 		proSelectedId:'',
 		selecteTableBtn:'',
+        proSelectFor:'',
+		now:-1,
+		is_show:false,//显示隐藏搜索列表
 		//资料表列表
 		tableList:'',
 		keyword:'',
@@ -323,9 +326,85 @@ var tableCreat = new Vue({
 				var url = 'Table-batch.html';
 				window.location.href = url;
 			});
-		}
+		},
+		get:function (ev) {
+            if(ev.keyCode == 8){
+                this.now = -1
+            }
+            if(ev.keyCode == 38 || ev.keyCode == 40)return;
+
+            if(ev.keyCode == 13){
+                this.proSelected = this.proList[this.now].cn_name +' '+ this.proList[this.now].en_name;
+                this.proSelectedId = this.proList[this.now].id;
+                this.is_show = !this.is_show;
+                this.now = -1;
+            }
+            var getWidth = $('.pors .cate-list').prev('.form-control').innerWidth();
+            $('.pors .cate-list').css('width',getWidth);
+            var searchCusVal = $('.searchCate').val();
+            $.ajax({
+                type:'POST',
+                url:serverUrl+'vague/name',
+                datatype:'json',
+                data:{
+                    key:oKey,
+                    user_id:token,
+                    text:searchCusVal
+                },
+                success:function(data){
+                    var vm = tableCreat;
+
+                    if(data.status==100){
+                        vm.proList = data.value;
+                    }else if(data.status==1012){
+                        layer.msg('请先登录',{time:2000});
+
+                        setTimeout(function(){
+                            jumpLogin(loginUrl,NowUrl);
+                        },2000);
+                    }else if(data.status==1011){
+                        layer.msg('权限不足,请跟管理员联系');
+                    }else{
+                        vm.proList= '';
+                    }
+                },
+                error:function(jqXHR){
+                    layer.msg('向服务器请求产品类目失败');
+                }
+            })
+        },
+        changeDown:function () {
+            this.now++;
+            if(this.now == this.proList.length){
+                this.now = -1;
+            }else{
+                $('#searchInput0').animate({scrollTop:this.now*33},100);
+                this.proSelectedId = this.proList[this.now].id;
+                this.proSelected = this.proList[this.now].cn_name +' '+ this.proList[this.now].en_name;
+                this.proSelectFor = this.proList[this.now].cn_name +' '+ this.proList[this.now].en_name;
+
+            }
+        },
+		changeUp:function () {
+            this.now--;
+            if(this.now == -2){
+                this.now = this.proList.length-1;
+            }else if(this.now == -1){
+                this.now = this.proList.length;
+            }else {
+                $('#searchInput0').animate({scrollTop:this.now*33},100);
+                this.proSelectedId = this.proList[this.now].id;
+                this.proSelected = this.proList[this.now].cn_name +' '+ this.proList[this.now].en_name;
+                this.proSelectFor = this.proList[this.now].cn_name +' '+ this.proList[this.now].en_name;
+            }
+        },
+		show:function () {
+            this.proSelectFor = '';
+            $('#searchField0').focus();
+            this.is_show = !this.is_show;
+        }
 	}
-})
+});
 
 //获取产品资料表函数
 function getInfoTable(vm,num,keyword){
@@ -396,7 +475,7 @@ function searchListTog(num) {
 }
 
 //搜索类目
-$('.searchCate').on('keyup',function(){
+/*$('.searchCate').on('keyup',function(){
 	var getWidth = $('.pors .cate-list').prev('.form-control').innerWidth();
 	$('.pors .cate-list').css('width',getWidth);
 	var searchCusVal = $('.searchCate').val();
@@ -431,7 +510,7 @@ $('.searchCate').on('keyup',function(){
 			layer.msg('向服务器请求产品类目失败');
 		}
 	})
-});
+});*/
 
 //搜索列表显示隐藏
 /*

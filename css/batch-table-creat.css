@@ -128,3 +128,7 @@
     display: none;
 
 }
+#searchInput0{
+    max-width: 198px;
+    overflow-y: auto;
+}

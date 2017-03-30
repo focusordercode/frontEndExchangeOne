@@ -71,18 +71,27 @@
                                     <div class="col-md-2">
                                         <input type="text" v-model="searchFeild.keyword" placeholder="输入表格名称、客户名称" class="form-control">
                                     </div>
-                                    <div class="col-md-1" id="blurInput">
+                                    <div class="col-md-2" id="blurInput">
                                         <div class="form-group seachListFa" id="form-group">
-                                            <div class="input-group" >
-                                                  <input type="text" v-model="searchFeild.cate_name" placeholder="输入关键字选择类目" class="form-control goSearch" id="searchField">
+                                            <div class="input-group" style="width: 100%">
+                                                  <input
+                                                          type="text"
+                                                          v-model="searchFeild.cate_name"
+                                                          placeholder="输入关键字选择类目"
+                                                          class="form-control goSearch"
+                                                          id="searchField"
+                                                          @keyup="getdata($event)"
+                                                          @keydown.down="changeDown()"
+                                                          @keydown.up.prevent="changeUp()"
+                                                  >
                                                   <div class="input-group-addon" v-show="searchFeild.cateId" @click="cancelCate">
                                                       <i class="fa fa-close"></i>
                                                   </div>
                                             </div>
                                             <div class="container">
-                                                <div class="row seachList">
+                                                <div class="row seachList" id="seachList">
                                                     <ul class="col-md-12 col-lg-12" id="searchInput">
-                                                        <li @click="selectCate(pro)" v-for="pro in proList" v-cloak>
+                                                        <li @click="selectCate(pro)" v-for="pro in proList" v-cloak :class="{gray:$index==now}">
                                                             {{pro.cn_name}} {{pro.en_name}}
                                                         </li>
                                                     </ul>
@@ -118,15 +127,18 @@
                                             <option value="halt">终止</option>
                                         </select>
                                     </div>
-                                    <div class="col-md-1">
-                                        <button @click="searchTable" class="btn btn-default">搜索</button>
+                                    <div class="col-md-2 col-sm-2">
+                                        <div class="col-md-4 col-sm-4">
+                                            <button @click="searchTable" class="btn btn-default">搜索</button>
+                                        </div>
+                                        <div class="col-md-4 col-sm-4">
+                                            <button @click="creatTable" class="btn btn-success btn-sm pull-right">创建表格</button>
+                                        </div>
+                                        <div class="col-md-4 col-sm-4 pull-right">
+                                            <button class="btn btn-info btn-sm" @click="Reflesh">刷新</button>
+                                        </div>
                                     </div>
-                                    <div class="col-md-1">
-                                        <button @click="creatTable" class="btn btn-success btn-sm pull-right">创建表格</button>
-                                    </div>
-                                    <div class="col-md-1 pull-right">
-                                        <button class="btn btn-info btn-sm" @click="Reflesh">刷新</button>
-                                    </div>
+
                                 </div>
                             </div>
                         </div>

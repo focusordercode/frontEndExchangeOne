@@ -222,8 +222,8 @@
                                                 @keydown.down="changeDown()"
                                                 @keydown.up.prevent="changeUp()"
                                         >
-                                        <ul class="cate-list " id="searchInput"  >
-                                            <li @click="selectCate(pro)"  style="width: 286px;"  v-for="pro in proList" v-cloak :class="{gray:$index==now}">
+                                        <ul class="cate-list searchList-height" id="searchInput"  >
+                                            <li @click="selectCate(pro)" v-for="pro in proList" v-cloak :class="{gray:$index==now}">
                                                 {{pro.cn_name}} {{pro.en_name}}
                                             </li>
                                         </ul>

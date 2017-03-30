@@ -28,10 +28,13 @@ var creatTemp = new Vue({
         remark:'',
         proList:'',
         proName:'',
+        proSelectFor:'',//搜索input框
         proId:'',
+        now:'',
         cn_alert:false,//中文名字为空，出现提示
         en_alert:false,//英文名字为空，出现提示
-        name_alert:false//类目为空，出现提示
+        name_alert:false,//类目为空，出现提示
+        ishsow_SelectList:false//类目搜索框显示隐藏
     },
     methods:{
         //从搜索结果中选中一个类目
@@ -111,6 +114,84 @@ var creatTemp = new Vue({
                 })
             }
         },
+        get:function (ev) {
+            if(ev.keyCode == 8){
+                this.now = -1
+            }
+            if(ev.keyCode == 38 || ev.keyCode == 40)return;
+
+            if(ev.keyCode == 13){
+
+                this.proName = this.proList[this.now].cn_name +' '+ this.proList[this.now].en_name;
+                this.proId = this.proList[this.now].id;
+                this.now = -1;
+            }
+            var searchCusVal = this.proSelectFor;
+            $.ajax({
+                type:'POST',
+                url:serverUrl+'vague/name',
+                datatype:'json',
+                data:{
+                    key:oKey,
+                    user_id:token,
+                    text:searchCusVal
+                },
+                success:function(data){
+                    var vm = creatTemp;
+                    if(data.status==100){
+                        vm.proList = data.value;
+                        var getWidth = $('#searchField').outerWidth();
+                        $('#searchInput').css('width',getWidth);
+
+                    }else if(data.status==1012){
+                        layer.msg('请先登录',{time:2000});
+
+                        setTimeout(function(){
+                            jumpLogin(loginUrl,NowUrl);
+                        },2000);
+                    }else if(data.status==1011){
+                        layer.msg('权限不足,请跟管理员联系');
+                    }else{
+                        vm.proList= '';
+                    }
+                },
+                error:function(jqXHR){
+                    layer.msg('向服务器请求产品类目失败');
+                }
+            })
+        },
+        changeDown:function () {//键盘下方向选择下拉
+            /* if (this.proList.length == 0 || this.proList.length == -1)return;*/
+
+            this.now++;
+            if(this.now == this.proList.length){
+                this.now = -1;
+            }else{
+                $('#searchInput').animate({scrollTop:this.now*33},100);
+                this.proId = this.proList[this.now].id;
+                this.proName = this.proList[this.now].cn_name +' '+ this.proList[this.now].en_name;
+                this.proSelectFor = this.proList[this.now].cn_name +' '+ this.proList[this.now].en_name;
+
+            }
+        },
+        changeUp:function(){//键盘上方向选择下拉
+            /* if (this.proList.length == 0 || this.proList.length == -1)return;*/
+            this.now--;
+            if(this.now == -2){
+                this.now = this.proList.length-1;
+            }else if(this.now == -1){
+                this.now = this.proList.length;
+            }else {
+                $('#searchInput').animate({scrollTop:this.now*33},100);
+                this.proId = this.proList[this.now].id;
+                this.proName = this.proList[this.now].cn_name +' '+ this.proList[this.now].en_name;
+                this.proSelectFor = this.proList[this.now].cn_name +' '+ this.proList[this.now].en_name;
+            }
+        },
+        show:function () {
+            this.ishsow_SelectList = !this.ishsow_SelectList;
+            this.proSelectFor = ''
+        },
         //取消创建模板
         cancel:function(){
             layer.confirm('确定取消创建模板?数据将不保存',{
@@ -153,8 +234,9 @@ $('body').bind('click', function(event) {
 });
 
 //模糊搜索类目
+/*
 $('.searchCate').on('keyup',function(){
-    var getWidth = $('.pors .cate-list').prev('.form-control').innerWidth();
+  /!*  var getWidth = $('.pors .cate-list').prev('.form-control').innerWidth();
     $('.pors .cate-list').css('width',getWidth);
     var searchCusVal = $('.searchCate').val();
 
@@ -185,5 +267,5 @@ $('.searchCate').on('keyup',function(){
         error:function(jqXHR){
             layer.msg('向服务器请求客户信息失败');
         }
-    })
-});
+    })*!/
+});*/

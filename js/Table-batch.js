@@ -14,6 +14,7 @@ var oTableInfo = new Vue({
 		pageNow:'',
 		jump:'',
 		// 搜索类目
+        now:-1,
 		proList:'',
 		//搜索条件
 		searchFeild:{
@@ -662,6 +663,81 @@ var oTableInfo = new Vue({
             }
                 this.temid = '';
                 this.temp_name = '';
+        },
+		//输入关键字获取下拉列表数据
+        getdata:function (ev) {
+            this.ishsow_SelectList = true;
+            if(ev.keyCode == 8){
+                this.now = -1
+            }
+            if(ev.keyCode == 38 || ev.keyCode == 40){
+                return;
+            }else if(ev.keyCode == 13){
+				/*window.open('https://www.baidu.com/s?wd='+this.t1);*/
+                this.ishsow_SelectList = !this.ishsow_SelectList;
+                this.searchFeild.cate_name = this.proList[this.now].cn_name;
+                this.searchFeild.cateId = this.proList[this.now].id;
+            }
+            var searchCusVal = $('#searchField').val();
+            if(searchCusVal){
+                $.ajax({
+                    type:'POST',
+                    url:search,
+                    datatype:'json',
+                    data:{
+                        key:oKey,
+                        user_id:token,
+                        text:searchCusVal
+
+                    },
+                    success:function(data){
+                        var vm = this;
+                        if(data.status==100){
+                            oTableInfo.proList = data.value;
+                        }else if(data.status==1012){
+                            layer.msg('请先登录',{time:2000});
+
+                            setTimeout(function(){
+                                jumpLogin(loginUrl,NowUrl);
+                            },2000);
+                        }else if(data.status==1011){
+                            layer.msg('权限不足,请跟管理员联系');
+                        }else{
+                            oTableInfo.proList= '';
+                        }
+                    },
+                    error:function(jqXHR){
+                        layer.msg('向服务器请求客户信息失败');
+                    }
+                })
+            }
+        },
+		//下方向键
+        changeDown:function() {//键盘下方向选择下拉
+			/* if (this.proList.length == 0 || this.proList.length == -1)return;*/
+
+            this.now++;
+            if(this.now == this.proList.length){
+                this.now = -1;
+            }else{
+                $('#seachList').animate({scrollTop:this.now*31},100);
+                this.searchFeild.cate_name = this.proList[this.now].cn_name;
+                this.searchFeild.cateId = this.proList[this.now].id;
+            }
+        },
+        //上方向键
+        changeUp:function(){//键盘上方向选择下拉
+			/* if (this.proList.length == 0 || this.proList.length == -1)return;*/
+            this.now--;
+            if(this.now == -2){
+                this.now = this.proList.length-1;
+            }else if(this.now == -1){
+                this.now = this.proList.length
+            }else {
+                $('#seachList').animate({scrollTop:this.now*31},100);
+                this.searchFeild.cate_name = this.proList[this.now].cn_name;
+                this.searchFeild.cateId = this.proList[this.now].id;
+            }
         }
 
 	}
@@ -847,7 +923,7 @@ function getTempData (vm,pageNow,search,num_temp,type_code) {
 
 $(document).ready(function(){
 	//模糊搜索类目
-	$('#searchField').on('keyup',function(){
+	/*$('#searchField').on('keyup',function(){
 	    var searchCusVal = $('#searchField').val();
 	    if(searchCusVal){
 	    	$.ajax({
@@ -879,7 +955,7 @@ $(document).ready(function(){
 	    	    }
 	    	})
 	    }
-	});
+	});*/
 
 
     //打开模板弹窗

@@ -78,13 +78,22 @@
                             <div class="form-horizontal control-panel">
                                 <div class="form-group">
                                     <label class="col-md-1 control-label">选择搜索条件</label>
-                                    <div class="col-md-2">
+                                    <div class="col-md-2 col-sm-2">
                                         <input type="text" v-model="search.keyword" placeholder="输入中文、英文名称" class="form-control">
                                     </div>
-                                    <div class="col-md-1">
+                                    <div class="col-md-2 col-sm-2">
                                         <div class="form-group seachListFa" id="blurInput">
-                                            <div class="input-group">
-                                                  <input type="text" v-model="search.cate_name" placeholder="输入关键字选择类目" class="form-control goSearch" id="searchField">
+                                            <div class="input-group" style="width: 100%">
+                                                  <input
+                                                          type="text"
+                                                          v-model="search.cate_name"
+                                                          placeholder="输入关键字选择类目"
+                                                          class="form-control goSearch"
+                                                          id="searchField"
+                                                          @keyup="getdata($event)"
+                                                          @keydown.down="changeDown()"
+                                                          @keydown.up.prevent="changeUp()"
+                                                  >
                                                   <div class="input-group-addon" v-show="search.cateId" @click="cancelCate">
                                                       <i class="fa fa-close"></i>
                                                   </div>
@@ -92,7 +101,7 @@
                                             <div class="container">
                                                 <div class="row seachList" id="searchInput">
                                                     <ul class=" col-md-12 col-lg-12">
-                                                        <li @click="selectCate(pro)" v-for="pro in proList">
+                                                        <li @click="selectCate(pro)" v-for="pro in proList" :class="{gray:$index==now}">
                                                             {{pro.cn_name}} {{pro.en_name}}
                                                         </li>
                                                     </ul>

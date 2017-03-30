@@ -166,3 +166,7 @@
 [v-cloak] {
     display: none;
 }
+#searchInput0 {
+    max-height: 176px;
+    overflow-y: auto;
+}

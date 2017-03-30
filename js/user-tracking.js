@@ -16,6 +16,10 @@ var userlist = new Vue({
             uid:'',
             uidName:''
         },
+        proSelectFor:'',
+        now:-1,//
+        is_show:false,
+        is_btnShow:true,
         selectedArr:[],
         searchResult:'' //搜索成功后的条件
 	},
@@ -301,9 +305,86 @@ var userlist = new Vue({
                     }
                 })
             }
+        },
+        get:function (ev) {
+            if(ev.keyCode == 8){
+                this.now = -1
+            }
+
+            if(ev.keyCode == 38 || ev.keyCode == 40)return;
+
+            if(ev.keyCode == 13){
+                 this.is_show = !this.is_show;
+                $('.search-usrbtn').show();
+            }
+            var getWidth = $('.pors .cate-list').prev('.form-control').innerWidth();
+            $('.pors .cate-list').css('width',getWidth);
+            var searchCusVal = $('.searchCate').val();
+
+            $.ajax({
+                type:'POST',
+                url:serverUrl+'get/user',
+                datatype:'json',
+                data:{
+                    key:oKey,
+                    user_id:token,
+                    search:searchCusVal
+                },
+                success:function(data){
+                    var vm = userlist;
+
+                    if(data.status==100){
+                        vm.users = data.value;
+                        console.log(data.value)
+                    }else if(data.status==1012){
+                        layer.msg('请先登录',{time:2000});
+
+                        setTimeout(function(){
+                            jumpLogin(loginUrl,NowUrl);
+                        },2000);
+                    }else if(data.status==1011){
+                        layer.msg('权限不足,请跟管理员联系');
+                    }else{
+                        vm.users= '';
+                    }
+                },
+                error:function(jqXHR){
+                    layer.msg('向服务器请求失败');
+                }
+            })
+
+        },
+        changeDown:function () {
+            this.now++;
+            if(this.now == this.users.length){
+                this.now = -1;
+            }else{
+                $('#searchInput').animate({scrollTop:this.now*33},100);
+                this.searchFeild.uidName = this.users[this.now].username;
+                this.searchFeild.uid = this.users[this.now].id;
+                this.proSelectFor = this.users[this.now].username;
+
+            }
+        },
+        changeUp:function () {
+            this.now--;
+            if(this.now == -2){
+                this.now = this.users.length-1;
+            }else if(this.now == -1){
+                this.now = this.users.length
+            }else {
+                $('#searchInput').animate({scrollTop:this.now*33},100);
+                this.searchFeild.uidName = this.users[this.now].username;
+                this.searchFeild.uid = this.users[this.now].id;
+                this.proSelectFor = this.users[this.now].username;
+            }
+        },
+        show:function () {
+            this.is_show = !this.is_show;
+            $('.search-usrbtn').show();
         }
     }
-})
+});
 
 
 //获取数据函数,分页
@@ -353,7 +434,7 @@ $(function(){
     });
 
     //用户
-    $('.searchCate').on('keyup',function(){
+   /* $('.searchCate').on('keyup',function(){
         var getWidth = $('.pors .cate-list').prev('.form-control').innerWidth();
         $('.pors .cate-list').css('width',getWidth);
         var searchCusVal = $('.searchCate').val();
@@ -388,7 +469,7 @@ $(function(){
                 layer.msg('向服务器请求失败');
             }
         })
-    });
+    });*/
 
     $('body').bind('click', function(event) {
         // IE支持 event.srcElement ， FF支持 event.target

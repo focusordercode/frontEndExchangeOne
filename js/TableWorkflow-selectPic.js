@@ -103,8 +103,6 @@ var selectPic = new Vue({
         tableData:'',
         cataselect:[],
         newData:''
-
-
     },
     ready:function(){
         //获取表格信息
@@ -489,7 +487,7 @@ var selectPic = new Vue({
             }
         }
     }
-})
+});
 
 
 //获取产品所关联的词库内容并合并数据的函数
@@ -579,7 +577,7 @@ Vue.filter('sizeCounter',function(value){
     var str = value;
     str = Math.round(str/1024) + 'kb';
     return str
-})
+});
 
 Vue.filter('imgUrl',function(value){
     var str = value;
@@ -596,7 +594,7 @@ Vue.filter('imgUrl2',function(value){
     var strNew = str.substr(1,strLen-1);
     strNew = oUrl + strNew;
     return strNew
-})
+});
 
 //点击图片目录树形菜单
 // $(document).on('click','.tree .item .label',function(){
@@ -610,7 +608,7 @@ $(function(){
         $('.searchCompent').show();
         $('#proName_alert').hide();
         $('.searchCompent2').hide();
-    })
+    });
     $('.closeBtn').on('click',function(){
         $('.searchCompent').hide();
     });
@@ -621,7 +619,7 @@ $(function(){
         $('.searchCompent').hide();
         $('#relName_alert').hide();
         $('#searchInput').hide()
-    })
+    });
     $('.closeBtn2').on('click',function(){
         $('.searchCompent2').hide();
     })

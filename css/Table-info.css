@@ -314,3 +314,14 @@
 .gray {
 	background-color: #ECF0F1;
 }
+.searchList-height {
+	max-height: 166px;
+	overflow-y: auto;
+}
+.form-control-select {
+	width: 60%;
+}
+.input-width {
+	width: 100%;
+}
+

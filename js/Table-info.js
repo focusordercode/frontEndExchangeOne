@@ -13,10 +13,10 @@ var oTableInfo = new Vue({
 		countPage:'',
 		pageNow:'',
 		jump:'',
-		// 搜索类目
-		proList:'',
-		//搜索条件
-		searchFeild:{
+        now:-1,//搜索类目
+        ishsow_SelectList:false,
+		proList:'',// 搜索类目
+		searchFeild:{//搜索条件
 			status_code:'',
 			keyword:'',
 			cate_name:'',
@@ -370,41 +370,7 @@ var oTableInfo = new Vue({
             this.searchFeild.cate_name = '';
             this.searchFeild.cateId = '';
         },
-        //列出所有模板
-        // searchalltem:function(){
-        // 	var vm = this;
-        // 	$.ajax({
-        // 		type:'POST',
-        // 		url:serverUrl+'vague/templatename',
-        // 		datatype:'json',
-        // 		data:{
-        // 			key:oKey,
-        // 			user_id:token,
-        // 			type_code:'info',
-        // 			is_paging:'yes'
-
-        // 		},
-        // 		success:function(data){
-        // 			if (data.status==100) {
-        // 				vm.alltem = data.value;
-        // 			}else if(data.status==1012){
-        //                    layer.msg('请先登录',{time:2000});
-
-        //                    setTimeout(function(){
-        //                        jumpLogin(loginUrl,NowUrl);
-        //                    },2000);
-        //                }else if(data.status==1011){
-        //                    layer.msg('权限不足,请跟管理员联系');
-        //                }else{
-        // 				layer.msg(data.msg);
-        // 			}
-        // 		},
-        // 		error:function(jqXHR){
-        // 			layer.msg('向服务器请求模板失败');
-        // 		}
-        // 	})
-        // },
-        //搜索
+        //输入关键字获取列表
         searchTable: function () {
             var vm = this;
             var keyword = vm.searchFeild.keyword.trim();
@@ -687,6 +653,81 @@ var oTableInfo = new Vue({
             }
             this.temid = '';
             this.temp_name = '';
+        },
+        getdata:function (ev) {
+
+            this.ishsow_SelectList = true;
+            if(ev.keyCode == 8){
+                this.now = -1
+            }
+            if(ev.keyCode == 38 || ev.keyCode == 40){
+                return;
+            }else if(ev.keyCode == 13){
+                /*window.open('https://www.baidu.com/s?wd='+this.t1);*/
+                this.searchFeild.cate_name = this.proList[this.now].cn_name;
+                this.searchFeild.cateId = this.proList[this.now].id;
+                this.ishsow_SelectList = !this.ishsow_SelectList
+            }
+            var searchCusVal = $('#searchField').val();
+            console.log(searchCusVal);
+            if(searchCusVal){
+                $.ajax({
+                    type:'POST',
+                    url:search,
+                    datatype:'json',
+                    data:{
+                        key:oKey,
+                        user_id:token,
+                        text:searchCusVal
+
+                    },
+                    success:function(data){
+                        var vm = this;
+                        if(data.status==100){
+                            oTableInfo.proList = data.value;
+                        }else if(data.status==1012){
+                            layer.msg('请先登录',{time:2000});
+
+                            setTimeout(function(){
+                                jumpLogin(loginUrl,NowUrl);
+                            },2000);
+                        }else if(data.status==1011){
+                            layer.msg('权限不足,请跟管理员联系');
+                        }else{
+                            oTableInfo.proList= '';
+                        }
+                    },
+                    error:function(jqXHR){
+                        layer.msg('向服务器请求客户信息失败');
+                    }
+                })
+            }
+        },
+        changeDown:function() {//键盘下方向选择下拉
+            /* if (this.proList.length == 0 || this.proList.length == -1)return;*/
+
+            this.now++;
+            if(this.now == this.proList.length){
+                this.now = -1;
+            }else{
+                $('#seachList').animate({scrollTop:this.now*31},100);
+                this.searchFeild.cate_name = this.proList[this.now].cn_name;
+                this.searchFeild.cateId = this.proList[this.now].id;
+            }
+        },
+        //上方向键
+        changeUp:function(){//键盘上方向选择下拉
+            /* if (this.proList.length == 0 || this.proList.length == -1)return;*/
+            this.now--;
+            if(this.now == -2){
+                this.now = this.proList.length-1;
+            }else if(this.now == -1){
+                this.now = this.proList.length
+            }else {
+                $('#seachList').animate({scrollTop:this.now*31},100);
+                this.searchFeild.cate_name = this.proList[this.now].cn_name;
+                this.searchFeild.cateId = this.proList[this.now].id;
+            }
         }
     }
 });
@@ -787,11 +828,11 @@ Vue.filter('prviewBtn',function(value){
 //刷新函数
 function windowFresh(){
     location.reload(true);
-};
+}
 //新的获取数据
 function newgetdata (){
 	
-};
+}
 //时间选择框控件
 $(".date").datetimepicker({
     format: 'yyyy-mm-dd',
@@ -894,7 +935,7 @@ function getTempData (vm,pageNow,search,num_temp,type_code) {
 
 $(document).ready(function(){
 	//模糊搜索类目-搜索框式
-	$('#searchField').on('keyup',function(){
+	/*$('#searchField').on('keyup',function(){
 	    var searchCusVal = $('#searchField').val();
 	    if(searchCusVal){
 	    	$.ajax({
@@ -927,7 +968,7 @@ $(document).ready(function(){
 	    	    }
 	    	})
 	    }
-	});
+	});*/
 
 
 
@@ -939,7 +980,7 @@ $(document).ready(function(){
 	//打开关闭搜索
 	$('.goSearch').on('click',function(){
 	    $('#searchInput').show();
-
+        oTableInfo.ishsow_SelectList = !oTableInfo.ishsow_SelectList;
 	   /* $('.modal-backdrop').show();*/
 	    $('#searchField').focus();
 	});
@@ -950,6 +991,7 @@ $(document).ready(function(){
         if(evt.id == 'blurInput'|| evt.id == 'searchInput'||evt.id == 'searchField') return; // 如果是元素本身，则返回
         else {
             $('#searchInput').hide(); // 如不是则隐藏元素
+            oTableInfo.ishsow_SelectList = !oTableInfo.ishsow_SelectList
         }
     });
 

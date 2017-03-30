@@ -118,17 +118,25 @@
                                         <input type="text" v-model="searchFeild.uidName" placeholder="选择用户" class="form-control" readonly>
                                     </div>
                                     <div class="col-sm-1 search-usrbtn" >
-                                        <button class="btn btn-info btn-sm searchBtn" id="blurInput">搜索用户</button>
+                                        <button class="btn btn-info btn-sm searchBtn" id="blurInput" @click="show" >搜索用户</button>
                                     </div>
-                                    <div class="col-sm-3 pors searchCompent" >
-                                        <input type="text" class="form-control searchShadow searchCate" placeholder="搜索用户" id="searchField">
-                                        <ul class="cate-list" id="searchInput">
-                                            <li @click="selectusr(usr)" v-for="usr in users">
+                                    <div class="col-sm-3 pors searchCompent" v-show="is_show">
+                                        <input
+                                                type="text"
+                                                class="form-control searchShadow searchCate"
+                                                placeholder="搜索用户"
+                                                id="searchField"
+                                                v-model="proSelectFor"
+                                                @keyup="get($event)"
+                                                @keydown.down="changeDown()"
+                                                @keydown.up.prevent="changeUp()">
+                                        <ul class="cate-list searchUser" id="searchInput" style="max-height: 198px;overflow-y: auto;">
+                                            <li @click="selectusr(usr)" v-for="usr in users" :class="{gray:$index==now}">
                                                 {{usr.username}}
                                             </li>
                                         </ul>
                                     </div>
-                                    <div class="col-sm-1 text-left paddingLeft searchCompent">
+                                    <div class="col-sm-1 text-left paddingLeft searchCompent" v-show="is_show">
                                         <button class="btn btn-default closeBtn searchShadow">
                                             <i class="fa fa-close"></i>
                                         </button>
@@ -149,9 +157,9 @@
                 <div class="col-md-12">
                     <div class="alert alert-info">
                             <b class="text-danger">搜索结果</b>　
-                            信息数:<strong class="text-warning">{{count}}</strong>　
-                            当前页:<strong class="text-warning">{{pageNow}}</strong>　
-                            总页数:<strong class="text-warning">{{countPage}}</strong>　
+                            信息数:<strong class="text-warning" v-cloak="">{{count}}</strong>　
+                            当前页:<strong class="text-warning" v-cloak="">{{pageNow}}</strong>　
+                            总页数:<strong class="text-warning" v-cloak="">{{countPage}}</strong>　
                             <button class="btn btn-info btn-sm" @click="Reflesh">返回</button>
                     </div>
                 </div>
@@ -233,8 +241,8 @@
                         <button @click="goNextPage" :disabled="nextPageBtn" class="btn btn-default">下一页</button>
                         <input type="number" v-model="jump" placeholder="页码" min="1" class="form-control" style="width:80px;">
                         <button class="btn btn-info" @click="goJump" :disabled="jumpBtn">跳转</button>
-                        总页数:<strong class="text-warning">{{countPage}}</strong>　
-                        当前页:<strong class="text-warning">{{pageNow}}</strong>
+                        总页数:<strong class="text-warning" v-cloak="">{{countPage}}</strong>　
+                        当前页:<strong class="text-warning" v-cloak="">{{pageNow}}</strong>
                     </div>
                 </div>
             </div>
