@@ -8,7 +8,13 @@
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <!--你自己的样式文件 -->
-    <link href="" rel="stylesheet">        
+    <link href="" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/Table-info.css">
+    <!--你自己的样式文件 -->
+    <link href="css/bootstrap-datetimepicker.css" rel="stylesheet">
+    <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
     <!-- 以下两个插件用于在IE8以及以下版本浏览器支持HTML5元素和媒体查询，如果不需要用可以移除 -->
     <!--[if lt IE 9]>
     <script src="http://apps.bdimg.com/libs/html5shiv/3.7/html5shiv.js"></script>
@@ -16,9 +22,64 @@
     <![endif]-->
 </head>
     <body>
+        <div class="container">
+            <div cals>
+                <div class="search">
+                    <input type="text" >
+                    <ul class="searchList">
+                        <li class="searchLi"></li>
+                    </ul>
+                </div>
+                <div class=""></div>
+            </div>
+            <div id="parent">
+                <input type="text" name="" id="" v-model="msg" />
+                <input type="button" id="" value="dianji" @click="clickDt" />
+                <user-profile ref="profile"></user-profile>
+            </div>
+        </div>
         <!-- 如果要使用Bootstrap的js插件，必须先调入jQuery -->
         <script src="js/jquery.js"></script>
+        <script src="js/vue.js"></script>
+        <script src="js/cookie.js"></script>
         <!-- 包括所有bootstrap的js插件或者可以根据需要使用的js插件调用　-->
-        <script src="js/bootstrap.min.js"></script> 
+        <script src="js/bootstrap.min.js"></script>
+        <script src='js/layer.js'></script>
+        <!-- 检测登录状态 -->
+        <script src='js/control.js'></script>
+        <script src='js/serverUrl.js'></script>
+        <script src='js/navTpl.js'></script>
+    
+        <script>
+            Vue.component('user-profile', {
+                template: '<span>{{ msg }}</span>',
+                data: function () {
+
+                    return {
+                        msg: 123
+                    };
+                },
+                methods: {
+                    greet: function (msg) {
+                        console.log(msg);
+                    }
+                }
+
+            });
+                 //var parent = new Vue({el: '#parent'});
+                 //var child = parent.$refs.profile;
+                 //child.greet();
+            new Vue({
+                el:"#parent",
+                data:{
+                    msg:""
+                },
+                methods: {
+                    clickDt(){
+                        this.$refs.profile.greet(this.msg);
+                    }
+                }
+            })
+        </script>
     </body>
 </html>

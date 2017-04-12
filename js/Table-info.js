@@ -59,7 +59,6 @@ var oTableInfo = new Vue({
 		        num:num
 		    },
 		    success: function(data){
-		    	
 		        if(data.status==100){
 		        	oTableInfo.tableInfo = data.value;
 		        	oTableInfo.count = data.count;

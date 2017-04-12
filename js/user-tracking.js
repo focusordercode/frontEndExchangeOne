@@ -97,140 +97,140 @@ var userlist = new Vue({
             }
         },
     },
-    methods:{
+    methods: {
         //删除
-        remove:function(info){
+        remove: function (info) {
             var Id = info.id,
                 vm = this;
             var search = vm.searchResult;
             var pageNow = vm.pageNow;
 
             layer.confirm('是否确认删除?', {
-              btn: ['确定','关闭'] //按钮
-            },function(index){
+                btn: ['确定', '关闭'] //按钮
+            }, function (index) {
                 layer.close(index);
                 $.ajax({
                     type: "POST",
-                    url: serverUrl+"delete/track", 
+                    url: serverUrl + "delete/track",
                     dataType: "json",
-                    data:{
-                        key:oKey,
-                        user_id:token,
-                        id:Id
+                    data: {
+                        key: oKey,
+                        user_id: token,
+                        id: Id
                     },
-                    success: function(data){
-                        if(data.status==100){
+                    success: function (data) {
+                        if (data.status == 100) {
                             vm.list.$remove(info);
                             layer.msg('删除成功');
-                            setTimeout(getPageData(vm,pageNow,search,num),1000);
-                        }else if(data.status==1012){
-                            layer.msg('请先登录',{time:2000});
-                            
-                            setTimeout(function(){
-                                jumpLogin(loginUrl,NowUrl);
-                            },2000);
-                        }else if(data.status==1011){
+                            setTimeout(getPageData(vm, pageNow, search, num), 1000);
+                        } else if (data.status == 1012) {
+                            layer.msg('请先登录', {time: 2000});
+
+                            setTimeout(function () {
+                                jumpLogin(loginUrl, NowUrl);
+                            }, 2000);
+                        } else if (data.status == 1011) {
                             layer.msg('权限不足,请跟管理员联系');
-                        }else{
+                        } else {
                             layer.msg(data.msg);
                         }
                     },
-                    error: function(jqXHR){     
+                    error: function (jqXHR) {
                         layer.msg('向服务器请求失败');
                     }
                 })
             })
         },
         //删除所选
-        removeall:function(){
+        removeall: function () {
             var vm = this;
             var Id = vm.selectedArr;
             var search = vm.searchResult;
             var pageNow = vm.pageNow;
 
             layer.confirm('是否确认删除?', {
-              btn: ['确定','关闭'] //按钮
-            },function(index){
+                btn: ['确定', '关闭'] //按钮
+            }, function (index) {
                 layer.close(index);
                 $.ajax({
                     type: "POST",
-                    url: serverUrl+"delete/track", 
+                    url: serverUrl + "delete/track",
                     dataType: "json",
-                    data:{
-                        key:oKey,
-                        user_id:token,
-                        id:Id
+                    data: {
+                        key: oKey,
+                        user_id: token,
+                        id: Id
                     },
-                    success: function(data){
-                        if(data.status==100){
+                    success: function (data) {
+                        if (data.status == 100) {
                             layer.msg('删除成功');
-                            setTimeout(getPageData(vm,pageNow,search,num),1000);
-                        }else if(data.status==1012){
-                            layer.msg('请先登录',{time:2000});
-                            
-                            setTimeout(function(){
-                                jumpLogin(loginUrl,NowUrl);
-                            },2000);
-                        }else if(data.status==1011){
+                            setTimeout(getPageData(vm, pageNow, search, num), 1000);
+                        } else if (data.status == 1012) {
+                            layer.msg('请先登录', {time: 2000});
+
+                            setTimeout(function () {
+                                jumpLogin(loginUrl, NowUrl);
+                            }, 2000);
+                        } else if (data.status == 1011) {
                             layer.msg('权限不足,请跟管理员联系');
-                        }else{
+                        } else {
                             layer.msg(data.msg);
                         }
                     },
-                    error: function(jqXHR){     
+                    error: function (jqXHR) {
                         layer.msg('向服务器请求失败');
                     }
                 })
             })
         },
         //刷新
-        Reflesh:function(){
+        Reflesh: function () {
             location.reload(true);
         },
         //上一页
-        goPrePage:function(){
+        goPrePage: function () {
             var pageNow = this.pageNow;
             var search = this.searchResult;
             var vm = this;
-            if(pageNow<=1){
+            if (pageNow <= 1) {
                 layer.msg('没有上一页啦');
-            }else{
+            } else {
                 pageNow--
-                getPageData (vm,pageNow,search,num);
+                getPageData(vm, pageNow, search, num);
             }
         },
         //下一页
-        goNextPage:function(){
+        goNextPage: function () {
             var pageNow = this.pageNow;
             var countPage = this.countPage;
             var search = this.searchResult;
             var vm = this;
-            if(pageNow==countPage){
+            if (pageNow == countPage) {
                 layer.msg('没有下一页啦');
-            }else{
+            } else {
                 pageNow++
-                getPageData (vm,pageNow,search,num);
+                getPageData(vm, pageNow, search, num);
             }
         },
         //页面跳转
-        goJump:function(){
+        goJump: function () {
             var jump = this.jump;
             var countPage = this.countPage;
             var search = this.searchResult;
             var vm = this;
-            if(jump>countPage){
+            if (jump > countPage) {
                 layer.msg('大于总页数啦');
                 vm.jump = '';
-            }else if (jump<=0){
+            } else if (jump <= 0) {
                 layer.msg('页码错误');
                 vm.jump = '';
-            }else{
-                getPageData (vm,jump,search,num);
+            } else {
+                getPageData(vm, jump, search, num);
                 vm.jump = '';
             }
         },
         //选择一个用户
-        selectusr:function(usr){
+        selectusr: function (usr) {
             this.searchFeild.uid = usr.id;
             this.searchFeild.uidName = usr.username;
             this.users = '';
@@ -238,7 +238,7 @@ var userlist = new Vue({
             $('.search-usrbtn').show();
         },
         //全选删除的条目
-        
+
         // selectall:function(){
         //     // var all = $('.table td input');
         //     // for (var i = 0; i < all.length; i++) {
@@ -251,35 +251,35 @@ var userlist = new Vue({
         //     $('input[type="checkbox"]').prop("checked",true);
         // },
         //搜索
-        searchInfo:function(){
+        searchInfo: function () {
             var vm = this;
             var startdate = this.searchFeild.startdate.trim();
             var enddate = this.searchFeild.enddate.trim();
             var searchFeild = this.searchFeild;
 
-            if(!startdate&&!enddate&&!searchFeild.uid){
+            if (!startdate && !enddate && !searchFeild.uid) {
                 layer.msg('时间和用户为必选其一');
-            }else if(startdate&&!enddate){
+            } else if (startdate && !enddate) {
                 layer.msg('开始时间和结束时间都必须选');
-            }else if(!startdate&&enddate){
+            } else if (!startdate && enddate) {
                 layer.msg('开始时间和结束时间都必须选');
-            }else{
-                var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层 
+            } else {
+                var LoadIndex = layer.load(3, {shade: [0.3, '#000']}); //开启遮罩层
                 $.ajax({
-                    type:'POST',
-                    url:serverUrl+'get/track',
-                    datatype:'json',
-                    data:{
-                        key:oKey,
-                        user_id:token,
-                        uid:searchFeild.uid,
-                        startdate:startdate,
-                        enddate:enddate,
-                        pagesize:num
+                    type: 'POST',
+                    url: serverUrl + 'get/track',
+                    datatype: 'json',
+                    data: {
+                        key: oKey,
+                        user_id: token,
+                        uid: searchFeild.uid,
+                        startdate: startdate,
+                        enddate: enddate,
+                        pagesize: num
                     },
-                    success:function(data){
+                    success: function (data) {
                         layer.close(LoadIndex); //关闭遮罩层
-                        if(data.status==100){
+                        if (data.status == 100) {
                             vm.list = data.value;
                             vm.count = data.countTrack;
                             vm.pageNow = data.pageNow;
@@ -287,101 +287,103 @@ var userlist = new Vue({
                             //搜索条件数据
                             var newObj = $.extend(true, {}, vm.searchFeild);
                             vm.searchResult = newObj;
-                        }else if(data.status==1012){
-                            layer.msg('请先登录',{time:2000});
-                            
-                            setTimeout(function(){
-                                jumpLogin(loginUrl,NowUrl);
-                            },2000);
-                        }else if(data.status==1011){
+                        } else if (data.status == 1012) {
+                            layer.msg('请先登录', {time: 2000});
+
+                            setTimeout(function () {
+                                jumpLogin(loginUrl, NowUrl);
+                            }, 2000);
+                        } else if (data.status == 1011) {
                             layer.msg('权限不足,请跟管理员联系');
-                        }else{
+                        } else {
                             layer.msg(data.msg);
                         }
                     },
-                    error:function(jqXHR){
+                    error: function (jqXHR) {
                         layer.close(LoadIndex); //关闭遮罩层
                         layer.msg('向服务器请求搜索失败');
                     }
                 })
             }
         },
-        get:function (ev) {
-            if(ev.keyCode == 8){
+        get: function (ev) {
+            if (ev.keyCode == 8) {
                 this.now = -1
             }
 
-            if(ev.keyCode == 38 || ev.keyCode == 40)return;
+            if (ev.keyCode == 38 || ev.keyCode == 40)return;
 
-            if(ev.keyCode == 13){
-                 this.is_show = !this.is_show;
+            if (ev.keyCode == 13) {
+                this.is_show = !this.is_show;
                 $('.search-usrbtn').show();
             }
             var getWidth = $('.pors .cate-list').prev('.form-control').innerWidth();
-            $('.pors .cate-list').css('width',getWidth);
+            $('.pors .cate-list').css('width', getWidth);
             var searchCusVal = $('.searchCate').val();
 
             $.ajax({
-                type:'POST',
-                url:serverUrl+'get/user',
-                datatype:'json',
-                data:{
-                    key:oKey,
-                    user_id:token,
-                    search:searchCusVal
+                type: 'POST',
+                url: serverUrl + 'get/user',
+                datatype: 'json',
+                data: {
+                    key: oKey,
+                    user_id: token,
+                    search: searchCusVal
                 },
-                success:function(data){
+                success: function (data) {
                     var vm = userlist;
 
-                    if(data.status==100){
+                    if (data.status == 100) {
                         vm.users = data.value;
                         console.log(data.value)
-                    }else if(data.status==1012){
-                        layer.msg('请先登录',{time:2000});
+                    } else if (data.status == 1012) {
+                        layer.msg('请先登录', {time: 2000});
 
-                        setTimeout(function(){
-                            jumpLogin(loginUrl,NowUrl);
-                        },2000);
-                    }else if(data.status==1011){
+                        setTimeout(function () {
+                            jumpLogin(loginUrl, NowUrl);
+                        }, 2000);
+                    } else if (data.status == 1011) {
                         layer.msg('权限不足,请跟管理员联系');
-                    }else{
-                        vm.users= '';
+                    } else {
+                        vm.users = '';
                     }
                 },
-                error:function(jqXHR){
+                error: function (jqXHR) {
                     layer.msg('向服务器请求失败');
                 }
             })
 
         },
-        changeDown:function () {
+        changeDown: function () {
             this.now++;
-            if(this.now == this.users.length){
+            if (this.now == this.users.length) {
                 this.now = -1;
-            }else{
-                $('#searchInput').animate({scrollTop:this.now*33},100);
+            } else {
+                $('#searchInput').animate({scrollTop: this.now * 33}, 100);
                 this.searchFeild.uidName = this.users[this.now].username;
                 this.searchFeild.uid = this.users[this.now].id;
                 this.proSelectFor = this.users[this.now].username;
 
             }
         },
-        changeUp:function () {
+        changeUp: function () {
             this.now--;
-            if(this.now == -2){
-                this.now = this.users.length-1;
-            }else if(this.now == -1){
+            if (this.now == -2) {
+                this.now = this.users.length - 1;
+            } else if (this.now == -1) {
                 this.now = this.users.length
-            }else {
-                $('#searchInput').animate({scrollTop:this.now*33},100);
+            } else {
+                $('#searchInput').animate({scrollTop: this.now * 33}, 100);
                 this.searchFeild.uidName = this.users[this.now].username;
                 this.searchFeild.uid = this.users[this.now].id;
                 this.proSelectFor = this.users[this.now].username;
             }
         },
-        show:function () {
+        show: function () {
             this.is_show = !this.is_show;
             $('.search-usrbtn').show();
+            $('#searchField').focus();
+
         }
     }
 });

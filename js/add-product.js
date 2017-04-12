@@ -9,6 +9,12 @@ var oCreat = new Vue({
 		cn_name:'',
 		en_name:'',
 		cateId:'',
+        proSelectFor:'',
+        proSelectFora:'',
+        now:-1,
+        ishsow_SelectList:false,
+        temp_now:-1,
+        ishsow_SelectListTemp:false,
 		remark:'',
 		enabled:1,
 		// 下面的是交互用的数据
@@ -153,7 +159,149 @@ var oCreat = new Vue({
     			    }
     			})
     		}
-    	}
+    	},
+        get:function (ev) {
+            if(ev.keyCode == 8){
+                this.now = -1
+            }
+            if(ev.keyCode == 38 || ev.keyCode == 40)return;
+
+            if(ev.keyCode == 13){
+                this.ishsow_SelectList = !this.ishsow_SelectList;
+            }
+            var getWidth = $('.pors .cate-listA').prev('.form-control').innerWidth();
+            $('.pors .cate-listA').css('width',getWidth);
+            var searchCusVal = $('.searchCate').val();
+
+            $.ajax({
+                type:'POST',
+                url:search,
+                datatype:'json',
+                data:{
+                    key:oKey,
+                    user_id:token,
+                    text:searchCusVal
+                },
+                success:function(data){
+                    if(data.status==100){
+                        oCreat.proList = data.value;
+                    }else if(data.status==1012){
+                        layer.msg('请先登录',{time:2000});
+
+                        setTimeout(function(){
+                            jumpLogin(loginUrl,NowUrl);
+                        },2000);
+                    }else if(data.status==1011){
+                        layer.msg('权限不足,请跟管理员联系');
+                    }else{
+                        oCreat.proList= '';
+                    }
+                },
+                error:function(jqXHR){
+                    layer.msg('向服务器请求客户信息失败');
+                }
+            })
+        },
+        changeDown:function () {
+            this.now++;
+            if(this.now == this.proList.length){
+                this.now = -1;
+            }else{
+                $('#searchInput0').animate({scrollTop:this.now*33},100);
+                this.cateId = this.proList[this.now].id;
+                this.cate_name = this.proList[this.now].cn_name;
+                this.proSelectFor = this.proList[this.now].cn_name;
+
+            }
+        },
+        changeUp:function () {
+            this.now--;
+            if(this.now == -2){
+                this.now = this.proList.length-1;
+            }else if(this.now == -1){
+                this.now = this.proList.length;
+            }else {
+                $('#searchInput0').animate({scrollTop:this.now*33},100);
+                this.cateId = this.proList[this.now].id;
+                this.cate_name = this.proList[this.now].cn_name ;
+                this.proSelectFor = this.proList[this.now].cn_name;
+            }
+        },
+        show:function () {
+            this.ishsow_SelectList = !this.ishsow_SelectList;
+            this.proSelectFor = ''
+        },
+        getTemp: function (ev) {
+            if(ev.keyCode == 8){
+                this.now = -1
+            }
+            if(ev.keyCode == 38 || ev.keyCode == 40)return;
+
+            if(ev.keyCode == 13){
+                this.ishsow_SelectListTemp = !this.ishsow_SelectListTemp;
+            }
+            var getWidth = $('.searchCate2').innerWidth();
+            $('.cate-listB').css('width',getWidth);
+            var searchCusVal = $('.searchCate2').val();
+            // debugger
+            $.ajax({
+                type:'POST',
+                url:search,
+                datatype:'json',
+                data:{
+                    key:oKey,
+                    user_id:token,
+                    text:searchCusVal
+                },
+                success:function(data){
+                    if(data.status==100){
+                        oCreat.proList = data.value;
+                    }else if(data.status==1012){
+                        layer.msg('请先登录',{time:2000});
+
+                        setTimeout(function(){
+                            jumpLogin(loginUrl,NowUrl);
+                        },2000);
+                    }else if(data.status==1011){
+                        layer.msg('权限不足,请跟管理员联系');
+                    }else{
+                        oCreat.proList= '';
+                    }
+                },
+                error:function(jqXHR){
+                    layer.msg('向服务器请求客户信息失败');
+                }
+            })
+        },
+        changeDownTemp:function () {
+            this.temp_now++;
+            if(this.temp_now == this.proList.length){
+                this.temp_now = -1;
+            }else{
+                $('#searchInput1').animate({scrollTop:this.temp_now*33},100);
+                this.cateId = this.proList[this.temp_now].id;
+                this.cate_name = this.proList[this.temp_now].cn_name;
+                this.proSelectFora = this.proList[this.temp_now].cn_name;
+
+            }
+        },
+        changeUpTemp:function () {
+            this.temp_now--;
+            if(this.temp_now == -2){
+                this.temp_now = this.proList.length-1;
+            }else if(this.temp_now == -1){
+                this.temp_now = this.proList.length;
+            }else {
+                $('#searchInput1').animate({scrollTop:this.temp_now*33},100);
+                this.cateId = this.proList[this.temp_now].id;
+                this.cate_name = this.proList[this.temp_now].cn_name ;
+                this.proSelectFor = this.proList[this.temp_now].cn_name;
+            }
+        },
+        showTemp:function () {
+            this.ishsow_SelectListTemp = !this.ishsow_SelectListTemp;
+            this.proSelectFora = ''
+        }
     }
 });
 
@@ -167,6 +315,7 @@ $(function(){
     });
     $('.closeBtn').on('click',function(){
         $('.searchCompent').hide();
+        oCreat.ishsow_SelectList = !oCreat.ishsow_SelectList;
     });
 
     //批量上传的搜索
@@ -179,6 +328,7 @@ $(function(){
     });
     $('.closeBtn2').on('click',function(){
         $('.searchCompent2').hide();
+        oCreat.ishsow_SelectListTemp = !oCreat.ishsow_SelectListTemp;
     })
 });
 //搜索列表显示隐藏的函数提取到control.js
@@ -188,8 +338,8 @@ searchListTog(1);
 
 
 //模糊搜索类目
-$('.searchCate').on('keyup',function(){
-    var getWidth = $('.pors .cate-list').prev('.form-control').innerWidth();
+/*$('.searchCate').on('keyup',function(){
+   /!* var getWidth = $('.pors .cate-list').prev('.form-control').innerWidth();
     $('.pors .cate-list').css('width',getWidth);
     var searchCusVal = $('.searchCate').val();
 
@@ -220,12 +370,13 @@ $('.searchCate').on('keyup',function(){
         error:function(jqXHR){
             layer.msg('向服务器请求客户信息失败');
         }
-    })
-});
+    })*!/
+});*/
 
 //批量上传的搜索
+/*
 $('.searchCate2').on('keyup',function(){
-    var getWidth = $('.searchCate2').innerWidth();
+   /!* var getWidth = $('.searchCate2').innerWidth();
     $('.searchCate2').next().css('width',getWidth);
     var searchCusVal = $('.searchCate2').val();
     // debugger
@@ -256,5 +407,5 @@ $('.searchCate2').on('keyup',function(){
         error:function(jqXHR){
             layer.msg('向服务器请求客户信息失败');
         }
-    })
-});
+    })*!/
+});*/

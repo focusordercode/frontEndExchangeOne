@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>优惠券</title>
+    <!-- 引入的框架 -->
+    <link rel="stylesheet" href="../assets/css/reset.css">
+    <link rel="stylesheet" href="../assets/css/layer.css">
+    <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../assets/css/bootstrap-datetimepicker.css">
+    <link rel="stylesheet" href="../../font-awesome/css/font-awesome.min.css">
+    <!-- 自定义 -->
+    <link rel="stylesheet" href="../css/header.css">
+    <link rel="stylesheet" href="../css/index.css">
+    <style>
+        .nav-title div:nth-child(1){
+            background-color: #23527c;
+        }
+        .form-group .text-left{
+            text-align: left;
+        }
+        .modal-content{
+            width: 750px;
+        }
+        #myModal .modal-footer{
+            text-align: center;
+        }
+        .select{
+            width: 60%;
+            height: 2.1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="coupon">
+        <header>
+            <div class="header-wraper">
+                <img src="../images/logo.png" alt="">
+            </div>
+        </header>
+      <!--  <nav class="nav-content">
+            <div class="nav-title">
+                <div><a href="index.html">新建</a></div>
+                <div> <a href="warehouse.html">入库</a> </div>
+                <div><a href="sales.html">销售</a> </div>
+                <div><a href="use.html">使用</a></div>
+                <div><a href="search.html">查询</a> </div>
+            </div>
+        </nav>-->
+        <div class="coupon-content">
+            <div class="">
+                <h3 class="bg-info">操作</h3>
+                <div class="search">
+                    <label >输入优惠券号： <input type="text" ></label>
+                    <button class="btn btn-default" >搜索</button>
+                    <button class="btn btn-default" data-toggle="modal" data-target="#myModal">发行</button>
+                </div>
+            </div>
+            <div class="coupon-list">
+                <h3 class="bg-primary " >新发行的优惠券</h3>
+                <table class="table table-bordered " >
+                   <tr>
+                       <th >序号</th>
+                       <th>优惠券名称</th>
+                       <th>类型</th>
+                       <th>面值</th>
+                       <th>价格</th>
+                       <th>发行数量</th>
+                       <th>有效期限</th>
+                       <th>状态</th>
+                       <th>操作</th>
+                   </tr>
+                    <tr v-for="item in list" :class="{'bg-info':$index%2 == 0}">
+                        <td>{{$index+1}}</td>
+                        <td>{{item.name}}</td>
+                        <td>{{item.type == "1" ? "现金券":"折扣券"}}</td>
+                        <td>{{item.denomination}}</td>
+                        <td>{{item.price}}</td>
+                        <td>{{item.issuant_amount}}</td>
+                        <td>{{item.validity_begin}}~{{item.validity_end}}</td>
+                        <td>
+                            <span v-if="item.issuant_status == '5'">已作废</span>
+                            <span v-if="item.issuant_status == '1'">发行</span>
+                            <span v-if="item.issuant_status == '2'">准备</span>
+                        </td>
+                        <td>
+                            <button class="btn btn-success" @click="publish(item.id)">发行</button>
+                            <button class="btn btn-danger " v-if="item.issuant_status == '1'" @click="deleteData(item.id)">作废</button>
+                            <button class="btn btn-default"  v-if="item.issuant_status == '5'">已作废</button>
+                            <button class="btn btn-danger " v-if="item.issuant_status == '2'" @click="void(item.id)">删除</button>
+                        </td>
+
+                    </tr>
+                </table>
+                <div class="page-footer">
+                    <span>当前页：{{page}}</span>
+                    <span>共{{countPage}}页</span>
+                    <button class="btn btn-default">上一页</button>
+                    <button class="btn btn-default">下一页</button>
+                    <input type="text" v-model="">
+                    <button class="btn btn-default">跳转</button>
+                </div>
+            </div>
+            <!-- 创建表格 -->
+           <!-- <div id="form" class="form-horizontal form container-fluid" role="form" style="display: none" v-show="isShow">
+                <div>
+                    <div class="bg-info row form-head">
+                                <span>发行优惠券</span><i class="fa fa-close pull-right red" @click="creat"></i>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="ds-1">优惠券名称</label>
+                        <div class="col-sm-4">
+                            <input v-model="tableInfo.name" class="form-control" id="ds-1" type="text" placeholder="请输入优惠券名称"/>
+                        </div>
+                        <label class="col-sm-2 control-label" for="ds-2">优惠类型</label>
+                        <div class="col-sm-4">
+                            <select class="form-control" id="ds-2" v-model="tableInfo.couponType">
+                                <option  selected>现金券</option>
+                               &lt;!&ndash; <option value="">折扣券</option>&ndash;&gt;
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="ds-3">最 低 消 费</label>
+                        <div class="col-sm-4">
+                            <input v-model="tableInfo.minConsume" class="form-control" id="ds-3" type="number" placeholder=""/>
+                        </div>
+                        <label class="col-sm-2 control-label" for="ds-4">面值</label>
+                        <div class="col-sm-4">
+                            <input v-model="tableInfo.faceValue" class="form-control" id="ds-4" type="number" placeholder=""/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="ds-5">预发数量</label>
+                        <div class="col-sm-4">
+                            <input  v-model="tableInfo.preNumber" class="form-control" id="ds-5" type="number" placeholder=""/>
+                        </div>
+                        <label class="col-sm-2 control-label" for="ds-12">价格</label>
+                        <div class="col-sm-4">
+                            <input  v-model="tableInfo.price" class="form-control" id="ds-12" type="number" placeholder=""/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="ds-6">单次使用</label>
+                        <div class="col-sm-4">
+                            <input v-model="tableInfo.singleNumber" class="form-control" id="ds-6" value="1" type="number" placeholder=""/>
+                        </div>
+                        <div class="col-sm-6 control-label text-left font-sm">
+                           默认为1,0代表无限制次数
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="ds-7">有效期限</label>
+                        <div class="col-sm-4">
+                            <input size="16" v-model="tableInfo.startDate" class="form-control date" id="ds-7" type="text" placeholder=""/>
+                        </div>
+                        <label class="col-sm-1 control-label" for="ds-8">至</label>
+                        <div class="col-sm-4">
+                            <input v-model="tableInfo.endDate" class="form-control date" id="ds-8" type="text" placeholder=""/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="ds-9">说明</label>
+                        <div class="col-sm-10">
+                            <textarea v-model="tableInfo.description" class="form-control" id="ds-9" type="text" placeholder=""></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="ds-10" >生效</label>
+                        <div class="col-sm-1">
+                            <input class="form-control" id="ds-10" type="radio"  value="生效"  v-model="tableInfo.picked" checked />
+                        </div>
+                        <label class="col-sm-2 control-label" for="ds-11" >准备</label>
+                        <div class="col-sm-1">
+                            <input class="form-control" id="ds-11" type="radio"  value="准备" v-model="tableInfo.picked" />
+                        </div>
+                    </div>
+                    <div class="text-center test">
+                        <button class="btn btn-success" @click="upData">发行</button>
+                        <button class="btn btn-info" @click="creat">取消</button>
+                    </div>
+                </div>
+            </div>
+            <div class="mask" v-show="isShow"></div>-->
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header bg-primary">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                            <h4 class="modal-title" id="myModalLabel">发行优惠券</h4>
+                        </div>
+                        <div class="modal-body container-fluid ">
+                            <div class="row form-horizontal">
+                                <div class="form-group text-right">
+                                    <label class="col-sm-2 col-md-2 col-lg-2 control-label">优惠券名称 <i class="red">*</i></label>
+                                    <div class="col-sm-4 col-md-4 col-lg-4 ">
+                                        <div class="bootstrap-tagsinput height">
+                                            <input type="text" class="form-control ft-14" v-model="tableInfo.name" placeholder="请输入优惠券名称">
+                                        </div>
+                                    </div>
+                                    <label class="col-sm-2 col-md-2 col-lg-2 control-label">优惠券类型 <i class="red">*</i></label>
+                                    <div class="col-sm-4 col-md-4 col-lg-4">
+                                        <select v-model="tableInfo.coupontype" class="select pull-left">
+                                            <option selected>现金券</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group text-right col-md-12">
+                                    <label class="col-sm-2 col-md-2 col-lg-2 control-label">最低消费<i class="red">*</i></label>
+                                    <div class="col-sm-4 col-md-4 col-lg-4 ">
+                                        <div class="bootstrap-tagsinput height">
+                                            <input type="number" class="form-control ft-14" v-model="tableInfo.minConsume" placeholder="请输入金额">
+                                        </div>
+                                    </div>
+                                    <label class="col-sm-2 col-md-2 col-lg-2 control-label">面值<i class="red">*</i></label>
+                                    <div class="col-sm-4 col-md-4 col-lg-4 ">
+                                        <div class="bootstrap-tagsinput height">
+                                            <input type="number" class="form-control ft-14" v-model="tableInfo.faceValue" placeholder="请输入面值">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group text-right col-md-12">
+                                    <label class="col-sm-2 col-md-2 col-lg-2 control-label">预发数量<i class="red">*</i></label>
+                                    <div class="col-sm-4 col-md-4 col-lg-4 ">
+                                        <div class="bootstrap-tagsinput height">
+                                            <input type="number" class="form-control ft-14" v-model="tableInfo.preNumber" placeholder="请输入预发数量">
+                                        </div>
+                                    </div>
+                                    <label class="col-sm-2 col-md-2 col-lg-2 control-label">价格<i class="red">*</i></label>
+                                    <div class="col-sm-4 col-md-4 col-lg-4 ">
+                                        <div class="bootstrap-tagsinput height">
+                                            <input type="number" class="form-control ft-14" v-model="tableInfo.price" placeholder="请输入价格">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group text-right col-md-12">
+                                    <label class="col-sm-2 col-md-2 col-lg-2 control-label">单次使用<i class="red">*</i></label>
+                                    <div class="col-sm-4 col-md-4 col-lg-4 ">
+                                        <div class="bootstrap-tagsinput height">
+                                            <input type="number" class="form-control ft-14" v-model="tableInfo.singleNumber" value="1" placeholder="请输入单次使用数量">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-md-6 col-lg-6 red text-left">默认为1,0代表无限制</div>
+                                </div>
+                                <div class="form-group text-right col-md-12">
+                                    <label class="col-sm-2 col-md-2 col-lg-2 control-label">有效期限<i class="red">*</i></label>
+                                    <div class="col-sm-4 col-md-4 col-lg-4 ">
+                                        <div class="bootstrap-tagsinput height">
+                                            <input size="16" v-model="tableInfo.startDate" class="form-control date" readonly type="text" placeholder=""/>
+                                        </div>
+                                    </div>
+                                   <div class="col-sm-1 col-md-1 control-label">至</div>
+                                    <div class="col-sm-4 col-md-4 col-lg-4 ">
+                                        <div class="bootstrap-tagsinput height">
+                                            <input size="16" v-model="tableInfo.endDate" class="form-control date" readonly type="text" placeholder=""/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group text-right col-md-12">
+                                    <label class="col-sm-2 control-label" for="ds-10" >生效</label>
+                                    <div class="col-sm-1">
+                                        <input class="form-control" id="ds-10" type="radio"  value="1"  v-model="tableInfo.picked" checked />
+                                    </div>
+                                    <label class="col-sm-2 control-label" for="ds-11" >准备</label>
+                                    <div class="col-sm-1">
+                                        <input class="form-control" id="ds-11" type="radio"  value="2" v-model="tableInfo.picked" />
+                                    </div>
+                                </div>
+                                <div class="form-group text-right col-md-12">
+                                    <label class="col-sm-2 col-md-2 col-lg-2 control-label">说明</label>
+                                    <div class="col-sm-10 col-md-10 col-lg-10 ">
+                                        <textarea  v-model="tableInfo.description" name=""  class="col-sm-12 col-md-12 col-lg-12" ></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" @click="upData">发放</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+    </div>
+    <!-- 引入框架 -->
+    <script src="../assets/js/vue.js"></script>
+    <script src="../assets/js/jquery.js"></script>
+    <script src="../assets/js/bootstrap.min.js"></script>
+    <script src="../assets/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="../assets/js/layer.js"></script>
+    <!-- 自定义js -->
+    <script src="../js/index.js"></script>
+    <!-- 检测登录状态 -->
+    <!--<script src="../../js/cookie.js"></script>
+    <script src='../../js/control.js'></script>-->
+
+</body>
+</html>

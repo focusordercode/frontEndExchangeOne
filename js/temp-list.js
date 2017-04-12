@@ -15,6 +15,8 @@ var tempList = new Vue({
             cate_name:'',
             cateId:''
         },
+        now:-1,
+        is_show:false,
         prePageBtn:'',
         nextPageBtn:'',
         count:'',
@@ -291,9 +293,72 @@ var tempList = new Vue({
         //刷新
         Reflesh:function(){
             location.reload(true);
+        },
+        get:function (ev) {
+            if(ev.keyCode == 8){
+                this.now = -1
+            }
+            if(ev.keyCode == 38 || ev.keyCode == 40){
+                return;
+            }else if(ev.keyCode == 13){
+                this.is_show = !this.is_show;
+            }
+            var searchCusVal = $('#searchField').val();
+            if(searchCusVal){
+                $.ajax({
+                    type:'POST',
+                    url:search,
+                    datatype:'json',
+                    data:{
+                        key:oKey,
+                        user_id:token,
+                        text:searchCusVal
+                    },
+                    success:function(data){
+                        if(data.status==100){
+                            tempList.proList = data.value;
+                        }else if(data.status==1012){
+                            layer.msg('请先登录',{time:2000});
+
+                            setTimeout(function(){
+                                jumpLogin(loginUrl,NowUrl);
+                            },2000);
+                        }else if(data.status==1011){
+                            layer.msg('权限不足,请跟管理员联系');
+                        }else{
+                            tempList.proList= '';
+                        }
+                    },
+                    error:function(jqXHR){
+                        layer.msg('向服务器请求客户信息失败');
+                    }
+                })
+            }
+        },
+        changeDown:function () {
+            this.now++;
+            console.log(this.now);
+            if(this.now == this.proList.length){
+                this.now = -1;
+            }else{
+                $('#searchInput').animate({scrollTop:this.now*31},100);
+                this.search.cate_name = this.proList[this.now].cn_name;
+                this.search.cateId = this.proList[this.now].id;
+            }
+        },
+        changeUp:function () {
+            this.now--;
+            if(this.now == -2 ||this.now == -1){
+                this.now = this.proList.length
+            }else {
+                $('#searchInput').animate({scrollTop:this.now*31},100);
+                this.search.cate_name = this.proList[this.now].cn_name;
+                this.search.cateId = this.proList[this.now].id;
+            }
         }
-    }
-})
+        }
+
+});
 
 //Vue过滤器
 
@@ -446,39 +511,37 @@ $('.temp-list .creatMB').click(function(){
 
 $(document).ready(function(){
     //模糊搜索类目
-    $('#searchField').on('keyup',function(){
-        var searchCusVal = $('#searchField').val();
-        if(searchCusVal){
-            $.ajax({
-                type:'POST',
-                url:search,
-                datatype:'json',
-                data:{
-                    key:oKey,
-                    user_id:token,
-                    text:searchCusVal
-                },
-                success:function(data){
-                    if(data.status==100){
-                        tempList.proList = data.value;
-                    }else if(data.status==1012){
-                        layer.msg('请先登录',{time:2000});
-                        
-                        setTimeout(function(){
-                            jumpLogin(loginUrl,NowUrl);
-                        },2000);
-                    }else if(data.status==1011){
-                        layer.msg('权限不足,请跟管理员联系');
-                    }else{
-                        tempList.proList= '';
-                    }
-                },
-                error:function(jqXHR){
-                    layer.msg('向服务器请求客户信息失败');
+   /* var searchCusVal = $('#searchField').val();
+    if(searchCusVal){
+        $.ajax({
+            type:'POST',
+            url:search,
+            datatype:'json',
+            data:{
+                key:oKey,
+                user_id:token,
+                text:searchCusVal
+            },
+            success:function(data){
+                if(data.status==100){
+                    tempList.proList = data.value;
+                }else if(data.status==1012){
+                    layer.msg('请先登录',{time:2000});
+
+                    setTimeout(function(){
+                        jumpLogin(loginUrl,NowUrl);
+                    },2000);
+                }else if(data.status==1011){
+                    layer.msg('权限不足,请跟管理员联系');
+                }else{
+                    tempList.proList= '';
                 }
-            })
-        }
-    });
+            },
+            error:function(jqXHR){
+                layer.msg('向服务器请求客户信息失败');
+            }
+        })
+    }*/
 
     //打开关闭搜索
     $('.goSearch').on('click',function(){

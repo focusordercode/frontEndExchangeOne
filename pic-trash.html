@@ -22,6 +22,10 @@
             top: 34px;
             z-index: 666;
         }
+        .gray{
+            color:#8a6d3b;
+            background-color: #faf2cc;
+        }
     </style>
 </head>
     <body>
@@ -69,7 +73,7 @@
                     <div class="alert alert-info" role="alert" >
                         <h3> 图片回收站 </h3>
                         <hr>
-                        回收站图片数:<b class="text-warning">{{countImage}}</b> {{picDataChecked}}
+                        回收站图片数:<b class="text-warning">{{countImage?countImage:'0'}}</b> {{picDataChecked}}
                     </div>
                 </div>
                 
@@ -90,11 +94,24 @@
                                 <div class="form-inline">
                                     <div class="form-group pors">
                                         <label>选择目录</label>
-                                        <input type="text" v-model="keyword" placeholder="输入文字搜索" class="form-control">
-                                        <div class="list-group">
+                                        <input
+                                                type="text"
+                                                v-model="keyword"
+                                                placeholder="输入文字搜索"
+                                                class="form-control"
+                                                @keyup="get($event)"
+                                                @keydown.down="changeDown()"
+                                                @keydown.up.prevent="changeUp()">
+                                        <div class="list-group" v-show="is_show" style="max-height: 310px;overflow-y: auto" id="seachList">
                                             <template v-for="list in recoverList">
                                                 <template v-if="$index < 10">
-                                                    <a href="javascript:" @click="selectList(list)"  class="list-group-item list-group-item-warning">{{list.cn_name}} {{list.en_name}}</a>
+                                                    <a
+                                                            href="javascript:" @click="selectList(list)"
+                                                            :class="{gray:$index==now}"
+                                                            class="list-group-item list-group-item-warning">
+                                                        <span style="display: block">  {{list.cn_name}} </span>
+                                                        <span style="display: block"> {{list.en_name}} </span>
+                                                    </a>
                                                 </template>
                                             </template>
                                         </div>

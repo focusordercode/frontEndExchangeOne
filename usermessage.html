@@ -141,11 +141,23 @@
                                 <div class="form-group">
                                     <label class="col-sm-4 col-md-4 col-lg-4 control-label">新的密码 <i class="text-red">*</i> </label>
                                     <div class="col-sm-4 col-md-4 col-lg-4">
-                                        <input type="text" v-model="userdata.password" placeholder="请输入新的密码" class="form-control">
+                                        <input type="password" v-model="userdata.password" placeholder="请输入新的密码" class="form-control">
                                     </div>
                                     <div class="col-sm-4 col-md-4 col-lg-4">
                                         <div class="alert alert-danger new-alert" v-show="al_pass" role="alert">密码只能是英文字母和数字
                                         </div>
+                                        <div class="alert alert-danger new-alert" v-show="is_same" role="alert">密码不一致</div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-4 col-md-4 col-lg-4 control-label">确认密码 <i class="text-red">*</i> </label>
+                                    <div class="col-sm-4 col-md-4 col-lg-4">
+                                        <input type="password" v-model="userdata.passWord" placeholder="请输入新的密码" class="form-control">
+                                    </div>
+                                    <div class="col-sm-4 col-md-4 col-lg-4">
+                                        <div class="alert alert-danger new-alert" v-show="sure_pass" role="alert">密码只能是英文字母和数字
+                                        </div>
+                                        <div class="alert alert-danger new-alert" v-show="is_same" role="alert">密码不一致</div>
                                     </div>
                                 </div>
                                 <div class="form-group">

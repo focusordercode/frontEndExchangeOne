@@ -353,7 +353,6 @@ var tableCreat = new Vue({
                 },
                 success:function(data){
                     var vm = tableCreat;
-
                     if(data.status==100){
                         vm.proList = data.value;
                     }else if(data.status==1012){
@@ -394,8 +393,8 @@ var tableCreat = new Vue({
             }else {
                 $('#searchInput0').animate({scrollTop:this.now*33},100);
                 this.proSelectedId = this.proList[this.now].id;
-                this.proSelected = this.proList[this.now].cn_name +' '+ this.proList[this.now].en_name;
-                this.proSelectFor = this.proList[this.now].cn_name +' '+ this.proList[this.now].en_name;
+                this.proSelected = this.proList[this.now].cn_name
+                this.proSelectFor = this.proList[this.now].cn_name
             }
         },
 		show:function () {

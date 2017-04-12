@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>优惠券</title>
+    <!-- 引入的框架 -->
+    <link rel="stylesheet" href="../assets/css/reset.css">
+    <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../font-awesome/css/font-awesome.min.css">
+    <!-- 自定义 -->
+    <link rel="stylesheet" href="../css/header.css">
+    <link rel="stylesheet" href="../css/index.css">
+    <style>
+        .nav-title div:nth-child(1){
+            background-color: #23527c;
+        }
+        .form-group .text-left{
+            text-align: left;
+        }
+        #myModal .modal-footer{
+            text-align: center;
+        }
+        .wraper{
+            line-height: 3rem;
+            border: 1px solid #CCCCCC;
+            margin-bottom: 20px;
+        }
+        .wraper-footer{
+            border-top: 1px solid #ccc;
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="coupon">
+        <header>
+            <div class="header-wraper">
+                <img src="../images/logo.png" alt="">
+            </div>
+        </header>
+
+        <div class="coupon-content">
+            <div class="">
+                <h3 class="bg-primary">操作</h3>
+                <div class="search">
+                    <label >输入优惠券号： <input type="text" ></label>
+                    <button class="btn btn-default" >搜索</button>
+                    <button class="btn btn-default" @click="">发行</button>
+                    <button class="btn btn-default" data-toggle="modal" data-target="#myModal" >销售</button>
+                    <button class="btn btn-default" @click="">使用</button>
+                    <button class="btn btn-default" @click="">审核</button>
+                </div>
+            </div>
+            <div class="wraper">
+                <h3 class="bg-primary">优惠券详情</h3>
+                <div class="row">
+                    <div class="col-md-6 ">
+                        <label class="col-sm-4 col-md-4 col-lg-4 text-right">优惠券名称</label>
+                        <div class="col-sm-8 col-md-8 col-lg-8 ">{{batchList.name}}</div>
+                    </div>
+                    <div class="col-md-6 ">
+                        <label class="col-sm-4 col-md-4 col-lg-4 text-right">优惠券类型</label>
+                        <div class="col-sm-8 col-md-8 col-lg-8 ">{{batchList.type_msg}}</div>
+                    </div>
+                    <div class="col-md-6 ">
+                        <label class="col-sm-4 col-md-4 col-lg-4 text-right">状态</label>
+                        <div class="col-sm-8 col-md-8 col-lg-8 ">{{batchList.issuant_status_msg}}</div>
+                    </div>
+                    <div class="col-md-6 ">
+                        <label class="col-sm-4 col-md-4 col-lg-4 text-right">最低消费金额</label>
+                        <div class="col-sm-8 col-md-8 col-lg-8 ">{{batchList.min_amount}}</div>
+                    </div>
+                    <div class="col-md-12">
+                        <label class="col-sm-2 col-md-2 col-lg-2 text-right">数量</label>
+                        <div class="col-sm-10 col-md-10 col-lg-10 ">{{batchList.issuant_amount}}</div>
+                    </div>
+                    <div class="col-md-6 ">
+                        <label class="col-sm-4 col-md-4 col-lg-4 text-right">面值</label>
+                        <div class="col-sm-8 col-md-8 col-lg-8 ">{{batchList.denomination}}</div>
+                    </div>
+                    <div class="col-md-6 ">
+                        <label class="col-sm-4 col-md-4 col-lg-4 text-right">价格</label>
+                        <div class="col-sm-8 col-md-8 col-lg-8 ">{{batchList.price}}</div>
+                    </div>
+                    <div class="col-md-6 ">
+                        <label class="col-sm-4 col-md-4 col-lg-4 text-right">单次使用</label>
+                        <div class="col-sm-8 col-md-8 col-lg-8 ">{{batchList.restriction_amount}}</div>
+                    </div>
+                    <div class="col-md-6 ">
+                        <label class="col-sm-4 col-md-4 col-lg-4 text-right">有效期限</label>
+                        <div class="col-sm-8 col-md-8 col-lg-8 ">{{batchList.validity_begin}}至{{batchList.validity_end}}止</div>
+                    </div>
+                    <div class="col-md-12 ">
+                        <label class="col-sm-2 col-md-2 col-lg-2 text-right">备注说明</label>
+                        <div class="col-sm-10 col-md-10 col-lg-10 ">{{batchList.remark}}</div>
+                    </div>
+                    <div class="col-md-6 ">
+                        <label class="col-sm-4 col-md-4 col-lg-4 text-right">发行人</label>
+                        <div class="col-sm-8 col-md-8 col-lg-8 ">{{batchList.creator_id_msg}}</div>
+                    </div>
+                    <div class="col-md-6 ">
+                        <label class="col-sm-4 col-md-4 col-lg-4 text-right">发行时间</label>
+                        <div class="col-sm-8 col-md-8 col-lg-8 ">{{batchList.created_time}}</div>
+                    </div>
+                </div>
+                <div class="wraper-footer text-center">
+                    <button class="btn btn-primary">作废</button>
+                    <button class="btn btn-default">返回</button>
+                </div>
+            </div>
+            <div class="coupon-list">
+                <h3 class="bg-primary">{{name}}优惠券的详情</h3>
+                <div class="">当前页{{}}</div>
+                <table class="table table-bordered">
+                    <tr>
+                       <th ><input type="checkbox" v-model="allChecked"> 全选</th>
+                        <th>序号</th>
+                       <th>优惠券码</th>
+                       <th>状态</th>
+                       <th>发放日期</th>
+                       <th>登记人</th>
+                        <th>登记人电话</th>
+                       <th>使用日期</th>
+                       <th>使用人</th>
+                       <th>使用人电话</th>
+                        <th>操作</th>
+                    </tr>
+                    <tr v-for="item in list">
+                        <td><input type="checkbox" v-model="selectedArr"  /></td>
+                        <td>{{$index+1}}</td>
+                        <td>{{item.code}}</td>
+                        <td>{{item.status_msg}}</td>
+                        <td>{{item.created_time}}</td>
+                        <td>{{item.holder}}</td>
+                        <td>{{item.holder_telephone}}</td>
+                        <td>{{item.granted_date}}</td>
+                        <td>{{item.consumer}}</td>
+                        <td>{{item.consumer_telephone}}</td>
+                        <td class="btns">
+                            <button class="btn btn-success" @click="open(item.id)">详情</button>
+                            <button class="btn btn-danger ">删除</button>
+                        </td>
+                    </tr>
+
+                </table>
+                <div class="row">
+                    <div class="col-md-12 ">
+                        <button class="btn btn-info pull-right" @click="downLoad">下载</button>
+                    </div>
+                </div>
+
+                <div class="page-footer">
+                    <button class="btn btn-default">上一页</button>
+                    <button class="btn btn-default">下一页</button>
+                    <input type="text">
+                    <button class="btn btn-default">跳转</button>
+                </div>
+            </div>
+        </div>
+    </div>
+            <!-- 创建表格 -->
+            <!-- 创建表格 -->
+           <!-- <div id="form" class="form-horizontal form container-fluid" role="form" style="display: none" v-show="isShow">
+                <div>
+                     <div class="bg-primary row form-head">
+                         <span>出售优惠券</span><span class="fa fa-close red pull-right"></span>
+                     </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" for="ds-3">订单号</label>
+                        <div class="col-md-9">
+                            <input class="form-control" id="ds-3" type="text" placeholder=""/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" for="ds-10">客户</label>
+                        <div class="col-md-9">
+                            <input class="form-control" id="ds-10" type="text" placeholder=""/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" for="ds-11">联系电话</label>
+                        <div class="col-md-9">
+                            <input class="form-control" id="ds-11" type="tel" placeholder=""/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" >优惠券名称</label>
+                        <div class="col-sm-4">福克斯德优惠券</div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">优惠码</label>
+                        <div class="col-sm-4">dsjdkgjdsfkgjdsfkjg</div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">有效期限</label>
+                        <div class="col-sm-6">2017-4-13 至 2017-4-24</div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" >说明</label>
+                        <div class="col-sm-9">请仔细核对无误后，填写下方信息</div>
+                    </div>
+
+
+                    <div class="text-center test">
+                        <button class="btn btn-success" @click="sale">发放</button>
+                        <button class="btn btn-danger" @click="creat">取消</button>
+                    </div>
+                </div>
+            </div>-->
+
+           <!-- <div class="mask" v-show="isShow"></div>-->
+
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header bg-primary">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                            <h4 class="modal-title" id="myModalLabel">发放优惠券</h4>
+                        </div>
+                        <div class="modal-body container-fluid ">
+                            <div class="row form-horizontal">
+                                <div class="form-group text-right">
+                                    <label class="col-sm-3 col-md-3 col-lg-3 control-label">订单号 <i class="red">*</i></label>
+                                    <div class="col-sm-8 col-md-8 col-lg-8 ">
+                                        <div class="bootstrap-tagsinput height">
+                                            <input type="text" class="form-control ft-14" v-model="infoCache.title" placeholder="请输入订单号">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group text-right">
+                                    <label class="col-sm-3 col-md-3 col-lg-3 control-label">客户</label>
+                                    <div class="col-sm-8 col-md-8 col-lg-8 ">
+                                        <div class="bootstrap-tagsinput height">
+                                            <input type="text" class="form-control ft-14" v-model="infoCache.title" placeholder="请输入客户名称">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group text-right">
+                                    <label class="col-sm-3 col-md-3 col-lg-3 control-label">联系电话</label>
+                                    <div class="col-sm-8 col-md-8 col-lg-8 ">
+                                        <div class="bootstrap-tagsinput height">
+                                            <input type="tel" class="form-control ft-14" v-model="infoCache.title" placeholder="请输入客户联系电话">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group text-right">
+                                    <label class="col-sm-3 col-md-3 col-lg-3 control-label">电子邮件</label>
+                                    <div class="col-sm-8 col-md-8 col-lg-8 ">
+                                        <div class="bootstrap-tagsinput height">
+                                            <input type="emal" class="form-control ft-14" v-model="infoCache.title" placeholder="请输入客户电子邮件">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group ">
+                                    <label class="col-sm-3 col-md-3 col-lg-3 text-right">优惠券名称</label>
+                                    <div class="col-sm-8 col-md-8 col-lg-8 ">福克斯德</div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 col-md-3 col-lg-3 text-right">优惠码</label>
+                                    <div class="col-sm-8 col-md-8 col-lg-8 ">fslmfklsdafm</div>
+                                </div>
+                                <div class="form-group ">
+                                    <label class="col-sm-3 col-md-3 col-lg-3 text-right">有效期</label>
+                                    <div class="col-sm-8 col-md-8 col-lg-8 ">2017-4-13 至 2017-4-30</div>
+                                </div>
+                                <p class="col-md-10 col-md-offset-1 red">注意：请仔细核对信息无误后提交</p>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary">发放</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+    <!-- 引入框架 -->
+    <script src="../assets/js/vue.js"></script>
+    <script src="../assets/js/jquery.js"></script>
+    <script src="../assets/js/bootstrap.min.js"></script>
+    <script src="../assets/js/layer.js"></script>
+    <!-- 自定义js -->
+    <script src="../js/index-info.js"></script>
+    <!-- 检测登录状态 -->
+   <!-- <script src="../../js/cookie.js"></script>
+    <script src='../../js/control.js'></script>
+    <script src='../../js/serverUrl.js'></script>-->
+
+</body>
+</html>

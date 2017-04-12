@@ -1,0 +1,34 @@
+header{
+    background-color: #3498DB;
+}
+.header-wraper {
+    width: 1200px;
+    margin: auto;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+nav{
+    background-color: #34495E;
+}
+.nav-title{
+    width: 1200px;
+    margin: auto;
+    display: flex;
+    text-align: center;
+
+}
+.nav-title div{
+    padding: 20px 10px;
+    flex: 1;
+    color: #ffffff;
+}
+.nav-title div a{
+    padding: 20px 10px;
+}
+.nav-title div a:hover{
+    color: #fff;
+    text-decoration: underline;
+}
+.nav-title div:hover{
+    background-color: #23527c;
+}

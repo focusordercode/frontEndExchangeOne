@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>入库</title>
+    <!-- 引入的框架 -->
+    <link rel="stylesheet" href="../assets/css/reset.css">
+    <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../assets/css/bootstrap-datetimepicker.css">
+    <!-- 自定义 -->
+    <link rel="stylesheet" href="../css/header.css">
+    <link rel="stylesheet" href="../css/index.css">
+    <style>
+        .nav-title div:nth-child(2){
+            background-color: #23527c;
+        }
+
+    </style>
+</head>
+<body>
+<div class="coupon">
+    <header>
+        <div class="header-wraper">
+            <img src="../images/logo.png" alt="">
+        </div>
+    </header>
+    <nav class="nav-content">
+        <div class="nav-title">
+            <div><a href="index.html">新建</a></div>
+            <div> <a href="warehouse.html">入库</a> </div>
+            <div><a href="sales.html">销售</a> </div>
+            <div><a href="use.html">使用</a></div>
+            <div><a href="search.html">查询</a> </div>
+        </div>
+    </nav>
+    <div class="coupon-content">
+        <div class="">
+            <h3 class="bg-info">功能</h3>
+            <div class="search">
+                <label >输入优惠券号： <input type="text" ></label>
+                <button class="btn btn-default" >搜索</button>
+                <button class="btn btn-default" @click="wareHouse">上架</button>
+            </div>
+        </div>
+
+        <div class="coupon-list">
+            <h3 class="bg-primary">新入库的优惠券</h3>
+            <table class="table table-bordered">
+                <tr>
+                    <th ><input type="checkbox" v-model="allChecked"> 全选</th>
+                    <th>优惠券名称</th>
+                    <th>有效期</th>
+                    <th>满足金额</th>
+                    <th>可抵扣金额</th>
+                    <th>数量</th>
+                    <th>操作</th>
+                </tr>
+                <tr >
+                    <td><input type="checkbox" v-model="selectedArr" :value="item.id" /></td>
+                    <td>优惠券</td>
+                    <td>2017/4/6~2017/4/20</td>
+                    <td>￥2000</td>
+                    <td>￥500</td>
+                    <td>500</td>
+                    <td class="btns">
+                        <a href="index-info.html"><button class="btn btn-success">详情</button></a>
+                        <button class="btn btn-danger ">删除</button>
+                    </td>
+                </tr>
+                <tr >
+                    <td><input type="checkbox" v-model="selectedArr" :value="item.id" /></td>
+                    <td>优惠券</td>
+                    <td>2017/4/6~2017/4/20</td>
+                    <td>￥2000</td>
+                    <td>￥500</td>
+                    <td>500</td>
+                    <td class="btns">
+                        <button class="btn btn-success">上架</button>
+                        <button class="btn btn-danger ">删除</button>
+                    </td>
+                </tr>
+                <tr >
+                    <td><input type="checkbox" v-model="selectedArr" :value="item.id" /></td>
+                    <td>优惠券</td>
+                    <td>2017/4/6~2017/4/20</td>
+                    <td>￥2000</td>
+                    <td>￥500</td>
+                    <td>500</td>
+                    <td class="btns">
+                        <button class="btn btn-success">上架</button>
+                        <button class="btn btn-danger ">删除</button>
+                    </td>
+                </tr>
+                <tr >
+                    <td><input type="checkbox" v-model="selectedArr" :value="item.id" /></td>
+                    <td>优惠券</td>
+                    <td>2017/4/6~2017/4/20</td>
+                    <td>￥2000</td>
+                    <td>￥500</td>
+                    <td>500</td>
+                    <td class="btns">
+                        <button class="btn btn-success">上架</button>
+                        <button class="btn btn-danger ">删除</button>
+                    </td>
+                </tr>
+                <tr >
+                    <td><input type="checkbox" v-model="selectedArr" :value="item.id" /></td>
+                    <td>优惠券</td>
+                    <td>2017/4/6~2017/4/20</td>
+                    <td>￥2000</td>
+                    <td>￥500</td>
+                    <td>500</td>
+                    <td class="btns">
+                        <button class="btn btn-success">上架</button>
+                        <button class="btn btn-danger ">删除</button>
+                    </td>
+                </tr>
+            </table>
+            <div class="row">
+                <div class="col-md-offset-11 col-md-1">
+                    <button class="btn btn-info">上架</button>
+                </div>
+            </div>
+            <div class="page-footer">
+                <button class="btn btn-success">上一页</button>
+                <button class="btn btn-success">下一页</button>
+                <input type="text" >
+                <button class="btn btn-success">跳转</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script src="../js/vue.js"></script>
+<script src="../js/jquery.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/bootstrap-datetimepicker.min.js"></script>
+<script>
+    var ware = new Vue({
+        el:'.coupon',
+        data:{
+            isShow: false
+        },
+        methods:{
+            wareHouse:function () {
+                this.isShow = !this.isShow
+            }
+        }
+    });
+    /* $(".form_datetime").datetimepicker({
+     format: 'yyyy-mm-dd',
+     minView: "month"
+     });*/
+</script>
+</body>
+</html>

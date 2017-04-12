@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap Modal</title>
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../assets/css/bootstrap-datetimepicker.css">
+</head>
+<body>
+<input size="16" class="form-control date" readonly type="text" placeholder=""/>
+<script src="../assets/js/jquery.js"></script>
+<script src="../assets/js/bootstrap.min.js"></script>
+<script src="../assets/js/bootstrap-datetimepicker.min.js"></script>
+<script>
+    $(".date").datetimepicker({
+        format: 'yyyy-mm-dd',
+        minView: "month",
+        autoclose: true
+    });
+</script>
+
+
+
+</body>
+</html>

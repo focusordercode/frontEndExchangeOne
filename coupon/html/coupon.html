@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>优惠券</title>
+    <!-- 引入的框架 -->
+    <link rel="stylesheet" href="../assets/css/reset.css">
+    <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../assets/css/bootstrap-datetimepicker.css">
+    <link rel="stylesheet" href="../../font-awesome/css/font-awesome.min.css">
+    <!-- 自定义 -->
+    <link rel="stylesheet" href="../css/header.css">
+    <link rel="stylesheet" href="../css/index.css">
+    <style>
+        .coupon-border{
+         border: 1px solid #CCCCCC;
+            border-radius: 10px;
+        }
+        .header-top{
+            margin-top: 20px;
+        }
+        .details{
+            padding: 10px 20px ;
+        }
+        .title{
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+        }
+        .publish{
+
+        }
+        .coupon .text-center{
+            text-align: center;
+        }
+
+    </style>
+</head>
+<body>
+<div class="coupon">
+    <header>
+        <div class="header-wraper">
+            <img src="../images/logo.png" alt="">
+        </div>
+    </header>
+
+    <div class="container-fluid coupon-content coupon-border">
+        <h3 class=" row bg-primary header-top">优惠券详情</h3>
+        <div class="details">
+            <div class="title">优惠券发行{{list.status}}</div>
+            <div class="publish row">
+                <div>
+                    <div class="col-md-6 ">
+                        <label class="col-sm-4 col-md-4 col-lg-4 text-right">优惠券名称</label>
+                        <div class="col-sm-8 col-md-8 col-lg-8 ">{{batchList.name}}</div>
+                    </div>
+                    <div class="col-md-6 ">
+                        <label class="col-sm-4 col-md-4 col-lg-4 text-right">优惠券类型</label>
+                        <div class="col-sm-8 col-md-8 col-lg-8 ">{{batchList.type_msg}}</div>
+                    </div>
+                </div>
+                <div>
+                    <div class="col-md-6 ">
+                        <label class="col-sm-4 col-md-4 col-lg-4 text-right">状态</label>
+                        <div class="col-sm-8 col-md-8 col-lg-8 ">{{batchList.issuant_status_msg}}</div>
+                    </div>
+                    <div class="col-md-6 ">
+                        <label class="col-sm-4 col-md-4 col-lg-4 text-right">最低消费金额</label>
+                        <div class="col-sm-8 col-md-8 col-lg-8 ">{{batchList.min_amount}}</div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <label class="col-sm-2 col-md-2 col-lg-2 text-right">发行数量</label>
+                    <div class="col-sm-10 col-md-10 col-lg-10 ">{{batchList.issuant_amount}}</div>
+                </div>
+                <div>
+                    <div class="col-md-6 ">
+                        <label class="col-sm-4 col-md-4 col-lg-4 text-right">面值</label>
+                        <div class="col-sm-8 col-md-8 col-lg-8 ">{{batchList.denomination}}</div>
+                    </div>
+                    <div class="col-md-6 ">
+                        <label class="col-sm-4 col-md-4 col-lg-4 text-right">价格</label>
+                        <div class="col-sm-8 col-md-8 col-lg-8 ">{{batchList.price}}</div>
+                    </div>
+                </div>
+                <div>
+                    <div class="col-md-6 ">
+                        <label class="col-sm-4 col-md-4 col-lg-4 text-right">单次使用</label>
+                        <div class="col-sm-8 col-md-8 col-lg-8 ">{{batchList.restriction_amount}}</div>
+                    </div>
+                    <div class="col-md-6 ">
+                        <label class="col-sm-4 col-md-4 col-lg-4 text-right">有效期限</label>
+                        <div class="col-sm-8 col-md-8 col-lg-8 ">{{batchList.validity_begin}}至{{batchList.validity_end}}止</div>
+                    </div>
+                </div>
+                <div>
+                    <div class="col-md-6 ">
+                        <label class="col-sm-4 col-md-4 col-lg-4 text-right">发行人</label>
+                        <div class="col-sm-8 col-md-8 col-lg-8 ">{{batchList.creator_id_msg}}</div>
+                    </div>
+                    <div class="col-md-6 ">
+                        <label class="col-sm-4 col-md-4 col-lg-4 text-right">发行时间</label>
+                        <div class="col-sm-8 col-md-8 col-lg-8 ">{{batchList.created_time}}</div>
+                    </div>
+                </div>
+                <div class="col-md-12 ">
+                    <label class="col-sm-2 col-md-2 col-lg-2 text-right">备注说明</label>
+                    <div class="col-sm-10 col-md-10 col-lg-10 ">{{batchList.remark}}</div>
+                </div>
+            </div>
+        </div>
+        <div class="details">
+            <div class="title">优惠券发放</div>
+            <!-- 发放表单 -->
+            <div  v-show="list.status==1" class="container-fluid ">
+                <div class="row form-horizontal">
+                    <div class="form-group text-right">
+                        <div class="col-md-6 ">
+                            <label class="col-sm-4 col-md-4 col-lg-4 text-right">优惠券码</label>
+                            <div class="col-sm-8 col-md-8 col-lg-8 ">{{list.code}}</div>
+                        </div>
+                        <div class="col-md-6 ">
+                            <label class="col-sm-4 col-md-4 col-lg-4 text-right">券码状态</label>
+                            <div class="col-sm-8 col-md-8 col-lg-8 ">待发放</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row form-horizontal">
+                    <div class="form-group text-right">
+                        <label class="col-sm-3 col-md-3 col-lg-3 control-label">订单号 <i class="red">*</i></label>
+                        <div class="col-sm-6 col-md-6 col-lg-6 ">
+                            <div class="bootstrap-tagsinput height">
+                                <input type="text" class="form-control ft-14" v-model="grant.orderId" placeholder="请输入订单号">
+                            </div>
+                        </div>
+                        <div class="col-sm-3 col-md-3 col-lg-3">
+
+                        </div>
+                    </div>
+                    <div class="form-group text-right">
+                        <label class="col-sm-3 col-md-3 col-lg-3 control-label">交易发放时间 </label>
+                        <div class="col-sm-6 col-md-6 col-lg-6 ">
+                            <div class="bootstrap-tagsinput height">
+                                <input size="16" v-model="grant.time" class="form-control date" type="text" readonly  placeholder=""/>
+                            </div>
+                        </div>
+                        <div class="col-sm-3 col-md-3 col-lg-3">
+
+                        </div>
+                    </div>
+                    <div class="form-group text-right">
+                        <label class="col-sm-3 col-md-3 col-lg-3 control-label">客户</label>
+                        <div class="col-sm-6 col-md-6 col-lg-6 ">
+                            <div class="bootstrap-tagsinput height">
+                                <input type="text" class="form-control ft-14" v-model="grant.name" placeholder="请输入客户名称">
+                            </div>
+                        </div>
+                        <div class="col-sm-3 col-md-3 col-lg-3">
+
+                        </div>
+                    </div>
+                    <div class="form-group text-right">
+                        <label class="col-sm-3 col-md-3 col-lg-3 control-label">联系电话</label>
+                        <div class="col-sm-6 col-md-6 col-lg-6 ">
+                            <div class="bootstrap-tagsinput height">
+                                <input type="tel" class="form-control ft-14" v-model="grant.tel" placeholder="请输入客户联系电话">
+                            </div>
+                        </div>
+                        <div class="col-sm-3 col-md-3 col-lg-3">
+
+                        </div>
+                    </div>
+                    <div class="form-group text-right">
+                        <label class="col-sm-3 col-md-3 col-lg-3 control-label">电子邮件</label>
+                        <div class="col-sm-6 col-md-6 col-lg-6 ">
+                            <div class="bootstrap-tagsinput height">
+                                <input type="email" class="form-control ft-14" v-model="grant.email" placeholder="请输入客户电子邮件">
+                            </div>
+                        </div>
+                        <div class="col-sm-3 col-md-3 col-lg-3">
+
+                        </div>
+                    </div>
+                    <div class="modal-footer text-center">
+                        <button type="button" class="btn btn-primary" @click="grantData()">发放</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+
+                    </div>
+                </div>
+            </div>
+            <!-- 发放信息 -->
+            <div v-show="list.status>1" class="publish row">
+                <div>
+                    <div class="col-md-6 ">
+                        <label class="col-sm-4 col-md-4 col-lg-4 text-right">优惠券码</label>
+                        <div class="col-sm-8 col-md-8 col-lg-8 ">{{list.code}}</div>
+                    </div>
+                    <div class="col-md-6 ">
+                        <label class="col-sm-4 col-md-4 col-lg-4 text-right">券码状态</label>
+                        <div class="col-sm-8 col-md-8 col-lg-8 ">{{list.status_msg}}</div>
+                    </div>
+                </div>
+                <div>
+                    <div class="col-md-6 ">
+                        <label class="col-sm-4 col-md-4 col-lg-4 text-right">淘宝订单号</label>
+                        <div class="col-sm-8 col-md-8 col-lg-8 ">{{list.order_no}}</div>
+                    </div>
+                    <div class="col-md-6 ">
+                        <label class="col-sm-4 col-md-4 col-lg-4 text-right">交易日期</label>
+                        <div class="col-sm-8 col-md-8 col-lg-8 ">{{list.granted_date}}</div>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="col-md-6 ">
+                        <label class="col-sm-4 col-md-4 col-lg-4 text-right">登记人姓名</label>
+                        <div class="col-sm-8 col-md-8 col-lg-8 ">{{list.holder}}</div>
+                    </div>
+                    <div class="col-md-6 ">
+                        <label class="col-sm-4 col-md-4 col-lg-4 text-right">电话</label>
+                        <div class="col-sm-8 col-md-8 col-lg-8 ">{{list.holder_telephone}}</div>
+                    </div>
+                </div>
+                <div>
+                    <div class="col-md-6 ">
+                        <label class="col-sm-4 col-md-4 col-lg-4 text-right">邮箱地址</label>
+                        <div class="col-sm-8 col-md-8 col-lg-8 ">{{list.holder_email}}</div>
+                    </div>
+                </div>
+
+                <div class="col-md-12 ">
+                    <label class="col-sm-2 col-md-2 col-lg-2 text-right">备注说明</label>
+                    <div class="col-sm-10 col-md-10 col-lg-10 ">{{batchList.remark}}</div>
+                </div>
+            </div>
+
+        </div>
+        <div  class="details" v-show="list.status>=2">
+            <div class="title">优惠券使用</div>
+            <!-- 使用信息 -->
+            <div  v-show="list.status>2" class="publish row">
+                <div>
+                    <div class="col-md-6 ">
+                        <label class="col-sm-4 col-md-4 col-lg-4 text-right">使用人姓名</label>
+                        <div class="col-sm-8 col-md-8 col-lg-8 ">{{list.consumer}}</div>
+                    </div>
+                    <div class="col-md-6 ">
+                        <label class="col-sm-4 col-md-4 col-lg-4 text-right">联系电话</label>
+                        <div class="col-sm-8 col-md-8 col-lg-8 ">{{list.consumer_telephone}}</div>
+                    </div>
+                </div>
+                <div>
+                    <div class="col-md-6 ">
+                        <label class="col-sm-4 col-md-4 col-lg-4 text-right">邮箱地址</label>
+                        <div class="col-sm-8 col-md-8 col-lg-8 ">{{list.consumer_email}}</div>
+                    </div>
+                    <div class="col-md-6 ">
+                        <label class="col-sm-4 col-md-4 col-lg-4 text-right">使用日期</label>
+                        <div class="col-sm-8 col-md-8 col-lg-8 ">{{list.created_time}}</div>
+                    </div>
+                </div>
+            </div>
+            <!-- 使用表单 -->
+            <div v-show="list.status==2" class="container-fluid ">
+                <div class="row form-horizontal">
+                    <div class="form-group text-right">
+                        <label class="col-sm-3 col-md-3 col-lg-3 control-label">使用人姓名 <i class="red">*</i></label>
+                        <div class="col-sm-6 col-md-6 col-lg-6 ">
+                            <div class="bootstrap-tagsinput height">
+                                <input type="text" class="form-control ft-14" v-model="use.name" placeholder="请输入姓名">
+                            </div>
+                        </div>
+                        <div class="col-sm-3 col-md-3 col-lg-3">
+
+                        </div>
+                    </div>
+                    <div class="form-group text-right">
+                        <label class="col-sm-3 col-md-3 col-lg-3 control-label">联系电话</label>
+                        <div class="col-sm-6 col-md-6 col-lg-6 ">
+                            <div class="bootstrap-tagsinput height">
+                                <input type="tel" class="form-control ft-14" v-model="use.tel" placeholder="请输入客户联系电话">
+                            </div>
+                        </div>
+                        <div class="col-sm-3 col-md-3 col-lg-3">
+
+                        </div>
+                    </div>
+                    <div class="form-group text-right">
+                        <label class="col-sm-3 col-md-3 col-lg-3 control-label">电子邮件</label>
+                        <div class="col-sm-6 col-md-6 col-lg-6 ">
+                            <div class="bootstrap-tagsinput height">
+                                <input type="email" class="form-control ft-14" v-model="use.email" placeholder="请输入客户电子邮件">
+                            </div>
+                        </div>
+                        <div class="col-sm-3 col-md-3 col-lg-3">
+
+                        </div>
+                    </div>
+                    <div class="form-group text-right">
+                        <label class="col-sm-3 col-md-3 col-lg-3 control-label">交易发放时间 </label>
+                        <div class="col-sm-6 col-md-6 col-lg-6 ">
+                            <div class="bootstrap-tagsinput height">
+                                <input size="16" v-model="use.time" class="form-control date" type="text" readonly  placeholder=""/>
+                            </div>
+                        </div>
+                        <div class="col-sm-3 col-md-3 col-lg-3">
+
+                        </div>
+                    </div>
+                    <div class="modal-footer text-center">
+                        <button type="button" class="btn btn-primary" @click="useData()">使用</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">返回</button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="details" v-show="list.status>=3">
+            <div class="title">优惠券审核</div>
+            <!-- 审核信息 -->
+            <div v-show="list.status>4" class="publish row">
+                <div>
+                    <div class="col-md-6 ">
+                        <label class="col-sm-4 col-md-4 col-lg-4 text-right">审核结果</label>
+                        <div class="col-sm-8 col-md-8 col-lg-8 "> <span v-if="list.status=4">已通过</span> <span v-else>未通过</span></div>
+                    </div>
+                    <div class="col-md-12 ">
+                        <label class="col-sm-2 col-md-2 col-lg-2 text-right">审核说明</label>
+                        <div class="col-sm-8 col-md-8 col-lg-8 ">{{list.remark}}</div>
+                    </div>
+                </div>
+            </div>
+            <!-- 审核表单 -->
+            <div v-show="list.status==4" class="container-fluid ">
+                <div class="row form-horizontal">
+                    <div class="form-group text-right">
+                        <label class="col-sm-3 col-md-3 col-lg-3 control-label">审核意见 </label>
+                        <div class="form-group text-right col-md-6">
+                            <label class="col-sm-2 control-label" for="ds-10" >通过</label>
+                            <div class="col-sm-1">
+                                <input class="form-control control-label" id="ds-10" type="radio"  value="4"  v-model="checks.picked" checked />
+                            </div>
+                            <label class="col-sm-2 control-label" for="ds-11" >不通过</label>
+                            <div class="col-sm-1">
+                                <input class="form-control control-label" id="ds-11" type="radio"  value="5" v-model="checks.picked" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group text-right">
+                        <label class="col-sm-3 col-md-3 col-lg-3 control-label">审核说明</label>
+                        <div class="col-sm-6 col-md-6 col-lg-6 ">
+                            <div class="bootstrap-tagsinput height">
+                                <textarea name="" id="" cols="100" rows="3"  v-model="checks.remark"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer text-center">
+                        <button type="button" class="btn btn-primary" @click="checkData()">审核</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">返回</button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<!-- 引入框架 -->
+<script src="../assets/js/vue.js"></script>
+<script src="../assets/js/jquery.js"></script>
+<script src="../assets/js/bootstrap.min.js"></script>
+<script src="../assets/js/bootstrap-datetimepicker.min.js"></script>
+<script src="../assets/js/layer.js"></script>
+<!-- 自定义js -->
+<script src="../js/coupon.js"></script>
+<!-- 检测登录状态 -->
+<!-- <script src="../../js/cookie.js"></script>
+ <script src='../../js/control.js'></script>
+ <script src='../../js/serverUrl.js'></script>-->
+
+</body>
+</html>

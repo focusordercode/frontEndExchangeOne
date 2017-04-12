@@ -12,7 +12,7 @@ Vue.component('my-component', {
     props:{
         data:Object
     }
-})
+});
 
 var picGallery = new Vue({
     el:'body',
@@ -31,6 +31,8 @@ var picGallery = new Vue({
         keyword:'',
         recoverList:'',
         recoverId:'',
+        now:-1,
+        is_show:false,
         delete:''
     },
     ready:function(){
@@ -149,7 +151,7 @@ var picGallery = new Vue({
                         layer.msg('向服务器请求删除失败');
                     }
                 })
-            })
+            });
             //更新图片函数
             function update(pic){
                 //显示加载按钮
@@ -528,12 +530,71 @@ var picGallery = new Vue({
                     error:function(jqXHR){}
                 })
             })
+        },
+        get:function (ev) {
+            if(ev.keyCode == 8){
+                this.now = -1
+            }
+            if(ev.keyCode == 38 || ev.keyCode == 40){
+                return;
+            }else if(ev.keyCode == 13){
+                this.recoverId = this.recoverList[this.now].id;
+                picGallery.is_show = !this.is_show;
+            }
+            var inputWidth = $('.pors .form-control').innerWidth();
+            $('.pors .list-group').css('width',inputWidth);
+            $.ajax({
+                type:'POST',
+                url:serverUrl+'vague/gallery',
+                datatype:'json',
+                data:{
+                    key:oKey,
+                    user_id:token,
+                    keyword:picGallery.keyword
+                },
+                success:function(data){
+                    if(data.status){
+                        picGallery.recoverList = data.value;
+                        picGallery.is_show = true;
+                    }else if(data.status==1012){
+                        layer.msg('请先登录',{time:2000});
+
+                        setTimeout(function(){
+                            jumpLogin(loginUrl,NowUrl);
+                        },2000);
+                    }else if(data.status==1011){
+                        layer.msg('权限不足,请跟管理员联系');
+                    }
+                },
+                error:function(jqXHR){
+                    layer.msg('向服务器请求模糊搜索相册类目失败');
+                }
+            })
+        },
+        changeDown:function () {
+            this.now++;
+            console.log(this.now);
+            if(this.now == 10){
+                this.now = 0;
+            }else {
+                $('#seachList').animate({scrollTop:this.now*62},100);
+                this.keyword = this.recoverList[this.now].cn_name;
+            }
+        },
+        changeUp:function () {
+            this.now--;
+            if(this.now == -1||this.now == -2){
+                this.now = 10;
+            }else{
+                $('#seachList').animate({scrollTop:this.now*62},100);
+                this.keyword = this.recoverList[this.now].cn_name;
+            }
         }
     }
-})
+});
 
 
-$(document).on('keyup','.pors .form-control',function(){
+/*$(document).on('keyup','.pors .form-control',function(){
     var inputWidth = $('.pors .form-control').innerWidth();
     $('.pors .list-group').css('width',inputWidth);
     $.ajax({
@@ -562,7 +623,7 @@ $(document).on('keyup','.pors .form-control',function(){
             layer.msg('向服务器请求模糊搜索相册类目失败');
         }
     })
-});
+});*/
 
 //Vue过滤器
 Vue.filter('upLink',function(value){

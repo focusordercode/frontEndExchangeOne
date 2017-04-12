@@ -89,7 +89,16 @@
                                 <div class="col-md-2 seachListFa" id="blurInput">
                                     <div class="form-group" id="form-group">
                                         <div class="input-group">
-                                              <input type="text" v-model="search.cate_name" placeholder="输入关键字选择类目" class="form-control goSearch " id="searchField" >
+                                              <input
+                                                      type="text"
+                                                      v-model="search.cate_name"
+                                                      placeholder="输入关键字选择类目"
+                                                      class="form-control goSearch "
+                                                      id="searchField"
+                                                      autocomplete="off"
+                                                      @keyup="get($event)"
+                                                      @keydown.down="changeDown()"
+                                                      @keydown.up.prevent="changeUp()" >
                                               <div class="input-group-addon" v-show="search.cateId" @click="cancelCate">
                                                   <i class="fa fa-close"></i>
                                               </div>
@@ -97,7 +106,7 @@
                                         <div class="container">
                                             <div class="row seachList" id="searchInput">
                                                 <ul class="">
-                                                    <li @click="selectCate(pro)" v-for="pro in proList" v-cloak>
+                                                    <li @click="selectCate(pro)" v-for="pro in proList" v-cloak :class="{gray:$index==now}">
                                                         {{pro.cn_name}} {{pro.en_name}}
                                                     </li>
                                                 </ul>

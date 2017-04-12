@@ -165,11 +165,22 @@
                                                 <div class="form-group">
                                                     <label class="col-sm-4 col-md-4 col-lg-4 control-label">密码<i class="text-red">*</i></label>
                                                     <div class="col-sm-4 col-md-4 col-lg-4">
-                                                        <input type="text" v-model="password" placeholder="输入密码" class="form-control">
+                                                        <input type="password" v-model="password" placeholder="输入密码" class="form-control">
                                                     </div>
                                                     <div class="col-sm-4 col-md-4 col-lg-4">
                                                         <div class="alert alert-danger new-alert" style="display: none" v-show="al_pass" role="alert">密码不能为空且只能是英文字母和数字
-                                                        </div>
+                                                        </div >
+                                                        <div class="alert alert-danger new-alert" style="display: none" v-show="is_same" role="is_same">两次输入的密码不一致！</div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 col-md-4 col-lg-4 control-label">确认密码<i class="text-red">*</i></label>
+                                                    <div class="col-sm-4 col-md-4 col-lg-4">
+                                                        <input type="password" v-model="passWord" placeholder="输入密码" class="form-control">
+                                                    </div>
+                                                    <div class="col-sm-4 col-md-4 col-lg-4">
+                                                        <div class="alert alert-danger new-alert" style="display: none" v-show="suer_password" role="alert">请确认密码</div>
+                                                        <div class="alert alert-danger new-alert" style="display: none" v-show="is_same" role="is_same">两次输入的密码不一致！</div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
@@ -247,16 +258,21 @@
                                                                     class="form-control searchShadow searchCate goSearch"
                                                                     id="searchField"
                                                                     placeholder="输入关键字搜索类目"
+                                                                    autocomplete="off"
+                                                                    v-model="selsectActor"
                                                                     @keyup="get($event)"
                                                                     @keydown.down="changeDown()"
-                                                                    @keydown.up.prevent="changeUp()">
+                                                                    @keydown.up.prevent="changeUp()"
+                                                                   >
                                                             <ul class="cate-list hah" id="searchInput">
-                                                                <template v-for="one in oneList" v-if="$index<=9" v-cloak>
-                                                                    <li @click="selectOne(one)">
+                                                                    <li @click="selectOne(one)"
+                                                                        v-for="one in oneList"
+                                                                        v-if="$index<=9"
+                                                                        v-cloak
+                                                                        :class="{gray:$index==now}">
                                                                         {{one.name}}
                                                                     </li>
-                                                                </template>
-                                                                <div >查询不到数据</div>
+                                                               <!-- <li v-show="oneList.length ==0 ">查询不到数据</li>-->
                                                             </ul>
                                                         </div>
                                                         <div class="col-sm-1 text-right paddingLeft searchCompent">

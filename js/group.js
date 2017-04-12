@@ -67,7 +67,9 @@ var rolegroup = new Vue({
 		oneList:'',
 		orgds:[],//修改信息时机构的数据
 		addname_alert:false,
-		org_alert:false
+		org_alert:false,
+		now:-1,
+        searchFor:''
 	},
 	ready:function(){
 		//获取角色的列表
@@ -83,6 +85,7 @@ var rolegroup = new Vue({
 			success:function(data){
 				if (data.status == 100) {
 					rolegroup.roledata = data.value;
+					console.log(data.value)
 				}else if(data.status==1012){
                     layer.msg('请先登录',{time:2000});
                     
@@ -96,7 +99,7 @@ var rolegroup = new Vue({
 			error:function (jqXHR) {
 				layer.msg('向服务器请求失败');
 			}
-		})
+		});
 		// 获取树形的数据
 		$.ajax({
             type: 'POST',
@@ -135,7 +138,8 @@ var rolegroup = new Vue({
 		addrole:function(){
 			var vm = this;
 			var sel = vm.orgSelect; 
-			var orgids = getroleid(sel);
+			/*var orgids = getroleid(sel);*/
+            var  orgids = vm.orgids;
 			var creator_id = cookie.get('id');
 			name = vm.addname;
 			remark = vm.addremark;
@@ -169,6 +173,7 @@ var rolegroup = new Vue({
 					success:function(data){
 						if (data.status == 100) {
 							layer.msg('添加成功');
+                            vm.orgids = [];
 							//重新刷新
                             setTimeout(windowFresh(),1000);
 						}else if (data.status == 101) {
@@ -197,7 +202,7 @@ var rolegroup = new Vue({
 			var orgSelect = [];
 			var hasOne = [];
 			orgSelect = vm.orgSelect;
-			console.log(orgSelect)
+			console.log(orgSelect);
 			for(var i = 0;i<orgSelect.length;i++){
 				if(orgSelect[i]==one){
 					hasOne.push(i);
@@ -208,6 +213,7 @@ var rolegroup = new Vue({
 				layer.msg("已经选中了");
 			}else{
 				vm.orgSelect.push(one);
+				console.log(vm.orgSelect);
 			}
 		},
 		//修改时选中机构
@@ -380,6 +386,7 @@ var rolegroup = new Vue({
 			success:function(data){
 				if (data.status == 100) {
 					rolegroup.roledata = data.value;
+					console.log(data.value)
 				}else if(data.status==1012){
                     layer.msg('请先登录',{time:2000});
                     
@@ -394,7 +401,99 @@ var rolegroup = new Vue({
 				layer.msg('向服务器请求失败');
 			}
 		})
-		}
+		},
+		get:function (ev) {
+            var searchCusVal = $('.searchCatea').val();
+            if(ev.keyCode == 8){
+                this.now = -1
+            }
+            if(ev.keyCode == 38 || ev.keyCode == 40){
+                return;
+            }else if(ev.keyCode == 13){
+				/*window.open('https://www.baidu.com/s?wd='+this.t1);*/
+               /* this.orgSelect.name = this.oneList[this.now].name;
+                this.orgids = this.oneList[this.now].id;*/
+
+                var vm = this;
+                var orgSelect = [];
+                var hasOne = [];
+                orgSelect = vm.orgSelect;
+                console.log(orgSelect);
+                for(var i = 0;i<orgSelect.length;i++){
+                    if(orgSelect[i] == vm.oneList[vm.now]){
+                        hasOne.push(i);
+                    }
+                }
+                console.log(hasOne);
+                if(hasOne.length){
+                    layer.msg("已经选中了");
+                }else{
+                    vm.orgSelect.push(vm.oneList[vm.now]);
+                    vm.orgids.push(vm.oneList[vm.now].id);
+                    console.log(vm.orgSelect);
+                    console.log(vm.orgids);
+                    searchCusVal = ''
+                }
+
+
+            }
+            var getWidth = $('.pors .cate-list').prev('.form-control').innerWidth();
+            $('.pors .cate-list').css('width',getWidth);
+
+
+               $.ajax({
+                   type:'POST',
+                   url:serverUrl+'search/org',
+                   datatype:'json',
+                   data:{
+                       key:oKey,
+                       user_id:token,
+                       searchText:searchCusVal
+                   },
+                   success:function(data){
+                       if(data.status == 100){
+                           rolegroup.oneList = data.value;
+
+                       }else if(data.status==1012){
+                           layer.msg('请先登录',{time:2000});
+
+                           setTimeout(function(){
+                               jumpLogin(loginUrl,NowUrl);
+                           },2000);
+                       }else if(data.status==1011){
+                           layer.msg('权限不足,请跟管理员联系');
+                       }else{
+                           rolegroup.oneList = '';
+                       }
+                   },
+                   error:function(jqXHR){
+                       layer.msg('向服务器请求搜索机构失败');
+                   }
+               })
+
+        },
+		changeDown:function () {
+            this.now++;
+            if(this.now == 10){
+                this.now = 0;
+                $('#searchInputa').animate({scrollTop:this.now*33},100);
+            }else{
+                $('#searchInputa').animate({scrollTop:this.now*33},100);
+                this.searchFor = this.oneList[this.now].name;
+               /* this.orgids = this.oneList[this.now].id;*/
+            }
+        },
+		changeUp:function () {
+            this.now--;
+            if(this.now == -2 ||this.now == -1){
+                this.now = 9;
+                $('#searchInputa').animate({scrollTop:this.now*33},100);
+            }else {
+                $('#searchInputa').animate({scrollTop:this.now*33},100);
+                this.orgSelect.name = this.oneList[this.now].name;
+               /* this.orgids = this.oneList[this.now].id;*/
+            }
+        }
 	}
 });
 //刷新函数
@@ -446,7 +545,7 @@ $('body').bind('click', function(event) {
 //搜索机构
 
 
-$('.searchCatea').on('keyup',function(){
+/*$('.searchCatea').on('keyup',function(){
     var getWidth = $('.pors .cate-list').prev('.form-control').innerWidth();
     $('.pors .cate-list').css('width',getWidth);
     var searchCusVal = $('.searchCatea').val();
@@ -511,7 +610,7 @@ $('.searchCate').on('keyup',function(){
 			layer.msg('向服务器请求搜索机构失败');
 		}
 	})
-});
+});*/
 //获取树形分类函数
 function getTreeData(vm) {
     $.ajax({
@@ -566,6 +665,7 @@ function getlist(){
 		success:function(data){
 			if (data.status == 100) {
 				rolegroup.roledata = data.value;
+				console.log(data.value);
 			}else if(data.status==1012){
                 layer.msg('请先登录',{time:2000});
                 

@@ -618,14 +618,14 @@ body .modal-footer {
     background-color: #fff;
     border-left: 1px solid #ccc;
     width: 100%;
-    max-height: 218px;
-    overflow-y: auto;
 }
 .seachList ul{
     list-style: none;
     padding-left: 0px;
     padding-right: 0px;
     margin-bottom: 0px;
+    max-height: 215px;
+    overflow-y: auto;
 }
 .seachList li{
     padding-left: 15px;

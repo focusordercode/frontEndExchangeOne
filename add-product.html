@@ -168,17 +168,25 @@
                                                             <input type="text" v-model="cate_name" placeholder="选择类目" class="form-control" readonly>
                                                         </div>
                                                         <div class="col-sm-1">
-                                                            <button class="btn btn-info btn-sm searchBtn" id="searchBtn0">搜索</button>
+                                                            <button class="btn btn-info btn-sm searchBtn" id="searchBtn0" @click="show">搜索</button>
                                                         </div>
                                                         <div class="col-sm-3 cate_alert1" id="cate_alert1" style="display:none;" v-show="cate_alert">
                                                             <div class="alert alert-danger new-alert"  role="alert" > 点击搜索选择类目</div>
                                                         </div>
                                                     </div>
-                                                    <div class="form-group" id="blurInput0">
+                                                    <div class="form-group" id="blurInput0" v-show="ishsow_SelectList">
                                                         <div  v-show="!cate_alert" class="col-sm-4 col-md-offset-3 pors searchCompent">
-                                                            <input type="text" class="form-control searchShadow searchCate" id="searchField0" placeholder="输入关键字搜索类目">
-                                                            <ul class="cate-list" id="searchInput0">
-                                                                <li @click="selectCate(pro)" v-for="pro in proList" v-cloak>
+                                                            <input
+                                                                    type="text"
+                                                                    class="form-control searchShadow searchCate"
+                                                                    id="searchField0"
+                                                                    placeholder="输入关键字搜索类目"
+                                                                    v-model="proSelectFor"
+                                                                    @keyup="get($event)"
+                                                                    @keydown.down="changeDown()"
+                                                                    @keydown.up.prevent="changeUp()">
+                                                            <ul class="cate-list cate-listA" id="searchInput0" style="max-height: 198px;overflow-y: auto">
+                                                                <li @click="selectCate(pro)" v-for="pro in proList" v-cloak :class="{gray:$index==now}">
                                                                     {{pro.cn_name}} {{pro.en_name}}
                                                                 </li>
                                                             </ul>
@@ -228,18 +236,26 @@
                                                             <input type="text" v-model="cate_name" placeholder="选择类目" class="form-control" readonly>
                                                         </div>
                                                         <div class="col-sm-1 text-right ">
-                                                            <button class="btn btn-info btn-sm searchBtn2" id="searchBtn1">搜索</button>
+                                                            <button class="btn btn-info btn-sm searchBtn2" id="searchBtn1" @click="showTemp">搜索</button>
                                                         </div>
                                                         <div class="col-sm-3" id="cate_alert" >
                                                             <div class="alert alert-danger new-alert"  role="alert" style="display:none;" v-show="cate_alert" > 请选择类目
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="form-group" id="blurInput1">
+                                                    <div class="form-group" id="blurInput1" v-show="ishsow_SelectListTemp">
                                                         <div class="col-sm-4 col-md-offset-3 pors searchCompent2">
-                                                            <input type="text" class="form-control searchShadow searchCate2" id="searchField1" placeholder="输入关键字搜索类目">
-                                                            <ul class="cate-list" id="searchInput1">
-                                                                <li @click="selectCate(pro)" v-for="pro in proList" v-cloak>
+                                                            <input
+                                                                    type="text"
+                                                                    class="form-control searchShadow searchCate2"
+                                                                    id="searchField1"
+                                                                    placeholder="输入关键字搜索类目"
+                                                                    v-model="proSelectFora"
+                                                                    @keyup="getTemp($event)"
+                                                                    @keydown.down="changeDownTemp()"
+                                                                    @keydown.up.prevent="changeUpTemp()">
+                                                            <ul class="cate-list cate-listB" id="searchInput1" style="max-height: 198px;overflow-y: auto">
+                                                                <li @click="selectCate(pro)" v-for="pro in proList" v-cloak :class="{gray:$index==temp_now}">
                                                                     {{pro.cn_name}} {{pro.en_name}}
                                                                 </li>
                                                             </ul>

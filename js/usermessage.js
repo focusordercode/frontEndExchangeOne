@@ -31,7 +31,7 @@ Vue.filter('uFlilter',function(value){
     	str = "是";
     }
     return str;
-})
+});
 //状态过滤
 Vue.filter('staFlilter',function(value){
     var str;
@@ -41,7 +41,7 @@ Vue.filter('staFlilter',function(value){
     	str = "启用";
     }
     return str;
-})
+});
 
 console.log(serverUrl);
 var amend = new Vue({
@@ -51,10 +51,12 @@ var amend = new Vue({
 		visitType:visitType,
 		//01数据状态
 		//判断数据
-		al_pass:false,
-		al_mobile:false,
-		al_email:false,
-		al_true:false
+		al_pass:false,//密码
+		sure_pass:false,//确认密码
+		al_mobile:false,//手机
+		al_email:false,//邮箱
+		al_true:false,//用户真实名
+		is_same:false//密码+确认密码一致
 	},
 	ready:function(){
 		$.ajax({
@@ -114,26 +116,58 @@ var amend = new Vue({
 			var tel = /((\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$)/;
             var word =/^[A-Za-z0-9]+$/;
             var EM = /^(?:[a-zA-Z0-9]+[_\-\+\.]?)*[a-zA-Z0-9]+@(?:([a-zA-Z0-9]+[_\-]?)*[a-zA-Z0-9]+\.)+([a-zA-Z]{2,})+$/;
-			if(vm.userdata.password&&!word.test(vm.userdata.password)) {
+			if(!vm.userdata.password||!word.test(vm.userdata.password)) {
 				vm.al_pass = true;
+                vm.sure_pass = false;
+                vm.al_mobile = false;
+                vm.al_true = false;
+                vm.is_same = false;
+                vm.al_email = false;
+			}else if(!vm.userdata.passWord){
+                vm.al_pass = false;
+                vm.sure_pass = true;
+                vm.al_mobile = false;
+                vm.al_true = false;
+                vm.is_same = false;
+                vm.al_email = false;
+			}else if(vm.userdata.password != vm.userdata.passWord){
+                vm.al_pass = false;
+                vm.sure_pass = false;
+                vm.al_mobile = false;
+                vm.al_true = false;
+                vm.is_same = true;
+                vm.al_email = false;
 			}else if (vm.userdata.mobile&&!tel.test(vm.userdata.mobile)) {
-				vm.al_pass = false;
-				vm.al_mobile = true;
-			}else if (vm.userdata.email&&!EM.test(vm.userdata.email)) {
-				vm.al_pass = false;
-				vm.al_mobile = false;
-				vm.al_email = true;
-			}else if (!vm.userdata.real_name) {
-				vm.al_pass = false;
-				vm.al_mobile = false;
-				vm.al_email = false;
-				vm.al_true = true;
-			}else{
-				vm.al_pass = false;
-				vm.al_mobile = false;
-				vm.al_email = false;
-				vm.al_true = false;
 
+                vm.al_pass = false;
+                vm.sure_pass = false;
+                vm.al_mobile = true;
+                vm.al_true = false;
+                vm.is_same = false;
+                vm.al_email = false;
+
+			}else if (vm.userdata.email&&!EM.test(vm.userdata.email)) {
+				vm.al_email = true;
+                vm.al_pass = false;
+                vm.sure_pass = false;
+                vm.al_mobile = false;
+                vm.al_true = false;
+                vm.is_same = false
+			}else if (!vm.userdata.real_name) {
+                vm.al_email = false;
+                vm.al_pass = false;
+                vm.sure_pass = false;
+                vm.al_mobile = false;
+                vm.al_true = true;
+                vm.is_same = false
+
+			}else{
+                vm.al_email = false;
+                vm.al_pass = false;
+                vm.sure_pass = false;
+                vm.al_mobile = false;
+                vm.al_true = false;
+                vm.is_same = false;
 				var password = vm.userdata.password;
 				var mobile = vm.userdata.mobile;
 				var email = vm.userdata.email;

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>查询</title>
+    <link rel="stylesheet" href="../assets/css/reset.css">
+    <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/header.css">
+    <link rel="stylesheet" href="../css/index.css">
+    <style>
+        .nav-title div:nth-child(5){
+            background-color: #23527c;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div class="header-wraper">
+        <img src="../images/logo.png" alt="">
+    </div>
+</header>
+<nav class="nav-content">
+    <div class="nav-title">
+        <div><a href="index.html">新建</a> </div>
+        <div><a href="warehouse.html">入库</a> </div>
+        <div><a href="sales.html"> 销售</a> </div>
+        <div><a href="use.html">使用</a></div>
+        <div><a href="search.html">查询</a> </div>
+
+    </div>
+</nav>
+<div class="coupon-content">
+    <div class="search">
+        <label > 输入优惠券号码 <input type="text"> </label>
+        <button class="btn btn-default">搜索</button>
+    </div>
+    <div class="coupon-list">
+        <h3>查询到的优惠券</h3>
+        <table class="table table-bordered">
+            <tr>
+                <th >序号</th>
+                <th>优惠券名称</th>
+                <th>有效期</th>
+                <th>满足金额</th>
+                <th>可抵扣金额</th>
+                <th>是否过期</th>
+                <th>是否使用</th>
+                <th>操作</th>
+            </tr>
+            <tr >
+                <td><input type="checkbox" v-model="selectedArr" :value="item.id"</td>
+                <td>优惠券</td>
+                <td>2017/4/6~2017/4/20</td>
+                <td>￥2000</td>
+                <td>￥500</td>
+                <td>否</td>
+                <td>否</td>
+                <td>
+                    <button class="btn btn-success">使用</button>
+                    <button class="btn btn-danger ">删除</button>
+                </td>
+            </tr>
+            <tr >
+                <td><input type="checkbox" v-model="selectedArr" :value="item.id"</td>
+                <td>优惠券</td>
+                <td>2017/4/6~2017/4/20</td>
+                <td>￥2000</td>
+                <td>￥500</td>
+                <td>否</td>
+                <td>否</td>
+                <td>
+                    <button class="btn btn-success">使用</button>
+                    <button class="btn btn-danger ">删除</button>
+                </td>
+            </tr>
+            <tr >
+                <td><input type="checkbox" v-model="selectedArr" :value="item.id"</td>
+                <td>优惠券</td>
+                <td>2017/4/6~2017/4/20</td>
+                <td>￥2000</td>
+                <td>￥500</td>
+                <td>否</td>
+                <td>否</td>
+                <td>
+                    <button class="btn btn-success">使用</button>
+                    <button class="btn btn-danger ">删除</button>
+                </td>
+            </tr>
+            <tr >
+                <td><input type="checkbox" v-model="selectedArr" :value="item.id"</td>
+                <td>优惠券</td>
+                <td>2017/4/6~2017/4/20</td>
+                <td>￥2000</td>
+                <td>￥500</td>
+                <td>否</td>
+                <td>否</td>
+                <td>
+                    <button class="btn btn-success">使用</button>
+                    <button class="btn btn-danger ">删除</button>
+                </td>
+            </tr>
+            <tr >
+                <td><input type="checkbox" v-model="selectedArr" :value="item.id"</td>
+                <td>优惠券</td>
+                <td>2017/4/6~2017/4/20</td>
+                <td>￥2000</td>
+                <td>￥500</td>
+                <td>否</td>
+                <td>否</td>
+                <td>
+                    <button class="btn btn-success">使用</button>
+                    <button class="btn btn-danger ">删除</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+</nav>
+</body>
+</html>
