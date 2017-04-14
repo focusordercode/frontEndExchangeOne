@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>相册回收站</title>
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!--你自己的样式文件 -->
+    <link href="css/index.css" rel="stylesheet">
+    <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">        
+    <!-- 以下两个插件用于在IE8以及以下版本浏览器支持HTML5元素和媒体查询，如果不需要用可以移除 -->
+    <!--[if lt IE 9]>
+    <script src="http://apps.bdimg.com/libs/html5shiv/3.7/html5shiv.js"></script>
+    <script src="http://apps.bdimg.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        .pors .list-group {
+            position: absolute;
+            right: 0;
+            top: 34px;
+            z-index: 666;
+        }
+        .gray{
+            color:#8a6d3b;
+            background-color: #faf2cc;
+        }
+    </style>
+</head>
+    <body>
+        <!-- 顶部区域 -->
+        <div class="container-fluid header-fluid-top">
+            <div class="row">
+                <div class="container header-top">
+                    <div class="row">
+                        <div class="col-lg-3 col-md-3 col-sm-12">
+                            <a href="#">
+                                <img src="images/logo.png" alt="">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 导航 -->
+        <div class="navbar navbar-inverse nav-fluid-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand hidden-sm" href="javascript:">福克斯德</a>
+                </div>
+                <div class="navbar-collapse collapse" role="navigation">
+                    <ul class="nav navbar-nav">
+                        <nav-component></nav-component>
+                    </ul>
+                    <log-component></log-component>
+                </div>
+            </div>
+        </div>
+        
+
+        <!-- 图片内容区域 -->
+        <div class="container marginTop">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="alert alert-info" role="alert" >
+                        <h3> 图片回收站 </h3>
+                        <hr>
+                        回收站图片数:<b class="text-warning">{{countImage?countImage:'0'}}</b> {{picDataChecked}}
+                    </div>
+                </div>
+                
+                <div class="col-md-12">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">操作</div>
+                        <div v-show="picData" class="panel-body">
+                             <div class="col-lg-2 col-md-3 col-sm-6 select-all">
+                                 <div class="checkboxFour">
+                                     <label @click="selectAll" v-bind:class="checkedBtn"></label>
+                                 </div>
+                                 <p>全选</p>
+                             </div>
+                             <div class="col-md-2">
+                                 <button @click="deleteSelet" :disabled="delete" class="btn btn-danger">删除</button>
+                             </div>
+                            <div class="col-md-3">
+                                <div class="form-inline">
+                                    <div class="form-group pors">
+                                        <label>选择目录</label>
+                                        <input
+                                                type="text"
+                                                v-model="keyword"
+                                                placeholder="输入文字搜索"
+                                                class="form-control"
+                                                @keyup="get($event)"
+                                                @keydown.down="changeDown()"
+                                                @keydown.up.prevent="changeUp()">
+                                        <div class="list-group" v-show="is_show" style="max-height: 310px;overflow-y: auto" id="seachList">
+                                            <template v-for="list in recoverList">
+                                                <template v-if="$index < 10">
+                                                    <a
+                                                            href="javascript:" @click="selectList(list)"
+                                                            :class="{gray:$index==now}"
+                                                            class="list-group-item list-group-item-warning">
+                                                        <span style="display: block">  {{list.cn_name}} </span>
+                                                        <span style="display: block"> {{list.en_name}} </span>
+                                                    </a>
+                                                </template>
+                                            </template>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-1">
+                                <button @click="recover" class="btn btn-info">恢复</button>
+                            </div>
+                            <div class="col-md-1 col-md-offset-3">
+                                <button  @click="clearAll" class="btn btn-danger">清空</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row pic-content">
+                <ul class="clearfix">
+                    <li v-for="pic in picData" class="col-lg-3 col-md-4 col-sm-4">
+                        <div class="thumbnail">
+                            <img v-bind:src="pic | imgUrl" @click="showPic(pic)" alt="">
+                            <div class="caption">
+                                <h4 class="text-warning">{{pic.title}}</h4>
+                                <h4 class="text-muted">{{pic.file_name}}</h4>
+                                <p>
+                                    <!-- <button class="btn btn-default btn-name"><i class="fa fa-edit"></i></button> -->
+                                    <button @click="picinfo(pic)" class="btn btn-default btn-msg"><i class="fa fa-info"></i></button>
+                                    <button @click="deletePic(pic)" class="btn btn-default btn-delete"><i class="fa fa-trash"></i></button>
+                                    <input type="checkbox" v-model="pic.checked" class="select-pic" >
+                                </p>
+                                <p>
+                                    <i class="fa fa-tags"></i>标签
+                                    <span v-for="label in pic.tags" class="label label-info">{{label}}</span>
+                                </p>
+                            </div>
+                        </div>
+                    </li>
+                </ul>  
+            </div>
+            <!-- 分页 -->
+            <div v-show="countPage>1" class="row">
+                <div class="col-md-2 col-md-offset-4">
+                    <button @click="preP" v-bind:disabled="disabledp" class="btn btn-default">上一页</button>
+                    <button @click="nextP" v-bind:disabled="disabledn" class="btn btn-default">下一页</button>
+                </div>
+                <div class="col-md-1">
+                    <div class="form-group">
+                        <input type="number"  v-model="jumpPage" min="1" class="form-control">
+                    </div>
+                </div>
+                <div class="col-md-3 text-left">
+                    <button @click="jumpTo" class="btn btn-info">跳转</button>
+                    <label class="text-warning">当前页数:{{pageNow}}</label>
+                    <label class="text-warning">总共页数:{{countPage}}</label>
+                </div>
+            </div>
+
+        </div>
+
+        <script type="text/x-template" id="picinfo">
+            <div class="modal show-info fade">
+                <div class="modal-dialog modal-sm">
+                    <div class="modal-content">
+                        <div class="modal-header bg-primary">
+                            <h4 class="modal-title ft-16">图片信息</h4>
+                            <button type="button" class="close close-positon" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true"><i class="fa fa-close text-red"></i></span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <ul class="list-group">
+                                            <li class="list-group-item list-group-item-success">
+                                                文件名:{{data.file_name}}
+                                            </li>
+                                            <li class="list-group-item list-group-item-success">
+                                                文件标题:{{data.title}}
+                                            </li>
+                                            <li class="list-group-item list-group-item-success">
+                                                图片类型:{{data.file_type}}
+                                            </li>
+                                            <li class="list-group-item list-group-item-success">
+                                                创建时间:{{data.create_time}}
+                                            </li>
+                                            <li class="list-group-item list-group-item-success">
+                                                修改时间:{{data.modified_time}}
+                                            </li>
+                                            <li class="list-group-item list-group-item-success">
+                                                图片大小:{{data.file_size | sizeCounter}}
+                                            </li>
+                                            <li class="list-group-item list-group-item-success">
+                                                图片尺寸(宽X高):{{data.width}}X{{data.height}}
+                                            </li>
+                                            <li class="list-group-item list-group-item-success">
+                                                创建人:{{data.username}}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </script>
+        
+        <my-component :data="onepic" ></my-component>
+
+        <!-- 查看图片大图 -->
+        <div class="modal modalPic show-pic fade" id="16" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <div class="modal-body">
+                        <img v-bind:src="onepic | imgUrl" >
+                    </div>
+                </div>
+            </div>
+        </div>
+            
+        <hr>    
+        <div class="container">
+            <!-- <pre>{{$data|json}}</pre> -->
+        </div>
+
+        
+
+        <!-- 页脚 -->
+        <div class="container-fluid footer-fluid">
+            <div class="contaier">
+                <div class="row">
+                    <div class="col-lg-12">
+                        © All rights reserved 深圳福克斯德信息咨询有限公司
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 如果要使用Bootstrap的js插件，必须先调入jQuery -->
+        <script src="js/jquery.js"></script>
+        <script src="js/vue.js"></script>
+        <script src="js/cookie.js"></script>
+        <!-- 包括所有bootstrap的js插件或者可以根据需要使用的js插件调用　-->
+        <script src="js/bootstrap.min.js"></script>
+        <script src='js/layer.js'></script>
+        <!-- 检测登录状态 -->
+        <script src='js/control.js'></script>
+        <script src='js/serverUrl.js'></script>
+        <script src='js/navTpl.js'></script>
+        <script src="js/pic-trash.js"></script>
+    </body>
+</html>

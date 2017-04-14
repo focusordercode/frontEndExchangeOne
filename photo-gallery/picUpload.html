@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>图片上传</title>
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!--你自己的样式文件 -->
+    <link href="css/index.css" rel="stylesheet">
+    <link href="css/picUpload.css" rel="stylesheet">
+    <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">        
+    <!-- 以下两个插件用于在IE8以及以下版本浏览器支持HTML5元素和媒体查询，如果不需要用可以移除 -->
+    <!--[if lt IE 9]>
+    <script src="http://apps.bdimg.com/libs/html5shiv/3.7/html5shiv.js"></script>
+    <script src="http://apps.bdimg.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+    <body>
+        <!-- 顶部区域 -->
+        <div class="container-fluid header-fluid-top">
+            <div class="row">
+                <div class="container header-top">
+                    <div class="row">
+                        <div class="col-lg-3 col-md-3 col-sm-12">
+                            <a href="#">
+                                <img src="images/logo.png" alt="">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 导航 -->
+        <div class="navbar navbar-inverse nav-fluid-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand hidden-sm" href="javascript:">福克斯德</a>
+                </div>
+                <div class="navbar-collapse collapse" role="navigation">
+                    <ul class="nav navbar-nav">
+                        <nav-component></nav-component>
+                    </ul>
+                    <log-component></log-component>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 主内容区域 -->
+        <div id="container" class="container picUpload marginTop">
+            <div class="row">
+                <div class="panel panel-success">
+                    <div class="panel-heading"><h4>图片上传</h4></div>
+                    <div class="panel-body">
+                        <p>上传到  <b class="text-warning">{{picCate.cn_name}}{{picCate.en_name}}</b>  相册</p>
+                        <!-- 上传区域 -->
+                        <div class="alert alert-warning" role="alert">您的浏览器版本不支持上传</div>
+                        <p class="text-success">
+                            <b>单张图片最大5M,最多能上传200张，支持的格式有jpg,jpeg,gif,png</b>
+                        </p>
+                        <p id="seletedLen" class="text-muted"><b></b></p>
+
+                        <ul id="filelist" class="list-group"></ul>
+                        <p id="seletedLen2" class="text-muted"><b></b></p>
+                        <div id="console" class="alert alert-danger" role="alert"></div>
+                        <hr>
+                        <button id="pickfiles" class="btn btn-default">选择</button>
+                        <p></p>
+                        <button id="uploadfiles" class="btn btn-success">上传</button>
+                        <a href="pic-category.html" @click="unbind" class="btn btn-info">返回图库</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="container">
+            <div class="row">
+                <!-- <pre>{{$data|json}}</pre> -->
+            </div>
+        </div>
+
+        <!-- 页脚 -->
+        <div class="container-fluid footer-fluid">
+            <div class="contaier">
+                <div class="row">
+                    <div class="col-lg-12">
+                        © All rights reserved 深圳福克斯德信息咨询有限公司
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 如果要使用Bootstrap的js插件，必须先调入jQuery -->
+        <script src="js/jquery.js"></script>
+        <script src="js/plupload.full.min.js"></script>
+        <script src="js/vue.js"></script>
+        <script src="js/cookie.js"></script>
+        <!-- 包括所有bootstrap的js插件或者可以根据需要使用的js插件调用　-->
+        <script src="js/bootstrap.min.js"></script>
+        <script src='js/layer.js'></script>
+        <!-- 检测登录状态 -->
+        <script src='js/control.js'></script>
+        <script src='js/serverUrl.js'></script>
+        <script src='js/navTpl.js'></script>
+        <script src='js/picUpload.js'></script>
+    </body>
+</html>

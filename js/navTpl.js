@@ -17,6 +17,7 @@ $.ajax({
     success:function(data){
         if(data.status==100){
             dataText = data.value;
+            console.log(dataText.navData[1].nav_list[1].link);
             // console.log(data.value)
         }else if(data.status==1012){
             layer.msg('请先登录',{time:2000});

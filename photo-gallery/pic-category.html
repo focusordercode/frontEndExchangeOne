@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>图片库</title>
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!--你自己的样式文件 -->
+    <link href="css/index.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/pic-category.css">
+    <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
+    <!-- 以下两个插件用于在IE8以及以下版本浏览器支持HTML5元素和媒体查询，如果不需要用可以移除 -->
+    <!--[if lt IE 9]>
+    <script src="http://apps.bdimg.com/libs/html5shiv/3.7/html5shiv.js"></script>
+    <script src="http://apps.bdimg.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style type="text/css">
+
+    </style>
+</head>
+<body class="modalPic">
+<!-- 顶部区域 -->
+<div class="container-fluid header-fluid-top">
+    <div class="row">
+        <div class="container header-top">
+            <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-12">
+                    <a href="#">
+                        <img src="images/logo.png" alt="">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 导航 -->
+<div class="navbar navbar-inverse nav-fluid-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand hidden-sm" href="javascript:">福克斯德</a>
+        </div>
+        <div class="navbar-collapse collapse" role="navigation">
+            <ul class="nav navbar-nav">
+                <nav-component></nav-component>
+            </ul>
+            <log-component></log-component>
+        </div>
+    </div>
+</div>
+
+<!-- 主内容区域 -->
+<div class="container category-content">
+    <div class="row bg-well">
+        <div class="col-md-5 res bordered" id="tree">
+            <h4><b class="text-success">产品类目</b></h4>
+            <!-- the productTree root element -->
+            <ul id="demo">
+                <item
+                        class="item"
+                        :model="treeData">
+                </item>
+            </ul>
+        </div>
+        <!-- 图片目录 -->
+        <div class="col-md-5 res res2 tree2">
+            <h4><b class="text-success">图片目录</b></h4>
+            <ul>
+                <tree
+                        class="item"
+                        :pictree="pictree">
+                </tree>
+            </ul>
+        </div>
+        <!-- 树形菜单右边 -->
+        <div class="col-md-2">
+            <h4><b class="text-success">图片目录操作</b></h4>
+            <button class="btn btn-sm btn-success" @click="addItem" v-show="active.id" >增加</button>
+            <button class="btn btn-sm btn-info" @click="changeItem" v-show="pictreeActive.id" >修改</button>
+            <button class="btn btn-sm btn-danger" @click="deleteItem" v-show="pictreeActive.id" >删除</button>
+        </div>
+    </div>
+</div>
+
+<!-- 图片内容区域 -->
+<div class="container">
+    <div class="row control-pic">
+        <div class="col-lg-12 pic-heading">
+            操作
+        </div>
+        <!-- 筛选条件 -->
+        <div class="col-lg-12 control-button">
+            <!-- <form class="form-inline">
+                <div class="form-group form-group-margin">
+                    <label class="control-label">图片格式</label>
+                    <select class="form-control">
+                        <option>默认</option>
+                        <option>jpg</option>
+                        <option>png</option>
+                        <option>gif</option>
+                    </select>
+                </div>
+                <div class="form-group form-group-margin">
+                    <label class="control-label">大小排序</label>
+                    <select class="form-control">
+                        <option>默认</option>
+                        <option>从小到大</option>
+                        <option>从大到小</option>
+                    </select>
+                </div>
+                <div class="form-group form-group-margin">
+                    <label class="control-label">修改日期</label>
+                    <select class="form-control">
+                        <option>默认</option>
+                        <option>时间顺序</option>
+                        <option>时间倒序</option>
+                    </select>
+                </div>
+                <button class="btn btn-default" onclick="return false">提交</button>
+            </form> -->
+            <div v-show="picData" class="col-lg-2 col-md-3 col-sm-6 select-all">
+                <div class="checkboxFour">
+                    <label @click="selectAll" v-bind:class="checkedBtn"></label>
+                </div>
+                <p>全选</p>
+            </div>
+            <div v-show="picData" class="col-md-2">
+                <button @click="deleteSelet" :disabled="delete" class="btn btn-danger">删除</button>
+            </div>
+            <div v-show="picData" class="col-md-2">
+                <button @click="imgSelet" :disabled="delete" data-toggle="modal" data-target="#myModal" class="btn btn-success">移动</button>
+            </div>
+            <div v-show="picData" class="col-md-2">
+                <button @click="imgSelet" :disabled="delete" data-toggle="modal" data-target="#addtags" class="btn btn-primary">添加标签</button>
+            </div>
+        </div>
+        <!-- 选择需要移动到的目录 -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"     aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header bg-primary">
+                        <button type="button" class="close text-red" data-dismiss="modal" aria-hidden="true">
+                            &times;
+                        </button>
+                        <h4 class="modal-title ft-16" id="myModalLabel">
+                            选择需要移动到的目录
+                        </h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-horizontal">
+                                        <!--<div class="form-group">
+                                            <label class="col-sm-2 ">需要移动到的目录</label>
+                                            <div class="col-sm-8">
+                                                <div class="bootstrap-tagsinput height">
+                                                    <input v-model='aimkey' type="text" class="form-control searchShadow searchCate " placeholder="点击搜索进行选择">
+                                                </div>
+                                            </div>
+                                        </div>-->
+                                        <div class="form-group text-right line-height-34">
+                                            <label class="col-sm-4 col-md-4 col-lg-4 ft-14">需要移动到的目录 <i class="text-red">*</i></label>
+                                            <div class="col-sm-8 col-md-8 col-lg-8">
+                                                <div class="bootstrap-tagsinput height">
+                                                    <input type="text" class="form-control ft-14 searchShadow searchCate" v-model='aimkey' placeholder="输入关键字搜索点击下方输入框进行选择">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-sm-8 col-md-8 col-lg-8 pors searchCompent col-sm-offset-4 col-md-offset-4 col-lg-offset-4">
+                                                <select class="form-control searchShadow searchCate " v-model='aims_id' placeholder="点击进行选择">
+                                                    <option v-for='aim in aimlist' value={{aim.id}}>{{aim.cn_name}}{{aim.en_name}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer text-center">
+                        <button @click='moveSelet' type="button" class="btn btn-primary">确定</button>
+                        <button type="button" class="btn btn-default mL-15" data-dismiss="modal">取消</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 添加标签的页面 -->
+        <div class="modal fade" id="addtags" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"     aria-hidden="true">
+         <!--   <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header bg-primary">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                            &times;
+                        </button>
+                        <h5 class="modal-title" id="myModalLabel">
+                            请填入需要添加的标签
+                        </h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-horizontal">
+                                        <div class="form-group text-right line-height-34 mT-15">
+                                            <label class="col-sm-3 col-sm-offset-1 ft-12">标&nbsp;&nbsp;签：</label>
+                                            <div class="col-sm-5 ">
+                                                <div class="bootstrap-tagsinput height">
+                                                    <input type="text" class="form-control ft-12" v-model='newTags' placeholder="请填入单个标签">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group text-right line-height-34">
+                                            <label class="col-sm-3 col-sm-offset-1 ft-12">标&nbsp;&nbsp;签：</label>
+                                            <div class="col-sm-5">
+                                                <div class="bootstrap-tagsinput height">
+                                                    <input type="text" class="form-control ft-12" v-model='newTags' placeholder="请填入单个标签">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        &lt;!&ndash; <div class="form-group">
+                                            <div class="col-sm-8 pors searchCompent col-sm-offset-2">
+                                                <select class="form-control searchShadow searchCate " v-model='aims_id'>
+                                                    <option v-for='aim in aimlist' value={{aim.id}}>{{aim.cn_name}}{{aim.en_name}}</option>
+                                                </select>
+                                            </div>
+                                        </div> &ndash;&gt;
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer text-center">
+                        <button @click='addnumtags' type="button" class="btn btn-info btn-md ft-12">
+                            确&nbsp;&nbsp;定
+                        </button>
+                        <button type="button" class="btn btn-default ml-30 btn-md col-md-offset-1 col-sm-offset-1 col-lg-offset-1 ft-12" data-dismiss="modal">取&nbsp;&nbsp;消
+                        </button>
+                    </div>
+                </div>
+            </div>-->
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header bg-primary">
+                        <button type="button" class="close text-white white" data-dismiss="modal" aria-hidden="true">
+                            <i class="glyphicon glyphicon-remove"></i>
+                        </button>
+                        <h5 class="modal-title ft-16">
+                            请填入需要添加的标签
+                        </h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-md-12 col-sm-12 col-lg-12">
+                                    <div class="form-horizontal">
+                                        <div class="form-group text-right line-height-34">
+                                            <label class="col-sm-3 col-md-3 col-lg-3 ft-14">添加标签 <i class="text-red">*</i></label>
+                                            <div class="col-sm-8 col-md-8 col-lg-8 ">
+                                                <div class="bootstrap-tagsinput height">
+                                                    <input type="text" class="form-control ft-14" v-model='newTags' placeholder="请填入单个标签">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer text-center" id="modal-footer-btn">
+                        <button @click='addnumtags' type="button" class="btn btn-primary btn-md ft-12">
+                            确定
+                        </button>
+                        <button type="button" class="btn btn-default ml-15 btn-md ft-12" data-dismiss="modal">取消
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 搜索 -->
+        <!-- <div class="col-lg-12 control-button">
+            <form class="form-inline">
+                <div class="form-group">
+                    <label for="search-name">文件名称</label>
+                    <input type="text" class="form-control" id="search-name" placeholder="输入文件名搜索">
+                </div>
+                <button class="btn btn-primary" onclick="return false">提交</button>
+            </form>
+        </div>
+
+        <div class="col-lg-2 col-md-3 col-sm-6 select-all control-button-1">
+            <div class="checkboxFour">
+                <label></label>
+            </div>
+            <p>全选</p>
+        </div>
+        <div class="col-lg-2 col-md-3 col-sm-6 control-button-1">
+            <button class="btn btn-default" disabled="disabled">下载</button>
+        </div>
+        <div class="col-lg-2 col-md-3 col-sm-6 control-button-1">
+            <button class="btn btn-danger" disabled="disabled">删除</button>
+            <button class="btn btn-info" disabled="disabled">移动</button>
+        </div> -->
+    </div>
+
+    <!-- 图片内容 -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="alert alert-success" role="alert">
+                当前图片目录:<b class="text-warning">{{pictreeActive.cn_name}}</b> 　　
+                当前图片目录图片数:<b class="text-warning">{{countImage}}</b>
+                <hr>
+                <a v-show="pictreeActive.id" target="_blank" v-bind:href="pictreeActive.id | upLink" class="btn btn-success btn-sm">上传</a>
+            </div>
+            <div v-show="!picData" class="alert alert-warning" role="alert">当前图片目录没有图片</div>
+        </div>
+    </div>
+
+    <div class="row pic-content">
+        <ul class="clearfix">
+            <li v-for="pic in picData" class="col-lg-3 col-md-4 col-sm-4">
+                <div class="thumbnail">
+                    <img v-bind:src="pic | imgUrl" @click="showPic(pic)"  alt="">
+                    <div class="caption">
+                        <h4 class="text-warning">{{pic.title}}</h4>
+                        <h4 class="text-muted">{{pic.file_name}}</h4>
+                        <p>
+                            <button @click="picchange(pic)"" class="btn btn-default btn-name"><i class="fa fa-edit"></i></button>
+                            <button @click="picinfo(pic)" class="btn btn-default btn-msg"><i class="fa fa-info"></i></button>
+                            <button @click="deletePic(pic)" class="btn btn-default btn-delete"><i class="fa fa-trash"></i></button>
+                            <input type="checkbox" class="select-pic" v-model="pic.checked" >
+                        </p>
+                        <p>
+                            <i class="fa fa-tags"></i>标签
+                            <span v-for="label in pic.tags" class="label label-info">{{label}}</span>
+                        </p>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <!-- 分页 -->
+    <div class="row">
+        <div v-show="countPage>1" class="col-md-12 form-horizontal text-center">
+            <div class="col-md-2 col-md-offset-4">
+                <button @click="preP" v-bind:disabled="disabledp" class="btn btn-default">上一页</button>
+                <button @click="nextP" v-bind:disabled="disabledn" class="btn btn-default">下一页</button>
+            </div>
+            <div class="col-md-1">
+                <div class="form-group">
+                    <input type="number" v-model="jumpPage" placeholder="页码" min="1" class="form-control">
+                </div>
+            </div>
+            <div class="col-md-3 text-left">
+                <button @click="jumpTo" class="btn btn-info">跳转</button>
+                <label class="text-warning">当前页数:{{pageNow}}</label>
+                <label class="text-warning">总共页数:{{countPage}}</label>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 查看图片大图 -->
+<div class="modal modalPic show-pic fade" id="16" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+            <div class="modal-body">
+                <img v-bind:src="onepic | imgUrl" >
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 查看图片详情 -->
+<script type="text/x-template" id="picinfo">
+    <div class="modal picino fade">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <h4 class="modal-title ft-16">图片信息</h4>
+                    <button type="button" class="close close-positon" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i class="fa fa-close"></i></span></button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <ul class="list-group">
+                                    <li class="list-group-item list-group-item-success">
+                                        文件名:{{data.file_name}}
+                                    </li>
+                                    <li class="list-group-item list-group-item-success">
+                                        文件标题:{{data.title}}
+                                    </li>
+                                    <li class="list-group-item list-group-item-success">
+                                        图片类型:{{data.file_type}}
+                                    </li>
+                                    <li class="list-group-item list-group-item-success">
+                                        创建时间:{{data.create_time}}
+                                    </li>
+                                    <li class="list-group-item list-group-item-success">
+                                        修改时间:{{data.modified_time}}
+                                    </li>
+                                    <li class="list-group-item list-group-item-success">
+                                        图片大小:{{data.file_size | sizeCounter}}
+                                    </li>
+                                    <li class="list-group-item list-group-item-success">
+                                        图片尺寸(宽X高):{{data.width}}X{{data.height}}
+                                    </li>
+                                    <li class="list-group-item list-group-item-success">
+                                        创建人:{{data.username}}
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+<!-- 修改图片详情 -->
+<div class="modal picchange fade" data-backdrop="static">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+                <h4 class="modal-title ft-16">图片信息修改</h4>
+                <button @click="closeChange" type="button" class="close close-positon">
+                    <span><i class="fa fa-close text-red"></i></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <!--<label>标题</label>
+                                <input type="text" v-model="changepic.title" class="form-control">
+                                <label>标签 <span class="text-success">按回车添加标签</span></label>
+                                <input type="text" placeholder="按回车添加标签" v-model="newTags" v-on:keyup.enter="addTags" class="form-control">-->
+                                <div class="form-horizontal">
+                                    <!--<div class="form-group ">
+                                        <label class="col-sm-4 control-label text-muted">标题</label>
+                                        <div class="col-sm-8 col-md-8 col-lg-8">
+                                            <input type="text" min="1" v-model="changepic.title" class="form-control table-title" placeholder="请输入标题">
+                                        </div>
+                                    </div>-->
+                                    <div class="form-group text-right line-height-34">
+                                        <label class="col-sm-3 col-md-3 col-lg-3 ft-14">标题 <i class="text-red">*</i></label>
+                                        <div class="col-sm-8 col-md-8 col-lg-8 ">
+                                            <div class="bootstrap-tagsinput height">
+                                                <input type="text" class="form-control ft-14" v-model='changepic.title' placeholder="请输入标题">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-horizontal  ">
+                                    <div class="form-group line-height-34 ft-14">
+                                        <label class="col-sm-3 col-md-3 col-lg-3 ft-14 text-right">标签<i class="text-red">*</i></label>
+                                        <!-- <div class="col-sm-3 col-md-3 col-lg-3 ft-14">标签</div>-->
+                                       <!-- <div class="text-success col-sm-9 col-md-9 col-lg-9">按回车添加标签</div>-->
+
+                                        <div class=" col-sm-8 col-md-8 col-lg-8  ">
+                                            <div class="bootstrap-tagsinput height">
+                                                <input type="text" min="1" v-model="newTags" v-on:keyup.enter="addTags" class="form-control table-title" placeholder="按回车添加标签">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <ul class="col-sm-12 col-md-12 col-lg-12">
+                                    <li v-for="label in changepic.tags" class="col-sm-3 col-md-3 col-lg-3">
+                                        <span class="label label-info">{{label}}</span>
+                                        <i class="fa fa-close text-red" @click="removeTags($index)"></i>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer text-center">
+                <button class="btn btn-info" @click="saveChangePic">保存</button>
+                <button class="btn btn-default " @click="closeChange">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- 增加图片目录 -->
+<script type="text/x-template" id="addItem">
+    <div class="modal addItem fade" data-backdrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <h5 class="modal-title ft-16">增加图片目录</h5>
+                    <button type="button" class="close close-positon" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"><i class="fa fa-close text-red"></i></span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-sm-12 col-md-12 col-lg-12">
+                                <div class="form-horizontal">
+                                    <div class="form-group text-right line-height-34">
+                                        <label class="col-sm-3 ft-14">中文名 <i class="text-red">*</i></label>
+                                        <div class="col-sm-8 ">
+                                            <div class="bootstrap-tagsinput height">
+                                                <input type="text" class="form-control ft-14" v-model='cn_name' placeholder="请输入目录中文名">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-horizontal">
+                                    <div class="form-group text-right line-height-34">
+                                        <label class="col-sm-3 ft-14">英文名 <i class="text-red">*</i></label>
+                                        <div class="col-sm-8 ">
+                                            <div class="bootstrap-tagsinput height">
+                                                <input type="text" class="form-control ft-14" v-model='en_name' placeholder="请输入目录英文名">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer text-center">
+                    <button @click="addpicItem" class="btn btn-primary ft-12" >提交</button>
+                    <button  class="btn btn-default ml-15 ft-12" data-dismiss="modal">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+<!-- 修改图片目录 -->
+<div class="modal changeItem fade" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+                <h4 class="modal-title ft-16">修改图片目录</h4>
+                <button type="button" class="close close-positon" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i class="fa fa-close text-red"></i></span></button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12 col-lg-12">
+                               <!-- //表单样式同一-->
+                            <div class="form-horizontal">
+                                <div class="form-group text-right line-height-34">
+                                    <label class="col-sm-3 ft-14">中文名 <i class="text-red">*</i></label>
+                                    <div class="col-sm-8 ">
+                                        <div class="bootstrap-tagsinput height">
+                                            <input type="text" class="form-control ft-14" v-model='changeData.cn_name' placeholder="请输入目录中文名">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-horizontal">
+                                <div class="form-group text-right line-height-34">
+                                    <label class="col-sm-3 ft-14">英文名 <i class="text-red">*</i></label>
+                                    <div class="col-sm-8 ">
+                                        <div class="bootstrap-tagsinput height">
+                                            <input type="text" class="form-control ft-14" v-model='changeData.en_name' placeholder="请输入目录英文名">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- //表单样式同一-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer text-center">
+                <button @click="changeItemAction" class="btn btn-primary">保存</button>
+                <button  class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 产品树形目录 template -->
+<script type="text/x-template" id="item-template">
+    <li>
+        <div
+                class="label label-primary"
+                :class="{bold: isFolder}"
+                @click="toggle(model)">
+            <span class="glyphicon glyphicon-folder-close" v-show="isFolder"></span>
+            <span class="glyphicon glyphicon-file" v-show="!isFolder"></span>
+            {{model.cn_name}}
+            {{model.en_name}}
+            <span class="text-white" v-if="isFolder">[{{open ? '-' : '+'}}]</span>
+        </div>
+        <ul v-show="open" v-if="isFolder">
+            <item
+                    class="item"
+                    v-for="model in model.children"
+                    :model="model">
+            </item>
+        </ul>
+    </li>
+</script>
+
+<!-- 图片树形目录template -->
+<script type="text/x-template" id="pic-template">
+    <li>
+        <div
+                class="label label-primary"
+                :class="{bold: isFolderP}"
+                v-show="pictree.id"
+                @click="toggle(pictree)">
+            <span class="glyphicon glyphicon-folder-close" v-show="isFolderP"></span>
+            <span class="glyphicon glyphicon-file" v-show="!isFolderP"></span>
+            {{pictree.cn_name}}
+            {{pictree.en_name}}
+            <b v-show="pictree.id">图片数量:{{pictree.picture_count}}</b>
+            {{pictree.warning}}
+            <span class="text-white" v-if="isFolderP">[{{open ? '-' : '+'}}]</span>
+        </div>
+        <p v-show="!pictree.id">没有图片目录</p>
+        <ul v-show="open" v-if="isFolderP">
+            <tree
+                    class="item"
+                    v-for="pictree in pictree.children"
+                    :pictree="pictree">
+            </tree>
+        </ul>
+    </li>
+</script>
+
+<my-component :data="onepic" ></my-component>
+<my-additem :active="active" ></my-additem>
+
+<!-- 回到顶部 -->
+<div class="scrollToTop">
+    <i class="fa fa-3x fa-angle-up" aria-hidden="true"></i>
+</div>
+
+<hr>
+<div class="container">
+    <!-- <pre>{{$data|json}}</pre> -->
+</div>
+
+
+
+<!-- 页脚 -->
+<div class="container-fluid footer-fluid">
+    <div class="contaier">
+        <div class="row">
+            <div class="col-lg-12">
+                © All rights reserved 深圳福克斯德信息咨询有限公司
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 如果要使用Bootstrap的js插件，必须先调入jQuery -->
+<script src="js/jquery.js"></script>
+<script src="js/vue.js"></script>
+<script src="js/cookie.js"></script>
+<!-- 包括所有bootstrap的js插件或者可以根据需要使用的js插件调用　-->
+<script src="js/bootstrap.min.js"></script>
+<script src='js/layer.js'></script>
+<!-- 检测登录状态 -->
+<script src='js/control.js'></script>
+<script src='js/serverUrl.js'></script>
+<script src='js/navTpl.js'></script>
+<script src="js/pic-category.js"></script>
+</body>
+</html>

@@ -9,9 +9,12 @@
     <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="../assets/css/bootstrap-datetimepicker.css">
     <link rel="stylesheet" href="../../font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../assets/css/layer.css">
     <!-- 自定义 -->
+    <link rel="stylesheet" href="../../css/index.css">
     <link rel="stylesheet" href="../css/header.css">
     <link rel="stylesheet" href="../css/index.css">
+
     <style>
         .nav-title div:nth-child(1){
             background-color: #23527c;
@@ -25,39 +28,93 @@
         #myModal .modal-footer{
             text-align: center;
         }
-        .select{
-            width: 60%;
-            height: 2.1rem;
+        /* table */
+        .coupon-list{
+            margin: 20px 10px;
+        }
+        .table{
+            width: 95%;
+            margin: 20px auto;
+
+        }
+        .coupon-content{
+            width: 100%;
+        }
+        .table-header{
+            width: 95%;
+            margin: auto;
         }
     </style>
 </head>
 <body>
     <div class="coupon">
-        <header>
-            <div class="header-wraper">
-                <img src="../images/logo.png" alt="">
+        <!-- 顶部区域 -->
+        <div class="container-fluid header-fluid-top">
+            <div class="row">
+                <div class="container header-top">
+                    <div class="row">
+                        <div class="col-lg-3 col-md-3 col-sm-12">
+                            <a href="#">
+                                <img src="../images/logo.png" alt="">
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </header>
-      <!--  <nav class="nav-content">
-            <div class="nav-title">
-                <div><a href="index.html">新建</a></div>
-                <div> <a href="warehouse.html">入库</a> </div>
-                <div><a href="sales.html">销售</a> </div>
-                <div><a href="use.html">使用</a></div>
-                <div><a href="search.html">查询</a> </div>
+        </div>
+
+        <!-- 导航 -->
+        <div class="navbar navbar-inverse nav-fluid-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand hidden-sm" href="javascript:"><福克斯德></福克斯德></a>
+                </div>
+                <div class="navbar-collapse collapse" role="navigation">
+                    <ul class="nav navbar-nav " v-cloak>
+                        <nav-component></nav-component>
+                    </ul>
+                    <log-component></log-component>
+                </div>
             </div>
-        </nav>-->
+        </div>
+
         <div class="coupon-content">
-            <div class="">
+            <div class="coupon-nav container-fluid">
                 <h3 class="bg-info">操作</h3>
-                <div class="search">
-                    <label >输入优惠券号： <input type="text" ></label>
-                    <button class="btn btn-default" >搜索</button>
-                    <button class="btn btn-default" data-toggle="modal" data-target="#myModal">发行</button>
+                <div class="row">
+                    <div class="col-md-2">
+                        <select class=" form-control ">
+                            <option value="">所有</option>
+                            <option value="1">发行</option>
+                            <option value="2">准备</option>
+                            <option value="3">已发放</option>
+                            <option value="4">已使用</option>
+                            <option value="5">审核通过</option>
+                            <option value="6">审核不通过</option>
+                            <option value="7">作废</option>
+                        </select>
+                    </div>
+                  <!--  <div class="col-md-5 form-horizontal">
+                        <label class="control-label col-md-3">输入优惠券号</label>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control">
+                        </div>
+                    </div>-->
+                    <div class="col-md-3">
+                        <button class="btn btn-default" >搜索</button>
+                        <button class="btn btn-default" data-toggle="modal" data-target="#myModal">发行</button>
+                    </div>
+
                 </div>
             </div>
             <div class="coupon-list">
-                <h3 class="bg-primary " >新发行的优惠券</h3>
+                <h3 class="table-header">新发行的优惠券</h3>
                 <table class="table table-bordered " >
                    <tr>
                        <th >序号</th>
@@ -79,109 +136,31 @@
                         <td>{{item.issuant_amount}}</td>
                         <td>{{item.validity_begin}}~{{item.validity_end}}</td>
                         <td>
-                            <span v-if="item.issuant_status == '5'">已作废</span>
+                           <!-- <span v-if="item.issuant_status == '5'">已作废</span>
                             <span v-if="item.issuant_status == '1'">发行</span>
-                            <span v-if="item.issuant_status == '2'">准备</span>
+                            <span v-if="item.issuant_status == '2'">准备</span>-->
+                            {{item.issuant_status_msg}}
                         </td>
                         <td>
-                            <button class="btn btn-success" @click="publish(item.id)">发行</button>
-                            <button class="btn btn-danger " v-if="item.issuant_status == '1'" @click="deleteData(item.id)">作废</button>
+                            <button class="btn btn-success"  v-if="item.issuant_status == '2'" @click="publish(item.id)">详情</button>
+                            <button class="btn btn-danger " v-if="item.issuant_status == '2'" @click="deleteData(item.id)">作废</button>
                             <button class="btn btn-default"  v-if="item.issuant_status == '5'">已作废</button>
-                            <button class="btn btn-danger " v-if="item.issuant_status == '2'" @click="void(item.id)">删除</button>
+                            <button class="btn btn-info" v-if="item.issuant_status == '1'" @click="issue(item.id)">发行</button>
+                            <button class="btn btn-danger " v-if="item.issuant_status == '1'" @click="void(item.id)">删除</button>
                         </td>
 
                     </tr>
                 </table>
                 <div class="page-footer">
-                    <span>当前页：{{page}}</span>
-                    <span>共{{countPage}}页</span>
-                    <button class="btn btn-default">上一页</button>
-                    <button class="btn btn-default">下一页</button>
-                    <input type="text" v-model="">
-                    <button class="btn btn-default">跳转</button>
+                    <button class="btn btn-default" @click="goPre">上一页</button>
+                    <button class="btn btn-default" @click="goNext">下一页</button>
+                    <input type="number" v-model="searchPage">
+                    <button class="btn btn-default" @click="go">跳转</button>
+                    <span>当前页：第{{page}}页，</span>
+                    <span>共{{count_page}}页</span>
                 </div>
             </div>
             <!-- 创建表格 -->
-           <!-- <div id="form" class="form-horizontal form container-fluid" role="form" style="display: none" v-show="isShow">
-                <div>
-                    <div class="bg-info row form-head">
-                                <span>发行优惠券</span><i class="fa fa-close pull-right red" @click="creat"></i>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label" for="ds-1">优惠券名称</label>
-                        <div class="col-sm-4">
-                            <input v-model="tableInfo.name" class="form-control" id="ds-1" type="text" placeholder="请输入优惠券名称"/>
-                        </div>
-                        <label class="col-sm-2 control-label" for="ds-2">优惠类型</label>
-                        <div class="col-sm-4">
-                            <select class="form-control" id="ds-2" v-model="tableInfo.couponType">
-                                <option  selected>现金券</option>
-                               &lt;!&ndash; <option value="">折扣券</option>&ndash;&gt;
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label" for="ds-3">最 低 消 费</label>
-                        <div class="col-sm-4">
-                            <input v-model="tableInfo.minConsume" class="form-control" id="ds-3" type="number" placeholder=""/>
-                        </div>
-                        <label class="col-sm-2 control-label" for="ds-4">面值</label>
-                        <div class="col-sm-4">
-                            <input v-model="tableInfo.faceValue" class="form-control" id="ds-4" type="number" placeholder=""/>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label" for="ds-5">预发数量</label>
-                        <div class="col-sm-4">
-                            <input  v-model="tableInfo.preNumber" class="form-control" id="ds-5" type="number" placeholder=""/>
-                        </div>
-                        <label class="col-sm-2 control-label" for="ds-12">价格</label>
-                        <div class="col-sm-4">
-                            <input  v-model="tableInfo.price" class="form-control" id="ds-12" type="number" placeholder=""/>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label" for="ds-6">单次使用</label>
-                        <div class="col-sm-4">
-                            <input v-model="tableInfo.singleNumber" class="form-control" id="ds-6" value="1" type="number" placeholder=""/>
-                        </div>
-                        <div class="col-sm-6 control-label text-left font-sm">
-                           默认为1,0代表无限制次数
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label" for="ds-7">有效期限</label>
-                        <div class="col-sm-4">
-                            <input size="16" v-model="tableInfo.startDate" class="form-control date" id="ds-7" type="text" placeholder=""/>
-                        </div>
-                        <label class="col-sm-1 control-label" for="ds-8">至</label>
-                        <div class="col-sm-4">
-                            <input v-model="tableInfo.endDate" class="form-control date" id="ds-8" type="text" placeholder=""/>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label" for="ds-9">说明</label>
-                        <div class="col-sm-10">
-                            <textarea v-model="tableInfo.description" class="form-control" id="ds-9" type="text" placeholder=""></textarea>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label" for="ds-10" >生效</label>
-                        <div class="col-sm-1">
-                            <input class="form-control" id="ds-10" type="radio"  value="生效"  v-model="tableInfo.picked" checked />
-                        </div>
-                        <label class="col-sm-2 control-label" for="ds-11" >准备</label>
-                        <div class="col-sm-1">
-                            <input class="form-control" id="ds-11" type="radio"  value="准备" v-model="tableInfo.picked" />
-                        </div>
-                    </div>
-                    <div class="text-center test">
-                        <button class="btn btn-success" @click="upData">发行</button>
-                        <button class="btn btn-info" @click="creat">取消</button>
-                    </div>
-                </div>
-            </div>
-            <div class="mask" v-show="isShow"></div>-->
             <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -261,11 +240,11 @@
                                 <div class="form-group text-right col-md-12">
                                     <label class="col-sm-2 control-label" for="ds-10" >生效</label>
                                     <div class="col-sm-1">
-                                        <input class="form-control" id="ds-10" type="radio"  value="1"  v-model="tableInfo.picked" checked />
+                                        <input class="form-control" id="ds-10" type="radio"  value="2"  v-model="tableInfo.picked" checked />
                                     </div>
                                     <label class="col-sm-2 control-label" for="ds-11" >准备</label>
                                     <div class="col-sm-1">
-                                        <input class="form-control" id="ds-11" type="radio"  value="2" v-model="tableInfo.picked" />
+                                        <input class="form-control" id="ds-11" type="radio"  value="1" v-model="tableInfo.picked" />
                                     </div>
                                 </div>
                                 <div class="form-group text-right col-md-12">
@@ -288,14 +267,17 @@
     <!-- 引入框架 -->
     <script src="../assets/js/vue.js"></script>
     <script src="../assets/js/jquery.js"></script>
+        <script src="../../js/cookie.js"></script>
     <script src="../assets/js/bootstrap.min.js"></script>
     <script src="../assets/js/bootstrap-datetimepicker.min.js"></script>
     <script src="../assets/js/layer.js"></script>
-    <!-- 自定义js -->
-    <script src="../js/index.js"></script>
-    <!-- 检测登录状态 -->
-    <!--<script src="../../js/cookie.js"></script>
-    <script src='../../js/control.js'></script>-->
 
+
+    <!-- 检测登录状态 -->
+    <script src='../../js/control.js'></script>
+    <script src='../../js/serverUrl.js'></script>
+    <script src='../../js/navTpl.js'></script>
+        <!-- 自定义js -->
+    <script src="../js/index.js"></script>
 </body>
 </html>

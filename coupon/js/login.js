@@ -1,14 +1,11 @@
-/**
- * Created by Administrator on 2017/4/6.
- */
 
 console.log(serverUrl); //后端接口地址
 
 var token,
-    username,
-    oKey,
-    curent,//之前访问的地址和参数
-    defualtUrl = 'Table-info.html'; //默认跳转页面
+username,
+oKey,
+curent,//之前访问的地址和参数
+defualtUrl = 'Table-info.html'; //默认跳转页面
 
 //检测是否已经登录
 getCookie();
@@ -33,13 +30,13 @@ $(function(){
         var username = $('.user-input').val().trim();//用户名
         var psw = $('.psw-input').val().trim();//密码
         if(event.keyCode ==13){
-            submitData(userInput,pswInput,username,psw,box);
-        }
+        submitData(userInput,pswInput,username,psw,box);
+      }
     });
 
     $('.form-control').on('focus',function(){
         $('.form-control').popover('destroy');//隐藏提示框
-    })
+    });
 
     //提交登录
     function submitData(userInput,pswInput,username,psw,box) {
@@ -103,9 +100,9 @@ $(function(){
     function Shake(box){
         var i = 20,
             that = box;
-
+    
         var Timer = setTimeout(active,15);
-
+    
         function active(){
             if(i>=0){
                 that.style.padding = 0;
@@ -117,7 +114,7 @@ $(function(){
             };
         };
     }
-});
+})
 
 //设置cookie函数
 function setCookie(pens) {
@@ -126,15 +123,15 @@ function setCookie(pens) {
         oKey_cookie = pens.key,
         ID = pens.user.uid;
     cookie.set({'token':token_cookie,'username':username,'oKey':oKey_cookie,'id':ID},{  //批量设置
-        "expires": '',
-        "path": '/',
-        "domain":""
+    "expires": '',
+    "path": '/',
+    "domain":""
     });
 }
 
 //获取地址栏的路径和参数
 function getNowUrl() {
-    var name,value;
+    var name,value; 
     var str = location.href;
     var num = str.indexOf("?");
     if(num<0){

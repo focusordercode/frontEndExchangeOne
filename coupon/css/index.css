@@ -11,6 +11,7 @@
 }
 .coupon-list{
     margin-top: 20px;
+    background-color: #fff;
 }
 .coupon-creat div {
     width: 80%;
@@ -125,6 +126,7 @@ body{
     top: 50%;
     margin-top: -235px;
 }
+
 
 
 

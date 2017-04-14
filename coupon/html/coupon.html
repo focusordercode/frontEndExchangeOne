@@ -8,7 +8,9 @@
     <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="../assets/css/bootstrap-datetimepicker.css">
     <link rel="stylesheet" href="../../font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../assets/css/layer.css">
     <!-- 自定义 -->
+    <link rel="stylesheet" href="../../css/index.css">
     <link rel="stylesheet" href="../css/header.css">
     <link rel="stylesheet" href="../css/index.css">
     <style>
@@ -16,7 +18,7 @@
          border: 1px solid #CCCCCC;
             border-radius: 10px;
         }
-        .header-top{
+        .header-Mt{
             margin-top: 20px;
         }
         .details{
@@ -33,109 +35,138 @@
         .coupon .text-center{
             text-align: center;
         }
-
+        [v-cloak]{
+            display: none;
+        }
     </style>
 </head>
 <body>
 <div class="coupon">
-    <header>
-        <div class="header-wraper">
-            <img src="../images/logo.png" alt="">
+    <!-- 顶部区域 -->
+    <div class="container-fluid header-fluid-top">
+        <div class="row">
+            <div class="container header-top">
+                <div class="row">
+                    <div class="col-lg-3 col-md-3 col-sm-12">
+                        <a href="#">
+                            <img src="../images/logo.png" alt="">
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
-    </header>
+    </div>
+
+    <!-- 导航 -->
+    <div class="navbar navbar-inverse nav-fluid-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand hidden-sm" href="javascript:"><福克斯德></福克斯德></a>
+            </div>
+            <div class="navbar-collapse collapse" role="navigation">
+                <ul class="nav navbar-nav " v-cloak>
+                    <nav-component></nav-component>
+                </ul>
+                <log-component></log-component>
+            </div>
+        </div>
+    </div>
 
     <div class="container-fluid coupon-content coupon-border">
-        <h3 class=" row bg-primary header-top">优惠券详情</h3>
+        <h3 class=" row bg-primary header-Mt">优惠券详情</h3>
         <div class="details">
-            <div class="title">优惠券发行{{list.status}}</div>
+            <div class="title">优惠券发行</div>
             <div class="publish row">
                 <div>
                     <div class="col-md-6 ">
                         <label class="col-sm-4 col-md-4 col-lg-4 text-right">优惠券名称</label>
-                        <div class="col-sm-8 col-md-8 col-lg-8 ">{{batchList.name}}</div>
+                        <div class="col-sm-8 col-md-8 col-lg-8 " v-cloak>{{batchList.name}}</div>
                     </div>
                     <div class="col-md-6 ">
                         <label class="col-sm-4 col-md-4 col-lg-4 text-right">优惠券类型</label>
-                        <div class="col-sm-8 col-md-8 col-lg-8 ">{{batchList.type_msg}}</div>
+                        <div class="col-sm-8 col-md-8 col-lg-8 " v-cloak>{{batchList.type_msg}}</div>
                     </div>
                 </div>
                 <div>
                     <div class="col-md-6 ">
                         <label class="col-sm-4 col-md-4 col-lg-4 text-right">状态</label>
-                        <div class="col-sm-8 col-md-8 col-lg-8 ">{{batchList.issuant_status_msg}}</div>
+                        <div class="col-sm-8 col-md-8 col-lg-8 " v-cloak>{{batchList.issuant_status_msg}}</div>
                     </div>
                     <div class="col-md-6 ">
                         <label class="col-sm-4 col-md-4 col-lg-4 text-right">最低消费金额</label>
-                        <div class="col-sm-8 col-md-8 col-lg-8 ">{{batchList.min_amount}}</div>
+                        <div class="col-sm-8 col-md-8 col-lg-8 " v-cloak>{{batchList.min_amount}}</div>
                     </div>
                 </div>
                 <div class="col-md-12">
                     <label class="col-sm-2 col-md-2 col-lg-2 text-right">发行数量</label>
-                    <div class="col-sm-10 col-md-10 col-lg-10 ">{{batchList.issuant_amount}}</div>
+                    <div class="col-sm-10 col-md-10 col-lg-10 " v-cloak>{{batchList.issuant_amount}}</div>
                 </div>
                 <div>
                     <div class="col-md-6 ">
                         <label class="col-sm-4 col-md-4 col-lg-4 text-right">面值</label>
-                        <div class="col-sm-8 col-md-8 col-lg-8 ">{{batchList.denomination}}</div>
+                        <div class="col-sm-8 col-md-8 col-lg-8 " v-cloak>{{batchList.denomination}}</div>
                     </div>
                     <div class="col-md-6 ">
                         <label class="col-sm-4 col-md-4 col-lg-4 text-right">价格</label>
-                        <div class="col-sm-8 col-md-8 col-lg-8 ">{{batchList.price}}</div>
+                        <div class="col-sm-8 col-md-8 col-lg-8 " v-cloak>{{batchList.price}}</div>
                     </div>
                 </div>
                 <div>
                     <div class="col-md-6 ">
                         <label class="col-sm-4 col-md-4 col-lg-4 text-right">单次使用</label>
-                        <div class="col-sm-8 col-md-8 col-lg-8 ">{{batchList.restriction_amount}}</div>
+                        <div class="col-sm-8 col-md-8 col-lg-8 " v-cloak>{{batchList.restriction_amount}}</div>
                     </div>
                     <div class="col-md-6 ">
                         <label class="col-sm-4 col-md-4 col-lg-4 text-right">有效期限</label>
-                        <div class="col-sm-8 col-md-8 col-lg-8 ">{{batchList.validity_begin}}至{{batchList.validity_end}}止</div>
+                        <div class="col-sm-8 col-md-8 col-lg-8 " v-cloak>{{batchList.validity_begin}}至{{batchList.validity_end}}止</div>
                     </div>
                 </div>
                 <div>
                     <div class="col-md-6 ">
                         <label class="col-sm-4 col-md-4 col-lg-4 text-right">发行人</label>
-                        <div class="col-sm-8 col-md-8 col-lg-8 ">{{batchList.creator_id_msg}}</div>
+                        <div class="col-sm-8 col-md-8 col-lg-8 " v-cloak>{{batchList.creator_id_msg}}</div>
                     </div>
                     <div class="col-md-6 ">
                         <label class="col-sm-4 col-md-4 col-lg-4 text-right">发行时间</label>
-                        <div class="col-sm-8 col-md-8 col-lg-8 ">{{batchList.created_time}}</div>
+                        <div class="col-sm-8 col-md-8 col-lg-8 " v-cloak>{{batchList.created_time}}</div>
                     </div>
                 </div>
                 <div class="col-md-12 ">
                     <label class="col-sm-2 col-md-2 col-lg-2 text-right">备注说明</label>
-                    <div class="col-sm-10 col-md-10 col-lg-10 ">{{batchList.remark}}</div>
+                    <div class="col-sm-10 col-md-10 col-lg-10 " v-cloak>{{batchList.remark}}</div>
                 </div>
             </div>
         </div>
-        <div class="details">
+        <!--发放-->
+        <div class="details" v-show="list.status>=1">
             <div class="title">优惠券发放</div>
             <!-- 发放表单 -->
             <div  v-show="list.status==1" class="container-fluid ">
-                <div class="row form-horizontal">
-                    <div class="form-group text-right">
-                        <div class="col-md-6 ">
-                            <label class="col-sm-4 col-md-4 col-lg-4 text-right">优惠券码</label>
-                            <div class="col-sm-8 col-md-8 col-lg-8 ">{{list.code}}</div>
-                        </div>
-                        <div class="col-md-6 ">
-                            <label class="col-sm-4 col-md-4 col-lg-4 text-right">券码状态</label>
-                            <div class="col-sm-8 col-md-8 col-lg-8 ">待发放</div>
-                        </div>
+                <div class="row form-horizontal col-md-12 ">
+                    <div class="form-group text-right ">
+                            <label class="col-sm-3 col-md-3 col-lg-3 text-right">优惠券码</label>
+                            <div class="col-sm-3 col-md-3 col-lg-3 text-left" v-cloak>{{list.code}}</div>
+                            <label class="col-sm-2 col-md-2 col-lg-2 text-right" >券码状态</label>
+                            <div class="col-sm-4 col-md-4 col-lg-4 text-left" v-cloak>{{list.status_msg}}</div>
                     </div>
                 </div>
 
                 <div class="row form-horizontal">
                     <div class="form-group text-right">
-                        <label class="col-sm-3 col-md-3 col-lg-3 control-label">订单号 <i class="red">*</i></label>
+                        <label class="col-sm-3 col-md-3 col-lg-3 control-label">淘宝订单号 <i class="red">*</i></label>
                         <div class="col-sm-6 col-md-6 col-lg-6 ">
                             <div class="bootstrap-tagsinput height">
                                 <input type="text" class="form-control ft-14" v-model="grant.orderId" placeholder="请输入订单号">
                             </div>
                         </div>
-                        <div class="col-sm-3 col-md-3 col-lg-3">
-
+                        <div class="col-sm-3 col-md-3 col-lg-3 red text-left" style="display: none" v-show="isGrant.orderId">
+                            订单号不能为空，或者格式不正确
                         </div>
                     </div>
                     <div class="form-group text-right">
@@ -145,8 +176,8 @@
                                 <input size="16" v-model="grant.time" class="form-control date" type="text" readonly  placeholder=""/>
                             </div>
                         </div>
-                        <div class="col-sm-3 col-md-3 col-lg-3">
-
+                        <div class="col-sm-3 col-md-3 col-lg-3 red text-left" style="display: none" v-show="isGrant.time">
+                            请添加时间
                         </div>
                     </div>
                     <div class="form-group text-right">
@@ -156,8 +187,8 @@
                                 <input type="text" class="form-control ft-14" v-model="grant.name" placeholder="请输入客户名称">
                             </div>
                         </div>
-                        <div class="col-sm-3 col-md-3 col-lg-3">
-
+                        <div class="col-sm-3 col-md-3 col-lg-3 red text-left" style="display: none" v-show="isGrant.name">
+                            客户名称不能为空
                         </div>
                     </div>
                     <div class="form-group text-right">
@@ -167,8 +198,8 @@
                                 <input type="tel" class="form-control ft-14" v-model="grant.tel" placeholder="请输入客户联系电话">
                             </div>
                         </div>
-                        <div class="col-sm-3 col-md-3 col-lg-3">
-
+                        <div class="col-sm-3 col-md-3 col-lg-3 red text-left" style="display: none" v-show="isGrant.tel">
+                            联系电话不能为空,或者格式不正确
                         </div>
                     </div>
                     <div class="form-group text-right">
@@ -178,13 +209,13 @@
                                 <input type="email" class="form-control ft-14" v-model="grant.email" placeholder="请输入客户电子邮件">
                             </div>
                         </div>
-                        <div class="col-sm-3 col-md-3 col-lg-3">
-
+                        <div class="col-sm-3 col-md-3 col-lg-3 red text-left" style="display: none" v-show="isGrant.email">
+                            邮箱地址不能为空,或者格式不正确
                         </div>
                     </div>
                     <div class="modal-footer text-center">
                         <button type="button" class="btn btn-primary" @click="grantData()">发放</button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        <button type="button" class="btn btn-default" @click="goBack">返回</button>
 
                     </div>
                 </div>
@@ -194,73 +225,51 @@
                 <div>
                     <div class="col-md-6 ">
                         <label class="col-sm-4 col-md-4 col-lg-4 text-right">优惠券码</label>
-                        <div class="col-sm-8 col-md-8 col-lg-8 ">{{list.code}}</div>
+                        <div class="col-sm-8 col-md-8 col-lg-8 " v-cloak>{{list.code}}</div>
                     </div>
                     <div class="col-md-6 ">
                         <label class="col-sm-4 col-md-4 col-lg-4 text-right">券码状态</label>
-                        <div class="col-sm-8 col-md-8 col-lg-8 ">{{list.status_msg}}</div>
+                        <div class="col-sm-8 col-md-8 col-lg-8 " v-cloak>{{list.status_msg}}</div>
                     </div>
                 </div>
                 <div>
                     <div class="col-md-6 ">
                         <label class="col-sm-4 col-md-4 col-lg-4 text-right">淘宝订单号</label>
-                        <div class="col-sm-8 col-md-8 col-lg-8 ">{{list.order_no}}</div>
+                        <div class="col-sm-8 col-md-8 col-lg-8 " v-cloak>{{list.order_no}}</div>
                     </div>
                     <div class="col-md-6 ">
                         <label class="col-sm-4 col-md-4 col-lg-4 text-right">交易日期</label>
-                        <div class="col-sm-8 col-md-8 col-lg-8 ">{{list.granted_date}}</div>
+                        <div class="col-sm-8 col-md-8 col-lg-8 " v-cloak>{{list.granted_date}}</div>
                     </div>
                 </div>
 
                 <div>
                     <div class="col-md-6 ">
                         <label class="col-sm-4 col-md-4 col-lg-4 text-right">登记人姓名</label>
-                        <div class="col-sm-8 col-md-8 col-lg-8 ">{{list.holder}}</div>
+                        <div class="col-sm-8 col-md-8 col-lg-8 " v-cloak>{{list.holder}}</div>
                     </div>
                     <div class="col-md-6 ">
                         <label class="col-sm-4 col-md-4 col-lg-4 text-right">电话</label>
-                        <div class="col-sm-8 col-md-8 col-lg-8 ">{{list.holder_telephone}}</div>
+                        <div class="col-sm-8 col-md-8 col-lg-8 " v-cloak>{{list.holder_telephone}}</div>
                     </div>
                 </div>
                 <div>
                     <div class="col-md-6 ">
                         <label class="col-sm-4 col-md-4 col-lg-4 text-right">邮箱地址</label>
-                        <div class="col-sm-8 col-md-8 col-lg-8 ">{{list.holder_email}}</div>
+                        <div class="col-sm-8 col-md-8 col-lg-8 " v-cloak>{{list.holder_email}}</div>
                     </div>
                 </div>
 
                 <div class="col-md-12 ">
                     <label class="col-sm-2 col-md-2 col-lg-2 text-right">备注说明</label>
-                    <div class="col-sm-10 col-md-10 col-lg-10 ">{{batchList.remark}}</div>
+                    <div class="col-sm-10 col-md-10 col-lg-10 " v-cloak>{{batchList.remark}}</div>
                 </div>
             </div>
 
         </div>
+        <!-- 使用 -->
         <div  class="details" v-show="list.status>=2">
             <div class="title">优惠券使用</div>
-            <!-- 使用信息 -->
-            <div  v-show="list.status>2" class="publish row">
-                <div>
-                    <div class="col-md-6 ">
-                        <label class="col-sm-4 col-md-4 col-lg-4 text-right">使用人姓名</label>
-                        <div class="col-sm-8 col-md-8 col-lg-8 ">{{list.consumer}}</div>
-                    </div>
-                    <div class="col-md-6 ">
-                        <label class="col-sm-4 col-md-4 col-lg-4 text-right">联系电话</label>
-                        <div class="col-sm-8 col-md-8 col-lg-8 ">{{list.consumer_telephone}}</div>
-                    </div>
-                </div>
-                <div>
-                    <div class="col-md-6 ">
-                        <label class="col-sm-4 col-md-4 col-lg-4 text-right">邮箱地址</label>
-                        <div class="col-sm-8 col-md-8 col-lg-8 ">{{list.consumer_email}}</div>
-                    </div>
-                    <div class="col-md-6 ">
-                        <label class="col-sm-4 col-md-4 col-lg-4 text-right">使用日期</label>
-                        <div class="col-sm-8 col-md-8 col-lg-8 ">{{list.created_time}}</div>
-                    </div>
-                </div>
-            </div>
             <!-- 使用表单 -->
             <div v-show="list.status==2" class="container-fluid ">
                 <div class="row form-horizontal">
@@ -271,8 +280,8 @@
                                 <input type="text" class="form-control ft-14" v-model="use.name" placeholder="请输入姓名">
                             </div>
                         </div>
-                        <div class="col-sm-3 col-md-3 col-lg-3">
-
+                        <div class="col-sm-3 col-md-3 col-lg-3 red text-left" style="display: none" v-show="isUse.name">
+                                使用人不能为空
                         </div>
                     </div>
                     <div class="form-group text-right">
@@ -282,8 +291,8 @@
                                 <input type="tel" class="form-control ft-14" v-model="use.tel" placeholder="请输入客户联系电话">
                             </div>
                         </div>
-                        <div class="col-sm-3 col-md-3 col-lg-3">
-
+                        <div class="col-sm-3 col-md-3 col-lg-3 red text-left" style="display: none" v-show="isUse.tel">
+                                联系电话不能为空，或者格式不正确
                         </div>
                     </div>
                     <div class="form-group text-right">
@@ -293,8 +302,8 @@
                                 <input type="email" class="form-control ft-14" v-model="use.email" placeholder="请输入客户电子邮件">
                             </div>
                         </div>
-                        <div class="col-sm-3 col-md-3 col-lg-3">
-
+                        <div class="col-sm-3 col-md-3 col-lg-3 red text-left" style="display: none" v-show="isUse.email">
+                            邮箱不能为空，或者格式不正确
                         </div>
                     </div>
                     <div class="form-group text-right">
@@ -304,35 +313,47 @@
                                 <input size="16" v-model="use.time" class="form-control date" type="text" readonly  placeholder=""/>
                             </div>
                         </div>
-                        <div class="col-sm-3 col-md-3 col-lg-3">
-
+                        <div class="col-sm-3 col-md-3 col-lg-3 red text-left" style="display: none" v-show="isUse.time">
+                                交易时间不能为空
                         </div>
                     </div>
                     <div class="modal-footer text-center">
                         <button type="button" class="btn btn-primary" @click="useData()">使用</button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">返回</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal" @click="goBack">返回</button>
 
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="details" v-show="list.status>=3">
-            <div class="title">优惠券审核</div>
-            <!-- 审核信息 -->
-            <div v-show="list.status>4" class="publish row">
+            <!-- 使用信息 -->
+            <div  v-else class="publish row">
                 <div>
                     <div class="col-md-6 ">
-                        <label class="col-sm-4 col-md-4 col-lg-4 text-right">审核结果</label>
-                        <div class="col-sm-8 col-md-8 col-lg-8 "> <span v-if="list.status=4">已通过</span> <span v-else>未通过</span></div>
+                        <label class="col-sm-4 col-md-4 col-lg-4 text-right">使用人姓名</label>
+                        <div class="col-sm-8 col-md-8 col-lg-8 " v-cloak>{{list.consumer}}</div>
                     </div>
-                    <div class="col-md-12 ">
-                        <label class="col-sm-2 col-md-2 col-lg-2 text-right">审核说明</label>
-                        <div class="col-sm-8 col-md-8 col-lg-8 ">{{list.remark}}</div>
+                    <div class="col-md-6 ">
+                        <label class="col-sm-4 col-md-4 col-lg-4 text-right">联系电话</label>
+                        <div class="col-sm-8 col-md-8 col-lg-8 " v-cloak>{{list.consumer_telephone}}</div>
+                    </div>
+                </div>
+                <div>
+                    <div class="col-md-6 ">
+                        <label class="col-sm-4 col-md-4 col-lg-4 text-right">邮箱地址</label>
+                        <div class="col-sm-8 col-md-8 col-lg-8 " v-cloak>{{list.consumer_email}}</div>
+                    </div>
+                    <div class="col-md-6 ">
+                        <label class="col-sm-4 col-md-4 col-lg-4 text-right">使用日期</label>
+                        <div class="col-sm-8 col-md-8 col-lg-8 " v-cloak>{{list.created_time}}</div>
                     </div>
                 </div>
             </div>
+        </div>
+        <!-- 审核 -->
+        <div class="details" v-show="list.status>=3">
+            <div class="title">优惠券审核</div>
+
             <!-- 审核表单 -->
-            <div v-show="list.status==4" class="container-fluid ">
+            <div v-show="list.status==3" class="container-fluid ">
                 <div class="row form-horizontal">
                     <div class="form-group text-right">
                         <label class="col-sm-3 col-md-3 col-lg-3 control-label">审核意见 </label>
@@ -357,8 +378,21 @@
                     </div>
                     <div class="modal-footer text-center">
                         <button type="button" class="btn btn-primary" @click="checkData()">审核</button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">返回</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal" @click="goBack">返回</button>
 
+                    </div>
+                </div>
+            </div>
+            <!-- 审核信息 -->
+            <div v-else class="publish row">
+                <div>
+                    <div class="col-md-6 ">
+                        <label class="col-sm-4 col-md-4 col-lg-4 text-right">审核结果</label>
+                        <div class="col-sm-8 col-md-8 col-lg-8 "> <span v-if="list.status==4">已通过</span> <span v-else>未通过</span></div>
+                    </div>
+                    <div class="col-md-12 ">
+                        <label class="col-sm-2 col-md-2 col-lg-2 text-right">审核说明</label>
+                        <div class="col-sm-8 col-md-8 col-lg-8 " v-cloak>{{list.remark}}</div>
                     </div>
                 </div>
             </div>
@@ -370,9 +404,15 @@
 <!-- 引入框架 -->
 <script src="../assets/js/vue.js"></script>
 <script src="../assets/js/jquery.js"></script>
+<script src="../assets/js/cookie.js"></script>
 <script src="../assets/js/bootstrap.min.js"></script>
 <script src="../assets/js/bootstrap-datetimepicker.min.js"></script>
 <script src="../assets/js/layer.js"></script>
+
+<!-- 检测登录状态 -->
+<script src='../../js/control.js'></script>
+<script src='../../js/serverUrl.js'></script>
+<script src='../../js/navTpl.js'></script>
 <!-- 自定义js -->
 <script src="../js/coupon.js"></script>
 <!-- 检测登录状态 -->
