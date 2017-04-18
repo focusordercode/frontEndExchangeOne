@@ -89,15 +89,13 @@
                 <h3 class="bg-info">操作</h3>
                 <div class="row">
                     <div class="col-md-2">
-                        <select class=" form-control ">
+                        <select class="form-control" v-model="sel" @change="selected(sel)">
                             <option value="">所有</option>
-                            <option value="1">发行</option>
-                            <option value="2">准备</option>
-                            <option value="3">已发放</option>
-                            <option value="4">已使用</option>
-                            <option value="5">审核通过</option>
-                            <option value="6">审核不通过</option>
-                            <option value="7">作废</option>
+                            <option value="1">制作</option>
+                            <option value="2">发放</option>
+                            <option value="3">完成</option>
+                            <option value="4">失效</option>
+                            <option value="5">作废</option>
                         </select>
                     </div>
                   <!--  <div class="col-md-5 form-horizontal">
@@ -107,7 +105,6 @@
                         </div>
                     </div>-->
                     <div class="col-md-3">
-                        <button class="btn btn-default" >搜索</button>
                         <button class="btn btn-default" data-toggle="modal" data-target="#myModal">发行</button>
                     </div>
 
@@ -127,37 +124,41 @@
                        <th>状态</th>
                        <th>操作</th>
                    </tr>
-                    <tr v-for="item in list" :class="{'bg-info':$index%2 == 0}">
-                        <td>{{$index+1}}</td>
-                        <td>{{item.name}}</td>
-                        <td>{{item.type == "1" ? "现金券":"折扣券"}}</td>
-                        <td>{{item.denomination}}</td>
-                        <td>{{item.price}}</td>
-                        <td>{{item.issuant_amount}}</td>
-                        <td>{{item.validity_begin}}~{{item.validity_end}}</td>
-                        <td>
+                    <tr v-show="list.length==0">
+                        <td colspan="9" align="center" class="text-gray">暂无数据.....</td>
+                    </tr>
+                    <tr v-else v-for="item in list" :class="{'bg-info':$index%2 == 0}">
+                        <td v-cloak>{{$index+1}}</td>
+                        <td v-cloak>{{item.name}}</td>
+                        <td v-cloak>{{item.type == "1" ? "现金券":"折扣券"}}</td>
+                        <td v-cloak>{{item.denomination}}</td>
+                        <td v-cloak>{{item.price}}</td>
+                        <td v-cloak>{{item.issuant_amount}}</td>
+                        <td v-cloak>{{item.validity_begin}}~{{item.validity_end}}</td>
+                        <td v-cloak>
                            <!-- <span v-if="item.issuant_status == '5'">已作废</span>
                             <span v-if="item.issuant_status == '1'">发行</span>
                             <span v-if="item.issuant_status == '2'">准备</span>-->
                             {{item.issuant_status_msg}}
                         </td>
                         <td>
-                            <button class="btn btn-success"  v-if="item.issuant_status == '2'" @click="publish(item.id)">详情</button>
-                            <button class="btn btn-danger " v-if="item.issuant_status == '2'" @click="deleteData(item.id)">作废</button>
+                            <button class="btn btn-success"   @click="publish(item.id)">详情</button>
+                           <!-- <button class="btn btn-danger " v-if="item.issuant_status == '2'" @click="deleteData(item.id)">作废</button>
                             <button class="btn btn-default"  v-if="item.issuant_status == '5'">已作废</button>
                             <button class="btn btn-info" v-if="item.issuant_status == '1'" @click="issue(item.id)">发行</button>
-                            <button class="btn btn-danger " v-if="item.issuant_status == '1'" @click="void(item.id)">删除</button>
+                            <button class="btn btn-danger " v-if="item.issuant_status == '1'" @click="void(item.id)">删除</button>-->
                         </td>
 
                     </tr>
+
                 </table>
-                <div class="page-footer">
+                <div class="page-footer" v-show="count_page!=0">
                     <button class="btn btn-default" @click="goPre">上一页</button>
                     <button class="btn btn-default" @click="goNext">下一页</button>
-                    <input type="number" v-model="searchPage">
+                    <input type="number" v-model="searchPage" min="1" :max="count_page" placeholder="页码">
                     <button class="btn btn-default" @click="go">跳转</button>
-                    <span>当前页：第{{page}}页，</span>
-                    <span>共{{count_page}}页</span>
+                    <span v-cloak>当前页：{{page}}  </span>
+                    <span v-cloak>总页数：{{count_page}}</span>
                 </div>
             </div>
             <!-- 创建表格 -->
@@ -227,24 +228,14 @@
                                     <label class="col-sm-2 col-md-2 col-lg-2 control-label">有效期限<i class="red">*</i></label>
                                     <div class="col-sm-4 col-md-4 col-lg-4 ">
                                         <div class="bootstrap-tagsinput height">
-                                            <input size="16" v-model="tableInfo.startDate" class="form-control date" readonly type="text" placeholder=""/>
+                                            <input size="16" v-model="tableInfo.startDate" class="form-control date date1" id="date1" readonly type="text" placeholder=""/>
                                         </div>
                                     </div>
                                    <div class="col-sm-1 col-md-1 control-label">至</div>
                                     <div class="col-sm-4 col-md-4 col-lg-4 ">
                                         <div class="bootstrap-tagsinput height">
-                                            <input size="16" v-model="tableInfo.endDate" class="form-control date" readonly type="text" placeholder=""/>
+                                            <input size="16" v-model="tableInfo.endDate" class="form-control date date2" id="date2" readonly type="text" placeholder=""/>
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="form-group text-right col-md-12">
-                                    <label class="col-sm-2 control-label" for="ds-10" >生效</label>
-                                    <div class="col-sm-1">
-                                        <input class="form-control" id="ds-10" type="radio"  value="2"  v-model="tableInfo.picked" checked />
-                                    </div>
-                                    <label class="col-sm-2 control-label" for="ds-11" >准备</label>
-                                    <div class="col-sm-1">
-                                        <input class="form-control" id="ds-11" type="radio"  value="1" v-model="tableInfo.picked" />
                                     </div>
                                 </div>
                                 <div class="form-group text-right col-md-12">
@@ -276,7 +267,7 @@
     <!-- 检测登录状态 -->
     <script src='../../js/control.js'></script>
     <script src='../../js/serverUrl.js'></script>
-    <script src='../../js/navTpl.js'></script>
+    <script src='../js/navTpl.js'></script>
         <!-- 自定义js -->
     <script src="../js/index.js"></script>
 </body>

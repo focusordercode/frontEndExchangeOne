@@ -307,7 +307,7 @@
                         </div>
                     </div>
                     <div class="form-group text-right">
-                        <label class="col-sm-3 col-md-3 col-lg-3 control-label">交易发放时间 </label>
+                        <label class="col-sm-3 col-md-3 col-lg-3 control-label">使用时间 </label>
                         <div class="col-sm-6 col-md-6 col-lg-6 ">
                             <div class="bootstrap-tagsinput height">
                                 <input size="16" v-model="use.time" class="form-control date" type="text" readonly  placeholder=""/>
@@ -353,18 +353,18 @@
             <div class="title">优惠券审核</div>
 
             <!-- 审核表单 -->
-            <div v-show="list.status==3" class="container-fluid ">
+            <div v-show="list.status==3 && !list.auditl" class="container-fluid ">
                 <div class="row form-horizontal">
-                    <div class="form-group text-right">
+                    <div class="form-group text-right" >
                         <label class="col-sm-3 col-md-3 col-lg-3 control-label">审核意见 </label>
                         <div class="form-group text-right col-md-6">
                             <label class="col-sm-2 control-label" for="ds-10" >通过</label>
                             <div class="col-sm-1">
-                                <input class="form-control control-label" id="ds-10" type="radio"  value="4"  v-model="checks.picked" checked />
+                                <input class="form-control control-label" id="ds-10" type="radio"  value="1"  v-model="checks.picked" checked />
                             </div>
                             <label class="col-sm-2 control-label" for="ds-11" >不通过</label>
                             <div class="col-sm-1">
-                                <input class="form-control control-label" id="ds-11" type="radio"  value="5" v-model="checks.picked" />
+                                <input class="form-control control-label" id="ds-11" type="radio"  value="2" v-model="checks.picked" />
                             </div>
                         </div>
                     </div>
@@ -384,11 +384,11 @@
                 </div>
             </div>
             <!-- 审核信息 -->
-            <div v-else class="publish row">
+            <div v-show="list.auditl" class="publish row">
                 <div>
                     <div class="col-md-6 ">
                         <label class="col-sm-4 col-md-4 col-lg-4 text-right">审核结果</label>
-                        <div class="col-sm-8 col-md-8 col-lg-8 "> <span v-if="list.status==4">已通过</span> <span v-else>未通过</span></div>
+                        <div class="col-sm-8 col-md-8 col-lg-8 "> <span v-if="list.auditl==1">已通过</span> <span v-else>未通过</span></div>
                     </div>
                     <div class="col-md-12 ">
                         <label class="col-sm-2 col-md-2 col-lg-2 text-right">审核说明</label>
@@ -412,7 +412,7 @@
 <!-- 检测登录状态 -->
 <script src='../../js/control.js'></script>
 <script src='../../js/serverUrl.js'></script>
-<script src='../../js/navTpl.js'></script>
+<script src='../js/navTpl.js'></script>
 <!-- 自定义js -->
 <script src="../js/coupon.js"></script>
 <!-- 检测登录状态 -->

@@ -13,9 +13,11 @@ var creatTable = new Vue({
         num:1,
         countPage: '',//总页数
         searchPage:'',//搜索
-        thisPage:''//当前页
+        thisPage:'',//当前页
+        sel:'',//切换状态查询列表
+        search:''//输入优惠码查询
     },
-    ready:function () {
+    ready:function ()   {
         var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
         $.ajax({
             type: "POST",
@@ -33,12 +35,12 @@ var creatTable = new Vue({
                /* creatTable.batchList = data.value.main;
                 creatTable.list = data.value.detail;
                 console.log(creatTable.list);*/
+
                 if (data.status==100) {
                     creatTable.batchList = data.value.main;
                     creatTable.list = data.value.detail;
                     creatTable.thisPage = data.value.pages.page;
                     creatTable.countPage = data.value.pages.count_page;
-                    console.log(creatTable.list);
                     layer.close(LoadIndex);
                 }else if(data.status==1012){
                     layer.msg('请先登录',{time:2000});
@@ -50,7 +52,7 @@ var creatTable = new Vue({
                     layer.msg('权限不足,请跟管理员联系');
                     layer.close(LoadIndex);
                 }else{
-                    layer.msg(data.msg);
+                    console.log(data);
                     layer.close(LoadIndex);
                 }
 
@@ -63,13 +65,13 @@ var creatTable = new Vue({
     },
     methods:{
         downLoad:function () {
-           location.href = serverUrl + "coupon/couponDownload?main_id=" + id;
+
         },
-        open:function (id) {
-            location.href = 'coupon.html?id=' + id
+        open:function (ids) {
+            location.href = 'coupon.html?id=' + ids + '&min_id='+id
         },
         goBack:function () {
-            window.history.back(-1)
+            location.href = 'index.html'
         },
         goPrePage:function () {
             this.num--;
@@ -130,6 +132,10 @@ var creatTable = new Vue({
                             layer.close(LoadIndex); //关闭遮罩层
                         }else{
                             layer.msg(data.msg);
+                            setTimeout(function(){
+                                layer.close(LoadIndex);
+                            },1000);
+                           /* layer.close(LoadIndex);*/
                         }
                     },
                     error: function () {
@@ -138,7 +144,183 @@ var creatTable = new Vue({
                     }
 
                 });
+            },function () {
+                layer.close(LoadIndex); //关闭遮罩层
             });
+        },
+        selected:function (sel) {
+            var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
+            var pageNum = this.num;
+            console.log(sel);
+            $.ajax({
+                type: "POST",
+                url: serverUrl + "coupon/couponList", //添加请求地址的参数
+                dataType: "json",
+                data: {
+                    key:oKey,
+                    user_id:token,
+                    main_id:id,
+                    num:pages,
+                    page:pageNum,
+                    issuant_status:sel
+                },
+                success: function (data) {
+                    console.log(data);
+                    if (data.status==100) {
+                        creatTable.batchList = data.value.main;
+                        creatTable.list = data.value.detail;
+                        creatTable.thisPage = data.value.pages.page;
+                        creatTable.countPage = data.value.pages.count_page;
+                        layer.close(LoadIndex);
+                    }else if(data.status==1012){
+                        layer.msg('请先登录',{time:2000});
+
+                        setTimeout(function(){
+                            jumpLogin(loginUrl,NowUrl);
+                        },2000);
+                    }else if(data.status==1011){
+                        layer.msg('权限不足,请跟管理员联系');
+                        layer.close(LoadIndex);
+                    }else{
+                        console.log(data);
+                        layer.close(LoadIndex);
+                    }
+
+                },
+                error: function () {
+                    layer.close(LoadIndex); //关闭遮罩层
+                    layer.msg('向服务器请求失败');
+                }
+            })
+        },
+        //删除
+        voids:function () {
+            layer.confirm('是否删除?', {
+                btn: ['确定','关闭'] //按钮
+            },function () {
+                $.ajax({
+                    type: "POST",
+                    url:  serverUrl + "coupon/couponsDelete", //添加请求地址的参数
+                    dataType: "json",
+                    data: {
+                        key:oKey,
+                        user_id:token,
+                        id:id
+                    },
+                    success: function (data) {
+                        console.log(data);
+                        if(data.status==100){
+                            layer.msg(data.msg);
+                            location.href = 'index.html'
+                        } else if(data.status==1012){
+                            layer.msg('请先登录',{time:2000});
+                            setTimeout(function(){
+                                jumpLogin(loginUrl,NowUrl);
+                            },2000);
+                        }else if(data.status==1011){
+                            layer.msg('权限不足,请跟管理员联系');
+                        }else{
+                            layer.msg(data.msg);
+                        }
+                    },
+                    error: function () {
+
+                        layer.msg('向服务器请求失败');
+                    }
+                });
+            });
+
+
+        },
+        //作废
+        deleteData:function () {
+            layer.confirm('是否作废?', {
+                btn: ['确定','关闭'] //按钮
+            },function () {
+                $.ajax({
+                    type: "POST",
+                    url: serverUrl + "coupon/couponsVoid", //添加请求地址的参数
+                    dataType: "json",
+                    data: {
+                        key:oKey,
+                        user_id:token,
+                        id:id
+                    },
+                    success: function (data) {
+                        console.log(data);
+                        layer.msg(data.msg);
+                        if(data.status=='100'){
+                            layer.msg(data.msg);
+                            getData()
+                        } if (data.status==100) {
+                            layer.msg(data.msg);
+                            getData();
+
+                        }else if(data.status==1012){
+                            layer.msg('请先登录',{time:2000});
+
+                            setTimeout(function(){
+                                jumpLogin(loginUrl,NowUrl);
+                            },2000);
+                        }else if(data.status==1011){
+                            layer.msg('权限不足,请跟管理员联系');
+                        }else{
+                            layer.msg(data.msg);
+                        }
+                    },
+                    error: function () {
+                        layer.close(LoadIndex); //关闭遮罩层
+                        layer.msg('向服务器请求失败');
+                    }
+                });
+            })
+
+        },
+        searched:function () {
+            var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
+            var pageNum = this.num;
+            var search = this.search;
+            console.log(search);
+            $.ajax({
+                type: "POST",
+                url: serverUrl + "coupon/couponList", //添加请求地址的参数
+                dataType: "json",
+                data: {
+                    key:oKey,
+                    user_id:token,
+                    main_id:id,
+                    num:pages,
+                    page:pageNum,
+                    search:search
+                },
+                success: function (data) {
+                    console.log(data);
+                    if (data.status==100) {
+                        creatTable.batchList = data.value.main;
+                        creatTable.list = data.value.detail;
+                        creatTable.thisPage = data.value.pages.page;
+                        creatTable.countPage = data.value.pages.count_page;
+                        layer.close(LoadIndex);
+                    }else if(data.status==1012){
+                        layer.msg('请先登录',{time:2000});
+
+                        setTimeout(function(){
+                            jumpLogin(loginUrl,NowUrl);
+                        },2000);
+                    }else if(data.status==1011){
+                        layer.msg('权限不足,请跟管理员联系');
+                        layer.close(LoadIndex);
+                    }else{
+                        console.log(data);
+                        layer.close(LoadIndex);
+                    }
+
+                },
+                error: function () {
+                    layer.close(LoadIndex); //关闭遮罩层
+                    layer.msg('向服务器请求失败');
+                }
+            })
         }
     }
 });
@@ -153,7 +335,7 @@ function getData() {
             user_id:token,
             main_id:id,
             num:pages,
-            page:this.num
+            page:creatTable.num
         },
         success: function (data) {
             console.log(data);
@@ -246,3 +428,24 @@ function get_url_param(name) {
         return null;
     }
 }
+
+$('.download').click(function(){
+    var url =  serverUrl + 'coupon/couponDownload?main_id=' + id;
+    var form=$("<form>");//定义一个form表单
+    form.attr("style","display:none");
+    form.attr("target","");
+    form.attr("method","post");//类型
+    form.attr("action",url);//地址
+    $("body").append(form);//将表单放置在web中
+    var input1=$("<input>");
+    input1.attr("type","hidden");
+    input1.attr("name",'key');
+    input1.attr("value",oKey);
+    form.append(input1);
+    var input2=$("<input>");
+    input2.attr("type","hidden");
+    input2.attr("name","user_id");
+    input2.attr("value",token);
+    form.append(input2);
+    form.submit();//表单提交
+});
