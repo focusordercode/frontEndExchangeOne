@@ -35,8 +35,14 @@
         .coupon .text-center{
             text-align: center;
         }
+        .bg-white{
+            background-color: #fff;
+        }
         [v-cloak]{
             display: none;
+        }
+        .line-height-3rem{
+            line-height: 3rem;
         }
     </style>
 </head>
@@ -78,14 +84,14 @@
         </div>
     </div>
 
-    <div class="container-fluid coupon-content coupon-border">
-        <h3 class=" row bg-primary header-Mt">优惠券详情</h3>
+    <div class="container-fluid coupon-content coupon-border bg-white">
+        <h3 class=" row bg-success header-Mt">优惠券详情</h3>
         <div class="details">
             <div class="title">优惠券发行</div>
-            <div class="publish row">
+            <div class="publish row line-height-3rem">
                 <div>
                     <div class="col-md-6 ">
-                        <label class="col-sm-4 col-md-4 col-lg-4 text-right">优惠券名称</label>
+                        <label class="col-sm-4 col-md-4 col-lg-4 text-right ">优惠券名称</label>
                         <div class="col-sm-8 col-md-8 col-lg-8 " v-cloak>{{batchList.name}}</div>
                     </div>
                     <div class="col-md-6 ">
@@ -103,28 +109,28 @@
                         <div class="col-sm-8 col-md-8 col-lg-8 " v-cloak>{{batchList.min_amount}}</div>
                     </div>
                 </div>
-                <div class="col-md-12">
+                <!--<div class="col-md-12">
                     <label class="col-sm-2 col-md-2 col-lg-2 text-right">发行数量</label>
                     <div class="col-sm-10 col-md-10 col-lg-10 " v-cloak>{{batchList.issuant_amount}}</div>
-                </div>
+                </div>-->
                 <div>
-                    <div class="col-md-6 ">
+                    <div class="col-md-6">
+                        <label class="col-sm-4 col-md-4 col-lg-4 text-right">发行数量</label>
+                        <div class="col-sm-8 col-md-8 col-lg-8 " v-cloak>{{batchList.issuant_amount}}</div>
+                    </div>
+                    <div class="col-md-6">
                         <label class="col-sm-4 col-md-4 col-lg-4 text-right">面值</label>
                         <div class="col-sm-8 col-md-8 col-lg-8 " v-cloak>{{batchList.denomination}}</div>
                     </div>
+                </div>
+                <div>
                     <div class="col-md-6 ">
                         <label class="col-sm-4 col-md-4 col-lg-4 text-right">价格</label>
                         <div class="col-sm-8 col-md-8 col-lg-8 " v-cloak>{{batchList.price}}</div>
                     </div>
-                </div>
-                <div>
                     <div class="col-md-6 ">
                         <label class="col-sm-4 col-md-4 col-lg-4 text-right">单次使用</label>
-                        <div class="col-sm-8 col-md-8 col-lg-8 " v-cloak>{{batchList.restriction_amount}}</div>
-                    </div>
-                    <div class="col-md-6 ">
-                        <label class="col-sm-4 col-md-4 col-lg-4 text-right">有效期限</label>
-                        <div class="col-sm-8 col-md-8 col-lg-8 " v-cloak>{{batchList.validity_begin}}至{{batchList.validity_end}}止</div>
+                        <div class="col-sm-8 col-md-8 col-lg-8 " v-cloak>{{batchList.restriction_amount}}张</div>
                     </div>
                 </div>
                 <div>
@@ -132,6 +138,12 @@
                         <label class="col-sm-4 col-md-4 col-lg-4 text-right">发行人</label>
                         <div class="col-sm-8 col-md-8 col-lg-8 " v-cloak>{{batchList.creator_id_msg}}</div>
                     </div>
+                    <div class="col-md-6 ">
+                        <label class="col-sm-4 col-md-4 col-lg-4 text-right">有效期限</label>
+                        <div class="col-sm-8 col-md-8 col-lg-8 " v-cloak>{{batchList.validity_begin}}至{{batchList.validity_end}}止</div>
+                    </div>
+                </div>
+                <div>
                     <div class="col-md-6 ">
                         <label class="col-sm-4 col-md-4 col-lg-4 text-right">发行时间</label>
                         <div class="col-sm-8 col-md-8 col-lg-8 " v-cloak>{{batchList.created_time}}</div>
@@ -145,7 +157,7 @@
         </div>
         <!--发放-->
         <div class="details" v-show="list.status>=1">
-            <div class="title">优惠券发放</div>
+            <div class="title">优惠券发放 <!--<span>收缩</span>--></div>
             <!-- 发放表单 -->
             <div  v-show="list.status==1" class="container-fluid ">
                 <div class="row form-horizontal col-md-12 ">
@@ -160,68 +172,69 @@
                 <div class="row form-horizontal">
                     <div class="form-group text-right">
                         <label class="col-sm-3 col-md-3 col-lg-3 control-label">淘宝订单号 <i class="red">*</i></label>
-                        <div class="col-sm-6 col-md-6 col-lg-6 ">
+                        <div class="col-sm-4 col-md-4 col-lg-4 ">
                             <div class="bootstrap-tagsinput height">
                                 <input type="text" class="form-control ft-14" v-model="grant.orderId" placeholder="请输入订单号">
                             </div>
                         </div>
-                        <div class="col-sm-3 col-md-3 col-lg-3 red text-left" style="display: none" v-show="isGrant.orderId">
+                        <div class="col-sm-5 col-md-5 col-lg-5 red text-left" style="display: none" v-show="isGrant.orderId">
                             订单号不能为空，或者格式不正确
                         </div>
                     </div>
                     <div class="form-group text-right">
                         <label class="col-sm-3 col-md-3 col-lg-3 control-label">交易发放时间 </label>
-                        <div class="col-sm-6 col-md-6 col-lg-6 ">
+                        <div class="col-sm-4 col-md-4 col-lg-4 ">
                             <div class="bootstrap-tagsinput height">
                                 <input size="16" v-model="grant.time" class="form-control date" type="text" readonly  placeholder=""/>
                             </div>
                         </div>
-                        <div class="col-sm-3 col-md-3 col-lg-3 red text-left" style="display: none" v-show="isGrant.time">
+                        <div class="col-sm-5 col-md-5 col-lg-5 red text-left" style="display: none" v-show="isGrant.time">
                             请添加时间
                         </div>
                     </div>
                     <div class="form-group text-right">
-                        <label class="col-sm-3 col-md-3 col-lg-3 control-label">客户</label>
-                        <div class="col-sm-6 col-md-6 col-lg-6 ">
+                        <label class="col-sm-3 col-md-3 col-lg-3 control-label">登记人姓名</label>
+                        <div class="col-sm-4 col-md-4 col-lg-4 ">
                             <div class="bootstrap-tagsinput height">
                                 <input type="text" class="form-control ft-14" v-model="grant.name" placeholder="请输入客户名称">
                             </div>
                         </div>
-                        <div class="col-sm-3 col-md-3 col-lg-3 red text-left" style="display: none" v-show="isGrant.name">
-                            客户名称不能为空
+                        <div class="col-sm-5 col-md-5 col-lg-5 red text-left" style="display: none" v-show="isGrant.name">
+                            姓名不能为空
                         </div>
                     </div>
                     <div class="form-group text-right">
                         <label class="col-sm-3 col-md-3 col-lg-3 control-label">联系电话</label>
-                        <div class="col-sm-6 col-md-6 col-lg-6 ">
+                        <div class="col-sm-4 col-md-4 col-lg-4 ">
                             <div class="bootstrap-tagsinput height">
                                 <input type="tel" class="form-control ft-14" v-model="grant.tel" placeholder="请输入客户联系电话">
                             </div>
                         </div>
-                        <div class="col-sm-3 col-md-3 col-lg-3 red text-left" style="display: none" v-show="isGrant.tel">
+                        <div class="col-sm-5 col-md-5 col-lg-5 red text-left" style="display: none" v-show="isGrant.tel">
                             联系电话不能为空,或者格式不正确
                         </div>
                     </div>
                     <div class="form-group text-right">
                         <label class="col-sm-3 col-md-3 col-lg-3 control-label">电子邮件</label>
-                        <div class="col-sm-6 col-md-6 col-lg-6 ">
+                        <div class="col-sm-4 col-md-4 col-lg-4 ">
                             <div class="bootstrap-tagsinput height">
                                 <input type="email" class="form-control ft-14" v-model="grant.email" placeholder="请输入客户电子邮件">
                             </div>
                         </div>
-                        <div class="col-sm-3 col-md-3 col-lg-3 red text-left" style="display: none" v-show="isGrant.email">
+                        <div class="col-sm-5 col-md-5 col-lg-5 red text-left" style="display: none" v-show="isGrant.email">
                             邮箱地址不能为空,或者格式不正确
                         </div>
                     </div>
                     <div class="modal-footer text-center">
                         <button type="button" class="btn btn-primary" @click="grantData()">发放</button>
+                        <button type="button" class="btn btn-info" @click="void">作废</button>
                         <button type="button" class="btn btn-default" @click="goBack">返回</button>
 
                     </div>
                 </div>
             </div>
             <!-- 发放信息 -->
-            <div v-show="list.status>1" class="publish row">
+            <div v-show="list.status>1" class="publish line-height-3rem row">
                 <div>
                     <div class="col-md-6 ">
                         <label class="col-sm-4 col-md-4 col-lg-4 text-right">优惠券码</label>
@@ -258,11 +271,6 @@
                         <label class="col-sm-4 col-md-4 col-lg-4 text-right">邮箱地址</label>
                         <div class="col-sm-8 col-md-8 col-lg-8 " v-cloak>{{list.holder_email}}</div>
                     </div>
-                </div>
-
-                <div class="col-md-12 ">
-                    <label class="col-sm-2 col-md-2 col-lg-2 text-right">备注说明</label>
-                    <div class="col-sm-10 col-md-10 col-lg-10 " v-cloak>{{batchList.remark}}</div>
                 </div>
             </div>
 
@@ -325,7 +333,7 @@
                 </div>
             </div>
             <!-- 使用信息 -->
-            <div  v-else class="publish row">
+            <div  v-else class="line-height-3rem publish row">
                 <div>
                     <div class="col-md-6 ">
                         <label class="col-sm-4 col-md-4 col-lg-4 text-right">使用人姓名</label>
@@ -343,20 +351,17 @@
                     </div>
                     <div class="col-md-6 ">
                         <label class="col-sm-4 col-md-4 col-lg-4 text-right">使用日期</label>
-                        <div class="col-sm-8 col-md-8 col-lg-8 " v-cloak>{{list.created_time}}</div>
+                        <div class="col-sm-8 col-md-8 col-lg-8 " v-cloak>{{list.consume_date}}</div>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- 审核 -->
         <div class="details" v-show="list.status>=3">
-            <div class="title">优惠券审核</div>
-
             <!-- 审核表单 -->
             <div v-show="list.status==3 && !list.auditl" class="container-fluid ">
-                <div class="row form-horizontal">
+                <div class="row form-horizontal ">
                     <div class="form-group text-right" >
-                        <label class="col-sm-3 col-md-3 col-lg-3 control-label">审核意见 </label>
+                        <label class="col-sm-2 col-md-2 col-lg-2 control-label">审核意见 </label>
                         <div class="form-group text-right col-md-6">
                             <label class="col-sm-2 control-label" for="ds-10" >通过</label>
                             <div class="col-sm-1">
@@ -369,7 +374,7 @@
                         </div>
                     </div>
                     <div class="form-group text-right">
-                        <label class="col-sm-3 col-md-3 col-lg-3 control-label">审核说明</label>
+                        <label class="col-sm-2 col-md-2 col-lg-2 control-label">审核说明</label>
                         <div class="col-sm-6 col-md-6 col-lg-6 ">
                             <div class="bootstrap-tagsinput height">
                                 <textarea name="" id="" cols="100" rows="3"  v-model="checks.remark"></textarea>
@@ -384,11 +389,11 @@
                 </div>
             </div>
             <!-- 审核信息 -->
-            <div v-show="list.auditl" class="publish row">
+            <div v-else class="line-height-3rem publish row">
                 <div>
                     <div class="col-md-6 ">
                         <label class="col-sm-4 col-md-4 col-lg-4 text-right">审核结果</label>
-                        <div class="col-sm-8 col-md-8 col-lg-8 "> <span v-if="list.auditl==1">已通过</span> <span v-else>未通过</span></div>
+                        <div class="col-sm-8 col-md-8 col-lg-8 "> <span v-if="list.auditl==1">已通过</span> <span v-if="list.auditl==2">未通过</span></div>
                     </div>
                     <div class="col-md-12 ">
                         <label class="col-sm-2 col-md-2 col-lg-2 text-right">审核说明</label>
@@ -397,6 +402,8 @@
                 </div>
             </div>
         </div>
+        <!-- 审核 -->
+
 
     </div>
 
@@ -406,7 +413,7 @@
 <script src="../assets/js/jquery.js"></script>
 <script src="../assets/js/cookie.js"></script>
 <script src="../assets/js/bootstrap.min.js"></script>
-<script src="../assets/js/bootstrap-datetimepicker.min.js"></script>
+<script src="../assets/js/bootstrap-datetimepicker.modify.js"></script>
 <script src="../assets/js/layer.js"></script>
 
 <!-- 检测登录状态 -->

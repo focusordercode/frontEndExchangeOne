@@ -39,14 +39,17 @@
             background-color: #fff;
         }
         .coupon-content{
-            width: 98%;
+            width: 100%;
         }
-        .table{
-            width: 90%;
-            margin: 0 auto;
+        .coupon-list{
+            margin: 20px 10px;
         }
-        .table-header{
-            padding: 20px 20px;
+        .coupon-content table>tbody>tr>th{
+            padding: 10px;
+        }
+        .coupon-content table>tbody>tr>td{
+            padding: 4px;
+            vertical-align: middle;
         }
     </style>
 </head>
@@ -90,9 +93,9 @@
             </div>
         </div>
 
-        <div class="coupon-content">
-            <div class="wraper container-fluid">
-                <h3 class="bg-primary row">优惠券详情</h3>
+        <div class="coupon-content ">
+            <div class="wraper container-fluid bg-white">
+                <h3 class="bg-success row">优惠券详情</h3>
                 <div class="row">
                     <div class="col-md-6 ">
                         <label class="col-sm-4 col-md-4 col-lg-4 text-right">优惠券名称</label>
@@ -170,92 +173,97 @@
                     </div>
                 </div>
                 <div class="wraper-footer text-center">
-                    <button class="btn btn-primary" v-show="batchList.issuant_status=='1'" @click="deleteData">作废</button>
-                    <button class="btn btn-primary" v-show="batchList.issuant_status=='1'||batchList.issuant_status=='2'||batchList.issuant_status=='3'" @click="voids()">删除</button>
+                    <button class="btn btn-info" v-show=" batchList.issuant_status=='4'||batchList.issuant_status=='2'||batchList.issuant_status=='3'" @click="deleteData">作废</button>
+                    <button class="btn btn-danger" v-show="batchList.issuant_status=='1'" @click="voids()">删除</button>
                     <button class="btn btn-default" @click="goBack">返回</button>
                 </div>
             </div>
-            <div class="coupon-list bg-white">
-                <div class="row table-header">
-                        <div class="col-md-1 "><span class="form-control" style="border: none">优惠券的详情 </span></div>
-                        <div class="col-md-2">
-                            <select class=" form-control" v-model="sel" @change="selected(sel)">
-                                <option value="">所有</option>
-                                <option value="1">制作</option>
-                                <option value="2">发放</option>
-                                <option value="3">完成</option>
-                                <option value="4">失效</option>
-                                <option value="5">作废</option>
-                            </select>
-                        </div>
-                          <div class="col-md-5 form-horizontal">
-                              <label class="control-label col-md-3">输入优惠券号</label>
-                              <div class="col-md-9">
-                                  <input type="text" class="form-control" v-model="search">
-                              </div>
-                          </div>
-                        <div class="col-md-3">
-                            <button class="btn btn-default" @click="searched()">搜索</button>
-
-                        </div>
-
+            <div class="panel-success container-fluid bg-white">
+                <h3 class="row panel-heading">操作</h3>
+                <div class="row panel-body ">
+                    <div class="col-md-1">
+                        <select class=" form-control" style="width: 60%"  v-model="sel" @change="selected(sel)">
+                            <option value="">所有</option>
+                            <option value="1">制作</option>
+                            <option value="2">发放</option>
+                            <option value="3">使用</option>
+                            <option value="4">失效</option>
+                            <option value="5">作废</option>
+                        </select>
                     </div>
-
-                <table class="table table-bordered">
-                    <tr>
-                       <th ><input type="checkbox" v-model="allChecked"> 全选</th>
-                        <th>序号</th>
-                       <th>优惠券码</th>
-                       <th>状态</th>
-                       <th>发放日期</th>
-                       <th>登记人</th>
-                        <th>登记人电话</th>
-                       <th>使用日期</th>
-                       <th>使用人</th>
-                       <th>使用人电话</th>
-                        <th>操作</th>
-                    </tr>
-                    <tr v-show="list.length==0">
-                        <td colspan="11" align="center" class="text-gray">暂无数据......</td>
-                    </tr>
-                    <tr v-else v-for="item in list">
-                        <td><input type="checkbox" v-model="selectedArr"  /></td>
-                        <td>{{($index+1)+(thisPage-1)*10}}</td>
-                        <td>{{item.code}}</td>
-                        <td>{{item.status_msg}}</td>
-                        <td>{{item.created_time}}</td>
-                        <td>{{item.holder}}</td>
-                        <td>{{item.holder_telephone}}</td>
-                        <td>{{item.granted_date}}</td>
-                        <td>{{item.consumer}}</td>
-                        <td>{{item.consumer_telephone}}</td>
-                        <td class="btns">
-                            <button class="btn btn-success" @click="open(item.id)">详情</button>
-                            <button class="btn btn-danger" v-show="item.status=='5'"  disabled>作废</button>
-                            <button class="btn btn-danger" v-else @click="void(item.id)" >作废</button>
-
-                        </td>
-                    </tr>
-
-                </table>
-                <div class="row" v-show="list.length!=0">
-                    <div class="col-md-12 ">
-                       <!-- 'http://192.168.20.20/makesCanton/coupon/couponDownload?{main_id=' + get_url_param('id'),id}-->
-
-                        <a href="javascript:void(0)" class='download'>
-                            <button class="btn btn-info pull-right" @click="downLoad">下载券码</button>
-                        </a>
+                    <div class="col-md-3 form-horizontal">
+                        <label class="control-label col-md-4">输入优惠券号</label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" v-model="search">
+                        </div>
+                    </div>
+                    <div class="col-md-1">
+                        <button class="btn btn-default" @click="searched()">搜索</button>
 
                     </div>
                 </div>
+            </div>
 
-                <div class="page-footer" v-show="list.length!=0">
-                    <button class="btn btn-default" @click="goPrePage" @click="goPre">上一页</button>
-                    <button class="btn btn-default" @click="goNextPage" @click="goNext">下一页</button>
-                    <input type="number"  v-model="searchPage" min="1" :max="countPage" placeholder="页码">
-                    <button class="btn btn-default" @click="go">跳转</button>
-                    <span>当前页：{{thisPage}}  </span>
-                    <span>总页数：{{countPage}}</span>
+            <div class="coupon-list bg-white">
+                <div class="panel-success">
+                    <h3 class="panel-heading">优惠券的详情</h3>
+                    <div class="panel-body">
+                        <table class="table table-bordered">
+                            <tr class="success text-success">
+                               <th ><input type="checkbox" v-model="allChecked"> 全选</th>
+                                <th>序号</th>
+                               <th>优惠券码</th>
+                               <th>状态</th>
+                               <th>发放日期</th>
+                               <th>登记人</th>
+                                <th>登记人电话</th>
+                               <th>使用日期</th>
+                               <th>使用人</th>
+                               <th>使用人电话</th>
+                                <th>操作</th>
+                            </tr>
+                            <tr v-show="list.length==0">
+                                <td colspan="11" height="50" align="center" class="text-gray">暂无数据......</td>
+                            </tr>
+                            <tr v-else v-for="item in list" :class="{'warning':$index%2 == 1}">
+                                <td><input type="checkbox"   /></td>
+                                <td>{{($index+1)+(thisPage-1)*10}}</td>
+                                <td>{{item.code}}</td>
+                                <td>{{item.status_msg}}</td>
+                                <td>{{item.granted_date}}</td>
+                                <td>{{item.holder}}</td>
+                                <td>{{item.holder_telephone}}</td>
+                                <td>{{item.consume_date}}</td>
+                                <td>{{item.consumer}}</td>
+                                <td>{{item.consumer_telephone}}</td>
+                                <td class="btns">
+                                    <button class="btn btn-success btn-sm" @click="open(item.id)">详情</button>
+                                    <button class="btn btn-info btn-sm" v-show="item.status == 2 || item.status == 3||item.status == 4 " @click="void(item.id)" >作废</button>
+
+                                </td>
+                            </tr>
+
+                        </table>
+                        <div class="row" v-show="list.length!=0">
+                            <div class="col-md-12 ">
+                               <!-- 'http://192.168.20.20/makesCanton/coupon/couponDownload?{main_id=' + get_url_param('id'),id}-->
+
+                                <a href="javascript:void(0)" class='download'>
+                                    <button class="btn btn-primary pull-right" @click="downLoad">下载券码</button>
+                                </a>
+
+                            </div>
+                        </div>
+
+                        <div class="page-footer" v-show="list.length!=0">
+                            <button class="btn btn-default" @click="goPrePage" @click="goPre">上一页</button>
+                            <button class="btn btn-default" @click="goNextPage" @click="goNext">下一页</button>
+                            <input type="number"  v-model="searchPage" min="1" :max="countPage" placeholder="页码">
+                            <button class="btn btn-info" @click="go">跳转</button>
+                            <span>当前页：{{thisPage}}  </span>
+                            <span>总页数：{{countPage}}</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

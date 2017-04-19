@@ -55,7 +55,7 @@ th,td{
     text-align: center;
 }
 .coupon-list .table td{
-    line-height: 34px;
+    /*line-height: 34px;*/
 }
 .btn:active{
     border-color: transparent;
@@ -96,7 +96,7 @@ body{
     height: 100%;
 }
 table th{
-    font-size: 16px;
+    font-size: 14px;
 }
 .mask{
     position: fixed;
@@ -132,6 +132,11 @@ table th{
 .modal{
     top: 50%;
     margin-top: -235px;
+}
+/* datetimepicker时间控件 */
+.datetimepicker {
+    height: 233px;
+    overflow-y: auto;
 }
 
 

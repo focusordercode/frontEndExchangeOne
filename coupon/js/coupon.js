@@ -286,37 +286,76 @@ var coupon = new Vue({
             var remark = this.checks.remark;
             console.log(picked);
             console.log(remark);
-            $.ajax({
-                type: "POST",
-                url: serverUrl + "coupon/couponEdit", //添加请求地址的参数
-                dataType: "json",
-                data: {
-                    key:oKey,
-                    user_id:token,
-                    id:id,
-                    auditl :picked,
-                    remark :remark
-                },
-                success: function (data) {
-                    if (data.status==100) {
-                        layer.msg("操作成功");
-                        getData();
-                    }else if(data.status==1012){
-                        layer.msg('请先登录',{time:2000});
+            if(picked==2){
+                if(!this.checks.remark){
+                    layer.msg('请填写申请说明')
+                }else{
+                    $.ajax({
+                        type: "POST",
+                        url: serverUrl + "coupon/couponEdit", //添加请求地址的参数
+                        dataType: "json",
+                        data: {
+                            key:oKey,
+                            user_id:token,
+                            id:id,
+                            auditl :picked,
+                            remark :remark
+                        },
+                        success: function (data) {
+                            if (data.status==100) {
+                                layer.msg("操作成功");
+                                getData();
+                            }else if(data.status==1012){
+                                layer.msg('请先登录',{time:2000});
 
-                        setTimeout(function(){
-                            jumpLogin(loginUrl,NowUrl);
-                        },2000);
-                    }else if(data.status==1011){
-                        layer.msg('权限不足,请跟管理员联系');
-                    }else{
-                        layer.msg(data.msg);
-                    }
-                },
-                error: function () {
+                                setTimeout(function(){
+                                    jumpLogin(loginUrl,NowUrl);
+                                },2000);
+                            }else if(data.status==1011){
+                                layer.msg('权限不足,请跟管理员联系');
+                            }else{
+                                layer.msg(data.msg);
+                            }
+                        },
+                        error: function () {
 
+                        }
+                    })
                 }
-            })
+            }else {
+                $.ajax({
+                    type: "POST",
+                    url: serverUrl + "coupon/couponEdit", //添加请求地址的参数
+                    dataType: "json",
+                    data: {
+                        key:oKey,
+                        user_id:token,
+                        id:id,
+                        auditl :picked,
+                        remark :remark
+                    },
+                    success: function (data) {
+                        if (data.status==100) {
+                            layer.msg("操作成功");
+                            getData();
+                        }else if(data.status==1012){
+                            layer.msg('请先登录',{time:2000});
+
+                            setTimeout(function(){
+                                jumpLogin(loginUrl,NowUrl);
+                            },2000);
+                        }else if(data.status==1011){
+                            layer.msg('权限不足,请跟管理员联系');
+                        }else{
+                            layer.msg(data.msg);
+                        }
+                    },
+                    error: function () {
+
+                    }
+                })
+            }
+
 
         },
         goBack:function () {
@@ -326,6 +365,53 @@ var coupon = new Vue({
                 location.href = 'index-info.html?id='+ main_id
             })
 
+        },
+        void:function () {
+            var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
+            layer.confirm('是否作废?', {
+                btn: ['确定','关闭'] //按钮
+            },function () {
+                $.ajax({
+                    type: "POST",
+                    url: serverUrl + "coupon/couponVoid", //添加请求地址的参数
+                    dataType: "json",
+                    data: {
+                        key:oKey,
+                        user_id:token,
+                        id:id
+                    },
+                    success: function (data) {
+                        console.log(data);
+                        if(data.status==100){
+                            layer.msg("已作废");
+                            getData();
+                            layer.close(LoadIndex); //关闭遮罩层
+                        }else if(data.status==1012){
+                            layer.msg('请先登录',{time:2000});
+
+                            setTimeout(function(){
+                                jumpLogin(loginUrl,NowUrl);
+                            },2000);
+                        }else if(data.status==1011){
+                            layer.msg('权限不足,请跟管理员联系');
+                            layer.close(LoadIndex); //关闭遮罩层
+                        }else{
+                            layer.msg(data.msg);
+                            setTimeout(function(){
+                                layer.close(LoadIndex);
+                            },1000);
+                            /* layer.close(LoadIndex);*/
+                        }
+                    },
+                    error: function () {
+                        layer.close(LoadIndex); //关闭遮罩层
+                        layer.msg('向服务器请求失败');
+                    }
+
+                });
+            },function () {
+                layer.close(LoadIndex); //关闭遮罩层
+            });
         }
     }
 });

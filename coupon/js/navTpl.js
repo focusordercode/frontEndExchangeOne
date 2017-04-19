@@ -74,7 +74,7 @@ var logTPL = Vue.extend({
                 datatype:'json',
                 success:function(data){},
                 error:function(jqXHR){}
-            })
+            });
             cookie.clear();
             location.href = loginUrl;
         }
