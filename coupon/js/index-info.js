@@ -15,7 +15,10 @@ var creatTable = new Vue({
         searchPage:'',//搜索
         thisPage:'',//当前页
         sel:'',//切换状态查询列表
-        search:''//输入优惠码查询
+        search:'',//输入优惠码查询
+        remark:'',//作废理由
+        remarkA:'',//作废理由
+        item_id:''//作废项Id
     },
     ready:function ()   {
         var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
@@ -101,11 +104,14 @@ var creatTable = new Vue({
                 getPageData(this.searchPage);
             }
         },
-        void:function (id) {
-            var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
-            layer.confirm('是否作废?', {
-                btn: ['确定','关闭'] //按钮
-            },function () {
+        void:function () {
+            var remark = this.remark;
+            var item_id = this.item_id;
+
+            if(!remark){
+                layer.msg('请填写作废原因')
+            }else{
+                var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
                 $.ajax({
                     type: "POST",
                     url: serverUrl + "coupon/couponVoid", //添加请求地址的参数
@@ -113,10 +119,12 @@ var creatTable = new Vue({
                     data: {
                         key:oKey,
                         user_id:token,
-                        id:id
+                        id:item_id,
+                        remark:remark
                     },
                     success: function (data) {
                         console.log(data);
+                        $('#myModal').modal('hide');
                         if(data.status==100){
                             layer.msg("已作废");
                             getData();
@@ -135,7 +143,7 @@ var creatTable = new Vue({
                             setTimeout(function(){
                                 layer.close(LoadIndex);
                             },1000);
-                           /* layer.close(LoadIndex);*/
+                            /* layer.close(LoadIndex);*/
                         }
                     },
                     error: function () {
@@ -144,9 +152,15 @@ var creatTable = new Vue({
                     }
 
                 });
+            }
+
+          /*  layer.confirm('是否作废?', {
+                btn: ['确定','关闭'] //按钮
+            },function () {
+
             },function () {
                 layer.close(LoadIndex); //关闭遮罩层
-            });
+            });*/
         },
         selected:function (sel) {
             var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
@@ -234,9 +248,10 @@ var creatTable = new Vue({
         },
         //作废
         deleteData:function () {
-            layer.confirm('是否作废?', {
-                btn: ['确定','关闭'] //按钮
-            },function () {
+            var remark = this.remarkA;
+            if(!remark){
+                layer.msg("请填写作废原因")
+            }else{
                 $.ajax({
                     type: "POST",
                     url: serverUrl + "coupon/couponsVoid", //添加请求地址的参数
@@ -244,11 +259,13 @@ var creatTable = new Vue({
                     data: {
                         key:oKey,
                         user_id:token,
-                        id:id
+                        id:id,
+                        remark:remark
                     },
                     success: function (data) {
                         console.log(data);
                         layer.msg(data.msg);
+                        $('#myModalA').modal('hide');
                         if(data.status=='100'){
                             layer.msg(data.msg);
                             getData()
@@ -273,7 +290,13 @@ var creatTable = new Vue({
                         layer.msg('向服务器请求失败');
                     }
                 });
-            })
+            }
+
+          /*  layer.confirm('是否作废?', {
+                btn: ['确定','关闭'] //按钮
+            },function () {
+
+            })*/
 
         },
         searched:function () {
@@ -321,6 +344,10 @@ var creatTable = new Vue({
                     layer.msg('向服务器请求失败');
                 }
             })
+        },
+        getId:function (id) {
+
+            this.item_id = id;
         }
     }
 });

@@ -44,6 +44,9 @@
         .line-height-3rem{
             line-height: 3rem;
         }
+        textarea{
+            text-indent: 2em;
+        }
     </style>
 </head>
 <body>
@@ -182,7 +185,7 @@
                         </div>
                     </div>
                     <div class="form-group text-right">
-                        <label class="col-sm-3 col-md-3 col-lg-3 control-label">交易发放时间 </label>
+                        <label class="col-sm-3 col-md-3 col-lg-3 control-label">交易发放时间 <i class="red">*</i></label>
                         <div class="col-sm-4 col-md-4 col-lg-4 ">
                             <div class="bootstrap-tagsinput height">
                                 <input size="16" v-model="grant.time" class="form-control date" type="text" readonly  placeholder=""/>
@@ -193,7 +196,7 @@
                         </div>
                     </div>
                     <div class="form-group text-right">
-                        <label class="col-sm-3 col-md-3 col-lg-3 control-label">登记人姓名</label>
+                        <label class="col-sm-3 col-md-3 col-lg-3 control-label">登记人姓名 <i class="red">*</i></label>
                         <div class="col-sm-4 col-md-4 col-lg-4 ">
                             <div class="bootstrap-tagsinput height">
                                 <input type="text" class="form-control ft-14" v-model="grant.name" placeholder="请输入客户名称">
@@ -204,7 +207,7 @@
                         </div>
                     </div>
                     <div class="form-group text-right">
-                        <label class="col-sm-3 col-md-3 col-lg-3 control-label">联系电话</label>
+                        <label class="col-sm-3 col-md-3 col-lg-3 control-label">联系电话 <i class="red">*</i></label>
                         <div class="col-sm-4 col-md-4 col-lg-4 ">
                             <div class="bootstrap-tagsinput height">
                                 <input type="tel" class="form-control ft-14" v-model="grant.tel" placeholder="请输入客户联系电话">
@@ -215,7 +218,7 @@
                         </div>
                     </div>
                     <div class="form-group text-right">
-                        <label class="col-sm-3 col-md-3 col-lg-3 control-label">电子邮件</label>
+                        <label class="col-sm-3 col-md-3 col-lg-3 control-label">电子邮件 <i class="red">*</i></label>
                         <div class="col-sm-4 col-md-4 col-lg-4 ">
                             <div class="bootstrap-tagsinput height">
                                 <input type="email" class="form-control ft-14" v-model="grant.email" placeholder="请输入客户电子邮件">
@@ -227,8 +230,8 @@
                     </div>
                     <div class="modal-footer text-center">
                         <button type="button" class="btn btn-primary" @click="grantData()">发放</button>
-                        <button type="button" class="btn btn-info" @click="void">作废</button>
-                        <button type="button" class="btn btn-default" @click="goBack">返回</button>
+                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal" >作废</button>
+                        <button type="button" class="btn btn-default" @click="goBack(0)">返回</button>
 
                     </div>
                 </div>
@@ -283,57 +286,57 @@
                 <div class="row form-horizontal">
                     <div class="form-group text-right">
                         <label class="col-sm-3 col-md-3 col-lg-3 control-label">使用人姓名 <i class="red">*</i></label>
-                        <div class="col-sm-6 col-md-6 col-lg-6 ">
+                        <div class="col-sm-4 col-md-4 col-lg-4 ">
                             <div class="bootstrap-tagsinput height">
                                 <input type="text" class="form-control ft-14" v-model="use.name" placeholder="请输入姓名">
                             </div>
                         </div>
-                        <div class="col-sm-3 col-md-3 col-lg-3 red text-left" style="display: none" v-show="isUse.name">
+                        <div class="col-sm-5 col-md-5 col-lg-5 red text-left" style="display: none" v-show="isUse.name">
                                 使用人不能为空
                         </div>
                     </div>
                     <div class="form-group text-right">
-                        <label class="col-sm-3 col-md-3 col-lg-3 control-label">联系电话</label>
-                        <div class="col-sm-6 col-md-6 col-lg-6 ">
+                        <label class="col-sm-3 col-md-3 col-lg-3 control-label">联系电话<i class="red">*</i></label>
+                        <div class="col-sm-4 col-md-4 col-lg-4 ">
                             <div class="bootstrap-tagsinput height">
                                 <input type="tel" class="form-control ft-14" v-model="use.tel" placeholder="请输入客户联系电话">
                             </div>
                         </div>
-                        <div class="col-sm-3 col-md-3 col-lg-3 red text-left" style="display: none" v-show="isUse.tel">
+                        <div class="col-sm-5 col-md-5 col-lg-5 red text-left" style="display: none" v-show="isUse.tel">
                                 联系电话不能为空，或者格式不正确
                         </div>
                     </div>
                     <div class="form-group text-right">
-                        <label class="col-sm-3 col-md-3 col-lg-3 control-label">电子邮件</label>
-                        <div class="col-sm-6 col-md-6 col-lg-6 ">
+                        <label class="col-sm-3 col-md-3 col-lg-3 control-label">电子邮件<i class="red">*</i></label>
+                        <div class="col-sm-4 col-md-4 col-lg-4 ">
                             <div class="bootstrap-tagsinput height">
                                 <input type="email" class="form-control ft-14" v-model="use.email" placeholder="请输入客户电子邮件">
                             </div>
                         </div>
-                        <div class="col-sm-3 col-md-3 col-lg-3 red text-left" style="display: none" v-show="isUse.email">
+                        <div class="col-sm-5 col-md-5 col-lg-5 red text-left" style="display: none" v-show="isUse.email">
                             邮箱不能为空，或者格式不正确
                         </div>
                     </div>
                     <div class="form-group text-right">
-                        <label class="col-sm-3 col-md-3 col-lg-3 control-label">使用时间 </label>
-                        <div class="col-sm-6 col-md-6 col-lg-6 ">
+                        <label class="col-sm-3 col-md-3 col-lg-3 control-label">使用时间 <i class="red">*</i></label>
+                        <div class="col-sm-4 col-md-4 col-lg-4 ">
                             <div class="bootstrap-tagsinput height">
                                 <input size="16" v-model="use.time" class="form-control date" type="text" readonly  placeholder=""/>
                             </div>
                         </div>
-                        <div class="col-sm-3 col-md-3 col-lg-3 red text-left" style="display: none" v-show="isUse.time">
+                        <div class="col-sm-5 col-md-5 col-lg-5 red text-left" style="display: none" v-show="isUse.time">
                                 交易时间不能为空
                         </div>
                     </div>
                     <div class="modal-footer text-center">
                         <button type="button" class="btn btn-primary" @click="useData()">使用</button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal" @click="goBack">返回</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal" @click="goBack(0)">返回</button>
 
                     </div>
                 </div>
             </div>
             <!-- 使用信息 -->
-            <div  v-else class="line-height-3rem publish row">
+            <div  v-show="list.status>2&&list.status<=6 && list.consumer" class="line-height-3rem publish row">
                 <div>
                     <div class="col-md-6 ">
                         <label class="col-sm-4 col-md-4 col-lg-4 text-right">使用人姓名</label>
@@ -365,11 +368,11 @@
                         <div class="form-group text-right col-md-6">
                             <label class="col-sm-2 control-label" for="ds-10" >通过</label>
                             <div class="col-sm-1">
-                                <input class="form-control control-label" id="ds-10" type="radio"  value="1"  v-model="checks.picked" checked />
+                                <input class="form-control control-label" id="ds-10" type="radio"  value="4"  v-model="checks.picked" checked />
                             </div>
                             <label class="col-sm-2 control-label" for="ds-11" >不通过</label>
                             <div class="col-sm-1">
-                                <input class="form-control control-label" id="ds-11" type="radio"  value="2" v-model="checks.picked" />
+                                <input class="form-control control-label" id="ds-11" type="radio"  value="6" v-model="checks.picked" />
                             </div>
                         </div>
                     </div>
@@ -377,34 +380,68 @@
                         <label class="col-sm-2 col-md-2 col-lg-2 control-label">审核说明</label>
                         <div class="col-sm-6 col-md-6 col-lg-6 ">
                             <div class="bootstrap-tagsinput height">
-                                <textarea name="" id="" cols="100" rows="3"  v-model="checks.remark"></textarea>
+                                <textarea name="" id="" cols="100" rows="3"  v-model="checks.remark" placeholder=""></textarea>
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer text-center">
                         <button type="button" class="btn btn-primary" @click="checkData()">审核</button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal" @click="goBack">返回</button>
-
+                        <button type="button" class="btn btn-default" data-dismiss="modal" @click="goBack(0)">返回</button>
                     </div>
                 </div>
             </div>
             <!-- 审核信息 -->
-            <div v-else class="line-height-3rem publish row">
-                <div>
+            <div v-show="list.status>3 && list.status<=6" class="line-height-3rem publish row">
+                <div v-show="list.status==4">
                     <div class="col-md-6 ">
                         <label class="col-sm-4 col-md-4 col-lg-4 text-right">审核结果</label>
-                        <div class="col-sm-8 col-md-8 col-lg-8 "> <span v-if="list.auditl==1">已通过</span> <span v-if="list.auditl==2">未通过</span></div>
+                        <div class="col-sm-8 col-md-8 col-lg-8 "> {{list.status_msg}}</div>
                     </div>
-                    <div class="col-md-12 ">
+                    <div class="col-md-12 " >
                         <label class="col-sm-2 col-md-2 col-lg-2 text-right">审核说明</label>
                         <div class="col-sm-8 col-md-8 col-lg-8 " v-cloak>{{list.remark}}</div>
                     </div>
                 </div>
+                <div v-show="list.status==6" >
+                    <div class="col-md-12 ">
+                        <label class="col-sm-2 col-md-2 col-lg-2 text-right">备注说明</label>
+                        <div class="col-sm-8 col-md-8 col-lg-8 " v-cloak>本优惠券于{{list.modified_time}}，由操作员{{batchList.creator_id_msg}}手动执行作废操作</div>
+                    </div>
+                    <div class="col-md-12 ">
+                        <label class="col-sm-2 col-md-2 col-lg-2 text-right">作废原因</label>
+                        <div class="col-sm-8 col-md-8 col-lg-8 " v-cloak>{{list.remark}}</div>
+                    </div>
+                 </div>
+                <div class="col-md-12 text-center">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" @click="goBack(1)">返回</button>
+                </div>
             </div>
+
         </div>
         <!-- 审核 -->
+    </div>
 
-
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">作废优惠券</h4>
+                </div>
+                <div class="modal-body container-fluid ">
+                    <div class="row form-horizontal">
+                       <div class="col-md-12 margin-bot-ten" >作废的原因:</div>
+                        <textarea name="" rows="3"  v-model="remark" placeholder="" class="col-md-10 col-md-offset-1"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" @click="void">确定</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                </div>
+            </div>
+        </div>
     </div>
 
 </div>

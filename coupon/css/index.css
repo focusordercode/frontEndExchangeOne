@@ -1,4 +1,10 @@
 
+
+/* margin*/
+.margin-bot-ten{
+    margin-bottom: 10px;
+}
+
 .coupon-content {
     width: 1200px;
     margin: 20px auto;

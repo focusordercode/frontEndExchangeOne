@@ -43,7 +43,8 @@ var coupon = new Vue({
         checks:{
             picked:'',
             remark:''
-        }
+        },
+        remark:''//作废原因
     },
     ready:function () {
         $.ajax({
@@ -286,8 +287,9 @@ var coupon = new Vue({
             var remark = this.checks.remark;
             console.log(picked);
             console.log(remark);
-            if(picked==2){
+            if(picked==6){
                 if(!this.checks.remark){
+
                     layer.msg('请填写申请说明')
                 }else{
                     $.ajax({
@@ -298,7 +300,7 @@ var coupon = new Vue({
                             key:oKey,
                             user_id:token,
                             id:id,
-                            auditl :picked,
+                            status :picked,
                             remark :remark
                         },
                         success: function (data) {
@@ -331,10 +333,11 @@ var coupon = new Vue({
                         key:oKey,
                         user_id:token,
                         id:id,
-                        auditl :picked,
+                        status :picked,
                         remark :remark
                     },
                     success: function (data) {
+                        console.log(data);
                         if (data.status==100) {
                             layer.msg("操作成功");
                             getData();
@@ -347,7 +350,7 @@ var coupon = new Vue({
                         }else if(data.status==1011){
                             layer.msg('权限不足,请跟管理员联系');
                         }else{
-                            layer.msg(data.msg);
+                           /* layer.msg(data.msg);*/
                         }
                     },
                     error: function () {
@@ -358,19 +361,26 @@ var coupon = new Vue({
 
 
         },
-        goBack:function () {
-            layer.confirm('当前操作还未完成，确认返回?', {
-                btn: ['确定','关闭'] //按钮
-            },function () {
-                location.href = 'index-info.html?id='+ main_id
-            })
+        goBack:function (id) {
+            if(id==0){
+                layer.confirm('当前操作还未完成，确认返回?', {
+                    btn: ['确定','关闭'] //按钮
+                },function () {
+                    location.href = 'index-info.html?id='+ main_id;
+                })
+            }else{
+                location.href = 'index-info.html?id='+ main_id;
+            }
+
 
         },
         void:function () {
-            var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
-            layer.confirm('是否作废?', {
-                btn: ['确定','关闭'] //按钮
-            },function () {
+
+            var remark = this.remark;
+            if(!remark){
+                layer.msg("请填写作废原因")
+            }else{
+                var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
                 $.ajax({
                     type: "POST",
                     url: serverUrl + "coupon/couponVoid", //添加请求地址的参数
@@ -378,10 +388,12 @@ var coupon = new Vue({
                     data: {
                         key:oKey,
                         user_id:token,
-                        id:id
+                        id:id,
+                        remark:remark
                     },
                     success: function (data) {
                         console.log(data);
+                        $('#myModal').modal('hide');
                         if(data.status==100){
                             layer.msg("已作废");
                             getData();
@@ -409,9 +421,16 @@ var coupon = new Vue({
                     }
 
                 });
+            }
+
+
+            /*layer.confirm('是否作废?', {
+                btn: ['确定','关闭'] //按钮
+            },function () {
+
             },function () {
                 layer.close(LoadIndex); //关闭遮罩层
-            });
+            });*/
         }
     }
 });
@@ -473,7 +492,7 @@ function isDateBetween(dateString, startDateString, endDateString) {
 
 /* 时间控件 */
 $(".date").datetimepicker({
-    format: 'yyyy-mm-dd hh:ii:ss',
+    format: 'yyyy-mm-dd hh:ii:00',
     minView: 0,
     autoclose: true,
     minuteStep:1

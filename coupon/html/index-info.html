@@ -29,9 +29,9 @@
             line-height: 3rem;
             border: 1px solid #CCCCCC;
             margin-bottom: 20px;
+            border-radius: 10px;
         }
         .wraper-footer{
-
             padding-top: 20px;
             padding-bottom: 10px;
         }
@@ -50,6 +50,12 @@
         .coupon-content table>tbody>tr>td{
             padding: 4px;
             vertical-align: middle;
+        }
+        .btns{
+            display: flex;
+        }
+        .btns div{
+            flex: 1;
         }
     </style>
 </head>
@@ -147,10 +153,7 @@
                     </div>
                 </div>
                 <div class="row" style="border-top: 1px solid #ccc">
-                    <div class="col-md-4">
-                        <label class="col-sm-4 col-md-4 col-lg-4 text-right">发行数量</label>
-                        <div class="col-sm-8 col-md-8 col-lg-8 ">{{batchList.issuant_amount}}</div>
-                    </div>
+
                     <div class="col-md-4">
                         <label class="col-sm-4 col-md-4 col-lg-4 text-right">制作</label>
                         <div class="col-sm-8 col-md-8 col-lg-8 ">{{batchList.group_status[1].num}}</div>
@@ -164,16 +167,23 @@
                         <div class="col-sm-8 col-md-8 col-lg-8 ">{{batchList.group_status[3].num}}</div>
                     </div>
                     <div class="col-md-4">
-                        <label class="col-sm-4 col-md-4 col-lg-4 text-right">作废</label>
-                        <div class="col-sm-8 col-md-8 col-lg-8 ">{{batchList.group_status[5].num}}</div>
+                        <label class="col-sm-4 col-md-4 col-lg-4 text-right">审核通过</label>
+                        <div class="col-sm-8 col-md-8 col-lg-8 ">{{batchList.group_status[4].num}}</div>
                     </div>
                     <div class="col-md-4">
                         <label class="col-sm-4 col-md-4 col-lg-4 text-right">过期</label>
-                        <div class="col-sm-8 col-md-8 col-lg-8 ">{{batchList.group_status[4].num}}</div>
+                        <div class="col-sm-8 col-md-8 col-lg-8 ">{{batchList.group_status[5].num}}</div>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="col-sm-4 col-md-4 col-lg-4 text-right">作废</label>
+                        <div class="col-sm-8 col-md-8 col-lg-8 ">{{batchList.group_status[6].num}}</div>
                     </div>
                 </div>
                 <div class="wraper-footer text-center">
-                    <button class="btn btn-info" v-show=" batchList.issuant_status=='4'||batchList.issuant_status=='2'||batchList.issuant_status=='3'" @click="deleteData">作废</button>
+                    <button
+                            class="btn btn-info"
+                            v-show=" batchList.issuant_status=='4'||batchList.issuant_status=='2'||batchList.issuant_status=='3'"
+                            data-toggle="modal" data-target="#myModalA">作废</button>
                     <button class="btn btn-danger" v-show="batchList.issuant_status=='1'" @click="voids()">删除</button>
                     <button class="btn btn-default" @click="goBack">返回</button>
                 </div>
@@ -187,8 +197,9 @@
                             <option value="1">制作</option>
                             <option value="2">发放</option>
                             <option value="3">使用</option>
-                            <option value="4">失效</option>
-                            <option value="5">作废</option>
+                            <option value="4">审核通过</option>
+                            <option value="5">过期</option>
+                            <option value="6">作废</option>
                         </select>
                     </div>
                     <div class="col-md-3 form-horizontal">
@@ -237,9 +248,16 @@
                                 <td>{{item.consumer}}</td>
                                 <td>{{item.consumer_telephone}}</td>
                                 <td class="btns">
-                                    <button class="btn btn-success btn-sm" @click="open(item.id)">详情</button>
-                                    <button class="btn btn-info btn-sm" v-show="item.status == 2 || item.status == 3||item.status == 4 " @click="void(item.id)" >作废</button>
-
+                                    <div class="text-right">
+                                     <button class="btn btn-success btn-sm" @click="open(item.id)">详情</button>
+                                    </div>
+                                    <div class="text-left">
+                                        <button
+                                                class="btn btn-info btn-sm"
+                                                v-show="item.status == 2 || item.status == 3 || item.status == 1"
+                                                @click="getId(item.id)"
+                                                data-toggle="modal" data-target="#myModal">作废</button>
+                                    </div>
                                 </td>
                             </tr>
 
@@ -263,6 +281,51 @@
                             <span>当前页：{{thisPage}}  </span>
                             <span>总页数：{{countPage}}</span>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--作废理由弹窗-->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header bg-primary">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">作废优惠券</h4>
+                    </div>
+                    <div class="modal-body container-fluid ">
+                        <div class="row form-horizontal">
+                            <div class="col-md-12 margin-bot-ten" >作废的原因:</div>
+                            <textarea name="" rows="3"  v-model="remark" placeholder="" class="col-md-10 col-md-offset-1"></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" @click="void()">确定</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="myModalA" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header bg-primary">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                        <h4 class="modal-title" id="myModalLabelA">作废优惠券</h4>
+                    </div>
+                    <div class="modal-body container-fluid ">
+                        <div class="row form-horizontal">
+                            <div class="col-md-12 margin-bot-ten" >作废的原因:</div>
+                            <textarea name="" rows="3"  v-model="remarkA" placeholder="" class="col-md-10 col-md-offset-1"></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary"  @click="deleteData">确定</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                     </div>
                 </div>
             </div>

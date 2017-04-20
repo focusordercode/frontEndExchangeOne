@@ -27,7 +27,8 @@ var info = new Vue({
         page:'',//当前页
         num:1,//翻页
         searchPage:'',
-        sel:''//切换状态查询
+        sel:'',//切换状态查询
+        search:''
     },
     ready:function () {
         var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
@@ -353,6 +354,54 @@ var info = new Vue({
             }else{
                 getPageData(this.searchPage);
             }
+        },
+        searched:function () {
+            var search = this.search;
+            var num = this.num;
+            console.log(search);
+            console.log(num);
+            console.log(pages);
+            if(!search){
+                layer.msg("输点什么再搜索吧！")
+            }else{
+                var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
+                $.ajax({
+                    type: "POST",
+                    url: serverUrl + "coupon/couponsList", //添加请求地址的参数
+                    dataType: "json",
+                    data: {
+                        key:oKey,
+                        user_id:token,
+                        num:pages,
+                        page:num,
+                        search:search
+                    },
+                    success: function (data) {
+                        console.log(data);
+                        layer.close(LoadIndex);
+                        if (data.status==100) {
+                            info.list = data.value;
+                            info.count_page = data.pages.count_page;
+                            info.page = data.pages.page;
+                        }else if(data.status==1012){
+                            layer.msg('请先登录',{time:2000});
+
+                            setTimeout(function(){
+                                jumpLogin(loginUrl,NowUrl);
+                            },2000);
+                        }else if(data.status==1011){
+                            layer.msg('权限不足,请跟管理员联系');
+                        }else{
+                            layer.msg(data.msg);
+                        }
+                    },
+                    error: function () {
+                        layer.close(LoadIndex); //关闭遮罩层
+                        layer.msg('向服务器请求失败');
+                    }
+                })
+            }
+
         }
 
 
@@ -436,7 +485,7 @@ function getPageData (num) {
 
 /* 时间控件 */
 $(".date").datetimepicker({
-    format: 'yyyy-mm-dd hh:ii:ss',
+    format: 'yyyy-mm-dd hh:ii:00',
     minView: 0,
     autoclose: true,
     minuteStep:1

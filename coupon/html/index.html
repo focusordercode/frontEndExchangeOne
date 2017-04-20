@@ -91,7 +91,7 @@
                 <h4 class="row panel-heading"><b>操作</b></h4>
                 <div class="row panel-body">
                     <div class="col-md-1">
-                        <select class="form-control" style="width: 60%" v-model="sel" @change="selected(sel)">
+                        <select class="form-control"  v-model="sel" @change="selected(sel)">
                             <option value="">所有</option>
                             <option value="1">制作</option>
                             <option value="2">发放</option>
@@ -100,12 +100,15 @@
                             <option value="5">作废</option>
                         </select>
                     </div>
-                  <!--  <div class="col-md-5 form-horizontal">
+                    <div class="col-md-5 form-horizontal">
                         <label class="control-label col-md-3">输入优惠券号</label>
-                        <div class="col-md-9">
-                            <input type="text" class="form-control">
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" placeholder="请输入搜索关键字" v-model="search">
                         </div>
-                    </div>-->
+                        <div class="col-md-3">
+                          <button class="btn btn-default" @click="searched()">搜索</button>
+                        </div>
+                    </div>
                     <div class="col-md-3">
                         <button class="btn btn-default" data-toggle="modal" data-target="#myModal">制作优惠券</button>
                     </div>
@@ -114,7 +117,7 @@
             </div>
             <div class="coupon-list">
                 <div class="panel-success">
-                    <h4 class="panel-heading"><b>新发行的优惠券</b></h4>
+                    <h4 class="panel-heading"><b>优惠券</b></h4>
                     <div class="panel-body">
                         <table class="table table-bordered " >
                            <tr class="success text-success">
@@ -123,7 +126,7 @@
                                <th>类型</th>
                                <th>面值</th>
                                <th>价格</th>
-                               <th>发行数量</th>
+                               <th>数量</th>
                                <th>有效期限</th>
                                <th>状态</th>
                                <th>操作</th>
@@ -208,7 +211,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group text-right col-md-12">
-                                    <label class="col-sm-2 col-md-2 col-lg-2 control-label">预发数量<i class="red">*</i></label>
+                                    <label class="col-sm-2 col-md-2 col-lg-2 control-label">数量<i class="red">*</i></label>
                                     <div class="col-sm-4 col-md-4 col-lg-4 ">
                                         <div class="bootstrap-tagsinput height">
                                             <input type="number" min="0" class="form-control ft-14" v-model="tableInfo.preNumber" placeholder="请输入预发数量">
