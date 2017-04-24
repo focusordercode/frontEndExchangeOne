@@ -5,7 +5,6 @@
 
 
 console.log(serverUrl);
-var pages = 10;
 var info = new Vue({
     el:'body',
     data:{
@@ -28,7 +27,10 @@ var info = new Vue({
         num:1,//翻页
         searchPage:'',
         sel:'',//切换状态查询
-        search:''
+        search:'',//搜索关键字
+        startTime:'',//搜索开始时间
+        endTime:'',//搜索结束时间
+        pages:10//分页显示数量
     },
     ready:function () {
         var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
@@ -37,6 +39,7 @@ var info = new Vue({
         }else{
              numKey = this.num
         }
+        var pages = this.pages;
         $.ajax({
             type: "POST",
             url: serverUrl + "coupon/couponsList", //添加请求地址的参数
@@ -76,41 +79,39 @@ var info = new Vue({
         creat: function () {
             this.isShow = !this.isShow
         },
-        selected : function (id) {
-            var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
-            if(this.num == 0){
-                var numKey = this.num+1;
-            }else{
-                numKey = this.num
-            }
+        selected: function (id) {
+            var LoadIndex = layer.load(3, {shade: [0.3, '#000']}); //开启遮罩层
+
             console.log(id);
+             var  num = this.num;
+            var pages = this.pages;
             $.ajax({
                 type: "POST",
                 url: serverUrl + "coupon/couponsList", //添加请求地址的参数
                 dataType: "json",
                 data: {
-                    key:oKey,
-                    user_id:token,
-                    num:pages,
-                    page:numKey,
-                    issuant_status:id
+                    key: oKey,
+                    user_id: token,
+                    num: pages,
+                    page: num,
+                    issuant_status: id
                 },
                 success: function (data) {
                     console.log(data);
                     layer.close(LoadIndex);
-                    if (data.status==100) {
+                    if (data.status == 100) {
                         info.list = data.value;
                         info.count_page = data.pages.count_page;
                         info.page = data.pages.page;
-                    }else if(data.status==1012){
-                        layer.msg('请先登录',{time:2000});
+                    } else if (data.status == 1012) {
+                        layer.msg('请先登录', {time: 2000});
 
-                        setTimeout(function(){
-                            jumpLogin(loginUrl,NowUrl);
-                        },2000);
-                    }else if(data.status==1011){
+                        setTimeout(function () {
+                            jumpLogin(loginUrl, NowUrl);
+                        }, 2000);
+                    } else if (data.status == 1011) {
                         layer.msg('权限不足,请跟管理员联系');
-                    }else{
+                    } else {
                         layer.msg(data.msg);
                     }
                 },
@@ -130,7 +131,9 @@ var info = new Vue({
             var startDate = this.tableInfo.startDate.trim();
             var endDate = this.tableInfo.endDate.trim();
             var description = this.tableInfo.description.trim();
-            var flag = isDateBetween(startDate,endDate);
+            if (endDate && startDate) {
+                var flag = isDateBetween(startDate, endDate);
+            }
             if (!name) {
                 layer.msg('请填写优惠券名称')
             } else if (!minConsume) {
@@ -150,14 +153,14 @@ var info = new Vue({
             } else if (!flag) {
                 layer.msg('开始时间不能大于结束时间')
             } else {
-                var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
+                var LoadIndex = layer.load(3, {shade: [0.3, '#000']}); //开启遮罩层
                 $.ajax({
                     type: "POST",
                     url: serverUrl + "coupon/couponsCreate", //添加请求地址的参数
                     dataType: "json",
                     data: {
-                        key:oKey,
-                        user_id:token,
+                        key: oKey,
+                        user_id: token,
                         name: name,
                         type: 1,
                         min_amount: minConsume,
@@ -172,29 +175,29 @@ var info = new Vue({
                     success: function (data) {
                         console.log(data);
 
-                       /* if(data.status==100){
+                        /* if(data.status==100){
+                         layer.msg("创建成功");
+                         info.getList();
+                         $('#myModal').modal('hide')
+                         }*/
+                        console.log(data.status);
+                        if (data.status == 100) {
                             layer.msg("创建成功");
-                            info.getList();
-                            $('#myModal').modal('hide')
-                        }*/
-                       console.log(data.status);
-                        if(data.status==100){
-                            layer.msg("创建成功");
-                            setTimeout(function(){
+                            setTimeout(function () {
                                 getData();
                                 layer.close(LoadIndex); //关闭遮罩层
-                            },2000);
+                            }, 2000);
 
                             $('#myModal').modal('hide')
-                        }else if(data.status==1012){
-                            layer.msg('请先登录',{time:2000});
+                        } else if (data.status == 1012) {
+                            layer.msg('请先登录', {time: 2000});
 
-                            setTimeout(function(){
-                                jumpLogin(loginUrl,NowUrl);
-                            },2000);
-                        }else if(data.status==1011){
+                            setTimeout(function () {
+                                jumpLogin(loginUrl, NowUrl);
+                            }, 2000);
+                        } else if (data.status == 1011) {
                             layer.msg('权限不足,请跟管理员联系');
-                        }else{
+                        } else {
                             layer.close(LoadIndex); //关闭遮罩层
                             layer.msg(data.msg);
                         }
@@ -207,35 +210,36 @@ var info = new Vue({
                 })
             }
         },
-        void:function (id) {
+        void: function (id) {
             layer.confirm('是否删除?', {
-                    btn: ['确定','关闭'] //按钮
-                },function () {
+                btn: ['确定', '关闭'] //按钮
+            }, function () {
                 $.ajax({
                     type: "POST",
-                    url:  serverUrl + "coupon/couponsDelete", //添加请求地址的参数
+                    url: serverUrl + "coupon/couponsDelete", //添加请求地址的参数
                     dataType: "json",
                     data: {
-                        key:oKey,
-                        user_id:token,
-                        id:id
+                        key: oKey,
+                        user_id: token,
+                        id: id
                     },
                     success: function (data) {
-                        if(data.status=='100'){
+                        if (data.status == '100') {
                             layer.msg(data.msg);
                             getData()
-                        } if (data.status==100) {
+                        }
+                        if (data.status == 100) {
                             layer.msg(data.msg);
                             getData();
                             layer.close(LoadIndex);
-                        }else if(data.status==1012){
-                            layer.msg('请先登录',{time:2000});
-                            setTimeout(function(){
-                                jumpLogin(loginUrl,NowUrl);
-                            },2000);
-                        }else if(data.status==1011){
+                        } else if (data.status == 1012) {
+                            layer.msg('请先登录', {time: 2000});
+                            setTimeout(function () {
+                                jumpLogin(loginUrl, NowUrl);
+                            }, 2000);
+                        } else if (data.status == 1011) {
                             layer.msg('权限不足,请跟管理员联系');
-                        }else{
+                        } else {
                             layer.msg(data.msg);
                         }
                     },
@@ -248,36 +252,37 @@ var info = new Vue({
 
 
         },
-        deleteData:function (id) {
+        deleteData: function (id) {
             layer.confirm('是否作废?', {
-                btn: ['确定','关闭'] //按钮
-            },function () {
+                btn: ['确定', '关闭'] //按钮
+            }, function () {
                 $.ajax({
                     type: "POST",
                     url: serverUrl + "coupon/couponsVoid", //添加请求地址的参数
                     dataType: "json",
                     data: {
-                        key:oKey,
-                        user_id:token,
-                        id:id
+                        key: oKey,
+                        user_id: token,
+                        id: id
                     },
                     success: function (data) {
-                        if(data.status=='100'){
+                        if (data.status == '100') {
                             layer.msg(data.msg);
                             getData()
-                        } if (data.status==100) {
+                        }
+                        if (data.status == 100) {
                             layer.msg(data.msg);
                             getData();
 
-                        }else if(data.status==1012){
-                            layer.msg('请先登录',{time:2000});
+                        } else if (data.status == 1012) {
+                            layer.msg('请先登录', {time: 2000});
 
-                            setTimeout(function(){
-                                jumpLogin(loginUrl,NowUrl);
-                            },2000);
-                        }else if(data.status==1011){
+                            setTimeout(function () {
+                                jumpLogin(loginUrl, NowUrl);
+                            }, 2000);
+                        } else if (data.status == 1011) {
                             layer.msg('权限不足,请跟管理员联系');
-                        }else{
+                        } else {
                             layer.msg(data.msg);
                         }
                     },
@@ -289,64 +294,73 @@ var info = new Vue({
             })
 
         },
-        issue:function (id) {
+        issue: function (id) {
             layer.confirm('确认发行?', {
-                btn: ['确定','关闭'] //按钮
-            },function () {
+                btn: ['确定', '关闭'] //按钮
+            }, function () {
                 $.ajax({
                     type: "POST",
                     url: serverUrl + "coupon/releaseCoupon", //添加请求地址的参数
                     dataType: "json",
                     data: {
-                        key:oKey,
-                        user_id:token,
-                        id:id
+                        key: oKey,
+                        user_id: token,
+                        id: id
                     },
                     success: function (data) {
                         console.log(data);
-                        if(data.status==100){
+                        if (data.status == 100) {
                             layer.msg("发行成功");
                             getData();
-                        }else if(data.status==1012){
-                            layer.msg('请先登录',{time:2000});
+                        } else if (data.status == 1012) {
+                            layer.msg('请先登录', {time: 2000});
 
-                            setTimeout(function(){
-                                jumpLogin(loginUrl,NowUrl);
-                            },2000);
-                        }else if(data.status==1011){
+                            setTimeout(function () {
+                                jumpLogin(loginUrl, NowUrl);
+                            }, 2000);
+                        } else if (data.status == 1011) {
                             layer.msg('权限不足,请跟管理员联系');
-                        }else{
+                        } else {
                             layer.msg(data.msg);
                         }
                     },
-                        error: function () {
-                            layer.msg('向服务器请求失败');
-                        }
+                    error: function () {
+                        layer.msg('向服务器请求失败');
+                    }
 
                 });
             });
 
         },
-        publish:function (list_id) {
+        publish: function (list_id) {
             location.href = "index-info.html?id=" + list_id
         },
-        goNext:function () {
+        goNext: function () {
             this.num++;
-            if(this.num > this.count_page){
+            if (this.num > this.count_page) {
                 layer.msg("已经是最后一页了");
                 this.num = this.count_page;
-            }else{
+            }else if (this.sel) {
+                this.selected()
+            } else if (this.search) {
+                this.searched()
+            } else {
                 getPageData(this.num)
             }
         },
-        goPre:function () {
+        goPre: function () {
             this.num--;
-            if(this.num < 1){
+            if (this.num < 1) {
                 layer.msg("已经是第一页了");
                 this.num = 1;
-            }else{
+            } else if (this.sel) {
+              this.selected()
+            } else if (this.search) {
+                this.searched()
+            } else {
                 getPageData(this.num)
             }
+
         },
         go:function () {
             if(this.searchPage>this.count_page || this.searchPage <1){
@@ -357,11 +371,13 @@ var info = new Vue({
         },
         searched:function () {
             var search = this.search;
-            var num = this.num;
-            console.log(search);
-            console.log(num);
-            console.log(pages);
-            if(!search){
+            var  num = this.num;
+            var pages = this.pages;
+            var startTime =this.startTime;
+            var endTime = this.endTime;
+            console.log(!startTime);
+            console.log(!endTime);
+            if(!search && !startTime && !endTime){
                 layer.msg("输点什么再搜索吧！")
             }else{
                 var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
@@ -374,7 +390,9 @@ var info = new Vue({
                         user_id:token,
                         num:pages,
                         page:num,
-                        search:search
+                        search:search,
+                        validity_begin:startTime,
+                        validity_end:endTime
                     },
                     success: function (data) {
                         console.log(data);
@@ -403,8 +421,6 @@ var info = new Vue({
             }
 
         }
-
-
     }
 });
 function getData() {
@@ -415,7 +431,7 @@ function getData() {
         data: {
             key:oKey,
             user_id:token,
-            num:pages,
+            num:info.pages,
             page:info.num
         },
         success: function (data) {
@@ -443,6 +459,7 @@ function getData() {
 }
 //获取分页函数
 function getPageData (num) {
+    var pages = info.pages;
     var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
     $.ajax({
         type: "POST",
@@ -492,18 +509,21 @@ $(".date").datetimepicker({
 });
 
 
-/*  2014-04-20 10:10:10转换成时间戳 */
+/*  2014-04-20 10:10:10 转换成时间戳 */
 function getTime(day){
     re = /(\d{4})(?:-(\d{1,2})(?:-(\d{1,2}))?)?(?:\s+(\d{1,2}):(\d{1,2}):(\d{1,2}))?/.exec(day);
     return new Date(re[1],(re[2]||1)-1,re[3]||1,re[4]||0,re[5]||0,re[6]||0).getTime()/1000;
 }
 /*时间是否在区间内*/
 function isDateBetween(startDateString, endDateString) {
-    var flag = false;
-    var startDateString = getTime(startDateString);
-    var endDateString = getTime(endDateString);
-    if(startDateString < endDateString){
-        flag = true;
+    if(startDateString&&endDateString){
+        var flag = false;
+        var startDateString = getTime(startDateString);
+        var endDateString = getTime(endDateString);
+        if(startDateString < endDateString){
+            flag = true;
+        }
+        return flag;
     }
-    return flag;
+
 }

@@ -45,7 +45,9 @@
         .bg-white{
             background-color: #fff;
         }
-
+        .form-horizontal .text-center{
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -100,16 +102,24 @@
                             <option value="5">作废</option>
                         </select>
                     </div>
-                    <div class="col-md-5 form-horizontal">
-                        <label class="control-label col-md-3">输入优惠券号</label>
-                        <div class="col-md-6">
-                            <input type="text" class="form-control" placeholder="请输入搜索关键字" v-model="search">
+                    <div class="col-md-8 form-horizontal">
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" placeholder="请输入关键字'优惠券名称' '优惠券码'" v-model="search">
                         </div>
-                        <div class="col-md-3">
-                          <button class="btn btn-default" @click="searched()">搜索</button>
+                        <div class="col-md-6">
+                            <div class="col-md-5">
+                                <input size="16" v-model="startTime" class="form-control date date1"  readonly type="text" placeholder="开始时间"/>
+                            </div>
+                            <label class="control-label col-md-2 text-center">至</label>
+                            <div class="col-md-5">
+                                <input size="16" v-model="endTime" class="form-control date date1"  readonly type="text" placeholder="结束时间"/>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <button class="btn btn-default" @click="searched()">搜索</button>
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-1">
                         <button class="btn btn-default" data-toggle="modal" data-target="#myModal">制作优惠券</button>
                     </div>
 
@@ -127,6 +137,7 @@
                                <th>面值</th>
                                <th>价格</th>
                                <th>数量</th>
+                               <th>发放日期</th>
                                <th>有效期限</th>
                                <th>状态</th>
                                <th>操作</th>
@@ -135,12 +146,13 @@
                                 <td colspan="9" height="50" align="center" class="text-gray">暂无数据.....</td>
                             </tr>
                             <tr v-else v-for="item in list" :class="{'warning':$index%2 == 1}">
-                                <td v-cloak>{{$index+1}}</td>
-                                <td v-cloak>{{item.name}}</td>
+                                <td v-cloak>{{$index+1 +(page-1)*pages}}</td>
+                                <td v-cloak>{{item.name}}{{item.length}}</td>
                                 <td v-cloak>{{item.type == "1" ? "现金券":"折扣券"}}</td>
                                 <td v-cloak>{{item.denomination}}</td>
                                 <td v-cloak>{{item.price}}</td>
                                 <td v-cloak>{{item.issuant_amount}}</td>
+                                <td v-cloak="">{{item.created_time}}</td>
                                 <td v-cloak>{{item.validity_begin}}~{{item.validity_end}}</td>
                                 <td v-cloak>
                                    <!-- <span v-if="item.issuant_status == '5'">已作废</span>
@@ -160,10 +172,10 @@
 
                         </table>
                         <div class="page-footer" v-show="count_page!=0">
-                            <button class="btn btn-default" @click="goPre">上一页</button>
-                            <button class="btn btn-default" @click="goNext">下一页</button>
+                            <button class="btn btn-default" @click="goPre" :disabled="page==1">上一页</button>
+                            <button class="btn btn-default" @click="goNext" :disabled="page==count_page">下一页</button>
                             <input type="number" v-model="searchPage" min="1" :max="count_page" placeholder="页码">
-                            <button class="btn btn-info" @click="go">跳转</button>
+                            <button class="btn btn-info" @click="go" :disabled="count_page==1">跳转</button>
                             <span v-cloak>当前页：{{page}}  </span>
                             <span v-cloak>总页数：{{count_page}}</span>
                         </div>

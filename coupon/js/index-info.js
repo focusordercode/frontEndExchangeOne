@@ -4,7 +4,7 @@
 
 var id = get_url_param('id');//获取批次id
 
-var pages = 10;
+
 var creatTable = new Vue({
     el:'.coupon',
     data:{
@@ -18,10 +18,13 @@ var creatTable = new Vue({
         search:'',//输入优惠码查询
         remark:'',//作废理由
         remarkA:'',//作废理由
-        item_id:''//作废项Id
+        item_id:'',//作废项Id
+        pages: 10//分页显示数量
     },
     ready:function ()   {
         var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
+        var pages = this.pages;
+        var num = this.num;
         $.ajax({
             type: "POST",
             url: serverUrl + "coupon/couponList", //添加请求地址的参数
@@ -31,7 +34,7 @@ var creatTable = new Vue({
                 user_id:token,
                 main_id:id,
                 num:pages,
-                page:this.num
+                page:num
             },
             success: function (data) {
                 console.log(data);
@@ -124,6 +127,7 @@ var creatTable = new Vue({
                     },
                     success: function (data) {
                         console.log(data);
+                        creatTable.remark = "";
                         $('#myModal').modal('hide');
                         if(data.status==100){
                             layer.msg("已作废");
@@ -165,6 +169,7 @@ var creatTable = new Vue({
         selected:function (sel) {
             var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
             var pageNum = this.num;
+            var pages = creatTable.pages;
             console.log(sel);
             $.ajax({
                 type: "POST",
@@ -265,6 +270,7 @@ var creatTable = new Vue({
                     success: function (data) {
                         console.log(data);
                         layer.msg(data.msg);
+                        creatTable.remarkA = "";
                         $('#myModalA').modal('hide');
                         if(data.status=='100'){
                             layer.msg(data.msg);
@@ -300,50 +306,57 @@ var creatTable = new Vue({
 
         },
         searched:function () {
-            var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
+
             var pageNum = this.num;
             var search = this.search;
             console.log(search);
-            $.ajax({
-                type: "POST",
-                url: serverUrl + "coupon/couponList", //添加请求地址的参数
-                dataType: "json",
-                data: {
-                    key:oKey,
-                    user_id:token,
-                    main_id:id,
-                    num:pages,
-                    page:pageNum,
-                    search:search
-                },
-                success: function (data) {
-                    console.log(data);
-                    if (data.status==100) {
-                        creatTable.batchList = data.value.main;
-                        creatTable.list = data.value.detail;
-                        creatTable.thisPage = data.value.pages.page;
-                        creatTable.countPage = data.value.pages.count_page;
-                        layer.close(LoadIndex);
-                    }else if(data.status==1012){
-                        layer.msg('请先登录',{time:2000});
-
-                        setTimeout(function(){
-                            jumpLogin(loginUrl,NowUrl);
-                        },2000);
-                    }else if(data.status==1011){
-                        layer.msg('权限不足,请跟管理员联系');
-                        layer.close(LoadIndex);
-                    }else{
+            if(!search){
+                layer.msg("输入关键字在搜索噻")
+            }else {
+                var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
+                var pages = creatTable.pages;
+                $.ajax({
+                    type: "POST",
+                    url: serverUrl + "coupon/couponList", //添加请求地址的参数
+                    dataType: "json",
+                    data: {
+                        key:oKey,
+                        user_id:token,
+                        main_id:id,
+                        num:pages,
+                        page:pageNum,
+                        search:search
+                    },
+                    success: function (data) {
                         console.log(data);
-                        layer.close(LoadIndex);
-                    }
+                        if (data.status==100) {
+                            creatTable.batchList = data.value.main;
+                            creatTable.list = data.value.detail;
+                            creatTable.thisPage = data.value.pages.page;
+                            creatTable.countPage = data.value.pages.count_page;
+                            layer.close(LoadIndex);
+                        }else if(data.status==1012){
+                            layer.msg('请先登录',{time:2000});
 
-                },
-                error: function () {
-                    layer.close(LoadIndex); //关闭遮罩层
-                    layer.msg('向服务器请求失败');
-                }
-            })
+                            setTimeout(function(){
+                                jumpLogin(loginUrl,NowUrl);
+                            },2000);
+                        }else if(data.status==1011){
+                            layer.msg('权限不足,请跟管理员联系');
+                            layer.close(LoadIndex);
+                        }else{
+                            console.log(data);
+                            layer.close(LoadIndex);
+                        }
+
+                    },
+                    error: function () {
+                        layer.close(LoadIndex); //关闭遮罩层
+                        layer.msg('向服务器请求失败');
+                    }
+                })
+            }
+
         },
         getId:function (id) {
 
@@ -353,6 +366,7 @@ var creatTable = new Vue({
 });
 function getData() {
     var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
+    var pages = creatTable.pages;
     $.ajax({
         type: "POST",
         url: serverUrl + "coupon/couponList", //添加请求地址的参数
@@ -399,7 +413,7 @@ function getData() {
 }
 function getPageData (num) {
     var LoadIndex = layer.load(3, {shade:[0.3, '#000']}); //开启遮罩层
-
+    var pages = creatTable.pages;
     $.ajax({
         type: "POST",
         url: serverUrl + "coupon/couponList", //添加请求地址的参数

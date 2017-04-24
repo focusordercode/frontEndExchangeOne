@@ -85,38 +85,20 @@ var coupon = new Vue({
     },
     methods:{
         grantData:function () {
-                var time = coupon.grant.time.trim();
-                if(time){
-                    var startDateString = coupon.batchList.validity_begin;
                     var endDateString = coupon.batchList.validity_end;
-                    var flag = isDateBetween(time, startDateString, endDateString);
-                }
-                if(!flag){
-                    layer.confirm('您所选的时间不在优惠券有效期间内，是否继续提交?', {
-                        btn: ['确定','关闭'] //按钮
-                    },function () {
-                        layer.closeAll('dialog');
-                        dataUp(coupon)
-                    })
-                }else{
-                    dataUp(coupon)
-                }
-               /* if(!vm.userdata.password ||!word.test(vm.userdata.password))*/
-
-                function dataUp(coupon) {
                     var orderId = coupon.grant.orderId.trim();
                     var time = coupon.grant.time.trim();
                     var name = coupon.grant.name.trim();
                     var tel = coupon.grant.tel.trim();
                     var email = coupon.grant.email.trim();
-
+                    var flag = Datebijiao(time,endDateString);
                     if(!orderId || !Order.test(orderId)){
                         coupon.isGrant.orderId = true;
                         coupon.isGrant.time = false;
                         coupon.isGrant.name = false;
                         coupon.isGrant.tel = false;
                         coupon.isGrant.email = false;
-                    }else if(!time){
+                    }else if(!time || !flag){
                         coupon.isGrant.orderId = false;
                         coupon.isGrant.time = true;
                         coupon.isGrant.name = false;
@@ -187,100 +169,83 @@ var coupon = new Vue({
                             }
                         })
                     }
-                }
+
 
 
         },
         useData:function () {
             var time = this.use.time.trim();
-            if(time){
-                var startDateString = this.batchList.validity_begin;
-                var endDateString = this.batchList.validity_end;
-                var flag = isDateBetween(time, startDateString, endDateString);
-            }
-            if(!flag){
-                layer.confirm('您所选的时间不在有效期间，是否继续提交?', {
-                    btn: ['确定','关闭'] //按钮
-                },function () {
-                    layer.closeAll('dialog');
-                    useUpData(coupon);
-                })
-            }else{
-                useUpData(coupon);
-            }
-            console.log(name);
-            function useUpData(coupon) {
-                var time = coupon.use.time.trim();
-                var name = coupon.use.name.trim();
-                var tel = coupon.use.tel.trim();
-                var email = coupon.use.email.trim();
-                if(!name){
-                    coupon.isUse.time = false;
-                    coupon.isUse.name = true;
-                    coupon.isUse.tel = false;
-                    coupon.isUse.email = false;
-                }else if(!tel || !Tel.test(tel)){
-                    coupon.isUse.time = false;
-                    coupon.isUse.name = false;
-                    coupon.isUse.tel = true;
-                    coupon.isUse.email = false;
-                }else if(!email || !EM.test(email)){
-                    coupon.isUse.time = false;
-                    coupon.isUse.name = false;
-                    coupon.isUse.tel = false;
-                    coupon.isUse.email = true;
-                }else if(!time){
-                    coupon.isUse.time = true;
-                    coupon.isUse.name = false;
-                    coupon.isUse.tel = false;
-                    coupon.isUse.email = false;
-                }else {
-                    coupon.isUse.time = false;
-                    coupon.isUse.name = false;
-                    coupon.isUse.tel = false;
-                    coupon.isUse.email = false;
-                    $.ajax({
-                        type: "POST",
-                        url: serverUrl + "coupon/couponEdit", //添加请求地址的参数
-                        dataType: "json",
-                        data: {
-                            key: oKey,
-                            user_id: token,
-                            id: id,
-                            consume_date: time,
-                            consumer: name,
-                            consumer_telephone: tel,
-                            consumer_email: email
-                        },
-                        success: function (data) {
-                            console.log(data);
-                            /*if(data.status==100){
-                             layer.msg(data.msg);
-                             getDatas();
-                             }*/
-                            if (data.status == 100) {
-                                layer.msg("操作成功");
-                                getData();
-                            } else if (data.status == 1012) {
-                                layer.msg('请先登录', {time: 2000});
+            var startDateString = this.batchList.validity_begin;
+            var endDateString = this.batchList.validity_end;
+            var name = coupon.use.name.trim();
+            var tel = coupon.use.tel.trim();
+            var email = coupon.use.email.trim();
+            var flag = isDateBetween(time, startDateString, endDateString);
+            if(!name){
+                coupon.isUse.time = false;
+                coupon.isUse.name = true;
+                coupon.isUse.tel = false;
+                coupon.isUse.email = false;
+            }else if(!tel || !Tel.test(tel)){
+                coupon.isUse.time = false;
+                coupon.isUse.name = false;
+                coupon.isUse.tel = true;
+                coupon.isUse.email = false;
+            }else if(!email || !EM.test(email)){
+                coupon.isUse.time = false;
+                coupon.isUse.name = false;
+                coupon.isUse.tel = false;
+                coupon.isUse.email = true;
+            }else if(!time || !flag){
+                coupon.isUse.time = true;
+                coupon.isUse.name = false;
+                coupon.isUse.tel = false;
+                coupon.isUse.email = false;
+            }else {
+                coupon.isUse.time = false;
+                coupon.isUse.name = false;
+                coupon.isUse.tel = false;
+                coupon.isUse.email = false;
+                $.ajax({
+                    type: "POST",
+                    url: serverUrl + "coupon/couponEdit", //添加请求地址的参数
+                    dataType: "json",
+                    data: {
+                        key: oKey,
+                        user_id: token,
+                        id: id,
+                        consume_date: time,
+                        consumer: name,
+                        consumer_telephone: tel,
+                        consumer_email: email
+                    },
+                    success: function (data) {
+                        console.log(data);
+                        /*if(data.status==100){
+                         layer.msg(data.msg);
+                         getDatas();
+                         }*/
+                        if (data.status == 100) {
+                            layer.msg("操作成功");
+                            getData();
+                        } else if (data.status == 1012) {
+                            layer.msg('请先登录', {time: 2000});
 
-                                setTimeout(function () {
-                                    jumpLogin(loginUrl, NowUrl);
-                                }, 2000);
-                            } else if (data.status == 1011) {
-                                layer.msg('权限不足,请跟管理员联系');
-                            } else {
-                                layer.msg(data.msg);
-                            }
-                        },
-                        error: function () {
-
+                            setTimeout(function () {
+                                jumpLogin(loginUrl, NowUrl);
+                            }, 2000);
+                        } else if (data.status == 1011) {
+                            layer.msg('权限不足,请跟管理员联系');
+                        } else {
+                            layer.msg(data.msg);
                         }
+                    },
+                    error: function () {
 
-                    })
-                }
+                    }
+
+                })
             }
-
         },
         checkData:function () {
             var picked = this.checks.picked;
@@ -289,7 +254,6 @@ var coupon = new Vue({
             console.log(remark);
             if(picked==6){
                 if(!this.checks.remark){
-
                     layer.msg('请填写申请说明')
                 }else{
                     $.ajax({
@@ -375,7 +339,6 @@ var coupon = new Vue({
 
         },
         void:function () {
-
             var remark = this.remark;
             if(!remark){
                 layer.msg("请填写作废原因")
@@ -393,6 +356,7 @@ var coupon = new Vue({
                     },
                     success: function (data) {
                         console.log(data);
+                        coupon.remark = "";
                         $('#myModal').modal('hide');
                         if(data.status==100){
                             layer.msg("已作废");
@@ -478,17 +442,33 @@ function getTime(day){
 }
 /*时间是否在区间内*/
 function isDateBetween(dateString, startDateString, endDateString) {
-    var flag = false;
-    var dateString = getTime(dateString);
-    var startDateString = getTime(startDateString);
-    var endDateString = getTime(endDateString);
-    if(startDateString <= dateString && dateString <= endDateString){
-        flag = true;
-    }else{
+    if(dateString){
+        var flag = false;
+        var dateString = getTime(dateString);
+        var startDateString = getTime(startDateString);
+        var endDateString = getTime(endDateString);
+        if(startDateString <= dateString && dateString <= endDateString){
+            flag = true;
+        }else{
+        }
+        return flag;
     }
-    return flag;
-}
 
+}
+function Datebijiao(dateString,endDateString) {
+    if(dateString){
+        var flag = false;
+        var dateString = getTime(dateString);
+
+        var endDateString = getTime(endDateString);
+        if(dateString < endDateString ){
+            flag = true;
+        }else{
+        }
+        return flag;
+    }
+
+}
 
 /* 时间控件 */
 $(".date").datetimepicker({

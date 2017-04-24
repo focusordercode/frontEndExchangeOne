@@ -254,7 +254,7 @@
                         <div class="col-sm-8 col-md-8 col-lg-8 " v-cloak>{{list.order_no}}</div>
                     </div>
                     <div class="col-md-6 ">
-                        <label class="col-sm-4 col-md-4 col-lg-4 text-right">交易日期</label>
+                        <label class="col-sm-4 col-md-4 col-lg-4 text-right">交易发放时间</label>
                         <div class="col-sm-8 col-md-8 col-lg-8 " v-cloak>{{list.granted_date}}</div>
                     </div>
                 </div>
@@ -265,7 +265,7 @@
                         <div class="col-sm-8 col-md-8 col-lg-8 " v-cloak>{{list.holder}}</div>
                     </div>
                     <div class="col-md-6 ">
-                        <label class="col-sm-4 col-md-4 col-lg-4 text-right">电话</label>
+                        <label class="col-sm-4 col-md-4 col-lg-4 text-right">联系电话</label>
                         <div class="col-sm-8 col-md-8 col-lg-8 " v-cloak>{{list.holder_telephone}}</div>
                     </div>
                 </div>
@@ -325,7 +325,7 @@
                             </div>
                         </div>
                         <div class="col-sm-5 col-md-5 col-lg-5 red text-left" style="display: none" v-show="isUse.time">
-                                交易时间不能为空
+                                交易时间不能为空，或者不在优惠券有效期限内
                         </div>
                     </div>
                     <div class="modal-footer text-center">
@@ -397,8 +397,12 @@
                         <label class="col-sm-4 col-md-4 col-lg-4 text-right">审核结果</label>
                         <div class="col-sm-8 col-md-8 col-lg-8 "> {{list.status_msg}}</div>
                     </div>
+                    <div class="col-md-6 ">
+                        <label class="col-sm-4 col-md-4 col-lg-4 text-right">审核日期</label>
+                        <div class="col-sm-8 col-md-8 col-lg-8 "> {{list.modified_time}}</div>
+                    </div>
                     <div class="col-md-12 " >
-                        <label class="col-sm-2 col-md-2 col-lg-2 text-right">审核说明</label>
+                        <label class="col-sm-2 col-md-2 col-lg-2 text-right">备注说明</label>
                         <div class="col-sm-8 col-md-8 col-lg-8 " v-cloak>{{list.remark}}</div>
                     </div>
                 </div>
@@ -418,9 +422,8 @@
             </div>
 
         </div>
-        <!-- 审核 -->
     </div>
-
+    <!--作废原因-->
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
